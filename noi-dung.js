@@ -83,6 +83,7 @@ const CHUONG = [
           </ol>
         </details></div>
 
+      <div class="mo-phong" data-loai="sap-xep-quy-trinh"></div>
       <h3>5. Lấy mẫu và chuẩn bị mẫu</h3>
       <ul>
         <li><b>Mẫu đồng nhất</b> (dung dịch đã khuấy đều): lấy một phần bất kì là đại diện.</li>
@@ -218,6 +219,7 @@ const CHUONG = [
         </table>
       </div>
 
+      <div class="mo-phong" data-loai="doc-buret"></div>
       <h3>5. Hợp thức và phân tích khối lượng</h3>
       <p>Mọi phép tính định lượng dựa trên <b>hợp thức</b> (tỉ lệ mol) của phản ứng. Trong phân tích khối lượng, chất cần xác định được chuyển thành một <b>dạng cân</b> có công thức xác định rồi đem cân.</p>
       <div class="cong-thuc"><div class="nhan">Hệ số chuyển (a, b cân bằng số nguyên tử nguyên tố cần xác định)</div>\[ F = \frac{a\cdot M_\text{chất cần xác định}}{b\cdot M_\text{dạng cân}} \]</div>
@@ -356,6 +358,7 @@ const CHUONG = [
         <li><b>Phát hiện sai số hệ thống</b>: phân tích mẫu chuẩn (CRM), làm mẫu trắng, so sánh với phương pháp khác, thêm chuẩn để tính độ thu hồi.</li>
       </ul>
 
+      <div class="mo-phong" data-loai="bia-ban"></div>
       <h3>3. Lan truyền sai số</h3>
       <p>Kết quả cuối thường được tính từ nhiều đại lượng đo, mỗi đại lượng có độ lệch chuẩn riêng.</p>
       <div class="cong-thuc"><div class="nhan">Phép cộng, trừ: y = a + b − c</div>\[ s_y = \sqrt{s_a^2 + s_b^2 + s_c^2} \]</div>
@@ -422,7 +425,8 @@ const CHUONG = [
           Số liệu gốc chỉ có 1 chữ số thập phân, nên làm tròn kết quả cuối (24,65 làm tròn về số chẵn): <b>μ = 24,6 ± 0,3</b>.
           (t = 2,57 với f = 5.)
         </details></div>
-<h3>6. Kiểm tra sai số hệ thống</h3>
+<div class="mo-phong" data-loai="q-test"></div>
+      <h3>6. Kiểm tra sai số hệ thống</h3>
       <p><b>So sánh trung bình với giá trị thật</b> (ví dụ khi phân tích mẫu chuẩn):</p>
       <div class="cong-thuc">\[ t_\text{tính} = \frac{\left|\bar{x} - \mu\right|\sqrt{n}}{s} \]</div>
       <p>Nếu t<sub>tính</sub> &gt; t<sub>bảng</sub> (f = n − 1): khác biệt có ý nghĩa → phương pháp có sai số hệ thống.</p>

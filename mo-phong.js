@@ -499,3 +499,126 @@ MO_PHONG["duong-chuan"] = el => {
   svg.addEventListener("pointerup", () => { dang = -1; });
   capNhat();
 };
+
+/* ---------------- 10. Sắp xếp các bước quy trình phân tích (kéo thả) ---------------- */
+MO_PHONG["sap-xep-quy-trinh"] = el => {
+  const DUNG = ["Chọn quy trình: HPLC tách được caffeine khỏi theobromine", "Lấy mẫu: nghiền, trộn đều nhiều thanh chocolate", "Chuẩn bị mẫu: loại chất béo, chiết caffeine bằng nước nóng, lọc", "Phân tích: tiêm chuẩn và mẫu vào HPLC, đo diện tích pic", "Báo cáo: hàm lượng caffeine (mg/g) kèm độ lệch chuẩn", "Kết luận: so sánh với mức ghi trên nhãn"];
+  let thuTu = DUNG.map((_, i) => i); do thuTu.sort(() => Math.random() - 0.5); while (thuTu.every((v, i) => v === i));
+  el.innerHTML = `
+    <div class="mp-dau"><b>🍫 Sắp xếp quy trình phân tích</b><span>Xác định caffeine trong chocolate · kéo thẻ lên/xuống cho đúng thứ tự</span></div>
+    <div class="mp-ds-keo">${thuTu.map(i => `<div class="mp-the-keo" data-i="${i}"><span class="mp-tay">⠿</span><span>${DUNG[i]}</span></div>`).join("")}</div>
+    <div class="mp-nut mp-nut-2"><button class="mp-kiem">Kiểm tra</button><button class="mp-tron">🔀 Trộn lại</button></div>
+    <p class="mp-nhan-xet"></p>`;
+  const ds = el.querySelector(".mp-ds-keo");
+  ds.querySelectorAll(".mp-the-keo").forEach(the => {
+    the.addEventListener("pointerdown", e => { the.setPointerCapture(e.pointerId); the.classList.add("dang-keo"); e.preventDefault(); });
+    the.addEventListener("pointermove", e => {
+      if (!the.hasPointerCapture(e.pointerId)) return;
+      const khac = [...ds.children].filter(x => x !== the);
+      const sau = khac.find(x => { const r = x.getBoundingClientRect(); return e.clientY < r.top + r.height / 2; });
+      if (sau) { if (the.nextElementSibling !== sau) ds.insertBefore(the, sau); } else if (ds.lastElementChild !== the) ds.append(the);
+    });
+    the.addEventListener("pointerup", () => the.classList.remove("dang-keo"));
+  });
+  el.querySelector(".mp-kiem").onclick = () => {
+    let dung = 0; [...ds.children].forEach((x, k) => { const ok = +x.dataset.i === k; x.classList.toggle("dung", ok); x.classList.toggle("sai", !ok); dung += ok; });
+    el.querySelector(".mp-nhan-xet").innerHTML = dung === 6 ? "🎉 Chính xác! Chọn quy trình → lấy mẫu → chuẩn bị mẫu → phân tích → báo cáo → kết luận." : `Đúng ${dung}/6 vị trí. Thẻ đỏ đang sai chỗ, thử lại nhé.`;
+  };
+  el.querySelector(".mp-tron").onclick = () => { [...ds.children].sort(() => Math.random() - 0.5).forEach(x => { x.classList.remove("dung", "sai"); ds.append(x); }); el.querySelector(".mp-nhan-xet").textContent = ""; };
+};
+
+/* ---------------- 11. Đọc buret ---------------- */
+MO_PHONG["doc-buret"] = el => {
+  let that, doc, mat = 0;
+  el.innerHTML = `
+    <div class="mp-dau"><b>🔍 Tập đọc buret</b><span>Đọc ở đáy mặt khum, ước lượng đến 0,01 mL</span></div>
+    <div class="mp-buret-khung"><svg class="mp-buret" viewBox="0 0 160 220"></svg>
+      <div class="mp-buret-dk">
+        <div class="mp-mat"><small>Vị trí mắt</small><button data-m="-1">Cao</button><button data-m="0" class="chon">Ngang</button><button data-m="1">Thấp</button></div>
+        <div class="mp-doc"><small>Số đọc của bạn</small><b class="mp-so-doc">–</b></div>
+        <div class="mp-buoc"><button data-b="-0.1">−0,1</button><button data-b="-0.01">−0,01</button><button data-b="0.01">+0,01</button><button data-b="0.1">+0,1</button></div>
+      </div></div>
+    <div class="mp-nut mp-nut-2"><button class="mp-kiem">Kiểm tra</button><button class="mp-moi">Câu mới</button></div>
+    <p class="mp-nhan-xet">Buret đánh số tăng dần từ trên xuống. Vạch lớn cách 1 mL, vạch nhỏ cách 0,1 mL.</p>`;
+  const svg = el.querySelector("svg"), $ = s => el.querySelector(s);
+  function ve() {
+    const goc = Math.floor(that) - 1, Y = v => 20 + (v - goc) * 60;   // 60 px / mL, số tăng từ trên xuống
+    let s = `<rect x="50" y="0" width="60" height="220" rx="4" class="mp-thuy-tinh"/>`;
+    const m = Y(that), lech = mat * 7;
+    s += `<path d="M52 ${m - 8} Q80 ${m + 4} 108 ${m - 8} V218 H52 Z" fill="#bfdbfe"/><path d="M52 ${m - 8} Q80 ${m + 4} 108 ${m - 8}" stroke="#2563eb" stroke-width="1.6" fill="none"/>`;
+    for (let v = goc; v <= goc + 3.5; v = Math.round((v + 0.1) * 10) / 10) {
+      const lon = Math.abs(v - Math.round(v)) < 1e-6, y = Y(v);
+      s += `<line x1="50" x2="${lon ? 80 : v * 10 % 5 === 0 ? 70 : 64}" y1="${y}" y2="${y}" stroke="var(--chu)" stroke-width="${lon ? 1.4 : .8}"/>` + (lon ? `<text x="84" y="${y + 4}" class="mp-so-buret">${v}</text>` : "");
+    }
+    s += `<line x1="0" x2="160" y1="${m + lech}" y2="${m - lech}" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4 3"/><text x="4" y="${m + lech - 4}" class="mp-tr">👁</text>`;
+    svg.innerHTML = s;
+    $(".mp-so-doc").textContent = soVN(doc) + " mL";
+  }
+  const moi = () => { that = Math.round((5 + Math.random() * 40) * 100) / 100; doc = Math.round(that); $(".mp-nhan-xet").textContent = "Chỉnh số đọc rồi bấm Kiểm tra."; ve(); };
+  el.querySelectorAll("[data-b]").forEach(b => b.onclick = () => { doc = Math.round((doc + +b.dataset.b) * 100) / 100; ve(); });
+  el.querySelectorAll("[data-m]").forEach(b => b.onclick = () => { mat = +b.dataset.m; el.querySelectorAll("[data-m]").forEach(x => x.classList.toggle("chon", x === b)); ve();
+    $(".mp-nhan-xet").textContent = mat ? `Mắt ${mat < 0 ? "cao hơn" : "thấp hơn"} mặt khum gây sai số thị sai: số đọc ${mat < 0 ? "nhỏ" : "lớn"} hơn thực tế. Luôn để mắt ngang đáy mặt khum.` : "Mắt ngang đáy mặt khum: đọc đúng."; });
+  $(".mp-kiem").onclick = () => { const ss = Math.abs(doc - that); $(".mp-nhan-xet").innerHTML = ss <= 0.02 ? `✅ Chính xác! Giá trị đúng ${soVN(that)} mL.` : `❌ Chưa đúng (lệch ${soVN(ss)} mL). Giá trị đúng ${soVN(that)} mL: phần nguyên và 1 chữ số đọc từ vạch, chữ số cuối là ước lượng giữa hai vạch nhỏ.`; };
+  $(".mp-moi").onclick = moi;
+  moi();
+};
+
+/* ---------------- 12. Độ đúng và độ chụm: bia bắn ---------------- */
+MO_PHONG["bia-ban"] = el => {
+  let heThong = 0, ngauNhien = 0.4, mam = 1;
+  const rnd = () => { mam = (mam * 16807) % 2147483647; return mam / 2147483647; };
+  const gauss = () => Math.sqrt(-2 * Math.log(rnd() + 1e-9)) * Math.cos(2 * Math.PI * rnd());
+  el.innerHTML = `
+    <div class="mp-dau"><b>🎯 Độ đúng và độ chụm</b><span>Mỗi dấu chấm là một lần đo; tâm bia là giá trị thật</span></div>
+    <svg class="mp-bia" viewBox="-110 -110 220 220"></svg>
+    <label class="mp-truot">Sai số hệ thống: <b class="mp-ht">0</b><input type="range" class="mp-r-ht" min="0" max="10" value="0"></label>
+    <label class="mp-truot">Sai số ngẫu nhiên: <b class="mp-nn">4</b><input type="range" class="mp-r-nn" min="1" max="10" value="4"></label>
+    <div class="mp-nut mp-nut-2"><button class="mp-ban">🔁 Đo lại 10 lần</button><button class="mp-chuan">Mẫu "vừa đúng vừa chụm"</button></div>
+    <p class="mp-nhan-xet"></p>`;
+  const $ = s => el.querySelector(s);
+  function ve() {
+    const pts = Array.from({ length: 10 }, () => [heThong * 6 + gauss() * ngauNhien * 45, -heThong * 4 + gauss() * ngauNhien * 45]);
+    const tb = [pts.reduce((a, p) => a + p[0], 0) / 10, pts.reduce((a, p) => a + p[1], 0) / 10];
+    const s = Math.sqrt(pts.reduce((a, p) => a + (p[0] - tb[0]) ** 2 + (p[1] - tb[1]) ** 2, 0) / 9);
+    $(".mp-bia").innerHTML = [100, 75, 50, 25].map((r, i) => `<circle r="${r}" fill="${i % 2 ? "#fecaca" : "#fff"}" stroke="#ef4444" stroke-width="1"/>`).join("") + `<circle r="6" fill="#ef4444"/>`
+      + pts.map(p => `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="4.5" fill="#1d4ed8" stroke="#fff" stroke-width="1"/>`).join("")
+      + `<path d="M${tb[0] - 7} ${tb[1]} h14 M${tb[0]} ${tb[1] - 7} v14" stroke="#f59e0b" stroke-width="3"/>`;
+    const lech = Math.hypot(...tb), dung = lech < 15, chum = s < 25;
+    $(".mp-nhan-xet").innerHTML = `Trung bình (dấu + cam) lệch tâm <b>${lech.toFixed(0)}</b>; độ phân tán s = <b>${s.toFixed(0)}</b> → <b>${dung ? "đúng" : "không đúng"}</b> và <b>${chum ? "chụm" : "không chụm"}</b>. ${!dung && chum ? "Rất chụm mà vẫn sai: dấu hiệu sai số hệ thống, đo lặp nhiều lần cũng không khắc phục được." : dung && !chum ? "Trung bình gần đúng nhưng phân tán: sai số ngẫu nhiên lớn, cần đo lặp và xử lí thống kê." : ""}`;
+    $(".mp-ht").textContent = heThong; $(".mp-nn").textContent = Math.round(ngauNhien * 10);
+  }
+  $(".mp-r-ht").oninput = e => { heThong = +e.target.value; ve(); };
+  $(".mp-r-nn").oninput = e => { ngauNhien = e.target.value / 10; ve(); };
+  $(".mp-ban").onclick = () => { mam = Math.floor(Math.random() * 1e6) + 1; ve(); };
+  $(".mp-chuan").onclick = () => { heThong = 0; ngauNhien = 0.2; $(".mp-r-ht").value = 0; $(".mp-r-nn").value = 2; ve(); };
+  ve();
+};
+
+/* ---------------- 13. Chuẩn Q: kéo giá trị ngờ ---------------- */
+MO_PHONG["q-test"] = el => {
+  const co = [20.12, 20.14, 20.15, 20.18, 20.16];
+  const QB = { 3: 0.970, 4: 0.829, 5: 0.710, 6: 0.625, 7: 0.568, 8: 0.526, 9: 0.493, 10: 0.466 };
+  let ngo = 20.40;
+  el.innerHTML = `
+    <div class="mp-dau"><b>🧪 Chuẩn Q (Dixon)</b><span>Kéo chấm đỏ (giá trị ngờ) dọc trục số</span></div>
+    <svg class="mp-truc-q" viewBox="0 0 300 86"></svg>
+    <div class="mp-so"><div><small>Q tính</small><b class="mp-qt">–</b></div><div><small>Q bảng (n = 6, 95%)</small><b>0,625</b></div><div><small>Kết luận</small><b class="mp-kl">–</b></div></div>
+    <p class="mp-nhan-xet"></p>`;
+  const svg = el.querySelector("svg"), $ = s => el.querySelector(s);
+  const X = v => 20 + (v - 19.90) / 0.70 * 260;
+  function ve() {
+    const ds = [...co, ngo].sort((a, b) => a - b), cao = ngo >= ds[ds.length - 1], ke = cao ? ds[ds.length - 2] : ds[1];
+    const Q = Math.abs(ngo - ke) / (ds[ds.length - 1] - ds[0]), loai = Q > QB[6];
+    const tbTat = ds.reduce((a, b) => a + b) / 6, tbCon = co.reduce((a, b) => a + b) / 5;
+    let s = `<line x1="20" x2="280" y1="58" y2="58" stroke="var(--chu-phu)"/>`;
+    for (let v = 19.9; v <= 20.601; v += 0.1) s += `<line x1="${X(v)}" x2="${X(v)}" y1="54" y2="62" stroke="var(--chu-phu)"/><text x="${X(v)}" y="78" text-anchor="middle">${soVN(v, 1)}</text>`;
+    s += `<line x1="${X(ngo)}" x2="${X(ke)}" y1="38" y2="38" stroke="#ef4444" stroke-width="2"/><line x1="${X(ds[0])}" x2="${X(ds[5])}" y1="18" y2="18" stroke="#6366f1" stroke-width="2"/>`;
+    s += co.map(v => `<circle cx="${X(v)}" cy="58" r="5" fill="#6366f1"/>`).join("") + `<circle cx="${X(ngo)}" cy="58" r="8" fill="#ef4444" stroke="#fff" stroke-width="2" class="mp-keo-q"/>`;
+    s += `<text x="${(X(ngo) + X(ke)) / 2}" y="33" text-anchor="middle" fill="#ef4444">khoảng cách</text><text x="${(X(ds[0]) + X(ds[5])) / 2}" y="12" text-anchor="middle" fill="#6366f1">khoảng biến thiên</text>`;
+    svg.innerHTML = s;
+    $(".mp-qt").textContent = soVN(Q, 3); $(".mp-kl").textContent = loai ? "Loại" : "Giữ"; $(".mp-kl").style.color = loai ? "#ef4444" : "var(--xanh)";
+    $(".mp-nhan-xet").innerHTML = `Giá trị ngờ ${soVN(ngo)} mL. Trung bình cả 6 giá trị: ${soVN(tbTat, 3)}; bỏ giá trị ngờ: ${soVN(tbCon, 3)}. ${loai ? "Q tính > Q bảng → loại, dùng trung bình 5 giá trị." : "Q tính ≤ Q bảng → phải giữ, dù trông có vẻ lệch."}`;
+  }
+  keoTren(svg, x => { ngo = kep(Math.round((19.90 + (x * 300 - 20) / 260 * 0.70) * 100) / 100, 19.9, 20.6); ve(); });
+  ve();
+};

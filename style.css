@@ -645,3 +645,23 @@ details[open] > summary .khi-mo { display: inline; }
 .mp-keo { cursor: ns-resize; }
 .mp-dc { touch-action: none; }
 .mo-phong .mp-do-thi { touch-action: none; }
+.mp-ds-keo { display: grid; gap: 6px; }
+.mp-the-keo { display: flex; gap: 10px; align-items: center; padding: 10px 12px; border-radius: 12px; background: var(--the); border: 1.5px solid var(--vien); font-size: 13px; touch-action: none; user-select: none; cursor: grab; }
+.mp-the-keo.dang-keo { border-color: var(--mau-chinh); box-shadow: 0 6px 18px rgba(0,0,0,.15); transform: scale(1.02); }
+.mp-the-keo.dung { border-color: var(--xanh); background: color-mix(in srgb, var(--xanh) 10%, var(--the)); }
+.mp-the-keo.sai { border-color: #ef4444; }
+.mp-tay { color: var(--chu-phu); font-size: 16px; }
+.mp-nut-2 { grid-template-columns: 1fr 1fr; margin-top: 10px; }
+.mp-buret-khung { display: grid; grid-template-columns: 130px 1fr; gap: 10px; align-items: center; }
+.mp-buret { background: var(--the); border-radius: 10px; }
+.mo-phong .mp-so-buret { font-size: 12px; font-weight: 700; fill: var(--chu); }
+.mp-buret-dk { display: grid; gap: 10px; }
+.mp-buret-dk small { display: block; font-size: 11px; color: var(--chu-phu); margin-bottom: 4px; }
+.mp-mat { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.mp-mat small { width: 100%; }
+.mp-mat button, .mp-buoc button { font: inherit; font-size: 12px; padding: 7px 8px; border-radius: 8px; border: 1px solid var(--vien); background: var(--the); color: var(--chu); }
+.mp-mat button.chon { background: var(--mau-chinh); color: #fff; border-color: var(--mau-chinh); }
+.mp-buoc { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+.mp-doc b { font-size: 20px; }
+.mp-bia { max-width: 260px; margin: 0 auto; }
+.mp-truc-q { background: var(--the); border-radius: 10px; touch-action: none; }
