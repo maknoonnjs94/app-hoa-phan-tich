@@ -569,10 +569,10 @@ details[open] > summary .khi-mo { display: inline; }
 .mo-phong .mp-tr { font-size: 8px; }
 .mp-chon { display: flex; gap: 8px; margin-bottom: 10px; }
 .mp-chon select { flex: 1; min-width: 0; font: inherit; font-size: 13px; padding: 8px; border-radius: 10px; border: 1px solid var(--vien); background: var(--the); color: var(--chu); }
-.mp-khung-cd { display: grid; grid-template-columns: 90px 1fr; gap: 8px; align-items: end; }
+.mp-khung-cd { display: grid; grid-template-columns: 96px 1fr; gap: 8px; align-items: end; }
 .mp-thuy-tinh { fill: color-mix(in srgb, var(--the) 70%, transparent); stroke: var(--chu-phu); stroke-width: 1.2; }
 .mp-vach { stroke: var(--chu-phu); stroke-width: .8; }
-.mp-khoa { fill: #475569; transition: transform .2s; transform-origin: 60px 161px; }
+.mp-khoa { transition: transform .25s; transform-origin: 67px 218px; }
 .mp-khoa.mo { transform: rotate(90deg); }
 .mp-dd { transition: fill .25s; }
 .mp-do-thi { background: var(--the); border-radius: 10px; touch-action: none; cursor: crosshair; }
@@ -628,7 +628,8 @@ details[open] > summary .khi-mo { display: inline; }
 .mp-nhan.dung { opacity: .3; pointer-events: none; text-decoration: line-through; }
 .mp-bong { position: fixed; z-index: 50; pointer-events: none; box-shadow: 0 8px 24px rgba(0,0,0,.25); transform: rotate(-3deg); }
 .mo-phong svg { width: 100%; height: auto; display: block; fill: initial; stroke: initial; }
-.mp-khung-cd .mp-bo { width: 90px; }
+.mp-khung-cd .mp-bo { width: 96px; }
+.mo-phong .mp-so-vach { font-size: 6.5px; fill: #334155; font-weight: 600; }
 .mp-3d { max-width: 300px; margin: 0 auto; }
 .mp-cot-dang { display: grid; gap: 6px; margin-top: 10px; }
 .mp-cot-dang > div { display: grid; grid-template-columns: 72px 1fr 48px; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; }
@@ -670,3 +671,7 @@ details[open] > summary .khi-mo { display: inline; }
 .mp-cot { margin-bottom: 6px; }
 .mp-goi-y { margin-left: auto; color: var(--chu-phu); font-size: 11px; white-space: nowrap; }
 .mp-nt { background: #0f172a; border-radius: 12px; }
+.mp-ke-dc { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.mp-dc { font: inherit; font-size: 12px; font-weight: 600; color: var(--chu); background: var(--the); border: 1.5px solid var(--vien); border-radius: 12px; padding: 8px 4px 6px; display: grid; justify-items: center; gap: 4px; cursor: pointer; }
+.mp-dc svg { height: 120px; width: auto !important; }
+.mp-dc.chon { border-color: var(--mau-chinh); background: color-mix(in srgb, var(--mau-chinh) 8%, var(--the)); }

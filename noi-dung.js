@@ -205,6 +205,7 @@ const CHUONG = [
 
       
       <h3>4. Dụng cụ đo lường</h3>
+      <div class="mo-phong" data-loai="dung-cu"></div>
       <div class="bang-cuon">
         <table class="bang bang-the">
           <thead><tr><th>Dụng cụ</th><th>Công dụng</th><th>Lưu ý</th></tr></thead>
@@ -1874,7 +1875,7 @@ const CHUONG = [
       </div>
       <div class="vi-du"><b>Ví dụ 1.</b> Tính tần số, số sóng và năng lượng (J/photon và kJ/mol) của ánh sáng có λ = 500 nm.
         <details><summary>Xem lời giải</summary>
-          \[ \begin{aligned} \nu &= \frac{2,998\cdot10^{8}}{500\cdot10^{-9}} = 6,00\cdot10^{14}\ \mathrm{Hz} \\ \tilde{\nu} &= \frac{1}{500\cdot10^{-7}\ \mathrm{cm}} = 2,00\cdot10^{4}\ \mathrm{cm^{-1}} \\ E &= 6,626\cdot10^{-34}\cdot6,00\cdot10^{14} \\ &= 3,97\cdot10^{-19}\ \mathrm{J} \end{aligned} \]
+          \[ \begin{aligned} \nu &= \frac{2,998\cdot10^{8}}{500\cdot10^{-9}} = 6,00\cdot10^{14}\ \mathrm{Hz} \\ \tilde{\nu} &= \frac{1}{500\cdot10^{-7}\ \mathrm{cm}} = 2,00\cdot10^{4}\ \mathrm{cm^{-1}} \\ E &= \frac{hc}{\lambda} = \frac{6,626\cdot10^{-34}\cdot2,998\cdot10^{8}}{500\cdot10^{-9}} \\ &= 3,97\cdot10^{-19}\ \mathrm{J} \end{aligned} \]
           Nhân với N<sub>A</sub> = 6,022·10<sup>23</sup>: E = <b>239 kJ/mol</b>, cùng cỡ năng lượng liên kết hóa học.
         </details></div>
 
@@ -1894,6 +1895,7 @@ const CHUONG = [
         <li>ε đặc trưng cho từng chất và <b>phụ thuộc bước sóng</b>. Phổ hấp thụ là đồ thị A (hoặc ε) theo λ.</li>
         <li>Thường đo ở <b>λ<sub>max</sub></b> (đỉnh hấp thụ): độ nhạy cao nhất, và A ít thay đổi khi λ lệch chút ít.</li>
         <li><b>Tính cộng tính</b>: dung dịch có nhiều chất hấp thụ thì A = Σε<sub>i</sub>bC<sub>i</sub> ở mỗi bước sóng.</li>
+        <li><b>Điều kiện áp dụng</b>: bức xạ đơn sắc; dung dịch loãng (thường ≲ 0,01 M); dung dịch trong, không tán xạ; chất hấp thụ không tham gia cân bằng hay tương tác làm đổi dạng hấp thụ.</li>
       </ul>
       <div class="vi-du"><b>Ví dụ 2.</b> Dung dịch có A = 0,450 trong cuvet 1,00 cm, ε = 1,50·10<sup>4</sup> M<sup>−1</sup>cm<sup>−1</sup>. Tính C và %T.
         <details><summary>Xem lời giải</summary>
@@ -2005,7 +2007,7 @@ const CHUONG = [
       <ul>
         <li><b>Đèn catot rỗng</b> (HCL): catot làm bằng chính nguyên tố cần xác định, đèn chứa khí trơ áp suất thấp. Điện áp cao ion hóa khí; ion khí bắn phá catot làm bật các nguyên tử kim loại ra (sự phún xạ); các nguyên tử này bị kích thích và phát đúng các vạch đặc trưng của nguyên tố đó.</li>
         <li>Vạch phát ra từ đèn hẹp hơn vạch hấp thụ của nguyên tử trong ngọn lửa, nên định luật Beer được thỏa mãn. Mỗi nguyên tố cần một đèn riêng.</li>
-        <li>Bộ đơn sắc đặt <b>sau</b> ngọn lửa để loại bớt bức xạ do chính ngọn lửa phát ra.</li>
+        <li>Bộ đơn sắc đặt <b>sau</b> ngọn lửa để loại bớt bức xạ do chính ngọn lửa phát ra. Ngoài ra tia sáng của đèn được <b>điều biến</b> (bộ ngắt quãng hoặc đèn xung) để máy tách tín hiệu của đèn khỏi phát xạ liên tục của ngọn lửa.</li>
       </ul>
 
       <h3>4. Quang phổ phát xạ nguyên tử (AES)</h3>
@@ -2016,7 +2018,7 @@ const CHUONG = [
       </ul>
       <p><b>Ảnh hưởng của nhiệt độ</b>: tỉ lệ nguyên tử ở trạng thái kích thích (N*) và cơ bản (N<sub>0</sub>) tuân theo phân bố Boltzmann:</p>
       <div class="cong-thuc"><div class="nhan">g*, g<sub>0</sub>: số trạng thái cùng năng lượng; ΔE: hiệu năng lượng; k = 1,381·10<sup>−23</sup> J/K</div>\[ \frac{N^*}{N_0} = \frac{g^*}{g_0}\,e^{-\Delta E/kT} \]</div>
-      <div class="vi-du"><b>Ví dụ 1.</b> Với vạch Na 589,0 nm (g*/g<sub>0</sub> = 3), tính N*/N<sub>0</sub> ở 2500 K và 2510 K. Nhận xét ảnh hưởng của dao động nhiệt độ ngọn lửa tới AAS và AES.
+      <div class="vi-du"><b>Ví dụ 1.</b> Với vạch Na 589,0 nm (g*/g<sub>0</sub> = 3, theo Harris gộp cả mức 3p), tính N*/N<sub>0</sub> ở 2500 K và 2510 K. Nhận xét ảnh hưởng của dao động nhiệt độ ngọn lửa tới AAS và AES.
         <details><summary>Xem lời giải</summary>
           \[ \begin{aligned} \Delta E &= \frac{hc}{\lambda} = \frac{6,626\cdot10^{-34}\cdot2,998\cdot10^{8}}{589,0\cdot10^{-9}} \\ &= 3,373\cdot10^{-19}\ \mathrm{J} \end{aligned} \]
           Ở 2500 K: \[ \frac{N^*}{N_0} = 3\,e^{-9,77} = 1,72\cdot10^{-4} \]
@@ -2108,10 +2110,10 @@ const CHUONG = [
 
       <h3>2. Pin điện hóa</h3>
       <p>Pin Galvani gồm hai điện cực nhúng trong dung dịch, nối bằng <b>cầu muối</b> (ví dụ KCl trong gel) để dòng ion đi qua mà hai dung dịch không trộn lẫn. <b>Anot</b> là nơi xảy ra sự oxi hóa, <b>catot</b> là nơi xảy ra sự khử.</p>
-      <p><b>Kí hiệu pin</b>: anot viết bên trái, catot bên phải; "|" là ranh giới pha, "||" là cầu muối. Ví dụ pin Daniell:</p>
+      <p><b>Kí hiệu pin</b>: điện cực bên trái viết như nơi xảy ra oxi hóa (anot), bên phải như nơi xảy ra khử (catot); "|" là ranh giới pha, "||" là cầu muối. Ví dụ pin Daniell:</p>
       <div class="cong-thuc">\[ \mathrm{Zn(r)}\,|\,\mathrm{Zn^{2+}(aq)}\,\|\,\mathrm{Cu^{2+}(aq)}\,|\,\mathrm{Cu(r)} \]</div>
       <div class="cong-thuc"><div class="nhan">E<sub>+</sub>: thế điện cực bên phải; E<sub>−</sub>: bên trái (cả hai viết dạng thế khử)</div>\[ E_\text{pin} = E_+ - E_- \]</div>
-      <p>E<sub>pin</sub> &gt; 0: phản ứng tự xảy ra theo chiều viết (electron đi từ trái sang phải ở mạch ngoài).</p>
+      <p>E<sub>pin</sub> = E<sub>phải</sub> − E<sub>trái</sub>. E<sub>pin</sub> &gt; 0: phản ứng tự xảy ra theo chiều viết (electron đi từ trái sang phải ở mạch ngoài); E<sub>pin</sub> &lt; 0: chiều thực ngược lại.</p>
       <div class="vi-du"><b>Ví dụ 1.</b> Tính thế của pin Zn | Zn<sup>2+</sup> (0,10 M) || Cu<sup>2+</sup> (0,010 M) | Cu. Biết E<sup>0</sup>(Cu<sup>2+</sup>/Cu) = 0,34 V; E<sup>0</sup>(Zn<sup>2+</sup>/Zn) = −0,76 V.
         <details><summary>Xem lời giải</summary>
           \[ \begin{aligned} E_+ &= 0,34 + \frac{0,059}{2}\lg0,010 \\ &= 0,281\ \mathrm{V} \\ E_- &= -0,76 + \frac{0,059}{2}\lg0,10 \\ &= -0,790\ \mathrm{V} \\ E_\text{pin} &= 0,281 - (-0,790) = \mathbf{1,07\ V} \end{aligned} \]
@@ -2147,6 +2149,7 @@ const CHUONG = [
       <h3>5. Điện cực chọn lọc ion (ISE)</h3>
       <div class="cong-thuc"><div class="nhan">Ion i có điện tích z (kể cả dấu), 25 °C; K là hằng số của điện cực</div>\[ E = K + \frac{0,059}{z}\lg\mathcal{A}_i \]</div>
       <ul>
+        <li>Phương trình viết cho E = E<sub>ISE</sub> − E<sub>so sánh</sub> (ISE nối cực + của máy đo). Hằng số K gộp thế của điện cực so sánh và <b>thế tiếp xúc lỏng</b> ở cầu muối; thế tiếp xúc lỏng thay đổi theo thành phần dung dịch là nguồn sai số chính của phép đo thế (cỡ ±0,02 đơn vị pH).</li>
         <li>Độ dốc lí thuyết: 59 mV khi hoạt độ ion hóa trị 1 thay đổi 10 lần, 29,5 mV với ion hóa trị 2. Với anion (z âm), thế giảm khi nồng độ tăng.</li>
         <li>Các loại màng: thủy tinh (H<sup>+</sup>, Na<sup>+</sup>), tinh thể (F<sup>−</sup> dùng màng LaF<sub>3</sub>), màng lỏng/polymer chứa chất mang ion (Ca<sup>2+</sup>, K<sup>+</sup>, NO<sub>3</sub><sup>−</sup>).</li>
         <li><b>Hệ số chọn lọc</b> k<sub>A,X</sub> càng nhỏ thì ion lạ X càng ít cản trở ion cần đo A.</li>
@@ -2162,8 +2165,8 @@ const CHUONG = [
       <h3>6. Đo pH bằng điện cực thủy tinh</h3>
       <p>Điện cực thủy tinh có màng thủy tinh mỏng, trao đổi H<sup>+</sup> với dung dịch; thường ghép chung với điện cực so sánh Ag/AgCl thành <b>điện cực tổ hợp</b>. Đáp ứng ở 25 °C:</p>
       <div class="cong-thuc">\[ E = K - 0,059\,\mathrm{pH} \]</div>
-      <p>K thay đổi theo từng điện cực và theo thời gian, nên phải <b>hiệu chuẩn</b> bằng dung dịch đệm chuẩn trước khi đo, thường dùng 2 đệm bao quanh pH mẫu (ví dụ 4,01 và 7,00, hoặc 7,00 và 10,01).</p>
-      <div class="cong-thuc"><div class="nhan">Đo so với một đệm chuẩn</div>\[ \mathrm{pH}_x = \mathrm{pH}_\text{chuẩn} + \frac{E_\text{chuẩn} - E_x}{0,059} \]</div>
+      <p>K thay đổi theo từng điện cực và theo thời gian, độ dốc thực cũng thường chỉ đạt 95 – 100% giá trị lí thuyết 0,059 V, nên phải <b>hiệu chuẩn</b> bằng dung dịch đệm chuẩn trước khi đo, thường dùng 2 đệm bao quanh pH mẫu (ví dụ 4,01 và 7,00, hoặc 7,00 và 10,01): đệm thứ nhất xác định K, đệm thứ hai xác định độ dốc thực.</p>
+      <div class="cong-thuc"><div class="nhan">Đo so với một đệm chuẩn (giả định độ dốc lí thuyết)</div>\[ \mathrm{pH}_x = \mathrm{pH}_\text{chuẩn} + \frac{E_\text{chuẩn} - E_x}{0,059} \]</div>
       <div class="vi-du"><b>Ví dụ 4.</b> Trong đệm pH 4,00 đo được E = 0,250 V; trong mẫu đo được E = 0,132 V. Tính pH mẫu.
         <details><summary>Xem lời giải</summary>
           \[ \mathrm{pH}_x = 4,00 + \frac{0,250 - 0,132}{0,059} = \mathbf{6,00} \]
@@ -2273,7 +2276,8 @@ const CHUONG = [
       <div class="vi-du"><b>Ví dụ 2.</b> Hai chất A, B trên cột dài 3,2 m có t<sub>R,A</sub> = 280 s, w<sub>A</sub> = 14 s; t<sub>R,B</sub> = 300 s, w<sub>B</sub> = 15 s. Tính N, H và độ phân giải R<sub>s</sub>.
         <details><summary>Xem lời giải</summary>
           \[ \begin{aligned} N_A &= 16\left(\frac{280}{14}\right)^2 = 6\,400 \\ N_B &= 16\left(\frac{300}{15}\right)^2 = 6\,400 \\ H &= \frac{3,2\ \mathrm{m}}{6\,400} = 5,0\cdot10^{-4}\ \mathrm{m} \\ &= \mathbf{0,50\ mm} \\ R_s &= \frac{300 - 280}{(14 + 15)/2} = \mathbf{1,4} \end{aligned} \]
-          R<sub>s</sub> &lt; 1,5 nên hai pic chưa tách hoàn toàn đến đường nền.
+          R<sub>s</sub> &lt; 1,5 nên hai pic chưa tách hoàn toàn đến đường nền.<br>
+          Nếu biết thêm t<sub>m</sub> = 40 s: k<sub>A</sub> = (280 − 40)/40 = 6,0; k<sub>B</sub> = (300 − 40)/40 = 6,5; α = 260/240 = <b>1,08</b>.
         </details></div>
 
       <h3>5. Độ phân giải và hệ số tách</h3>
@@ -2284,7 +2288,7 @@ const CHUONG = [
         <li>α = 1 thì không thể tách dù cột tốt đến đâu; α càng lớn càng dễ tách.</li>
       </ul>
       <div class="cong-thuc"><div class="nhan">Phương trình Purnell: ba yếu tố quyết định độ phân giải</div>\[ R_s = \frac{\sqrt{N}}{4}\cdot\frac{\alpha - 1}{\alpha}\cdot\frac{k_2}{1 + k_2} \]</div>
-      <p>Muốn tăng R<sub>s</sub>: tăng N (cột dài hơn, hạt nhỏ hơn); tăng α (đổi pha tĩnh, pha động, nhiệt độ: hiệu quả nhất); tăng k đến khoảng 2 – 10. Vì R<sub>s</sub> tỉ lệ với √N, muốn tăng R<sub>s</sub> gấp đôi phải tăng N (chiều dài cột) gấp 4.</p>
+      <p>Phương trình Purnell là công thức gần đúng (coi hai pic có độ rộng bằng nhau, tính theo k<sub>2</sub>), nên có thể lệch vài phần trăm so với R<sub>s</sub> tính trực tiếp từ sắc đồ. Muốn tăng R<sub>s</sub>: tăng N (cột dài hơn, hạt nhỏ hơn); tăng α (đổi pha tĩnh, pha động, nhiệt độ: hiệu quả nhất); tăng k đến khoảng 2 – 10. Vì R<sub>s</sub> tỉ lệ với √N, muốn tăng R<sub>s</sub> gấp đôi phải tăng N (chiều dài cột) gấp 4.</p>
       <div class="vi-du"><b>Ví dụ 3.</b> Hai chất có α = 1,05; k<sub>2</sub> = 5,0 trên cột có N = 10 000. Tính R<sub>s</sub>. Cần bao nhiêu đĩa để đạt R<sub>s</sub> = 1,5?
         <details><summary>Xem lời giải</summary>
           \[ \begin{aligned} R_s &= \frac{\sqrt{10\,000}}{4}\cdot\frac{0,05}{1,05}\cdot\frac{5,0}{6,0} = \mathbf{0,99} \\ N &= 10\,000\left(\frac{1,5}{0,99}\right)^2 = \mathbf{2,3\cdot10^{4}} \end{aligned} \]
@@ -2363,9 +2367,9 @@ const CHUONG = [
         <li>Trên pha tĩnh <b>không phân cực</b>: các chất ra theo <b>nhiệt độ sôi tăng dần</b>.</li>
         <li>Khi pha tĩnh có độ phân cực: tương tác với pha tĩnh cũng quan trọng. Pha tĩnh không phân cực giữ chất không phân cực lâu hơn (chất phân cực ra trước nếu nhiệt độ sôi gần nhau); pha tĩnh phân cực giữ chất phân cực lâu hơn.</li>
       </ul>
-      <div class="vi-du"><b>Ví dụ 1.</b> Hỗn hợp toluen, benzen, ethyl acetat hòa tan trong n-hexan được tách trên cột OV-17 (phenylmethyl polysiloxan, phân cực yếu). Dự đoán thứ tự các pic. Nhiệt độ sôi: n-hexan 69 °C, ethyl acetat 77 °C, benzen 80,1 °C, toluen 110,6 °C.
+      <div class="vi-du"><b>Ví dụ 1.</b> Hỗn hợp toluen, benzen, ethyl acetat hòa tan trong n-hexan được tách trên cột OV-17 (50% phenyl methylpolysiloxan, phân cực trung bình). Dự đoán thứ tự các pic. Nhiệt độ sôi: n-hexan 69 °C, ethyl acetat 77 °C, benzen 80,1 °C, toluen 110,6 °C.
         <details><summary>Xem lời giải</summary>
-          Pha tĩnh phân cực yếu, các chất ra chủ yếu theo nhiệt độ sôi: <b>n-hexan (dung môi) → ethyl acetat → benzen → toluen</b>.
+          Các chất này có độ phân cực không chênh nhau nhiều, nên ra chủ yếu theo nhiệt độ sôi: <b>n-hexan (dung môi) → ethyl acetat → benzen → toluen</b>.
         </details></div>
 
       <h3>4. Detector GC</h3>
@@ -2379,6 +2383,7 @@ const CHUONG = [
             <tr><td>NPD (nitơ – phospho)</td><td>Hạt muối kiềm nung nóng ion hóa chọn lọc hợp chất N, P</td><td>Thuốc trừ sâu phospho hữu cơ, dược chất chứa N</td></tr>
             <tr><td>FPD (quang ngọn lửa)</td><td>Đo phát xạ của S, P trong ngọn lửa</td><td>Hợp chất lưu huỳnh, phospho</td></tr>
             <tr><td>MS (khối phổ)</td><td>Ion hóa, tách ion theo m/z</td><td>Vừa định lượng vừa nhận danh cấu trúc (GC-MS)</td></tr>
+            <tr><td>FT-IR</td><td>Đo phổ hồng ngoại của từng pic khí</td><td>Nhận danh nhóm chức, phân biệt đồng phân (GC-IR)</td></tr>
           </tbody>
         </table>
       </div>
@@ -2450,7 +2455,7 @@ const CHUONG = [
       },
       {
         de: "Trên cột C18, pha động nước – methanol 50 : 50, thứ tự rửa giải của phenol, toluen và acid benzoic (ở pH 2,5) là gì? Nếu tăng methanol lên 70% thì thời gian lưu thay đổi thế nào?",
-        dapAn: "Pha đảo: chất phân cực ra trước. Ở pH 2,5 acid benzoic ở dạng phân tử nhưng vẫn phân cực hơn toluen. Thứ tự: <b>phenol → acid benzoic → toluen</b>. Tăng methanol làm pha động mạnh hơn: <b>mọi thời gian lưu đều giảm</b>.",
+        dapAn: "Pha đảo: chất phân cực (log P nhỏ) ra trước: phenol (log P = 1,46) &lt; acid benzoic (1,87) &lt; toluen (2,73). Ở pH 2,5 (pK<sub>a</sub> = 4,19) acid benzoic khoảng 98% ở dạng phân tử. Thứ tự: <b>phenol → acid benzoic → toluen</b>. Tăng methanol làm pha động mạnh hơn: <b>mọi thời gian lưu đều giảm</b>.",
       },
     ],
   },

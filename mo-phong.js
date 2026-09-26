@@ -26,6 +26,49 @@ function keoTren(el, f) {
   el.addEventListener("pointermove", e => { if (el.hasPointerCapture(e.pointerId)) chay(e); });
 }
 
+/* ---------------- Dụng cụ thủy tinh vẽ theo hình thật ---------------- */
+let soDinhDanh = 0;
+const THUY_TINH_DEFS = id => `<defs>
+  <linearGradient id="tt${id}" x1="0" x2="1"><stop offset="0" stop-color="#cbd5e1" stop-opacity=".55"/><stop offset=".18" stop-color="#fff" stop-opacity=".9"/><stop offset=".45" stop-color="#f1f5f9" stop-opacity=".35"/><stop offset=".85" stop-color="#e2e8f0" stop-opacity=".5"/><stop offset="1" stop-color="#94a3b8" stop-opacity=".6"/></linearGradient>
+  <linearGradient id="kl${id}" x1="0" x2="1"><stop offset="0" stop-color="#475569"/><stop offset=".4" stop-color="#cbd5e1"/><stop offset="1" stop-color="#475569"/></linearGradient>
+  <linearGradient id="bong${id}" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".7"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+</defs>`;
+// Giá đỡ + buret 50 mL (khóa PTFE) + bình nón Erlenmeyer trên tấm trắng. viewBox 0 0 130 320
+function svgBuretBinh(mauBuret = "#bfdbfe") {
+  const id = ++soDinhDanh, G = `url(#tt${id})`;
+  let vach = "";
+  for (let v = 0; v <= 50; v++) {
+    const y = 18 + v * 3.6, dai = v % 10 === 0 ? 7 : v % 5 === 0 ? 5 : 3;
+    vach += `<line x1="60" x2="${60 + dai}" y1="${y}" y2="${y}" stroke="#334155" stroke-width="${v % 5 ? .5 : .8}"/>`;
+    if (v % 10 === 0) vach += `<text x="78" y="${y + 2.5}" class="mp-so-vach">${v}</text>`;
+  }
+  return `<svg class="mp-bo" viewBox="0 0 130 320" aria-label="Buret trên giá và bình nón">${THUY_TINH_DEFS(id)}
+    <rect x="6" y="306" width="118" height="10" rx="3" fill="#334155"/><rect x="14" y="8" width="6" height="298" rx="3" fill="url(#kl${id})"/>
+    <rect x="17" y="68" width="44" height="5" rx="2" fill="url(#kl${id})"/><rect x="56" y="63" width="4" height="15" rx="1.5" fill="#475569"/><rect x="74" y="63" width="4" height="15" rx="1.5" fill="#475569"/>
+    <rect class="mp-muc-buret" x="61.5" y="18" width="11" height="192" fill="${mauBuret}"/>
+    <path class="mp-khum" d="" fill="none" stroke="#1d4ed8" stroke-width="1"/>
+    <rect x="60" y="6" width="14" height="206" rx="2" fill="${G}" stroke="#94a3b8" stroke-width="1"/><rect x="58" y="3" width="18" height="4" rx="1.5" fill="${G}" stroke="#94a3b8"/>
+    <rect x="62" y="8" width="3" height="200" fill="url(#bong${id})" opacity=".8"/>
+    ${vach}
+    <rect x="61" y="211" width="12" height="13" rx="2" fill="${G}" stroke="#94a3b8"/>
+    <g class="mp-khoa"><rect x="51" y="215.5" width="32" height="5" rx="2.5" fill="#f8fafc" stroke="#64748b"/><rect x="47" y="213.5" width="7" height="9" rx="2" fill="#e2e8f0" stroke="#64748b"/></g>
+    <path d="M63 224 L71 224 L68.6 246 L65.4 246 Z" fill="${G}" stroke="#94a3b8"/>
+    <circle class="mp-giot" cx="67" cy="250" r="2.4" fill="${mauBuret}" stroke="#60a5fa" stroke-width=".5" opacity="0"/>
+    <rect x="22" y="300" width="90" height="6" rx="1.5" fill="#f8fafc" stroke="#cbd5e1"/>
+    <path class="mp-dd" d="M40.3 285 L93.7 285 L104 296 Q106 300 101 300 H33 Q28 300 30 296 Z"/>
+    <g class="mp-hat"></g>
+    <path d="M58 253 V266 L30 296 Q28 300 33 300 H101 Q106 300 104 296 L76 266 V253 Z" fill="${G}" stroke="#94a3b8" stroke-width="1.1"/>
+    <rect x="56" y="250" width="22" height="3.5" rx="1.5" fill="${G}" stroke="#94a3b8"/>
+    <path d="M38 292 L55 272" stroke="#fff" stroke-width="2" opacity=".7" stroke-linecap="round"/>
+  </svg>`;
+}
+// Đặt mức dung dịch trong buret theo thể tích đã chảy ra (0 – 50 mL)
+function datMucBuret(goc, V) {
+  const y = 18 + kep(V, 0, 50) * 3.6;
+  const r = goc.querySelector(".mp-muc-buret"); r.setAttribute("y", y); r.setAttribute("height", 210 - y);
+  goc.querySelector(".mp-khum").setAttribute("d", `M61.5 ${y - 1.4} Q67 ${y + 2} 72.5 ${y - 1.4}`);
+}
+
 /* ---------------- 1. Chuẩn độ acid – base ---------------- */
 const CHI_THI = {
   "Phenolphtalein": { pK: 9.1, a: [255, 255, 255], b: [236, 72, 153], ten: "không màu → hồng", khoang: [8.2, 10.0] },
@@ -61,16 +104,7 @@ MO_PHONG["chuan-do"] = el => {
       <select class="mp-ct">${Object.keys(CHI_THI).map(k => `<option>${k}</option>`).join("")}</select>
     </div>
     <div class="mp-khung-cd">
-      <svg class="mp-bo" viewBox="0 0 120 260" aria-label="Buret và bình nón">
-        <rect x="52" y="6" width="16" height="150" rx="3" class="mp-thuy-tinh"/>
-        <rect class="mp-muc-buret" x="54" y="8" width="12" height="146" fill="#bfdbfe"/>
-        ${Array.from({ length: 11 }, (_, i) => `<line x1="52" x2="58" y1="${10 + i * 14}" y2="${10 + i * 14}" class="mp-vach"/>`).join("")}
-        <path d="M56 156 h8 v10 l-3 8 h-2 l-3-8z" class="mp-thuy-tinh"/>
-        <rect class="mp-khoa" x="47" y="158" width="26" height="6" rx="3"/>
-        <circle class="mp-giot" cx="60" cy="178" r="2.6" fill="#93c5fd" opacity="0"/>
-        <path d="M44 196 h32 v12 l26 40 q2 6 -5 6 h-74 q-7 0 -5-6 l26-40z" class="mp-thuy-tinh"/>
-        <path class="mp-dd" d="M30 226 h60 l12 18 q2 4 -4 4 h-76 q-6 0 -4-4z"/>
-      </svg>
+      ${svgBuretBinh()}
       <svg class="mp-do-thi" viewBox="0 0 300 200" aria-label="Đường chuẩn độ">
         <rect class="mp-vung-ct" x="30" width="262" y="0" height="0"/>
         <g class="mp-luoi"></g>
@@ -105,7 +139,7 @@ MO_PHONG["chuan-do"] = el => {
     $(".mp-diem").setAttribute("cx", X(V)); $(".mp-diem").setAttribute("cy", Y(pH));
     $(".mp-v").textContent = soVN(V) + " mL"; $(".mp-ph").textContent = soVN(pH);
     $(".mp-vung").textContent = V === 0 ? "Ban đầu" : Math.abs(V - Ve) < 0.03 ? "Tương đương" : V < Ve ? "Trước tđ" : "Sau tđ";
-    $(".mp-muc-buret").setAttribute("y", 8 + V / Vmax * 146); $(".mp-muc-buret").setAttribute("height", 146 - V / Vmax * 146);
+    datMucBuret(el, V);
     const f = 1 / (1 + 10 ** (ct.pK - pH));
     const mau = tronMau(ct.a, ct.b, f), trong = ct === CHI_THI["Phenolphtalein"] ? 0.15 + 0.7 * f : 0.75;
     $(".mp-dd").setAttribute("fill", rgba(mau, trong));
@@ -117,7 +151,7 @@ MO_PHONG["chuan-do"] = el => {
     $(".mp-nhan-xet").innerHTML = `pH tương đương = <b>${soVN(pHtd)}</b>. ${Object.keys(CHI_THI).find(k => CHI_THI[k] === ct)} (${ct.ten}) đổi màu ở pH ≈ ${soVN(pHc, 1)} → dừng ở ${soVN(Vc)} mL, sai số chỉ thị <b>${ss >= 0 ? "+" : ""}${soVN(ss, 1)}%</b>. ${Math.abs(ss) < 0.2 ? "✅ Chỉ thị phù hợp." : "⚠️ Không phù hợp: khoảng đổi màu nằm ngoài bước nhảy."}`;
   }
   const dat = v => { V = kep(Math.round(v * 100) / 100, 0, Vmax); capNhat(); };
-  const giot = () => { const g = $(".mp-giot"); g.animate([{ opacity: 1, transform: "translateY(0)" }, { opacity: 0, transform: "translateY(40px)" }], { duration: 350 }); };
+  const giot = () => { const g = $(".mp-giot"); g.animate([{ opacity: 1, transform: "translateY(0)" }, { opacity: 0, transform: "translateY(32px)" }], { duration: 350 }); };
   el.querySelectorAll("[data-d]").forEach(b => b.onclick = () => { giot(); dat(V + +b.dataset.d); });
   $(".mp-lai").onclick = () => { dung(); dat(0); };
   const dung = () => { clearInterval(chay); chay = null; $(".mp-mo-khoa").textContent = "▶ Mở khóa"; $(".mp-khoa").classList.remove("mo"); };
@@ -398,7 +432,7 @@ MO_PHONG["mohr"] = el => {
   el.innerHTML = `
     <div class="mp-dau"><b>🧂 Chuẩn độ Mohr</b><span>25,00 mL Cl⁻ 0,0500 M + K₂CrO₄, chuẩn bằng AgNO₃ 0,0500 M</span></div>
     <div class="mp-khung-cd">
-      <svg class="mp-bo" viewBox="0 0 120 260"><rect x="52" y="6" width="16" height="150" rx="3" class="mp-thuy-tinh"/><rect class="mp-muc-buret" x="54" y="8" width="12" height="146" fill="#e2e8f0"/><path d="M56 156 h8 v10 l-3 8 h-2 l-3-8z" class="mp-thuy-tinh"/><path d="M44 196 h32 v12 l26 40 q2 6 -5 6 h-74 q-7 0 -5-6 l26-40z" class="mp-thuy-tinh"/><path class="mp-dd" d="M30 226 h60 l12 18 q2 4 -4 4 h-76 q-6 0 -4-4z"/><g class="mp-hat"></g></svg>
+      ${svgBuretBinh("#f1f5f9")}
       <svg class="mp-do-thi"></svg>
     </div>
     <div class="mp-so"><div><small>V AgNO₃</small><b class="mp-v">0,00 mL</b></div><div><small>pAg</small><b class="mp-ph">–</b></div><div><small>Quan sát</small><b class="mp-vung">–</b></div></div>
@@ -410,13 +444,13 @@ MO_PHONG["mohr"] = el => {
   phanTu("path", { d: duongSVG(pts, X, Y), class: "mp-duong-mo", fill: "none" }, svg);
   phanTu("line", { x1: X(Ve), x2: X(Ve), y1: Y(0), y2: Y(10), class: "mp-tđ" }, svg);
   const duong = phanTu("path", { class: "mp-duong", fill: "none" }, svg), diem = phanTu("circle", { r: 5, class: "mp-diem" }, svg);
-  const hat = $(".mp-hat"); hat.innerHTML = Array.from({ length: 40 }, (_, i) => `<circle cx="${34 + (i * 37) % 64}" cy="${230 + (i * 13) % 16}" r="${1.2 + (i % 3) * 0.5}" fill="#f8fafc" opacity="0"/>`).join("");
+  const hat = $(".mp-hat"); hat.innerHTML = Array.from({ length: 40 }, (_, i) => `<circle cx="${38 + (i * 37) % 58}" cy="${288 + (i * 13) % 10}" r="${1.1 + (i % 3) * 0.5}" fill="#f8fafc" opacity="0"/>`).join("");
   function capNhat() {
     const r = tinh(V);
     duong.setAttribute("d", V > 0 ? duongSVG(pts.filter(p => p[0] <= V).concat([[V, r.pAg]]), X, Y) : "");
     diem.setAttribute("cx", X(V)); diem.setAttribute("cy", Y(r.pAg));
     $(".mp-v").textContent = soVN(V) + " mL"; $(".mp-ph").textContent = soVN(r.pAg);
-    $(".mp-muc-buret").setAttribute("y", 8 + V / Vmax * 146); $(".mp-muc-buret").setAttribute("height", 146 - V / Vmax * 146);
+    datMucBuret(el, V);
     $(".mp-dd").setAttribute("fill", r.do ? "rgba(185,60,40,.75)" : `rgba(250,204,21,${0.55 - 0.25 * r.ket})`);
     hat.querySelectorAll("circle").forEach((c, i) => { c.setAttribute("opacity", i / 40 < r.ket ? 0.9 : 0); c.setAttribute("fill", r.do ? "#c2410c" : "#f8fafc"); });
     $(".mp-vung").textContent = r.do ? "Đỏ gạch" : V > 0 ? "Kết tủa trắng" : "Vàng";
@@ -461,7 +495,7 @@ MO_PHONG["chuan-do-oxh"] = el => {
     const mau = tronMau([220, 38, 38], [147, 197, 253], f);
     $(".mp-mau").innerHTML = `<span class="mp-cham" style="background:${rgba(mau)}"></span>${f < 0.3 ? "đỏ" : f > 0.7 ? "xanh nhạt" : "đang đổi"}`;
     const Etd = (E1 + he.n * he.E2) / (1 + he.n);
-    $(".mp-nhan-xet").innerHTML = V < Ve ? `Trước tương đương: tính E theo cặp Fe³⁺/Fe²⁺. Tại V = V<sub>e</sub>/2 = 12,5 mL, E = E⁰(Fe) = 0,77 V.` : Math.abs(V - Ve) < 0.2 ? `Tại tương đương: E<sub>tđ</sub> = (0,77 + ${he.n}·${soVN(he.E2)})/${1 + he.n} = <b>${soVN(Etd)} V</b>.` : `Sau tương đương: tính E theo cặp của chất chuẩn. Tại V = 2V<sub>e</sub>, E = E⁰ = ${soVN(he.E2)} V.`;
+    $(".mp-nhan-xet").innerHTML = V < Ve ? `Trước tương đương: tính E theo cặp Fe³⁺/Fe²⁺. Tại V = V<sub>e</sub>/2 = 12,5 mL, E = E⁰(Fe) = 0,77 V.` : Math.abs(V - Ve) < 0.2 ? `Tại tương đương: E<sub>tđ</sub> = (0,77 + ${he.n}·${soVN(he.E2)})/${1 + he.n} = <b>${soVN(Etd)} V</b>.` : `Sau tương đương: tính E theo cặp của chất chuẩn. Tại V = 2V<sub>e</sub> (50 mL, ngoài đồ thị), E = E⁰ = ${soVN(he.E2)} V.`;
   }
   keoTren(svg, x => { V = kep(Math.round(((x * 300 - 32) / 260 * Vmax) * 10) / 10, 0.1, Vmax); if (Math.abs(V - Ve) < 0.25) V = Ve; capNhat(); });
   $("select").onchange = e => { he = HE[e.target.value]; ve(); };
@@ -558,16 +592,18 @@ MO_PHONG["doc-buret"] = el => {
     <div class="mp-nut mp-nut-2"><button class="mp-kiem">Kiểm tra</button><button class="mp-moi">Câu mới</button></div>
     <p class="mp-nhan-xet">Buret đánh số tăng dần từ trên xuống. Vạch lớn cách 1 mL, vạch nhỏ cách 0,1 mL.</p>`;
   const svg = el.querySelector("svg"), $ = s => el.querySelector(s);
+  const id = ++soDinhDanh;
   function ve() {
     const goc = Math.floor(that) - 1, Y = v => 20 + (v - goc) * 60;   // 60 px / mL, số tăng từ trên xuống
-    let s = `<rect x="50" y="0" width="60" height="220" rx="4" class="mp-thuy-tinh"/>`;
     const m = Y(that), lech = mat * 7;
-    s += `<path d="M52 ${m - 8} Q80 ${m + 4} 108 ${m - 8} V218 H52 Z" fill="#bfdbfe"/><path d="M52 ${m - 8} Q80 ${m + 4} 108 ${m - 8}" stroke="#2563eb" stroke-width="1.6" fill="none"/>`;
-    for (let v = goc; v <= goc + 3.5; v = Math.round((v + 0.1) * 10) / 10) {
-      const lon = Math.abs(v - Math.round(v)) < 1e-6, y = Y(v);
-      s += `<line x1="50" x2="${lon ? 80 : v * 10 % 5 === 0 ? 70 : 64}" y1="${y}" y2="${y}" stroke="var(--chu)" stroke-width="${lon ? 1.4 : .8}"/>` + (lon ? `<text x="84" y="${y + 4}" class="mp-so-buret">${v}</text>` : "");
+    let s = THUY_TINH_DEFS(id) + `<rect x="0" y="0" width="160" height="220" fill="#fff"/><rect x="54" y="0" width="4" height="220" fill="#1d4ed8" opacity=".15"/>`;
+    s += `<rect x="50" y="${m}" width="60" height="${220 - m}" fill="#dbeafe"/><path d="M50 ${m - 6} Q80 ${m + 6} 110 ${m - 6} L110 ${m + 2} Q80 ${m + 14} 50 ${m + 2} Z" fill="#93c5fd" opacity=".55"/><path d="M50 ${m - 6} Q80 ${m + 6} 110 ${m - 6}" stroke="#1e40af" stroke-width="1.8" fill="none"/>`;
+    for (let k = Math.round(goc * 10); k <= Math.round((goc + 3.6) * 10); k++) {
+      const v = k / 10, y = Y(v), lon = k % 10 === 0, vua = k % 5 === 0;
+      s += `<line x1="50" x2="${lon ? 92 : vua ? 76 : 68}" y1="${y}" y2="${y}" stroke="#0f172a" stroke-width="${lon ? 1.5 : .9}"/>` + (lon ? `<text x="95" y="${y + 4}" class="mp-so-buret">${v}</text>` : "");
     }
-    s += `<line x1="0" x2="160" y1="${m + lech}" y2="${m - lech}" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4 3"/><text x="4" y="${m + lech - 4}" class="mp-tr">👁</text>`;
+    s += `<rect x="50" y="0" width="60" height="220" fill="url(#tt${id})" stroke="#64748b" stroke-width="1.2"/><rect x="56" y="0" width="6" height="220" fill="url(#bong${id})"/>`;
+    s += `<line x1="0" x2="160" y1="${m + lech}" y2="${m - lech}" stroke="#f59e0b" stroke-width="1.2" stroke-dasharray="4 3"/><text x="3" y="${m + lech - 3}" font-size="12">👁</text>`;
     svg.innerHTML = s;
     $(".mp-so-doc").textContent = soVN(doc) + " mL";
   }
@@ -624,7 +660,13 @@ MO_PHONG["q-test"] = el => {
   const svg = el.querySelector("svg"), $ = s => el.querySelector(s);
   const X = v => 20 + (v - 19.90) / 0.70 * 260;
   function ve() {
-    const ds = [...co, ngo].sort((a, b) => a - b), cao = ngo >= ds[ds.length - 1], ke = cao ? ds[ds.length - 2] : ds[1];
+    const ds = [...co, ngo].sort((a, b) => a - b), cao = ngo >= ds[ds.length - 1], thap = ngo <= ds[0], ke = cao ? ds[ds.length - 2] : ds[1];
+    if (!cao && !thap) {
+      svg.innerHTML = `<line x1="20" x2="280" y1="58" y2="58" stroke="var(--chu-phu)"/>` + [...co, ngo].map(v => `<circle cx="${X(v)}" cy="58" r="${v === ngo ? 8 : 5}" fill="${v === ngo ? "#ef4444" : "#6366f1"}"/>`).join("");
+      $(".mp-qt").textContent = "–"; $(".mp-kl").textContent = "–";
+      $(".mp-nhan-xet").textContent = "Giá trị này nằm giữa dãy số liệu, không phải giá trị ngờ: chuẩn Q chỉ áp dụng cho giá trị nhỏ nhất hoặc lớn nhất.";
+      return;
+    }
     const Q = Math.abs(ngo - ke) / (ds[ds.length - 1] - ds[0]), loai = Q > QB[6];
     const tbTat = ds.reduce((a, b) => a + b) / 6, tbCon = co.reduce((a, b) => a + b) / 5;
     let s = `<line x1="20" x2="280" y1="58" y2="58" stroke="var(--chu-phu)"/>`;
@@ -666,7 +708,7 @@ MO_PHONG["pin-dien-hoa"] = el => {
   const $ = s => el.querySelector(s);
   const hien = v => { const e = Math.floor(v + 1e-9), m = 10 ** (v - e); return `${soVN(m, 1)}·10<sup>${e}</sup> M`; };
   function capNhat() {
-    const ep = 0.34 + 0.0295 * lgCu, em = -0.76 + 0.0295 * lgZn, E = ep - em;
+    const r3 = x => Math.round(x * 1000 + 1e-6) / 1000, ep = r3(0.34 + 0.0295 * lgCu), em = r3(-0.76 + 0.0295 * lgZn), E = r3(ep - em);
     $(".mp-zn").innerHTML = hien(lgZn); $(".mp-cu").innerHTML = hien(lgCu);
     $(".mp-ep").textContent = soVN(ep, 3) + " V"; $(".mp-em").textContent = soVN(em, 3) + " V"; $(".mp-epin").textContent = soVN(E, 3) + " V";
     $(".mp-vk").textContent = soVN(E, 3) + " V";
@@ -812,7 +854,7 @@ MO_PHONG["boltzmann"] = el => {
   const NT = { "Na 589,0 nm (g*/g₀ = 3)": [589.0, 3], "Ca 422,7 nm (g*/g₀ = 3)": [422.7, 3], "Zn 213,9 nm (g*/g₀ = 3)": [213.9, 3] };
   let lam = 589.0, g = 3, T = 2500;
   el.innerHTML = `
-    <div class="mp-dau"><b>🔥 Nguyên tử kích thích theo nhiệt độ</b><span>240 chấm là 240 nguyên tử; số chấm sáng (kích thích) được phóng đại 100 lần để nhìn thấy</span></div>
+    <div class="mp-dau"><b>🔥 Nguyên tử kích thích theo nhiệt độ</b><span>240 chấm là 240 nguyên tử; số chấm sáng (kích thích) được phóng đại 100 lần để nhìn thấy. g*/g₀ = 3 theo Harris (gộp cả mức 3p)</span></div>
     <div class="mp-chon"><select>${Object.keys(NT).map(k => `<option>${k}</option>`).join("")}</select></div>
     <svg class="mp-nt" viewBox="0 0 300 110"></svg>
     <label class="mp-truot">Nhiệt độ = <b class="mp-t"></b><input type="range" min="2000" max="8000" step="100" value="2500"></label>
@@ -830,4 +872,32 @@ MO_PHONG["boltzmann"] = el => {
   $("input").oninput = e => { T = +e.target.value; ve(); };
   $("select").onchange = e => { [lam, g] = NT[e.target.value]; ve(); };
   ve();
+};
+
+
+/* ---------------- 20. Bộ dụng cụ đo thể tích ---------------- */
+MO_PHONG["dung-cu"] = el => {
+  const id = ++soDinhDanh, G = `url(#tt${id})`, dd = "#bfdbfe";
+  const DC = [
+    ["Pipet bầu", `<path d="M28 4 h4 v60 q14 6 14 34 q0 28 -14 34 v42 l-1 12 h-2 l-1-12 v-42 q-14 -6 -14 -34 q0 -28 14 -34 z" fill="${G}" stroke="#64748b"/><path d="M29 100 q-10 -2 -10 -2 q0 22 11 30 v40 l1 8 l1 -8 v-40 q11 -8 11 -30 z" fill="${dd}" opacity=".8"/><line x1="26" x2="34" y1="40" y2="40" stroke="#0f172a" stroke-width="1.4"/><text x="30" y="104" text-anchor="middle" class="mp-so-vach">25 mL</text>`,
+      "Lấy chính xác <b>một</b> thể tích cố định (vạch mức duy nhất ở ống trên). Hiệu chuẩn kiểu <b>chảy ra (TD)</b>: để chảy tự do, chạm đầu pipet vào thành bình, không thổi giọt cuối."],
+    ["Pipet chia độ", `<path d="M26 4 h8 v164 l-2.5 16 h-3 l-2.5 -16 z" fill="${G}" stroke="#64748b"/><rect x="27" y="70" width="6" height="98" fill="${dd}" opacity=".8"/>${Array.from({ length: 16 }, (_, i) => `<line x1="26" x2="${i % 5 ? 30 : 34}" y1="${20 + i * 9}" y2="${20 + i * 9}" stroke="#0f172a" stroke-width=".7"/>`).join("")}`,
+      "Lấy thể tích <b>thay đổi</b> được (ví dụ 0 – 10 mL, chia 0,1 mL). Kém chính xác hơn pipet bầu."],
+    ["Bình định mức", `<path d="M24 22 h12 v70 q24 10 24 46 q0 44 -30 44 q-30 0 -30 -44 q0 -36 24 -46 z" fill="${G}" stroke="#64748b"/><path d="M24 120 h12 v0 q22 0 22 18 q0 40 -28 40 q-28 0 -28 -40 q0 -18 22 -18 z" fill="${dd}" opacity=".8"/><rect x="22" y="8" width="16" height="14" rx="3" fill="#e2e8f0" stroke="#64748b"/><line x1="22" x2="38" y1="56" y2="56" stroke="#0f172a" stroke-width="1.4"/><text x="30" y="152" text-anchor="middle" class="mp-so-vach">100 mL</text>`,
+      "Pha dung dịch có <b>thể tích chính xác</b>: hòa tan chất, thêm dung môi tới khi đáy mặt khum chạm vạch trên cổ bình, đậy nút, lộn ngược lắc đều. Hiệu chuẩn kiểu <b>chứa (TC)</b>."],
+    ["Buret", `<rect x="25" y="4" width="10" height="150" rx="2" fill="${G}" stroke="#64748b"/><rect x="26" y="40" width="8" height="114" fill="${dd}" opacity=".8"/>${Array.from({ length: 13 }, (_, i) => `<line x1="25" x2="${i % 2 ? 29 : 33}" y1="${10 + i * 11}" y2="${10 + i * 11}" stroke="#0f172a" stroke-width=".7"/>`).join("")}<rect x="26" y="154" width="8" height="10" fill="${G}" stroke="#64748b"/><rect x="16" y="157" width="28" height="4" rx="2" fill="#f8fafc" stroke="#64748b"/><path d="M27 164 h6 l-2 20 h-2 z" fill="${G}" stroke="#64748b"/>`,
+      "Nhỏ dung dịch chuẩn khi chuẩn độ. Vạch 0 ở trên, số tăng dần xuống dưới. Đọc đến 0,01 mL với buret 50 mL, mắt ngang đáy mặt khum; tráng buret bằng chính dung dịch chuẩn trước khi dùng."],
+    ["Ống đong", `<path d="M20 8 h20 v160 h-20 z" fill="${G}" stroke="#64748b"/><path d="M18 8 l2 -4 h22" fill="none" stroke="#64748b"/><rect x="21" y="80" width="18" height="88" fill="${dd}" opacity=".8"/>${Array.from({ length: 10 }, (_, i) => `<line x1="20" x2="${i % 2 ? 26 : 30}" y1="${20 + i * 15}" y2="${20 + i * 15}" stroke="#0f172a" stroke-width=".7"/>`).join("")}<path d="M10 168 h40 v8 h-40 z" fill="#cbd5e1" stroke="#64748b"/>`,
+      "Đong <b>ước lượng</b> thể tích (sai số cỡ 1%). Không dùng cho phép đo chính xác hay pha chuẩn."],
+    ["Cốc có mỏ", `<path d="M8 90 h44 v80 q0 6 -6 6 h-32 q-6 0 -6 -6 z" fill="${G}" stroke="#64748b"/><path d="M8 90 l-4 -4" stroke="#64748b" fill="none"/><path d="M10 130 h40 v38 q0 6 -6 6 h-28 q-6 0 -6 -6 z" fill="${dd}" opacity=".8"/>${[110, 130, 150].map(y => `<line x1="12" x2="20" y1="${y}" y2="${y}" stroke="#0f172a" stroke-width=".7"/>`).join("")}`,
+      "Hòa tan, đun, chứa dung dịch. Vạch trên cốc chỉ để ước lượng rất thô, <b>không dùng để đo thể tích</b>."],
+  ];
+  el.innerHTML = `
+    <div class="mp-dau"><b>🧫 Dụng cụ đo thể tích</b><span>Chạm vào từng dụng cụ để xem cách dùng</span></div>
+    <div class="mp-ke-dc">${DC.map(([ten, ve], i) => `<button class="mp-dc" data-i="${i}"><svg viewBox="0 0 60 190">${i === 0 ? THUY_TINH_DEFS(id) : ""}${ve}</svg><span>${ten}</span></button>`).join("")}</div>
+    <div class="mp-giai-thich">Chạm vào một dụng cụ.</div>`;
+  el.querySelectorAll(".mp-dc").forEach(b => b.onclick = () => {
+    el.querySelectorAll(".mp-dc").forEach(x => x.classList.toggle("chon", x === b));
+    const [ten, , mo] = DC[+b.dataset.i]; el.querySelector(".mp-giai-thich").innerHTML = `<b>${ten}.</b> ${mo}`;
+  });
 };
