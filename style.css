@@ -37,7 +37,7 @@
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 html, body { margin: 0; min-height: 100%; }
-body {
+body { overflow-x: clip;
   font-family: var(--phong);
   font-size: 16px; line-height: 1.6;
   background: var(--nen); color: var(--chu);
