@@ -388,3 +388,102 @@ details[open] > summary .khi-mo { display: inline; }
 .bang-hep th, .bang-hep td { text-align: center; }
 .bang-hep th { text-transform: none; font-size: 13px; }
 .bang-hep td:first-child { font-weight: 600; color: var(--mau-chinh); }
+
+/* ===================== TRẮC NGHIỆM ===================== */
+.the-luyen {
+  display: flex; align-items: center; gap: 12px; padding: 16px; margin: 4px 0 8px; border-radius: var(--bo-goc);
+  color: #fff; text-decoration: none; background: linear-gradient(135deg, #0f9d58, #0d9488);
+}
+.the-luyen .o-icon { margin: 0; background: rgba(255,255,255,.2); }
+.the-luyen .text { flex: 1; }
+.the-luyen small { display: block; opacity: .9; font-size: 13px; }
+.the-luyen .chevron { color: #fff; }
+
+/* Màn chọn nội dung luyện */
+.chon-luyen h3 { font-size: 15px; margin: 4px 0 8px; }
+.chon-luyen h3:not(:first-child) { margin-top: 18px; }
+.nhom-chip { display: flex; flex-wrap: wrap; gap: 8px; }
+.nhom-chip.cot { flex-direction: column; }
+.chip-chon input { position: absolute; opacity: 0; pointer-events: none; }
+.chip-chon span {
+  display: inline-block; padding: 8px 14px; border-radius: 12px; cursor: pointer; font-size: 14px; line-height: 1.4;
+  border: 1.5px solid var(--vien); background: var(--the);
+}
+.chip-chon small { color: var(--chu-phu); margin-left: 2px; }
+.chip-chon input:checked + span { border-color: var(--mau-chinh); background: color-mix(in srgb, var(--mau-chinh) 10%, var(--the)); color: var(--mau-chinh); }
+.chip-chon input:focus-visible + span { outline: 2px solid var(--mau-chinh); }
+.nhom-chip.cot .chip-chon span { display: block; }
+
+/* Thanh trên cùng khi làm bài */
+.thanh-lam-bai { display: flex; align-items: center; gap: 10px; margin: 4px 0 8px; font-weight: 600; }
+.thanh-lam-bai #so-cau { flex: 1; }
+.dong-ho { font-variant-numeric: tabular-nums; color: var(--chu-phu); font-weight: 500; }
+.thanh-lam { height: 6px; border-radius: 6px; background: color-mix(in srgb, var(--mau-chinh) 14%, transparent); overflow: hidden; margin-bottom: 14px; }
+.thanh-lam i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--mau-chinh), var(--mau-chinh-2)); transition: width .25s; }
+
+/* Câu hỏi và phương án */
+.nhan-cau { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.nhan-cau span { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 99px; color: var(--mau-chinh); background: color-mix(in srgb, var(--mau-chinh) 10%, transparent); }
+.de-cau { font-size: 17px; line-height: 1.6; margin-bottom: 14px; }
+.phuong-an { display: grid; gap: 10px; }
+.phuong-an button {
+  display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; cursor: pointer;
+  padding: 12px 14px; border-radius: 14px; font-size: 16px; line-height: 1.45; color: var(--chu);
+  background: var(--the); border: 1.5px solid var(--vien); transition: border-color .15s, background .15s;
+}
+.phuong-an button:disabled { cursor: default; }
+.phuong-an .chu {
+  flex: none; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 14px;
+  background: var(--nen); color: var(--chu-phu);
+}
+.phuong-an .nd { flex: 1; min-width: 0; }
+.phuong-an button.chon { border-color: var(--mau-chinh); background: color-mix(in srgb, var(--mau-chinh) 8%, var(--the)); }
+.phuong-an button.chon .chu { background: var(--mau-chinh); color: #fff; }
+.phuong-an button.dung { border-color: var(--xanh); background: color-mix(in srgb, var(--xanh) 10%, var(--the)); }
+.phuong-an button.dung .chu { background: var(--xanh); color: #fff; }
+.phuong-an button.sai { border-color: #e5484d; background: color-mix(in srgb, #e5484d 9%, var(--the)); }
+.phuong-an button.sai .chu { background: #e5484d; color: #fff; }
+.phuong-an button.mo { opacity: .55; }
+.loi-giai { margin-top: 14px; padding: 12px 14px; border-radius: 14px; line-height: 1.65; background: color-mix(in srgb, var(--vang) 10%, var(--the)); }
+.loi-giai.dung { background: color-mix(in srgb, var(--xanh) 10%, var(--the)); }
+.loi-giai.dung > b { color: var(--xanh); }
+.loi-giai.sai > b { color: #e5484d; }
+.loi-giai > div { margin-top: 4px; }
+
+/* Nút điều hướng dưới câu hỏi */
+.dieu-huong { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 8px; margin: 4px 0 14px; }
+.dieu-huong:has(> :nth-child(2):last-child) { grid-template-columns: 1fr 1fr; }
+.dieu-huong .btn { min-height: 46px; padding: 8px 10px; font-size: 15px; }
+.btn:disabled { opacity: .4; }
+
+/* Bảng số câu */
+.luoi-cau { display: grid; grid-template-columns: repeat(auto-fill, minmax(48px, 1fr)); gap: 8px; padding: 14px 4px; }
+.luoi-cau button {
+  aspect-ratio: 1; border-radius: 12px; font-weight: 600; font-size: 15px; cursor: pointer;
+  border: 1.5px solid var(--vien); background: var(--the); color: var(--chu);
+}
+.luoi-cau button.da-lam { background: var(--mau-chinh); border-color: var(--mau-chinh); color: #fff; }
+.luoi-cau button.dung { background: var(--xanh); border-color: var(--xanh); color: #fff; }
+.luoi-cau button.sai { background: #e5484d; border-color: #e5484d; color: #fff; }
+.luoi-cau button.hien-tai { outline: 3px solid color-mix(in srgb, var(--mau-chinh) 40%, transparent); outline-offset: 2px; }
+.chu-giai-cau { display: flex; gap: 16px; font-size: 13px; color: var(--chu-phu); padding: 0 4px 6px; }
+.chu-giai-cau span { display: inline-flex; align-items: center; gap: 6px; }
+.chu-giai-cau i { width: 14px; height: 14px; border-radius: 4px; border: 1.5px solid var(--vien); }
+.chu-giai-cau i.da-lam { background: var(--mau-chinh); border-color: var(--mau-chinh); }
+
+/* Kết quả */
+.ket-qua-hero { display: flex; align-items: center; gap: 18px; }
+.ket-qua-hero h3 { font-size: 22px; margin: 2px 0; }
+.vong-diem {
+  flex: none; width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center; align-content: center;
+  background: conic-gradient(#fff var(--pt), rgba(255,255,255,.25) 0); position: relative; z-index: 1;
+}
+.vong-diem::before { content: ""; position: absolute; inset: 8px; border-radius: 50%; background: #5b3ee8; z-index: -1; }
+.vong-diem b { font-size: 28px; line-height: 1; }
+.vong-diem small { font-size: 11px; opacity: .85; }
+.xem-lai summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 500; }
+.xem-lai summary::-webkit-details-marker { display: none; }
+.xem-lai[open] summary { margin-bottom: 12px; }
+.xem-lai .dau { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; color: #fff; background: var(--chu-phu); }
+.xem-lai.dung .dau { background: var(--xanh); }
+.xem-lai.sai .dau { background: #e5484d; }

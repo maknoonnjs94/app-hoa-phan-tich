@@ -145,6 +145,12 @@ const MAN_HINH = {
   "/bai-tap": {
     tieuDe: "Bài tập",
     ve: () => `
+      <a class="the-luyen" href="#/luyen-tap">
+        <span class="o-icon">🎯</span>
+        <span class="text"><b>Luyện trắc nghiệm</b><small>${NGAN_HANG.length} câu hỏi A, B, C, D · chấm điểm ngay</small></span>
+        <span class="chevron">›</span>
+      </a>
+      <h2>Bài tập tự luận theo chương</h2>
       ${theoNhom(ds => `
         <div class="list">
           ${ds.map(c => dongDanhSach(`#/bai-tap/${c.id}`, c.icon, c.ten, c.baiTap.length ? `${c.baiTap.length} bài` : "Đang soạn")).join("")}
@@ -194,6 +200,90 @@ const MAN_HINH = {
         <div class="ket-qua" id="cr-kq">m = C · V · M</div>
       </div>
     `,
+  },
+
+  "/luyen-tap": {
+    tieuDe: "Luyện trắc nghiệm",
+    manHinhCon: true,
+    ve: () => {
+      const coCau = CHUONG.filter(c => NGAN_HANG.some(q => q.chuong === c.id));
+      const dangDo = baiLam && !baiLam.ketThuc;
+      return `
+      ${dangDo ? `<a class="doc-tiep" href="#/lam-bai"><span class="icon">⏳</span>
+        <span class="text"><small>Bài đang làm dở</small>${baiLam.chon.filter(x => x !== null).length}/${baiLam.cau.length} câu đã làm<small>Bấm để làm tiếp</small></span>
+        <span class="nut-tron">▶</span></a>` : ""}
+      <div class="the-trang chon-luyen">
+        <h3>Chọn chương</h3>
+        <div class="nhom-chip">${coCau.map(c => `<label class="chip-chon"><input type="checkbox" name="lt-chuong" value="${c.id}" checked onchange="demCauLuyen()">
+          <span>${c.icon} ${c.ten} <small>${NGAN_HANG.filter(q => q.chuong === c.id).length}</small></span></label>`).join("")}</div>
+        <h3>Mức độ</h3>
+        <div class="nhom-chip">${[1, 2, 3, 4].map(m => `<label class="chip-chon"><input type="checkbox" name="lt-muc" value="${m}" checked onchange="demCauLuyen()"><span>${MUC_DO[m]}</span></label>`).join("")}</div>
+        <h3>Số câu</h3>
+        <div class="nhom-chip">${[["5", "5"], ["10", "10"], ["20", "20"], ["het", "Tất cả"]].map(([v, t], k) =>
+          `<label class="chip-chon"><input type="radio" name="lt-so" value="${v}" ${k === 1 ? "checked" : ""}><span>${t}</span></label>`).join("")}</div>
+        <h3>Cách làm</h3>
+        <div class="nhom-chip cot">
+          <label class="chip-chon"><input type="radio" name="lt-che-do" value="luyen" checked><span><b>Luyện tập</b> — chọn xong xem ngay đáp án và lời giải</span></label>
+          <label class="chip-chon"><input type="radio" name="lt-che-do" value="thi"><span><b>Thi thử</b> — làm hết rồi mới chấm điểm, có bấm giờ</span></label>
+        </div>
+        <p class="ghi-chu" id="lt-bao">Có ${NGAN_HANG.length} câu phù hợp.</p>
+        <button class="btn full" onclick="batDauLuyen()">Bắt đầu</button>
+      </div>`;
+    },
+  },
+
+  "/lam-bai": {
+    tieuDe: "Làm bài",
+    manHinhCon: true,
+    lamBai: true,
+    ve: () => {
+      if (!baiLam || baiLam.ketThuc) return `<div class="trong">Chưa có bài đang làm.<br><br><a class="btn" href="#/luyen-tap">Chọn bài luyện</a></div>`;
+      return `
+      <div class="thanh-lam-bai">
+        <span id="so-cau"></span>
+        <span class="dong-ho">⏱ <span id="dong-ho">00:00</span></span>
+        <button class="nut-phu" onclick="nopBai()">Nộp bài</button>
+      </div>
+      <div class="thanh-lam"><i id="tien-do-lam"></i></div>
+      <div id="khung-cau"></div>`;
+    },
+  },
+
+  "/ket-qua": {
+    tieuDe: "Kết quả",
+    manHinhCon: true,
+    ve: () => {
+      if (!baiLam || !baiLam.ketThuc) return `<div class="trong">Chưa có bài đã nộp.</div>`;
+      const n = baiLam.cau.length, d = soCauDung(), diem = Math.round(d / n * 100) / 10;
+      const sai = n - d;
+      return `
+      <div class="hero ket-qua-hero">
+        <div class="vong-diem" style="--pt:${d / n * 100}%"><b>${String(diem).replace(".", ",")}</b><small>điểm</small></div>
+        <div>
+          <div class="hero-nho">${baiLam.cheDo === "thi" ? "Thi thử" : "Luyện tập"}</div>
+          <h3>${d}/${n} câu đúng</h3>
+          <p>Thời gian: ${dongHo(baiLam.ketThuc - baiLam.batDau)}</p>
+        </div>
+      </div>
+      <div class="dieu-huong">
+        ${sai ? `<button class="btn phu" onclick="lamLaiCauSai()">Làm lại ${sai} câu sai</button>` : ""}
+        <a class="btn" href="#/luyen-tap">Luyện đề mới</a>
+      </div>
+      <h2>Xem lại từng câu</h2>
+      ${baiLam.cau.map((cau, i) => {
+        const goc = CAU_THEO_ID[cau.id], chon = baiLam.chon[i], dung = dapAnHienThi(cau);
+        const trangThai = chon === null ? "bo" : (chon === dung ? "dung" : "sai");
+        return `
+        <details class="the-trang xem-lai ${trangThai}">
+          <summary><span class="dau">${trangThai === "dung" ? "✓" : trangThai === "sai" ? "✗" : "–"}</span>
+            <span>Câu ${i + 1}: ${chon === null ? "bỏ trống" : "chọn " + CHU[chon]} · đáp án ${CHU[dung]}</span></summary>
+          <div class="de-cau">${goc.de}</div>
+          <div class="phuong-an">${cau.thuTu.map((k, j) =>
+            `<button disabled class="${j === dung ? "dung" : j === chon ? "sai" : "mo"}"><span class="chu">${CHU[j]}</span><span class="nd">${goc.phuongAn[k]}</span></button>`).join("")}</div>
+          <div class="loi-giai"><b>Lời giải</b><div>${goc.loiGiai || ""}</div></div>
+        </details>`;
+      }).join("")}`;
+    },
   },
 
   "/tra-cuu": {
@@ -281,6 +371,113 @@ TRA_CUU.forEach(b => {
     `,
   };
 });
+
+/* ================= TRẮC NGHIỆM =================
+   Dùng chung cho HS tự luyện và (sau này) bài kiểm tra do GV mở.
+   Bài làm lưu trên máy (localStorage) nên thoát ra vào lại vẫn còn. */
+const CHU = ["A", "B", "C", "D"];
+const CAU_THEO_ID = Object.fromEntries(NGAN_HANG.map(c => [c.id, c]));
+const tenChuong = id => CHUONG.find(c => c.id === id)?.ten || id;
+const tronMang = a => { const b = [...a]; for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+let baiLam = boNho.doc("bai-lam", null);
+const luuBaiLam = () => boNho.ghi("bai-lam", baiLam);
+
+// Tạo bài làm từ danh sách id câu hỏi: xáo thứ tự câu và thứ tự phương án
+function taoBaiLam(dsId, cheDo) {
+  baiLam = {
+    cau: tronMang(dsId).map(id => ({ id, thuTu: tronMang([0, 1, 2, 3]) })),
+    chon: dsId.map(() => null), cheDo, viTri: 0, batDau: Date.now(), ketThuc: null,
+  };
+  luuBaiLam();
+  location.hash = "#/lam-bai";
+}
+const dapAnGoc = cau => CHU.indexOf(CAU_THEO_ID[cau.id].dapAn);      // vị trí đúng trong phuongAn gốc
+const dapAnHienThi = cau => cau.thuTu.indexOf(dapAnGoc(cau));       // vị trí đúng sau khi xáo
+const soCauDung = () => baiLam.cau.filter((c, i) => baiLam.chon[i] === dapAnHienThi(c)).length;
+const dongHo = ms => { const g = Math.floor(ms / 1000); return `${String(Math.floor(g / 60)).padStart(2, "0")}:${String(g % 60).padStart(2, "0")}`; };
+
+// Màn hình chọn nội dung luyện
+function batDauLuyen() {
+  const chon = [...document.querySelectorAll('[name="lt-chuong"]:checked')].map(x => x.value);
+  const muc = [...document.querySelectorAll('[name="lt-muc"]:checked')].map(x => Number(x.value));
+  const so = document.querySelector('[name="lt-so"]:checked').value;
+  const cheDo = document.querySelector('[name="lt-che-do"]:checked').value;
+  let ds = NGAN_HANG.filter(c => chon.includes(c.chuong) && muc.includes(c.mucDo)).map(c => c.id);
+  if (!ds.length) { document.getElementById("lt-bao").textContent = "Chưa có câu nào khớp lựa chọn. Hãy chọn thêm chương hoặc mức độ."; return; }
+  ds = tronMang(ds).slice(0, so === "het" ? ds.length : Number(so));
+  taoBaiLam(ds, cheDo);
+}
+function demCauLuyen() {
+  const chon = [...document.querySelectorAll('[name="lt-chuong"]:checked')].map(x => x.value);
+  const muc = [...document.querySelectorAll('[name="lt-muc"]:checked')].map(x => Number(x.value));
+  const n = NGAN_HANG.filter(c => chon.includes(c.chuong) && muc.includes(c.mucDo)).length;
+  document.getElementById("lt-bao").textContent = `Có ${n} câu phù hợp.`;
+}
+
+// Vẽ câu hỏi hiện tại (chỉ vẽ lại phần khung câu, không vẽ cả trang)
+function veCau() {
+  const khung = document.getElementById("khung-cau");
+  if (!khung || !baiLam) return;
+  const i = baiLam.viTri, cau = baiLam.cau[i], goc = CAU_THEO_ID[cau.id];
+  const daChon = baiLam.chon[i];
+  const hienDapAn = baiLam.cheDo === "luyen" && daChon !== null;   // chế độ luyện: chọn xong hiện đáp án
+  const dung = dapAnHienThi(cau);
+  const n = baiLam.cau.length, daLam = baiLam.chon.filter(x => x !== null).length;
+  document.getElementById("tien-do-lam").style.width = (daLam / n * 100) + "%";
+  document.getElementById("so-cau").textContent = `Câu ${i + 1}/${n}`;
+  khung.innerHTML = lamToan(`
+    <div class="the-trang cau-hoi">
+      <div class="nhan-cau"><span>${tenChuong(goc.chuong)}</span><span>${MUC_DO[goc.mucDo]}</span></div>
+      <div class="de-cau">${goc.de}</div>
+      <div class="phuong-an">
+        ${cau.thuTu.map((k, j) => {
+          let lop = "";
+          if (hienDapAn) lop = j === dung ? "dung" : (j === daChon ? "sai" : "mo");
+          else if (j === daChon) lop = "chon";
+          return `<button class="${lop}" ${hienDapAn ? "disabled" : ""} onclick="chonPhuongAn(${j})">
+            <span class="chu">${CHU[j]}</span><span class="nd">${goc.phuongAn[k]}</span></button>`;
+        }).join("")}
+      </div>
+      ${hienDapAn ? `<div class="loi-giai ${daChon === dung ? "dung" : "sai"}">
+        <b>${daChon === dung ? "✓ Chính xác!" : `✗ Chưa đúng. Đáp án: ${CHU[dung]}`}</b>
+        <div>${goc.loiGiai || ""}</div></div>` : ""}
+    </div>
+    <div class="dieu-huong">
+      <button class="btn phu" ${i === 0 ? "disabled" : ""} onclick="denCau(${i - 1})">‹ Trước</button>
+      <button class="btn phu" onclick="moBangCau()">${daLam}/${n} đã làm</button>
+      ${i < n - 1 ? `<button class="btn" onclick="denCau(${i + 1})">Sau ›</button>`
+                  : `<button class="btn" onclick="nopBai()">Nộp bài</button>`}
+    </div>`);
+}
+function chonPhuongAn(j) {
+  baiLam.chon[baiLam.viTri] = j; luuBaiLam(); veCau();
+  // Chế độ thi thử: tự sang câu tiếp theo cho nhanh
+  if (baiLam.cheDo === "thi" && baiLam.viTri < baiLam.cau.length - 1) setTimeout(() => denCau(baiLam.viTri + 1), 250);
+}
+function denCau(i) { dongMucLuc(); baiLam.viTri = i; luuBaiLam(); veCau(); window.scrollTo(0, 0); }
+function moBangCau() {
+  bangMucLuc.innerHTML = `
+    <div class="dau-sticky"><div class="tay-cam"></div>
+    <div class="dau-bang"><b>Danh sách câu hỏi</b><button class="nut-phu" onclick="nopBai()">Nộp bài</button></div></div>
+    <div class="luoi-cau">${baiLam.cau.map((c, k) => {
+      const lop = baiLam.chon[k] === null ? "" : (baiLam.cheDo === "luyen" ? (baiLam.chon[k] === dapAnHienThi(c) ? "dung" : "sai") : "da-lam");
+      return `<button class="${lop} ${k === baiLam.viTri ? "hien-tai" : ""}" onclick="denCau(${k})">${k + 1}</button>`;
+    }).join("")}</div>
+    <div class="chu-giai-cau"><span><i class="da-lam"></i>Đã làm</span><span><i></i>Chưa làm</span></div>`;
+  manChe.hidden = bangMucLuc.hidden = false;
+}
+function nopBai() {
+  dongMucLuc();
+  const conLai = baiLam.chon.filter(x => x === null).length;
+  if (conLai && !confirm(`Còn ${conLai} câu chưa làm. Vẫn nộp bài?`)) return;
+  baiLam.ketThuc = Date.now(); luuBaiLam();
+  location.hash = "#/ket-qua";
+}
+function lamLaiCauSai() {
+  const sai = baiLam.cau.filter((c, i) => baiLam.chon[i] !== dapAnHienThi(c)).map(c => c.id);
+  taoBaiLam(sai, baiLam.cheDo);
+}
+let henGioDongHo = null;
 
 /* ================= Công cụ tính ================= */
 // Đọc số người dùng nhập (chấp nhận cả dấu phẩy "0,1" và dấu chấm "0.1")
@@ -456,6 +653,12 @@ function hienManHinh() {
   document.querySelectorAll(".tabbar a").forEach(a =>
     a.classList.toggle("active", a.dataset.tab === duong ||
       (a.dataset.tab !== "/" && duong.startsWith(a.dataset.tab + "/"))));
+  clearInterval(henGioDongHo);
+  if (mh.lamBai && baiLam && !baiLam.ketThuc) {
+    veCau();
+    const capNhat = () => { const el = document.getElementById("dong-ho"); if (el) el.textContent = dongHo(Date.now() - baiLam.batDau); };
+    capNhat(); henGioDongHo = setInterval(capNhat, 1000);
+  }
   chuongDangDoc = mh.chuong || null;
   thanhTienDo.hidden = !chuongDangDoc;
   nutMucLuc.hidden = !chuongDangDoc;

@@ -60,15 +60,15 @@ const CHUONG = [
           \[ \begin{aligned} m &= 0,0500\cdot0,5000\cdot249,68 \\ &= \mathbf{6,242\ g} \end{aligned} \]
           Cân 6,242 g, hòa tan rồi định mức tới vạch trong bình định mức 500 mL.
         </details></div>
-      <div class="vi-du"><b>Ví dụ 4.</b> Cần bao nhiêu mL H<sub>2</sub>SO<sub>4</sub> 98% (d = 1,84 g/mL, M = 98,08) để pha 500,0 mL H<sub>2</sub>SO<sub>4</sub> 0,10 M?
+      <div class="vi-du"><b>Ví dụ 4.</b> Cần bao nhiêu mL H<sub>2</sub>SO<sub>4</sub> 98% (d = 1,84 g/mL, M = 98,08) để pha 500,0 mL H<sub>2</sub>SO<sub>4</sub> 0,100 M?
         <details><summary>Xem lời giải</summary>
           \[ C_\mathrm{M} = \frac{10\cdot1,84\cdot98}{98,08} = 18,4\ \mathrm{M} \]
-          \[ \begin{aligned} V_1 &= \frac{C_2V_2}{C_1} = \frac{0,10\cdot500,0}{18,4} \\ &= \mathbf{2,72\ mL} \end{aligned} \]
+          \[ \begin{aligned} V_1 &= \frac{C_2V_2}{C_1} = \frac{0,100\cdot500,0}{18,4} \\ &= \mathbf{2,72\ mL} \end{aligned} \]
           Nhớ: rót từ từ acid vào nước, không làm ngược lại.
         </details></div>
-      <div class="vi-du"><b>Ví dụ 5.</b> Trộn 100 mL HCl 0,20 M với 300 mL HCl 0,10 M. Tính nồng độ dung dịch thu được.
+      <div class="vi-du"><b>Ví dụ 5.</b> Trộn 100,0 mL HCl 0,200 M với 300,0 mL HCl 0,100 M. Tính nồng độ dung dịch thu được.
         <details><summary>Xem lời giải</summary>
-          \[ \begin{aligned} C &= \frac{0,20\cdot100 + 0,10\cdot300}{100 + 300} \\ &= \mathbf{0,125\ M} \end{aligned} \]
+          \[ \begin{aligned} C &= \frac{0,200\cdot100,0 + 0,100\cdot300,0}{100,0 + 300,0} \\ &= \mathbf{0,125\ M} \end{aligned} \]
         </details></div>
 
       <h3>4. Sai số trong phân tích</h3>
@@ -282,7 +282,7 @@ const CHUONG = [
       <div class="gian-do" data-pka="4.76" data-dang="CH₃COOH,CH₃COO⁻"></div>
       <p><b>Giản đồ phân bố của acid phosphoric</b> (pK<sub>a</sub> = 2,15 ; 7,20 ; 12,35):</p>
       <div class="gian-do" data-pka="2.15,7.20,12.35" data-dang="H₃PO₄,H₂PO₄⁻,HPO₄²⁻,PO₄³⁻"></div>
-      <p>Từ giản đồ thấy ngay: ở pH ≈ 4,7 dạng H<sub>2</sub>PO<sub>4</sub><sup>−</sup> gần như chiếm toàn bộ, ở pH ≈ 9,8 là HPO<sub>4</sub><sup>2−</sup>. Đây cũng là pH của dung dịch NaH<sub>2</sub>PO<sub>4</sub> và Na<sub>2</sub>HPO<sub>4</sub>.</p>
+      <p>Từ giản đồ thấy ngay: ở pH ≈ 4,7 dạng H<sub>2</sub>PO<sub>4</sub><sup>−</sup> gần như chiếm toàn bộ, ở pH ≈ 9,8 là HPO<sub>4</sub><sup>2−</sup>. Đây cũng là pH gần đúng của dung dịch NaH<sub>2</sub>PO<sub>4</sub> và Na<sub>2</sub>HPO<sub>4</sub> (xem mục 10).</p>
 
       <h3>5. pH của acid mạnh và base mạnh</h3>
       <div class="cong-thuc"><div class="nhan">Acid mạnh (C<sub>a</sub> ≥ 10<sup>−6</sup> M)</div>\[ \Hp = \Ca \]</div>
@@ -324,7 +324,7 @@ const CHUONG = [
         <details><summary>Xem lời giải</summary>
           K<sub>a</sub> = 6,17·10<sup>−10</sup>; K<sub>a</sub>C<sub>a</sub> = 6,2·10<sup>−14</sup> — cùng cỡ với K<sub>w</sub>, không bỏ qua nước được:
           \[ \begin{aligned} \Hp &= \sqrt{6,2\cdot10^{-14} + 10^{-14}} \\ &= 2,68\cdot10^{-7}\ \mathrm{M} \\ \mathrm{pH} &= \mathbf{6,57} \end{aligned} \]
-          Bỏ qua nước sẽ ra 6,61.
+          Bỏ qua nước sẽ ra 6,60.
         </details></div>
 
       <h3>7. pH của base yếu đơn chức</h3>
@@ -365,10 +365,10 @@ const CHUONG = [
           \[ \begin{aligned} \Delta &= K_\mathrm{a1}^2 + 4K_\mathrm{a1}C \\ &= 5,01\cdot10^{-5} + 2,83\cdot10^{-3} \\ &= 2,88\cdot10^{-3} \end{aligned} \]
           \[ \begin{aligned} \Hp &= \frac{-7,08\cdot10^{-3} + \sqrt{2,88\cdot10^{-3}}}{2} \\ &= 2,33\cdot10^{-2}\ \mathrm{M} \\ \mathrm{pH} &= \mathbf{1,63} \end{aligned} \]
         </details></div>
-      <div class="vi-du"><b>Ví dụ 11.</b> Tính pH của Na<sub>2</sub>CO<sub>3</sub> 0,10 M (pK<sub>a2</sub> của H<sub>2</sub>CO<sub>3</sub> = 10,33).
+      <div class="vi-du"><b>Ví dụ 11.</b> Tính pH của Na<sub>2</sub>CO<sub>3</sub> 0,25 M (pK<sub>a2</sub> của H<sub>2</sub>CO<sub>3</sub> = 10,33).
         <details><summary>Xem lời giải</summary>
-          K<sub>b1</sub> = 10<sup>−3,67</sup> = 2,14·10<sup>−4</sup>; \( \dfrac{C}{K_\mathrm{b1}} \approx 468 \ge 400 \) → dùng công thức căn:
-          \[ \begin{aligned} \OH &= \sqrt{2,14\cdot10^{-4}\cdot0,10} \\ &= 4,62\cdot10^{-3}\ \mathrm{M} \\ \mathrm{pOH} &= 2,34 \\ \mathrm{pH} &= 14 - 2,34 = \mathbf{11,66} \end{aligned} \]
+          K<sub>b1</sub> = 10<sup>−3,67</sup> = 2,14·10<sup>−4</sup>; \( \dfrac{C}{K_\mathrm{b1}} \approx 1\,170 \ge 400 \) → dùng công thức căn:
+          \[ \begin{aligned} \OH &= \sqrt{2,14\cdot10^{-4}\cdot0,25} \\ &= 7,31\cdot10^{-3}\ \mathrm{M} \\ \mathrm{pOH} &= 2,14 \\ \mathrm{pH} &= 14 - 2,14 = \mathbf{11,86} \end{aligned} \]
         </details></div>
 
       <h3>10. Chất lưỡng tính</h3>
@@ -393,7 +393,7 @@ const CHUONG = [
         <li>Pha loãng đệm: tỉ số C<sub>A⁻</sub>/C<sub>HA</sub> không đổi nên pH gần như không đổi.</li>
         <li>Khoảng đệm hiệu quả: <b>pH = pK<sub>a</sub> ± 1</b>. Muốn pha đệm pH nào thì chọn cặp có pK<sub>a</sub> gần pH đó.</li>
       </ul>
-      <p><b>Đệm năng</b> β: số mol acid hoặc base mạnh cần thêm vào 1 L để pH thay đổi 1 đơn vị.</p>
+      <p><b>Đệm năng</b> β = dC<sub>b</sub>/dpH = −dC<sub>a</sub>/dpH: số mol base (acid) mạnh cần thêm vào 1 L dung dịch để pH tăng (giảm) một lượng rất nhỏ, tính quy về 1 đơn vị pH.</p>
       <div class="cong-thuc"><div class="nhan">C = C<sub>HA</sub> + C<sub>A⁻</sub></div>\[ \beta \approx 2,303\cdot C\cdot\frac{\Ka h}{\left(\Ka + h\right)^2} \]</div>
       <p>β lớn nhất khi pH = pK<sub>a</sub> (β<sub>max</sub> = 0,576·C) và tăng theo nồng độ tổng của đệm.</p>
       <div class="vi-du"><b>Ví dụ 13.</b> 1,00 L đệm gồm CH<sub>3</sub>COOH 0,10 M và CH<sub>3</sub>COONa 0,10 M. Thêm 0,010 mol HCl (coi thể tích không đổi). Tính pH trước và sau khi thêm, so sánh với việc thêm cùng lượng HCl vào 1,00 L nước.
@@ -421,7 +421,7 @@ const CHUONG = [
             <tr><td>Acid rất yếu, loãng</td><td>\( \Hp = \sqrt{\Ka\Ca + \Kw} \)</td><td>\( \Ka\Ca \not\gg \Kw \)</td></tr>
             <tr><td>Base yếu, muối base</td><td>Như acid yếu, với \( \Kb = \dfrac{\Kw}{\Ka} \)</td><td>\( \dfrac{\Cb}{\Kb} \ge 400 \)</td></tr>
             <tr><td>Acid đa chức</td><td>Tính theo nấc 1</td><td>\( \dfrac{K_\mathrm{a1}}{K_\mathrm{a2}} \ge 10^4 \)</td></tr>
-            <tr><td>Chất lưỡng tính</td><td>\( \mathrm{pH} = \dfrac{\mathrm{p}K_\mathrm{a1} + \mathrm{p}K_\mathrm{a2}}{2} \)</td><td>\( C \gg K_\mathrm{a1} \)</td></tr>
+            <tr><td>Chất lưỡng tính</td><td>\( \mathrm{pH} = \dfrac{\mathrm{p}K_\mathrm{a1} + \mathrm{p}K_\mathrm{a2}}{2} \)</td><td>\( C \gg K_\mathrm{a1};\ K_\mathrm{a2}C \gg \Kw \)</td></tr>
             <tr><td>Dung dịch đệm</td><td>\( \mathrm{pH} = \pKa + \lg\dfrac{C_\mathrm{A^-}}{C_\mathrm{HA}} \)</td><td>\( C_\mathrm{HA}, C_\mathrm{A^-} \gg \Hp, \OH \)</td></tr>
           </tbody>
         </table>
