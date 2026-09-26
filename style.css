@@ -487,3 +487,10 @@ details[open] > summary .khi-mo { display: inline; }
 .xem-lai .dau { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; color: #fff; background: var(--chu-phu); }
 .xem-lai.dung .dau { background: var(--xanh); }
 .xem-lai.sai .dau { background: #e5484d; }
+/* Điện thoại màn hình hẹp: thu nhỏ nhẹ công thức để không phải kéo ngang */
+@media (max-width: 380px) {
+  .katex { font-size: 1em; }
+  .vi-du .katex { font-size: .96em; }
+  .cong-thuc { padding: 10px 8px; }
+  .vi-du { padding: 12px 10px; }
+}

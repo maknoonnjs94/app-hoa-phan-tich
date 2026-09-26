@@ -14,93 +14,93 @@
 const MUC_DO = ["", "Nhận biết", "Thông hiểu", "Vận dụng", "Vận dụng cao"];
 
 const NGAN_HANG = [
-  /* ===================== CHƯƠNG 1: ĐẠI CƯƠNG & SAI SỐ ===================== */
+  /* ===================== ĐO LƯỜNG HÓA HỌC · SAI SỐ VÀ THỐNG KÊ ===================== */
   {
-    id: "DC-001", chuong: "dai-cuong", dang: "Các loại nồng độ", mucDo: 1,
+    id: "DC-001", chuong: "do-luong", dang: "Các loại nồng độ", mucDo: 1,
     de: "Trong dung dịch nước loãng, nồng độ 1 ppm tương ứng với",
     phuongAn: ["1 mg/L", "1 g/L", "1 µg/L", "1 mg/mL"],
     dapAn: "A",
     loiGiai: "1 ppm = 1 mg/kg; dung dịch nước loãng có khối lượng riêng ≈ 1 kg/L nên 1 ppm ≈ 1 mg/L.",
   },
   {
-    id: "DC-002", chuong: "dai-cuong", dang: "Đổi nồng độ", mucDo: 3,
+    id: "DC-002", chuong: "do-luong", dang: "Đổi nồng độ", mucDo: 3,
     de: "Dung dịch HNO<sub>3</sub> 65%, khối lượng riêng 1,40 g/mL (M = 63,01). Nồng độ mol của dung dịch là",
     phuongAn: ["14,4 M", "10,3 M", "1,44 M", "20,2 M"],
     dapAn: "A",
     loiGiai: String.raw`\( C_\mathrm{M} = \dfrac{10\cdot1,40\cdot65}{63,01} = 14,4\ \mathrm{M} \). Phương án 10,3 M là do quên nhân khối lượng riêng.`,
   },
   {
-    id: "DC-003", chuong: "dai-cuong", dang: "Pha chế từ chất rắn", mucDo: 3,
+    id: "DC-003", chuong: "do-luong", dang: "Pha chế từ chất rắn", mucDo: 3,
     de: "Khối lượng K<sub>2</sub>Cr<sub>2</sub>O<sub>7</sub> (M = 294,18) cần để pha 250,0 mL dung dịch 0,02000 M là",
     phuongAn: ["1,471 g", "5,884 g", "0,1471 g", "14,71 g"],
     dapAn: "A",
     loiGiai: String.raw`\( m = 0,02000\cdot0,2500\cdot294,18 = 1,471\ \mathrm{g} \). Nhớ đổi 250,0 mL = 0,2500 L.`,
   },
   {
-    id: "DC-004", chuong: "dai-cuong", dang: "Pha loãng", mucDo: 3,
+    id: "DC-004", chuong: "do-luong", dang: "Pha loãng", mucDo: 3,
     de: "Cần lấy bao nhiêu mL dung dịch HCl 12,0 M để pha thành 250,0 mL dung dịch HCl 0,500 M?",
     phuongAn: ["10,4 mL", "6,0 mL", "24 mL", "104 mL"],
     dapAn: "A",
     loiGiai: String.raw`\( V_1 = \dfrac{C_2V_2}{C_1} = \dfrac{0,500\cdot250,0}{12,0} = 10,4\ \mathrm{mL} \)`,
   },
   {
-    id: "DC-005", chuong: "dai-cuong", dang: "Các loại sai số", mucDo: 1,
+    id: "DC-005", chuong: "thong-ke", dang: "Các loại sai số", mucDo: 1,
     de: "Sai số hệ thống chủ yếu ảnh hưởng đến",
     phuongAn: ["độ đúng của kết quả", "độ chụm của kết quả", "số chữ số có nghĩa của kết quả", "số lần đo cần thực hiện"],
     dapAn: "A",
     loiGiai: "Sai số hệ thống làm kết quả lệch về một phía so với giá trị thật, tức ảnh hưởng độ đúng. Sai số ngẫu nhiên mới ảnh hưởng độ chụm.",
   },
   {
-    id: "DC-006", chuong: "dai-cuong", dang: "Các loại sai số", mucDo: 2,
+    id: "DC-006", chuong: "thong-ke", dang: "Các loại sai số", mucDo: 2,
     de: "Loại sai số nào có thể giảm bằng cách tăng số lần đo lặp lại?",
     phuongAn: ["Sai số ngẫu nhiên", "Sai số hệ thống do dụng cụ", "Sai số hệ thống do phương pháp", "Sai số thô"],
     dapAn: "A",
     loiGiai: "Sai số ngẫu nhiên lệch cả hai phía nên bù trừ nhau khi lấy trung bình nhiều lần đo. Sai số hệ thống không giảm khi đo lặp lại.",
   },
   {
-    id: "DC-007", chuong: "dai-cuong", dang: "Thống kê kết quả", mucDo: 3,
+    id: "DC-007", chuong: "thong-ke", dang: "Thống kê kết quả", mucDo: 3,
     de: "Bốn lần đo cho kết quả: 5,12 ; 5,16 ; 5,10 ; 5,14. Độ lệch chuẩn s của dãy số liệu là",
     phuongAn: ["0,026", "0,022", "0,0067", "0,060"],
     dapAn: "A",
     loiGiai: String.raw`\( \bar{x} = 5,13 \); \( s = \sqrt{\dfrac{\sum(x_i - \bar{x})^2}{n - 1}} = \sqrt{\dfrac{0,0020}{3}} = 0,026 \). Phương án 0,022 là do chia cho n thay vì n − 1.`,
   },
   {
-    id: "DC-008", chuong: "dai-cuong", dang: "Loại số liệu ngờ", mucDo: 3,
+    id: "DC-008", chuong: "thong-ke", dang: "Loại số liệu ngờ", mucDo: 3,
     de: "Bốn kết quả chuẩn độ: 0,512 ; 0,520 ; 0,515 ; 0,545. Với độ tin cậy 95% (Q<sub>bảng</sub> = 0,829 khi n = 4), giá trị 0,545",
     phuongAn: ["được giữ lại vì Q<sub>tính</sub> = 0,758 < 0,829", "bị loại vì Q<sub>tính</sub> = 0,758 > 0,5", "bị loại vì Q<sub>tính</sub> = 1,32 > 0,829", "được giữ lại vì Q<sub>tính</sub> = 0,242 < 0,829"],
     dapAn: "A",
     loiGiai: String.raw`Xếp tăng dần: 0,512 ; 0,515 ; 0,520 ; 0,545. \( Q = \dfrac{0,545 - 0,520}{0,545 - 0,512} = 0,758 < 0,829 \) nên phải giữ lại.`,
   },
   {
-    id: "DC-009", chuong: "dai-cuong", dang: "Chữ số có nghĩa", mucDo: 2,
+    id: "DC-009", chuong: "thong-ke", dang: "Chữ số có nghĩa", mucDo: 2,
     de: "Số 0,02050 có bao nhiêu chữ số có nghĩa?",
     phuongAn: ["4", "3", "5", "6"],
     dapAn: "A",
     loiGiai: "Các số 0 đứng đầu (0,0) không có nghĩa. Còn lại 2, 0, 5, 0 đều có nghĩa (số 0 ở giữa và số 0 cuối phần thập phân) → 4 chữ số có nghĩa.",
   },
   {
-    id: "DC-010", chuong: "dai-cuong", dang: "Chữ số có nghĩa", mucDo: 3,
+    id: "DC-010", chuong: "thong-ke", dang: "Chữ số có nghĩa", mucDo: 3,
     de: "Dung dịch có [H<sup>+</sup>] = 3,2·10<sup>−4</sup> M. Giá trị pH được ghi đúng số chữ số có nghĩa là",
     phuongAn: ["3,49", "3,5", "3,495", "3,4949"],
     dapAn: "A",
     loiGiai: "[H⁺] có 2 chữ số có nghĩa nên pH lấy 2 chữ số thập phân: pH = −lg(3,2·10⁻⁴) = 3,49.",
   },
   {
-    id: "DC-011", chuong: "dai-cuong", dang: "Thống kê kết quả", mucDo: 3,
+    id: "DC-011", chuong: "thong-ke", dang: "Thống kê kết quả", mucDo: 3,
     de: "Ba lần phân tích cho x̄ = 25,40% và s = 0,12%. Với t = 4,30 (f = 2, độ tin cậy 95%), khoảng tin cậy của giá trị thật là",
     phuongAn: ["25,40 ± 0,30 %", "25,40 ± 0,52 %", "25,40 ± 0,12 %", "25,40 ± 0,07 %"],
     dapAn: "A",
     loiGiai: String.raw`\( \mu = \bar{x} \pm \dfrac{ts}{\sqrt{n}} = 25,40 \pm \dfrac{4,30\cdot0,12}{\sqrt{3}} = 25,40 \pm 0,30\ \% \)`,
   },
   {
-    id: "DC-012", chuong: "dai-cuong", dang: "Đổi nồng độ", mucDo: 3,
+    id: "DC-012", chuong: "do-luong", dang: "Đổi nồng độ", mucDo: 3,
     de: "Dung dịch Cu<sup>2+</sup> 2,00·10<sup>−4</sup> M (Cu = 63,55) có nồng độ tính theo ppm là",
     phuongAn: ["12,7 ppm", "0,0127 ppm", "127 ppm", "1,27 ppm"],
     dapAn: "A",
     loiGiai: String.raw`\( \mathrm{ppm} = C_\mathrm{M}\cdot M\cdot1000 = 2,00\cdot10^{-4}\cdot63,55\cdot1000 = 12,7\ \mathrm{mg/L} \)`,
   },
 
-  /* ===================== CHƯƠNG 2: CÂN BẰNG ACID – BASE ===================== */
+  /* ===================== CÂN BẰNG ACID – BASE ===================== */
   {
     id: "AB-001", chuong: "axit-bazo", dang: "Hằng số acid – base", mucDo: 1,
     de: "Trong các acid có cùng nồng độ, acid mạnh nhất là acid có",

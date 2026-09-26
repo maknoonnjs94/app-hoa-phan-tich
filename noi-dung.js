@@ -8,34 +8,152 @@
    ========================================================= */
 const CHUONG = [
   {
-    id: "dai-cuong",
-    nhom: "Phân tích hóa học",
-    icon: "📏",
-    ten: "Đại cương & sai số",
-    moTa: "Nồng độ, pha chế, sai số, thống kê, chữ số có nghĩa",
+    id: "mo-dau",
+    nhom: "Cơ sở",
+    icon: "🔬",
+    ten: "Mở đầu",
+    moTa: "Đối tượng, phân loại phương pháp, quy trình phân tích",
     dayDu: true,
     lyThuyet: String.raw`
       <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
         <ul>
-          <li>Đổi qua lại giữa các loại nồng độ: C<sub>M</sub>, C%, ppm, ppb.</li>
-          <li>Tính được lượng hóa chất để pha dung dịch từ chất rắn, từ dung dịch đặc, và khi trộn/pha loãng.</li>
-          <li>Phân biệt các loại sai số; tính trung bình, độ lệch chuẩn, khoảng tin cậy; loại số liệu ngờ; kiểm tra sai số hệ thống.</li>
-          <li>Ghi kết quả đúng số chữ số có nghĩa.</li>
+          <li>Phân biệt chất phân tích, mẫu, nền mẫu; phân tích định tính, định lượng, đặc trưng.</li>
+          <li>So sánh phương pháp hóa học và phương pháp công cụ.</li>
+          <li>Nắm 6 bước của một quy trình phân tích và các tiêu chí chọn phương pháp.</li>
         </ul>
       </div>
 
-      <h3>1. Các cách biểu diễn nồng độ</h3>
+      <h3>1. Hóa phân tích là gì?</h3>
+      <p><b>Hóa phân tích</b> là khoa học về việc <b>tách, nhận danh và xác định lượng</b> các cấu tử có trong vật chất.</p>
+      <ul>
+        <li><b>Chất phân tích</b> (analyte): chất cần xác định.</li>
+        <li><b>Mẫu</b> (sample): phần vật chất đem phân tích, chứa chất phân tích.</li>
+        <li><b>Nền mẫu</b> (matrix): mọi thành phần còn lại của mẫu ngoài chất phân tích. Nền mẫu có thể gây cản trở phép đo.</li>
+      </ul>
+      <div class="vi-du"><b>Ví dụ 1.</b> Xác định hàm lượng vàng trong một chiếc nhẫn. Đâu là mẫu, đâu là chất phân tích?
+        <details><summary>Xem lời giải</summary>
+          Mẫu là chiếc nhẫn. Chất phân tích là Au (có thể thêm Cu, Ag nếu cần biết thành phần hợp kim). Các kim loại còn lại tạo thành nền mẫu.
+        </details></div>
+
+      <h3>2. Ba loại câu hỏi phân tích</h3>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Loại</th><th>Trả lời câu hỏi</th><th>Ví dụ</th></tr></thead>
+          <tbody>
+            <tr><td>Định tính (qualitative)</td><td>Trong mẫu <b>có những gì</b>?</td><td>Tương ớt có chứa phẩm màu Rhodamine B không?</td></tr>
+            <tr><td>Định lượng (quantitative)</td><td>Mỗi chất có <b>bao nhiêu</b>?</td><td>Hàm lượng caffeine trong chocolate là bao nhiêu mg/g?</td></tr>
+            <tr><td>Đặc trưng (characterization)</td><td>Tính chất hóa lí, cấu trúc, hình thái ra sao?</td><td>Kích thước và hình dạng hạt nano bạc</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Hóa phân tích được dùng trong lâm sàng (xét nghiệm máu), dược (kiểm nghiệm thuốc), môi trường (kim loại nặng trong nước), pháp y, an toàn thực phẩm và kiểm soát chất lượng sản xuất.</p>
+
+      <h3>3. Phân loại phương pháp định lượng</h3>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Nhóm</th><th>Gồm</th><th>Đặc điểm</th></tr></thead>
+          <tbody>
+            <tr><td>Phương pháp hóa học (cổ điển)</td><td><b>Khối lượng</b> (gravimetric): cân sản phẩm.<br><b>Thể tích</b> (volumetric): đo thể tích dung dịch chuẩn — tức chuẩn độ.</td><td>Chính xác cao, rẻ, nhưng chậm; hợp với nồng độ lớn (cỡ %, mM trở lên)</td></tr>
+            <tr><td>Phương pháp công cụ</td><td><b>Điện hóa</b> (đo thế, von-ampe...)<br><b>Quang phổ</b> (UV-Vis, AAS, AES, MS...)<br><b>Tách</b> (GC, HPLC, điện di mao quản CE)</td><td>Nhanh, nhạy, đo được lượng vết (ppm, ppb) nhưng thiết bị đắt; độ chính xác thường thấp hơn</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="luu-y">Phương pháp công cụ phần lớn là phép đo <b>tương đối</b>: phải so với dung dịch chuẩn (dựng đường chuẩn). Phương pháp khối lượng và chuẩn độ dựa trực tiếp trên hợp thức phản ứng.</p>
+
+      <h3>4. Các bước của một quy trình phân tích</h3>
+      <ol>
+        <li><b>Xác định vấn đề, chọn quy trình</b>: cần đo chất gì, trong nền mẫu nào, cần độ chính xác bao nhiêu, ngân sách và thời gian ra sao.</li>
+        <li><b>Lấy mẫu</b>: lấy được <b>mẫu đại diện</b> cho toàn bộ đối tượng.</li>
+        <li><b>Chuẩn bị mẫu</b>: chuyển mẫu về dạng đo được (hòa tan, tách, làm giàu, loại hoặc che chất cản).</li>
+        <li><b>Phân tích</b>: đo tín hiệu của mẫu và của các chuẩn (đường chuẩn), lặp lại nhiều lần.</li>
+        <li><b>Báo cáo và diễn giải</b>: tính kết quả kèm độ không đảm bảo đo.</li>
+        <li><b>Kết luận</b>: trả lời câu hỏi ban đầu.</li>
+      </ol>
+      <div class="vi-du"><b>Ví dụ 2.</b> Xác định caffeine trong chocolate bằng HPLC. Hãy chỉ ra các bước.
+        <details><summary>Xem lời giải</summary>
+          <ol>
+            <li>Chọn phương pháp HPLC vì tách được caffeine khỏi theobromine có cấu trúc gần giống.</li>
+            <li>Lấy mẫu: nghiền nhiều thanh chocolate, trộn đều rồi lấy phần đại diện.</li>
+            <li>Chuẩn bị mẫu: loại chất béo bằng dung môi, chiết caffeine bằng nước nóng, lọc.</li>
+            <li>Phân tích: tiêm dung dịch chuẩn caffeine và dịch chiết mẫu vào HPLC, so sánh diện tích pic.</li>
+            <li>Báo cáo: hàm lượng caffeine (mg/g) kèm độ lệch chuẩn.</li>
+            <li>Kết luận: so sánh với mức công bố trên nhãn.</li>
+          </ol>
+        </details></div>
+
+      <h3>5. Lấy mẫu và chuẩn bị mẫu</h3>
+      <ul>
+        <li><b>Mẫu đồng nhất</b> (dung dịch đã khuấy đều): lấy một phần bất kì là đại diện.</li>
+        <li><b>Mẫu không đồng nhất</b> (đất, quặng, thực phẩm): chia thành nhiều phần, lấy ngẫu nhiên nhiều phần nhỏ, gộp và trộn đều thành <b>mẫu gộp</b> (composite sample).</li>
+        <li>Sai số do lấy mẫu không đại diện <b>không thể</b> sửa được ở các bước sau, dù máy đo chính xác đến đâu.</li>
+      </ul>
+      <p><b>Chuẩn bị mẫu</b> gồm:</p>
+      <ul>
+        <li><b>Hòa tan</b> mẫu: bằng nước, dung môi hữu cơ, acid mạnh (HCl, HNO<sub>3</sub>...) hoặc nung chảy với kiềm.</li>
+        <li><b>Làm giàu</b>: tăng nồng độ chất phân tích khi quá thấp (chiết, cô đặc...).</li>
+        <li><b>Loại chất cản</b> (interference) hoặc <b>che</b> (masking): dùng thuốc thử tạo phức bền với chất cản để nó không tham gia phản ứng đo.</li>
+      </ul>
+
+      <h3>6. Tiêu chí chọn phương pháp</h3>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Tiêu chí</th><th>Ý nghĩa</th><th>Tiếng Anh</th></tr></thead>
+          <tbody>
+            <tr><td>Độ đúng</td><td>Kết quả gần giá trị thật</td><td>accuracy</td></tr>
+            <tr><td>Độ chụm</td><td>Các lần đo lặp lại gần nhau</td><td>precision</td></tr>
+            <tr><td>Độ nhạy</td><td>Tín hiệu thay đổi nhiều khi nồng độ thay đổi ít (độ dốc đường chuẩn lớn)</td><td>sensitivity</td></tr>
+            <tr><td>Giới hạn phát hiện</td><td>Lượng chất nhỏ nhất phát hiện được một cách tin cậy</td><td>LOD</td></tr>
+            <tr><td>Độ chọn lọc</td><td>Đo được chất phân tích mà ít bị chất khác trong mẫu cản trở</td><td>selectivity</td></tr>
+            <tr><td>Độ bền vững</td><td>Kết quả ít bị ảnh hưởng khi điều kiện thay đổi nhỏ (nhiệt độ, người làm, hóa chất)</td><td>ruggedness</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Ngoài ra còn cân nhắc: thời gian, chi phí, lượng mẫu cần dùng, mức độ an toàn.</p>
+      <div class="vi-du"><b>Ví dụ 3.</b> Cần xác định Pb ở mức vài ppb trong nước uống. Nên chọn phương pháp chuẩn độ hay phương pháp công cụ? Vì sao?
+        <details><summary>Xem lời giải</summary>
+          Chọn <b>phương pháp công cụ</b> (ví dụ AAS lò graphit hoặc ICP-MS). Ở mức ppb, lượng Pb quá nhỏ để chuẩn độ hay cân; cần phương pháp có giới hạn phát hiện thấp và độ nhạy cao.
+        </details></div>
+    `,
+    baiTap: [],
+  },
+  {
+    id: "do-luong",
+    nhom: "Cơ sở",
+    icon: "📏",
+    ten: "Đo lường hóa học",
+    moTa: "Nồng độ, dụng cụ, pha chế, hợp thức, giới thiệu chuẩn độ",
+    dayDu: true,
+    lyThuyet: String.raw`
+      <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
+        <ul>
+          <li>Đổi qua lại giữa các loại nồng độ: C<sub>M</sub>, C%, ppm, ppb (cả mẫu lỏng và mẫu rắn).</li>
+          <li>Biết dùng đúng dụng cụ đo lường và tính lượng hóa chất để pha dung dịch.</li>
+          <li>Tính kết quả phân tích khối lượng và chuẩn độ (trực tiếp, ngược, gián tiếp) từ hợp thức phản ứng.</li>
+        </ul>
+      </div>
+<h3>1. Các cách biểu diễn nồng độ</h3>
       <div class="cong-thuc"><div class="nhan">Nồng độ mol (mol/L, kí hiệu M)</div>\[ C_\mathrm{M} = \frac{n}{V} = \frac{m}{M\cdot V} \]</div>
       <div class="cong-thuc"><div class="nhan">Nồng độ phần trăm khối lượng</div>\[ C\% = \frac{m_\text{ct}}{m_\text{dd}}\cdot100\% \]</div>
       <div class="cong-thuc"><div class="nhan">Nồng độ khối lượng (g/L, mg/L...)</div>\[ \rho = \frac{m_\text{ct}}{V} \]</div>
       <p><b>ppm và ppb</b> dùng cho lượng vết (nước, thực phẩm, môi trường):</p>
-      <div class="cong-thuc">\[ \begin{aligned} 1\ \mathrm{ppm} &= 1\ \mathrm{mg/kg} \approx 1\ \mathrm{mg/L} \\ 1\ \mathrm{ppb} &= 1\ \mathrm{\mu g/kg} \approx 1\ \mathrm{\mu g/L} \\ 1\% &= 10^4\ \mathrm{ppm} \end{aligned} \]</div>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Đơn vị</th><th>Dung dịch (loãng, trong nước)</th><th>Mẫu rắn</th></tr></thead>
+          <tbody>
+            <tr><td>ppm</td><td>mg/L = µg/mL</td><td>mg/kg = µg/g</td></tr>
+            <tr><td>ppb</td><td>µg/L = ng/mL</td><td>µg/kg = ng/g</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Ngoài ra: 1% = 10<sup>4</sup> ppm; 1 ppm = 10<sup>3</sup> ppb.</p>
       <p class="luu-y">"≈" chỉ đúng với dung dịch loãng trong nước (khối lượng riêng ≈ 1 g/mL). Với mẫu rắn, ppm luôn là mg/kg.</p>
+      <p><b>Nồng độ molan</b> (molality) = số mol chất tan / kg dung môi. Không phụ thuộc nhiệt độ vì không dùng thể tích.</p>
       <p><b>Nồng độ đương lượng</b> C<sub>N</sub> (tài liệu cũ hay dùng): C<sub>N</sub> = z·C<sub>M</sub>, với z là số H<sup>+</sup> trao đổi (phản ứng acid – base) hoặc số electron trao đổi (phản ứng oxi hóa – khử). Ví dụ H<sub>2</sub>SO<sub>4</sub> 0,1 M = 0,2 N khi phản ứng hết 2 nấc.</p>
 
       <h3>2. Đổi đơn vị nồng độ</h3>
       <div class="cong-thuc"><div class="nhan">C% sang C<sub>M</sub> (d: khối lượng riêng, g/mL)</div>\[ C_\mathrm{M} = \frac{10\cdot d\cdot C\%}{M} \]</div>
-      <div class="cong-thuc"><div class="nhan">C<sub>M</sub> sang ppm (mg/L)</div>\[ \mathrm{ppm} = C_\mathrm{M}\cdot M\cdot 1000 \]</div>
+      <div class="cong-thuc"><div class="nhan">ppm ↔ C<sub>M</sub> (M: khối lượng mol, g/mol)</div>\[ \begin{gathered} C_\mathrm{M} = \frac{\mathrm{ppm}\cdot10^{-3}}{M} \\ \mathrm{ppm} = C_\mathrm{M}\cdot M\cdot10^{3} \end{gathered} \]</div>
+      <div class="cong-thuc"><div class="nhan">ppb ↔ C<sub>M</sub></div>\[ \begin{gathered} C_\mathrm{M} = \frac{\mathrm{ppb}\cdot10^{-6}}{M} \\ \mathrm{ppb} = C_\mathrm{M}\cdot M\cdot10^{6} \end{gathered} \]</div>
       <div class="vi-du"><b>Ví dụ 1.</b> Dung dịch HCl đặc 37%, d = 1,19 g/mL (M = 36,46). Tính nồng độ mol.
         <details><summary>Xem lời giải</summary>
           \[ C_\mathrm{M} = \frac{10\cdot1,19\cdot37}{36,46} = \mathbf{12,1\ M} \]
@@ -46,7 +164,17 @@ const CHUONG = [
           \[ C_\mathrm{M} = \frac{2,5\cdot10^{-3}}{207,2} = \mathbf{1,21\cdot10^{-5}\ M} \]
         </details></div>
 
-      <h3>3. Pha chế dung dịch</h3>
+            <div class="vi-du"><b>Ví dụ 3.</b> Hòa tan 5,76 g KCl·MgCl<sub>2</sub>·6H<sub>2</sub>O (M = 277,85) trong nước rồi định mức thành 2,000 L. Tính: (a) [Mg<sup>2+</sup>]; (b) [Cl<sup>−</sup>]; (c) nồng độ % khối lượng/thể tích; (d) số mmol Cl<sup>−</sup> trong 25,0 mL dung dịch; (e) nồng độ K<sup>+</sup> theo ppm.
+        <details><summary>Xem lời giải</summary>
+          \[ n = \frac{5,76}{277,85} = 0,02073\ \mathrm{mol} \]
+          (a) và (b):
+          \[ \begin{aligned} [\mathrm{Mg^{2+}}] &= \frac{0,02073}{2,000} = \mathbf{0,0104\ M} \\ [\mathrm{Cl^-}] &= 3\cdot0,01037 = \mathbf{0,0311\ M} \end{aligned} \]
+          (c) \( \dfrac{5,76\ \mathrm{g}}{2000\ \mathrm{mL}}\cdot100 = \mathbf{0,288\%\ (w/v)} \)<br>
+          (d) \( n_\mathrm{Cl^-} = 0,03110\cdot25,0 = \mathbf{0,777\ mmol} \)<br>
+          (e) \( \mathrm{K^+} = 0,01037\cdot39,10\cdot10^3 = \mathbf{405\ ppm} \)
+        </details></div>
+
+<h3>3. Pha chế dung dịch</h3>
       <p><b>a) Từ chất rắn</b> (V tính bằng lít; P là độ tinh khiết, %):</p>
       <div class="cong-thuc">\[ m = C_\mathrm{M}\cdot V\cdot M\cdot\frac{100}{P} \]</div>
       <p>Nếu chất ở dạng ngậm nước (CuSO<sub>4</sub>·5H<sub>2</sub>O, Na<sub>2</sub>B<sub>4</sub>O<sub>7</sub>·10H<sub>2</sub>O...), dùng khối lượng mol <b>của cả tinh thể ngậm nước</b>.</p>
@@ -55,23 +183,157 @@ const CHUONG = [
       <p><b>c) Từ dung dịch đặc có C% và d</b>: đổi sang C<sub>M</sub> (mục 2), rồi pha loãng.</p>
       <p><b>d) Trộn hai dung dịch cùng chất</b> (coi thể tích cộng được):</p>
       <div class="cong-thuc">\[ C = \frac{C_1V_1 + C_2V_2}{V_1 + V_2} \]</div>
-      <div class="vi-du"><b>Ví dụ 3.</b> Tính khối lượng CuSO<sub>4</sub>·5H<sub>2</sub>O (M = 249,68) cần để pha 500,0 mL dung dịch Cu<sup>2+</sup> 0,0500 M.
+      <div class="vi-du"><b>Ví dụ 4.</b> Tính khối lượng CuSO<sub>4</sub>·5H<sub>2</sub>O (M = 249,68) cần để pha 500,0 mL dung dịch Cu<sup>2+</sup> 0,0500 M.
         <details><summary>Xem lời giải</summary>
           \[ \begin{aligned} m &= 0,0500\cdot0,5000\cdot249,68 \\ &= \mathbf{6,242\ g} \end{aligned} \]
           Cân 6,242 g, hòa tan rồi định mức tới vạch trong bình định mức 500 mL.
         </details></div>
-      <div class="vi-du"><b>Ví dụ 4.</b> Cần bao nhiêu mL H<sub>2</sub>SO<sub>4</sub> 98% (d = 1,84 g/mL, M = 98,08) để pha 500,0 mL H<sub>2</sub>SO<sub>4</sub> 0,100 M?
+      <div class="vi-du"><b>Ví dụ 5.</b> Cần bao nhiêu mL H<sub>2</sub>SO<sub>4</sub> 98% (d = 1,84 g/mL, M = 98,08) để pha 500,0 mL H<sub>2</sub>SO<sub>4</sub> 0,100 M?
         <details><summary>Xem lời giải</summary>
           \[ C_\mathrm{M} = \frac{10\cdot1,84\cdot98}{98,08} = 18,4\ \mathrm{M} \]
           \[ \begin{aligned} V_1 &= \frac{C_2V_2}{C_1} = \frac{0,100\cdot500,0}{18,4} \\ &= \mathbf{2,72\ mL} \end{aligned} \]
           Nhớ: rót từ từ acid vào nước, không làm ngược lại.
         </details></div>
-      <div class="vi-du"><b>Ví dụ 5.</b> Trộn 100,0 mL HCl 0,200 M với 300,0 mL HCl 0,100 M. Tính nồng độ dung dịch thu được.
+      <div class="vi-du"><b>Ví dụ 6.</b> Trộn 100,0 mL HCl 0,200 M với 300,0 mL HCl 0,100 M. Tính nồng độ dung dịch thu được.
         <details><summary>Xem lời giải</summary>
           \[ \begin{aligned} C &= \frac{0,200\cdot100,0 + 0,100\cdot300,0}{100,0 + 300,0} \\ &= \mathbf{0,125\ M} \end{aligned} \]
         </details></div>
 
-      <h3>4. Sai số trong phân tích</h3>
+      
+      <h3>4. Dụng cụ đo lường</h3>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Dụng cụ</th><th>Công dụng</th><th>Lưu ý</th></tr></thead>
+          <tbody>
+            <tr><td>Cân phân tích</td><td>Cân chính xác đến 0,1 mg (loại vi lượng đến 0,001 mg)</td><td>Chất hút ẩm: cân theo hiệu (cân cốc cân trước và sau khi lấy chất)</td></tr>
+            <tr><td>Bình định mức</td><td>Pha dung dịch có thể tích chính xác</td><td>Hiệu chuẩn kiểu <b>chứa</b> (to contain, TC): thể tích đúng khi chất lỏng ở trong bình</td></tr>
+            <tr><td>Pipet bầu</td><td>Lấy chính xác một thể tích cố định</td><td>Hiệu chuẩn kiểu <b>chảy ra</b> (to deliver, TD): không thổi giọt cuối</td></tr>
+            <tr><td>Pipet chia độ, micropipet</td><td>Lấy thể tích thay đổi được</td><td>Micropipet dùng cho thể tích µL</td></tr>
+            <tr><td>Buret</td><td>Nhỏ dung dịch chuẩn khi chuẩn độ</td><td>Đọc đến 1/10 vạch chia (0,01 mL với buret 50 mL); mắt ngang đáy mặt khum</td></tr>
+            <tr><td>Ống đong, cốc có mỏ</td><td>Đong ước lượng</td><td>Không dùng cho phép đo chính xác</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>5. Hợp thức và phân tích khối lượng</h3>
+      <p>Mọi phép tính định lượng dựa trên <b>hợp thức</b> (tỉ lệ mol) của phản ứng. Trong phân tích khối lượng, chất cần xác định được chuyển thành một <b>dạng cân</b> có công thức xác định rồi đem cân.</p>
+      <div class="cong-thuc"><div class="nhan">Hệ số chuyển (a, b cân bằng số nguyên tử nguyên tố cần xác định)</div>\[ F = \frac{a\cdot M_\text{chất cần xác định}}{b\cdot M_\text{dạng cân}} \]</div>
+      <div class="cong-thuc"><div class="nhan">Hàm lượng</div>\[ \%X = \frac{m_\text{dạng cân}\cdot F}{m_\text{mẫu}}\cdot100\% \]</div>
+      <ul>
+        <li><b>Dạng kết tủa</b> cần: độ tan rất nhỏ, tinh khiết, dễ lọc rửa. <b>Dạng cân</b> cần: đúng công thức, bền, khối lượng mol lớn.</li>
+        <li>Kết tủa tinh thể (BaSO<sub>4</sub>...): tạo từ dung dịch loãng, nóng, thêm thuốc thử chậm, để muồi. Kết tủa vô định hình (Fe(OH)<sub>3</sub>...): dung dịch đặc, nóng, có chất điện li.</li>
+        <li><b>Cộng kết</b>: tạp chất bị kéo theo kết tủa, gây sai số dương.</li>
+      </ul>
+      <div class="vi-du"><b>Ví dụ 7.</b> Xác định sắt trong viên bổ sung sắt fumarat: 15 viên được hòa tan trong HCl, oxi hóa Fe<sup>2+</sup> thành Fe<sup>3+</sup> bằng H<sub>2</sub>O<sub>2</sub>, kết tủa Fe(OH)<sub>3</sub> bằng NH<sub>3</sub>, lọc, nung thu được 0,277 g Fe<sub>2</sub>O<sub>3</sub> (M = 159,69). Tính khối lượng Fe (55,845) trung bình trong mỗi viên.
+        <details><summary>Xem lời giải</summary>
+          \[ m_\mathrm{Fe} = 0,277\cdot\frac{2\cdot55,845}{159,69} = 0,194\ \mathrm{g} \]
+          Mỗi viên chứa: \[ \frac{0,194}{15} = 0,0129\ \mathrm{g} = \mathbf{12,9\ mg} \]
+        </details></div>
+
+      <h3>6. Giới thiệu phương pháp chuẩn độ</h3>
+      <ul>
+        <li><b>Chất chuẩn</b> (titrant): dung dịch đã biết chính xác nồng độ, cho từ buret vào dung dịch <b>chất phân tích</b> (analyte).</li>
+        <li><b>Điểm tương đương</b> (equivalence point): lượng chất chuẩn thêm vào vừa đủ phản ứng với chất phân tích theo hợp thức — là điểm lí thuyết.</li>
+        <li><b>Điểm cuối</b> (end point): điểm ta thực sự quan sát được (chỉ thị đổi màu, thế hoặc độ hấp thụ thay đổi đột ngột) và dừng chuẩn độ.</li>
+        <li><b>Sai số chuẩn độ</b> = chênh lệch giữa điểm cuối và điểm tương đương. Có thể hiệu chỉnh bằng chuẩn độ mẫu trắng.</li>
+        <li><b>Chất gốc</b> (primary standard): tinh khiết cao, bền, không hút ẩm, khối lượng mol lớn — cân rồi pha là biết ngay nồng độ chính xác. Dung dịch không pha từ chất gốc (NaOH, HCl, KMnO<sub>4</sub>...) phải <b>chuẩn hóa</b> lại bằng chất gốc.</li>
+        <li>Yêu cầu của phản ứng chuẩn độ: nhanh, hoàn toàn, đúng hợp thức, phát hiện được điểm cuối.</li>
+      </ul>
+      <div class="cong-thuc"><div class="nhan">Phản ứng aA + bB → sản phẩm</div>\[ \frac{n_\mathrm{A}}{a} = \frac{n_\mathrm{B}}{b} \]</div>
+      <div class="cong-thuc"><div class="nhan">Tỉ lệ 1 : 1</div>\[ C_\mathrm{A}V_\mathrm{A} = C_\mathrm{B}V_\mathrm{B} \]</div>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Kiểu chuẩn độ</th><th>Cách làm</th><th>Dùng khi</th></tr></thead>
+          <tbody>
+            <tr><td>Trực tiếp</td><td>Chất chuẩn phản ứng thẳng với chất phân tích</td><td>Phản ứng nhanh, có chỉ thị phù hợp</td></tr>
+            <tr><td>Ngược</td><td>Thêm lượng <b>dư biết trước</b> thuốc thử, rồi chuẩn độ lượng dư bằng chất chuẩn thứ hai</td><td>Phản ứng chậm, hoặc điểm cuối của chuẩn độ ngược rõ hơn</td></tr>
+            <tr><td>Gián tiếp (thay thế)</td><td>Chuyển chất phân tích thành một chất khác có lượng tương đương, rồi chuẩn độ chất đó</td><td>Chất phân tích không phản ứng trực tiếp với chất chuẩn</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="vi-du"><b>Ví dụ 8.</b> Chuẩn độ 10,00 mL dung dịch HCl bằng NaOH 0,02000 M (chỉ thị phenolphtalein) hết 9,46 mL. Tính nồng độ HCl.
+        <details><summary>Xem lời giải</summary>
+          \[ C_\mathrm{HCl} = \frac{0,02000\cdot9,46}{10,00} = \mathbf{0,0189\ M} \]
+        </details></div>
+      <div class="vi-du"><b>Ví dụ 9.</b> <i>(Chuẩn độ ngược)</i> Hòa tan 0,2500 g đá vôi trong 50,00 mL HCl 0,1000 M. Lượng HCl dư chuẩn độ hết 10,00 mL NaOH 0,1000 M. Tính %CaCO<sub>3</sub> (M = 100,09).
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} n_\text{HCl ban đầu} &= 5,000\cdot10^{-3}\ \mathrm{mol} \\ n_\text{HCl dư} &= 1,000\cdot10^{-3}\ \mathrm{mol} \\ n_\text{HCl phản ứng} &= 4,000\cdot10^{-3}\ \mathrm{mol} \end{aligned} \]
+          CaCO<sub>3</sub> + 2HCl → CaCl<sub>2</sub> + CO<sub>2</sub> + H<sub>2</sub>O, nên n<sub>CaCO₃</sub> = 2,000·10<sup>−3</sup> mol:
+          \[ \begin{aligned} \%\mathrm{CaCO_3} &= \frac{2,000\cdot10^{-3}\cdot100,09}{0,2500}\cdot100\% \\ &= \mathbf{80,07\%} \end{aligned} \]
+        </details></div>
+      <div class="vi-du"><b>Ví dụ 10.</b> <i>(Chuẩn độ gián tiếp)</i> Ca<sup>2+</sup> trong 5,00 mL mẫu được kết tủa hết dưới dạng CaC<sub>2</sub>O<sub>4</sub>. Lọc, rửa, hòa tan kết tủa trong H<sub>2</sub>SO<sub>4</sub>, rồi chuẩn độ H<sub>2</sub>C<sub>2</sub>O<sub>4</sub> sinh ra bằng KMnO<sub>4</sub> 0,00200 M hết 4,80 mL. Tính nồng độ Ca<sup>2+</sup>.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} &\ce{5H2C2O4 + 2MnO4- + 6H+} \\ &\qquad\ce{-> 10CO2 + 2Mn^2+ + 8H2O} \end{aligned} \]
+          \[ \begin{aligned} n_\mathrm{MnO_4^-} &= 0,00200\cdot4,80\cdot10^{-3} \\ &= 9,60\cdot10^{-6}\ \mathrm{mol} \\ n_\mathrm{Ca^{2+}} &= n_\mathrm{H_2C_2O_4} = \tfrac{5}{2}\cdot9,60\cdot10^{-6} \\ &= 2,40\cdot10^{-5}\ \mathrm{mol} \\ C_\mathrm{Ca^{2+}} &= \frac{2,40\cdot10^{-5}}{5,00\cdot10^{-3}} \\ &= \mathbf{4,80\cdot10^{-3}\ M} \end{aligned} \]
+        </details></div>
+
+      <h3>7. Tóm tắt công thức</h3>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Nội dung</th><th>Công thức</th><th>Ghi chú</th></tr></thead>
+          <tbody>
+            <tr><td>Đổi C% → C<sub>M</sub></td><td>\( C_\mathrm{M} = \dfrac{10\,d\,C\%}{M} \)</td><td>d tính bằng g/mL</td></tr>
+            <tr><td>Đổi ppm ↔ C<sub>M</sub></td><td>\( C_\mathrm{M} = \dfrac{\mathrm{ppm}\cdot10^{-3}}{M} \)</td><td>Dung dịch loãng</td></tr>
+            <tr><td>Pha từ chất rắn</td><td>\( m = C_\mathrm{M}VM\cdot\dfrac{100}{P} \)</td><td>V tính bằng lít</td></tr>
+            <tr><td>Pha loãng</td><td>\( C_1V_1 = C_2V_2 \)</td><td>Cùng đơn vị hai vế</td></tr>
+            <tr><td>Phân tích khối lượng</td><td>\( \%X = \dfrac{m\cdot F}{m_\text{mẫu}}\cdot100 \)</td><td>F: hệ số chuyển</td></tr>
+            <tr><td>Chuẩn độ</td><td>\( \dfrac{n_\mathrm{A}}{a} = \dfrac{n_\mathrm{B}}{b} \)</td><td>Ngược: trừ lượng dư</td></tr>
+          </tbody>
+        </table>
+      </div>
+    `,
+    baiTap: [
+      {
+        de: "Hòa tan 4,00 g NaOH (M = 40,0 g/mol) thành 250,0 mL dung dịch. Tính nồng độ mol của dung dịch.",
+        dapAn: "n = 4,00 / 40,0 = 0,100 mol<br>C = 0,100 / 0,2500 = <b>0,400 M</b>",
+      },
+      {
+        de: "Cần lấy bao nhiêu mL dung dịch HCl 2,00 M để pha thành 500,0 mL dung dịch HCl 0,100 M?",
+        dapAn: "V<sub>1</sub> = C<sub>2</sub>V<sub>2</sub> / C<sub>1</sub> = 0,100 × 500,0 / 2,00 = <b>25,0 mL</b>",
+      },
+      {
+        de: "Phân tích 0,5000 g mẫu thu được 0,4660 g BaSO<sub>4</sub> (M = 233,39). Tính % lưu huỳnh (S = 32,06) trong mẫu.",
+        dapAn: "F = 32,06 / 233,39 = 0,1374<br>%S = 0,4660 × 0,1374 / 0,5000 × 100% ≈ <b>12,80%</b>",
+      },
+    ],
+  },
+  {
+    id: "thong-ke",
+    nhom: "Cơ sở",
+    icon: "📊",
+    ten: "Sai số và thống kê",
+    moTa: "Chữ số có nghĩa, sai số, lan truyền, Q, t, F",
+    dayDu: true,
+    lyThuyet: String.raw`
+      <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
+        <ul>
+          <li>Ghi kết quả đúng số chữ số có nghĩa.</li>
+          <li>Phân biệt sai số hệ thống, ngẫu nhiên; tính lan truyền sai số.</li>
+          <li>Kiểm tra số liệu ngờ (chuẩn Q) <b>trước</b>, rồi mới tính x̄, s, RSD và khoảng tin cậy.</li>
+          <li>So sánh kết quả với giá trị thật, so sánh hai phương pháp (chuẩn t, chuẩn F).</li>
+        </ul>
+      </div>
+<h3>1. Chữ số có nghĩa và làm tròn</h3>
+      <ul>
+        <li>Chữ số có nghĩa gồm mọi chữ số chắc chắn và <b>một</b> chữ số cuối không chắc chắn.</li>
+        <li>Số 0 đứng đầu không có nghĩa (0,0025 có 2 CSCN); số 0 ở giữa hoặc ở cuối phần thập phân có nghĩa (20,00 có 4 CSCN).</li>
+        <li>Viết dạng lũy thừa để rõ ràng: 1200 có thể là 1,2·10<sup>3</sup> (2 CSCN) hoặc 1,200·10<sup>3</sup> (4 CSCN).</li>
+      </ul>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Phép tính</th><th>Quy tắc</th><th>Ví dụ</th></tr></thead>
+          <tbody>
+            <tr><td>Cộng, trừ</td><td>Giữ số chữ số thập phân bằng số hạng ít chữ số thập phân nhất</td><td>12,11 + 0,3 = 12,4</td></tr>
+            <tr><td>Nhân, chia</td><td>Giữ số CSCN bằng số hạng ít CSCN nhất</td><td>2,5 × 3,142 = 7,9</td></tr>
+            <tr><td>Logarit</td><td>Số chữ số thập phân của lg = số CSCN của số ban đầu</td><td>[H<sup>+</sup>] = 2,0·10<sup>−3</sup> → pH = 2,70</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Khi đọc dụng cụ có vạch chia, đọc hết các vạch và <b>ước lượng thêm 1/10 khoảng chia</b>: chữ số ước lượng đó là chữ số không chắc chắn cuối cùng.</p>
+      <p><b>Làm tròn</b>: chữ số bỏ đi &lt; 5 thì giữ nguyên, &gt; 5 thì tăng 1; nếu đúng bằng 5 thì làm tròn về số <b>chẵn</b> gần nhất (ví dụ 0,125 → 0,12 ; 0,135 → 0,14).</p>
+      <p class="luu-y">Chỉ làm tròn ở <b>kết quả cuối cùng</b>. Các bước trung gian giữ thêm 1–2 chữ số để không cộng dồn sai số làm tròn.</p>
+
+      <h3>2. Sai số trong phân tích</h3>
       <div class="cong-thuc"><div class="nhan">Sai số tuyệt đối (μ: giá trị thật)</div>\[ E = x - \mu \]</div>
       <div class="cong-thuc"><div class="nhan">Sai số tương đối</div>\[ E_r = \frac{x - \mu}{\mu}\cdot100\% \]</div>
       <div class="bang-cuon">
@@ -90,7 +352,28 @@ const CHUONG = [
         <li><b>Phát hiện sai số hệ thống</b>: phân tích mẫu chuẩn (CRM), làm mẫu trắng, so sánh với phương pháp khác, thêm chuẩn để tính độ thu hồi.</li>
       </ul>
 
-      <h3>5. Xử lí thống kê kết quả</h3>
+      <h3>3. Lan truyền sai số</h3>
+      <p>Kết quả cuối thường được tính từ nhiều đại lượng đo, mỗi đại lượng có độ lệch chuẩn riêng.</p>
+      <div class="cong-thuc"><div class="nhan">Phép cộng, trừ: y = a + b − c</div>\[ s_y = \sqrt{s_a^2 + s_b^2 + s_c^2} \]</div>
+      <div class="cong-thuc"><div class="nhan">Phép nhân, chia: y = a·b / c</div>\[ \frac{s_y}{y} = \sqrt{\left(\frac{s_a}{a}\right)^2 + \left(\frac{s_b}{b}\right)^2 + \left(\frac{s_c}{c}\right)^2} \]</div>
+      <div class="vi-du"><b>Ví dụ 1.</b> Đọc buret lúc đầu và lúc cuối, mỗi lần có s = 0,02 mL. Tính độ lệch chuẩn của thể tích tiêu tốn.
+        <details><summary>Xem lời giải</summary>
+          \[ s_V = \sqrt{0,02^2 + 0,02^2} = \mathbf{0,028\ mL} \]
+        </details></div>
+      <div class="vi-du"><b>Ví dụ 2.</b> Chuẩn độ 25,00 (±0,02) mL HCl hết 20,00 (±0,02) mL NaOH 0,1000 (±0,0002) M. Tính C<sub>HCl</sub> kèm độ lệch chuẩn.
+        <details><summary>Xem lời giải</summary>
+          \[ C_\mathrm{HCl} = \frac{0,1000\cdot20,00}{25,00} = 0,08000\ \mathrm{M} \]
+          \[ \begin{aligned} \frac{s_C}{C} &= \Bigl[\left(\tfrac{0,0002}{0,1000}\right)^2 + \left(\tfrac{0,02}{20,00}\right)^2 \\ &\qquad + \left(\tfrac{0,02}{25,00}\right)^2\Bigr]^{1/2} \\ &= 2,4\cdot10^{-3} \end{aligned} \]
+          \[ \begin{aligned} s_C &= 0,08000\cdot2,4\cdot10^{-3} = 0,00019 \\ C &= \mathbf{0,0800 \pm 0,0002\ M} \end{aligned} \]
+        </details></div>
+
+            <p><b>Lan truyền sai số hệ thống</b> (ví dụ sai số của khối lượng nguyên tử, dung sai dụng cụ chưa hiệu chuẩn):</p>
+      <ul>
+        <li>Giá trị cho dạng x ± a với phân bố đều (chữ nhật), như khối lượng nguyên tử: độ không đảm bảo chuẩn \( u = \dfrac{a}{\sqrt{3}} \).</li>
+        <li>Phân tử có n nguyên tử cùng loại: độ không đảm bảo là n·u (các sai số cùng dấu cộng thẳng). Các nguyên tố khác nhau thì kết hợp theo quy tắc cộng bình phương ở trên.</li>
+        <li>Dùng một pipet chưa hiệu chuẩn n lần: sai số hệ thống <b>cộng thẳng</b> (n × dung sai). Pipet đã hiệu chuẩn thì chỉ còn sai số ngẫu nhiên, dùng quy tắc cộng bình phương.</li>
+      </ul>
+<h3>4. Xử lí thống kê kết quả</h3>
       <div class="cong-thuc"><div class="nhan">Trung bình và độ lệch chuẩn (n lần đo)</div>\[ \bar{x} = \frac{\sum x_i}{n} \qquad s = \sqrt{\frac{\sum\left(x_i - \bar{x}\right)^2}{n - 1}} \]</div>
       <div class="cong-thuc"><div class="nhan">Độ lệch chuẩn tương đối (hệ số biến thiên)</div>\[ \mathrm{RSD} = \frac{s}{\bar{x}}\cdot100\% \]</div>
       <div class="cong-thuc"><div class="nhan">Khoảng tin cậy của giá trị thật</div>\[ \mu = \bar{x} \pm \frac{t\cdot s}{\sqrt{n}} \]</div>
@@ -101,7 +384,7 @@ const CHUONG = [
           <tbody><tr><td>1</td><td>12,71</td></tr><tr><td>2</td><td>4,30</td></tr><tr><td>3</td><td>3,18</td></tr><tr><td>4</td><td>2,78</td></tr><tr><td>5</td><td>2,57</td></tr><tr><td>6</td><td>2,45</td></tr><tr><td>8</td><td>2,31</td></tr><tr><td>10</td><td>2,23</td></tr></tbody>
         </table>
       </div>
-      <div class="vi-du"><b>Ví dụ 6.</b> Bốn lần xác định hàm lượng một chất cho kết quả (%): 10,12 ; 10,15 ; 10,10 ; 10,14. Tính x̄, s, RSD và khoảng tin cậy 95%.
+      <div class="vi-du"><b>Ví dụ 3.</b> Bốn lần xác định hàm lượng một chất cho kết quả (%): 10,12 ; 10,15 ; 10,10 ; 10,14. Tính x̄, s, RSD và khoảng tin cậy 95%.
         <details><summary>Xem lời giải</summary>
           Tổng 4 giá trị: 10,12 + 10,15 + 10,10 + 10,14 = 40,51.
           \[ \begin{aligned} \bar{x} &= \frac{40,51}{4} = 10,13 \\ s &= 0,022 \\ \mathrm{RSD} &= \frac{0,022}{10,13}\cdot100\% = 0,22\% \end{aligned} \]
@@ -109,70 +392,57 @@ const CHUONG = [
           \[ \begin{aligned} \mu &= 10,13 \pm \frac{3,18\cdot0,022}{\sqrt{4}} \\ &= \mathbf{10,13 \pm 0,04\ \%} \end{aligned} \]
         </details></div>
 
-      <h3>6. Loại số liệu ngờ: chuẩn Q (Dixon)</h3>
-      <p>Khi một kết quả lệch hẳn so với các kết quả còn lại, xếp dãy theo thứ tự tăng dần rồi tính:</p>
+      <h3>5. Loại số liệu ngờ: chuẩn Q (Dixon)</h3>
+      <p>Khi một kết quả lệch hẳn so với các kết quả còn lại, phải kiểm tra bằng chuẩn Q <b>trước khi</b> tính trung bình, độ lệch chuẩn và khoảng tin cậy. Xếp dãy theo thứ tự tăng dần rồi tính:</p>
       <div class="cong-thuc"><div class="nhan">x<sub>1</sub>: giá trị ngờ ; x<sub>2</sub>: giá trị gần x<sub>1</sub> nhất</div>\[ Q_\text{tính} = \frac{\left|x_1 - x_2\right|}{x_\text{max} - x_\text{min}} \]</div>
-      <p>Nếu Q<sub>tính</sub> &gt; Q<sub>bảng</sub> thì loại giá trị ngờ; ngược lại phải giữ.</p>
+      <p>Nếu Q<sub>tính</sub> &gt; Q<sub>bảng</sub> (thường dùng mức tin cậy <b>95%</b>) thì loại giá trị ngờ; ngược lại phải giữ.</p>
       <div class="bang-cuon">
         <table class="bang bang-hep">
           <thead><tr><th>n</th><th>Q (90%)</th><th>Q (95%)</th></tr></thead>
           <tbody><tr><td>3</td><td>0,941</td><td>0,970</td></tr><tr><td>4</td><td>0,765</td><td>0,829</td></tr><tr><td>5</td><td>0,642</td><td>0,710</td></tr><tr><td>6</td><td>0,560</td><td>0,625</td></tr><tr><td>7</td><td>0,507</td><td>0,568</td></tr><tr><td>8</td><td>0,468</td><td>0,526</td></tr><tr><td>9</td><td>0,437</td><td>0,493</td></tr><tr><td>10</td><td>0,412</td><td>0,466</td></tr></tbody>
         </table>
       </div>
-      <div class="vi-du"><b>Ví dụ 7.</b> Kết quả 5 lần chuẩn độ (mL): 20,12 ; 20,15 ; 20,18 ; 20,14 ; 20,45. Có loại được 20,45 không (độ tin cậy 95%)?
+      <div class="vi-du"><b>Ví dụ 4.</b> Kết quả 5 lần chuẩn độ (mL): 20,12 ; 20,15 ; 20,18 ; 20,14 ; 20,45. Có loại được 20,45 không (độ tin cậy 95%)?
         <details><summary>Xem lời giải</summary>
           Xếp tăng dần: 20,12 ; 20,14 ; 20,15 ; 20,18 ; 20,45. Giá trị gần 20,45 nhất là 20,18.
           \[ Q_\text{tính} = \frac{20,45 - 20,18}{20,45 - 20,12} = \frac{0,27}{0,33} = 0,82 \]
           Q<sub>tính</sub> = 0,82 &gt; Q<sub>bảng</sub> = 0,710 (n = 5) → <b>loại 20,45</b>. Trung bình của 4 giá trị còn lại là 20,15 mL.
         </details></div>
 
-      <h3>7. Kiểm tra sai số hệ thống</h3>
+            <div class="vi-du"><b>Ví dụ 5.</b> Bảy lần đo cho kết quả: 24,9 ; 24,7 ; 23,2 ; 24,5 ; 25,1 ; 24,4 ; 24,3. Kiểm tra giá trị ngờ (95%) rồi tính x̄, s, RSD và khoảng tin cậy 95%.
+        <details><summary>Xem lời giải</summary>
+          Xếp tăng dần: 23,2 ; 24,3 ; 24,4 ; 24,5 ; 24,7 ; 24,9 ; 25,1. Giá trị ngờ là 23,2.
+          \[ \begin{aligned} Q_\text{tính} &= \frac{24,3 - 23,2}{25,1 - 23,2} = \frac{1,1}{1,9} \\ &= 0,58 > Q_\text{bảng} = 0,568 \end{aligned} \]
+          → loại 23,2. Với 6 giá trị còn lại:
+          \[ \begin{aligned} \bar{x} &= 24,65 \\ s &= 0,31 \\ \mathrm{RSD} &= \frac{0,31}{24,65}\cdot100\% = 1,3\% \\ \mu &= 24,65 \pm \frac{2,57\cdot0,31}{\sqrt{6}} \\ &= \mathbf{24,65 \pm 0,32} \end{aligned} \]
+          (t = 2,57 với f = 5.)
+        </details></div>
+<h3>6. Kiểm tra sai số hệ thống</h3>
       <p><b>So sánh trung bình với giá trị thật</b> (ví dụ khi phân tích mẫu chuẩn):</p>
       <div class="cong-thuc">\[ t_\text{tính} = \frac{\left|\bar{x} - \mu\right|\sqrt{n}}{s} \]</div>
       <p>Nếu t<sub>tính</sub> &gt; t<sub>bảng</sub> (f = n − 1): khác biệt có ý nghĩa → phương pháp có sai số hệ thống.</p>
+      <p>Cách tương đương: tính khoảng tin cậy 95% của x̄. Nếu giá trị thật μ <b>nằm ngoài</b> khoảng tin cậy thì có sai số hệ thống.</p>
       <p><b>So sánh độ chụm của hai phương pháp</b> (chuẩn F), với s<sub>1</sub> ≥ s<sub>2</sub>:</p>
       <div class="cong-thuc">\[ F_\text{tính} = \frac{s_1^2}{s_2^2} \]</div>
       <p>Nếu F<sub>tính</sub> &gt; F<sub>bảng</sub> thì hai phương pháp có độ chụm khác nhau.</p>
-      <div class="vi-du"><b>Ví dụ 8.</b> Mẫu chuẩn có hàm lượng thật 10,00%. Dùng số liệu ví dụ 6 (x̄ = 10,128 ; s = 0,0222 ; n = 4), phương pháp có sai số hệ thống không?
+      <p><b>So sánh hai giá trị trung bình</b> (chuẩn t, khi hai độ lệch chuẩn không khác nhau đáng kể theo chuẩn F):</p>
+      <div class="cong-thuc"><div class="nhan">Độ lệch chuẩn gộp</div>\[ s_\text{gộp} = \sqrt{\frac{s_1^2(n_1 - 1) + s_2^2(n_2 - 1)}{n_1 + n_2 - 2}} \]</div>
+      <div class="cong-thuc"><div class="nhan">Bậc tự do f = n<sub>1</sub> + n<sub>2</sub> − 2</div>\[ t_\text{tính} = \frac{\left|\bar{x}_1 - \bar{x}_2\right|}{s_\text{gộp}}\sqrt{\frac{n_1n_2}{n_1 + n_2}} \]</div>
+      <p>Nếu t<sub>tính</sub> &gt; t<sub>bảng</sub> thì hai kết quả khác nhau có ý nghĩa thống kê.</p>
+      <div class="vi-du"><b>Ví dụ 6.</b> Mẫu chuẩn có hàm lượng thật 10,00%. Dùng số liệu ví dụ 3 (x̄ = 10,128 ; s = 0,0222 ; n = 4), phương pháp có sai số hệ thống không?
         <details><summary>Xem lời giải</summary>
           \[ t_\text{tính} = \frac{\left|10,128 - 10,00\right|\cdot\sqrt{4}}{0,0222} = 11,5 \]
           t<sub>tính</sub> = 11,5 &gt; t<sub>bảng</sub> = 3,18 → <b>có sai số hệ thống</b>: kết quả rất chụm nhưng lệch cao so với giá trị thật.
         </details></div>
 
-      <h3>8. Lan truyền sai số</h3>
-      <p>Kết quả cuối thường được tính từ nhiều đại lượng đo, mỗi đại lượng có độ lệch chuẩn riêng.</p>
-      <div class="cong-thuc"><div class="nhan">Phép cộng, trừ: y = a + b − c</div>\[ s_y = \sqrt{s_a^2 + s_b^2 + s_c^2} \]</div>
-      <div class="cong-thuc"><div class="nhan">Phép nhân, chia: y = a·b / c</div>\[ \frac{s_y}{y} = \sqrt{\left(\frac{s_a}{a}\right)^2 + \left(\frac{s_b}{b}\right)^2 + \left(\frac{s_c}{c}\right)^2} \]</div>
-      <div class="vi-du"><b>Ví dụ 9.</b> Đọc buret lúc đầu và lúc cuối, mỗi lần có s = 0,02 mL. Tính độ lệch chuẩn của thể tích tiêu tốn.
+            <div class="vi-du"><b>Ví dụ 7.</b> Hai phương pháp phân tích cùng một mẫu, mỗi phương pháp 5 lần: phương pháp 1 cho x̄<sub>1</sub> = 10,24 ; s<sub>1</sub> = 0,12. Phương pháp 2 cho x̄<sub>2</sub> = 10,41 ; s<sub>2</sub> = 0,10. Hai kết quả có khác nhau đáng kể không (95%)? Biết F<sub>bảng</sub>(4, 4) = 6,39 ; t<sub>bảng</sub>(f = 8) = 2,31.
         <details><summary>Xem lời giải</summary>
-          \[ s_V = \sqrt{0,02^2 + 0,02^2} = \mathbf{0,028\ mL} \]
+          \[ F_\text{tính} = \frac{0,12^2}{0,10^2} = 1,44 < 6,39 \]
+          → độ chụm hai phương pháp như nhau, được gộp s:
+          \[ \begin{aligned} s_\text{gộp} &= \sqrt{\frac{0,12^2\cdot4 + 0,10^2\cdot4}{8}} = 0,110 \\ t_\text{tính} &= \frac{\left|10,24 - 10,41\right|}{0,110}\sqrt{\frac{5\cdot5}{5 + 5}} = 2,43 \end{aligned} \]
+          t<sub>tính</sub> = 2,43 &gt; 2,31 → <b>hai kết quả khác nhau có ý nghĩa</b> (ít nhất một phương pháp có sai số hệ thống).
         </details></div>
-      <div class="vi-du"><b>Ví dụ 10.</b> Chuẩn độ 25,00 (±0,02) mL HCl hết 20,00 (±0,02) mL NaOH 0,1000 (±0,0002) M. Tính C<sub>HCl</sub> kèm độ lệch chuẩn.
-        <details><summary>Xem lời giải</summary>
-          \[ C_\mathrm{HCl} = \frac{0,1000\cdot20,00}{25,00} = 0,08000\ \mathrm{M} \]
-          \[ \begin{aligned} \frac{s_C}{C} &= \Bigl[\left(\tfrac{0,0002}{0,1000}\right)^2 + \left(\tfrac{0,02}{20,00}\right)^2 \\ &\qquad + \left(\tfrac{0,02}{25,00}\right)^2\Bigr]^{1/2} \\ &= 2,4\cdot10^{-3} \end{aligned} \]
-          \[ \begin{aligned} s_C &= 0,08000\cdot2,4\cdot10^{-3} = 0,00019 \\ C &= \mathbf{0,0800 \pm 0,0002\ M} \end{aligned} \]
-        </details></div>
-
-      <h3>9. Chữ số có nghĩa và làm tròn</h3>
-      <ul>
-        <li>Chữ số có nghĩa gồm mọi chữ số chắc chắn và <b>một</b> chữ số cuối không chắc chắn.</li>
-        <li>Số 0 đứng đầu không có nghĩa (0,0025 có 2 CSCN); số 0 ở giữa hoặc ở cuối phần thập phân có nghĩa (20,00 có 4 CSCN).</li>
-        <li>Viết dạng lũy thừa để rõ ràng: 1200 có thể là 1,2·10<sup>3</sup> (2 CSCN) hoặc 1,200·10<sup>3</sup> (4 CSCN).</li>
-      </ul>
-      <div class="bang-cuon">
-        <table class="bang bang-the">
-          <thead><tr><th>Phép tính</th><th>Quy tắc</th><th>Ví dụ</th></tr></thead>
-          <tbody>
-            <tr><td>Cộng, trừ</td><td>Giữ số chữ số thập phân bằng số hạng ít chữ số thập phân nhất</td><td>12,11 + 0,3 = 12,4</td></tr>
-            <tr><td>Nhân, chia</td><td>Giữ số CSCN bằng số hạng ít CSCN nhất</td><td>2,5 × 3,142 = 7,9</td></tr>
-            <tr><td>Logarit</td><td>Số chữ số thập phân của lg = số CSCN của số ban đầu</td><td>[H<sup>+</sup>] = 2,0·10<sup>−3</sup> → pH = 2,70</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="luu-y">Chỉ làm tròn ở <b>kết quả cuối cùng</b>. Các bước trung gian giữ thêm 1–2 chữ số để không cộng dồn sai số làm tròn.</p>
-
-      <h3>10. Tóm tắt công thức</h3>
+<h3>7. Tóm tắt công thức</h3>
       <div class="bang-cuon">
         <table class="bang bang-the">
           <thead><tr><th>Nội dung</th><th>Công thức</th><th>Ghi chú</th></tr></thead>
@@ -189,20 +459,53 @@ const CHUONG = [
         </table>
       </div>
     `,
-    baiTap: [
-      {
-        de: "Hòa tan 4,00 g NaOH (M = 40,0 g/mol) thành 250,0 mL dung dịch. Tính nồng độ mol của dung dịch.",
-        dapAn: "n = 4,00 / 40,0 = 0,100 mol<br>C = 0,100 / 0,2500 = <b>0,400 M</b>",
-      },
-      {
-        de: "Cần lấy bao nhiêu mL dung dịch HCl 2,00 M để pha thành 500,0 mL dung dịch HCl 0,100 M?",
-        dapAn: "V<sub>1</sub> = C<sub>2</sub>V<sub>2</sub> / C<sub>1</sub> = 0,100 × 500,0 / 2,00 = <b>25,0 mL</b>",
-      },
-    ],
+    baiTap: [],
+  },
+  {
+    id: "can-bang",
+    nhom: "Cân bằng và chuẩn độ",
+    icon: "⚖️",
+    ten: "Cân bằng hóa học",
+    moTa: "Hằng số cân bằng, Le Chatelier, hoạt độ, lực ion",
+    lyThuyet: String.raw`
+      <h3>1. Hằng số cân bằng</h3>
+      <div class="cong-thuc"><div class="nhan">Phản ứng aA + bB ⇌ cC + dD</div>\[ K = \frac{[\mathrm{C}]^c[\mathrm{D}]^d}{[\mathrm{A}]^a[\mathrm{B}]^b} \]</div>
+      <ul>
+        <li>Chất rắn và dung môi (H<sub>2</sub>O) không có mặt trong biểu thức K.</li>
+        <li>K ≫ 1: cân bằng lệch về phía sản phẩm. K ≪ 1: lệch về phía chất đầu.</li>
+        <li>Đảo chiều phản ứng: K' = 1/K. Cộng hai phản ứng: K = K<sub>1</sub>·K<sub>2</sub>.</li>
+      </ul>
+      <h3>2. Nguyên lí Le Chatelier</h3>
+      <p>Khi một hệ đang cân bằng bị tác động (thay đổi nồng độ, nhiệt độ, áp suất), cân bằng chuyển dịch theo chiều <b>làm giảm</b> tác động đó. Ví dụ thêm ion chung làm giảm độ tan của kết tủa.</p>
+      <h3>3. Các loại hằng số thường gặp</h3>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Hằng số</th><th>Cân bằng</th><th>Dùng trong</th></tr></thead>
+          <tbody>
+            <tr><td>K<sub>w</sub></td><td>H<sub>2</sub>O ⇌ H<sup>+</sup> + OH<sup>−</sup></td><td>Mọi dung dịch nước</td></tr>
+            <tr><td>K<sub>a</sub>, K<sub>b</sub></td><td>Phân li acid, base yếu</td><td>Cân bằng và chuẩn độ acid – base</td></tr>
+            <tr><td>K<sub>sp</sub></td><td>Chất rắn ít tan ⇌ các ion</td><td>Kết tủa, chuẩn độ kết tủa</td></tr>
+            <tr><td>K<sub>f</sub> (β)</td><td>Tạo phức M + L ⇌ ML</td><td>Chuẩn độ EDTA</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>4. Hoạt độ và lực ion</h3>
+      <p>Trong dung dịch có nhiều ion, mỗi ion bị các ion khác "bao vây" nên hoạt động kém hơn nồng độ thực. Hằng số cân bằng chính xác phải viết theo <b>hoạt độ</b>.</p>
+      <div class="cong-thuc"><div class="nhan">Lực ion (c<sub>i</sub>: nồng độ, z<sub>i</sub>: điện tích ion i)</div>\[ \mu = \frac{1}{2}\sum c_iz_i^2 \]</div>
+      <div class="cong-thuc"><div class="nhan">Hoạt độ và hệ số hoạt độ γ</div>\[ a_i = \gamma_i\,[i] \]</div>
+      <div class="cong-thuc"><div class="nhan">Định luật giới hạn Debye – Hückel (μ &lt; 0,01 M, 25 °C)</div>\[ \lg\gamma_i = -0,51\,z_i^2\sqrt{\mu} \]</div>
+      <p>Lực ion càng lớn thì γ càng nhỏ; ion điện tích càng lớn thì γ càng nhỏ. Với dung dịch loãng, γ ≈ 1 nên có thể dùng nồng độ thay cho hoạt độ.</p>
+      <h3>5. Phương trình bảo toàn</h3>
+      <ul>
+        <li><b>Bảo toàn điện tích</b>: tổng điện tích dương = tổng điện tích âm. Ví dụ dung dịch CaCl<sub>2</sub>: 2[Ca<sup>2+</sup>] + [H<sup>+</sup>] = [Cl<sup>−</sup>] + [OH<sup>−</sup>].</li>
+        <li><b>Bảo toàn khối lượng (nồng độ)</b>: tổng nồng độ các dạng của một cấu tử bằng nồng độ ban đầu. Ví dụ CH<sub>3</sub>COOH 0,10 M: [CH<sub>3</sub>COOH] + [CH<sub>3</sub>COO<sup>−</sup>] = 0,10.</li>
+      </ul>
+    `,
+    baiTap: [],
   },
   {
     id: "axit-bazo",
-    nhom: "Phân tích hóa học",
+    nhom: "Cân bằng và chuẩn độ",
     icon: "⚗️",
     ten: "Cân bằng acid – base",
     moTa: "pH, phân bố, đa acid, lưỡng tính, đệm",
@@ -444,12 +747,39 @@ const CHUONG = [
     ],
   },
   {
-    id: "tao-phuc",
-    nhom: "Phân tích hóa học",
+    id: "chuan-do-axit-bazo",
+    nhom: "Cân bằng và chuẩn độ",
+    icon: "🧪",
+    ten: "Chuẩn độ acid – base",
+    moTa: "Đường chuẩn độ, bước nhảy, chọn chỉ thị",
+    lyThuyet: String.raw`
+<h3>5. Đường chuẩn độ acid – base và chọn chỉ thị</h3>
+      <p><b>Đường chuẩn độ</b>: đồ thị pH theo thể tích dung dịch chuẩn. Gần điểm tương đương pH thay đổi đột ngột — gọi là <b>bước nhảy</b>. Chọn chỉ thị có khoảng đổi màu (hay chỉ số pT) nằm trong bước nhảy.</p>
+      <ul>
+        <li><b>Acid mạnh – base mạnh</b>: pH<sub>tđ</sub> = 7. Với nồng độ 0,1 M, bước nhảy (sai số ±0,1%) từ pH 4,3 đến 9,7 → dùng được metyl đỏ, phenolphtalein, cả metyl da cam.</li>
+        <li><b>Acid yếu – base mạnh</b>: pH<sub>tđ</sub> &gt; 7 (tính theo dung dịch muối). Tại điểm nửa tương đương: pH = pK<sub>a</sub>. Thường dùng phenolphtalein.</li>
+        <li><b>Base yếu – acid mạnh</b>: pH<sub>tđ</sub> &lt; 7. Thường dùng metyl đỏ, metyl da cam.</li>
+        <li>Nồng độ càng loãng, acid/base càng yếu thì bước nhảy càng ngắn. Điều kiện chuẩn độ được acid yếu với sai số nhỏ: C<sub>a</sub> · K<sub>a</sub> ≥ 10<sup>−8</sup>.</li>
+      </ul>
+      <div class="vi-du"><b>Ví dụ.</b> Chuẩn độ 25,00 mL CH<sub>3</sub>COOH 0,1000 M bằng NaOH 0,1000 M. Tính pH tại điểm tương đương.<br>
+        V<sub>NaOH</sub> = 25,00 mL → C<sub>CH₃COONa</sub> = 0,1000 × 25,00 / 50,00 = 0,05000 M<br>
+        K<sub>b</sub> = 10<sup>−9,24</sup> = 5,75·10<sup>−10</sup> → [OH<sup>−</sup>] = √(5,75·10<sup>−10</sup> × 0,05000) = 5,36·10<sup>−6</sup> M<br>
+        pOH = 5,27 → <b>pH<sub>tđ</sub> = 8,73</b> → chọn phenolphtalein.</div>
+    `,
+    baiTap: [
+      {
+        de: "Chuẩn độ 25,00 mL dung dịch HCl bằng NaOH 0,1000 M thì hết 20,00 mL. Tính nồng độ HCl.",
+        dapAn: "C<sub>HCl</sub> = 0,1000 × 20,00 / 25,00 = <b>0,08000 M</b>",
+      },
+    ],
+  },
+  {
+    id: "edta",
+    nhom: "Cân bằng và chuẩn độ",
     icon: "🔗",
-    ten: "Cân bằng tạo phức",
-    moTa: "Hằng số bền, EDTA, chuẩn độ complexon",
-    lyThuyet: `
+    ten: "Tạo phức và chuẩn độ EDTA",
+    moTa: "Kf, αY4−, hằng số bền điều kiện, chỉ thị kim loại",
+    lyThuyet: String.raw`
       <h3>1. Khái niệm</h3>
       <ul>
         <li><b>Phức chất</b> gồm ion trung tâm (thường là ion kim loại) liên kết với các <b>phối tử</b> (NH<sub>3</sub>, CN<sup>−</sup>, Cl<sup>−</sup>, EDTA...).</li>
@@ -498,11 +828,11 @@ const CHUONG = [
   },
   {
     id: "ket-tua",
-    nhom: "Phân tích hóa học",
+    nhom: "Cân bằng và chuẩn độ",
     icon: "🧂",
-    ten: "Cân bằng kết tủa",
-    moTa: "Tích số tan, độ tan, chuẩn độ kết tủa",
-    lyThuyet: `
+    ten: "Kết tủa và chuẩn độ kết tủa",
+    moTa: "Ksp, độ tan, Mohr, Volhard, Fajans",
+    lyThuyet: String.raw`
       <h3>1. Tích số tan</h3>
       <p>Với chất ít tan M<sub>m</sub>A<sub>n</sub> (rắn) ⇌ mM<sup>n+</sup> + nA<sup>m−</sup>:</p>
       <div class="cong-thuc">K<sub>sp</sub> = [M]<sup>m</sup> · [A]<sup>n</sup> &nbsp;(chỉ phụ thuộc nhiệt độ)</div>
@@ -556,11 +886,11 @@ const CHUONG = [
   },
   {
     id: "oxi-hoa-khu",
-    nhom: "Phân tích hóa học",
+    nhom: "Cân bằng và chuẩn độ",
     icon: "⚡",
-    ten: "Cân bằng oxi hóa – khử",
-    moTa: "Nernst, hằng số cân bằng, các phương pháp chuẩn độ",
-    lyThuyet: `
+    ten: "Oxi hóa – khử và chuẩn độ",
+    moTa: "Nernst, thế điều kiện, đường chuẩn độ, các phương pháp",
+    lyThuyet: String.raw`
       <h3>1. Khái niệm</h3>
       <ul>
         <li><b>Chất oxi hóa</b> nhận electron, <b>chất khử</b> cho electron. Mỗi cặp oxi hóa – khử viết là Ox/Kh: Ox + ne ⇌ Kh.</li>
@@ -617,120 +947,154 @@ const CHUONG = [
     ],
   },
   {
-    id: "chuan-do",
-    nhom: "Phân tích hóa học",
-    icon: "🧪",
-    ten: "Phân tích thể tích (chuẩn độ)",
-    moTa: "Chất gốc, kiểu chuẩn độ, đường chuẩn độ, chỉ thị",
-    lyThuyet: `
-      <h3>1. Khái niệm</h3>
+    id: "hieu-chuan",
+    nhom: "Phân tích công cụ",
+    icon: "📈",
+    ten: "Các phương pháp hiệu chuẩn",
+    moTa: "Đường chuẩn, LOD, thêm chuẩn, nội chuẩn, thẩm định",
+    lyThuyet: String.raw`
+      <h3>1. Đường chuẩn (phương pháp ngoại chuẩn)</h3>
+      <p>Đo tín hiệu y của một dãy dung dịch chuẩn đã biết nồng độ x, dựng đường thẳng y = mx + b bằng <b>phương pháp bình phương tối thiểu</b>, rồi thay tín hiệu mẫu để tìm nồng độ.</p>
+      <div class="cong-thuc"><div class="nhan">Hệ số góc và hệ số chặn</div>\[ \begin{gathered} m = \frac{\sum(x_i - \bar{x})(y_i - \bar{y})}{\sum(x_i - \bar{x})^2} \\ b = \bar{y} - m\bar{x} \end{gathered} \]</div>
+      <div class="cong-thuc"><div class="nhan">Nồng độ mẫu</div>\[ x_\text{mẫu} = \frac{y_\text{mẫu} - b}{m} \]</div>
       <ul>
-        <li><b>Chuẩn độ</b>: thêm từ từ dung dịch đã biết chính xác nồng độ (dung dịch chuẩn, trong buret) vào dung dịch chất cần xác định cho tới khi phản ứng vừa đủ.</li>
-        <li><b>Điểm tương đương</b>: lúc lượng thuốc thử thêm vào đúng bằng lượng cần theo phương trình phản ứng (lí thuyết).</li>
-        <li><b>Điểm cuối chuẩn độ</b>: lúc chỉ thị đổi màu, ta dừng chuẩn độ (thực tế). Chênh lệch giữa hai điểm gây ra <b>sai số chỉ thị</b>.</li>
+        <li>Chỉ dùng trong <b>khoảng tuyến tính</b>; mẫu phải nằm trong khoảng nồng độ của dãy chuẩn (không ngoại suy).</li>
+        <li><b>Mẫu trắng</b> (blank) chứa mọi thành phần trừ chất phân tích, dùng để trừ tín hiệu nền.</li>
+        <li>Nên tính hồi quy bằng công cụ thống kê (ví dụ Data Analysis trong Excel) để có cả độ lệch chuẩn của m và b, không chỉ vẽ đường xu hướng.</li>
       </ul>
-      <p><b>Yêu cầu của phản ứng chuẩn độ</b>: xảy ra nhanh, gần như hoàn toàn, đúng hệ số tỉ lượng và có cách phát hiện điểm tương đương.</p>
-
-      <h3>2. Chất chuẩn gốc và chuẩn hóa</h3>
-      <ul>
-        <li><b>Chất chuẩn gốc</b>: tinh khiết, bền, công thức xác định, khối lượng mol lớn. Pha từ chất gốc thì biết ngay nồng độ chính xác.</li>
-        <li>Chất không phải chất gốc (NaOH, HCl, KMnO<sub>4</sub>, Na<sub>2</sub>S<sub>2</sub>O<sub>3</sub>) phải <b>chuẩn hóa</b> lại nồng độ.</li>
-        <li>Ví dụ: chuẩn hóa NaOH bằng H<sub>2</sub>C<sub>2</sub>O<sub>4</sub>·2H<sub>2</sub>O hoặc kali hydrophtalat (KHP); chuẩn hóa HCl bằng Na<sub>2</sub>B<sub>4</sub>O<sub>7</sub>·10H<sub>2</sub>O (borax) hoặc Na<sub>2</sub>CO<sub>3</sub>.</li>
-      </ul>
-
-      <h3>3. Các kiểu chuẩn độ</h3>
-      <ul>
-        <li><b>Trực tiếp</b>: dung dịch chuẩn phản ứng thẳng với chất cần xác định.</li>
-        <li><b>Ngược</b>: thêm một lượng dư chính xác thuốc thử, rồi chuẩn độ lượng dư bằng dung dịch chuẩn khác. Dùng khi phản ứng chậm hoặc không có chỉ thị phù hợp.</li>
-        <li><b>Thế</b>: chất cần xác định phản ứng tạo ra một lượng tương đương chất khác, rồi chuẩn độ chất đó.</li>
-      </ul>
-
-      <h3>4. Tính kết quả</h3>
-      <div class="cong-thuc">aA + bB → sản phẩm: &nbsp; n<sub>A</sub> / a = n<sub>B</sub> / b</div>
-      <div class="cong-thuc">Tỉ lệ 1 : 1: C<sub>A</sub> · V<sub>A</sub> = C<sub>B</sub> · V<sub>B</sub></div>
-      <div class="cong-thuc">% khối lượng: %X = n<sub>X</sub> · M<sub>X</sub> / m<sub>mẫu</sub> × 100%</div>
-      <div class="vi-du"><b>Ví dụ (chuẩn độ ngược).</b> Hòa tan 0,2500 g mẫu đá vôi trong 50,00 mL HCl 0,1000 M. Lượng HCl dư được chuẩn độ hết 10,00 mL NaOH 0,1000 M. Tính %CaCO<sub>3</sub> (M = 100,09).<br>
-        n<sub>HCl ban đầu</sub> = 5,000·10<sup>−3</sup> mol ; n<sub>HCl dư</sub> = 1,000·10<sup>−3</sup> mol → n<sub>HCl phản ứng</sub> = 4,000·10<sup>−3</sup> mol<br>
-        CaCO<sub>3</sub> + 2HCl → CaCl<sub>2</sub> + CO<sub>2</sub> + H<sub>2</sub>O → n<sub>CaCO₃</sub> = 2,000·10<sup>−3</sup> mol<br>
-        %CaCO<sub>3</sub> = 2,000·10<sup>−3</sup> × 100,09 / 0,2500 × 100% = <b>80,07%</b></div>
-
-      <h3>5. Đường chuẩn độ acid – base và chọn chỉ thị</h3>
-      <p><b>Đường chuẩn độ</b>: đồ thị pH theo thể tích dung dịch chuẩn. Gần điểm tương đương pH thay đổi đột ngột — gọi là <b>bước nhảy</b>. Chọn chỉ thị có khoảng đổi màu (hay chỉ số pT) nằm trong bước nhảy.</p>
-      <ul>
-        <li><b>Acid mạnh – base mạnh</b>: pH<sub>tđ</sub> = 7. Với nồng độ 0,1 M, bước nhảy (sai số ±0,1%) từ pH 4,3 đến 9,7 → dùng được metyl đỏ, phenolphtalein, cả metyl da cam.</li>
-        <li><b>Acid yếu – base mạnh</b>: pH<sub>tđ</sub> &gt; 7 (tính theo dung dịch muối). Tại điểm nửa tương đương: pH = pK<sub>a</sub>. Thường dùng phenolphtalein.</li>
-        <li><b>Base yếu – acid mạnh</b>: pH<sub>tđ</sub> &lt; 7. Thường dùng metyl đỏ, metyl da cam.</li>
-        <li>Nồng độ càng loãng, acid/base càng yếu thì bước nhảy càng ngắn. Điều kiện chuẩn độ được acid yếu với sai số nhỏ: C<sub>a</sub> · K<sub>a</sub> ≥ 10<sup>−8</sup>.</li>
-      </ul>
-      <div class="vi-du"><b>Ví dụ.</b> Chuẩn độ 25,00 mL CH<sub>3</sub>COOH 0,1000 M bằng NaOH 0,1000 M. Tính pH tại điểm tương đương.<br>
-        V<sub>NaOH</sub> = 25,00 mL → C<sub>CH₃COONa</sub> = 0,1000 × 25,00 / 50,00 = 0,05000 M<br>
-        K<sub>b</sub> = 10<sup>−9,24</sup> = 5,75·10<sup>−10</sup> → [OH<sup>−</sup>] = √(5,75·10<sup>−10</sup> × 0,05000) = 5,36·10<sup>−6</sup> M<br>
-        pOH = 5,27 → <b>pH<sub>tđ</sub> = 8,73</b> → chọn phenolphtalein.</div>
+      <h3>2. Giới hạn phát hiện và giới hạn định lượng</h3>
+      <div class="cong-thuc"><div class="nhan">s: độ lệch chuẩn tín hiệu mẫu trắng (hoặc mẫu nồng độ rất thấp); m: độ dốc đường chuẩn</div>\[ \mathrm{LOD} = \frac{3s}{m} \qquad \mathrm{LOQ} = \frac{10s}{m} \]</div>
+      <h3>3. Phương pháp thêm chuẩn</h3>
+      <p>Thêm lượng chuẩn đã biết vào chính mẫu → loại trừ ảnh hưởng của nền mẫu (matrix effect).</p>
+      <div class="cong-thuc"><div class="nhan">Thêm chuẩn một lần (thể tích thêm không đáng kể)</div>\[ C_x = \frac{\Delta C\cdot A_x}{A_{x+\text{chuẩn}} - A_x} \]</div>
+      <p>Thêm chuẩn nhiều mức: vẽ tín hiệu theo nồng độ chuẩn thêm vào, kéo dài đường thẳng cắt trục hoành; |giao điểm| chính là nồng độ chất phân tích.</p>
+      <div class="vi-du"><b>Ví dụ 1.</b> Mẫu có A<sub>x</sub> = 0,240. Thêm chuẩn làm nồng độ tăng thêm 2,00 ppm thì A = 0,400. Tính C<sub>x</sub>.
+        <details><summary>Xem lời giải</summary>
+          \[ C_x = \frac{2,00\cdot0,240}{0,400 - 0,240} = \mathbf{3,00\ ppm} \]
+        </details></div>
+      <h3>4. Phương pháp nội chuẩn</h3>
+      <p>Thêm một lượng biết trước chất <b>nội chuẩn</b> (IS, khác chất phân tích nhưng tính chất gần giống) vào cả chuẩn và mẫu; dùng <b>tỉ số tín hiệu</b> để bù dao động thể tích tiêm, độ nhạy thiết bị.</p>
+      <div class="cong-thuc"><div class="nhan">Hệ số đáp ứng F (xác định từ hỗn hợp chuẩn)</div>\[ \frac{A_X}{[X]} = F\cdot\frac{A_{IS}}{[IS]} \]</div>
+      <h3>5. Đảm bảo chất lượng và thẩm định phương pháp</h3>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Chỉ tiêu</th><th>Kiểm tra bằng</th><th>Ghi chú</th></tr></thead>
+          <tbody>
+            <tr><td>Độ đúng</td><td>Mẫu chuẩn (CRM), độ thu hồi khi thêm chuẩn</td><td>\( R = \dfrac{C_\text{sau thêm} - C_\text{mẫu}}{C_\text{thêm}}\cdot100\% \)</td></tr>
+            <tr><td>Độ chụm</td><td>Đo lặp lại, tính RSD</td><td>Lặp lại trong ngày và giữa các ngày</td></tr>
+            <tr><td>Khoảng tuyến tính</td><td>Dãy chuẩn, hệ số xác định R<sup>2</sup></td><td></td></tr>
+            <tr><td>LOD, LOQ</td><td>Mẫu trắng lặp lại</td><td>3s/m và 10s/m</td></tr>
+            <tr><td>Độ chọn lọc</td><td>Thêm chất có thể cản trở</td><td></td></tr>
+            <tr><td>Độ bền vững</td><td>Thay đổi nhỏ điều kiện</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
     `,
-    baiTap: [
-      {
-        de: "Chuẩn độ 25,00 mL dung dịch HCl bằng NaOH 0,1000 M thì hết 20,00 mL. Tính nồng độ HCl.",
-        dapAn: "C<sub>HCl</sub> = 0,1000 × 20,00 / 25,00 = <b>0,08000 M</b>",
-      },
-    ],
+    baiTap: [],
   },
   {
-    id: "khoi-luong",
-    nhom: "Phân tích hóa học",
-    icon: "⚖️",
-    ten: "Phân tích khối lượng",
-    moTa: "Dạng kết tủa, dạng cân, hệ số chuyển, độ ẩm",
-    lyThuyet: `
-      <h3>1. Nguyên tắc</h3>
-      <p>Tách chất cần xác định ra khỏi mẫu dưới dạng một hợp chất có thành phần xác định, rồi <b>cân</b> để tính hàm lượng.</p>
+    id: "uv-vis",
+    nhom: "Phân tích công cụ",
+    icon: "🌈",
+    ten: "Quang phổ UV-Vis và huỳnh quang",
+    moTa: "Bức xạ điện từ, Lambert – Beer, máy đo, huỳnh quang",
+    lyThuyet: String.raw`
+<h3>1. Bức xạ điện từ</h3>
+      <div class="cong-thuc">E = h · ν = h · c / λ &nbsp;;&nbsp; số sóng ν̃ = 1 / λ</div>
+      <p>h = 6,626·10<sup>−34</sup> J·s ; c = 3,00·10<sup>8</sup> m/s. Bước sóng càng ngắn thì năng lượng càng lớn.</p>
       <ul>
-        <li><b>Phương pháp kết tủa</b> (hay dùng nhất): hòa tan mẫu → tạo kết tủa → lọc, rửa → sấy/nung → cân.</li>
-        <li><b>Phương pháp bay hơi (tách)</b>: làm bay hơi thành phần cần xác định (nước, CO<sub>2</sub>...) rồi cân phần còn lại hoặc phần hấp thụ. Ví dụ xác định độ ẩm, độ tro.</li>
+        <li><b>Tử ngoại (UV)</b> 190 – 400 nm và <b>khả kiến (Vis)</b> 400 – 800 nm: chuyển mức năng lượng electron.</li>
+        <li><b>Hồng ngoại (IR)</b> 4000 – 400 cm<sup>−1</sup>: dao động liên kết → nhận biết nhóm chức.</li>
       </ul>
 
-      <h3>2. Dạng kết tủa và dạng cân</h3>
+      <h3>2. Định luật Lambert – Beer</h3>
+      <div class="cong-thuc">Độ truyền qua: T = I / I<sub>0</sub> &nbsp;;&nbsp; %T = T × 100</div>
+      <div class="cong-thuc">Độ hấp thụ quang: A = −lg T = lg( I<sub>0</sub> / I )</div>
+      <div class="cong-thuc">A = ε · l · C</div>
+      <p>ε: hệ số hấp thụ mol (L·mol<sup>−1</sup>·cm<sup>−1</sup>); l: bề dày cuvet (cm); C: nồng độ (mol/L).</p>
       <ul>
-        <li><b>Dạng kết tủa</b>: chất tách ra khỏi dung dịch. Yêu cầu: độ tan rất nhỏ, tinh khiết, dễ lọc và rửa.</li>
-        <li><b>Dạng cân</b>: chất đem cân sau khi sấy/nung. Yêu cầu: thành phần đúng công thức, bền ngoài không khí, khối lượng mol càng lớn càng tốt (sai số tương đối nhỏ).</li>
-        <li>Hai dạng có thể giống nhau (BaSO<sub>4</sub> → BaSO<sub>4</sub>) hoặc khác nhau (Fe(OH)<sub>3</sub> → nung → Fe<sub>2</sub>O<sub>3</sub>; CaC<sub>2</sub>O<sub>4</sub> → nung → CaO).</li>
+        <li><b>Tính cộng tính</b>: dung dịch nhiều chất hấp thụ: A = Σ ε<sub>i</sub> · l · C<sub>i</sub>.</li>
+        <li>Đo ở bước sóng hấp thụ cực đại <b>λ<sub>max</sub></b> để có độ nhạy cao nhất và ít sai số.</li>
+        <li>Nên đo trong khoảng A ≈ 0,2 – 0,8 (sai số tương đối nhỏ nhất ở A = 0,434).</li>
+      </ul>
+      <div class="vi-du"><b>Ví dụ.</b> Dung dịch có A = 0,450 trong cuvet 1,00 cm, ε = 1,50·10<sup>4</sup> L·mol<sup>−1</sup>·cm<sup>−1</sup>.<br>
+        C = A / (ε·l) = 0,450 / (1,50·10<sup>4</sup> × 1,00) = <b>3,00·10<sup>−5</sup> M</b><br>
+        %T = 10<sup>−0,450</sup> × 100 = <b>35,5%</b></div>
+
+      <h3>3. Các nguyên nhân sai lệch định luật Beer</h3>
+      <ul>
+        <li><b>Nồng độ cao</b> (thường &gt; 0,01 M): tương tác giữa các phân tử, chiết suất thay đổi.</li>
+        <li><b>Hóa học</b>: chất phân li, tạo phức, cân bằng acid – base làm thay đổi dạng hấp thụ.</li>
+        <li><b>Thiết bị</b>: ánh sáng không đơn sắc, ánh sáng tạp (stray light).</li>
       </ul>
 
-      <h3>3. Điều kiện tạo kết tủa tốt</h3>
+      <h3>4. Máy quang phổ UV-Vis</h3>
+      <p>Nguồn sáng → bộ đơn sắc → cuvet chứa mẫu → detector → bộ xử lí.</p>
       <ul>
-        <li><b>Kết tủa tinh thể</b> (BaSO<sub>4</sub>, CaC<sub>2</sub>O<sub>4</sub>): kết tủa từ dung dịch loãng, nóng; thêm thuốc thử chậm và khuấy đều; để yên cho kết tủa "muồi" (hạt lớn dần, dễ lọc, ít tạp chất).</li>
-        <li><b>Kết tủa vô định hình</b> (Fe(OH)<sub>3</sub>, Al(OH)<sub>3</sub>): kết tủa từ dung dịch đặc, nóng, có chất điện li để keo tụ; lọc ngay, không để muồi.</li>
-        <li><b>Cộng kết</b>: tạp chất bị kéo theo vào kết tủa (hấp phụ bề mặt, nội hấp...) gây sai số dương. Hạn chế bằng cách rửa kĩ, kết tủa lại.</li>
+        <li>Nguồn: đèn deuteri (vùng UV), đèn wolfram – halogen (vùng Vis).</li>
+        <li>Bộ đơn sắc: cách tử hoặc lăng kính.</li>
+        <li>Cuvet: thạch anh (dùng được cả UV), thủy tinh hoặc nhựa (chỉ vùng Vis).</li>
+        <li>Detector: ống nhân quang, dãy diode (DAD).</li>
       </ul>
+      <p>Chất không màu có thể cho phản ứng với <b>thuốc thử tạo màu</b> (ví dụ Fe<sup>2+</sup> + 1,10-phenanthrolin tạo phức đỏ cam) rồi đo quang.</p>
 
-      <h3>4. Hệ số chuyển F và tính kết quả</h3>
-      <div class="cong-thuc">F = ( a · M<sub>chất cần xác định</sub> ) / ( b · M<sub>dạng cân</sub> )</div>
-      <p>a, b chọn sao cho số nguyên tử của nguyên tố cần xác định ở tử và mẫu bằng nhau.</p>
-      <div class="cong-thuc">%X = m<sub>dạng cân</sub> · F / m<sub>mẫu</sub> × 100%</div>
-      <div class="vi-du"><b>Ví dụ.</b> Phân tích 0,4000 g quặng sắt, thu được 0,2500 g Fe<sub>2</sub>O<sub>3</sub>. Tính %Fe (Fe = 55,845 ; Fe<sub>2</sub>O<sub>3</sub> = 159,69).<br>
-        F = 2 × 55,845 / 159,69 = 0,6994<br>
-        %Fe = 0,2500 × 0,6994 / 0,4000 × 100% = <b>43,71%</b></div>
-
-      <h3>5. Xác định độ ẩm</h3>
-      <div class="cong-thuc">% độ ẩm = ( m<sub>trước sấy</sub> − m<sub>sau sấy</sub> ) / m<sub>trước sấy</sub> × 100%</div>
-      <p>Sấy đến <b>khối lượng không đổi</b> (hai lần cân liên tiếp chênh nhau không quá sai số cho phép).</p>
-      <div class="vi-du"><b>Ví dụ.</b> 2,0000 g mẫu sau khi sấy đến khối lượng không đổi còn 1,8640 g.<br>
-        % độ ẩm = (2,0000 − 1,8640) / 2,0000 × 100% = <b>6,80%</b></div>
+      <h3>5. Huỳnh quang phân tử</h3>
+      <p>Phân tử hấp thụ bức xạ (kích thích), rồi phát ra bức xạ có <b>bước sóng dài hơn</b> khi trở về trạng thái cơ bản.</p>
+      <div class="cong-thuc">Ở nồng độ thấp: F = K · C</div>
+      <ul>
+        <li>Detector đặt vuông góc (90°) với chùm sáng kích thích.</li>
+        <li>Nhạy hơn đo quang hấp thụ 10 – 1000 lần, chọn lọc hơn (chọn được cả λ kích thích và λ phát xạ).</li>
+        <li>Nồng độ cao: hiện tượng tự dập tắt, mất tuyến tính.</li>
+      </ul>
     `,
-    baiTap: [
-      {
-        de: "Phân tích 0,5000 g mẫu thu được 0,4660 g BaSO<sub>4</sub> (M = 233,39). Tính % lưu huỳnh (S = 32,06) trong mẫu.",
-        dapAn: "F = 32,06 / 233,39 = 0,1374<br>%S = 0,4660 × 0,1374 / 0,5000 × 100% ≈ <b>12,80%</b>",
-      },
-    ],
+    baiTap: [],
   },
-  /* ===================== PHÂN TÍCH CÔNG CỤ ===================== */
   {
-    id: "do-the",
+    id: "quang-nguyen-tu",
+    nhom: "Phân tích công cụ",
+    icon: "🔥",
+    ten: "Quang phổ nguyên tử",
+    moTa: "AAS, AES, ICP-OES, ICP-MS",
+    lyThuyet: String.raw`
+<h3>1. Phổ nguyên tử và phổ phân tử</h3>
+      <ul>
+        <li><b>Phổ nguyên tử</b>: nguyên tử tự do ở trạng thái hơi, cho <b>vạch phổ</b> rất hẹp, đặc trưng cho từng nguyên tố → dùng xác định kim loại.</li>
+        <li><b>Phổ phân tử</b>: cho <b>dải phổ</b> rộng (vì có thêm mức dao động, quay).</li>
+        <li>Mọi phương pháp phổ nguyên tử đều cần bước <b>nguyên tử hóa</b>: chuyển mẫu thành nguyên tử tự do.</li>
+      </ul>
+
+      <h3>2. Quang phổ hấp thụ nguyên tử (AAS)</h3>
+      <p>Nguyên tử ở trạng thái cơ bản hấp thụ bức xạ đúng bằng vạch cộng hưởng của nó.</p>
+      <ul>
+        <li><b>Nguồn</b>: đèn catot rỗng (HCL) làm bằng chính nguyên tố cần đo → phát vạch đặc trưng, mỗi nguyên tố một đèn.</li>
+        <li><b>Nguyên tử hóa ngọn lửa (F-AAS)</b>: không khí – axetilen (~2300 °C) hoặc N<sub>2</sub>O – axetilen (~2700 °C); nhanh, cỡ ppm.</li>
+        <li><b>Nguyên tử hóa lò graphit (GF-AAS)</b>: nhạy hơn 100 – 1000 lần (cỡ ppb), cần ít mẫu.</li>
+        <li>Kĩ thuật hydrua hóa (As, Se, Sb...), hóa hơi lạnh (Hg).</li>
+      </ul>
+      <div class="cong-thuc">A = k · C &nbsp;(trong khoảng tuyến tính)</div>
+      <p><b>Ảnh hưởng cản trở</b>: hóa học (tạo hợp chất bền khó nguyên tử hóa, ví dụ PO<sub>4</sub><sup>3−</sup> với Ca → thêm La<sup>3+</sup> hoặc Sr<sup>2+</sup> làm chất giải phóng); ion hóa (thêm K, Cs làm chất khử ion hóa); hấp thụ nền (hiệu chỉnh bằng đèn D<sub>2</sub> hoặc Zeeman).</p>
+
+      <h3>3. Quang phổ phát xạ nguyên tử (AES) và ICP-OES</h3>
+      <p>Nguyên tử bị kích thích lên mức năng lượng cao, khi trở về phát ra bức xạ đặc trưng. Cường độ vạch tỉ lệ với nồng độ:</p>
+      <div class="cong-thuc">I = k · C</div>
+      <ul>
+        <li><b>Nguồn kích thích plasma ICP</b> (Ar, 6000 – 10000 K): nguyên tử hóa và kích thích gần như hoàn toàn, ít cản trở hóa học.</li>
+        <li>Phân tích <b>đồng thời nhiều nguyên tố</b>, khoảng tuyến tính rộng (4 – 6 bậc nồng độ).</li>
+        <li>Quang kế ngọn lửa: dùng ngọn lửa làm nguồn kích thích, hay dùng cho Na, K.</li>
+      </ul>
+
+      <h3>4. ICP-MS</h3>
+      <p>Plasma ICP ion hóa nguyên tử → khối phổ kế tách ion theo tỉ số <b>m/z</b> → đếm ion. Nhạy nhất trong nhóm (cỡ ppt), phân tích đồng thời nhiều nguyên tố và đồng vị. Cản trở: ion đa nguyên tử cùng m/z (ví dụ <sup>40</sup>Ar<sup>35</sup>Cl<sup>+</sup> trùng <sup>75</sup>As<sup>+</sup>).</p>
+    `,
+    baiTap: [],
+  },
+  {
+    id: "dien-hoa",
     nhom: "Phân tích công cụ",
     icon: "🔋",
-    ten: "Điện hóa: phương pháp đo thế",
+    ten: "Điện hóa: điện cực và đo thế",
     moTa: "Điện cực so sánh, điện cực chỉ thị, ISE, chuẩn độ điện thế",
-    lyThuyet: `
+    lyThuyet: String.raw`
       <h3>1. Đại cương phân tích điện hóa</h3>
       <p>Các phương pháp điện hóa đo một đại lượng điện (thế, dòng, điện lượng, độ dẫn) liên quan đến nồng độ chất phân tích.</p>
       <ul>
@@ -786,177 +1150,12 @@ const CHUONG = [
     baiTap: [],
   },
   {
-    id: "dien-phan-von-ampe",
+    id: "sac-ki",
     nhom: "Phân tích công cụ",
-    icon: "⚡",
-    ten: "Điện hóa: điện phân, von-ampe, độ dẫn",
-    moTa: "Faraday, culông, cực phổ, Ilkovic, đo độ dẫn",
-    lyThuyet: `
-      <h3>1. Định luật Faraday</h3>
-      <div class="cong-thuc">Q = I · t &nbsp;(C = A · s)</div>
-      <div class="cong-thuc">n<sub>chất</sub> = Q / (z · F) &nbsp;;&nbsp; m = Q · M / (z · F)</div>
-      <p>F = 96485 C/mol (hằng số Faraday); z: số electron trao đổi cho 1 phân tử/ion.</p>
-      <div class="vi-du"><b>Ví dụ.</b> Điện phân dung dịch Cu<sup>2+</sup> với dòng 0,500 A trong 965 s (hiệu suất 100%).<br>
-        Q = 0,500 × 965 = 482,5 C<br>
-        m<sub>Cu</sub> = 482,5 × 63,55 / (2 × 96485) = <b>0,159 g</b></div>
-
-      <h3>2. Điện khối lượng và phương pháp culông</h3>
-      <ul>
-        <li><b>Điện khối lượng</b>: điện phân cho kim loại bám hết lên điện cực, cân điện cực trước và sau.</li>
-        <li><b>Culông thế không đổi</b>: giữ thế điện cực làm việc cố định, dòng giảm dần về 0; đo tổng điện lượng Q.</li>
-        <li><b>Chuẩn độ culông</b> (dòng không đổi): thuốc thử được tạo ra ngay trên điện cực (ví dụ I<sub>2</sub> từ I<sup>−</sup>), đo thời gian t đến điểm tương đương → Q = I·t. Không cần dung dịch chuẩn, rất chính xác với lượng nhỏ.</li>
-        <li>Điều kiện: hiệu suất dòng 100% (toàn bộ điện lượng dùng cho đúng phản ứng cần đo).</li>
-      </ul>
-      <div class="vi-du"><b>Ví dụ.</b> Chuẩn độ culông As(III) bằng I<sub>2</sub> sinh ra từ I<sup>−</sup> (2I<sup>−</sup> → I<sub>2</sub> + 2e), dòng 20,0 mA, hết 600 s. I<sub>2</sub> phản ứng với As(III) theo tỉ lệ 1 : 1.<br>
-        Q = 0,0200 × 600 = 12,0 C → n<sub>As</sub> = n<sub>I₂</sub> = 12,0 / (2 × 96485) = <b>6,22·10<sup>−5</sup> mol</b></div>
-
-      <h3>3. Cực phổ và von-ampe</h3>
-      <p>Áp thế biến thiên lên điện cực làm việc (điện cực giọt thủy ngân, điện cực rắn...), ghi dòng theo thế → <b>đường von-ampe (cực phổ đồ)</b>.</p>
-      <ul>
-        <li><b>Thế bán sóng E<sub>1/2</sub></b>: đặc trưng cho từng chất → dùng để <b>định tính</b>.</li>
-        <li><b>Dòng giới hạn khuếch tán i<sub>d</sub></b> tỉ lệ với nồng độ → dùng để <b>định lượng</b>.</li>
-      </ul>
-      <div class="cong-thuc">Phương trình Ilkovic: i<sub>d</sub> = 708 · z · D<sup>1/2</sup> · m<sup>2/3</sup> · t<sup>1/6</sup> · C</div>
-      <p>(i<sub>d</sub> cực đại, µA; D: hệ số khuếch tán, cm²/s; m: tốc độ chảy Hg, mg/s; t: chu kì giọt, s; C: mmol/L. Dòng trung bình dùng hệ số 607.) Trong cùng điều kiện đo: i<sub>d</sub> = k · C.</p>
-      <div class="vi-du"><b>Ví dụ.</b> Dung dịch chuẩn 1,00·10<sup>−3</sup> M cho i<sub>d</sub> = 5,20 µA; mẫu cho 3,90 µA (cùng điều kiện).<br>
-        C<sub>x</sub> = 1,00·10<sup>−3</sup> × 3,90 / 5,20 = <b>7,50·10<sup>−4</sup> M</b></div>
-      <ul>
-        <li><b>Von-ampe xung vi phân (DPV)</b>: giảm dòng tụ điện → nhạy hơn cực phổ cổ điển.</li>
-        <li><b>Von-ampe hòa tan anot (ASV)</b>: làm giàu kim loại lên điện cực bằng điện phân, rồi quét thế hòa tan ra → phát hiện kim loại nặng (Pb, Cd, Cu, Zn) ở mức ppb.</li>
-      </ul>
-
-      <h3>4. Phương pháp đo độ dẫn</h3>
-      <div class="cong-thuc">Độ dẫn điện riêng κ (S/cm) ; độ dẫn điện mol: Λ = 1000 · κ / C &nbsp;(S·cm²/mol, C: mol/L)</div>
-      <div class="cong-thuc">Chất điện li mạnh (Kohlrausch): Λ = Λ° − K·√C</div>
-      <div class="cong-thuc">Định luật chuyển động độc lập của ion: Λ° = λ°<sub>+</sub> + λ°<sub>−</sub></div>
-      <p>H<sup>+</sup> (λ° ≈ 350) và OH<sup>−</sup> (λ° ≈ 199) dẫn điện tốt hơn hẳn các ion khác (Na<sup>+</sup> ≈ 50, Cl<sup>−</sup> ≈ 76 S·cm²/mol).</p>
-      <p><b>Chuẩn độ đo độ dẫn</b>: ví dụ chuẩn độ HCl bằng NaOH — trước điểm tương đương độ dẫn <b>giảm</b> (H<sup>+</sup> linh động bị thay bằng Na<sup>+</sup> kém linh động), sau điểm tương đương độ dẫn <b>tăng</b> (dư Na<sup>+</sup>, OH<sup>−</sup>). Giao điểm hai đoạn thẳng là điểm tương đương.</p>
-    `,
-    baiTap: [],
-  },
-  {
-    id: "quang-dai-cuong",
-    nhom: "Phân tích công cụ",
-    icon: "🌈",
-    ten: "Quang phổ: đại cương & UV-Vis",
-    moTa: "Bức xạ điện từ, Lambert – Beer, đo quang phân tử",
-    lyThuyet: `
-      <h3>1. Bức xạ điện từ</h3>
-      <div class="cong-thuc">E = h · ν = h · c / λ &nbsp;;&nbsp; số sóng ν̃ = 1 / λ</div>
-      <p>h = 6,626·10<sup>−34</sup> J·s ; c = 3,00·10<sup>8</sup> m/s. Bước sóng càng ngắn thì năng lượng càng lớn.</p>
-      <ul>
-        <li><b>Tử ngoại (UV)</b> 190 – 400 nm và <b>khả kiến (Vis)</b> 400 – 800 nm: chuyển mức năng lượng electron.</li>
-        <li><b>Hồng ngoại (IR)</b> 4000 – 400 cm<sup>−1</sup>: dao động liên kết → nhận biết nhóm chức.</li>
-      </ul>
-
-      <h3>2. Định luật Lambert – Beer</h3>
-      <div class="cong-thuc">Độ truyền qua: T = I / I<sub>0</sub> &nbsp;;&nbsp; %T = T × 100</div>
-      <div class="cong-thuc">Độ hấp thụ quang: A = −lg T = lg( I<sub>0</sub> / I )</div>
-      <div class="cong-thuc">A = ε · l · C</div>
-      <p>ε: hệ số hấp thụ mol (L·mol<sup>−1</sup>·cm<sup>−1</sup>); l: bề dày cuvet (cm); C: nồng độ (mol/L).</p>
-      <ul>
-        <li><b>Tính cộng tính</b>: dung dịch nhiều chất hấp thụ: A = Σ ε<sub>i</sub> · l · C<sub>i</sub>.</li>
-        <li>Đo ở bước sóng hấp thụ cực đại <b>λ<sub>max</sub></b> để có độ nhạy cao nhất và ít sai số.</li>
-        <li>Nên đo trong khoảng A ≈ 0,2 – 0,8 (sai số tương đối nhỏ nhất ở A = 0,434).</li>
-      </ul>
-      <div class="vi-du"><b>Ví dụ.</b> Dung dịch có A = 0,450 trong cuvet 1,00 cm, ε = 1,50·10<sup>4</sup> L·mol<sup>−1</sup>·cm<sup>−1</sup>.<br>
-        C = A / (ε·l) = 0,450 / (1,50·10<sup>4</sup> × 1,00) = <b>3,00·10<sup>−5</sup> M</b><br>
-        %T = 10<sup>−0,450</sup> × 100 = <b>35,5%</b></div>
-
-      <h3>3. Các nguyên nhân sai lệch định luật Beer</h3>
-      <ul>
-        <li><b>Nồng độ cao</b> (thường &gt; 0,01 M): tương tác giữa các phân tử, chiết suất thay đổi.</li>
-        <li><b>Hóa học</b>: chất phân li, tạo phức, cân bằng acid – base làm thay đổi dạng hấp thụ.</li>
-        <li><b>Thiết bị</b>: ánh sáng không đơn sắc, ánh sáng tạp (stray light).</li>
-      </ul>
-
-      <h3>4. Máy quang phổ UV-Vis</h3>
-      <p>Nguồn sáng → bộ đơn sắc → cuvet chứa mẫu → detector → bộ xử lí.</p>
-      <ul>
-        <li>Nguồn: đèn deuteri (vùng UV), đèn wolfram – halogen (vùng Vis).</li>
-        <li>Bộ đơn sắc: cách tử hoặc lăng kính.</li>
-        <li>Cuvet: thạch anh (dùng được cả UV), thủy tinh hoặc nhựa (chỉ vùng Vis).</li>
-        <li>Detector: ống nhân quang, dãy diode (DAD).</li>
-      </ul>
-      <p>Chất không màu có thể cho phản ứng với <b>thuốc thử tạo màu</b> (ví dụ Fe<sup>2+</sup> + 1,10-phenanthrolin tạo phức đỏ cam) rồi đo quang.</p>
-
-      <h3>5. Phương pháp định lượng</h3>
-      <ul>
-        <li><b>Đường chuẩn</b>: đo A của dãy dung dịch chuẩn → dựng đường A = a·C + b → thay A<sub>mẫu</sub> tìm C<sub>x</sub>. Mẫu phải nằm trong khoảng tuyến tính.</li>
-        <li><b>Thêm chuẩn</b>: thêm lượng chuẩn biết trước vào chính mẫu → loại trừ ảnh hưởng của nền mẫu.</li>
-        <li><b>Mẫu trắng</b>: chứa mọi thành phần trừ chất phân tích, dùng để chỉnh A = 0.</li>
-      </ul>
-      <div class="cong-thuc">Thêm chuẩn một lần (thể tích thêm không đáng kể):<br>C<sub>x</sub> = ΔC · A<sub>x</sub> / (A<sub>x+chuẩn</sub> − A<sub>x</sub>)</div>
-      <div class="vi-du"><b>Ví dụ.</b> Mẫu có A<sub>x</sub> = 0,240. Thêm chuẩn làm nồng độ tăng thêm 2,00 ppm thì A = 0,400.<br>
-        C<sub>x</sub> = 2,00 × 0,240 / (0,400 − 0,240) = <b>3,00 ppm</b></div>
-    `,
-    baiTap: [],
-  },
-  {
-    id: "quang-nguyen-tu",
-    nhom: "Phân tích công cụ",
-    icon: "🔥",
-    ten: "Quang phổ nguyên tử & phương pháp quang khác",
-    moTa: "AAS, AES/ICP, ICP-MS, huỳnh quang, IR",
-    lyThuyet: `
-      <h3>1. Phổ nguyên tử và phổ phân tử</h3>
-      <ul>
-        <li><b>Phổ nguyên tử</b>: nguyên tử tự do ở trạng thái hơi, cho <b>vạch phổ</b> rất hẹp, đặc trưng cho từng nguyên tố → dùng xác định kim loại.</li>
-        <li><b>Phổ phân tử</b>: cho <b>dải phổ</b> rộng (vì có thêm mức dao động, quay).</li>
-        <li>Mọi phương pháp phổ nguyên tử đều cần bước <b>nguyên tử hóa</b>: chuyển mẫu thành nguyên tử tự do.</li>
-      </ul>
-
-      <h3>2. Quang phổ hấp thụ nguyên tử (AAS)</h3>
-      <p>Nguyên tử ở trạng thái cơ bản hấp thụ bức xạ đúng bằng vạch cộng hưởng của nó.</p>
-      <ul>
-        <li><b>Nguồn</b>: đèn catot rỗng (HCL) làm bằng chính nguyên tố cần đo → phát vạch đặc trưng, mỗi nguyên tố một đèn.</li>
-        <li><b>Nguyên tử hóa ngọn lửa (F-AAS)</b>: không khí – axetilen (~2300 °C) hoặc N<sub>2</sub>O – axetilen (~2700 °C); nhanh, cỡ ppm.</li>
-        <li><b>Nguyên tử hóa lò graphit (GF-AAS)</b>: nhạy hơn 100 – 1000 lần (cỡ ppb), cần ít mẫu.</li>
-        <li>Kĩ thuật hydrua hóa (As, Se, Sb...), hóa hơi lạnh (Hg).</li>
-      </ul>
-      <div class="cong-thuc">A = k · C &nbsp;(trong khoảng tuyến tính)</div>
-      <p><b>Ảnh hưởng cản trở</b>: hóa học (tạo hợp chất bền khó nguyên tử hóa, ví dụ PO<sub>4</sub><sup>3−</sup> với Ca → thêm La<sup>3+</sup> hoặc Sr<sup>2+</sup> làm chất giải phóng); ion hóa (thêm K, Cs làm chất khử ion hóa); hấp thụ nền (hiệu chỉnh bằng đèn D<sub>2</sub> hoặc Zeeman).</p>
-
-      <h3>3. Quang phổ phát xạ nguyên tử (AES) và ICP-OES</h3>
-      <p>Nguyên tử bị kích thích lên mức năng lượng cao, khi trở về phát ra bức xạ đặc trưng. Cường độ vạch tỉ lệ với nồng độ:</p>
-      <div class="cong-thuc">I = k · C</div>
-      <ul>
-        <li><b>Nguồn kích thích plasma ICP</b> (Ar, 6000 – 10000 K): nguyên tử hóa và kích thích gần như hoàn toàn, ít cản trở hóa học.</li>
-        <li>Phân tích <b>đồng thời nhiều nguyên tố</b>, khoảng tuyến tính rộng (4 – 6 bậc nồng độ).</li>
-        <li>Quang kế ngọn lửa: dùng ngọn lửa làm nguồn kích thích, hay dùng cho Na, K.</li>
-      </ul>
-
-      <h3>4. ICP-MS</h3>
-      <p>Plasma ICP ion hóa nguyên tử → khối phổ kế tách ion theo tỉ số <b>m/z</b> → đếm ion. Nhạy nhất trong nhóm (cỡ ppt), phân tích đồng thời nhiều nguyên tố và đồng vị. Cản trở: ion đa nguyên tử cùng m/z (ví dụ <sup>40</sup>Ar<sup>35</sup>Cl<sup>+</sup> trùng <sup>75</sup>As<sup>+</sup>).</p>
-
-      <h3>5. Huỳnh quang phân tử</h3>
-      <p>Phân tử hấp thụ bức xạ (kích thích), rồi phát ra bức xạ có <b>bước sóng dài hơn</b> khi trở về trạng thái cơ bản.</p>
-      <div class="cong-thuc">Ở nồng độ thấp: F = K · C</div>
-      <ul>
-        <li>Detector đặt vuông góc (90°) với chùm sáng kích thích.</li>
-        <li>Nhạy hơn đo quang hấp thụ 10 – 1000 lần, chọn lọc hơn (chọn được cả λ kích thích và λ phát xạ).</li>
-        <li>Nồng độ cao: hiện tượng tự dập tắt, mất tuyến tính.</li>
-      </ul>
-
-      <h3>6. Phổ hồng ngoại (IR)</h3>
-      <p>Hấp thụ bức xạ IR làm dao động liên kết, dùng chủ yếu để <b>định tính, nhận biết nhóm chức</b>. Một số vùng đặc trưng:</p>
-      <ul>
-        <li>O–H: 3200 – 3600 cm<sup>−1</sup> (rộng) ; N–H: 3300 – 3500 cm<sup>−1</sup></li>
-        <li>C–H: 2850 – 3100 cm<sup>−1</sup></li>
-        <li>C≡N, C≡C: 2100 – 2260 cm<sup>−1</sup></li>
-        <li>C=O: 1650 – 1750 cm<sup>−1</sup> (mạnh, rất đặc trưng)</li>
-        <li>Vùng "vân tay" 400 – 1500 cm<sup>−1</sup>: đặc trưng riêng từng chất.</li>
-      </ul>
-    `,
-    baiTap: [],
-  },
-  {
-    id: "sac-ki-dai-cuong",
-    nhom: "Phân tích công cụ",
-    icon: "📊",
-    ten: "Sắc kí: đại cương",
+    icon: "📉",
+    ten: "Sắc kí đại cương",
     moTa: "Thời gian lưu, hệ số lưu, số đĩa, độ phân giải",
-    lyThuyet: `
+    lyThuyet: String.raw`
       <h3>1. Nguyên tắc</h3>
       <p>Các chất được tách nhờ <b>phân bố khác nhau</b> giữa hai pha: <b>pha tĩnh</b> (cố định trong cột hoặc trên bản) và <b>pha động</b> (khí hoặc lỏng, chảy qua pha tĩnh). Chất tương tác mạnh với pha tĩnh sẽ đi chậm hơn.</p>
       <div class="cong-thuc">Hệ số phân bố: K = C<sub>tĩnh</sub> / C<sub>động</sub></div>
@@ -1010,12 +1209,12 @@ const CHUONG = [
     baiTap: [],
   },
   {
-    id: "sac-ki-ki-thuat",
+    id: "gc-hplc",
     nhom: "Phân tích công cụ",
     icon: "🧫",
-    ten: "Sắc kí: các kĩ thuật",
-    moTa: "Sắc kí lớp mỏng, GC, HPLC, sắc kí ion",
-    lyThuyet: `
+    ten: "Sắc kí khí và sắc kí lỏng",
+    moTa: "TLC, GC, HPLC, detector",
+    lyThuyet: String.raw`
       <h3>1. Sắc kí lớp mỏng (TLC)</h3>
       <p>Pha tĩnh là lớp silica gel (hoặc nhôm oxide) trải trên bản; pha động là dung môi, đi lên nhờ mao dẫn.</p>
       <div class="cong-thuc">R<sub>f</sub> = quãng đường chất đi / quãng đường dung môi đi &nbsp;(0 &lt; R<sub>f</sub> &lt; 1)</div>
