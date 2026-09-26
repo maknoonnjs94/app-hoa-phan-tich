@@ -665,3 +665,7 @@ details[open] > summary .khi-mo { display: inline; }
 .mp-doc b { font-size: 20px; }
 .mp-bia { max-width: 260px; margin: 0 auto; }
 .mp-truc-q { background: var(--the); border-radius: 10px; touch-action: none; }
+.mp-pin { background: var(--the); border-radius: 12px; }
+.mo-phong .mp-vk { fill: #22d3ee; font-size: 12px; font-weight: 700; }
+.mp-cot { margin-bottom: 6px; }
+.mp-goi-y { margin-left: auto; color: var(--chu-phu); font-size: 11px; white-space: nowrap; }

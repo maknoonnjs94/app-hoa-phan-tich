@@ -243,15 +243,13 @@ MO_PHONG["edta-3d"] = el => {
 };
 
 /* ---------------- 4. Kéo thả: sơ đồ máy AAS ---------------- */
-MO_PHONG["keo-tha-aas"] = el => {
-  const O = [["den", "Đèn catot rỗng"], ["nt", "Bộ nguyên tử hóa (ngọn lửa)"], ["ds", "Bộ đơn sắc"], ["dt", "Detector"]];
-  const NHIEU = [["x", "Cuvet thạch anh"], ["y", "Đèn deuteri"]];
-  const the = [...O, ...NHIEU].sort(() => Math.random() - 0.5);
+function keoThaSoDo(el, { tieuDe, moTa, o, nhieu, goiY, xong, giaiThichSai }) {
+  const the = [...o, ...nhieu].sort(() => Math.random() - 0.5);
   el.innerHTML = `
-    <div class="mp-dau"><b>🧩 Lắp ráp máy AAS</b><span>Kéo từng nhãn vào đúng ô trên sơ đồ</span></div>
-    <div class="mp-so-do">${O.map(([k], i) => `<div class="mp-o" data-k="${k}"><span>${i + 1}</span></div>${i < 3 ? '<div class="mp-mui">→</div>' : ""}`).join("")}</div>
+    <div class="mp-dau"><b>${tieuDe}</b><span>${moTa}</span></div>
+    <div class="mp-so-do">${o.map(([k], i) => `<div class="mp-o" data-k="${k}"><span>${i + 1}</span></div>${i < o.length - 1 ? '<div class="mp-mui">→</div>' : ""}`).join("")}</div>
     <div class="mp-kho-nhan">${the.map(([k, t]) => `<div class="mp-nhan" data-k="${k}">${t}</div>`).join("")}</div>
-    <p class="mp-nhan-xet">Gợi ý: ánh sáng đi từ nguồn, qua đám nguyên tử tự do, rồi mới đến bộ đơn sắc và detector.</p>`;
+    <p class="mp-nhan-xet">${goiY}</p>`;
   const nx = el.querySelector(".mp-nhan-xet");
   el.querySelectorAll(".mp-nhan").forEach(n => {
     let bong = null, dx = 0, dy = 0;
@@ -265,20 +263,36 @@ MO_PHONG["keo-tha-aas"] = el => {
     n.addEventListener("pointermove", di);
     n.addEventListener("pointerup", e => {
       if (!bong) return; bong.remove(); bong = null; n.classList.remove("dang-keo");
-      const o = [...el.querySelectorAll(".mp-o")].find(o => { const r = o.getBoundingClientRect(); return e.clientX > r.left && e.clientX < r.right && e.clientY > r.top && e.clientY < r.bottom; });
-      if (!o) return;
-      if (o.dataset.k === n.dataset.k && !o.classList.contains("dung")) {
-        o.classList.add("dung"); o.innerHTML = `<b>${n.textContent}</b>`; n.classList.add("dung");
+      const oo = [...el.querySelectorAll(".mp-o")].find(x => { const r = x.getBoundingClientRect(); return e.clientX > r.left && e.clientX < r.right && e.clientY > r.top && e.clientY < r.bottom; });
+      if (!oo) return;
+      if (oo.dataset.k === n.dataset.k && !oo.classList.contains("dung")) {
+        oo.classList.add("dung"); oo.innerHTML = `<b>${n.textContent}</b>`; n.classList.add("dung");
         const con = el.querySelectorAll(".mp-o:not(.dung)").length;
-        nx.innerHTML = con ? `✅ Đúng! Còn ${con} ô.` : "🎉 Hoàn thành! Đèn catot rỗng phát vạch đặc trưng → nguyên tử tự do trong ngọn lửa hấp thụ → bộ đơn sắc tách vạch cần đo → detector ghi cường độ.";
+        nx.innerHTML = con ? `✅ Đúng! Còn ${con} ô.` : "🎉 Hoàn thành! " + xong;
         if (!con) el.querySelector(".mp-so-do").classList.add("xong");
       } else {
-        o.classList.add("sai"); setTimeout(() => o.classList.remove("sai"), 500);
-        nx.innerHTML = n.dataset.k === "x" ? "❌ AAS không dùng cuvet: mẫu được nguyên tử hóa trong ngọn lửa hoặc lò graphit." : n.dataset.k === "y" ? "❌ Đèn deuteri là nguồn liên tục của máy UV – Vis (trong AAS chỉ dùng để hiệu chỉnh nền)." : "❌ Chưa đúng vị trí, thử lại.";
+        oo.classList.add("sai"); setTimeout(() => oo.classList.remove("sai"), 500);
+        nx.innerHTML = giaiThichSai[n.dataset.k] || "❌ Chưa đúng vị trí, thử lại.";
       }
     });
   });
-};
+}
+MO_PHONG["keo-tha-aas"] = el => keoThaSoDo(el, {
+  tieuDe: "🧩 Lắp ráp máy AAS", moTa: "Kéo từng nhãn vào đúng ô trên sơ đồ",
+  o: [["den", "Đèn catot rỗng"], ["nt", "Bộ nguyên tử hóa (ngọn lửa)"], ["ds", "Bộ đơn sắc"], ["dt", "Detector"]],
+  nhieu: [["x", "Cuvet thạch anh"], ["y", "Đèn deuteri"]],
+  goiY: "Gợi ý: ánh sáng đi từ nguồn, qua đám nguyên tử tự do, rồi mới đến bộ đơn sắc và detector.",
+  xong: "Đèn catot rỗng phát vạch đặc trưng → nguyên tử tự do trong ngọn lửa hấp thụ → bộ đơn sắc tách vạch cần đo → detector ghi cường độ.",
+  giaiThichSai: { x: "❌ AAS không dùng cuvet: mẫu được nguyên tử hóa trong ngọn lửa hoặc lò graphit.", y: "❌ Đèn deuteri là nguồn liên tục của máy UV – Vis (trong AAS chỉ dùng để hiệu chỉnh nền)." },
+});
+MO_PHONG["keo-tha-hplc"] = el => keoThaSoDo(el, {
+  tieuDe: "🧩 Lắp ráp hệ HPLC", moTa: "Kéo từng bộ phận vào đúng vị trí theo đường đi của pha động",
+  o: [["dm", "Bình dung môi"], ["bom", "Bơm cao áp"], ["tiem", "Bộ tiêm mẫu"], ["cot", "Cột C18"], ["dt", "Detector UV"]],
+  nhieu: [["k", "Bình khí mang He"], ["l", "Lò cột GC"]],
+  goiY: "Pha động phải được bơm tạo áp suất trước khi mẫu được tiêm vào dòng.",
+  xong: "Dung môi → bơm cao áp → tiêm mẫu vào dòng pha động → cột tách → detector ghi sắc đồ.",
+  giaiThichSai: { k: "❌ Khí mang là pha động của GC; HPLC dùng pha động lỏng.", l: "❌ Lò cột dùng trong GC (điều khiển nhiệt độ cột); HPLC điều khiển tách chủ yếu bằng thành phần pha động." },
+});
 
 /* ---------------- Khung đồ thị dùng chung ---------------- */
 // Tạo SVG đồ thị: trả về {svg, X, Y} với trục x [x0,x1], y [y0,y1]
@@ -500,16 +514,8 @@ MO_PHONG["duong-chuan"] = el => {
   capNhat();
 };
 
-/* ---------------- 10. Sắp xếp các bước quy trình phân tích (kéo thả) ---------------- */
-MO_PHONG["sap-xep-quy-trinh"] = el => {
-  const DUNG = ["Chọn quy trình: HPLC tách được caffeine khỏi theobromine", "Lấy mẫu: nghiền, trộn đều nhiều thanh chocolate", "Chuẩn bị mẫu: loại chất béo, chiết caffeine bằng nước nóng, lọc", "Phân tích: tiêm chuẩn và mẫu vào HPLC, đo diện tích pic", "Báo cáo: hàm lượng caffeine (mg/g) kèm độ lệch chuẩn", "Kết luận: so sánh với mức ghi trên nhãn"];
-  let thuTu = DUNG.map((_, i) => i); do thuTu.sort(() => Math.random() - 0.5); while (thuTu.every((v, i) => v === i));
-  el.innerHTML = `
-    <div class="mp-dau"><b>🍫 Sắp xếp quy trình phân tích</b><span>Xác định caffeine trong chocolate · kéo thẻ lên/xuống cho đúng thứ tự</span></div>
-    <div class="mp-ds-keo">${thuTu.map(i => `<div class="mp-the-keo" data-i="${i}"><span class="mp-tay">⠿</span><span>${DUNG[i]}</span></div>`).join("")}</div>
-    <div class="mp-nut mp-nut-2"><button class="mp-kiem">Kiểm tra</button><button class="mp-tron">🔀 Trộn lại</button></div>
-    <p class="mp-nhan-xet"></p>`;
-  const ds = el.querySelector(".mp-ds-keo");
+/* ---------------- 10. Sắp xếp (kéo thẻ lên/xuống) ---------------- */
+function ganKeoSapXep(ds) {
   ds.querySelectorAll(".mp-the-keo").forEach(the => {
     the.addEventListener("pointerdown", e => { the.setPointerCapture(e.pointerId); the.classList.add("dang-keo"); e.preventDefault(); });
     the.addEventListener("pointermove", e => {
@@ -520,6 +526,17 @@ MO_PHONG["sap-xep-quy-trinh"] = el => {
     });
     the.addEventListener("pointerup", () => the.classList.remove("dang-keo"));
   });
+}
+MO_PHONG["sap-xep-quy-trinh"] = el => {
+  const DUNG = ["Chọn quy trình: HPLC tách được caffeine khỏi theobromine", "Lấy mẫu: nghiền, trộn đều nhiều thanh chocolate", "Chuẩn bị mẫu: loại chất béo, chiết caffeine bằng nước nóng, lọc", "Phân tích: tiêm chuẩn và mẫu vào HPLC, đo diện tích pic", "Báo cáo: hàm lượng caffeine (mg/g) kèm độ lệch chuẩn", "Kết luận: so sánh với mức ghi trên nhãn"];
+  let thuTu = DUNG.map((_, i) => i); do thuTu.sort(() => Math.random() - 0.5); while (thuTu.every((v, i) => v === i));
+  el.innerHTML = `
+    <div class="mp-dau"><b>🍫 Sắp xếp quy trình phân tích</b><span>Xác định caffeine trong chocolate · kéo thẻ lên/xuống cho đúng thứ tự</span></div>
+    <div class="mp-ds-keo">${thuTu.map(i => `<div class="mp-the-keo" data-i="${i}"><span class="mp-tay">⠿</span><span>${DUNG[i]}</span></div>`).join("")}</div>
+    <div class="mp-nut mp-nut-2"><button class="mp-kiem">Kiểm tra</button><button class="mp-tron">🔀 Trộn lại</button></div>
+    <p class="mp-nhan-xet"></p>`;
+  const ds = el.querySelector(".mp-ds-keo");
+  ganKeoSapXep(ds);
   el.querySelector(".mp-kiem").onclick = () => {
     let dung = 0; [...ds.children].forEach((x, k) => { const ok = +x.dataset.i === k; x.classList.toggle("dung", ok); x.classList.toggle("sai", !ok); dung += ok; });
     el.querySelector(".mp-nhan-xet").innerHTML = dung === 6 ? "🎉 Chính xác! Chọn quy trình → lấy mẫu → chuẩn bị mẫu → phân tích → báo cáo → kết luận." : `Đúng ${dung}/6 vị trí. Thẻ đỏ đang sai chỗ, thử lại nhé.`;
@@ -621,4 +638,136 @@ MO_PHONG["q-test"] = el => {
   }
   keoTren(svg, x => { ngo = kep(Math.round((19.90 + (x * 300 - 20) / 260 * 0.70) * 100) / 100, 19.9, 20.6); ve(); });
   ve();
+};
+
+/* ---------------- 14. Pin điện hóa Zn – Cu ---------------- */
+MO_PHONG["pin-dien-hoa"] = el => {
+  let lgZn = -1, lgCu = -2;
+  el.innerHTML = `
+    <div class="mp-dau"><b>🔋 Pin Zn | Zn²⁺ || Cu²⁺ | Cu</b><span>Kéo thanh trượt đổi nồng độ, xem electron và ion di chuyển</span></div>
+    <svg class="mp-pin" viewBox="0 0 320 190">
+      <path id="mpDay" d="M70 60 V22 H250 V60" fill="none" stroke="#475569" stroke-width="3"/>
+      <g class="mp-e">${[0, 1, 2, 3, 4].map(i => `<circle r="3.5" fill="#facc15"><animateMotion dur="3s" begin="${i * 0.6}s" repeatCount="indefinite"><mpath href="#mpDay"/></animateMotion></circle>`).join("")}</g>
+      <rect x="126" y="8" width="68" height="28" rx="6" fill="#0f172a"/><text class="mp-vk" x="160" y="27" text-anchor="middle">1,07 V</text>
+      <path d="M30 80 h80 v90 q0 8 -8 8 h-64 q-8 0 -8-8z" class="mp-thuy-tinh"/><rect class="mp-dd-zn" x="32" y="100" width="76" height="76" rx="6" fill="rgba(200,210,230,.5)"/>
+      <path d="M210 80 h80 v90 q0 8 -8 8 h-64 q-8 0 -8-8z" class="mp-thuy-tinh"/><rect class="mp-dd-cu" x="212" y="100" width="76" height="76" rx="6" fill="rgba(59,130,246,.5)"/>
+      <rect x="62" y="56" width="16" height="100" rx="2" fill="#94a3b8"/><text x="70" y="186" text-anchor="middle">Zn (anot, −)</text>
+      <rect x="242" y="56" width="16" height="100" rx="2" fill="#c2703d"/><text x="250" y="186" text-anchor="middle">Cu (catot, +)</text>
+      <path d="M95 125 V70 H225 V125" fill="none" stroke="#e2e8f0" stroke-width="14" stroke-linecap="round"/><text x="160" y="84" text-anchor="middle" class="mp-tr">cầu muối KCl</text>
+      <path id="mpCauTrai" d="M160 70 H95 V120" fill="none"/><path id="mpCauPhai" d="M160 70 H225 V120" fill="none"/>
+      ${[0, 1].map(i => `<circle r="3" fill="#22c55e"><animateMotion dur="4s" begin="${i * 2}s" repeatCount="indefinite"><mpath href="#mpCauTrai"/></animateMotion></circle><circle r="3" fill="#a855f7"><animateMotion dur="4s" begin="${i * 2 + 1}s" repeatCount="indefinite"><mpath href="#mpCauPhai"/></animateMotion></circle>`).join("")}
+      <text x="160" y="50" text-anchor="middle" class="mp-tr">e⁻ →</text>
+    </svg>
+    <p class="mp-chu-giai"><span><i style="background:#facc15"></i>electron (mạch ngoài)</span><span><i style="background:#22c55e"></i>Cl⁻ về phía anot</span><span><i style="background:#a855f7"></i>K⁺ về phía catot</span></p>
+    <label class="mp-truot">[Zn²⁺] = <b class="mp-zn"></b><input type="range" class="mp-r-zn" min="-4" max="0" step="0.1" value="-1"></label>
+    <label class="mp-truot">[Cu²⁺] = <b class="mp-cu"></b><input type="range" class="mp-r-cu" min="-4" max="0" step="0.1" value="-2"></label>
+    <div class="mp-so"><div><small>E(Cu²⁺/Cu)</small><b class="mp-ep">–</b></div><div><small>E(Zn²⁺/Zn)</small><b class="mp-em">–</b></div><div><small>E pin</small><b class="mp-epin">–</b></div></div>
+    <p class="mp-nhan-xet">E<sub>pin</sub> = E<sub>+</sub> − E<sub>−</sub> = 1,10 + (0,059/2)·lg([Cu²⁺]/[Zn²⁺]). Tăng [Cu²⁺] hoặc giảm [Zn²⁺] làm thế pin tăng.</p>`;
+  const $ = s => el.querySelector(s);
+  const hien = v => { const e = Math.floor(v + 1e-9), m = 10 ** (v - e); return `${soVN(m, 1)}·10<sup>${e}</sup> M`; };
+  function capNhat() {
+    const ep = 0.34 + 0.0295 * lgCu, em = -0.76 + 0.0295 * lgZn, E = ep - em;
+    $(".mp-zn").innerHTML = hien(lgZn); $(".mp-cu").innerHTML = hien(lgCu);
+    $(".mp-ep").textContent = soVN(ep, 3) + " V"; $(".mp-em").textContent = soVN(em, 3) + " V"; $(".mp-epin").textContent = soVN(E, 3) + " V";
+    $(".mp-vk").textContent = soVN(E, 3) + " V";
+    $(".mp-dd-cu").setAttribute("fill", `rgba(59,130,246,${0.12 + 0.18 * (lgCu + 4)})`);
+  }
+  $(".mp-r-zn").oninput = e => { lgZn = +e.target.value; capNhat(); };
+  $(".mp-r-cu").oninput = e => { lgCu = +e.target.value; capNhat(); };
+  capNhat();
+};
+
+/* ---------------- 15. Sắc đồ: N, α, k và độ phân giải ---------------- */
+MO_PHONG["sac-do"] = el => {
+  let N = 5000, alpha = 1.10, k2 = 4, t = null, chay = null;
+  const tm = 1;
+  el.innerHTML = `
+    <div class="mp-dau"><b>📉 Mô phỏng tách sắc kí</b><span>Đổi N, α, k rồi bấm ▶ để xem hai chất di chuyển trong cột</span></div>
+    <svg class="mp-cot" viewBox="0 0 300 36"><rect x="10" y="12" width="270" height="16" rx="8" fill="#e2e8f0" stroke="#94a3b8"/><rect class="mp-b1" y="13" height="14" rx="6" fill="#6366f1" opacity=".8"/><rect class="mp-b2" y="13" height="14" rx="6" fill="#f59e0b" opacity=".8"/><rect x="282" y="8" width="12" height="24" rx="3" fill="#475569"/><text x="294" y="5" text-anchor="end" class="mp-tr">detector</text></svg>
+    <svg class="mp-do-thi mp-sd"></svg>
+    <label class="mp-truot">Số đĩa N = <b class="mp-n"></b><input type="range" class="mp-r-n" min="500" max="20000" step="500" value="5000"></label>
+    <label class="mp-truot">Hệ số tách α = <b class="mp-a"></b><input type="range" class="mp-r-a" min="1.00" max="1.30" step="0.01" value="1.10"></label>
+    <label class="mp-truot">Hệ số lưu k₂ = <b class="mp-k"></b><input type="range" class="mp-r-k" min="0.5" max="10" step="0.5" value="4"></label>
+    <div class="mp-so"><div><small>t<sub>R1</sub> ; t<sub>R2</sub> (min)</small><b class="mp-tr12">–</b></div><div><small>R<sub>s</sub></small><b class="mp-rs">–</b></div><div><small>Đánh giá</small><b class="mp-dg">–</b></div></div>
+    <div class="mp-nut mp-nut-2"><button class="mp-chay">▶ Chạy sắc kí</button><button class="mp-tat">⏭ Xem toàn bộ</button></div>`;
+  const $ = s => el.querySelector(s), svg = $(".mp-sd");
+  const thongSo = () => { const k1 = k2 / alpha, t1 = tm * (1 + k1), t2 = tm * (1 + k2); return { t1, t2, s1: t1 / Math.sqrt(N), s2: t2 / Math.sqrt(N) }; };
+  function ve() {
+    const { t1, t2, s1, s2 } = thongSo(), tMax = t2 * 1.25 + 0.5, rs = (t2 - t1) / (2 * (s1 + s2));
+    const { X, Y } = doThi(svg, { x0: 0, x1: tMax, y0: 0, y1: 1.1, nhanX: "t (min)", nhanY: "tín hiệu", vachX: [0, Math.round(tMax / 2), Math.floor(tMax)], vachY: [0], cao: 150 });
+    const g = (x, m, s) => Math.exp(-((x - m) ** 2) / (2 * s * s));
+    const hmax = Math.max(...[t1, t2].map(m => g(m, t1, s1) + g(m, t2, s2)));
+    const den = t ?? tMax, pts = [], p1 = [], p2 = [];
+    for (let x = 0; x <= den; x += tMax / 400) { pts.push([x, (g(x, t1, s1) + g(x, t2, s2)) / hmax]); p1.push([x, g(x, t1, s1) / hmax]); p2.push([x, g(x, t2, s2) / hmax]); }
+    phanTu("path", { d: duongSVG(p1, X, Y), fill: "none", stroke: "#6366f1", "stroke-width": 1, "stroke-dasharray": "3 2" }, svg);
+    phanTu("path", { d: duongSVG(p2, X, Y), fill: "none", stroke: "#f59e0b", "stroke-width": 1, "stroke-dasharray": "3 2" }, svg);
+    phanTu("path", { d: duongSVG(pts, X, Y), fill: "none", class: "mp-duong" }, svg);
+    phanTu("line", { x1: X(tm), x2: X(tm), y1: Y(0), y2: Y(0.25), stroke: "var(--chu-phu)" }, svg);
+    phanTu("text", { x: X(tm), y: Y(0.3), "text-anchor": "middle", class: "mp-tr" }, svg).textContent = "tm";
+    // vị trí dải trong cột tại thời điểm t
+    const tt = t ?? 0, L = 270;
+    [[".mp-b1", t1, s1], [".mp-b2", t2, s2]].forEach(([c, tr, s]) => { const x = 10 + L * Math.min(1.05, tt / tr), w = Math.max(6, L * 4 * s / tr * Math.sqrt(Math.max(tt, 0.05) / tr)); $(c).setAttribute("x", x - w / 2); $(c).setAttribute("width", w); $(c).setAttribute("opacity", tt / tr > 1.05 || t === null ? 0 : 0.8); });
+    $(".mp-n").textContent = N.toLocaleString("vi-VN"); $(".mp-a").textContent = soVN(alpha); $(".mp-k").textContent = soVN(k2, 1);
+    $(".mp-tr12").textContent = `${soVN(t1)} ; ${soVN(t2)}`; $(".mp-rs").textContent = soVN(rs);
+    $(".mp-dg").textContent = alpha === 1 ? "Không tách" : rs >= 1.5 ? "Tách hoàn toàn" : rs >= 1 ? "Gần tách" : "Chồng pic"; $(".mp-dg").style.color = rs >= 1.5 ? "var(--xanh)" : "#ef4444";
+  }
+  const dung = () => { cancelAnimationFrame(chay); chay = null; };
+  $(".mp-chay").onclick = () => { dung(); const { t2 } = thongSo(), tMax = t2 * 1.25 + 0.5, t0 = performance.now(); const buoc = n => { t = Math.min(tMax, (n - t0) / 5000 * tMax); ve(); if (t < tMax && el.isConnected) chay = requestAnimationFrame(buoc); else { t = null; ve(); } }; chay = requestAnimationFrame(buoc); };
+  $(".mp-tat").onclick = () => { dung(); t = null; ve(); };
+  $(".mp-r-n").oninput = e => { N = +e.target.value; ve(); };
+  $(".mp-r-a").oninput = e => { alpha = +e.target.value; ve(); };
+  $(".mp-r-k").oninput = e => { k2 = +e.target.value; ve(); };
+  ve();
+};
+
+/* ---------------- 16. Phương trình Van Deemter ---------------- */
+MO_PHONG["van-deemter"] = el => {
+  const A = 0.10, B = 1.0, C = 0.010; let u = 10;
+  el.innerHTML = `
+    <div class="mp-dau"><b>📐 Đường Van Deemter</b><span>Kéo trên đồ thị để đổi tốc độ pha động u</span></div>
+    <svg class="mp-do-thi"></svg>
+    <p class="mp-chu-giai"><span><i style="background:#94a3b8"></i>A</span><span><i style="background:#22c55e"></i>B/u</span><span><i style="background:#f59e0b"></i>C·u</span><span><i style="background:var(--mau-chinh)"></i>H tổng</span></p>
+    <div class="mp-so"><div><small>u (mm/s)</small><b class="mp-u">–</b></div><div><small>H (mm)</small><b class="mp-h">–</b></div><div><small>Số hạng lớn nhất</small><b class="mp-lon">–</b></div></div>`;
+  const $ = s => el.querySelector(s), svg = $("svg");
+  const { X, Y } = doThi(svg, { x0: 0, x1: 40, y0: 0, y1: 0.8, nhanX: "u (mm/s)", nhanY: "H (mm)", vachX: [0, 10, 20, 30, 40], vachY: [0, 0.2, 0.4, 0.6, 0.8] });
+  const ve1 = (f, mau, w) => { const p = []; for (let x = 0.6; x <= 40; x += 0.2) p.push([x, Math.min(0.8, f(x))]); phanTu("path", { d: duongSVG(p, X, Y), fill: "none", stroke: mau, "stroke-width": w }, svg); };
+  ve1(() => A, "#94a3b8", 1.5); ve1(x => B / x, "#22c55e", 1.5); ve1(x => C * x, "#f59e0b", 1.5); ve1(x => A + B / x + C * x, "var(--mau-chinh)", 2.6);
+  phanTu("line", { x1: X(10), x2: X(10), y1: Y(0), y2: Y(0.3), class: "mp-tđ" }, svg);
+  const d = phanTu("circle", { r: 6, class: "mp-diem" }, svg);
+  function capNhat() {
+    const h = A + B / u + C * u; d.setAttribute("cx", X(u)); d.setAttribute("cy", Y(Math.min(0.8, h)));
+    $(".mp-u").textContent = soVN(u, 1); $(".mp-h").textContent = soVN(h, 3);
+    $(".mp-lon").textContent = B / u > C * u && B / u > A ? "B/u (chậm quá)" : C * u > A ? "C·u (nhanh quá)" : "A";
+  }
+  keoTren(svg, x => { u = kep(Math.round(((x * 300 - 32) / 260 * 40) * 2) / 2, 1, 40); capNhat(); });
+  capNhat();
+};
+
+/* ---------------- 17. Thứ tự rửa giải ---------------- */
+MO_PHONG["thu-tu-rua-giai"] = el => {
+  const CHE_DO = {
+    "HPLC pha đảo (C18, nước – methanol)": { ds: [["Theobromine", "log P = −0,8"], ["Caffeine", "log P = −0,1"], ["Phenol", "log P = 1,5"], ["Toluen", "log P = 2,7"]], ly: "Pha đảo: chất càng phân cực (log P nhỏ) càng ra sớm." },
+    "HPLC pha thường (silica, hexan)": { ds: [["Toluen", "log P = 2,7"], ["Phenol", "log P = 1,5"], ["Caffeine", "log P = −0,1"], ["Theobromine", "log P = −0,8"]], ly: "Pha thường: chất kém phân cực ra trước, chất phân cực bị silica giữ lâu." },
+    "GC cột không phân cực": { ds: [["n-Hexan", "sôi 69 °C"], ["Ethyl acetat", "sôi 77 °C"], ["Benzen", "sôi 80,1 °C"], ["Toluen", "sôi 110,6 °C"]], ly: "GC trên pha tĩnh không phân cực: ra theo nhiệt độ sôi tăng dần." },
+  };
+  el.innerHTML = `
+    <div class="mp-dau"><b>🏁 Chất nào ra trước?</b><span>Chọn hệ sắc kí, kéo thẻ theo thứ tự ra khỏi cột (trên cùng: ra trước)</span></div>
+    <div class="mp-chon"><select>${Object.keys(CHE_DO).map(k => `<option>${k}</option>`).join("")}</select></div>
+    <div class="mp-ds-keo"></div>
+    <div class="mp-nut mp-nut-2"><button class="mp-kiem">Kiểm tra</button><button class="mp-tron">🔀 Trộn lại</button></div>
+    <p class="mp-nhan-xet"></p>`;
+  const $ = s => el.querySelector(s), ds = $(".mp-ds-keo");
+  let cd = CHE_DO[Object.keys(CHE_DO)[0]];
+  function tao() {
+    const tt = cd.ds.map((_, i) => i); do tt.sort(() => Math.random() - 0.5); while (tt.every((v, i) => v === i));
+    ds.innerHTML = tt.map(i => `<div class="mp-the-keo" data-i="${i}"><span class="mp-tay">⠿</span><span>${cd.ds[i][0]}</span><small class="mp-goi-y"></small></div>`).join("");
+    ganKeoSapXep(ds); $(".mp-nhan-xet").textContent = "";
+  }
+  $(".mp-kiem").onclick = () => {
+    let dung = 0; [...ds.children].forEach((x, k) => { const ok = +x.dataset.i === k; x.classList.toggle("dung", ok); x.classList.toggle("sai", !ok); dung += ok; x.querySelector(".mp-goi-y").textContent = cd.ds[+x.dataset.i][1]; });
+    $(".mp-nhan-xet").innerHTML = (dung === cd.ds.length ? "🎉 Chính xác! " : `Đúng ${dung}/${cd.ds.length}. `) + cd.ly;
+  };
+  $(".mp-tron").onclick = tao;
+  $("select").onchange = e => { cd = CHE_DO[e.target.value]; tao(); };
+  tao();
 };

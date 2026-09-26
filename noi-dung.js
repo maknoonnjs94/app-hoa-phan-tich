@@ -2079,179 +2079,378 @@ const CHUONG = [
     nhom: "Phân tích công cụ",
     icon: "🔋",
     ten: "Điện hóa: điện cực và đo thế",
-    moTa: "Điện cực so sánh, điện cực chỉ thị, ISE, chuẩn độ điện thế",
+    moTa: "Pin điện hóa, điện cực so sánh và chỉ thị, ISE, đo pH, chuẩn độ điện thế, điện lượng",
+    dayDu: true,
+    choDuyet: true,
     lyThuyet: String.raw`
+      <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
+        <ul>
+          <li>Viết kí hiệu pin, tính thế pin bằng phương trình Nernst; đổi thế giữa các điện cực so sánh.</li>
+          <li>Hiểu cấu tạo, phương trình đáp ứng của điện cực chọn lọc ion và điện cực thủy tinh; cách hiệu chuẩn máy đo pH.</li>
+          <li>Xác định điểm tương đương bằng đạo hàm trong chuẩn độ điện thế; tính theo định luật Faraday.</li>
+        </ul>
+      </div>
       <h3>1. Đại cương phân tích điện hóa</h3>
-      <p>Các phương pháp điện hóa đo một đại lượng điện (thế, dòng, điện lượng, độ dẫn) liên quan đến nồng độ chất phân tích.</p>
+      <p>Các phương pháp điện hóa đo một đại lượng điện (thế, dòng, điện lượng, độ dẫn) liên hệ với nồng độ chất phân tích:</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Phương pháp</th><th>Đại lượng đo</th><th>Ví dụ</th></tr></thead>
+          <tbody>
+            <tr><td>Đo thế</td><td>Thế pin khi dòng gần bằng 0</td><td>Máy đo pH, điện cực F<sup>−</sup>, chuẩn độ điện thế</td></tr>
+            <tr><td>Điện lượng (culông)</td><td>Điện lượng Q cần cho phản ứng điện cực</td><td>Chuẩn độ Karl Fischer xác định nước</td></tr>
+            <tr><td>Von-ampe</td><td>Dòng theo thế áp vào</td><td>Xác định kim loại vết, cảm biến glucose</td></tr>
+            <tr><td>Đo độ dẫn</td><td>Độ dẫn điện của dung dịch</td><td>Kiểm tra độ tinh khiết nước, detector sắc kí ion</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>2. Pin điện hóa</h3>
+      <p>Pin Galvani gồm hai điện cực nhúng trong dung dịch, nối bằng <b>cầu muối</b> (ví dụ KCl trong gel) để dòng ion đi qua mà hai dung dịch không trộn lẫn. <b>Anot</b> là nơi xảy ra sự oxi hóa, <b>catot</b> là nơi xảy ra sự khử.</p>
+      <p><b>Kí hiệu pin</b>: anot viết bên trái, catot bên phải; "|" là ranh giới pha, "||" là cầu muối. Ví dụ pin Daniell:</p>
+      <div class="cong-thuc">\[ \mathrm{Zn(r)}\,|\,\mathrm{Zn^{2+}(aq)}\,\|\,\mathrm{Cu^{2+}(aq)}\,|\,\mathrm{Cu(r)} \]</div>
+      <div class="cong-thuc"><div class="nhan">E<sub>+</sub>: thế điện cực bên phải; E<sub>−</sub>: bên trái (cả hai viết dạng thế khử)</div>\[ E_\text{pin} = E_+ - E_- \]</div>
+      <p>E<sub>pin</sub> &gt; 0: phản ứng tự xảy ra theo chiều viết (electron đi từ trái sang phải ở mạch ngoài).</p>
+      <div class="vi-du"><b>Ví dụ 1.</b> Tính thế của pin Zn | Zn<sup>2+</sup> (0,10 M) || Cu<sup>2+</sup> (0,010 M) | Cu. Biết E<sup>0</sup>(Cu<sup>2+</sup>/Cu) = 0,34 V; E<sup>0</sup>(Zn<sup>2+</sup>/Zn) = −0,76 V.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} E_+ &= 0,34 + \frac{0,059}{2}\lg0,010 \\ &= 0,281\ \mathrm{V} \\ E_- &= -0,76 + \frac{0,059}{2}\lg0,10 \\ &= -0,790\ \mathrm{V} \\ E_\text{pin} &= 0,281 - (-0,790) = \mathbf{1,07\ V} \end{aligned} \]
+          E<sub>pin</sub> &gt; 0 nên Zn bị oxi hóa, Cu<sup>2+</sup> bị khử.
+        </details></div>
+      <div class="mo-phong" data-loai="pin-dien-hoa"></div>
+
+      <h3>3. Điện cực so sánh</h3>
+      <p>Điện cực so sánh có thế <b>không đổi</b>, không phụ thuộc dung dịch đo.</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Điện cực</th><th>Cấu tạo</th><th>E so với SHE (25 °C)</th></tr></thead>
+          <tbody>
+            <tr><td>Hydro chuẩn (SHE)</td><td>Pt | H<sub>2</sub> (1 bar) | H<sup>+</sup> (a = 1)</td><td>0,000 V (quy ước)</td></tr>
+            <tr><td>Bạc – bạc clorid</td><td>Ag | AgCl | KCl bão hòa</td><td>0,197 V</td></tr>
+            <tr><td>Calomen bão hòa (SCE)</td><td>Hg | Hg<sub>2</sub>Cl<sub>2</sub> | KCl bão hòa</td><td>0,241 V</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Đổi thế đo so với điện cực so sánh này sang điện cực khác: E(so với SCE) = E(so với SHE) − 0,241 V.</p>
+      <div class="vi-du"><b>Ví dụ 2.</b> Một điện cực có thế 0,500 V so với SHE. Thế của nó so với SCE và so với Ag/AgCl (KCl bão hòa) là bao nhiêu?
+        <details><summary>Xem lời giải</summary>
+          So với SCE: 0,500 − 0,241 = <b>0,259 V</b>. So với Ag/AgCl: 0,500 − 0,197 = <b>0,303 V</b>.
+        </details></div>
+
+      <h3>4. Điện cực chỉ thị</h3>
       <ul>
-        <li><b>Đo thế</b>: đo thế của pin ở dòng gần bằng 0.</li>
-        <li><b>Điện phân, culông</b>: đo khối lượng hoặc điện lượng.</li>
-        <li><b>Von-ampe, cực phổ</b>: đo dòng theo thế áp vào.</li>
-        <li><b>Đo độ dẫn</b>: đo độ dẫn điện của dung dịch.</li>
+        <li><b>Điện cực kim loại</b>: kim loại nhúng trong dung dịch ion của nó, ví dụ Ag nhúng trong Ag<sup>+</sup>: E = 0,80 + 0,059 lg[Ag<sup>+</sup>]. Dùng trong chuẩn độ kết tủa (Chương 8).</li>
+        <li><b>Điện cực trơ</b> (Pt, Au, cacbon): nhận thế của cặp oxi hóa – khử trong dung dịch, dùng trong chuẩn độ oxi hóa – khử (Chương 9).</li>
+        <li><b>Điện cực màng chọn lọc ion</b> (ISE): màng chỉ cho một loại ion trao đổi, tạo thế màng phụ thuộc hoạt độ ion đó (mục 5, 6).</li>
       </ul>
 
-      <h3>2. Pin đo thế</h3>
-      <div class="cong-thuc">E<sub>pin</sub> = E<sub>chỉ thị</sub> − E<sub>so sánh</sub> + E<sub>j</sub></div>
-      <p>E<sub>j</sub>: thế tiếp xúc lỏng (nhỏ, coi như không đổi và gộp vào hằng số).</p>
+      <h3>5. Điện cực chọn lọc ion (ISE)</h3>
+      <div class="cong-thuc"><div class="nhan">Ion i có điện tích z (kể cả dấu), 25 °C; K là hằng số của điện cực</div>\[ E = K + \frac{0,059}{z}\lg\mathcal{A}_i \]</div>
       <ul>
-        <li><b>Điện cực so sánh</b>: thế không đổi, không phụ thuộc dung dịch đo.
-          <ul>
-            <li>Điện cực hydro chuẩn (SHE): quy ước E = 0,000 V.</li>
-            <li>Điện cực calomen bão hòa (SCE): Hg | Hg<sub>2</sub>Cl<sub>2</sub> | KCl bão hòa, E ≈ 0,244 V.</li>
-            <li>Điện cực bạc clorua: Ag | AgCl | KCl bão hòa, E ≈ 0,197 V.</li>
-          </ul></li>
-        <li><b>Điện cực chỉ thị</b>: thế phụ thuộc hoạt độ chất cần đo.
-          <ul>
-            <li>Điện cực kim loại (Ag nhúng trong Ag<sup>+</sup>...), điện cực trơ Pt cho cặp oxi hóa – khử.</li>
-            <li>Điện cực màng chọn lọc ion (ISE): điện cực thủy tinh đo pH, điện cực F<sup>−</sup> (màng LaF<sub>3</sub>), điện cực Ca<sup>2+</sup>...</li>
-          </ul></li>
+        <li>Độ dốc lí thuyết: 59 mV khi hoạt độ ion hóa trị 1 thay đổi 10 lần, 29,5 mV với ion hóa trị 2. Với anion (z âm), thế giảm khi nồng độ tăng.</li>
+        <li>Các loại màng: thủy tinh (H<sup>+</sup>, Na<sup>+</sup>), tinh thể (F<sup>−</sup> dùng màng LaF<sub>3</sub>), màng lỏng/polymer chứa chất mang ion (Ca<sup>2+</sup>, K<sup>+</sup>, NO<sub>3</sub><sup>−</sup>).</li>
+        <li><b>Hệ số chọn lọc</b> k<sub>A,X</sub> càng nhỏ thì ion lạ X càng ít cản trở ion cần đo A.</li>
+        <li>ISE đáp ứng theo <b>hoạt độ</b>. Để đo nồng độ, thêm dung dịch điều chỉnh lực ion (TISAB) như nhau vào mẫu và chuẩn. TISAB của điện cực F<sup>−</sup> còn giữ pH khoảng 5 – 5,5 (tránh HF và OH<sup>−</sup>) và chứa chất tạo phức giải phóng F<sup>−</sup> khỏi Al<sup>3+</sup>, Fe<sup>3+</sup>.</li>
+      </ul>
+      <div class="vi-du"><b>Ví dụ 3.</b> Điện cực F<sup>−</sup> cho E = 0,100 V trong chuẩn F<sup>−</sup> 1,00·10<sup>−3</sup> M và E = 0,159 V trong mẫu (cùng TISAB). Tính [F<sup>−</sup>] trong mẫu.
+        <details><summary>Xem lời giải</summary>
+          Với F<sup>−</sup>, z = −1: E = K − 0,059 lg[F<sup>−</sup>]. Trừ hai phương trình:
+          \[ \begin{aligned} \lg[\mathrm{F^-}]_x &= \lg\left(1,00\cdot10^{-3}\right) \\ &\quad - \frac{0,159 - 0,100}{0,059} \\ &= -3,00 - 1,00 = -4,00 \end{aligned} \]
+          [F<sup>−</sup>] = <b>1,0·10<sup>−4</sup> M</b>. Thế tăng 59 mV ứng với nồng độ anion giảm 10 lần.
+        </details></div>
+
+      <h3>6. Đo pH bằng điện cực thủy tinh</h3>
+      <p>Điện cực thủy tinh có màng thủy tinh mỏng, trao đổi H<sup>+</sup> với dung dịch; thường ghép chung với điện cực so sánh Ag/AgCl thành <b>điện cực tổ hợp</b>. Đáp ứng ở 25 °C:</p>
+      <div class="cong-thuc">\[ E = K - 0,059\,\mathrm{pH} \]</div>
+      <p>K thay đổi theo từng điện cực và theo thời gian, nên phải <b>hiệu chuẩn</b> bằng dung dịch đệm chuẩn trước khi đo, thường dùng 2 đệm bao quanh pH mẫu (ví dụ 4,01 và 7,00, hoặc 7,00 và 10,01).</p>
+      <div class="cong-thuc"><div class="nhan">Đo so với một đệm chuẩn</div>\[ \mathrm{pH}_x = \mathrm{pH}_\text{chuẩn} + \frac{E_\text{chuẩn} - E_x}{0,059} \]</div>
+      <div class="vi-du"><b>Ví dụ 4.</b> Trong đệm pH 4,00 đo được E = 0,250 V; trong mẫu đo được E = 0,132 V. Tính pH mẫu.
+        <details><summary>Xem lời giải</summary>
+          \[ \mathrm{pH}_x = 4,00 + \frac{0,250 - 0,132}{0,059} = \mathbf{6,00} \]
+        </details></div>
+      <ul>
+        <li><b>Sai số kiềm</b>: ở pH rất cao (&gt; 11) và có nhiều Na<sup>+</sup>, màng đáp ứng cả với Na<sup>+</sup>, pH đo được <b>thấp hơn</b> thật.</li>
+        <li><b>Sai số acid</b>: ở pH rất thấp (&lt; 0,5), pH đo được <b>cao hơn</b> thật.</li>
+        <li>Bảo quản: ngâm điện cực trong dung dịch bảo quản (KCl), không để khô, không lau mạnh màng thủy tinh; hiệu chuẩn ở cùng nhiệt độ với mẫu (độ dốc thay đổi theo nhiệt độ).</li>
       </ul>
 
-      <h3>3. Điện cực chọn lọc ion (ISE)</h3>
-      <div class="cong-thuc">E = K + (0,0592 / z) · lg a<sub>i</sub> &nbsp;(25 °C)</div>
-      <p>z: điện tích ion (có dấu); a<sub>i</sub>: hoạt độ ion (dung dịch loãng coi a ≈ C).</p>
+      <h3>7. Chuẩn độ điện thế</h3>
+      <p>Theo dõi thế của điện cực chỉ thị trong khi chuẩn độ, không cần chỉ thị màu (dùng được với dung dịch đục hoặc có màu). Điểm tương đương là <b>điểm uốn</b> của đường E theo V:</p>
       <ul>
-        <li>Độ dốc lí thuyết: 59,2 mV cho mỗi lần hoạt độ ion hóa trị 1 thay đổi 10 lần; 29,6 mV với ion hóa trị 2.</li>
-        <li>Để đo nồng độ (thay cho hoạt độ), thêm dung dịch điều chỉnh lực ion (TISAB) vào cả mẫu và chuẩn.</li>
-        <li><b>Hệ số chọn lọc</b> k<sub>ij</sub> càng nhỏ thì ion lạ j càng ít cản trở.</li>
-      </ul>
-
-      <h3>4. Đo pH bằng điện cực thủy tinh</h3>
-      <div class="cong-thuc">E = K − 0,0592 · pH</div>
-      <p>Phải chuẩn hóa máy bằng dung dịch đệm chuẩn trước khi đo (thường 2 đệm, ví dụ pH 4,01 và 7,00):</p>
-      <div class="cong-thuc">pH<sub>x</sub> = pH<sub>chuẩn</sub> + (E<sub>chuẩn</sub> − E<sub>x</sub>) / 0,0592</div>
-      <div class="vi-du"><b>Ví dụ.</b> Trong đệm pH 4,00 đo được E = 0,250 V; trong mẫu đo được E = 0,132 V.<br>
-        pH<sub>x</sub> = 4,00 + (0,250 − 0,132) / 0,0592 = <b>5,99</b></div>
-      <p class="luu-y">Sai số kiềm: ở pH rất cao (&gt; 11), điện cực thủy tinh "nhạy" cả với Na<sup>+</sup> nên pH đo được thấp hơn thật. Sai số acid: ở pH rất thấp (&lt; 0,5), pH đo được cao hơn thật.</p>
-
-      <h3>5. Chuẩn độ điện thế</h3>
-      <p>Theo dõi thế của điện cực chỉ thị trong khi chuẩn độ, không cần chỉ thị màu (dùng được với dung dịch đục, có màu).</p>
-      <ul>
-        <li>Điểm tương đương là điểm uốn của đường E theo V.</li>
         <li><b>Đạo hàm bậc 1</b>: ΔE/ΔV đạt cực đại tại điểm tương đương.</li>
         <li><b>Đạo hàm bậc 2</b>: Δ²E/ΔV² đổi dấu (bằng 0) tại điểm tương đương.</li>
-        <li><b>Phương pháp Gran</b>: biến đổi số liệu thành đường thẳng, kéo dài cắt trục V tại điểm tương đương.</li>
+        <li><b>Đồ thị Gran</b>: biến đổi số liệu trước điểm tương đương thành đường thẳng, kéo dài cắt trục V (Chương 6, mục 8).</li>
       </ul>
+      <div class="vi-du"><b>Ví dụ 5.</b> Số liệu gần điểm tương đương:
+        <div class="bang-cuon"><table class="bang">
+          <thead><tr><th>V (mL)</th><th>24,80</th><th>24,90</th><th>25,00</th><th>25,10</th><th>25,20</th><th>25,30</th></tr></thead>
+          <tbody><tr><td>E (V)</td><td>0,412</td><td>0,431</td><td>0,468</td><td>0,559</td><td>0,596</td><td>0,612</td></tr></tbody>
+        </table></div>
+        Xác định V<sub>e</sub> bằng đạo hàm bậc 1 và bậc 2.
+        <details><summary>Xem lời giải</summary>
+          ΔE/ΔV tại các điểm giữa (V/mL): 24,85: 0,19; 24,95: 0,37; <b>25,05: 0,91</b>; 25,15: 0,37; 25,25: 0,16. Cực đại ở 25,05 mL.<br>
+          Δ²E/ΔV²: tại 25,00: (0,91 − 0,37)/0,10 = +5,4; tại 25,10: (0,37 − 0,91)/0,10 = −5,4. Đổi dấu đúng giữa hai điểm → <b>V<sub>e</sub> = 25,05 mL</b>.
+        </details></div>
+
+      <h3>8. Phương pháp điện lượng và von-ampe (giới thiệu)</h3>
+      <p><b>Định luật Faraday</b>: lượng chất phản ứng ở điện cực tỉ lệ với điện lượng đi qua.</p>
+      <div class="cong-thuc"><div class="nhan">Q = I·t (C); n: số electron trao đổi; F = 96 485 C/mol</div>\[ n_\text{chất} = \frac{Q}{nF} \qquad m = \frac{Q\,M}{nF} \]</div>
+      <div class="vi-du"><b>Ví dụ 6.</b> Điện phân dung dịch Cu<sup>2+</sup> với dòng 0,100 A trong 600 s (hiệu suất 100%). Tính khối lượng Cu bám vào catot (M = 63,55).
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} Q &= 0,100\cdot600 = 60,0\ \mathrm{C} \\ m &= \frac{60,0\cdot63,55}{2\cdot96\,485} \\ &= 0,0198\ \mathrm{g} = \mathbf{19,8\ mg} \end{aligned} \]
+        </details></div>
+      <p><b>Von-ampe</b>: áp một thế biến thiên lên điện cực làm việc và đo dòng. Dòng giới hạn tỉ lệ với nồng độ chất bị oxi hóa hoặc khử. Von-ampe hòa tan (làm giàu kim loại lên điện cực rồi hòa tan) xác định được kim loại nặng ở mức ppb.</p>
     `,
-    baiTap: [],
+    baiTap: [
+      {
+        de: "Điện cực Ca<sup>2+</sup> (ISE) cho E = 0,215 V trong chuẩn Ca<sup>2+</sup> 1,00·10<sup>−3</sup> M. Mẫu (cùng lực ion) cho E = 0,186 V. Tính [Ca<sup>2+</sup>].",
+        dapAn: "z = +2: E = K + (0,059/2) lg[Ca<sup>2+</sup>]<br>lg[Ca<sup>2+</sup>] = −3,00 + (0,186 − 0,215)/0,0295 = −3,98 → [Ca<sup>2+</sup>] = <b>1,0·10<sup>−4</sup> M</b>",
+      },
+      {
+        de: "Máy đo pH được hiệu chuẩn bằng đệm pH 7,00 (E = −0,012 V). Mẫu cho E = 0,165 V. Tính pH mẫu.",
+        dapAn: "pH = 7,00 + (−0,012 − 0,165)/0,059 = 7,00 − 3,00 = <b>4,00</b>",
+      },
+    ],
   },
   {
     id: "sac-ki",
     nhom: "Phân tích công cụ",
     icon: "📉",
     ten: "Sắc kí đại cương",
-    moTa: "Thời gian lưu, hệ số lưu, số đĩa, độ phân giải",
+    moTa: "Pha tĩnh – pha động, cơ chế, t_R, k, N, H, Rs, α, Van Deemter, định lượng",
+    dayDu: true,
+    choDuyet: true,
     lyThuyet: String.raw`
-      <h3>1. Nguyên tắc</h3>
-      <p>Các chất được tách nhờ <b>phân bố khác nhau</b> giữa hai pha: <b>pha tĩnh</b> (cố định trong cột hoặc trên bản) và <b>pha động</b> (khí hoặc lỏng, chảy qua pha tĩnh). Chất tương tác mạnh với pha tĩnh sẽ đi chậm hơn.</p>
-      <div class="cong-thuc">Hệ số phân bố: K = C<sub>tĩnh</sub> / C<sub>động</sub></div>
-      <p>Phân loại theo pha động: sắc kí khí (GC), sắc kí lỏng (LC, HPLC); theo cơ chế: hấp phụ, phân bố, trao đổi ion, rây phân tử.</p>
+      <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
+        <ul>
+          <li>Hiểu nguyên tắc tách sắc kí, các cơ chế tương tác và cách phân loại.</li>
+          <li>Tính các đại lượng trên sắc đồ: t<sub>R</sub>, t<sub>R</sub>', k, α, N, H, R<sub>s</sub>.</li>
+          <li>Giải thích sự giãn rộng pic bằng phương trình Van Deemter và biết cách cải thiện độ phân giải.</li>
+        </ul>
+      </div>
+      <h3>1. Sắc kí là gì?</h3>
+      <p>Sắc kí là phương pháp <b>tách</b> các chất dựa trên sự phân bố khác nhau của chúng giữa <b>pha tĩnh</b> (cố định trong cột hoặc trên bản mỏng) và <b>pha động</b> (khí hoặc lỏng chảy qua pha tĩnh). Chất tương tác mạnh với pha tĩnh di chuyển chậm, ra khỏi cột muộn; chất tương tác yếu ra sớm. Detector ở cuối cột ghi tín hiệu theo thời gian, gọi là <b>sắc đồ</b>.</p>
+      <p>Ví dụ ứng dụng: tách và định lượng đồng thời các vitamin B1, B2, B3, B6, B12 trong sữa bột bằng HPLC; caffeine và theobromine trong chocolate.</p>
+      <p><b>Lịch sử</b>: M. Tswett (1906) tách sắc tố lá cây trên cột CaCO<sub>3</sub>, các vệt màu tách ra nên gọi là "sắc kí" (chroma: màu, graphein: viết). Martin và Synge nhận giải Nobel 1952 cho sắc kí phân bố.</p>
 
-      <h3>2. Sắc kí đồ và các đại lượng lưu giữ</h3>
+      <h3>2. Cơ chế tương tác và phân loại</h3>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Cơ chế</th><th>Chất bị giữ lại do</th><th>Ví dụ</th></tr></thead>
+          <tbody>
+            <tr><td>Hấp phụ</td><td>Bám lên bề mặt chất rắn</td><td>Sắc kí lỏng – rắn trên silica, TLC</td></tr>
+            <tr><td>Phân bố</td><td>Hòa tan vào lớp lỏng phủ trên chất mang</td><td>GC mao quản, HPLC pha đảo C18</td></tr>
+            <tr><td>Trao đổi ion</td><td>Lực hút tĩnh điện với nhóm mang điện trên nhựa</td><td>Sắc kí ion (anion, cation)</td></tr>
+            <tr><td>Loại theo kích thước</td><td>Phân tử nhỏ lọt vào lỗ xốp nên đi đường dài hơn; phân tử lớn ra trước</td><td>Tách protein, polymer</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Nguyên tắc chung "các chất giống nhau hòa tan tốt trong nhau": chất phân cực bị giữ mạnh trên pha tĩnh phân cực, chất không phân cực bị giữ mạnh trên pha tĩnh không phân cực.</p>
       <ul>
-        <li><b>t<sub>M</sub></b> (thời gian chết): thời gian chất không bị lưu giữ đi qua cột.</li>
-        <li><b>t<sub>R</sub></b> (thời gian lưu): từ lúc tiêm mẫu đến đỉnh pic → dùng để <b>định tính</b>.</li>
-        <li>Thời gian lưu hiệu chỉnh: t'<sub>R</sub> = t<sub>R</sub> − t<sub>M</sub>.</li>
-        <li><b>Diện tích (hoặc chiều cao) pic</b> tỉ lệ với lượng chất → dùng để <b>định lượng</b>.</li>
+        <li><b>Theo pha động</b>: sắc kí khí (GC), sắc kí lỏng (LC, HPLC), sắc kí lỏng siêu tới hạn (SFC, pha động CO<sub>2</sub> siêu tới hạn).</li>
+        <li><b>Theo hình dạng</b>: sắc kí cột; sắc kí phẳng (sắc kí lớp mỏng TLC, sắc kí giấy).</li>
       </ul>
-      <div class="cong-thuc">Hệ số lưu: k = ( t<sub>R</sub> − t<sub>M</sub> ) / t<sub>M</sub></div>
-      <div class="cong-thuc">Hệ số chọn lọc: α = k<sub>2</sub> / k<sub>1</sub> &nbsp;(k<sub>2</sub> &gt; k<sub>1</sub>, nên α ≥ 1)</div>
-      <p>k tốt nằm trong khoảng 1 – 10: k quá nhỏ thì tách kém, quá lớn thì phân tích lâu, pic tù.</p>
 
-      <h3>3. Hiệu quả cột: số đĩa lí thuyết</h3>
-      <div class="cong-thuc">N = 16 · ( t<sub>R</sub> / W )<sup>2</sup> = 5,54 · ( t<sub>R</sub> / W<sub>1/2</sub> )<sup>2</sup></div>
-      <div class="cong-thuc">Chiều cao đĩa lí thuyết: H = L / N</div>
-      <p>W: độ rộng pic ở đáy; W<sub>1/2</sub>: độ rộng ở nửa chiều cao; L: chiều dài cột. N càng lớn (H càng nhỏ) thì cột càng hiệu quả, pic càng hẹp.</p>
-      <div class="cong-thuc">Phương trình van Deemter: H = A + B / u + C · u</div>
+      <h3>3. Sắc đồ và các đại lượng lưu giữ</h3>
       <ul>
-        <li>A: khuếch tán xoáy (do các đường đi khác nhau qua hạt nhồi).</li>
-        <li>B/u: khuếch tán dọc (quan trọng khi tốc độ pha động u nhỏ).</li>
-        <li>C·u: chuyển khối giữa hai pha (quan trọng khi u lớn).</li>
-        <li>Có một tốc độ tối ưu u<sub>opt</sub> cho H nhỏ nhất.</li>
+        <li><b>Thời gian lưu t<sub>R</sub></b>: từ lúc tiêm mẫu đến đỉnh pic. Dùng để <b>định tính</b> (so với chuẩn trong cùng điều kiện).</li>
+        <li><b>Thời gian chết t<sub>m</sub></b>: thời gian lưu của chất không bị pha tĩnh giữ lại (bằng thời gian pha động đi hết cột).</li>
+        <li><b>Chiều cao, diện tích pic</b>: dùng để <b>định lượng</b>.</li>
       </ul>
+      <div class="cong-thuc"><div class="nhan">Thời gian lưu hiệu chỉnh và thể tích lưu (F: tốc độ dòng pha động)</div>\[ \begin{gathered} t_R' = t_R - t_m \\ V_R = F\,t_R \qquad V_R' = F\,t_R' \end{gathered} \]</div>
+      <div class="cong-thuc"><div class="nhan">Hệ số lưu k (K: hệ số phân bố; V<sub>s</sub>, V<sub>m</sub>: thể tích pha tĩnh, pha động)</div>\[ k = \frac{t_R - t_m}{t_m} = K\,\frac{V_s}{V_m} \]</div>
+      <p>k cho biết chất ở trong pha tĩnh lâu gấp bao nhiêu lần trong pha động. k quá nhỏ (&lt; 1): tách kém; k quá lớn (&gt; 10 – 20): pic ra muộn, rộng, tốn thời gian.</p>
+      <div class="vi-du"><b>Ví dụ 1.</b> Acid butyric có t<sub>R</sub> = 7,63 min, t<sub>m</sub> = 0,31 min. Tính t<sub>R</sub>' và k.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} t_R' &= 7,63 - 0,31 = 7,32\ \mathrm{min} \\ k &= \frac{7,32}{0,31} = \mathbf{24} \end{aligned} \]
+          (t<sub>m</sub> chỉ có 2 chữ số có nghĩa nên k lấy 2 chữ số.)
+        </details></div>
 
-      <h3>4. Độ phân giải</h3>
-      <div class="cong-thuc">R<sub>s</sub> = 2 · ( t<sub>R2</sub> − t<sub>R1</sub> ) / ( W<sub>1</sub> + W<sub>2</sub> )</div>
-      <p>R<sub>s</sub> ≥ 1,5: hai pic tách hoàn toàn (tới đường nền). R<sub>s</sub> = 1: tách khoảng 98%.</p>
-      <div class="cong-thuc">Phương trình Purnell: R<sub>s</sub> = (√N / 4) · ( (α − 1) / α ) · ( k<sub>2</sub> / (1 + k<sub>2</sub>) )</div>
-      <p>Muốn tăng R<sub>s</sub>: tăng N (cột dài hơn, hạt nhỏ hơn), tăng α (đổi pha động/pha tĩnh — hiệu quả nhất), hoặc tăng k (đổi thành phần pha động, nhiệt độ).</p>
-      <p class="luu-y">R<sub>s</sub> tỉ lệ với √N: muốn R<sub>s</sub> tăng gấp đôi thì N phải tăng 4 lần (cột dài gấp 4).</p>
-      <div class="vi-du"><b>Ví dụ.</b> Cột dài 30,0 cm, t<sub>M</sub> = 1,00 phút. Hai chất có t<sub>R1</sub> = 5,00 phút, t<sub>R2</sub> = 5,60 phút, W<sub>1</sub> = 0,40 phút, W<sub>2</sub> = 0,44 phút.<br>
-        k<sub>1</sub> = (5,00 − 1,00)/1,00 = 4,00 ; k<sub>2</sub> = 4,60 ; α = 4,60 / 4,00 = 1,15<br>
-        R<sub>s</sub> = 2 × (5,60 − 5,00) / (0,40 + 0,44) = <b>1,43</b> &lt; 1,5 → chưa tách hoàn toàn<br>
-        N (theo chất 2) = 16 × (5,60 / 0,44)<sup>2</sup> ≈ 2,59·10<sup>3</sup> ; H = 300 mm / 2590 ≈ 0,116 mm</div>
+      <h3>4. Hiệu quả cột: thuyết đĩa lí thuyết</h3>
+      <p>Coi cột gồm nhiều "đĩa" nối tiếp, mỗi đĩa là một bước cân bằng phân bố. Cột càng nhiều đĩa (N lớn) thì pic càng hẹp, tách càng tốt.</p>
+      <div class="cong-thuc"><div class="nhan">w: độ rộng đáy pic; w<sub>1/2</sub>: độ rộng ở nửa chiều cao; L: chiều dài cột</div>\[ \begin{gathered} N = 16\left(\frac{t_R}{w}\right)^2 = 5,55\left(\frac{t_R}{w_{1/2}}\right)^2 \\ H = \frac{L}{N} \end{gathered} \]</div>
+      <p>H là <b>chiều cao đĩa lí thuyết</b>: H càng nhỏ, cột càng hiệu quả. t<sub>R</sub> và w phải cùng đơn vị.</p>
+      <div class="vi-du"><b>Ví dụ 2.</b> Hai chất A, B trên cột dài 3,2 m có t<sub>R,A</sub> = 280 s, w<sub>A</sub> = 14 s; t<sub>R,B</sub> = 300 s, w<sub>B</sub> = 15 s. Tính N, H và độ phân giải R<sub>s</sub>.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} N_A &= 16\left(\frac{280}{14}\right)^2 = 6\,400 \\ N_B &= 16\left(\frac{300}{15}\right)^2 = 6\,400 \\ H &= \frac{3,2\ \mathrm{m}}{6\,400} = 5,0\cdot10^{-4}\ \mathrm{m} \\ &= \mathbf{0,50\ mm} \\ R_s &= \frac{300 - 280}{(14 + 15)/2} = \mathbf{1,4} \end{aligned} \]
+          R<sub>s</sub> &lt; 1,5 nên hai pic chưa tách hoàn toàn đến đường nền.
+        </details></div>
 
-      <h3>5. Định lượng trong sắc kí</h3>
+      <h3>5. Độ phân giải và hệ số tách</h3>
+      <div class="cong-thuc"><div class="nhan">Độ phân giải (w<sub>tb</sub>: độ rộng đáy trung bình của hai pic)</div>\[ R_s = \frac{\Delta t_R}{w_\text{tb}} = \frac{0,589\,\Delta t_R}{w_{1/2,\text{tb}}} \]</div>
+      <div class="cong-thuc"><div class="nhan">Hệ số tách (độ chọn lọc), chất 2 ra sau chất 1</div>\[ \alpha = \frac{t_{R2}'}{t_{R1}'} = \frac{k_2}{k_1} \]</div>
       <ul>
-        <li><b>Ngoại chuẩn</b>: dựng đường chuẩn diện tích pic theo nồng độ.</li>
-        <li><b>Nội chuẩn</b>: thêm một lượng chất nội chuẩn (IS) biết trước vào cả chuẩn và mẫu, dùng tỉ số diện tích → bù sai số do thể tích tiêm, dao động thiết bị.</li>
+        <li><b>R<sub>s</sub> ≥ 1,5</b>: hai pic tách hoàn toàn đến đường nền. R<sub>s</sub> = 1,0: chồng nhau khoảng 2%.</li>
+        <li>α = 1 thì không thể tách dù cột tốt đến đâu; α càng lớn càng dễ tách.</li>
       </ul>
-      <div class="cong-thuc">Hệ số đáp ứng: F = ( A<sub>X</sub> / C<sub>X</sub> ) / ( A<sub>IS</sub> / C<sub>IS</sub> )</div>
-      <div class="cong-thuc">C<sub>X</sub> = ( A<sub>X</sub> / A<sub>IS</sub> ) · C<sub>IS</sub> / F</div>
-      <div class="vi-du"><b>Ví dụ.</b> Hỗn hợp chuẩn X và IS cùng 1,00 mg/mL cho diện tích 1200 và 1000 → F = 1,20.<br>
-        Mẫu thêm IS 0,500 mg/mL cho diện tích X = 1500, IS = 800.<br>
-        C<sub>X</sub> = (1500 / 800) × 0,500 / 1,20 = <b>0,781 mg/mL</b></div>
+      <div class="cong-thuc"><div class="nhan">Phương trình Purnell: ba yếu tố quyết định độ phân giải</div>\[ R_s = \frac{\sqrt{N}}{4}\cdot\frac{\alpha - 1}{\alpha}\cdot\frac{k_2}{1 + k_2} \]</div>
+      <p>Muốn tăng R<sub>s</sub>: tăng N (cột dài hơn, hạt nhỏ hơn); tăng α (đổi pha tĩnh, pha động, nhiệt độ: hiệu quả nhất); tăng k đến khoảng 2 – 10. Vì R<sub>s</sub> tỉ lệ với √N, muốn tăng R<sub>s</sub> gấp đôi phải tăng N (chiều dài cột) gấp 4.</p>
+      <div class="vi-du"><b>Ví dụ 3.</b> Hai chất có α = 1,05; k<sub>2</sub> = 5,0 trên cột có N = 10 000. Tính R<sub>s</sub>. Cần bao nhiêu đĩa để đạt R<sub>s</sub> = 1,5?
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} R_s &= \frac{\sqrt{10\,000}}{4}\cdot\frac{0,05}{1,05}\cdot\frac{5,0}{6,0} = \mathbf{0,99} \\ N &= 10\,000\left(\frac{1,5}{0,99}\right)^2 = \mathbf{2,3\cdot10^{4}} \end{aligned} \]
+          Phải dùng cột dài gấp khoảng 2,3 lần, hoặc tìm điều kiện làm α tăng.
+        </details></div>
+      <div class="mo-phong" data-loai="sac-do"></div>
+
+      <h3>6. Sự giãn rộng pic: phương trình Van Deemter</h3>
+      <div class="cong-thuc"><div class="nhan">u: tốc độ dài của pha động</div>\[ H = A + \frac{B}{u} + C\,u \]</div>
+      <ul>
+        <li><b>A – khuếch tán xoáy</b>: các phân tử đi theo nhiều đường khác nhau qua các hạt nhồi. Phụ thuộc kích thước và độ đồng đều của hạt; bằng 0 với cột mao quản rỗng.</li>
+        <li><b>B/u – khuếch tán dọc</b>: chất khuếch tán theo chiều dọc cột; càng lớn khi pha động chảy chậm và hệ số khuếch tán lớn (đáng kể trong GC).</li>
+        <li><b>C·u – chuyển khối</b>: cần thời gian để chất đi vào và ra khỏi pha tĩnh; càng lớn khi pha động chảy nhanh, lớp pha tĩnh dày.</li>
+      </ul>
+      <p>Có một tốc độ tối ưu \( u_\text{opt} = \sqrt{B/C} \) cho H nhỏ nhất: \( H_\text{min} = A + 2\sqrt{BC} \).</p>
+      <div class="vi-du"><b>Ví dụ 4.</b> Một cột có A = 0,10 mm; B = 1,0 mm²/s; C = 0,010 s. Tính tốc độ tối ưu và H nhỏ nhất.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} u_\text{opt} &= \sqrt{\frac{1,0}{0,010}} = \mathbf{10\ mm/s} \\ H_\text{min} &= 0,10 + 2\sqrt{1,0\cdot0,010} \\ &= \mathbf{0,30\ mm} \end{aligned} \]
+        </details></div>
+      <div class="mo-phong" data-loai="van-deemter"></div>
+
+      <h3>7. Định tính và định lượng bằng sắc kí</h3>
+      <ul>
+        <li><b>Định tính</b>: so t<sub>R</sub> của pic trong mẫu với chuẩn trong cùng điều kiện; chắc chắn hơn khi thêm chuẩn vào mẫu (pic tăng lên mà không tách đôi), hoặc dùng detector cho thông tin cấu trúc (MS, DAD).</li>
+        <li><b>Định lượng</b>: diện tích (hoặc chiều cao) pic tỉ lệ với lượng chất. Dùng đường chuẩn ngoại, thêm chuẩn, hoặc <b>nội chuẩn</b> để bù sai lệch thể tích tiêm (Chương 10, mục 6).</li>
+      </ul>
     `,
-    baiTap: [],
+    baiTap: [
+      {
+        de: "Trên một cột, t<sub>m</sub> = 1,20 min; chất X có t<sub>R</sub> = 6,00 min; chất Y có t<sub>R</sub> = 6,72 min. Tính k của X, k của Y và α.",
+        dapAn: "k<sub>X</sub> = (6,00 − 1,20)/1,20 = <b>4,00</b>; k<sub>Y</sub> = (6,72 − 1,20)/1,20 = <b>4,60</b>; α = 4,60/4,00 = <b>1,15</b>",
+      },
+      {
+        de: "Một pic có t<sub>R</sub> = 8,40 min và độ rộng nửa chiều cao 0,21 min trên cột dài 15 cm. Tính N và H.",
+        dapAn: "N = 5,55 × (8,40/0,21)<sup>2</sup> = <b>8,9·10<sup>3</sup></b>; H = 150 mm/8 880 = <b>0,017 mm</b>",
+      },
+    ],
   },
   {
     id: "gc-hplc",
     nhom: "Phân tích công cụ",
     icon: "🧫",
     ten: "Sắc kí khí và sắc kí lỏng",
-    moTa: "TLC, GC, HPLC, detector",
+    moTa: "Sắc kí khí, HPLC pha thường – pha đảo, thiết bị, detector, thứ tự rửa giải",
+    dayDu: true,
+    choDuyet: true,
     lyThuyet: String.raw`
-      <h3>1. Sắc kí lớp mỏng (TLC)</h3>
-      <p>Pha tĩnh là lớp silica gel (hoặc nhôm oxide) trải trên bản; pha động là dung môi, đi lên nhờ mao dẫn.</p>
-      <div class="cong-thuc">R<sub>f</sub> = quãng đường chất đi / quãng đường dung môi đi &nbsp;(0 &lt; R<sub>f</sub> &lt; 1)</div>
-      <div class="vi-du"><b>Ví dụ.</b> Vết chất cách vạch xuất phát 3,6 cm, tuyến dung môi cách 8,0 cm → R<sub>f</sub> = 3,6 / 8,0 = <b>0,45</b></div>
-      <p>Dùng để định tính nhanh, kiểm tra độ tinh khiết, theo dõi phản ứng. Trên silica (phân cực), chất càng phân cực thì R<sub>f</sub> càng nhỏ.</p>
-
-      <h3>2. Sắc kí khí (GC)</h3>
+      <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
+        <ul>
+          <li>Nắm nguyên tắc, phạm vi áp dụng và cấu tạo máy GC, HPLC.</li>
+          <li>Dự đoán thứ tự rửa giải trong GC và HPLC pha thường, pha đảo.</li>
+          <li>Chọn detector, loại cột và chế độ rửa giải phù hợp với bài toán.</li>
+        </ul>
+      </div>
+      <h3>1. Sắc kí khí (GC): nguyên tắc và phạm vi</h3>
+      <p>Pha động là <b>khí trơ</b> (khí mang), pha tĩnh là chất rắn hoặc chất lỏng phủ trong cột. Mẫu được <b>hóa hơi</b> ở buồng tiêm rồi được khí mang đưa qua cột.</p>
       <ul>
-        <li><b>Pha động</b>: khí mang trơ (He, N<sub>2</sub>, H<sub>2</sub>) — chỉ mang chất đi, không tương tác.</li>
-        <li><b>Đối tượng</b>: chất dễ bay hơi, bền nhiệt (hoặc dẫn xuất hóa cho dễ bay hơi).</li>
-        <li><b>Cột</b>: cột mao quản (dài 15 – 100 m, pha tĩnh phủ thành trong) cho hiệu quả rất cao; cột nhồi.</li>
-        <li><b>Nhiệt độ</b> là thông số quan trọng nhất: chạy chương trình nhiệt (tăng dần nhiệt độ lò cột) để tách hỗn hợp có nhiệt độ sôi khác xa nhau.</li>
-      </ul>
-      <p><b>Detector thường gặp:</b></p>
-      <ul>
-        <li><b>FID</b> (ion hóa ngọn lửa): nhạy với hợp chất hữu cơ chứa C–H, không nhạy với H<sub>2</sub>O, CO<sub>2</sub>.</li>
-        <li><b>TCD</b> (dẫn nhiệt): vạn năng, không phá hủy mẫu, kém nhạy.</li>
-        <li><b>ECD</b> (bắt electron): rất nhạy với hợp chất chứa halogen (thuốc trừ sâu clo hữu cơ).</li>
-        <li><b>MS</b> (khối phổ): vừa định lượng vừa nhận danh chất (GC-MS).</li>
+        <li>Áp dụng cho chất <b>dễ bay hơi và bán bay hơi, bền nhiệt</b>, chủ yếu hữu cơ: dung môi tồn dư, tinh dầu, thuốc trừ sâu, hydrocarbon, chất béo (sau khi chuyển thành ester methyl).</li>
+        <li>Chất khó bay hơi hoặc kém bền nhiệt phải được <b>dẫn xuất hóa</b> (ví dụ silyl hóa) hoặc chuyển sang HPLC.</li>
+        <li>Sắc kí khí – rắn (hấp phụ): tách khí vô cơ, hydrocarbon mạch ngắn. Sắc kí khí – lỏng (phân bố): phổ biến nhất.</li>
       </ul>
 
-      <h3>3. Sắc kí lỏng hiệu năng cao (HPLC)</h3>
+      <h3>2. Thiết bị GC</h3>
+      <p>Bình khí mang → bộ điều khiển dòng → buồng tiêm mẫu → cột (trong lò cột) → detector → hệ xử lí số liệu.</p>
       <ul>
-        <li>Pha động lỏng được bơm cao áp qua cột nhồi hạt rất nhỏ (3 – 5 µm, hoặc &lt; 2 µm với UHPLC).</li>
-        <li>Phân tích được chất không bay hơi, kém bền nhiệt (dược phẩm, sinh học).</li>
-        <li><b>Pha thường</b>: pha tĩnh phân cực (silica), pha động kém phân cực → chất kém phân cực ra trước.</li>
-        <li><b>Pha đảo</b> (phổ biến nhất): pha tĩnh kém phân cực (C18, C8), pha động phân cực (nước + methanol/acetonitrile) → chất <b>phân cực ra trước</b>. Tăng tỉ lệ dung môi hữu cơ thì các chất ra nhanh hơn.</li>
-        <li><b>Rửa giải đẳng dòng</b> (thành phần pha động không đổi) và <b>rửa giải gradient</b> (thay đổi thành phần theo thời gian — giống chương trình nhiệt trong GC).</li>
-      </ul>
-      <p><b>Detector:</b> UV-Vis / dãy diode (DAD, phổ biến nhất), huỳnh quang (rất nhạy, chọn lọc), chỉ số khúc xạ RI (vạn năng, kém nhạy), khối phổ (LC-MS).</p>
-
-      <h3>4. Sắc kí ion và sắc kí rây phân tử</h3>
-      <ul>
-        <li><b>Sắc kí ion</b>: pha tĩnh là nhựa trao đổi ion; dùng xác định anion (F<sup>−</sup>, Cl<sup>−</sup>, NO<sub>3</sub><sup>−</sup>, SO<sub>4</sub><sup>2−</sup>...) và cation. Detector độ dẫn, có bộ triệt nền để giảm độ dẫn của pha động.</li>
-        <li><b>Sắc kí rây phân tử (loại cỡ)</b>: tách theo kích thước phân tử; phân tử <b>lớn ra trước</b> (không lọt vào lỗ xốp). Dùng cho polymer, protein.</li>
+        <li><b>Khí mang</b>: He, N<sub>2</sub>, H<sub>2</sub>, Ar; phải tinh khiết và khô.</li>
+        <li><b>Tiêm mẫu</b>: bằng xi lanh hoặc bộ tiêm tự động. Chế độ <b>chia dòng</b> (split): chỉ một phần nhỏ mẫu vào cột, dùng cho mẫu đặc; <b>không chia dòng</b> (splitless): gần như toàn bộ mẫu vào cột, dùng cho phân tích vết.</li>
+        <li><b>Cột nhồi</b>: ống kim loại/thủy tinh nhồi hạt, dung lượng mẫu lớn nhưng hiệu quả thấp.</li>
+        <li><b>Cột mao quản</b>: ống silica nung chảy phủ polyimide bên ngoài, pha tĩnh phủ ở thành trong; đường kính trong 0,10 – 0,53 mm (thường 0,25 và 0,32 mm), dài 10 – 100 m (thường 30 m). Hiệu quả rất cao (khoảng 150 000 đĩa) nhưng dung lượng mẫu nhỏ.</li>
+        <li><b>Pha tĩnh</b>: polysiloxan với tỉ lệ nhóm phenyl, cyanopropyl khác nhau (từ không phân cực đến phân cực), polyethylen glycol (phân cực).</li>
+        <li><b>Nhiệt độ cột</b>: đẳng nhiệt (thường hơi thấp hơn nhiệt độ sôi của các chất), hoặc <b>chương trình nhiệt độ</b> (tăng dần) cho hỗn hợp có nhiệt độ sôi khác nhau nhiều: chất sôi thấp tách tốt ở đầu, chất sôi cao ra nhanh ở cuối, pic gọn hơn.</li>
       </ul>
 
-      <h3>5. So sánh nhanh GC và HPLC</h3>
+      <h3>3. Thứ tự rửa giải trong GC</h3>
+      <ul>
+        <li>Trên pha tĩnh <b>không phân cực</b>: các chất ra theo <b>nhiệt độ sôi tăng dần</b>.</li>
+        <li>Khi pha tĩnh có độ phân cực: tương tác với pha tĩnh cũng quan trọng. Pha tĩnh không phân cực giữ chất không phân cực lâu hơn (chất phân cực ra trước nếu nhiệt độ sôi gần nhau); pha tĩnh phân cực giữ chất phân cực lâu hơn.</li>
+      </ul>
+      <div class="vi-du"><b>Ví dụ 1.</b> Hỗn hợp toluen, benzen, ethyl acetat hòa tan trong n-hexan được tách trên cột OV-17 (phenylmethyl polysiloxan, phân cực yếu). Dự đoán thứ tự các pic. Nhiệt độ sôi: n-hexan 69 °C, ethyl acetat 77 °C, benzen 80,1 °C, toluen 110,6 °C.
+        <details><summary>Xem lời giải</summary>
+          Pha tĩnh phân cực yếu, các chất ra chủ yếu theo nhiệt độ sôi: <b>n-hexan (dung môi) → ethyl acetat → benzen → toluen</b>.
+        </details></div>
+
+      <h3>4. Detector GC</h3>
       <div class="bang-cuon">
-        <table class="bang">
-          <thead><tr><th></th><th>GC</th><th>HPLC</th></tr></thead>
+        <table class="bang bang-the">
+          <thead><tr><th>Detector</th><th>Nguyên tắc</th><th>Đối tượng, đặc điểm</th></tr></thead>
           <tbody>
-            <tr><td>Pha động</td><td>Khí trơ</td><td>Lỏng</td></tr>
-            <tr><td>Chất phân tích</td><td>Dễ bay hơi, bền nhiệt</td><td>Không bay hơi, kém bền nhiệt</td></tr>
-            <tr><td>Điều chỉnh tách</td><td>Nhiệt độ cột</td><td>Thành phần pha động</td></tr>
-            <tr><td>Detector hay dùng</td><td>FID, ECD, MS</td><td>UV/DAD, huỳnh quang, MS</td></tr>
+            <tr><td>TCD (dẫn nhiệt)</td><td>Chất làm thay đổi độ dẫn nhiệt của khí mang</td><td>Vạn năng (cả khí vô cơ), không phá mẫu, kém nhạy</td></tr>
+            <tr><td>FID (ion hóa ngọn lửa)</td><td>Đốt chất hữu cơ trong ngọn lửa H<sub>2</sub>, đo dòng ion</td><td>Hợp chất có C–H; nhạy, khoảng tuyến tính rộng; không nhạy với H<sub>2</sub>O, CO<sub>2</sub></td></tr>
+            <tr><td>ECD (bắt electron)</td><td>Chất hút electron làm giảm dòng electron từ nguồn phóng xạ</td><td>Hợp chất halogen (thuốc trừ sâu clo hữu cơ, PCB): rất nhạy, chọn lọc</td></tr>
+            <tr><td>NPD (nitơ – phospho)</td><td>Hạt muối kiềm nung nóng ion hóa chọn lọc hợp chất N, P</td><td>Thuốc trừ sâu phospho hữu cơ, dược chất chứa N</td></tr>
+            <tr><td>FPD (quang ngọn lửa)</td><td>Đo phát xạ của S, P trong ngọn lửa</td><td>Hợp chất lưu huỳnh, phospho</td></tr>
+            <tr><td>MS (khối phổ)</td><td>Ion hóa, tách ion theo m/z</td><td>Vừa định lượng vừa nhận danh cấu trúc (GC-MS)</td></tr>
           </tbody>
         </table>
       </div>
+      <p>Detector quyết định độ nhạy, độ chọn lọc, LOD và LOQ của phương pháp.</p>
+
+      <h3>5. Sắc kí lỏng hiệu năng cao (HPLC): nguyên tắc và phân loại</h3>
+      <p>Mẫu ở dạng lỏng; chất phân bố giữa pha tĩnh (hạt rất nhỏ nhồi trong cột) và pha động lỏng được bơm qua cột ở <b>áp suất cao</b>. HPLC áp dụng cho hầu hết các chất, bay hơi hoặc không, phân tử nhỏ đến rất lớn, kể cả chất kém bền nhiệt.</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Loại</th><th>Pha tĩnh</th><th>Pha động</th><th>Chất ra trước</th></tr></thead>
+          <tbody>
+            <tr><td>Pha thường (NP)</td><td>Phân cực (silica, –CN, –NH<sub>2</sub>)</td><td>Không phân cực (hexan...)</td><td>Chất <b>kém phân cực</b></td></tr>
+            <tr><td>Pha đảo (RP), phổ biến nhất</td><td>Không phân cực (C18, C8)</td><td>Phân cực (nước – methanol, nước – acetonitril)</td><td>Chất <b>phân cực</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul>
+        <li><b>Sắc kí ion</b>: tách anion, cation trên nhựa trao đổi ion.</li>
+        <li><b>Sắc kí loại theo kích thước</b> (SEC): tách phân tử lớn (M &gt; 10 000) như protein, polymer; phân tử lớn ra trước.</li>
+        <li><b>Sắc kí chiral</b>: tách các đối quang (quan trọng trong dược phẩm).</li>
+        <li><b>Sắc kí ái lực</b>: dựa trên tương tác sinh học đặc hiệu, tinh chế protein, kháng thể.</li>
+      </ul>
+      <p>Trong HPLC pha đảo, độ lưu giữ tăng theo <b>tính kị nước</b>: chất càng phân cực càng ra sớm. Tăng tỉ lệ dung môi hữu cơ trong pha động làm các chất ra nhanh hơn.</p>
+      <div class="vi-du"><b>Ví dụ 2.</b> Caffeine (1,3,7-trimethylxanthin) và theobromine (3,7-dimethylxanthin) được tách trên cột C18, pha động nước – methanol. Chất nào ra trước?
+        <details><summary>Xem lời giải</summary>
+          Theobromine ít hơn caffeine một nhóm –CH<sub>3</sub> (có N–H tạo liên kết hydro), nên phân cực hơn, kém kị nước hơn. Trên cột pha đảo, <b>theobromine ra trước</b>, caffeine ra sau.
+        </details></div>
+
+      <h3>6. Thiết bị HPLC</h3>
+      <p>Bình dung môi → bộ khử khí → bơm cao áp → bộ tiêm mẫu → (cột bảo vệ) → cột → detector → hệ xử lí số liệu.</p>
+      <div class="mo-phong" data-loai="keo-tha-hplc"></div>
+      <ul>
+        <li><b>Bơm</b>: tạo dòng ổn định ở áp suất cao (có thể vài trăm bar). <b>Rửa giải đẳng dòng</b> (isocratic): thành phần pha động không đổi. <b>Rửa giải gradient</b>: tăng dần tỉ lệ dung môi mạnh, dùng cho hỗn hợp có độ lưu giữ khác nhau nhiều (tương tự chương trình nhiệt độ trong GC).</li>
+        <li><b>Cột nhồi</b>: thép không gỉ, đường kính trong 2,1 – 4,6 mm, dài 30 – 300 mm, hạt silica xốp 3 – 10 µm (40 000 – 60 000 đĩa/m). Hạt càng nhỏ, cột càng hiệu quả nhưng áp suất càng cao (UHPLC dùng hạt dưới 2 µm).</li>
+        <li><b>Cột mao quản</b>: silica nung chảy, đường kính trong 44 – 200 µm, dài 50 – 250 mm, hạt 3 – 5 µm (khoảng 250 000 đĩa/m), tốn rất ít dung môi và mẫu.</li>
+      </ul>
+      <p><b>Detector HPLC</b>:</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Detector</th><th>Đối tượng</th><th>Ghi chú</th></tr></thead>
+          <tbody>
+            <tr><td>UV – Vis, dãy diode (DAD)</td><td>Chất hấp thụ UV – Vis</td><td>Phổ biến nhất; DAD ghi cả phổ để kiểm tra độ tinh khiết pic</td></tr>
+            <tr><td>Huỳnh quang</td><td>Chất phát huỳnh quang (hoặc sau dẫn xuất hóa)</td><td>Rất nhạy, chọn lọc (ví dụ aflatoxin, vitamin B2)</td></tr>
+            <tr><td>Chỉ số khúc xạ (RI)</td><td>Hầu như mọi chất (đường, polymer)</td><td>Vạn năng nhưng kém nhạy, không dùng được với gradient</td></tr>
+            <tr><td>Độ dẫn điện</td><td>Ion</td><td>Dùng trong sắc kí ion</td></tr>
+            <tr><td>Khối phổ (LC-MS)</td><td>Hầu hết các chất</td><td>Nhạy, chọn lọc, nhận danh cấu trúc</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>7. So sánh GC và HPLC</h3>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Tiêu chí</th><th>GC</th><th>HPLC</th></tr></thead>
+          <tbody>
+            <tr><td>Pha động</td><td>Khí trơ, không tham gia tách</td><td>Lỏng, thành phần ảnh hưởng mạnh đến tách</td></tr>
+            <tr><td>Đối tượng</td><td>Chất bay hơi, bền nhiệt</td><td>Hầu hết chất, kể cả không bay hơi, kém bền nhiệt</td></tr>
+            <tr><td>Điều khiển tách</td><td>Nhiệt độ cột, loại pha tĩnh</td><td>Thành phần pha động, pH, loại pha tĩnh</td></tr>
+            <tr><td>Hiệu quả cột</td><td>Rất cao (cột mao quản dài)</td><td>Cao (hạt nhỏ, cột ngắn)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="mo-phong" data-loai="thu-tu-rua-giai"></div>
     `,
-    baiTap: [],
+    baiTap: [
+      {
+        de: "Cần xác định dư lượng thuốc trừ sâu clo hữu cơ ở mức vết trong rau. Chọn kĩ thuật sắc kí, chế độ tiêm và detector phù hợp.",
+        dapAn: "<b>GC</b> (thuốc trừ sâu clo hữu cơ bay hơi được, bền nhiệt), tiêm <b>không chia dòng</b> (phân tích vết), detector <b>ECD</b> (rất nhạy với hợp chất halogen) hoặc GC-MS để khẳng định.",
+      },
+      {
+        de: "Trên cột C18, pha động nước – methanol 50 : 50, thứ tự rửa giải của phenol, toluen và acid benzoic (ở pH 2,5) là gì? Nếu tăng methanol lên 70% thì thời gian lưu thay đổi thế nào?",
+        dapAn: "Pha đảo: chất phân cực ra trước. Ở pH 2,5 acid benzoic ở dạng phân tử nhưng vẫn phân cực hơn toluen. Thứ tự: <b>phenol → acid benzoic → toluen</b>. Tăng methanol làm pha động mạnh hơn: <b>mọi thời gian lưu đều giảm</b>.",
+      },
+    ],
   },
 ];
 
