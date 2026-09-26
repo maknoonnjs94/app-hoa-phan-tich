@@ -12,52 +12,182 @@ const CHUONG = [
     nhom: "Phân tích hóa học",
     icon: "📏",
     ten: "Đại cương & sai số",
-    moTa: "Nồng độ, pha chế, sai số, thống kê",
-    lyThuyet: `
+    moTa: "Nồng độ, pha chế, sai số, thống kê, chữ số có nghĩa",
+    dayDu: true,
+    lyThuyet: String.raw`
+      <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
+        <ul>
+          <li>Đổi qua lại giữa các loại nồng độ: C<sub>M</sub>, C%, ppm, ppb.</li>
+          <li>Tính được lượng hóa chất để pha dung dịch từ chất rắn, từ dung dịch đặc, và khi trộn/pha loãng.</li>
+          <li>Phân biệt các loại sai số; tính trung bình, độ lệch chuẩn, khoảng tin cậy; loại số liệu ngờ; kiểm tra sai số hệ thống.</li>
+          <li>Ghi kết quả đúng số chữ số có nghĩa.</li>
+        </ul>
+      </div>
+
       <h3>1. Các cách biểu diễn nồng độ</h3>
-      <div class="cong-thuc">Nồng độ mol: C<sub>M</sub> = n / V &nbsp;(mol/L, kí hiệu M)</div>
-      <div class="cong-thuc">Nồng độ phần trăm khối lượng: C% = m<sub>chất tan</sub> / m<sub>dung dịch</sub> × 100%</div>
-      <div class="cong-thuc">Nồng độ khối lượng: ρ = m<sub>chất tan</sub> / V &nbsp;(g/L, mg/L)</div>
-      <div class="cong-thuc">ppm = mg/kg ; ppb = µg/kg<br>(dung dịch loãng trong nước: 1 ppm ≈ 1 mg/L ; 1 ppb ≈ 1 µg/L)</div>
-      <p><b>Các công thức đổi hay dùng</b> (d: khối lượng riêng, g/mL; M: khối lượng mol, g/mol):</p>
-      <div class="cong-thuc">C<sub>M</sub> = 10 · d · C% / M</div>
-      <div class="cong-thuc">ppm (mg/L) = C<sub>M</sub> · M · 1000</div>
-      <div class="vi-du"><b>Ví dụ.</b> Dung dịch HCl 37%, d = 1,19 g/mL (M = 36,46). Tính C<sub>M</sub>.<br>
-        C<sub>M</sub> = 10 × 1,19 × 37 / 36,46 ≈ <b>12,1 M</b></div>
+      <div class="cong-thuc"><div class="nhan">Nồng độ mol (mol/L, kí hiệu M)</div>\[ C_\mathrm{M} = \frac{n}{V} = \frac{m}{M\cdot V} \]</div>
+      <div class="cong-thuc"><div class="nhan">Nồng độ phần trăm khối lượng</div>\[ C\% = \frac{m_\text{ct}}{m_\text{dd}}\cdot100\% \]</div>
+      <div class="cong-thuc"><div class="nhan">Nồng độ khối lượng (g/L, mg/L...)</div>\[ \rho = \frac{m_\text{ct}}{V} \]</div>
+      <p><b>ppm và ppb</b> dùng cho lượng vết (nước, thực phẩm, môi trường):</p>
+      <div class="cong-thuc">\[ \begin{aligned} 1\ \mathrm{ppm} &= 1\ \mathrm{mg/kg} \approx 1\ \mathrm{mg/L} \\ 1\ \mathrm{ppb} &= 1\ \mathrm{\mu g/kg} \approx 1\ \mathrm{\mu g/L} \\ 1\% &= 10^4\ \mathrm{ppm} \end{aligned} \]</div>
+      <p class="luu-y">"≈" chỉ đúng với dung dịch loãng trong nước (khối lượng riêng ≈ 1 g/mL). Với mẫu rắn, ppm luôn là mg/kg.</p>
+      <p><b>Nồng độ đương lượng</b> C<sub>N</sub> (tài liệu cũ hay dùng): C<sub>N</sub> = z·C<sub>M</sub>, với z là số H<sup>+</sup> trao đổi (phản ứng acid – base) hoặc số electron trao đổi (phản ứng oxi hóa – khử). Ví dụ H<sub>2</sub>SO<sub>4</sub> 0,1 M = 0,2 N khi phản ứng hết 2 nấc.</p>
 
-      <h3>2. Pha chế dung dịch</h3>
-      <p><b>Từ chất rắn</b> (V tính bằng lít; P: độ tinh khiết, %):</p>
-      <div class="cong-thuc">m = C<sub>M</sub> · V · M &nbsp;;&nbsp; nếu chất không tinh khiết: m = C<sub>M</sub> · V · M · 100 / P</div>
-      <p><b>Pha loãng</b>: số mol chất tan không đổi.</p>
-      <div class="cong-thuc">C<sub>1</sub> · V<sub>1</sub> = C<sub>2</sub> · V<sub>2</sub></div>
-      <div class="vi-du"><b>Ví dụ.</b> Pha 250,0 mL dung dịch NaCl 0,100 M (M = 58,44).<br>
-        m = 0,100 × 0,2500 × 58,44 = <b>1,461 g</b>. Cân, hòa tan rồi định mức tới vạch trong bình định mức 250 mL.</div>
+      <h3>2. Đổi đơn vị nồng độ</h3>
+      <div class="cong-thuc"><div class="nhan">C% sang C<sub>M</sub> (d: khối lượng riêng, g/mL)</div>\[ C_\mathrm{M} = \frac{10\cdot d\cdot C\%}{M} \]</div>
+      <div class="cong-thuc"><div class="nhan">C<sub>M</sub> sang ppm (mg/L)</div>\[ \mathrm{ppm} = C_\mathrm{M}\cdot M\cdot 1000 \]</div>
+      <div class="vi-du"><b>Ví dụ 1.</b> Dung dịch HCl đặc 37%, d = 1,19 g/mL (M = 36,46). Tính nồng độ mol.
+        <details><summary>Xem lời giải</summary>
+          \[ C_\mathrm{M} = \frac{10\cdot1,19\cdot37}{36,46} = \mathbf{12,1\ M} \]
+        </details></div>
+      <div class="vi-du"><b>Ví dụ 2.</b> Nước có hàm lượng chì 2,5 ppm. Tính nồng độ mol của Pb (M = 207,2).
+        <details><summary>Xem lời giải</summary>
+          2,5 ppm = 2,5 mg/L = 2,5·10<sup>−3</sup> g/L.
+          \[ C_\mathrm{M} = \frac{2,5\cdot10^{-3}}{207,2} = \mathbf{1,21\cdot10^{-5}\ M} \]
+        </details></div>
 
-      <h3>3. Sai số trong phân tích</h3>
+      <h3>3. Pha chế dung dịch</h3>
+      <p><b>a) Từ chất rắn</b> (V tính bằng lít; P là độ tinh khiết, %):</p>
+      <div class="cong-thuc">\[ m = C_\mathrm{M}\cdot V\cdot M\cdot\frac{100}{P} \]</div>
+      <p>Nếu chất ở dạng ngậm nước (CuSO<sub>4</sub>·5H<sub>2</sub>O, Na<sub>2</sub>B<sub>4</sub>O<sub>7</sub>·10H<sub>2</sub>O...), dùng khối lượng mol <b>của cả tinh thể ngậm nước</b>.</p>
+      <p><b>b) Pha loãng</b>: số mol chất tan không đổi.</p>
+      <div class="cong-thuc">\[ C_1V_1 = C_2V_2 \]</div>
+      <p><b>c) Từ dung dịch đặc có C% và d</b>: đổi sang C<sub>M</sub> (mục 2), rồi pha loãng.</p>
+      <p><b>d) Trộn hai dung dịch cùng chất</b> (coi thể tích cộng được):</p>
+      <div class="cong-thuc">\[ C = \frac{C_1V_1 + C_2V_2}{V_1 + V_2} \]</div>
+      <div class="vi-du"><b>Ví dụ 3.</b> Tính khối lượng CuSO<sub>4</sub>·5H<sub>2</sub>O (M = 249,68) cần để pha 500,0 mL dung dịch Cu<sup>2+</sup> 0,0500 M.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} m &= 0,0500\cdot0,5000\cdot249,68 \\ &= \mathbf{6,242\ g} \end{aligned} \]
+          Cân 6,242 g, hòa tan rồi định mức tới vạch trong bình định mức 500 mL.
+        </details></div>
+      <div class="vi-du"><b>Ví dụ 4.</b> Cần bao nhiêu mL H<sub>2</sub>SO<sub>4</sub> 98% (d = 1,84 g/mL, M = 98,08) để pha 500,0 mL H<sub>2</sub>SO<sub>4</sub> 0,10 M?
+        <details><summary>Xem lời giải</summary>
+          \[ C_\mathrm{M} = \frac{10\cdot1,84\cdot98}{98,08} = 18,4\ \mathrm{M} \]
+          \[ \begin{aligned} V_1 &= \frac{C_2V_2}{C_1} = \frac{0,10\cdot500,0}{18,4} \\ &= \mathbf{2,72\ mL} \end{aligned} \]
+          Nhớ: rót từ từ acid vào nước, không làm ngược lại.
+        </details></div>
+      <div class="vi-du"><b>Ví dụ 5.</b> Trộn 100 mL HCl 0,20 M với 300 mL HCl 0,10 M. Tính nồng độ dung dịch thu được.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} C &= \frac{0,20\cdot100 + 0,10\cdot300}{100 + 300} \\ &= \mathbf{0,125\ M} \end{aligned} \]
+        </details></div>
+
+      <h3>4. Sai số trong phân tích</h3>
+      <div class="cong-thuc"><div class="nhan">Sai số tuyệt đối (μ: giá trị thật)</div>\[ E = x - \mu \]</div>
+      <div class="cong-thuc"><div class="nhan">Sai số tương đối</div>\[ E_r = \frac{x - \mu}{\mu}\cdot100\% \]</div>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Loại sai số</th><th>Đặc điểm</th><th>Cách xử lí</th></tr></thead>
+          <tbody>
+            <tr><td>Hệ thống</td><td>Lệch về một phía, có nguyên nhân xác định (dụng cụ chưa hiệu chuẩn, hóa chất bẩn, phương pháp, người làm). Ảnh hưởng <b>độ đúng</b>.</td><td>Tìm và loại nguyên nhân</td></tr>
+            <tr><td>Ngẫu nhiên</td><td>Lệch cả hai phía, không theo quy luật. Ảnh hưởng <b>độ chụm</b>.</td><td>Làm lặp lại, xử lí thống kê</td></tr>
+            <tr><td>Thô</td><td>Do nhầm lẫn (đọc sai, đổ rớt mẫu...), kết quả lệch hẳn.</td><td>Loại bỏ (chuẩn Q)</td></tr>
+          </tbody>
+        </table>
+      </div>
       <ul>
-        <li><b>Sai số tuyệt đối</b>: E = x − μ (μ: giá trị thật). <b>Sai số tương đối</b>: E / μ × 100%.</li>
-        <li><b>Sai số hệ thống</b>: lệch về một phía, có nguyên nhân xác định (dụng cụ chưa hiệu chuẩn, hóa chất không tinh khiết, phương pháp). Quyết định <b>độ đúng</b>.</li>
-        <li><b>Sai số ngẫu nhiên</b>: lệch không theo quy luật, giảm bằng cách làm lặp lại nhiều lần. Quyết định <b>độ chụm</b> (độ lặp lại).</li>
-        <li><b>Sai số thô</b>: do nhầm lẫn, cần phát hiện và loại bỏ.</li>
+        <li><b>Độ đúng</b>: mức gần của kết quả trung bình với giá trị thật.</li>
+        <li><b>Độ chụm</b>: mức gần nhau giữa các lần đo lặp lại. Kết quả có thể rất chụm mà vẫn sai (do sai số hệ thống).</li>
+        <li><b>Phát hiện sai số hệ thống</b>: phân tích mẫu chuẩn (CRM), làm mẫu trắng, so sánh với phương pháp khác, thêm chuẩn để tính độ thu hồi.</li>
       </ul>
 
-      <h3>4. Xử lí thống kê số liệu</h3>
-      <div class="cong-thuc">Trung bình: x̄ = Σx<sub>i</sub> / n</div>
-      <div class="cong-thuc">Độ lệch chuẩn: s = √[ Σ(x<sub>i</sub> − x̄)<sup>2</sup> / (n − 1) ]</div>
-      <div class="cong-thuc">Độ lệch chuẩn tương đối: RSD = s / x̄ × 100%</div>
-      <div class="cong-thuc">Khoảng tin cậy: μ = x̄ ± t · s / √n &nbsp;(t tra bảng Student, bậc tự do n − 1)</div>
-      <div class="cong-thuc">Loại số liệu ngờ (chuẩn Q): Q = |x<sub>ngờ</sub> − x<sub>gần nhất</sub>| / (x<sub>max</sub> − x<sub>min</sub>)</div>
-      <p>Nếu Q<sub>tính</sub> &gt; Q<sub>bảng</sub> thì loại giá trị ngờ.</p>
-      <div class="vi-du"><b>Ví dụ.</b> Kết quả 4 lần đo: 10,12 ; 10,15 ; 10,10 ; 10,14.<br>
-        x̄ = 10,13 ; s = 0,022 ; RSD = 0,22%<br>
-        Khoảng tin cậy 95% (t = 3,18 với 3 bậc tự do): μ = 10,13 ± 3,18 × 0,022 / √4 = <b>10,13 ± 0,04</b></div>
+      <h3>5. Xử lí thống kê kết quả</h3>
+      <div class="cong-thuc"><div class="nhan">Trung bình và độ lệch chuẩn (n lần đo)</div>\[ \bar{x} = \frac{\sum x_i}{n} \qquad s = \sqrt{\frac{\sum\left(x_i - \bar{x}\right)^2}{n - 1}} \]</div>
+      <div class="cong-thuc"><div class="nhan">Độ lệch chuẩn tương đối (hệ số biến thiên)</div>\[ \mathrm{RSD} = \frac{s}{\bar{x}}\cdot100\% \]</div>
+      <div class="cong-thuc"><div class="nhan">Khoảng tin cậy của giá trị thật</div>\[ \mu = \bar{x} \pm \frac{t\cdot s}{\sqrt{n}} \]</div>
+      <p>t tra bảng Student theo bậc tự do f = n − 1 và độ tin cậy (thường 95%):</p>
+      <div class="bang-cuon">
+        <table class="bang bang-hep">
+          <thead><tr><th>f = n − 1</th><th>t (95%)</th></tr></thead>
+          <tbody><tr><td>1</td><td>12,71</td></tr><tr><td>2</td><td>4,30</td></tr><tr><td>3</td><td>3,18</td></tr><tr><td>4</td><td>2,78</td></tr><tr><td>5</td><td>2,57</td></tr><tr><td>6</td><td>2,45</td></tr><tr><td>8</td><td>2,31</td></tr><tr><td>10</td><td>2,23</td></tr></tbody>
+        </table>
+      </div>
+      <div class="vi-du"><b>Ví dụ 6.</b> Bốn lần xác định hàm lượng một chất cho kết quả (%): 10,12 ; 10,15 ; 10,10 ; 10,14. Tính x̄, s, RSD và khoảng tin cậy 95%.
+        <details><summary>Xem lời giải</summary>
+          Tổng 4 giá trị: 10,12 + 10,15 + 10,10 + 10,14 = 40,51.
+          \[ \begin{aligned} \bar{x} &= \frac{40,51}{4} = 10,13 \\ s &= 0,022 \\ \mathrm{RSD} &= \frac{0,022}{10,13}\cdot100\% = 0,22\% \end{aligned} \]
+          Với f = 3, t = 3,18:
+          \[ \begin{aligned} \mu &= 10,13 \pm \frac{3,18\cdot0,022}{\sqrt{4}} \\ &= \mathbf{10,13 \pm 0,04\ \%} \end{aligned} \]
+        </details></div>
 
-      <h3>5. Chữ số có nghĩa</h3>
+      <h3>6. Loại số liệu ngờ: chuẩn Q (Dixon)</h3>
+      <p>Khi một kết quả lệch hẳn so với các kết quả còn lại, xếp dãy theo thứ tự tăng dần rồi tính:</p>
+      <div class="cong-thuc"><div class="nhan">x<sub>1</sub>: giá trị ngờ ; x<sub>2</sub>: giá trị gần x<sub>1</sub> nhất</div>\[ Q_\text{tính} = \frac{\left|x_1 - x_2\right|}{x_\text{max} - x_\text{min}} \]</div>
+      <p>Nếu Q<sub>tính</sub> &gt; Q<sub>bảng</sub> thì loại giá trị ngờ; ngược lại phải giữ.</p>
+      <div class="bang-cuon">
+        <table class="bang bang-hep">
+          <thead><tr><th>n</th><th>Q (90%)</th><th>Q (95%)</th></tr></thead>
+          <tbody><tr><td>3</td><td>0,941</td><td>0,970</td></tr><tr><td>4</td><td>0,765</td><td>0,829</td></tr><tr><td>5</td><td>0,642</td><td>0,710</td></tr><tr><td>6</td><td>0,560</td><td>0,625</td></tr><tr><td>7</td><td>0,507</td><td>0,568</td></tr><tr><td>8</td><td>0,468</td><td>0,526</td></tr><tr><td>9</td><td>0,437</td><td>0,493</td></tr><tr><td>10</td><td>0,412</td><td>0,466</td></tr></tbody>
+        </table>
+      </div>
+      <div class="vi-du"><b>Ví dụ 7.</b> Kết quả 5 lần chuẩn độ (mL): 20,12 ; 20,15 ; 20,18 ; 20,14 ; 20,45. Có loại được 20,45 không (độ tin cậy 95%)?
+        <details><summary>Xem lời giải</summary>
+          Xếp tăng dần: 20,12 ; 20,14 ; 20,15 ; 20,18 ; 20,45. Giá trị gần 20,45 nhất là 20,18.
+          \[ Q_\text{tính} = \frac{20,45 - 20,18}{20,45 - 20,12} = \frac{0,27}{0,33} = 0,82 \]
+          Q<sub>tính</sub> = 0,82 &gt; Q<sub>bảng</sub> = 0,710 (n = 5) → <b>loại 20,45</b>. Trung bình của 4 giá trị còn lại là 20,15 mL.
+        </details></div>
+
+      <h3>7. Kiểm tra sai số hệ thống</h3>
+      <p><b>So sánh trung bình với giá trị thật</b> (ví dụ khi phân tích mẫu chuẩn):</p>
+      <div class="cong-thuc">\[ t_\text{tính} = \frac{\left|\bar{x} - \mu\right|\sqrt{n}}{s} \]</div>
+      <p>Nếu t<sub>tính</sub> &gt; t<sub>bảng</sub> (f = n − 1): khác biệt có ý nghĩa → phương pháp có sai số hệ thống.</p>
+      <p><b>So sánh độ chụm của hai phương pháp</b> (chuẩn F), với s<sub>1</sub> ≥ s<sub>2</sub>:</p>
+      <div class="cong-thuc">\[ F_\text{tính} = \frac{s_1^2}{s_2^2} \]</div>
+      <p>Nếu F<sub>tính</sub> &gt; F<sub>bảng</sub> thì hai phương pháp có độ chụm khác nhau.</p>
+      <div class="vi-du"><b>Ví dụ 8.</b> Mẫu chuẩn có hàm lượng thật 10,00%. Dùng số liệu ví dụ 6 (x̄ = 10,128 ; s = 0,0222 ; n = 4), phương pháp có sai số hệ thống không?
+        <details><summary>Xem lời giải</summary>
+          \[ t_\text{tính} = \frac{\left|10,128 - 10,00\right|\cdot\sqrt{4}}{0,0222} = 11,5 \]
+          t<sub>tính</sub> = 11,5 &gt; t<sub>bảng</sub> = 3,18 → <b>có sai số hệ thống</b>: kết quả rất chụm nhưng lệch cao so với giá trị thật.
+        </details></div>
+
+      <h3>8. Lan truyền sai số</h3>
+      <p>Kết quả cuối thường được tính từ nhiều đại lượng đo, mỗi đại lượng có độ lệch chuẩn riêng.</p>
+      <div class="cong-thuc"><div class="nhan">Phép cộng, trừ: y = a + b − c</div>\[ s_y = \sqrt{s_a^2 + s_b^2 + s_c^2} \]</div>
+      <div class="cong-thuc"><div class="nhan">Phép nhân, chia: y = a·b / c</div>\[ \frac{s_y}{y} = \sqrt{\left(\frac{s_a}{a}\right)^2 + \left(\frac{s_b}{b}\right)^2 + \left(\frac{s_c}{c}\right)^2} \]</div>
+      <div class="vi-du"><b>Ví dụ 9.</b> Đọc buret lúc đầu và lúc cuối, mỗi lần có s = 0,02 mL. Tính độ lệch chuẩn của thể tích tiêu tốn.
+        <details><summary>Xem lời giải</summary>
+          \[ s_V = \sqrt{0,02^2 + 0,02^2} = \mathbf{0,028\ mL} \]
+        </details></div>
+      <div class="vi-du"><b>Ví dụ 10.</b> Chuẩn độ 25,00 (±0,02) mL HCl hết 20,00 (±0,02) mL NaOH 0,1000 (±0,0002) M. Tính C<sub>HCl</sub> kèm độ lệch chuẩn.
+        <details><summary>Xem lời giải</summary>
+          \[ C_\mathrm{HCl} = \frac{0,1000\cdot20,00}{25,00} = 0,08000\ \mathrm{M} \]
+          \[ \begin{aligned} \frac{s_C}{C} &= \Bigl[\left(\tfrac{0,0002}{0,1000}\right)^2 + \left(\tfrac{0,02}{20,00}\right)^2 \\ &\qquad + \left(\tfrac{0,02}{25,00}\right)^2\Bigr]^{1/2} \\ &= 2,4\cdot10^{-3} \end{aligned} \]
+          \[ \begin{aligned} s_C &= 0,08000\cdot2,4\cdot10^{-3} = 0,00019 \\ C &= \mathbf{0,0800 \pm 0,0002\ M} \end{aligned} \]
+        </details></div>
+
+      <h3>9. Chữ số có nghĩa và làm tròn</h3>
       <ul>
-        <li><b>Cộng, trừ</b>: kết quả giữ số chữ số thập phân bằng số hạng có ít chữ số thập phân nhất.</li>
-        <li><b>Nhân, chia</b>: kết quả giữ số chữ số có nghĩa bằng số hạng có ít chữ số có nghĩa nhất.</li>
-        <li><b>Logarit</b>: số chữ số thập phân của pH bằng số chữ số có nghĩa của [H<sup>+</sup>]. Ví dụ [H<sup>+</sup>] = 1,3·10<sup>−3</sup> M → pH = 2,89.</li>
+        <li>Chữ số có nghĩa gồm mọi chữ số chắc chắn và <b>một</b> chữ số cuối không chắc chắn.</li>
+        <li>Số 0 đứng đầu không có nghĩa (0,0025 có 2 CSCN); số 0 ở giữa hoặc ở cuối phần thập phân có nghĩa (20,00 có 4 CSCN).</li>
+        <li>Viết dạng lũy thừa để rõ ràng: 1200 có thể là 1,2·10<sup>3</sup> (2 CSCN) hoặc 1,200·10<sup>3</sup> (4 CSCN).</li>
       </ul>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Phép tính</th><th>Quy tắc</th><th>Ví dụ</th></tr></thead>
+          <tbody>
+            <tr><td>Cộng, trừ</td><td>Giữ số chữ số thập phân bằng số hạng ít chữ số thập phân nhất</td><td>12,11 + 0,3 = 12,4</td></tr>
+            <tr><td>Nhân, chia</td><td>Giữ số CSCN bằng số hạng ít CSCN nhất</td><td>2,5 × 3,142 = 7,9</td></tr>
+            <tr><td>Logarit</td><td>Số chữ số thập phân của lg = số CSCN của số ban đầu</td><td>[H<sup>+</sup>] = 2,0·10<sup>−3</sup> → pH = 2,70</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="luu-y">Chỉ làm tròn ở <b>kết quả cuối cùng</b>. Các bước trung gian giữ thêm 1–2 chữ số để không cộng dồn sai số làm tròn.</p>
+
+      <h3>10. Tóm tắt công thức</h3>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Nội dung</th><th>Công thức</th><th>Ghi chú</th></tr></thead>
+          <tbody>
+            <tr><td>Đổi C% → C<sub>M</sub></td><td>\( C_\mathrm{M} = \dfrac{10\,d\,C\%}{M} \)</td><td>d tính bằng g/mL</td></tr>
+            <tr><td>Đổi C<sub>M</sub> → ppm</td><td>\( \mathrm{ppm} = C_\mathrm{M}\cdot M\cdot1000 \)</td><td>Dung dịch loãng</td></tr>
+            <tr><td>Pha từ chất rắn</td><td>\( m = C_\mathrm{M}VM\cdot\dfrac{100}{P} \)</td><td>V tính bằng lít</td></tr>
+            <tr><td>Pha loãng</td><td>\( C_1V_1 = C_2V_2 \)</td><td>Cùng đơn vị hai vế</td></tr>
+            <tr><td>Độ lệch chuẩn</td><td>\( s = \sqrt{\dfrac{\sum(x_i - \bar{x})^2}{n-1}} \)</td><td>n − 1 bậc tự do</td></tr>
+            <tr><td>Khoảng tin cậy</td><td>\( \mu = \bar{x} \pm \dfrac{ts}{\sqrt{n}} \)</td><td>t tra theo f = n − 1</td></tr>
+            <tr><td>Chuẩn Q</td><td>\( Q = \dfrac{|x_1 - x_2|}{x_\text{max} - x_\text{min}} \)</td><td>Q<sub>tính</sub> &gt; Q<sub>bảng</sub> → loại</td></tr>
+            <tr><td>Chuẩn t</td><td>\( t = \dfrac{|\bar{x} - \mu|\sqrt{n}}{s} \)</td><td>t<sub>tính</sub> &gt; t<sub>bảng</sub> → có sai số hệ thống</td></tr>
+          </tbody>
+        </table>
+      </div>
     `,
     baiTap: [
       {

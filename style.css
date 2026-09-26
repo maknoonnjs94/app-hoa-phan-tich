@@ -384,3 +384,7 @@ details[open] > summary .khi-mo { display: inline; }
 .install-text span { color: var(--chu-phu); }
 .install-banner .btn { min-height: 38px; padding: 8px 16px; }
 .dau-bang b { flex: 1; min-width: 0; line-height: 1.35; }
+/* Bảng tra nhỏ (t, Q...): canh giữa số cho dễ dò */
+.bang-hep th, .bang-hep td { text-align: center; }
+.bang-hep th { text-transform: none; font-size: 13px; }
+.bang-hep td:first-child { font-weight: 600; color: var(--mau-chinh); }
