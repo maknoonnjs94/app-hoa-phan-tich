@@ -637,7 +637,8 @@ function lamToan(html) {
     const tex = (rieng ?? trongCau).replace(/(\d),(\d)/g, "$1{,}$2");
     try {
       return katex.renderToString(tex, {
-        displayMode: rieng !== undefined, throwOnError: false, strict: "ignore",   // "ignore": cho phép chữ tiếng Việt trong \text{} macros: { ...TOAN_VIET_TAT },
+        displayMode: rieng !== undefined, throwOnError: false, strict: "ignore",   // "ignore": cho phép chữ tiếng Việt trong \text{}
+        macros: { ...TOAN_VIET_TAT },
       });
     } catch { return goc; }
   });
