@@ -1,7 +1,7 @@
 /* Service worker: lưu sẵn các file giao diện để app mở được khi mất mạng.
    MỖI LẦN SỬA CODE: tăng số phiên bản bên dưới (v1 → v2 → v3...)
    để điện thoại đã cài app nhận bản mới. */
-const PHIEN_BAN = "app-dien-thoai-v44";
+const PHIEN_BAN = "app-dien-thoai-v45";
 
 const FILE_GIAO_DIEN = [
   "./",
@@ -68,6 +68,7 @@ const FILE_GIAO_DIEN = [
   "vendor/katex/fonts/KaTeX_Size4-Regular.woff2",
   "vendor/katex/fonts/KaTeX_Typewriter-Regular.woff2",
   "app.js",
+  "tao-de.js",
   "manifest.webmanifest",
   "icons/icon-192.png",
   "icons/icon-512.png",

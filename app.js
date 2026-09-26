@@ -181,7 +181,7 @@ const MAN_HINH = {
       <div class="grid">
         <a class="o-tat" href="#/ly-thuyet"><span class="o-icon">📘</span><b>Lý thuyết</b><small>${CHUONG.length} chương</small></a>
         <a class="o-tat" href="#/bai-tap"><span class="o-icon">✏️</span><b>Bài tập</b><small>${CHUONG.reduce((t, c) => t + c.baiTap.length, 0)} bài</small></a>
-        <a class="o-tat" href="#/cong-cu"><span class="o-icon">🧮</span><b>Công cụ</b><small>3 máy tính</small></a>
+        <a class="o-tat" href="#/tao-de"><span class="o-icon">📝</span><b>Tạo đề</b><small>Đề kiểm tra, đề thi</small></a>
         <a class="o-tat" href="#/tra-cuu"><span class="o-icon">📋</span><b>Tra cứu</b><small>${TRA_CUU.length} bảng</small></a>
       </div>
       <h2>Công thức hay dùng</h2>
@@ -214,6 +214,11 @@ const MAN_HINH = {
         <span class="text"><b>Luyện trắc nghiệm</b><small>${NGAN_HANG.length} câu hỏi A, B, C, D · chấm điểm ngay</small></span>
         <span class="chevron">›</span>
       </a>
+      <a class="the-luyen the-kho" href="#/tao-de">
+        <span class="o-icon">📝</span>
+        <span class="text"><b>Tạo đề kiểm tra</b><small>Chọn số câu theo chương · nhiều mã đề · in PDF kèm đáp án</small></span>
+        <span class="chevron">›</span>
+      </a>
       <a class="the-luyen the-kho" href="#/kho">
         <span class="o-icon">📚</span>
         <span class="text"><b>Kho câu hỏi theo chương</b><small>${NGAN_HANG.length} câu đã duyệt · ${NGAN_HANG_CHO_DUYET.length} câu chờ duyệt</small></span>
@@ -228,7 +233,8 @@ const MAN_HINH = {
   },
 
   "/cong-cu": {
-    tieuDe: "Công cụ",
+    tieuDe: "Máy tính nhanh",
+    manHinhCon: true,
     ve: () => `
       <div class="the-trang cong-cu">
         <h3>Tính pH dung dịch</h3>
@@ -341,14 +347,14 @@ const MAN_HINH = {
       <div class="hero ket-qua-hero">
         <div class="vong-diem" style="--pt:${d / n * 100}%"><b>${String(diem).replace(".", ",")}</b><small>điểm</small></div>
         <div>
-          <div class="hero-nho">${baiLam.cheDo === "thi" ? "Thi thử" : "Luyện tập"}</div>
+          <div class="hero-nho">${baiLam.maDe ? "Mã đề " + baiLam.maDe : baiLam.cheDo === "thi" ? "Thi thử" : "Luyện tập"}</div>
           <h3>${d}/${n} câu đúng</h3>
           <p>Thời gian: ${dongHo(baiLam.ketThuc - baiLam.batDau)}</p>
         </div>
       </div>
       <div class="dieu-huong">
         ${sai ? `<button class="btn phu" onclick="lamLaiCauSai()">Làm lại ${sai} câu sai</button>` : ""}
-        <a class="btn" href="#/luyen-tap">Luyện đề mới</a>
+        ${baiLam.tuDe ? `<a class="btn" href="#/de?id=${baiLam.tuDe}">Về đề</a>` : `<a class="btn" href="#/luyen-tap">Luyện đề mới</a>`}
       </div>
       <h2>Xem lại từng câu</h2>
       ${baiLam.cau.map((cau, i) => {
@@ -376,6 +382,7 @@ const MAN_HINH = {
       </label>
       <div id="kq-tra"></div>
       <div id="ds-bang">
+        <div class="list">${dongDanhSach("#/cong-cu", "🧮", "Máy tính nhanh", "pH dung dịch · pha loãng · pha từ chất rắn")}</div>
         ${nhomBang().map(([ten, ds]) => `<h2>${ten}</h2>
         <div class="list">
           ${ds.map(b => dongDanhSach(`#/tra-cuu/${b.id}`, b.icon, b.ten, `${b.dong.length} dòng`)).join("")}
@@ -875,11 +882,16 @@ function hienManHinh() {
     a.classList.toggle("active", a.dataset.tab === duong ||
       (a.dataset.tab !== "/" && duong.startsWith(a.dataset.tab + "/"))));
   if (duong === "/tra-cuu" && tuTra) traCuu(tuTra);
+  if (mh.sauKhiVe) mh.sauKhiVe();
   if (mh.khoChuong) { if (locKho.chuong !== mh.khoChuong) { Object.assign(locKho, { dang: "", tu: "", chuong: mh.khoChuong }); document.getElementById("tim-kho").value = ""; } veKho(); }
   clearInterval(henGioDongHo);
   if (mh.lamBai && baiLam && !baiLam.ketThuc) {
     veCau();
-    const capNhat = () => { const el = document.getElementById("dong-ho"); if (el) el.textContent = dongHo(Date.now() - baiLam.batDau); };
+    const capNhat = () => {
+      const el = document.getElementById("dong-ho"), troi = Date.now() - baiLam.batDau;
+      if (baiLam.hanGio && troi >= baiLam.hanGio) { clearInterval(henGioDongHo); alert("Hết giờ làm bài. App tự nộp bài."); baiLam.ketThuc = Date.now(); luuBaiLam(); location.hash = "#/ket-qua"; return; }
+      if (el) el.textContent = baiLam.hanGio ? "còn " + dongHo(baiLam.hanGio - troi) : dongHo(troi);
+    };
     capNhat(); henGioDongHo = setInterval(capNhat, 1000);
   }
   doCaoTieuDe();
