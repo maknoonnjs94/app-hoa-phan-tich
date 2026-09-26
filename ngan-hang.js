@@ -106,7 +106,7 @@ const NGAN_HANG = [
     de: "Trong các acid có cùng nồng độ, acid mạnh nhất là acid có",
     phuongAn: ["pK<sub>a</sub> nhỏ nhất", "pK<sub>a</sub> lớn nhất", "K<sub>a</sub> nhỏ nhất", "pK<sub>b</sub> của base liên hợp nhỏ nhất"],
     dapAn: "A",
-    loiGiai: "pKₐ càng nhỏ thì Kₐ càng lớn, acid càng mạnh (và base liên hợp càng yếu, tức pK_b càng lớn).",
+    loiGiai: "pKₐ càng nhỏ thì Kₐ càng lớn, acid càng mạnh (và base liên hợp càng yếu, tức pK<sub>b</sub> càng lớn).",
   },
   {
     id: "AB-002", chuong: "axit-bazo", dang: "Thuyết Brønsted", mucDo: 2,
