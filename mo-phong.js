@@ -916,9 +916,31 @@ MO_PHONG["dung-cu"] = el => {
   el.innerHTML = `
     <div class="mp-dau"><b>🧫 Dụng cụ đo thể tích</b><span>Chạm vào từng dụng cụ để xem cách dùng</span></div>
     <div class="mp-ke-dc">${DC.map(([ten, ve], i) => `<button class="mp-dc" data-i="${i}"><svg viewBox="0 0 60 190">${i === 0 ? THUY_TINH_DEFS(id) : ""}${ve}</svg><span>${ten}</span></button>`).join("")}</div>
-    <div class="mp-giai-thich">Chạm vào một dụng cụ.</div>`;
+    <div class="mp-giai-thich">Chạm vào một dụng cụ để xem cách dùng và ảnh chụp thật.</div>`;
+  const ANH_DC = ["pipet-bau", "pipet-chia-do", "binh-dinh-muc", "buret", "ong-dong", "coc-co-mo", "micropipet", "can-phan-tich", "bop-cao-su"];
   el.querySelectorAll(".mp-dc").forEach(b => b.onclick = () => {
     el.querySelectorAll(".mp-dc").forEach(x => x.classList.toggle("chon", x === b));
-    const [ten, , mo] = DC[+b.dataset.i]; el.querySelector(".mp-giai-thich").innerHTML = `<b>${ten}.</b> ${mo}`;
+    const [ten, , mo] = DC[+b.dataset.i];
+    el.querySelector(".mp-giai-thich").innerHTML = `<b>${ten}.</b> ${mo}${hinhAnhThat(ANH_DC[+b.dataset.i])}`;
   });
+};
+
+
+/* ---------------- Ảnh thật có ghi nguồn ---------------- */
+function hinhAnhThat(k) {
+  const a = typeof ANH_THAT !== "undefined" && ANH_THAT[k];
+  if (!a) return "";
+  return `<figure class="mp-anh"><img src="anh/${k}.webp" alt="${a.ten}" width="${a.w}" height="${a.h}" loading="lazy" onclick="phongAnh(this)">
+    <figcaption>${a.ten}. Ảnh: ${a.tacGia}, ${a.giayPhep}, <a href="${a.trang}" target="_blank" rel="noopener">Wikimedia Commons</a></figcaption></figure>`;
+}
+function phongAnh(img) {
+  const o = document.createElement("div"); o.className = "mp-phong-anh";
+  o.innerHTML = `<img src="${img.src}" alt="${img.alt}"><span>Chạm để đóng</span>`;
+  o.onclick = () => o.remove(); document.body.append(o);
+}
+// Dải ảnh thật: <div class="mo-phong" data-loai="anh-that" data-anh="may-uv-vis,cuvet"></div>
+MO_PHONG["anh-that"] = el => {
+  const ds = (el.dataset.anh || "").split(",").map(x => x.trim()).filter(Boolean);
+  el.classList.add("mp-anh-that");
+  el.innerHTML = `<div class="mp-dau"><b>📷 Ảnh thật</b><span>Chạm vào ảnh để phóng to</span></div><div class="mp-luoi-anh">${ds.map(hinhAnhThat).join("")}</div>`;
 };

@@ -1,0 +1,20 @@
+/* Ảnh thật (Wikimedia Commons, giấy phép mở). Ghi nguồn hiển thị dưới mỗi ảnh. */
+const ANH_THAT = {
+  "buret": { ten: "Buret", tacGia: "Gemsgy", giayPhep: "CC BY-SA 4.0", trang: "https://commons.wikimedia.org/wiki/File:50_mL_Buret.jpg", w: 360, h: 640 },
+  "pipet-bau": { ten: "Pipet bầu", tacGia: "Zelda F. Scott", giayPhep: "CC BY-SA 3.0", trang: "https://commons.wikimedia.org/wiki/File:Volumetric_pipette.JPG", w: 425, h: 640 },
+  "pipet-chia-do": { ten: "Pipet chia độ", tacGia: "Anisa Ghogar", giayPhep: "CC BY-SA 4.0", trang: "https://commons.wikimedia.org/wiki/File:Graduated_pipette_10ml.jpg", w: 301, h: 640 },
+  "binh-dinh-muc": { ten: "Bình định mức 100 mL", tacGia: "Lucasbosch", giayPhep: "CC BY-SA 3.0", trang: "https://commons.wikimedia.org/wiki/File:Brand_volumetric_flask_100ml.jpg", w: 427, h: 640 },
+  "ong-dong": { ten: "Ống đong 250 mL", tacGia: "Lilly_M", giayPhep: "CC BY-SA 3.0", trang: "https://commons.wikimedia.org/wiki/File:Glass_graduated_cylinder-250ml_1.jpg", w: 453, h: 640 },
+  "coc-co-mo": { ten: "Cốc có mỏ", tacGia: "Abdsomod", giayPhep: "CC0", trang: "https://commons.wikimedia.org/wiki/File:Beaker_01.jpg", w: 480, h: 640 },
+  "micropipet": { ten: "Micropipet trên giá", tacGia: "Adoscam", giayPhep: "CC BY-SA 4.0", trang: "https://commons.wikimedia.org/wiki/File:Pipette_de_laboratoire_sur_fond_blanc_au_B%C3%A9nin_02.jpg", w: 427, h: 640 },
+  "can-phan-tich": { ten: "Cân phân tích có tủ chắn gió", tacGia: "US DEA", giayPhep: "Public domain", trang: "https://commons.wikimedia.org/wiki/File:Analytical_balance_mettler_ae-260.jpg", w: 480, h: 640 },
+  "bop-cao-su": { ten: "Quả bóp cao su", tacGia: "Karbohut", giayPhep: "CC BY-SA 4.0", trang: "https://commons.wikimedia.org/wiki/File:Big_rubber_pipette_bulb.jpg", w: 512, h: 640 },
+  "binh-non": { ten: "Bình nón (Erlenmeyer) 250 mL", tacGia: "Srini297", giayPhep: "CC BY-SA 4.0", trang: "https://commons.wikimedia.org/wiki/File:Glass_Conical_Flask.jpg", w: 423, h: 640 },
+  "may-uv-vis": { ten: "Máy quang phổ UV – Vis", tacGia: "TimVickers", giayPhep: "Public domain", trang: "https://commons.wikimedia.org/wiki/File:DU640_spectrophotometer.jpg", w: 640, h: 369 },
+  "cuvet": { ten: "Cuvet thạch anh", tacGia: "semfmaster", giayPhep: "CC BY-SA 3.0", trang: "https://commons.wikimedia.org/wiki/File:UV_Quartz_Cuvette.jpg", w: 640, h: 615 },
+  "may-aas": { ten: "Máy quang phổ hấp thụ nguyên tử (AAS)", tacGia: "Talos (German Wikipedia)", giayPhep: "CC BY-SA 3.0", trang: "https://commons.wikimedia.org/wiki/File:FlammenAAS.jpg", w: 640, h: 480 },
+  "den-catot-rong": { ten: "Đèn catot rỗng lắp trong máy AAS", tacGia: "Szasza", giayPhep: "CC BY-SA 3.0", trang: "https://commons.wikimedia.org/wiki/File:Hollow_cathode_lamp.JPG", w: 640, h: 480 },
+  "may-gc": { ten: "Máy sắc kí khí (GC)", tacGia: "NeoLyo89", giayPhep: "CC BY 4.0", trang: "https://commons.wikimedia.org/wiki/File:Gas_chromatograph_NeoCHROM_in_the_laboratory.jpg", w: 640, h: 427 },
+  "may-hplc": { ten: "Hệ HPLC (bình dung môi, bơm, bộ tiêm mẫu, cột, detector xếp chồng)", tacGia: "Kommando (English Wikipedia)", giayPhep: "CC BY-SA 3.0", trang: "https://commons.wikimedia.org/wiki/File:Agilent1200HPLC.jpg", w: 480, h: 640 },
+  "may-do-ph": { ten: "Máy đo pH để bàn với điện cực tổ hợp", tacGia: "OER CampLev", giayPhep: "CC BY-SA 4.0", trang: "https://commons.wikimedia.org/wiki/File:PH-Meter_METTLER_TOLEDO_FiveEasy.jpg", w: 427, h: 640 },
+};

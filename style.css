@@ -677,3 +677,12 @@ details[open] > summary .khi-mo { display: inline; }
 .mp-dc.chon { border-color: var(--mau-chinh); background: color-mix(in srgb, var(--mau-chinh) 8%, var(--the)); }
 .mo-phong .mp-so-lcd { font-size: 6px; fill: #22d3ee; font-family: ui-monospace, monospace; font-weight: 700; }
 .mo-phong .mp-chu-van { font-size: 7px; fill: #fff; font-weight: 700; }
+.mp-anh { margin: 10px 0 0; }
+.mp-anh img { width: 100%; height: auto; max-height: 320px; object-fit: contain; background: #fff; border-radius: 10px; border: 1px solid var(--vien); cursor: zoom-in; display: block; }
+.mp-anh figcaption { font-size: 11px; color: var(--chu-phu); margin-top: 4px; line-height: 1.4; }
+.mp-anh figcaption a { color: inherit; }
+.mp-luoi-anh { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+.mp-luoi-anh .mp-anh { margin: 0; }
+.mp-phong-anh { position: fixed; inset: 0; z-index: 60; background: rgba(0,0,0,.88); display: grid; place-items: center; padding: 16px; animation: hien .2s; }
+.mp-phong-anh img { max-width: 100%; max-height: 85vh; border-radius: 8px; }
+.mp-phong-anh span { position: absolute; bottom: 24px; color: #cbd5e1; font-size: 13px; }

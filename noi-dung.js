@@ -1046,6 +1046,7 @@ const CHUONG = [
       </div>
       <p>Trong vùng đệm, tỉ số nồng độ bằng tỉ số số mol (cùng thể tích), nên chỉ cần tính số mol. Điểm nửa tương đương cho phép <b>xác định pK<sub>a</sub></b> trực tiếp từ đường chuẩn độ.</p>
       <div class="mo-phong" data-loai="chuan-do"></div>
+      <div class="mo-phong" data-loai="anh-that" data-anh="buret,binh-non"></div>
       <div class="vi-du"><b>Ví dụ 2.</b> Chuẩn độ 50,0 mL CH<sub>3</sub>COOH 0,0500 M (pK<sub>a</sub> = 4,75) bằng NaOH 0,100 M. Tính pH tại các điểm đặc trưng.
         <details><summary>Xem lời giải</summary>
           n<sub>HA</sub> ban đầu = 2,50 mmol → V<sub>e</sub> = 25,0 mL.<br>
@@ -1917,6 +1918,7 @@ const CHUONG = [
       <h3>6. Máy quang phổ và cách đo</h3>
       <p><b>Sơ đồ</b>: nguồn sáng → bộ đơn sắc → cuvet → detector → bộ xử lí.</p>
       <div class="mo-phong" data-loai="uv-vis"></div>
+      <div class="mo-phong" data-loai="anh-that" data-anh="may-uv-vis,cuvet"></div>
       <ul>
         <li>Nguồn: đèn deuteri (vùng UV), đèn wolfram – halogen (vùng Vis).</li>
         <li>Bộ đơn sắc: cách tử. Detector: ống nhân quang, dãy diode (đo cả phổ một lúc).</li>
@@ -2004,6 +2006,7 @@ const CHUONG = [
       <div class="cong-thuc">\[ A = k\,C \]</div>
       <p><b>Sơ đồ máy</b>: nguồn đèn catot rỗng → bộ nguyên tử hóa (ngọn lửa hoặc lò) → bộ đơn sắc → detector.</p>
       <div class="mo-phong" data-loai="keo-tha-aas"></div>
+      <div class="mo-phong" data-loai="anh-that" data-anh="may-aas,den-catot-rong"></div>
       <ul>
         <li><b>Đèn catot rỗng</b> (HCL): catot làm bằng chính nguyên tố cần xác định, đèn chứa khí trơ áp suất thấp. Điện áp cao ion hóa khí; ion khí bắn phá catot làm bật các nguyên tử kim loại ra (sự phún xạ); các nguyên tử này bị kích thích và phát đúng các vạch đặc trưng của nguyên tố đó.</li>
         <li>Vạch phát ra từ đèn hẹp hơn vạch hấp thụ của nguyên tử trong ngọn lửa, nên định luật Beer được thỏa mãn. Mỗi nguyên tố cần một đèn riêng.</li>
@@ -2177,6 +2180,7 @@ const CHUONG = [
         <li>Bảo quản: ngâm điện cực trong dung dịch bảo quản (KCl), không để khô, không lau mạnh màng thủy tinh; hiệu chuẩn ở cùng nhiệt độ với mẫu (độ dốc thay đổi theo nhiệt độ).</li>
       </ul>
 
+      <div class="mo-phong" data-loai="anh-that" data-anh="may-do-ph"></div>
       <h3>7. Chuẩn độ điện thế</h3>
       <p>Theo dõi thế của điện cực chỉ thị trong khi chuẩn độ, không cần chỉ thị màu (dùng được với dung dịch đục hoặc có màu). Điểm tương đương là <b>điểm uốn</b> của đường E theo V:</p>
       <ul>
@@ -2362,6 +2366,7 @@ const CHUONG = [
         <li><b>Nhiệt độ cột</b>: đẳng nhiệt (thường hơi thấp hơn nhiệt độ sôi của các chất), hoặc <b>chương trình nhiệt độ</b> (tăng dần) cho hỗn hợp có nhiệt độ sôi khác nhau nhiều: chất sôi thấp tách tốt ở đầu, chất sôi cao ra nhanh ở cuối, pic gọn hơn.</li>
       </ul>
 
+      <div class="mo-phong" data-loai="anh-that" data-anh="may-gc"></div>
       <h3>3. Thứ tự rửa giải trong GC</h3>
       <ul>
         <li>Trên pha tĩnh <b>không phân cực</b>: các chất ra theo <b>nhiệt độ sôi tăng dần</b>.</li>
@@ -2415,6 +2420,7 @@ const CHUONG = [
       <h3>6. Thiết bị HPLC</h3>
       <p>Bình dung môi → bộ khử khí → bơm cao áp → bộ tiêm mẫu → (cột bảo vệ) → cột → detector → hệ xử lí số liệu.</p>
       <div class="mo-phong" data-loai="keo-tha-hplc"></div>
+      <div class="mo-phong" data-loai="anh-that" data-anh="may-hplc"></div>
       <ul>
         <li><b>Bơm</b>: tạo dòng ổn định ở áp suất cao (có thể vài trăm bar). <b>Rửa giải đẳng dòng</b> (isocratic): thành phần pha động không đổi. <b>Rửa giải gradient</b>: tăng dần tỉ lệ dung môi mạnh, dùng cho hỗn hợp có độ lưu giữ khác nhau nhiều (tương tự chương trình nhiệt độ trong GC).</li>
         <li><b>Cột nhồi</b>: thép không gỉ, đường kính trong 2,1 – 4,6 mm, dài 30 – 300 mm, hạt silica xốp 3 – 10 µm (40 000 – 60 000 đĩa/m). Hạt càng nhỏ, cột càng hiệu quả nhưng áp suất càng cao (UHPLC dùng hạt dưới 2 µm).</li>
