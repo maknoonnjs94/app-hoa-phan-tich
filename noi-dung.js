@@ -1190,48 +1190,139 @@ const CHUONG = [
     nhom: "Cân bằng và chuẩn độ",
     icon: "🔗",
     ten: "Tạo phức và chuẩn độ EDTA",
-    moTa: "Kf, αY4−, hằng số bền điều kiện, chỉ thị kim loại",
+    moTa: "EDTA, α_Y4−, hằng số bền điều kiện, đường chuẩn độ, chỉ thị kim loại",
+    dayDu: true,
+    choDuyet: true,
     lyThuyet: String.raw`
-      <h3>1. Khái niệm</h3>
+      <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
+        <ul>
+          <li>Hiểu vì sao EDTA là thuốc thử chuẩn độ tạo phức quan trọng nhất và vai trò của pH.</li>
+          <li>Tính α<sub>Y⁴⁻</sub>, hằng số bền điều kiện K<sub>f</sub>' (và K<sub>f</sub>'' khi có chất tạo phức phụ), pM trên đường chuẩn độ.</li>
+          <li>Chọn chỉ thị kim loại, kĩ thuật chuẩn độ (trực tiếp, ngược, thay thế, gián tiếp) và tính kết quả.</li>
+        </ul>
+      </div>
+      <h3>1. Phức chelate và chuẩn độ tạo phức</h3>
       <ul>
-        <li><b>Phức chất</b> gồm ion trung tâm (thường là ion kim loại) liên kết với các <b>phối tử</b> (NH<sub>3</sub>, CN<sup>−</sup>, Cl<sup>−</sup>, EDTA...).</li>
-        <li><b>Số phối trí</b>: số liên kết mà ion trung tâm tạo với phối tử.</li>
-        <li><b>Phức chelat</b>: phối tử có nhiều nhóm cho electron, "kẹp" ion kim loại thành vòng → rất bền (ví dụ phức với EDTA).</li>
+        <li><b>Phức chất</b> gồm ion kim loại trung tâm liên kết với các <b>phối tử</b> (NH<sub>3</sub>, CN<sup>−</sup>, Cl<sup>−</sup>...). Hằng số bền K<sub>i</sub>, β<sub>n</sub> đã học ở Chương 4, mục 5.</li>
+        <li><b>Phối tử đa càng</b> (chelating ligand) có nhiều nguyên tử cho electron, "kẹp" ion kim loại thành vòng, tạo <b>phức chelate</b> rất bền. Ví dụ phức ATP – Mg<sup>2+</sup> trong tế bào, phức kim loại – EDTA.</li>
+        <li><b>Chuẩn độ tạo phức</b> (chuẩn độ complexon) dựa trên phản ứng tạo phức giữa ion kim loại và thuốc thử, thường là EDTA.</li>
       </ul>
 
-      <h3>2. Hằng số bền</h3>
-      <div class="cong-thuc">Từng nấc: M + L ⇌ ML &nbsp; K<sub>1</sub> = [ML] / ([M][L])<br>
-        ML + L ⇌ ML<sub>2</sub> &nbsp; K<sub>2</sub> = [ML<sub>2</sub>] / ([ML][L]) ...</div>
-      <div class="cong-thuc">Tổng hợp: β<sub>n</sub> = K<sub>1</sub> · K<sub>2</sub> ··· K<sub>n</sub> = [ML<sub>n</sub>] / ([M][L]<sup>n</sup>)</div>
-      <div class="cong-thuc">Hằng số không bền: K<sub>kb</sub> = 1 / β</div>
-      <p>β càng lớn (lgβ càng lớn) thì phức càng bền.</p>
+      <h3>2. EDTA</h3>
+      <p>EDTA (acid ethylenediaminetetraacetic) có 4 nhóm –COOH và 2 nguyên tử N. Dạng proton hóa hoàn toàn H<sub>6</sub>Y<sup>2+</sup> là acid 6 nấc:</p>
+      <div class="cong-thuc">\[ \begin{gathered} \mathrm{H_6Y^{2+}} \rightleftharpoons \mathrm{H_5Y^+} \rightleftharpoons \mathrm{H_4Y} \rightleftharpoons \mathrm{H_3Y^-} \\ \rightleftharpoons \mathrm{H_2Y^{2-}} \rightleftharpoons \mathrm{HY^{3-}} \rightleftharpoons \mathrm{Y^{4-}} \end{gathered} \]</div>
+      <p>Dạng trung hòa H<sub>4</sub>Y là acid 4 nấc. Thuốc thử thường dùng là muối Na<sub>2</sub>H<sub>2</sub>Y·2H<sub>2</sub>O.</p>
+      <p>EDTA tạo phức <b>1 : 1</b> với hầu hết ion kim loại, không phụ thuộc điện tích ion:</p>
+      <div class="cong-thuc">\[ \begin{gathered} \mathrm{M^{n+}} + \mathrm{Y^{4-}} \rightleftharpoons \mathrm{MY^{n-4}} \\ K_\mathrm{f} = \frac{[\mathrm{MY^{n-4}}]}{[\mathrm{M^{n+}}][\mathrm{Y^{4-}}]} \end{gathered} \]</div>
+      <div class="bang-cuon">
+        <table class="bang bang-hep">
+          <thead><tr><th>Ion</th><th>lg K<sub>f</sub></th><th>Ion</th><th>lg K<sub>f</sub></th></tr></thead>
+          <tbody>
+            <tr><td>Mg<sup>2+</sup></td><td>8,79</td><td>Zn<sup>2+</sup></td><td>16,50</td></tr>
+            <tr><td>Ca<sup>2+</sup></td><td>10,70</td><td>Pb<sup>2+</sup></td><td>18,04</td></tr>
+            <tr><td>Fe<sup>2+</sup></td><td>14,30</td><td>Cu<sup>2+</sup></td><td>18,78</td></tr>
+            <tr><td>Al<sup>3+</sup></td><td>16,4</td><td>Fe<sup>3+</sup></td><td>25,1</td></tr>
+          </tbody>
+        </table>
+      </div>
 
-      <h3>3. EDTA và hằng số bền điều kiện</h3>
-      <ul>
-        <li>EDTA là acid 4 chức, kí hiệu H<sub>4</sub>Y. Dạng tạo phức là Y<sup>4−</sup>.</li>
-        <li>Tạo phức với hầu hết ion kim loại theo tỉ lệ <b>1 : 1</b>, không phụ thuộc điện tích ion: M<sup>n+</sup> + Y<sup>4−</sup> ⇌ MY<sup>(n−4)+</sup>.</li>
-        <li>Ở pH thấp, Y<sup>4−</sup> bị proton hóa (thành HY<sup>3−</sup>, H<sub>2</sub>Y<sup>2−</sup>...) nên phức kém bền. Vì vậy phải giữ pH bằng dung dịch đệm.</li>
-      </ul>
-      <div class="cong-thuc">α<sub>Y⁴⁻</sub> = [Y<sup>4−</sup>] / C<sub>Y</sub> &nbsp;(tăng khi pH tăng)</div>
-      <div class="cong-thuc">β' = β · α<sub>Y⁴⁻</sub> &nbsp;↔&nbsp; lgβ' = lgβ + lgα<sub>Y⁴⁻</sub></div>
-      <p>Điều kiện chuẩn độ được chính xác (sai số ≤ 0,1%): lg(C<sub>M</sub> · β') ≥ 6.</p>
-      <div class="vi-du"><b>Ví dụ.</b> Phức CaY<sup>2−</sup> có lgβ = 10,69. Ở pH = 10, α<sub>Y⁴⁻</sub> ≈ 0,35.<br>
-        lgβ' = 10,69 + lg0,35 = <b>10,24</b>. Với C<sub>Ca</sub> = 0,01 M: lg(C·β') = 8,24 ≥ 6 → chuẩn độ được.</div>
+      <h3>3. Phân số α<sub>Y⁴⁻</sub> và hằng số bền điều kiện</h3>
+      <p><b>Chỉ có dạng Y<sup>4−</sup> phản ứng với ion kim loại.</b> Phần EDTA tự do ở dạng Y<sup>4−</sup> phụ thuộc pH:</p>
+      <div class="cong-thuc"><div class="nhan">[EDTA]: tổng nồng độ EDTA tự do (mọi dạng proton hóa)</div>\[ \alpha_\mathrm{Y^{4-}} = \frac{[\mathrm{Y^{4-}}]}{[\mathrm{EDTA}]} = \frac{K_1K_2K_3K_4K_5K_6}{D} \]</div>
+      <div class="cong-thuc"><div class="nhan">K<sub>1</sub>…K<sub>6</sub>: hằng số phân li acid của H<sub>6</sub>Y<sup>2+</sup></div>\[ \begin{aligned} D = {} &\Hp^6 + \Hp^5K_1 \\ &+ \Hp^4K_1K_2 + \Hp^3K_1K_2K_3 \\ &+ \Hp^2K_1K_2K_3K_4 \\ &+ \Hp K_1K_2K_3K_4K_5 \\ &+ K_1K_2K_3K_4K_5K_6 \end{aligned} \]</div>
+      <p>pH càng cao thì α<sub>Y⁴⁻</sub> càng lớn. Ví dụ α<sub>Y⁴⁻</sub> ≈ 3,5·10<sup>−7</sup> ở pH 5; 0,30 ở pH 10; gần bằng 1 ở pH ≥ 13.</p>
+      <div class="cong-thuc"><div class="nhan">Hằng số bền điều kiện (ở một pH cố định)</div>\[ K_\mathrm{f}' = \alpha_\mathrm{Y^{4-}}K_\mathrm{f} = \frac{[\mathrm{MY^{n-4}}]}{[\mathrm{M^{n+}}][\mathrm{EDTA}]} \]</div>
+      <p>Chuẩn độ đạt yêu cầu khi 99,99% ion kim loại phản ứng tại điểm tương đương, tương ứng <b>K<sub>f</sub>' ≳ 10<sup>8</sup></b>. Vì vậy mỗi ion có một <b>pH tối thiểu</b> để chuẩn độ: ion tạo phức càng bền (K<sub>f</sub> lớn như Fe<sup>3+</sup>) thì chuẩn độ được ở pH càng thấp. Dựa vào đó có thể <b>chuẩn độ chọn lọc</b> bằng cách chỉnh pH.</p>
+      <div class="vi-du"><b>Ví dụ 1.</b> Có chuẩn độ được Mg<sup>2+</sup> bằng EDTA ở pH 5 không? Ở pH 10 thì sao? (lg K<sub>f</sub>(MgY<sup>2−</sup>) = 8,79; α<sub>Y⁴⁻</sub> = 3,5·10<sup>−7</sup> ở pH 5 và 0,30 ở pH 10.)
+        <details><summary>Xem lời giải</summary>
+          Ở pH 5: \[ K_\mathrm{f}' = 3,5\cdot10^{-7}\cdot10^{8,79} = 2,2\cdot10^{2} \]
+          Ở pH 10: \[ K_\mathrm{f}' = 0,30\cdot10^{8,79} = 1,8\cdot10^{8} \]
+          Ở pH 5, K<sub>f</sub>' ≪ 10<sup>8</sup>: <b>không chuẩn độ được</b>. Ở pH 10, K<sub>f</sub>' ≈ 10<sup>8</sup>: <b>chuẩn độ được</b>. Vì vậy Mg<sup>2+</sup> luôn được chuẩn độ trong đệm NH<sub>3</sub>/NH<sub>4</sub><sup>+</sup> pH 10.
+        </details></div>
 
-      <h3>4. Chuẩn độ complexon (EDTA)</h3>
-      <div class="cong-thuc">n<sub>M</sub> = n<sub>EDTA</sub> → C<sub>M</sub> · V<sub>M</sub> = C<sub>EDTA</sub> · V<sub>EDTA</sub></div>
-      <p><b>Chỉ thị kim loại</b>: chất màu tạo phức với ion kim loại, phức này kém bền hơn phức với EDTA. Tại điểm tương đương, EDTA "giật" ion kim loại khỏi chỉ thị → dung dịch đổi sang màu của chỉ thị tự do.</p>
+      <h3>4. Đường chuẩn độ EDTA</h3>
+      <p>Đồ thị pM = −lg[M<sup>n+</sup>] theo thể tích EDTA. Tính pM theo 3 vùng (dùng K<sub>f</sub>'):</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Vùng</th><th>Cách tính [M<sup>n+</sup>]</th></tr></thead>
+          <tbody>
+            <tr><td>Trước điểm tương đương</td><td>[M] = lượng M dư / tổng thể tích</td></tr>
+            <tr><td>Tại điểm tương đương</td><td>M chỉ do MY phân li: \( [\mathrm{M}]^2 = \dfrac{[\mathrm{MY}]}{K_\mathrm{f}'} \)</td></tr>
+            <tr><td>Sau điểm tương đương</td><td>\( [\mathrm{M}] = \dfrac{[\mathrm{MY}]}{K_\mathrm{f}'\,[\mathrm{EDTA}]_\text{dư}} \)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Bước nhảy pM càng lớn khi K<sub>f</sub>' càng lớn (K<sub>f</sub> lớn, pH cao) và nồng độ càng lớn.</p>
+      <div class="vi-du"><b>Ví dụ 2.</b> Chuẩn độ 50,0 mL Ca<sup>2+</sup> 0,0400 M (đệm pH 10) bằng EDTA 0,0800 M. Tính pCa tại các điểm đặc trưng (lg K<sub>f</sub> = 10,70; α<sub>Y⁴⁻</sub> = 0,30).
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} K_\mathrm{f}' &= 0,30\cdot10^{10,70} = 1,50\cdot10^{10} \\ V_e &= \frac{50,0\cdot0,0400}{0,0800} = 25,0\ \mathrm{mL} \end{aligned} \]
+          <b>V = 20,0 mL</b>: Ca<sup>2+</sup> dư = 2,000 − 1,600 = 0,400 mmol trong 70,0 mL → [Ca<sup>2+</sup>] = 5,71·10<sup>−3</sup> M → pCa = 2,24.<br>
+          <b>V = 25,0 mL</b>: [CaY<sup>2−</sup>] = 2,000/75,0 = 0,0267 M:
+          \[ \begin{aligned} [\mathrm{Ca^{2+}}] &= \sqrt{\frac{0,0267}{1,50\cdot10^{10}}} = 1,33\cdot10^{-6}\ \mathrm{M} \\ \mathrm{pCa} &= \mathbf{5,88} \end{aligned} \]
+          <b>V = 30,0 mL</b>: EDTA dư 0,400 mmol/80,0 mL = 5,00·10<sup>−3</sup> M; [CaY<sup>2−</sup>] = 0,0250 M:
+          \[ \begin{aligned} [\mathrm{Ca^{2+}}] &= \frac{0,0250}{1,50\cdot10^{10}\cdot5,00\cdot10^{-3}} \\ &= 3,32\cdot10^{-10}\ \mathrm{M} \;\Rightarrow\; \mathrm{pCa} = 9,48 \end{aligned} \]
+          <div class="bang-cuon"><table class="bang">
+            <thead><tr><th>V (mL)</th><th>15,0</th><th>20,0</th><th>24,9</th><th>25,0</th><th>25,1</th><th>30,0</th><th>35,0</th></tr></thead>
+            <tbody><tr><td>pCa</td><td>1,91</td><td>2,24</td><td>3,97</td><td><b>5,88</b></td><td>7,78</td><td>9,48</td><td>9,78</td></tr></tbody>
+          </table></div>
+        </details></div>
+
+      <h3>5. Chất tạo phức phụ</h3>
+      <p>Ở pH cao, nhiều ion kim loại bị thủy phân tạo kết tủa hydroxide. Người ta thêm <b>chất tạo phức phụ</b> (thường là NH<sub>3</sub>, tartrate, citrate) để giữ ion kim loại trong dung dịch. Phức phụ phải <b>kém bền hơn</b> phức với EDTA để EDTA vẫn lấy được ion kim loại.</p>
+      <div class="cong-thuc"><div class="nhan">Phần ion kim loại tự do (L: chất tạo phức phụ)</div>\[ \begin{aligned} \frac{1}{\alpha_\mathrm{M}} = {} &1 + \beta_1[\mathrm{L}] + \beta_2[\mathrm{L}]^2 \\ &+ \beta_3[\mathrm{L}]^3 + \beta_4[\mathrm{L}]^4 \end{aligned} \]</div>
+      <div class="cong-thuc"><div class="nhan">Hằng số bền điều kiện khi có chất tạo phức phụ</div>\[ K_\mathrm{f}'' = \alpha_\mathrm{M}\,\alpha_\mathrm{Y^{4-}}\,K_\mathrm{f} \]</div>
+      <div class="vi-du"><b>Ví dụ 3.</b> Chuẩn độ Zn<sup>2+</sup> bằng EDTA ở pH 10 trong NH<sub>3</sub> tự do 0,10 M. Phức Zn – NH<sub>3</sub> có lg β<sub>1</sub> = 2,18; lg β<sub>2</sub> = 4,43; lg β<sub>3</sub> = 6,74; lg β<sub>4</sub> = 8,70. Tính K<sub>f</sub>'' (lg K<sub>f</sub>(ZnY<sup>2−</sup>) = 16,50; α<sub>Y⁴⁻</sub> = 0,30).
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} \frac{1}{\alpha_\mathrm{Zn}} = {} &1 + 10^{2,18}(0,10) \\ &+ 10^{4,43}(0,10)^2 + 10^{6,74}(0,10)^3 \\ &+ 10^{8,70}(0,10)^4 \\ = {} &1 + 15 + 269 + 5\,495 + 50\,119 \\ = {} &5,59\cdot10^{4} \end{aligned} \]
+          \[ \begin{aligned} \alpha_\mathrm{Zn} &= 1,79\cdot10^{-5} \\ K_\mathrm{f}'' &= 1,79\cdot10^{-5}\cdot0,30\cdot10^{16,50} \\ &= \mathbf{1,7\cdot10^{11}} \end{aligned} \]
+          Dù phần lớn Zn<sup>2+</sup> nằm trong phức amin, K<sub>f</sub>'' vẫn ≫ 10<sup>8</sup> nên chuẩn độ tốt.
+        </details></div>
+
+      <h3>6. Chỉ thị kim loại</h3>
+      <p>Chỉ thị kim loại (In) là chất màu tạo phức với ion kim loại, phức M–In có màu khác chỉ thị tự do. Phức M–In phải <b>kém bền hơn</b> phức MY.</p>
+      <p>Ví dụ chuẩn độ Mg<sup>2+</sup> với eriocrom đen T (ET-OO) ở pH 10:</p>
+      <div class="cong-thuc">\[ \begin{gathered} \underset{\text{đỏ}}{\mathrm{MgIn}} + \mathrm{EDTA} \rightarrow \mathrm{MgEDTA} + \underset{\text{xanh}}{\mathrm{In}} \end{gathered} \]</div>
+      <p>Trước điểm tương đương Mg<sup>2+</sup> dư giữ chỉ thị ở dạng MgIn (đỏ). Ngay sau điểm tương đương, EDTA dư "giật" Mg<sup>2+</sup> khỏi chỉ thị, dung dịch chuyển <b>đỏ → xanh</b>.</p>
       <ul>
-        <li><b>ET-OO</b> (Eriochrome đen T), pH 10: đỏ nho → xanh chàm. Dùng xác định Mg<sup>2+</sup>, Zn<sup>2+</sup>, tổng Ca<sup>2+</sup> + Mg<sup>2+</sup>.</li>
-        <li><b>Murexit</b>, pH 12: hồng → tím. Dùng xác định riêng Ca<sup>2+</sup> (Mg<sup>2+</sup> đã kết tủa thành Mg(OH)<sub>2</sub>).</li>
+        <li><b>ET-OO</b> (eriocrom đen T), pH 10: đỏ nho → xanh chàm. Xác định Mg<sup>2+</sup>, Zn<sup>2+</sup>, tổng Ca<sup>2+</sup> + Mg<sup>2+</sup>.</li>
+        <li><b>Murexit</b>, pH 12 – 13: đỏ → tím. Xác định riêng Ca<sup>2+</sup> (Mg<sup>2+</sup> đã kết tủa thành Mg(OH)<sub>2</sub>).</li>
+        <li>Chỉ thị kim loại cũng là acid/base yếu, màu phụ thuộc pH, nên mỗi chỉ thị chỉ dùng trong một khoảng pH nhất định.</li>
+        <li>Phức M–In quá yếu thì đổi màu trước điểm tương đương. Phức M–In quá bền (bền hơn MY) thì chỉ thị bị <b>khóa</b>: không đổi màu được.</li>
       </ul>
-      <p><b>Các kiểu chuẩn độ</b>: trực tiếp; ngược (thêm dư EDTA, chuẩn lượng dư bằng Mg<sup>2+</sup> hoặc Zn<sup>2+</sup>); thế (dùng MgY<sup>2−</sup> giải phóng Mg<sup>2+</sup>).</p>
-      <p><b>Độ cứng của nước</b>: tổng Ca<sup>2+</sup> + Mg<sup>2+</sup>, thường quy về mg CaCO<sub>3</sub>/L.</p>
-      <div class="vi-du"><b>Ví dụ.</b> Chuẩn độ 50,00 mL nước ở pH 10 (chỉ thị ET-OO) hết 8,40 mL EDTA 0,01000 M.<br>
-        n = 0,01000 × 8,40·10<sup>−3</sup> = 8,40·10<sup>−5</sup> mol<br>
-        Độ cứng = 8,40·10<sup>−5</sup> × 100,09 × 1000 / 0,05000 ≈ <b>168 mg CaCO<sub>3</sub>/L</b></div>
+
+      <h3>7. Các kĩ thuật chuẩn độ EDTA</h3>
+      <ul>
+        <li><b>Trực tiếp</b>: chuẩn độ thẳng ion kim loại bằng EDTA trong đệm phù hợp. Ví dụ Pb<sup>2+</sup> trong đệm NH<sub>3</sub> pH 10 có tartrate (chất tạo phức phụ).</li>
+        <li><b>Ngược</b>: thêm EDTA dư đã biết, rồi chuẩn EDTA dư bằng dung dịch ion kim loại thứ hai (Mg<sup>2+</sup>, Zn<sup>2+</sup>, Pb<sup>2+</sup>). Dùng khi chất phân tích phản ứng chậm với EDTA (Al<sup>3+</sup>), bị kết tủa ở pH chuẩn độ, hoặc khóa chỉ thị.</li>
+        <li><b>Thay thế</b>: dùng khi không có chỉ thị phù hợp cho ion cần xác định. Ví dụ Ag<sup>+</sup> đẩy Ni<sup>2+</sup> ra khỏi Ni(CN)<sub>4</sub><sup>2−</sup>: 2Ag<sup>+</sup> + Ni(CN)<sub>4</sub><sup>2−</sup> → 2Ag(CN)<sub>2</sub><sup>−</sup> + Ni<sup>2+</sup>, rồi chuẩn Ni<sup>2+</sup> giải phóng bằng EDTA.</li>
+        <li><b>Gián tiếp</b>: xác định anion. Ví dụ SO<sub>4</sub><sup>2−</sup> được kết tủa bằng Ba<sup>2+</sup>, lọc BaSO<sub>4</sub>, hòa tan bằng EDTA dư ở pH 10, rồi chuẩn ngược EDTA dư bằng Mg<sup>2+</sup>.</li>
+        <li><b>Chất che</b>: thuốc thử tạo phức bền với ion cản trở để nó không phản ứng với EDTA. Ví dụ CN<sup>−</sup> che Zn<sup>2+</sup>, Cu<sup>2+</sup>, Ni<sup>2+</sup>; F<sup>−</sup> hoặc triethanolamin che Al<sup>3+</sup>, Fe<sup>3+</sup>.</li>
+      </ul>
+      <div class="vi-du"><b>Ví dụ 4.</b> 50,00 mL dung dịch chứa Fe<sup>3+</sup> và Al<sup>3+</sup>. Ở pH 2, chuẩn độ hết 29,61 mL EDTA 0,04016 M (chỉ Fe<sup>3+</sup> phản ứng). Thêm tiếp 50,00 mL EDTA 0,04016 M, đun sôi, chỉnh pH 5, chuẩn EDTA dư bằng Pb<sup>2+</sup> 0,03228 M hết 19,03 mL. Tính nồng độ Fe<sup>3+</sup> và Al<sup>3+</sup>.
+        <details><summary>Xem lời giải</summary>
+          Ở pH 2 chỉ Fe<sup>3+</sup> (K<sub>f</sub> rất lớn) phản ứng:
+          \[ [\mathrm{Fe^{3+}}] = \frac{0,04016\cdot29,61}{50,00} = \mathbf{0,02378\ M} \]
+          Al<sup>3+</sup> phản ứng chậm nên dùng chuẩn độ ngược:
+          \[ \begin{aligned} n_\mathrm{EDTA} &= 0,04016\cdot50,00 = 2,008\ \mathrm{mmol} \\ n_\mathrm{Pb} &= 0,03228\cdot19,03 = 0,6143\ \mathrm{mmol} \\ n_\mathrm{Al} &= 2,008 - 0,6143 = 1,394\ \mathrm{mmol} \\ [\mathrm{Al^{3+}}] &= \frac{1,394}{50,00} = \mathbf{0,02787\ M} \end{aligned} \]
+        </details></div>
+
+      <h3>8. Ứng dụng: độ cứng của nước, canxi trong thuốc</h3>
+      <p><b>Độ cứng của nước</b> là tổng nồng độ Ca<sup>2+</sup> + Mg<sup>2+</sup>, thường quy về mg CaCO<sub>3</sub>/L. Chuẩn độ ở pH 10 với ET-OO cho tổng Ca + Mg; ở pH 12 – 13 với murexit cho riêng Ca; hiệu hai kết quả cho Mg.</p>
+      <div class="vi-du"><b>Ví dụ 5.</b> Chuẩn độ 50,00 mL nước ở pH 10 (chỉ thị ET-OO) hết 8,40 mL EDTA 0,01000 M. Tính độ cứng theo mg CaCO<sub>3</sub>/L.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} n &= 0,01000\cdot8,40\cdot10^{-3} \\ &= 8,40\cdot10^{-5}\ \mathrm{mol} \\ \text{Độ cứng} &= \frac{8,40\cdot10^{-5}\cdot100,09\cdot10^3}{0,05000} \\ &= \mathbf{168\ mg\ CaCO_3/L} \end{aligned} \]
+        </details></div>
+      <div class="vi-du"><b>Ví dụ 6.</b> Hòa tan 5 viên thuốc bổ sung canxi rồi pha thành 250,0 mL dung dịch A. Lấy 10,00 mL A, chuẩn độ bằng EDTA 0,0150 M ở pH 13 (murexit) hết 10,15 mL. Tính (a) [Ca<sup>2+</sup>] trong A; (b) khối lượng Ca trong mỗi viên (Ca = 40,08).
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} [\mathrm{Ca^{2+}}] &= \frac{0,0150\cdot10,15}{10,00} = \mathbf{0,01523\ M} \\ m_\mathrm{Ca} &= \frac{0,01523\cdot0,2500\cdot40,08}{5} \\ &= 0,0305\ \mathrm{g} = \mathbf{30,5\ mg/viên} \end{aligned} \]
+          Màu tại điểm cuối: đỏ (Ca – murexit) → tím (murexit tự do).
+        </details></div>
     `,
     baiTap: [
+      {
+        de: "Chuẩn độ 40,0 mL Ca<sup>2+</sup> 0,0120 M bằng EDTA 0,0120 M ở pH 13 (α<sub>Y⁴⁻</sub> = 0,988; lg K<sub>f</sub> = 10,70). Tính pCa khi thêm 20,0 mL; 40,0 mL và 60,0 mL EDTA.",
+        dapAn: "K<sub>f</sub>' = 0,988·10<sup>10,70</sup> = 4,95·10<sup>10</sup>; V<sub>e</sub> = 40,0 mL<br>20,0 mL: [Ca<sup>2+</sup>] = 0,240 mmol/60,0 mL = 4,00·10<sup>−3</sup> M → <b>pCa = 2,40</b><br>40,0 mL: [CaY] = 0,00600 M → [Ca<sup>2+</sup>] = √(0,00600/4,95·10<sup>10</sup>) = 3,48·10<sup>−7</sup> M → <b>pCa = 6,46</b><br>60,0 mL: [EDTA]<sub>dư</sub> = 2,40·10<sup>−3</sup> M; [CaY] = 4,80·10<sup>−3</sup> M → [Ca<sup>2+</sup>] = 4,04·10<sup>−11</sup> M → <b>pCa = 10,39</b>",
+      },
       {
         de: "Chuẩn độ 25,00 mL dung dịch Ca<sup>2+</sup> bằng EDTA 0,01000 M thì hết 12,50 mL. Tính nồng độ Ca<sup>2+</sup>.",
         dapAn: "Tỉ lệ 1 : 1 → C = 0,01000 × 12,50 / 25,00 = <b>5,000·10<sup>−3</sup> M</b>",
@@ -1243,56 +1334,121 @@ const CHUONG = [
     nhom: "Cân bằng và chuẩn độ",
     icon: "🧂",
     ten: "Kết tủa và chuẩn độ kết tủa",
-    moTa: "Ksp, độ tan, Mohr, Volhard, Fajans",
+    moTa: "Độ tan theo pH và tạo phức, đường chuẩn độ bạc, Mohr, Volhard, Fajans",
+    dayDu: true,
+    choDuyet: true,
     lyThuyet: String.raw`
-      <h3>1. Tích số tan</h3>
-      <p>Với chất ít tan M<sub>m</sub>A<sub>n</sub> (rắn) ⇌ mM<sup>n+</sup> + nA<sup>m−</sup>:</p>
-      <div class="cong-thuc">K<sub>sp</sub> = [M]<sup>m</sup> · [A]<sup>n</sup> &nbsp;(chỉ phụ thuộc nhiệt độ)</div>
+      <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
+        <ul>
+          <li>Tính độ tan khi có ion chung, khi pH thay đổi; xét thứ tự kết tủa phân đoạn.</li>
+          <li>Tính pAg trên đường chuẩn độ kết tủa.</li>
+          <li>Nắm nguyên tắc, điều kiện và cách tính của ba phương pháp Mohr, Volhard, Fajans.</li>
+        </ul>
+      </div>
+      <h3>1. Nhắc lại: tích số tan và độ tan</h3>
+      <p>Biểu thức K<sub>sp</sub>, cách tính độ tan S và điều kiện kết tủa Q &gt; K<sub>sp</sub> đã học ở Chương 4, mục 6. Tổng quát cho M<sub>m</sub>A<sub>n</sub>:</p>
+      <div class="cong-thuc">\[ \begin{gathered} K_\mathrm{sp} = (mS)^m(nS)^n = m^m n^n S^{m+n} \\ S = \sqrt[m+n]{\frac{K_\mathrm{sp}}{m^m n^n}} \end{gathered} \]</div>
+      <div class="vi-du"><b>Ví dụ 1.</b> So sánh độ tan của AgCl (K<sub>sp</sub> = 1,8·10<sup>−10</sup>) và Ag<sub>2</sub>CrO<sub>4</sub> (K<sub>sp</sub> = 1,1·10<sup>−12</sup>) trong nước.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} S_\mathrm{AgCl} &= \sqrt{1,8\cdot10^{-10}} = 1,3\cdot10^{-5}\ \mathrm{M} \\ S_\mathrm{Ag_2CrO_4} &= \sqrt[3]{\frac{1,1\cdot10^{-12}}{4}} = 6,5\cdot10^{-5}\ \mathrm{M} \end{aligned} \]
+          Ag<sub>2</sub>CrO<sub>4</sub> có K<sub>sp</sub> <b>nhỏ hơn</b> nhưng lại tan <b>nhiều hơn</b> AgCl, vì hai chất khác kiểu công thức.
+        </details></div>
 
-      <h3>2. Độ tan s (mol/L) trong nước</h3>
-      <div class="cong-thuc">[M] = m·s ; [A] = n·s → K<sub>sp</sub> = m<sup>m</sup> · n<sup>n</sup> · s<sup>m+n</sup></div>
-      <div class="cong-thuc">s = ( K<sub>sp</sub> / (m<sup>m</sup> · n<sup>n</sup>) )<sup>1/(m+n)</sup></div>
-      <div class="cong-thuc">Dạng MA (AgCl, BaSO<sub>4</sub>): s = √K<sub>sp</sub> &nbsp;;&nbsp; Dạng M<sub>2</sub>A (Ag<sub>2</sub>CrO<sub>4</sub>): s = ∛(K<sub>sp</sub>/4)</div>
-      <div class="vi-du"><b>Ví dụ.</b> AgCl (K<sub>sp</sub> = 1,8·10<sup>−10</sup>): s = 1,3·10<sup>−5</sup> M<br>
-        Ag<sub>2</sub>CrO<sub>4</sub> (K<sub>sp</sub> = 1,1·10<sup>−12</sup>): s = ∛(1,1·10<sup>−12</sup> / 4) = 6,5·10<sup>−5</sup> M<br>
-        → Ag<sub>2</sub>CrO<sub>4</sub> có K<sub>sp</sub> <b>nhỏ hơn</b> nhưng lại tan <b>nhiều hơn</b> AgCl.</div>
-      <p class="luu-y">Chỉ được so sánh độ tan qua K<sub>sp</sub> khi các chất có cùng dạng công thức. Khác dạng thì phải tính s.</p>
-
-      <h3>3. Điều kiện tạo kết tủa và kết tủa phân đoạn</h3>
+      <h3>2. Các yếu tố ảnh hưởng tới độ tan</h3>
       <ul>
-        <li>Tích ion Q &gt; K<sub>sp</sub>: có kết tủa. Q = K<sub>sp</sub>: dung dịch bão hòa. Q &lt; K<sub>sp</sub>: chưa kết tủa.</li>
-        <li><b>Kết tủa phân đoạn</b>: khi thêm dần thuốc thử vào hỗn hợp nhiều ion, chất nào cần nồng độ thuốc thử <b>nhỏ hơn</b> để đạt K<sub>sp</sub> thì kết tủa trước.</li>
+        <li><b>Ion chung</b>: làm độ tan giảm mạnh (Chương 4, Ví dụ 7).</li>
+        <li><b>pH</b>: nếu anion của kết tủa là base (CO<sub>3</sub><sup>2−</sup>, C<sub>2</sub>O<sub>4</sub><sup>2−</sup>, PO<sub>4</sub><sup>3−</sup>, OH<sup>−</sup>, S<sup>2−</sup>), H<sup>+</sup> kết hợp với anion làm cân bằng tan chuyển dịch sang phải: kết tủa <b>tan nhiều hơn trong acid</b>. Kết tủa của anion acid mạnh (AgCl, BaSO<sub>4</sub>) gần như không bị ảnh hưởng.</li>
+        <li><b>Tạo phức</b>: thuốc thử tạo phức với cation làm độ tan tăng, ví dụ AgCl tan trong NH<sub>3</sub> (Chương 4, Ví dụ 4). Lượng lớn ion chung đôi khi cũng tạo phức (AgCl<sub>2</sub><sup>−</sup> trong Cl<sup>−</sup> đặc), làm độ tan tăng trở lại.</li>
+        <li><b>Lực ion</b> (hiệu ứng muối): chất điện li lạ làm γ giảm, độ tan tăng nhẹ.</li>
       </ul>
-      <div class="vi-du"><b>Ví dụ.</b> Dung dịch chứa Cl<sup>−</sup> 0,010 M và CrO<sub>4</sub><sup>2−</sup> 0,010 M, thêm dần Ag<sup>+</sup>.<br>
-        AgCl bắt đầu kết tủa khi [Ag<sup>+</sup>] = 1,8·10<sup>−10</sup> / 0,010 = 1,8·10<sup>−8</sup> M<br>
-        Ag<sub>2</sub>CrO<sub>4</sub> bắt đầu kết tủa khi [Ag<sup>+</sup>] = √(1,1·10<sup>−12</sup> / 0,010) = 1,0·10<sup>−5</sup> M<br>
-        → <b>AgCl kết tủa trước</b>. Đây là cơ sở của phương pháp Mohr.</div>
+      <p>Khi anion A<sup>2−</sup> tham gia cân bằng acid – base, dùng phân số α<sub>A²⁻</sub> (Chương 5, mục 4):</p>
+      <div class="cong-thuc"><div class="nhan">Kết tủa MA, anion A<sup>2−</sup> là base (C<sub>A</sub>: tổng nồng độ các dạng của A)</div>\[ \begin{gathered} K_\mathrm{sp} = [\mathrm{M^{2+}}][\mathrm{A^{2-}}] = S\cdot\alpha_\mathrm{A^{2-}}S \\ S = \sqrt{\frac{K_\mathrm{sp}}{\alpha_\mathrm{A^{2-}}}} \end{gathered} \]</div>
+      <div class="vi-du"><b>Ví dụ 2.</b> Tính độ tan của MgC<sub>2</sub>O<sub>4</sub> (K<sub>sp</sub> = 4,8·10<sup>−6</sup>) trong dung dịch giữ pH = 3,00 (H<sub>2</sub>C<sub>2</sub>O<sub>4</sub>: K<sub>a1</sub> = 6,5·10<sup>−2</sup>; K<sub>a2</sub> = 6,46·10<sup>−5</sup>). So sánh với độ tan khi bỏ qua ảnh hưởng của pH.
+        <details><summary>Xem lời giải</summary>
+          h = 1,0·10<sup>−3</sup> M:
+          \[ \begin{aligned} D &= h^2 + K_\mathrm{a1}h + K_\mathrm{a1}K_\mathrm{a2} \\ &= 1,0\cdot10^{-6} + 6,5\cdot10^{-5} \\ &\quad + 4,20\cdot10^{-6} \\ &= 7,02\cdot10^{-5} \\ \alpha_\mathrm{C_2O_4^{2-}} &= \frac{K_\mathrm{a1}K_\mathrm{a2}}{D} = 0,0598 \end{aligned} \]
+          \[ S = \sqrt{\frac{4,8\cdot10^{-6}}{0,0598}} = \mathbf{9,0\cdot10^{-3}\ M} \]
+          Bỏ qua pH: \( S = \sqrt{4,8\cdot10^{-6}} = 2,2\cdot10^{-3} \) M. Ở pH 3,00 độ tan tăng khoảng 4 lần vì phần lớn oxalat chuyển thành HC<sub>2</sub>O<sub>4</sub><sup>−</sup>.
+        </details></div>
 
-      <h3>4. Các yếu tố ảnh hưởng đến độ tan</h3>
+      <h3>3. Kết tủa phân đoạn</h3>
+      <p>Khi thêm dần thuốc thử vào dung dịch chứa nhiều ion, chất nào cần <b>nồng độ thuốc thử nhỏ hơn</b> để đạt K<sub>sp</sub> thì kết tủa trước. Tính nồng độ đó cho từng chất rồi so sánh.</p>
+      <div class="vi-du"><b>Ví dụ 3.</b> Dung dịch chứa Cl<sup>−</sup> 0,010 M và CrO<sub>4</sub><sup>2−</sup> 0,010 M. Thêm dần Ag<sup>+</sup>. Kết tủa nào xuất hiện trước?
+        <details><summary>Xem lời giải</summary>
+          AgCl bắt đầu kết tủa khi:
+          \[ [\mathrm{Ag^+}] = \frac{1,8\cdot10^{-10}}{0,010} = 1,8\cdot10^{-8}\ \mathrm{M} \]
+          Ag<sub>2</sub>CrO<sub>4</sub> bắt đầu kết tủa khi:
+          \[ [\mathrm{Ag^+}] = \sqrt{\frac{1,1\cdot10^{-12}}{0,010}} = 1,0\cdot10^{-5}\ \mathrm{M} \]
+          <b>AgCl kết tủa trước</b> (cần [Ag<sup>+</sup>] nhỏ hơn nhiều). Ag<sub>2</sub>CrO<sub>4</sub> chỉ xuất hiện khi Cl<sup>−</sup> đã gần hết: đây là cơ sở của phương pháp Mohr.
+        </details></div>
+
+      <h3>4. Đường chuẩn độ kết tủa</h3>
+      <p>Chuẩn độ kết tủa quan trọng nhất là chuẩn độ halogenua X<sup>−</sup> bằng Ag<sup>+</sup> (phương pháp bạc): Ag<sup>+</sup> + X<sup>−</sup> → AgX(r). Đường chuẩn độ vẽ pAg = −lg[Ag<sup>+</sup>] theo thể tích Ag<sup>+</sup>:</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Vùng</th><th>Cách tính [Ag<sup>+</sup>]</th></tr></thead>
+          <tbody>
+            <tr><td>Trước điểm tương đương</td><td>\( [\mathrm{Ag^+}] = \dfrac{K_\mathrm{sp}}{[\mathrm{X^-}]_\text{dư}} \)</td></tr>
+            <tr><td>Tại điểm tương đương</td><td>\( [\mathrm{Ag^+}] = [\mathrm{X^-}] = \sqrt{K_\mathrm{sp}} \), tức pAg = ½pK<sub>sp</sub></td></tr>
+            <tr><td>Sau điểm tương đương</td><td>[Ag<sup>+</sup>] = lượng Ag<sup>+</sup> dư / tổng thể tích</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>K<sub>sp</sub> càng nhỏ thì bước nhảy càng lớn: I<sup>−</sup> (AgI, K<sub>sp</sub> = 8,3·10<sup>−17</sup>) cho bước nhảy lớn hơn Br<sup>−</sup>, lớn hơn Cl<sup>−</sup>. Với hỗn hợp halogenua, kết tủa ít tan nhất (AgI) tạo thành trước, đường chuẩn độ có hai bước nhảy liên tiếp.</p>
+      <div class="vi-du"><b>Ví dụ 4.</b> Chuẩn độ 25,00 mL I<sup>−</sup> 0,100 M bằng Ag<sup>+</sup> 0,0500 M (K<sub>sp</sub>(AgI) = 8,3·10<sup>−17</sup>). Tính pAg khi thêm 10,00; 49,00; 50,00; 51,00 mL Ag<sup>+</sup>.
+        <details><summary>Xem lời giải</summary>
+          V<sub>e</sub> = 25,00·0,100/0,0500 = 50,00 mL.<br>
+          <b>V = 10,00 mL</b>: I<sup>−</sup> dư = (2,500 − 0,500)/35,00 = 0,0571 M:
+          \[ \begin{aligned} [\mathrm{Ag^+}] &= \frac{8,3\cdot10^{-17}}{0,0571} = 1,45\cdot10^{-15} \\ \mathrm{pAg} &= 14,84 \end{aligned} \]
+          <b>V = 49,00 mL</b>: I<sup>−</sup> dư = 0,050/74,00 = 6,76·10<sup>−4</sup> M → pAg = 12,91.<br>
+          <b>V = 50,00 mL</b>: pAg = ½·(−lg 8,3·10<sup>−17</sup>) = <b>8,04</b>.<br>
+          <b>V = 51,00 mL</b>: Ag<sup>+</sup> dư = 0,050/76,00 = 6,58·10<sup>−4</sup> M → pAg = 3,18.<br>
+          Chỉ 2 mL quanh V<sub>e</sub> mà pAg thay đổi gần 10 đơn vị.
+        </details></div>
+
+      <h3>5. Phương pháp Mohr</h3>
       <ul>
-        <li><b>Ion chung</b>: làm giảm độ tan. Ví dụ AgCl trong NaCl 0,010 M: s = K<sub>sp</sub> / 0,010 = 1,8·10<sup>−8</sup> M.</li>
-        <li><b>pH</b>: kết tủa là hydroxide hoặc muối của acid yếu (CaC<sub>2</sub>O<sub>4</sub>, CaCO<sub>3</sub>...) tan nhiều hơn trong môi trường acid.</li>
-        <li><b>Tạo phức</b>: làm tăng độ tan. Ví dụ AgCl tan trong NH<sub>3</sub> do tạo [Ag(NH<sub>3</sub>)<sub>2</sub>]<sup>+</sup>.</li>
-        <li><b>Lực ion (hiệu ứng muối)</b>: có mặt chất điện li lạ làm độ tan tăng nhẹ.</li>
+        <li>Chuẩn độ <b>trực tiếp</b> Cl<sup>−</sup>, Br<sup>−</sup> bằng AgNO<sub>3</sub>, chỉ thị K<sub>2</sub>CrO<sub>4</sub>.</li>
+        <li>Điểm cuối: xuất hiện kết tủa <b>đỏ gạch</b> Ag<sub>2</sub>CrO<sub>4</sub> khi Ag<sup>+</sup> vừa dư.</li>
+        <li>Để Ag<sub>2</sub>CrO<sub>4</sub> bắt đầu kết tủa đúng tại điểm tương đương cần [CrO<sub>4</sub><sup>2−</sup>] = K<sub>sp</sub>(Ag<sub>2</sub>CrO<sub>4</sub>)/K<sub>sp</sub>(AgCl) ≈ 6·10<sup>−3</sup> M. Thực tế dùng nồng độ thấp hơn một chút để màu vàng của cromat không che điểm cuối, rồi hiệu chỉnh bằng <b>mẫu trắng</b>.</li>
+        <li>Môi trường <b>trung tính hoặc kiềm yếu (pH 6,5 – 10)</b>: pH thấp thì CrO<sub>4</sub><sup>2−</sup> chuyển thành HCrO<sub>4</sub><sup>−</sup>, Cr<sub>2</sub>O<sub>7</sub><sup>2−</sup>, điểm cuối muộn; pH cao thì Ag<sup>+</sup> kết tủa thành Ag<sub>2</sub>O.</li>
+        <li>Không dùng cho I<sup>−</sup>, SCN<sup>−</sup> vì kết tủa hấp phụ mạnh các ion này.</li>
       </ul>
 
-      <h3>5. Chuẩn độ kết tủa (phương pháp bạc)</h3>
+      <h3>6. Phương pháp Volhard</h3>
       <ul>
-        <li><b>Mohr</b>: chuẩn độ trực tiếp Cl<sup>−</sup>, Br<sup>−</sup> bằng AgNO<sub>3</sub>, chỉ thị K<sub>2</sub>CrO<sub>4</sub>. Điểm cuối: xuất hiện kết tủa đỏ gạch Ag<sub>2</sub>CrO<sub>4</sub>. Môi trường trung tính hoặc kiềm yếu (pH 6,5 – 10).</li>
-        <li><b>Volhard</b>: chuẩn độ ngược. Thêm dư AgNO<sub>3</sub>, chuẩn lượng Ag<sup>+</sup> dư bằng SCN<sup>−</sup>, chỉ thị Fe<sup>3+</sup> (điểm cuối: màu đỏ của FeSCN<sup>2+</sup>). Môi trường HNO<sub>3</sub>.</li>
-        <li><b>Fajans</b>: dùng chỉ thị hấp phụ (fluorescein, eosin): chỉ thị bám lên bề mặt kết tủa và đổi màu tại điểm tương đương.</li>
+        <li>Chuẩn độ Ag<sup>+</sup> bằng SCN<sup>−</sup>, chỉ thị Fe<sup>3+</sup>: Ag<sup>+</sup> + SCN<sup>−</sup> → AgSCN(r). SCN<sup>−</sup> dư đầu tiên tạo phức <b>đỏ</b> FeSCN<sup>2+</sup>.</li>
+        <li>Xác định halogenua bằng <b>chuẩn độ ngược</b>: thêm AgNO<sub>3</sub> dư đã biết, chuẩn lượng Ag<sup>+</sup> dư bằng KSCN.</li>
+        <li>Môi trường <b>acid HNO<sub>3</sub></b> (giữ Fe<sup>3+</sup> không thủy phân). Đây là ưu điểm lớn: các anion như CO<sub>3</sub><sup>2−</sup>, C<sub>2</sub>O<sub>4</sub><sup>2−</sup> không cản trở.</li>
+        <li>Với Cl<sup>−</sup>: AgCl tan nhiều hơn AgSCN, nên AgCl có thể chuyển dần thành AgSCN làm tiêu tốn thêm SCN<sup>−</sup>. Phải lọc bỏ AgCl hoặc thêm nitrobenzen bọc kết tủa trước khi chuẩn độ ngược. Với Br<sup>−</sup>, I<sup>−</sup> không cần.</li>
       </ul>
-      <div class="vi-du"><b>Ví dụ (Mohr).</b> Chuẩn độ 25,00 mL NaCl hết 18,60 mL AgNO<sub>3</sub> 0,05000 M.<br>
-        C<sub>NaCl</sub> = 0,05000 × 18,60 / 25,00 = <b>0,03720 M</b></div>
+      <div class="vi-du"><b>Ví dụ 5.</b> Thêm 50,00 mL AgNO<sub>3</sub> 0,1000 M vào 25,00 mL dung dịch Cl<sup>−</sup>, lọc bỏ AgCl. Chuẩn lượng Ag<sup>+</sup> dư hết 18,75 mL KSCN 0,0800 M. Tính [Cl<sup>−</sup>].
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} n_\mathrm{Ag^+} &= 0,1000\cdot50,00 = 5,000\ \mathrm{mmol} \\ n_\mathrm{Ag^+,\,dư} &= 0,0800\cdot18,75 = 1,500\ \mathrm{mmol} \\ n_\mathrm{Cl^-} &= 5,000 - 1,500 = 3,500\ \mathrm{mmol} \\ [\mathrm{Cl^-}] &= \frac{3,500}{25,00} = \mathbf{0,1400\ M} \end{aligned} \]
+        </details></div>
+
+      <h3>7. Phương pháp Fajans</h3>
+      <ul>
+        <li>Dùng <b>chỉ thị hấp phụ</b> (fluorescein, diclorofluorescein, eosin): thuốc nhuộm anion bám lên bề mặt kết tủa và đổi màu tại điểm tương đương.</li>
+        <li>Cơ chế (chuẩn Cl<sup>−</sup> bằng Ag<sup>+</sup>): trước điểm tương đương, Cl<sup>−</sup> dư hấp phụ lên AgCl nên bề mặt tích điện âm, đẩy chỉ thị anion ra xa. Sau điểm tương đương, Ag<sup>+</sup> dư hấp phụ làm bề mặt tích điện dương, hút chỉ thị lên bề mặt: kết tủa chuyển sang <b>màu hồng</b>.</li>
+        <li>Kết tủa cần ở dạng keo, bề mặt lớn (thêm dextrin để giữ keo), tránh ánh sáng mạnh.</li>
+        <li>pH phải đủ cao để chỉ thị ở dạng anion (fluorescein cần pH ≳ 7; diclorofluorescein dùng được ở pH thấp hơn).</li>
+      </ul>
+      <div class="vi-du"><b>Ví dụ 6.</b> Chuẩn độ 25,00 mL NaCl bằng AgNO<sub>3</sub> 0,05000 M theo phương pháp Mohr hết 18,60 mL. Mẫu trắng tốn 0,20 mL. Tính nồng độ NaCl.
+        <details><summary>Xem lời giải</summary>
+          Thể tích thực dùng cho Cl<sup>−</sup> = 18,60 − 0,20 = 18,40 mL:
+          \[ C_\mathrm{NaCl} = \frac{0,05000\cdot18,40}{25,00} = \mathbf{0,03680\ M} \]
+          Nếu quên trừ mẫu trắng sẽ ra 0,03720 M (sai số +1,1%).
+        </details></div>
     `,
     baiTap: [
       {
-        de: "Tính độ tan của AgCl trong nước (K<sub>sp</sub> = 1,8·10<sup>−10</sup>).",
-        dapAn: "s = √(1,8·10<sup>−10</sup>) ≈ <b>1,3·10<sup>−5</sup> M</b>",
+        de: "Tính độ tan của AgCl (K<sub>sp</sub> = 1,8·10<sup>−10</sup>) trong nước và trong dung dịch NaCl 0,010 M.",
+        dapAn: "Trong nước: S = √(1,8·10<sup>−10</sup>) = <b>1,3·10<sup>−5</sup> M</b><br>Trong NaCl 0,010 M: S = 1,8·10<sup>−10</sup>/0,010 = <b>1,8·10<sup>−8</sup> M</b> (giảm khoảng 750 lần do ion chung)",
       },
       {
-        de: "Tính độ tan của AgCl trong dung dịch NaCl 0,010 M (K<sub>sp</sub> = 1,8·10<sup>−10</sup>).",
-        dapAn: "[Cl<sup>−</sup>] ≈ 0,010 M → s = K<sub>sp</sub> / [Cl<sup>−</sup>] = 1,8·10<sup>−10</sup> / 0,010 = <b>1,8·10<sup>−8</sup> M</b><br>(nhỏ hơn trong nước khoảng 700 lần — hiệu ứng ion chung)",
+        de: "Chuẩn độ 25,00 mL I<sup>−</sup> 0,100 M bằng Ag<sup>+</sup> 0,0500 M. Tính pAg tại điểm tương đương (K<sub>sp</sub>(AgI) = 8,3·10<sup>−17</sup>).",
+        dapAn: "pAg = ½pK<sub>sp</sub> = ½ × 16,08 = <b>8,04</b>",
       },
     ],
   },
