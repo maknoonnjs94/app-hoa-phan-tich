@@ -48,6 +48,18 @@ Trong `noi-dung.js`, mỗi chương có danh sách `baiTap`. Thêm một bài b�
 
 Thêm chương mới thì chép nguyên một khối `{ id: ..., nhom: ..., ten: ..., lyThuyet: ..., baiTap: [...] }`. `nhom` là tên nhóm hiện trên danh sách ("Phân tích hóa học" hoặc "Phân tích công cụ"). Nhớ đặt `id` khác các chương cũ và không có dấu. App tự tạo trang lý thuyết và trang bài tập cho chương đó.
 
+### Viết công thức toán (dạng equation)
+
+App dùng KaTeX (lưu sẵn trong `vendor/katex/`, chạy được khi mất mạng). Trong `noi-dung.js`, phần lý thuyết viết trong ``String.raw` ... ` `` và công thức viết kiểu LaTeX:
+
+- Công thức riêng một dòng: `\[ \Hp = \sqrt{\Ka\Ca} \]`
+- Công thức trong câu: `\( \dfrac{\Ca}{\Ka} \ge 400 \)`
+- Nhiều dòng thẳng hàng theo dấu "=": `\[ \begin{aligned} x &= ... \\ &= ... \end{aligned} \]`
+- Phương trình hóa học: `\ce{HA <=> H+ + A-}`
+- Viết tắt có sẵn: `\Hp` = [H⁺], `\OH` = [OH⁻], `\Ka`, `\Kb`, `\Kw`, `\pKa`, `\pKb`, `\Ca`, `\Cb` (thêm ở `TOAN_VIET_TAT` trong `app.js`).
+- Số thập phân cứ viết dấu phẩy (`0,10`), app tự hiển thị đúng.
+- Không để chữ tiếng Việt có dấu bên trong công thức. Nếu cần chú thích, đặt ở `<div class="nhan">...</div>` phía trên công thức.
+
 ### Thêm một màn hình mới
 
 Trong `app.js`, thêm một mục vào `MAN_HINH`:
@@ -84,4 +96,5 @@ app.js                Các màn hình, công cụ tính và điều hướng
 manifest.webmanifest  Khai báo để cài được như app
 sw.js                 Lưu sẵn giao diện để mở khi mất mạng
 icons/                Biểu tượng app
+vendor/katex/         Thư viện hiển thị công thức toán (KaTeX, giấy phép MIT)
 ```

@@ -239,6 +239,34 @@ function tinhChatRan() {
   kq.innerHTML = `Cân <b>${vietSo(C * V / 1000 * M)} g</b> chất rắn, hòa tan và định mức thành ${vietSo(V)} mL.`;
 }
 
+/* ================= Công thức toán (KaTeX) =================
+   Trong nội dung viết công thức kiểu LaTeX:
+     \[ ... \]  công thức riêng một dòng      \( ... \)  công thức nằm trong câu
+   Ví dụ: \[ \Hp = \sqrt{\Ka \Ca} \]   hoặc   \( \dfrac{\Ca}{\Ka} \ge 400 \)
+   Dấu phẩy thập phân (0,10) tự hiển thị đúng. Các lệnh viết tắt ở TOAN_VIET_TAT. */
+const TOAN_VIET_TAT = {
+  "\\Hp": "[\\mathrm{H^+}]",
+  "\\OH": "[\\mathrm{OH^-}]",
+  "\\Ka": "K_\\mathrm{a}",
+  "\\Kb": "K_\\mathrm{b}",
+  "\\Kw": "K_\\mathrm{w}",
+  "\\pKa": "\\mathrm{p}K_\\mathrm{a}",
+  "\\pKb": "\\mathrm{p}K_\\mathrm{b}",
+  "\\Ca": "C_\\mathrm{a}",
+  "\\Cb": "C_\\mathrm{b}",
+};
+function lamToan(html) {
+  if (!window.katex) return html;
+  return html.replace(/\\\[([\s\S]+?)\\\]|\\\(([\s\S]+?)\\\)/g, (goc, rieng, trongCau) => {
+    const tex = (rieng ?? trongCau).replace(/(\d),(\d)/g, "$1{,}$2");
+    try {
+      return katex.renderToString(tex, {
+        displayMode: rieng !== undefined, throwOnError: false, strict: false, macros: { ...TOAN_VIET_TAT },
+      });
+    } catch { return goc; }
+  });
+}
+
 /* ================= Giản đồ phân bố acid – base =================
    Trong nội dung chỉ cần viết: <div class="gian-do" data-pka="2.15,7.20,12.35" data-dang="H₃PO₄,H₂PO₄⁻,HPO₄²⁻,PO₄³⁻"></div>
    App tự tính phân số mol α của từng dạng theo pH (0 → 14) và vẽ đồ thị. */
@@ -287,7 +315,7 @@ function hienManHinh() {
   const mh = MAN_HINH[duong] || MAN_HINH["/"];
   tieuDe.textContent = mh.tieuDe;
   document.title = duong === "/" ? "Hóa phân tích" : mh.tieuDe + " · Hóa phân tích";
-  noiDung.innerHTML = mh.ve();
+  noiDung.innerHTML = lamToan(mh.ve());
   noiDung.querySelectorAll(".gian-do").forEach(veGianDo);
   nutQuayLai.hidden = !mh.manHinhCon;
   document.querySelectorAll(".tabbar a").forEach(a =>

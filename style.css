@@ -277,3 +277,12 @@ sub, sup { font-size: .72em; line-height: 0; }
   display: grid; place-items: center;
   background: var(--mau-chinh); color: #fff; box-shadow: 0 4px 14px rgba(0,0,0,.2);
 }
+
+/* Công thức KaTeX */
+.katex { font-size: 1.08em; }
+.cong-thuc .katex-display { margin: .15em 0; }
+.cong-thuc .nhan { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; color: var(--chu-phu); line-height: 1.4; margin-bottom: 2px; }
+.vi-du .katex-display { margin: .5em 0; overflow-x: auto; overflow-y: hidden; padding: 2px 0; }
+.bang .katex { font-size: 1em; }
+.bang-tom-tat td { vertical-align: middle; }
+.vi-du .katex { font-size: 1.02em; }

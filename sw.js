@@ -1,13 +1,36 @@
 /* Service worker: lưu sẵn các file giao diện để app mở được khi mất mạng.
    MỖI LẦN SỬA CODE: tăng số phiên bản bên dưới (v1 → v2 → v3...)
    để điện thoại đã cài app nhận bản mới. */
-const PHIEN_BAN = "app-dien-thoai-v6";
+const PHIEN_BAN = "app-dien-thoai-v8";
 
 const FILE_GIAO_DIEN = [
   "./",
   "index.html",
   "style.css",
   "noi-dung.js",
+  "vendor/katex/katex.min.css",
+  "vendor/katex/katex.min.js",
+  "vendor/katex/mhchem.min.js",
+  "vendor/katex/fonts/KaTeX_AMS-Regular.woff2",
+  "vendor/katex/fonts/KaTeX_Caligraphic-Bold.woff2",
+  "vendor/katex/fonts/KaTeX_Caligraphic-Regular.woff2",
+  "vendor/katex/fonts/KaTeX_Fraktur-Bold.woff2",
+  "vendor/katex/fonts/KaTeX_Fraktur-Regular.woff2",
+  "vendor/katex/fonts/KaTeX_Main-Bold.woff2",
+  "vendor/katex/fonts/KaTeX_Main-BoldItalic.woff2",
+  "vendor/katex/fonts/KaTeX_Main-Italic.woff2",
+  "vendor/katex/fonts/KaTeX_Main-Regular.woff2",
+  "vendor/katex/fonts/KaTeX_Math-BoldItalic.woff2",
+  "vendor/katex/fonts/KaTeX_Math-Italic.woff2",
+  "vendor/katex/fonts/KaTeX_SansSerif-Bold.woff2",
+  "vendor/katex/fonts/KaTeX_SansSerif-Italic.woff2",
+  "vendor/katex/fonts/KaTeX_SansSerif-Regular.woff2",
+  "vendor/katex/fonts/KaTeX_Script-Regular.woff2",
+  "vendor/katex/fonts/KaTeX_Size1-Regular.woff2",
+  "vendor/katex/fonts/KaTeX_Size2-Regular.woff2",
+  "vendor/katex/fonts/KaTeX_Size3-Regular.woff2",
+  "vendor/katex/fonts/KaTeX_Size4-Regular.woff2",
+  "vendor/katex/fonts/KaTeX_Typewriter-Regular.woff2",
   "app.js",
   "manifest.webmanifest",
   "icons/icon-192.png",
