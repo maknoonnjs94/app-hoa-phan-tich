@@ -260,6 +260,9 @@ svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width:
   color: var(--mau-chinh); margin-bottom: 2px;
 }
 .katex { font-size: 1.08em; }
+/* Chữ trong công thức để thẳng (không nghiêng) cho đồng bộ với văn bản */
+.katex .mathnormal, .katex .mathit { font-family: KaTeX_Main; font-style: normal; }
+.katex .boldsymbol { font-style: normal; }
 .cong-thuc .katex-display { margin: .2em 0; }
 
 /* Ví dụ minh họa */
