@@ -488,7 +488,7 @@ const CHUONG = [
         <li>Chất tan tính bằng nồng độ mol (M); chất khí tính bằng áp suất riêng phần (bar).</li>
         <li><b>Chất rắn nguyên chất và dung môi</b> (H<sub>2</sub>O) không có mặt trong biểu thức K, vì hoạt độ của chúng bằng 1.</li>
         <li>K ≫ 1: cân bằng lệch về phía sản phẩm. K ≪ 1: lệch về phía chất đầu.</li>
-        <li>K chỉ phụ thuộc nhiệt độ, không phụ thuộc nồng độ ban đầu.</li>
+        <li>K nhiệt động (viết theo hoạt độ) chỉ phụ thuộc nhiệt độ, không phụ thuộc nồng độ ban đầu. K viết theo nồng độ còn thay đổi chút ít theo lực ion của dung dịch (mục 7).</li>
       </ul>
       <p><b>Thương số phản ứng Q</b> có cùng biểu thức với K nhưng dùng nồng độ tại thời điểm đang xét:</p>
       <div class="bang-cuon">
@@ -525,7 +525,7 @@ const CHUONG = [
       <p>Khi một hệ đang cân bằng bị tác động, cân bằng chuyển dịch theo chiều <b>làm giảm</b> tác động đó.</p>
       <ul>
         <li><b>Nồng độ</b>: thêm một chất thì cân bằng chuyển dịch theo chiều tiêu thụ chất đó; lấy bớt một chất thì cân bằng chuyển dịch theo chiều tạo ra chất đó. K không đổi, chỉ Q thay đổi.</li>
-        <li><b>Áp suất</b> (hệ có chất khí): tăng áp suất thì cân bằng chuyển dịch về phía có ít phân tử khí hơn.</li>
+        <li><b>Áp suất</b> (hệ có chất khí): tăng áp suất bằng cách nén (giảm thể tích) thì cân bằng chuyển dịch về phía có ít phân tử khí hơn. Thêm khí trơ ở thể tích không đổi thì cân bằng không chuyển dịch.</li>
         <li><b>Nhiệt độ</b>: tăng nhiệt độ thì cân bằng chuyển dịch theo chiều thu nhiệt. Đây là tác động duy nhất <b>làm thay đổi K</b>: phản ứng thu nhiệt có K tăng khi tăng nhiệt độ, phản ứng tỏa nhiệt có K giảm.</li>
       </ul>
       <p>Ứng dụng trong phân tích: thêm ion chung để kết tủa hoàn toàn hơn (mục 6); thêm NH<sub>3</sub> để hòa tan AgCl vì NH<sub>3</sub> "kéo" Ag<sup>+</sup> ra khỏi cân bằng tan (mục 5).</p>
@@ -575,7 +575,7 @@ const CHUONG = [
           \[ \beta_2 = 10^{3,31 + 3,91} = 10^{7,22} = 1,7\cdot10^{7} \]
           Cộng cân bằng tan với cân bằng tạo phức:
           \[ \begin{gathered} \mathrm{AgCl(r)} + 2\mathrm{NH_3} \rightleftharpoons \mathrm{Ag(NH_3)_2^+} + \mathrm{Cl^-} \\ K = K_\mathrm{sp}\beta_2 = 3,0\cdot10^{-3} \end{gathered} \]
-          Gọi S là độ tan: [Ag(NH<sub>3</sub>)<sub>2</sub><sup>+</sup>] = [Cl<sup>−</sup>] = S; [NH<sub>3</sub>] = 1,0 − 2S.
+          Gọi S là độ tan. Giả thiết Ag<sup>+</sup> tan ra gần như chuyển hết thành Ag(NH<sub>3</sub>)<sub>2</sub><sup>+</sup> (bỏ qua Ag<sup>+</sup> tự do, phức AgNH<sub>3</sub><sup>+</sup> và phản ứng của NH<sub>3</sub> với nước): [Ag(NH<sub>3</sub>)<sub>2</sub><sup>+</sup>] = [Cl<sup>−</sup>] = S; [NH<sub>3</sub>] = 1,0 − 2S.
           \[ \begin{gathered} \frac{S^2}{(1,0 - 2S)^2} = 3,0\cdot10^{-3} \\ \frac{S}{1,0 - 2S} = 0,0547 \;\Rightarrow\; S = \mathbf{0,049\ M} \end{gathered} \]
           So với độ tan trong nước (√K<sub>sp</sub> = 1,3·10<sup>−5</sup> M), độ tan tăng khoảng 3700 lần: NH<sub>3</sub> "kéo" Ag<sup>+</sup> ra khỏi cân bằng tan (Le Chatelier).
         </details></div>
@@ -597,18 +597,19 @@ const CHUONG = [
         <table class="bang bang-hep">
           <thead><tr><th>Chất</th><th>K<sub>sp</sub></th><th>Chất</th><th>K<sub>sp</sub></th></tr></thead>
           <tbody>
+            <tr><td>AgCl</td><td>1,8·10<sup>−10</sup></td><td>SrC<sub>2</sub>O<sub>4</sub></td><td>5·10<sup>−8</sup></td></tr>
             <tr><td>PbBr<sub>2</sub></td><td>6,6·10<sup>−6</sup></td><td>CaCO<sub>3</sub></td><td>5,0·10<sup>−9</sup></td></tr>
             <tr><td>CuBr</td><td>6,3·10<sup>−9</sup></td><td>SrCO<sub>3</sub></td><td>5,6·10<sup>−10</sup></td></tr>
             <tr><td>AgBr</td><td>5,4·10<sup>−13</sup></td><td>MgC<sub>2</sub>O<sub>4</sub></td><td>4,8·10<sup>−6</sup></td></tr>
             <tr><td>Hg<sub>2</sub>Br<sub>2</sub></td><td>6,4·10<sup>−23</sup></td><td>FeC<sub>2</sub>O<sub>4</sub></td><td>2·10<sup>−7</sup></td></tr>
             <tr><td>MgCO<sub>3</sub></td><td>6,8·10<sup>−6</sup></td><td>NiC<sub>2</sub>O<sub>4</sub></td><td>1·10<sup>−7</sup></td></tr>
-            <tr><td>NiCO<sub>3</sub></td><td>1,3·10<sup>−7</sup></td><td>SrC<sub>2</sub>O<sub>4</sub></td><td>5·10<sup>−8</sup></td></tr>
+            <tr><td>NiCO<sub>3</sub></td><td>1,3·10<sup>−7</sup></td><td></td><td></td></tr>
           </tbody>
         </table>
       </div>
       <div class="cong-thuc"><div class="nhan">Điều kiện kết tủa (Q tính theo nồng độ ion ngay sau khi trộn)</div>\( Q > K_\mathrm{sp} \): có kết tủa.<br>\( Q \le K_\mathrm{sp} \): không kết tủa (nếu đã có kết tủa thì kết tủa tan thêm tới khi Q = K<sub>sp</sub>).</div>
       <p><b>Hiệu ứng ion chung</b>: thêm một ion của kết tủa vào dung dịch làm độ tan giảm mạnh (Le Chatelier). Nhờ đó, trong phân tích khối lượng người ta dùng dư thuốc thử để kết tủa hoàn toàn.</p>
-      <p><b>Kết tủa phân đoạn</b>: khi thêm dần thuốc thử vào dung dịch chứa nhiều ion, chất nào đạt điều kiện Q &gt; K<sub>sp</sub> trước thì kết tủa trước. Nếu hai kết tủa có K<sub>sp</sub> chênh nhau nhiều, có thể tách riêng từng ion.</p>
+      <p><b>Kết tủa phân đoạn</b>: khi thêm dần thuốc thử vào dung dịch chứa nhiều ion, chất nào đạt điều kiện Q &gt; K<sub>sp</sub> trước thì kết tủa trước. Muốn biết chất nào kết tủa trước, tính <b>nồng độ thuốc thử cần để bắt đầu kết tủa</b> từng chất (chỉ so sánh thẳng K<sub>sp</sub> được khi các kết tủa cùng kiểu và các ion có cùng nồng độ). Nếu hai kết tủa có K<sub>sp</sub> chênh nhau nhiều, có thể tách riêng từng ion.</p>
       <div class="vi-du"><b>Ví dụ 5.</b> Tính độ tan (mol/L và mg/L) của CaCO<sub>3</sub> (K<sub>sp</sub> = 5,0·10<sup>−9</sup>, M = 100,09) trong nước, bỏ qua phản ứng của CO<sub>3</sub><sup>2−</sup> với nước.
         <details><summary>Xem lời giải</summary>
           \[ S = \sqrt{5,0\cdot10^{-9}} = \mathbf{7,1\cdot10^{-5}\ M} \]
@@ -643,7 +644,7 @@ const CHUONG = [
       <ul>
         <li>Lực ion càng lớn thì γ càng nhỏ. Ion điện tích càng lớn thì γ giảm càng mạnh (vì có z<sup>2</sup>).</li>
         <li>Dung dịch rất loãng (μ → 0) có γ → 1, nên dùng nồng độ thay cho hoạt độ được.</li>
-        <li>Khi μ &lt; 0,01 M có thể bỏ mẫu số, gọi là định luật giới hạn: lg γ = −0,51z<sup>2</sup>√μ.</li>
+        <li>Khi μ rất nhỏ (khoảng dưới 0,005 M) có thể bỏ mẫu số, gọi là định luật giới hạn: lg γ = −0,51z<sup>2</sup>√μ. Ở μ = 0,01 M, với ion điện tích 2 định luật giới hạn đã lệch khoảng 5%.</li>
         <li>Phương trình dùng tốt đến khoảng μ = 0,1 M.</li>
       </ul>
       <div class="vi-du"><b>Ví dụ 9.</b> Tính lực ion của dung dịch Na<sub>2</sub>SO<sub>4</sub> 0,010 M và hệ số hoạt độ của SO<sub>4</sub><sup>2−</sup> (α = 400 pm), Na<sup>+</sup> (α = 450 pm).
@@ -684,7 +685,24 @@ const CHUONG = [
           Lỗi hay gặp: quên nhân 2 cho CO<sub>3</sub><sup>2−</sup>, hoặc đưa hệ số 2 vào [Na<sup>+</sup>] vì công thức Na<sub>2</sub>CO<sub>3</sub>.
         </details></div>
     `,
-    baiTap: [],
+    baiTap: [
+      {
+        de: "Trộn các dung dịch sao cho sau khi trộn [Ag<sup>+</sup>] = [Cl<sup>−</sup>] = 1,0·10<sup>−4</sup> M. Có kết tủa AgCl (K<sub>sp</sub> = 1,8·10<sup>−10</sup>) không?",
+        dapAn: "Q = (1,0·10<sup>−4</sup>)<sup>2</sup> = 1,0·10<sup>−8</sup> &gt; K<sub>sp</sub> → <b>có kết tủa</b>.",
+      },
+      {
+        de: "HCN có K<sub>a</sub> = 4,9·10<sup>−10</sup>. Tính K<sub>b</sub> của CN<sup>−</sup>.",
+        dapAn: "K<sub>b</sub> = K<sub>w</sub>/K<sub>a</sub> = 1,0·10<sup>−14</sup>/4,9·10<sup>−10</sup> = <b>2,0·10<sup>−5</sup></b>",
+      },
+      {
+        de: "Tính độ tan của Hg<sub>2</sub>Br<sub>2</sub> (K<sub>sp</sub> = 6,4·10<sup>−23</sup>) trong nước. Biết Hg<sub>2</sub>Br<sub>2</sub> ⇌ Hg<sub>2</sub><sup>2+</sup> + 2Br<sup>−</sup>.",
+        dapAn: "K<sub>sp</sub> = S(2S)<sup>2</sup> = 4S<sup>3</sup> → S = ∛(6,4·10<sup>−23</sup>/4) = <b>2,5·10<sup>−8</sup> M</b>",
+      },
+      {
+        de: "Tính lực ion của dung dịch MgCl<sub>2</sub> 0,020 M.",
+        dapAn: "[Mg<sup>2+</sup>] = 0,020 M; [Cl<sup>−</sup>] = 0,040 M → μ = ½(0,020·2<sup>2</sup> + 0,040·1<sup>2</sup>) = <b>0,060 M</b>",
+      },
+    ],
   },
   {
     id: "axit-bazo",
@@ -721,7 +739,9 @@ const CHUONG = [
           <thead><tr><th>Nhiệt độ</th><th>pK<sub>w</sub></th><th>pH trung tính</th></tr></thead>
           <tbody>
             <tr><td>0 °C</td><td>14,94</td><td>7,47</td></tr>
+            <tr><td>20 °C</td><td>14,17</td><td>7,08</td></tr>
             <tr><td>25 °C</td><td>14,00</td><td>7,00</td></tr>
+            <tr><td>30 °C</td><td>13,83</td><td>6,92</td></tr>
             <tr><td>50 °C</td><td>13,26</td><td>6,63</td></tr>
             <tr><td>100 °C</td><td>12,26</td><td>6,13</td></tr>
           </tbody>
@@ -736,7 +756,8 @@ const CHUONG = [
       <ul>
         <li>pK<sub>a</sub> càng <b>nhỏ</b> thì acid càng <b>mạnh</b>, và base liên hợp của nó càng yếu.</li>
         <li><b>Acid mạnh</b> (HCl, HBr, HI, HNO<sub>3</sub>, HClO<sub>4</sub>, nấc 1 của H<sub>2</sub>SO<sub>4</sub>) coi như phân li hoàn toàn trong nước.</li>
-        <li><b>Base mạnh</b>: NaOH, KOH, Ba(OH)<sub>2</sub>...</li>
+        <li><b>Base mạnh</b>: LiOH, NaOH, KOH, Ca(OH)<sub>2</sub>, Sr(OH)<sub>2</sub>, Ba(OH)<sub>2</sub>.</li>
+        <li><b>Acid yếu</b> thường gặp: CH<sub>3</sub>COOH, HCOOH, HF, HCN... <b>Base yếu</b>: NH<sub>3</sub>, các amin (CH<sub>3</sub>NH<sub>2</sub>, C<sub>2</sub>H<sub>5</sub>NH<sub>2</sub>), pyridin, anilin.</li>
         <li>Acid đa chức phân li theo từng nấc với K<sub>a1</sub> &gt; K<sub>a2</sub> &gt; K<sub>a3</sub>. Với base liên hợp của nấc cuối (nấc n): \( K_\mathrm{b1} = \dfrac{\Kw}{K_{\mathrm{a}n}} \).</li>
       </ul>
       <div class="vi-du"><b>Ví dụ 1.</b> Tính K<sub>b</sub> của CO<sub>3</sub><sup>2−</sup>, biết H<sub>2</sub>CO<sub>3</sub> có K<sub>a1</sub> = 4,2·10<sup>−7</sup> ; K<sub>a2</sub> = 4,8·10<sup>−11</sup>.
@@ -748,7 +769,7 @@ const CHUONG = [
 
       <h3>3. Các phương trình cơ sở</h3>
       <p>Mọi bài tính pH chính xác đều dựa trên ba loại phương trình sau, kết hợp với các biểu thức hằng số cân bằng.</p>
-      <p><b>a) Định luật bảo toàn nồng độ</b>: tổng nồng độ các dạng của một cấu tử bằng nồng độ ban đầu.</p>
+      <p><b>a) Định luật bảo toàn nồng độ</b> (bảo toàn khối lượng): tổng nồng độ các dạng của một cấu tử bằng nồng độ ban đầu.</p>
       <div class="cong-thuc"><div class="nhan">Dung dịch HA nồng độ C</div>\[ C = [\mathrm{HA}] + [\mathrm{A^-}] \]</div>
       <p><b>b) Định luật bảo toàn điện tích</b>: dung dịch trung hòa điện.</p>
       <div class="cong-thuc"><div class="nhan">Dung dịch HA</div>\[ \Hp = [\mathrm{A^-}] + \OH \]</div>
@@ -770,18 +791,24 @@ const CHUONG = [
       <div class="gian-do" data-pka="4.75" data-dang="CH₃COOH,CH₃COO⁻"></div>
       <p><b>Giản đồ phân bố của acid phosphoric</b> (pK<sub>a</sub> = 2,12 ; 7,21 ; 12,32):</p>
       <div class="gian-do" data-pka="2.12,7.21,12.32" data-dang="H₃PO₄,H₂PO₄⁻,HPO₄²⁻,PO₄³⁻"></div>
-      <p>Từ giản đồ thấy ngay: ở pH ≈ 4,7 dạng H<sub>2</sub>PO<sub>4</sub><sup>−</sup> gần như chiếm toàn bộ, ở pH ≈ 9,8 là HPO<sub>4</sub><sup>2−</sup>. Đây cũng là pH gần đúng của dung dịch NaH<sub>2</sub>PO<sub>4</sub> và Na<sub>2</sub>HPO<sub>4</sub> (xem mục 10).</p>
+      <p>Từ giản đồ thấy ngay: ở pH ≈ 4,7 dạng H<sub>2</sub>PO<sub>4</sub><sup>−</sup> gần như chiếm toàn bộ, ở pH ≈ 9,7 – 9,8 là HPO<sub>4</sub><sup>2−</sup>. Đây cũng là pH gần đúng của dung dịch NaH<sub>2</sub>PO<sub>4</sub> và Na<sub>2</sub>HPO<sub>4</sub> (xem mục 10).</p>
+      <p><b>Dạng tồn tại chủ yếu</b>: pH &lt; pK<sub>a</sub> thì dạng acid chiếm ưu thế; pH &gt; pK<sub>a</sub> thì dạng base chiếm ưu thế. Với acid nhiều nấc, dạng chủ yếu là dạng có pH nằm giữa hai pK<sub>a</sub> kề nó.</p>
+      <div class="vi-du"><b>Ví dụ 2.</b> Cho biết dạng tồn tại chủ yếu của acid acetic (pK<sub>a</sub> = 4,75) ở pH 3 và pH 8; của acid phosphoric (pK<sub>a</sub> = 2,12 ; 7,21 ; 12,32) ở pH 4, 9 và 12.
+        <details><summary>Xem lời giải</summary>
+          Acid acetic: pH 3 &lt; 4,75 → <b>CH<sub>3</sub>COOH</b>; pH 8 &gt; 4,75 → <b>CH<sub>3</sub>COO<sup>−</sup></b>.<br>
+          Acid phosphoric: pH 4 nằm giữa 2,12 và 7,21 → <b>H<sub>2</sub>PO<sub>4</sub><sup>−</sup></b>; pH 9 nằm giữa 7,21 và 12,32 → <b>HPO<sub>4</sub><sup>2−</sup></b>; pH 12 vẫn nằm dưới 12,32 → <b>HPO<sub>4</sub><sup>2−</sup></b>. Tuy nhiên [PO<sub>4</sub><sup>3−</sup>]/[HPO<sub>4</sub><sup>2−</sup>] = 10<sup>12 − 12,32</sup> = 0,48, nên PO<sub>4</sub><sup>3−</sup> cũng chiếm khoảng 32%.
+        </details></div>
 
       <h3>5. pH của acid mạnh và base mạnh</h3>
       <div class="cong-thuc"><div class="nhan">Acid mạnh (C<sub>a</sub> ≥ 10<sup>−6</sup> M)</div>\[ \Hp = \Ca \]</div>
       <div class="cong-thuc"><div class="nhan">Base mạnh</div>\[ \OH = \Cb \;\Rightarrow\; \mathrm{pH} = 14 + \lg \Cb \]</div>
       <p>Khi dung dịch rất loãng (C<sub>a</sub> &lt; 10<sup>−6</sup> M), H<sup>+</sup> do nước phân li không bỏ qua được. Từ bảo toàn điện tích \( \Hp = \Ca + \dfrac{\Kw}{\Hp} \):</p>
       <div class="cong-thuc">\[ \Hp = \frac{\Ca + \sqrt{\Ca^2 + 4\Kw}}{2} \]</div>
-      <div class="vi-du"><b>Ví dụ 2.</b> Tính pH của dung dịch NaOH 0,020 M.
+      <div class="vi-du"><b>Ví dụ 3.</b> Tính pH của dung dịch NaOH 0,020 M.
         <details><summary>Xem lời giải</summary>
           \[ \begin{aligned} \OH &= 0,020\ \mathrm{M} \\ \mathrm{pOH} &= -\lg 0,020 = 1,70 \\ \mathrm{pH} &= 14 - 1,70 = \mathbf{12,30} \end{aligned} \]
         </details></div>
-      <div class="vi-du"><b>Ví dụ 3.</b> Tính pH của dung dịch HCl 1,0·10<sup>−7</sup> M.
+      <div class="vi-du"><b>Ví dụ 4.</b> Tính pH của dung dịch HCl 1,0·10<sup>−7</sup> M.
         <details><summary>Xem lời giải</summary>
           C<sub>a</sub> &lt; 10<sup>−6</sup> M nên phải tính cả nước:
           \[ \begin{aligned} \Hp &= \frac{10^{-7} + \sqrt{10^{-14} + 4\cdot10^{-14}}}{2} \\ &= 1,62\cdot10^{-7}\ \mathrm{M} \\ \mathrm{pH} &= \mathbf{6,79} \end{aligned} \]
@@ -796,20 +823,26 @@ const CHUONG = [
       <div class="cong-thuc">\[ \begin{gathered} \Hp = \sqrt{\Ka\Ca} \\ \mathrm{pH} = \tfrac{1}{2}\left(\pKa - \lg\Ca\right) \end{gathered} \]</div>
       <p><b>Trường hợp acid rất yếu, rất loãng</b> (K<sub>a</sub>C<sub>a</sub> không lớn hơn nhiều so với K<sub>w</sub>) nhưng vẫn C<sub>a</sub>/K<sub>a</sub> ≥ 400:</p>
       <div class="cong-thuc">\[ \Hp = \sqrt{\Ka\Ca + \Kw} \]</div>
-      <div class="vi-du"><b>Ví dụ 4.</b> Tính pH của CH<sub>3</sub>COOH 0,050 M (pK<sub>a</sub> = 4,75).
+      <div class="vi-du"><b>Ví dụ 5.</b> Tính pH của CH<sub>3</sub>COOH 0,050 M (pK<sub>a</sub> = 4,75).
         <details><summary>Xem lời giải</summary>
           K<sub>a</sub> = 10<sup>−4,75</sup> = 1,78·10<sup>−5</sup>; K<sub>a</sub>C<sub>a</sub> = 8,9·10<sup>−7</sup> ≫ K<sub>w</sub>; \( \dfrac{\Ca}{\Ka} \approx 2\,810 \ge 400 \).
-          \[ \begin{aligned} \mathrm{pH} &= \tfrac{1}{2}\left(4,75 - \lg 0,050\right) \\ &= \tfrac{1}{2}\left(4,75 + 1,30\right) = \mathbf{3,03} \end{aligned} \]
+          \[ \begin{aligned} \mathrm{pH} &= \tfrac{1}{2}\left(4,75 - \lg 0,050\right) \\ &= \tfrac{1}{2}\left(4,75 + 1,301\right) = 3,026 \\ &\approx \mathbf{3,03} \end{aligned} \]
           Giải phương trình bậc hai cũng ra pH = 3,03.
         </details></div>
-      <div class="vi-du"><b>Ví dụ 5.</b> Tính pH của HF 0,010 M (K<sub>a</sub> = 7,1·10<sup>−4</sup>).
+      <div class="vi-du"><b>Ví dụ 6.</b> Tính pH của HF 0,010 M (K<sub>a</sub> = 7,1·10<sup>−4</sup>).
         <details><summary>Xem lời giải</summary>
           \( \dfrac{\Ca}{\Ka} \approx 14 < 400 \) → phải giải phương trình bậc hai. Tính biệt thức trước:
           \[ \begin{aligned} \Delta &= \Ka^2 + 4\Ka\Ca \\ &= 5,04\cdot10^{-7} + 2,84\cdot10^{-5} \\ &= 2,89\cdot10^{-5} \end{aligned} \]
           \[ \begin{aligned} \Hp &= \frac{-7,1\cdot10^{-4} + \sqrt{2,89\cdot10^{-5}}}{2} \\ &= 2,33\cdot10^{-3}\ \mathrm{M} \\ \mathrm{pH} &= \mathbf{2,63} \end{aligned} \]
           Dùng nhầm công thức căn sẽ ra 2,57.
         </details></div>
-      <div class="vi-du"><b>Ví dụ 6.</b> Tính pH của HCN 2,0·10<sup>−4</sup> M (K<sub>a</sub> = 4,9·10<sup>−10</sup>).
+      <div class="vi-du"><b>Ví dụ 7.</b> Tính pH của dung dịch NaHSO<sub>4</sub> 0,050 M (HSO<sub>4</sub><sup>−</sup> có K<sub>a</sub> = 1,0·10<sup>−2</sup>).
+        <details><summary>Xem lời giải</summary>
+          HSO<sub>4</sub><sup>−</sup> là acid yếu khá mạnh: \( \dfrac{\Ca}{\Ka} = 5 < 400 \) → giải phương trình bậc hai:
+          \[ \begin{aligned} \Delta &= 1,0\cdot10^{-4} + 2,0\cdot10^{-3} \\ &= 2,1\cdot10^{-3} \\ \Hp &= \frac{-1,0\cdot10^{-2} + \sqrt{\Delta}}{2} \\ &= 1,79\cdot10^{-2}\ \mathrm{M} \\ \mathrm{pH} &= \mathbf{1,75} \end{aligned} \]
+          Dùng nhầm công thức căn sẽ ra 1,65; coi là acid mạnh sẽ ra 1,30.
+        </details></div>
+      <div class="vi-du"><b>Ví dụ 8.</b> Tính pH của HCN 2,0·10<sup>−4</sup> M (K<sub>a</sub> = 4,9·10<sup>−10</sup>).
         <details><summary>Xem lời giải</summary>
           K<sub>a</sub>C<sub>a</sub> = 9,8·10<sup>−14</sup> — cùng cỡ với K<sub>w</sub>, không bỏ qua nước được:
           \[ \begin{aligned} \Hp &= \sqrt{9,8\cdot10^{-14} + 1,0\cdot10^{-14}} \\ &= 3,29\cdot10^{-7}\ \mathrm{M} \\ \mathrm{pH} &= \mathbf{6,48} \end{aligned} \]
@@ -821,13 +854,13 @@ const CHUONG = [
       <div class="cong-thuc"><div class="nhan">Khi C<sub>b</sub>/K<sub>b</sub> ≥ 400</div>\[ \OH = \sqrt{\Kb\Cb} \]</div>
       <div class="cong-thuc"><div class="nhan">Khi C<sub>b</sub>/K<sub>b</sub> &lt; 400</div>\[ \OH = \frac{-\Kb + \sqrt{\Kb^2 + 4\Kb\Cb}}{2} \]</div>
       <p>Muối của acid yếu và base mạnh (CH<sub>3</sub>COONa, NaCN, NaF...) là base yếu với \( \Kb = \dfrac{\Kw}{\Ka} \). Muối của base yếu và acid mạnh (NH<sub>4</sub>Cl) là acid yếu.</p>
-      <div class="vi-du"><b>Ví dụ 7.</b> Tính pH của NH<sub>3</sub> 0,050 M (pK<sub>a</sub> của NH<sub>4</sub><sup>+</sup> = 9,25).
+      <div class="vi-du"><b>Ví dụ 9.</b> Tính pH của NH<sub>3</sub> 0,050 M (pK<sub>a</sub> của NH<sub>4</sub><sup>+</sup> = 9,25).
         <details><summary>Xem lời giải</summary>
           pK<sub>b</sub> = 14 − 9,25 = 4,75 → K<sub>b</sub> = 1,78·10<sup>−5</sup>; \( \dfrac{\Cb}{\Kb} \approx 2\,810 \ge 400 \).
-          \[ \begin{aligned} \OH &= \sqrt{1,78\cdot10^{-5}\cdot0,050} \\ &= 9,43\cdot10^{-4}\ \mathrm{M} \\ \mathrm{pOH} &= 3,03 \\ \mathrm{pH} &= 14 - 3,03 = \mathbf{10,97} \end{aligned} \]
+          \[ \begin{aligned} \OH &= \sqrt{1,78\cdot10^{-5}\cdot0,050} \\ &= 9,43\cdot10^{-4}\ \mathrm{M} \\ \mathrm{pOH} &= 3,026 \\ \mathrm{pH} &= 14 - 3,026 = \mathbf{10,97} \end{aligned} \]
           Lỗi hay gặp: dùng pK<sub>a</sub> = 9,25 thay cho pK<sub>b</sub>, hoặc quên đổi pOH sang pH (ra 3,03).
         </details></div>
-      <div class="vi-du"><b>Ví dụ 8.</b> Tính pH của CH<sub>3</sub>COONa 0,15 M (pK<sub>a</sub> của CH<sub>3</sub>COOH = 4,75).
+      <div class="vi-du"><b>Ví dụ 10.</b> Tính pH của CH<sub>3</sub>COONa 0,15 M (pK<sub>a</sub> của CH<sub>3</sub>COOH = 4,75).
         <details><summary>Xem lời giải</summary>
           \[ \Kb = \frac{10^{-14}}{10^{-4,75}} = 10^{-9,25} = 5,62\cdot10^{-10} \]
           \[ \begin{aligned} \OH &= \sqrt{5,62\cdot10^{-10}\cdot0,15} \\ &= 9,18\cdot10^{-6}\ \mathrm{M} \\ \mathrm{pOH} &= 5,04 \\ \mathrm{pH} &= 14 - 5,04 = \mathbf{8,96} \end{aligned} \]
@@ -838,7 +871,7 @@ const CHUONG = [
       <p>Acid mạnh cho nhiều H<sup>+</sup>, đẩy cân bằng phân li của acid yếu sang trái (hiệu ứng ion chung) → acid yếu gần như không phân li.</p>
       <div class="cong-thuc"><div class="nhan">C<sub>1</sub>: acid mạnh ; C<sub>2</sub>, K<sub>a</sub>: acid yếu</div>\[ \Hp = C_1 + C_2\cdot\frac{\Ka}{\Ka + \Hp} \]</div>
       <p>Thường chỉ cần lấy gần đúng [H<sup>+</sup>] ≈ C<sub>1</sub>, rồi kiểm tra phần đóng góp của acid yếu.</p>
-      <div class="vi-du"><b>Ví dụ 9.</b> Tính pH của dung dịch HCl 0,010 M + CH<sub>3</sub>COOH 0,10 M.
+      <div class="vi-du"><b>Ví dụ 11.</b> Tính pH của dung dịch HCl 0,010 M + CH<sub>3</sub>COOH 0,10 M.
         <details><summary>Xem lời giải</summary>
           Gần đúng lần 1: [H<sup>+</sup>] ≈ 0,010 M. Phần do CH<sub>3</sub>COOH:
           \[ \begin{aligned} &0,10\cdot\frac{1,78\cdot10^{-5}}{1,78\cdot10^{-5} + 0,010} \\ &= 1,8\cdot10^{-4}\ \mathrm{M} \end{aligned} \]
@@ -848,20 +881,20 @@ const CHUONG = [
         </details></div>
 
       <h3>9. Acid và base đa chức</h3>
-      <p>Khi các hằng số cách nhau xa \( \left(\dfrac{K_\mathrm{a1}}{K_\mathrm{a2}} \ge 10^4\right) \), các nấc sau phân li không đáng kể → tính pH theo <b>nấc 1</b> như một acid đơn chức (nhớ kiểm tra điều kiện C/K<sub>a1</sub> ≥ 400).</p>
+      <p>Tính pH theo <b>nấc 1</b> như một acid đơn chức (nhớ kiểm tra điều kiện C/K<sub>a1</sub> ≥ 400). Được phép bỏ qua nấc 2 khi \( K_\mathrm{a2} \ll \Hp \) tính theo nấc 1, vì khi đó \( [\mathrm{A^{2-}}]/[\mathrm{HA^-}] = K_\mathrm{a2}/\Hp \) rất nhỏ. Ví dụ H<sub>2</sub>C<sub>2</sub>O<sub>4</sub> có K<sub>a1</sub>/K<sub>a2</sub> chỉ khoảng 10<sup>3</sup>, nhưng dung dịch 0,10 M có [H<sup>+</sup>] ≈ 5·10<sup>−2</sup> M ≫ K<sub>a2</sub> = 6,46·10<sup>−5</sup>, nên vẫn tính theo nấc 1.</p>
       <p>Tương tự, base đa chức (Na<sub>2</sub>CO<sub>3</sub>, Na<sub>3</sub>PO<sub>4</sub>) tính theo nấc base thứ nhất với \( K_\mathrm{b1} = \dfrac{\Kw}{K_{\mathrm{a}n}} \) (K<sub>an</sub>: hằng số nấc cuối).</p>
-      <div class="vi-du"><b>Ví dụ 10.</b> Tính pH của H<sub>3</sub>PO<sub>4</sub> 0,10 M (K<sub>a1</sub> = 7,5·10<sup>−3</sup>).
+      <div class="vi-du"><b>Ví dụ 12.</b> Tính pH của H<sub>3</sub>PO<sub>4</sub> 0,10 M (K<sub>a1</sub> = 7,5·10<sup>−3</sup>).
         <details><summary>Xem lời giải</summary>
           \( \dfrac{C}{K_\mathrm{a1}} \approx 13 < 400 \) → giải phương trình bậc hai theo nấc 1:
           \[ \begin{aligned} \Delta &= K_\mathrm{a1}^2 + 4K_\mathrm{a1}C \\ &= 5,63\cdot10^{-5} + 3,00\cdot10^{-3} \\ &= 3,06\cdot10^{-3} \end{aligned} \]
           \[ \begin{aligned} \Hp &= \frac{-7,5\cdot10^{-3} + \sqrt{3,06\cdot10^{-3}}}{2} \\ &= 2,39\cdot10^{-2}\ \mathrm{M} \\ \mathrm{pH} &= \mathbf{1,62} \end{aligned} \]
           Dùng nhầm công thức căn sẽ ra 1,56.
         </details></div>
-      <div class="vi-du"><b>Ví dụ 11.</b> Tính pH của Na<sub>2</sub>CO<sub>3</sub> 0,25 M (K<sub>a2</sub> của H<sub>2</sub>CO<sub>3</sub> = 4,8·10<sup>−11</sup>).
+      <div class="vi-du"><b>Ví dụ 13.</b> Tính pH của Na<sub>2</sub>CO<sub>3</sub> 0,25 M (K<sub>a2</sub> của H<sub>2</sub>CO<sub>3</sub> = 4,8·10<sup>−11</sup>).
         <details><summary>Xem lời giải</summary>
           K<sub>b1</sub> = K<sub>w</sub>/K<sub>a2</sub> = 2,08·10<sup>−4</sup>; \( \dfrac{C}{K_\mathrm{b1}} \approx 1\,200 \ge 400 \) → dùng công thức căn:
           \[ \begin{aligned} \OH &= \sqrt{2,08\cdot10^{-4}\cdot0,25} \\ &= 7,22\cdot10^{-3}\ \mathrm{M} \\ \mathrm{pOH} &= 2,14 \\ \mathrm{pH} &= 14 - 2,14 = \mathbf{11,86} \end{aligned} \]
-          Giải phương trình bậc hai ra pH = 11,85: sai khác 0,01 là mức chấp nhận được khi C/K ≥ 400 (sai số ≤ 5% ở nồng độ).
+          Giải phương trình bậc hai ra pH = 11,85. Lượng CO<sub>3</sub><sup>2−</sup> đã phản ứng chỉ khoảng 2,8% (&lt; 5%), nên coi [CO<sub>3</sub><sup>2−</sup>] ≈ C là chấp nhận được; hai cách chỉ lệch 0,01 đơn vị pH.
         </details></div>
 
       <h3>10. Chất lưỡng tính</h3>
@@ -870,26 +903,31 @@ const CHUONG = [
       <p>Khi C ≫ K<sub>a1</sub> và K<sub>a2</sub>C ≫ K<sub>w</sub>, công thức rút gọn thành:</p>
       <div class="cong-thuc">\[ \begin{gathered} \Hp = \sqrt{K_\mathrm{a1}K_\mathrm{a2}} \\ \mathrm{pH} = \frac{\mathrm{p}K_\mathrm{a1} + \mathrm{p}K_\mathrm{a2}}{2} \end{gathered} \]</div>
       <p>(K<sub>a1</sub>, K<sub>a2</sub> là hai hằng số <b>kề</b> dạng lưỡng tính. Ví dụ với Na<sub>2</sub>HPO<sub>4</sub> dùng pK<sub>a2</sub> và pK<sub>a3</sub> của H<sub>3</sub>PO<sub>4</sub>.)</p>
-      <div class="vi-du"><b>Ví dụ 12.</b> Tính pH của NaHCO<sub>3</sub> 0,10 M và NaH<sub>2</sub>PO<sub>4</sub> 0,10 M.
+      <div class="vi-du"><b>Ví dụ 14.</b> Tính pH của NaHCO<sub>3</sub> 0,10 M, NaH<sub>2</sub>PO<sub>4</sub> 0,10 M và Na<sub>2</sub>HPO<sub>4</sub> 0,10 M.
         <details><summary>Xem lời giải</summary>
           NaHCO<sub>3</sub> (công thức đầy đủ cũng cho cùng kết quả):
           \[ \begin{aligned} \Hp &= \sqrt{4,2\cdot10^{-7}\cdot4,8\cdot10^{-11}} \\ &= 4,49\cdot10^{-9}\ \mathrm{M} \\ \mathrm{pH} &= \mathbf{8,35} \end{aligned} \]
           NaH<sub>2</sub>PO<sub>4</sub>: công thức rút gọn cho \( \Hp = \sqrt{7,5\cdot10^{-3}\cdot6,2\cdot10^{-8}} = 2,16\cdot10^{-5} \) M, pH = 4,67. Nhưng C = 0,10 không lớn hơn nhiều so với K<sub>a1</sub> = 7,5·10<sup>−3</sup>, nên dùng công thức đầy đủ. Với K<sub>a2</sub>C + K<sub>w</sub> = 6,20·10<sup>−9</sup> và K<sub>a1</sub> + C = 0,1075:
           \[ \begin{aligned} \Hp &= \sqrt{\frac{7,5\cdot10^{-3}\cdot6,20\cdot10^{-9}}{0,1075}} \\ &= 2,08\cdot10^{-5}\ \mathrm{M} \\ \mathrm{pH} &= \mathbf{4,68} \end{aligned} \]
+          Na<sub>2</sub>HPO<sub>4</sub> (dùng K<sub>a2</sub> và K<sub>a3</sub>): công thức rút gọn cho pH = ½(7,21 + 12,32) ≈ 9,76. Nhưng K<sub>a3</sub>C = 4,8·10<sup>−14</sup> cùng cỡ với K<sub>w</sub>, điều kiện K<sub>a2</sub>C ≫ K<sub>w</sub> (ở đây là K<sub>a3</sub>C ≫ K<sub>w</sub>) không thỏa:
+          \[ \begin{aligned} \Hp &= \sqrt{\frac{K_\mathrm{a2}\left(K_\mathrm{a3}C + \Kw\right)}{K_\mathrm{a2} + C}} \\ &= \sqrt{\frac{6,2\cdot10^{-8}\cdot5,8\cdot10^{-14}}{0,10}} \\ &= 1,90\cdot10^{-10}\ \mathrm{M} \\ \mathrm{pH} &= \mathbf{9,72} \end{aligned} \]
         </details></div>
+      <p><b>Amino acid (tự đọc)</b>: amino acid như leucin tồn tại ở ba dạng H<sub>2</sub>L<sup>+</sup> / HL (ion lưỡng cực) / L<sup>−</sup>, với pK<sub>1</sub> = 2,33 và pK<sub>2</sub> = 9,74. Dạng H<sub>2</sub>L<sup>+</sup> tính như acid đơn chức với K<sub>1</sub>; dạng L<sup>−</sup> tính như base đơn chức với K<sub>b</sub> = K<sub>w</sub>/K<sub>2</sub>; dạng HL là chất lưỡng tính, pH ≈ ½(pK<sub>1</sub> + pK<sub>2</sub>) ≈ 6,0. Giá trị này cũng gần bằng <b>điểm đẳng điện</b> (pI), là pH tại đó điện tích trung bình của phân tử bằng 0.</p>
 
       <h3>11. Dung dịch đệm</h3>
       <p>Dung dịch đệm chứa đồng thời acid yếu HA và base liên hợp A<sup>−</sup> với nồng độ đáng kể. Nó giữ pH gần như không đổi khi thêm một lượng nhỏ acid mạnh, base mạnh, hoặc khi pha loãng.</p>
       <div class="cong-thuc"><div class="nhan">Phương trình Henderson – Hasselbalch</div>\[ \mathrm{pH} = \pKa + \lg\frac{C_\mathrm{A^-}}{C_\mathrm{HA}} \]</div>
       <ul>
         <li>Điều kiện dùng: C<sub>HA</sub> và C<sub>A⁻</sub> đều lớn hơn nhiều so với [H<sup>+</sup>] và [OH<sup>−</sup>].</li>
-        <li>Pha loãng đệm: tỉ số C<sub>A⁻</sub>/C<sub>HA</sub> không đổi nên pH gần như không đổi.</li>
+        <li>Pha loãng đệm: tỉ số C<sub>A⁻</sub>/C<sub>HA</sub> không đổi nên pH gần như không đổi, trừ khi đệm quá loãng hoặc pH quá thấp/quá cao.</li>
+        <li>Đệm base (NH<sub>3</sub>/NH<sub>4</sub><sup>+</sup>, Tris/Tris-H<sup>+</sup>) dùng cùng công thức với pK<sub>a</sub> của acid liên hợp: \( \mathrm{pH} = \mathrm{p}K_\mathrm{a}(\mathrm{BH^+}) + \lg\dfrac{C_\mathrm{B}}{C_\mathrm{BH^+}} \).</li>
+        <li>Có thể pha đệm bằng cách <b>trung hòa một phần</b>: acid mạnh phản ứng hoàn toàn với base yếu, base mạnh phản ứng hoàn toàn với acid yếu.</li>
         <li>Khoảng đệm hiệu quả: <b>pH = pK<sub>a</sub> ± 1</b>. Muốn pha đệm pH nào thì chọn cặp có pK<sub>a</sub> gần pH đó.</li>
       </ul>
       <p><b>Đệm năng</b> β = dC<sub>b</sub>/dpH = −dC<sub>a</sub>/dpH: số mol base (acid) mạnh cần thêm vào 1 L dung dịch để pH tăng (giảm) một lượng rất nhỏ, tính quy về 1 đơn vị pH.</p>
       <div class="cong-thuc"><div class="nhan">C = C<sub>HA</sub> + C<sub>A⁻</sub></div>\[ \beta \approx 2,303\cdot C\cdot\frac{\Ka h}{\left(\Ka + h\right)^2} \]</div>
       <p>β lớn nhất khi pH = pK<sub>a</sub> (β<sub>max</sub> = 0,576·C) và tăng theo nồng độ tổng của đệm.</p>
-      <div class="vi-du"><b>Ví dụ 13.</b> 1,00 L đệm gồm CH<sub>3</sub>COOH 0,10 M và CH<sub>3</sub>COONa 0,10 M. Thêm 0,010 mol HCl (coi thể tích không đổi). Tính pH trước và sau khi thêm, so sánh với việc thêm cùng lượng HCl vào 1,00 L nước.
+      <div class="vi-du"><b>Ví dụ 15.</b> 1,00 L đệm gồm CH<sub>3</sub>COOH 0,10 M và CH<sub>3</sub>COONa 0,10 M. Thêm 0,010 mol HCl (coi thể tích không đổi). Tính pH trước và sau khi thêm, so sánh với việc thêm cùng lượng HCl vào 1,00 L nước.
         <details><summary>Xem lời giải</summary>
           Trước khi thêm:
           \[ \mathrm{pH} = 4,75 + \lg\frac{0,10}{0,10} = \mathbf{4,75} \]
@@ -897,11 +935,18 @@ const CHUONG = [
           \[ \mathrm{pH} = 4,75 + \lg\frac{0,090}{0,110} = \mathbf{4,66} \]
           pH chỉ giảm 0,09. Trong nước, pH giảm từ 7,00 xuống 2,00 (giảm 5 đơn vị).
         </details></div>
-      <div class="vi-du"><b>Ví dụ 14.</b> Cần pha 1,00 L đệm acetat tổng nồng độ 0,100 M, pH 5,00 (pK<sub>a</sub> = 4,75). Tính số mol CH<sub>3</sub>COONa và CH<sub>3</sub>COOH cần dùng.
+      <div class="vi-du"><b>Ví dụ 16.</b> Cần pha 1,00 L đệm acetat tổng nồng độ 0,100 M, pH 5,00 (pK<sub>a</sub> = 4,75). Tính số mol CH<sub>3</sub>COONa và CH<sub>3</sub>COOH cần dùng.
         <details><summary>Xem lời giải</summary>
           \[ \begin{aligned} \lg\frac{C_\mathrm{A^-}}{C_\mathrm{HA}} &= 5,00 - 4,75 = 0,25 \\ \frac{C_\mathrm{A^-}}{C_\mathrm{HA}} &= 10^{0,25} = 1,78 \end{aligned} \]
           \[ \begin{aligned} n_\mathrm{CH_3COONa} &= 0,100\cdot\frac{1,78}{1 + 1,78} \\ &= \mathbf{0,0640\ mol} \\ n_\mathrm{CH_3COOH} &= 0,100 - 0,0640 \\ &= \mathbf{0,0360\ mol} \end{aligned} \]
         </details></div>
+      <div class="vi-du"><b>Ví dụ 17.</b> Trộn 100,0 mL NH<sub>3</sub> 0,20 M với 50,0 mL HCl 0,10 M. Tính pH (pK<sub>a</sub> của NH<sub>4</sub><sup>+</sup> = 9,25).
+        <details><summary>Xem lời giải</summary>
+          HCl phản ứng hoàn toàn: NH<sub>3</sub> + H<sup>+</sup> → NH<sub>4</sub><sup>+</sup>. Còn 20,0 − 5,0 = 15,0 mmol NH<sub>3</sub> và tạo 5,0 mmol NH<sub>4</sub><sup>+</sup>:
+          \[ \mathrm{pH} = 9,25 + \lg\frac{15,0}{5,0} = \mathbf{9,73} \]
+        </details></div>
+      <p class="luu-y"><b>Giới hạn của Henderson – Hasselbalch</b>: khi [H<sup>+</sup>] không nhỏ hơn nhiều so với nồng độ các dạng đệm, phải giải chính xác. Ví dụ đệm leucin H<sub>2</sub>L<sup>+</sup>/HL, mỗi dạng 4,5·10<sup>−3</sup> M (pK<sub>1</sub> = 2,33): công thức cho pH = 2,33, nhưng giải chính xác ra pH = 2,72, vì H<sub>2</sub>L<sup>+</sup> phân li đáng kể ([H<sup>+</sup>] ≈ 2·10<sup>−3</sup> M).</p>
+      <p><b>Ứng dụng của dung dịch đệm</b>: giữ pH cho phản ứng enzyme, lên men, nhuộm; hiệu chuẩn máy đo pH; đệm PBS pH 7,4 trong sinh học. Máu người được giữ ở pH 7,35 – 7,45 nhờ ba hệ đệm: carbonate (H<sub>2</sub>CO<sub>3</sub>/HCO<sub>3</sub><sup>−</sup>), phosphate và protein. Trong phòng thí nghiệm thường pha theo công thức tra cứu (ví dụ bảng đệm McIlvaine Na<sub>2</sub>HPO<sub>4</sub> – acid citric cho pH 3 – 8), rồi đo pH và chỉnh bằng acid hoặc base trước khi định mức.</p>
 
       <h3>12. Tóm tắt: chọn công thức tính pH</h3>
       <div class="bang-cuon">
@@ -912,8 +957,9 @@ const CHUONG = [
             <tr><td>Acid mạnh rất loãng</td><td>\( \Hp = \dfrac{\Ca + \sqrt{\Ca^2 + 4\Kw}}{2} \)</td><td>\( \Ca < 10^{-6} \)</td></tr>
             <tr><td>Acid yếu</td><td>\( \Hp = \sqrt{\Ka\Ca} \)</td><td>\( \dfrac{\Ca}{\Ka} \ge 400 \)</td></tr>
             <tr><td>Acid yếu</td><td>Giải phương trình bậc hai</td><td>\( \dfrac{\Ca}{\Ka} < 400 \)</td></tr>
-            <tr><td>Acid rất yếu, loãng</td><td>\( \Hp = \sqrt{\Ka\Ca + \Kw} \)</td><td>\( \Ka\Ca \not\gg \Kw \)</td></tr>
-            <tr><td>Base yếu, muối base</td><td>Như acid yếu, với \( \Kb = \dfrac{\Kw}{\Ka} \)</td><td>\( \dfrac{\Cb}{\Kb} \ge 400 \)</td></tr>
+            <tr><td>Acid rất yếu, loãng</td><td>\( \Hp = \sqrt{\Ka\Ca + \Kw} \)</td><td>\( \Ka\Ca \not\gg \Kw \) và \( \dfrac{\Ca}{\Ka} \ge 400 \)</td></tr>
+            <tr><td>Base yếu; muối của acid yếu (CH<sub>3</sub>COONa)</td><td>Như acid yếu, thay bằng [OH<sup>−</sup>] và \( \Kb = \dfrac{\Kw}{\Ka} \)</td><td>\( \dfrac{\Cb}{\Kb} \ge 400 \)</td></tr>
+            <tr><td>Muối của base yếu (NH<sub>4</sub>Cl)</td><td>Acid yếu với \( \Ka = \dfrac{\Kw}{\Kb} \)</td><td>\( \dfrac{\Ca}{\Ka} \ge 400 \)</td></tr>
             <tr><td>Acid đa chức</td><td>Tính theo nấc 1</td><td>\( \dfrac{K_\mathrm{a1}}{K_\mathrm{a2}} \ge 10^4 \)</td></tr>
             <tr><td>Chất lưỡng tính</td><td>\( \mathrm{pH} = \dfrac{\mathrm{p}K_\mathrm{a1} + \mathrm{p}K_\mathrm{a2}}{2} \)</td><td>\( C \gg K_\mathrm{a1};\ K_\mathrm{a2}C \gg \Kw \)</td></tr>
             <tr><td>Dung dịch đệm</td><td>\( \mathrm{pH} = \pKa + \lg\dfrac{C_\mathrm{A^-}}{C_\mathrm{HA}} \)</td><td>\( C_\mathrm{HA}, C_\mathrm{A^-} \gg \Hp, \OH \)</td></tr>
@@ -942,25 +988,200 @@ const CHUONG = [
     nhom: "Cân bằng và chuẩn độ",
     icon: "🧪",
     ten: "Chuẩn độ acid – base",
-    moTa: "Đường chuẩn độ, bước nhảy, chọn chỉ thị",
+    moTa: "Đường chuẩn độ, bước nhảy, chỉ thị, Gran, chất gốc, Kjeldahl",
+    dayDu: true,
+    choDuyet: true,
     lyThuyet: String.raw`
-<h3>5. Đường chuẩn độ acid – base và chọn chỉ thị</h3>
-      <p><b>Đường chuẩn độ</b>: đồ thị pH theo thể tích dung dịch chuẩn. Gần điểm tương đương pH thay đổi đột ngột — gọi là <b>bước nhảy</b>. Chọn chỉ thị có khoảng đổi màu (hay chỉ số pT) nằm trong bước nhảy.</p>
+      <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
+        <ul>
+          <li>Tính pH tại mọi điểm của đường chuẩn độ: acid/base mạnh, acid yếu, base yếu, base hai nấc.</li>
+          <li>Giải thích các yếu tố ảnh hưởng tới bước nhảy và chọn chỉ thị phù hợp, ước lượng sai số chỉ thị.</li>
+          <li>Biết cách xác định điểm cuối, các chất gốc thường dùng và các ứng dụng: hỗn hợp carbonate, Kjeldahl.</li>
+        </ul>
+      </div>
+      <h3>1. Các khái niệm cơ bản</h3>
       <ul>
-        <li><b>Acid mạnh – base mạnh</b>: pH<sub>tđ</sub> = 7. Với nồng độ 0,1 M, bước nhảy (sai số ±0,1%) từ pH 4,3 đến 9,7 → dùng được metyl đỏ, phenolphtalein, cả metyl da cam.</li>
-        <li><b>Acid yếu – base mạnh</b>: pH<sub>tđ</sub> &gt; 7 (tính theo dung dịch muối). Tại điểm nửa tương đương: pH = pK<sub>a</sub>. Thường dùng phenolphtalein.</li>
-        <li><b>Base yếu – acid mạnh</b>: pH<sub>tđ</sub> &lt; 7. Thường dùng metyl đỏ, metyl da cam.</li>
-        <li>Nồng độ càng loãng, acid/base càng yếu thì bước nhảy càng ngắn. Điều kiện chuẩn độ được acid yếu với sai số nhỏ: C<sub>a</sub> · K<sub>a</sub> ≥ 10<sup>−8</sup>.</li>
+        <li><b>Điểm tương đương</b>: lượng chất chuẩn thêm vào vừa đủ phản ứng hết với chất phân tích theo đúng hợp thức. Thể tích lúc đó gọi là <b>thể tích tương đương</b> V<sub>e</sub>.</li>
+        <li><b>Điểm cuối</b>: thời điểm ta quan sát được sự thay đổi (chỉ thị đổi màu, điện cực báo). Chênh lệch giữa điểm cuối và điểm tương đương gây ra <b>sai số chuẩn độ</b>.</li>
+        <li><b>Đường chuẩn độ</b>: đồ thị pH theo thể tích chất chuẩn. Quanh điểm tương đương pH thay đổi đột ngột, gọi là <b>bước nhảy pH</b>.</li>
       </ul>
-      <div class="vi-du"><b>Ví dụ.</b> Chuẩn độ 25,00 mL CH<sub>3</sub>COOH 0,1000 M bằng NaOH 0,1000 M. Tính pH tại điểm tương đương.<br>
-        V<sub>NaOH</sub> = 25,00 mL → C<sub>CH₃COONa</sub> = 0,1000 × 25,00 / 50,00 = 0,05000 M<br>
-        K<sub>b</sub> = 10<sup>−9,24</sup> = 5,75·10<sup>−10</sup> → [OH<sup>−</sup>] = √(5,75·10<sup>−10</sup> × 0,05000) = 5,36·10<sup>−6</sup> M<br>
-        pOH = 5,27 → <b>pH<sub>tđ</sub> = 8,73</b> → chọn phenolphtalein.</div>
+      <p>Phản ứng chuẩn độ acid – base phải xảy ra nhanh, hoàn toàn (K rất lớn) và đúng hợp thức. Vì vậy chất chuẩn luôn là <b>acid mạnh hoặc base mạnh</b> (HCl, NaOH...).</p>
+      <p><b>Cách tính pH trên đường chuẩn độ</b>: viết phản ứng, tính V<sub>e</sub>, rồi chia làm 4 vùng: (1) trước khi thêm chất chuẩn; (2) trước điểm tương đương; (3) tại điểm tương đương; (4) sau điểm tương đương. Ở mỗi vùng, xác định dung dịch đang chứa gì rồi dùng công thức ở Chương 5.</p>
+
+      <h3>2. Chuẩn độ base mạnh bằng acid mạnh</h3>
+      <p>Phản ứng: H<sup>+</sup> + OH<sup>−</sup> → H<sub>2</sub>O. Trước điểm tương đương pH do OH<sup>−</sup> dư quyết định; tại điểm tương đương dung dịch chỉ có muối trung tính nên <b>pH = 7,00</b>; sau điểm tương đương pH do H<sup>+</sup> dư quyết định.</p>
+      <div class="vi-du"><b>Ví dụ 1.</b> Chuẩn độ 50,0 mL KOH 0,0200 M bằng HBr 0,1000 M. Tính pH khi thêm 0; 5,0; 9,0; 10,0; 11,0 và 15,0 mL HBr.
+        <details><summary>Xem lời giải</summary>
+          \[ V_e = \frac{50,0\cdot0,0200}{0,1000} = 10,0\ \mathrm{mL} \]
+          Ví dụ tại V = 5,0 mL: OH<sup>−</sup> dư = 1,000 − 0,500 = 0,500 mmol trong 55,0 mL:
+          \[ \begin{aligned} \OH &= \frac{0,500}{55,0} = 9,09\cdot10^{-3}\ \mathrm{M} \\ \mathrm{pH} &= 14 + \lg\left(9,09\cdot10^{-3}\right) = 11,96 \end{aligned} \]
+          Tại V = 11,0 mL: H<sup>+</sup> dư = 0,100 mmol trong 61,0 mL → [H<sup>+</sup>] = 1,64·10<sup>−3</sup> M → pH = 2,79.
+          <div class="bang-cuon"><table class="bang">
+            <thead><tr><th>V<sub>HBr</sub> (mL)</th><th>0</th><th>5,0</th><th>9,0</th><th>10,0</th><th>11,0</th><th>15,0</th></tr></thead>
+            <tbody><tr><td>pH</td><td>12,30</td><td>11,96</td><td>11,23</td><td><b>7,00</b></td><td>2,79</td><td>2,11</td></tr></tbody>
+          </table></div>
+          Chỉ thêm 2 mL quanh V<sub>e</sub> (9,0 → 11,0 mL), pH giảm gần 8,5 đơn vị: đó là bước nhảy.
+        </details></div>
+
+      <h3>3. Chuẩn độ acid yếu bằng base mạnh</h3>
+      <p>Phản ứng: HA + OH<sup>−</sup> → A<sup>−</sup> + H<sub>2</sub>O (K = K<sub>a</sub>/K<sub>w</sub> rất lớn, phản ứng hoàn toàn).</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Vùng</th><th>Dung dịch chứa</th><th>Cách tính pH</th></tr></thead>
+          <tbody>
+            <tr><td>V = 0</td><td>Acid yếu HA</td><td>\( \mathrm{pH} = \tfrac{1}{2}(\pKa - \lg\Ca) \) nếu C/K<sub>a</sub> ≥ 400</td></tr>
+            <tr><td>0 &lt; V &lt; V<sub>e</sub></td><td>Đệm HA/A<sup>−</sup></td><td>\( \mathrm{pH} = \pKa + \lg\dfrac{n_\mathrm{A^-}}{n_\mathrm{HA}} \)</td></tr>
+            <tr><td>V = V<sub>e</sub>/2</td><td>n<sub>HA</sub> = n<sub>A⁻</sub></td><td><b>pH = pK<sub>a</sub></b></td></tr>
+            <tr><td>V = V<sub>e</sub></td><td>Base yếu A<sup>−</sup></td><td>\( K_\mathrm{b} = \Kw/\Ka \); pH &gt; 7</td></tr>
+            <tr><td>V &gt; V<sub>e</sub></td><td>OH<sup>−</sup> dư (bỏ qua A<sup>−</sup>)</td><td>\( \mathrm{pH} = 14 + \lg\OH_\text{dư} \)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Trong vùng đệm, tỉ số nồng độ bằng tỉ số số mol (cùng thể tích), nên chỉ cần tính số mol. Điểm nửa tương đương cho phép <b>xác định pK<sub>a</sub></b> trực tiếp từ đường chuẩn độ.</p>
+      <div class="vi-du"><b>Ví dụ 2.</b> Chuẩn độ 50,0 mL CH<sub>3</sub>COOH 0,0500 M (pK<sub>a</sub> = 4,75) bằng NaOH 0,100 M. Tính pH tại các điểm đặc trưng.
+        <details><summary>Xem lời giải</summary>
+          n<sub>HA</sub> ban đầu = 2,50 mmol → V<sub>e</sub> = 25,0 mL.<br>
+          <b>V = 0</b>: \( \mathrm{pH} = \tfrac{1}{2}(4,75 - \lg 0,0500) = 3,03 \)<br>
+          <b>V = 5,0 mL</b>: n<sub>A⁻</sub> = 0,500 mmol; n<sub>HA</sub> = 2,00 mmol:
+          \[ \mathrm{pH} = 4,75 + \lg\frac{0,500}{2,00} = 4,15 \]
+          <b>V = 12,5 mL</b> (nửa tương đương): pH = pK<sub>a</sub> = 4,75.<br>
+          <b>V = 25,0 mL</b>: C<sub>A⁻</sub> = 2,50/75,0 = 0,0333 M; K<sub>b</sub> = 10<sup>−9,25</sup>:
+          \[ \begin{aligned} \mathrm{pOH} &= \tfrac{1}{2}(9,25 - \lg 0,0333) = 5,36 \\ \mathrm{pH} &= 14 - 5,36 = \mathbf{8,64} \end{aligned} \]
+          <b>V = 26,0 mL</b>: OH<sup>−</sup> dư = 0,100 mmol/76,0 mL = 1,32·10<sup>−3</sup> M → pH = 11,12.
+          <div class="bang-cuon"><table class="bang">
+            <thead><tr><th>V<sub>NaOH</sub> (mL)</th><th>0</th><th>5,0</th><th>12,5</th><th>20,0</th><th>24,0</th><th>25,0</th><th>26,0</th><th>30,0</th></tr></thead>
+            <tbody><tr><td>pH</td><td>3,03</td><td>4,15</td><td>4,75</td><td>5,35</td><td>6,13</td><td><b>8,64</b></td><td>11,12</td><td>11,80</td></tr></tbody>
+          </table></div>
+        </details></div>
+
+      <h3>4. Chuẩn độ base yếu bằng acid mạnh</h3>
+      <p>Hoàn toàn đối xứng với mục 3: B + H<sup>+</sup> → BH<sup>+</sup>.</p>
+      <ul>
+        <li>V = 0: base yếu, tính [OH<sup>−</sup>] theo K<sub>b</sub>.</li>
+        <li>Trước điểm tương đương: đệm B/BH<sup>+</sup>, pH = pK<sub>a</sub>(BH<sup>+</sup>) + lg(n<sub>B</sub>/n<sub>BH⁺</sub>). Tại nửa tương đương pH = pK<sub>a</sub>(BH<sup>+</sup>).</li>
+        <li>Tại điểm tương đương: acid yếu BH<sup>+</sup>, nên <b>pH &lt; 7</b>.</li>
+        <li>Sau điểm tương đương: H<sup>+</sup> dư quyết định pH.</li>
+      </ul>
+      <div class="vi-du"><b>Ví dụ 3.</b> Chuẩn độ 50,0 mL NH<sub>3</sub> 0,0500 M bằng HCl 0,100 M (pK<sub>a</sub> của NH<sub>4</sub><sup>+</sup> = 9,25). Tính pH ban đầu, tại nửa tương đương và tại điểm tương đương.
+        <details><summary>Xem lời giải</summary>
+          V<sub>e</sub> = 25,0 mL.<br>
+          V = 0: pOH = ½(4,75 − lg 0,0500) = 3,03 → pH = 10,97.<br>
+          V = 12,5 mL: pH = pK<sub>a</sub>(NH<sub>4</sub><sup>+</sup>) = 9,25.<br>
+          V = 25,0 mL: C<sub>NH₄⁺</sub> = 0,0333 M:
+          \[ \mathrm{pH} = \tfrac{1}{2}(9,25 - \lg 0,0333) = \mathbf{5,36} \]
+          Chỉ thị phải đổi màu ở vùng acid (metyl đỏ). Dùng phenolphtalein sẽ dừng quá sớm.
+        </details></div>
+
+      <h3>5. Các yếu tố ảnh hưởng tới bước nhảy</h3>
+      <ul>
+        <li><b>Nồng độ</b>: dung dịch càng loãng thì bước nhảy càng ngắn. Chuẩn độ acid mạnh – base mạnh 0,1 M có bước nhảy (ứng với sai số ±0,1%) từ pH 4,3 đến 9,7; ở 0,001 M chỉ còn khoảng 6,3 – 7,7. Khi C &lt; 10<sup>−4</sup> M, bước nhảy quá nhỏ, không chuẩn độ được bằng chỉ thị màu.</li>
+        <li><b>Độ mạnh của acid (base)</b>: acid càng yếu thì phần đầu đường chuẩn độ càng cao và bước nhảy càng ngắn. Acid có pK<sub>a</sub> &gt; 10 hầu như không còn bước nhảy trong nước, phải chuẩn độ trong dung môi không nước.</li>
+        <li>Tiêu chí thường dùng để chuẩn độ acid yếu với sai số khoảng 0,1% bằng chỉ thị màu: \( \Ca\Ka \ge 10^{-8} \).</li>
+      </ul>
+      <p class="luu-y">Đường chuẩn độ acid yếu không đối xứng quanh điểm tương đương: phần trước V<sub>e</sub> là vùng đệm thoải, phần sau V<sub>e</sub> trùng với đường của acid mạnh.</p>
+
+      <h3>6. Chuẩn độ acid, base hai nấc</h3>
+      <p>Với acid H<sub>2</sub>A chuẩn độ bằng NaOH (hoặc base A<sup>2−</sup> chuẩn độ bằng HCl), đường chuẩn độ có hai điểm tương đương V<sub>e1</sub> và V<sub>e2</sub> = 2V<sub>e1</sub>:</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Vùng (acid H<sub>2</sub>A + NaOH)</th><th>Dung dịch chứa</th><th>pH</th></tr></thead>
+          <tbody>
+            <tr><td>Trước V<sub>e1</sub></td><td>Đệm H<sub>2</sub>A/HA<sup>−</sup></td><td>pK<sub>a1</sub> + lg(n<sub>HA⁻</sub>/n<sub>H₂A</sub>)</td></tr>
+            <tr><td>V<sub>e1</sub></td><td>Chất lưỡng tính HA<sup>−</sup></td><td>≈ ½(pK<sub>a1</sub> + pK<sub>a2</sub>)</td></tr>
+            <tr><td>Giữa V<sub>e1</sub> và V<sub>e2</sub></td><td>Đệm HA<sup>−</sup>/A<sup>2−</sup></td><td>pK<sub>a2</sub> + lg(n<sub>A²⁻</sub>/n<sub>HA⁻</sub>)</td></tr>
+            <tr><td>V<sub>e2</sub></td><td>Base yếu A<sup>2−</sup></td><td>Tính theo K<sub>b1</sub> = K<sub>w</sub>/K<sub>a2</sub></td></tr>
+            <tr><td>Sau V<sub>e2</sub></td><td>OH<sup>−</sup> dư</td><td>14 + lg[OH<sup>−</sup>]<sub>dư</sub></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Muốn thấy rõ hai bước nhảy riêng biệt, hai hằng số phải cách nhau đủ xa (thường K<sub>a1</sub>/K<sub>a2</sub> ≥ 10<sup>4</sup>).</p>
+      <div class="vi-du"><b>Ví dụ 4.</b> Chuẩn độ 20,0 mL Na<sub>2</sub>CO<sub>3</sub> 0,100 M bằng HCl 0,100 M (H<sub>2</sub>CO<sub>3</sub>: K<sub>a1</sub> = 4,2·10<sup>−7</sup>; K<sub>a2</sub> = 4,8·10<sup>−11</sup>). Tính pH tại hai điểm tương đương và chọn chỉ thị.
+        <details><summary>Xem lời giải</summary>
+          V<sub>e1</sub> = 20,0 mL (CO<sub>3</sub><sup>2−</sup> → HCO<sub>3</sub><sup>−</sup>); V<sub>e2</sub> = 40,0 mL (HCO<sub>3</sub><sup>−</sup> → H<sub>2</sub>CO<sub>3</sub>).<br>
+          <b>Tại V<sub>e1</sub></b>: dung dịch NaHCO<sub>3</sub> (lưỡng tính):
+          \[ \begin{aligned} \Hp &= \sqrt{4,2\cdot10^{-7}\cdot4,8\cdot10^{-11}} \\ &= 4,49\cdot10^{-9}\ \mathrm{M} \\ \mathrm{pH} &= \mathbf{8,35} \end{aligned} \]
+          → dùng phenolphtalein.<br>
+          <b>Tại V<sub>e2</sub></b>: H<sub>2</sub>CO<sub>3</sub> 2,00 mmol/60,0 mL = 0,0333 M, coi như acid một nấc với K<sub>a1</sub>:
+          \[ \mathrm{pH} = \tfrac{1}{2}\left(6,38 - \lg 0,0333\right) = \mathbf{3,93} \]
+          → dùng metyl da cam. Trong thực tế nên đun sôi gần cuối để đuổi CO<sub>2</sub>, điểm cuối sẽ rõ hơn.
+        </details></div>
+
+      <h3>7. Chỉ thị acid – base</h3>
+      <p>Chỉ thị là acid (base) yếu có dạng acid HInd và dạng base Ind<sup>−</sup> khác màu nhau:</p>
+      <div class="cong-thuc">\[ \begin{gathered} \mathrm{HInd} \rightleftharpoons \mathrm{H^+} + \mathrm{Ind^-} \\ \mathrm{pH} = \mathrm{p}K_\mathrm{HInd} + \lg\frac{[\mathrm{Ind^-}]}{[\mathrm{HInd}]} \end{gathered} \]</div>
+      <p>Mắt chỉ thấy rõ màu của một dạng khi nó nhiều gấp khoảng 10 lần dạng kia, nên <b>khoảng đổi màu ≈ pK<sub>HInd</sub> ± 1</b>.</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Chỉ thị</th><th>Khoảng đổi màu (pH)</th><th>Màu (acid → base)</th></tr></thead>
+          <tbody>
+            <tr><td>Metyl da cam</td><td>3,1 – 4,4</td><td>đỏ → vàng</td></tr>
+            <tr><td>Metyl đỏ</td><td>4,4 – 6,2</td><td>đỏ → vàng</td></tr>
+            <tr><td>Bromthymol xanh</td><td>6,0 – 7,6</td><td>vàng → xanh lam</td></tr>
+            <tr><td>Phenolphtalein</td><td>8,2 – 10,0</td><td>không màu → hồng</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><b>Nguyên tắc chọn chỉ thị</b>: khoảng đổi màu phải nằm trong bước nhảy, càng gần pH tương đương càng tốt. Chỉ dùng vài giọt, vì chỉ thị cũng là acid/base và tiêu tốn chất chuẩn.</p>
+      <div class="vi-du"><b>Ví dụ 5.</b> Trong Ví dụ 2 (pH<sub>tđ</sub> = 8,64), nếu dùng bromthymol xanh và dừng chuẩn độ ở pH = 7,00 thì sai số bao nhiêu?
+        <details><summary>Xem lời giải</summary>
+          Ở pH 7,00 dung dịch vẫn là đệm:
+          \[ \frac{n_\mathrm{A^-}}{n_\mathrm{HA}} = 10^{7,00 - 4,75} = 178 \]
+          Phần acid đã được chuẩn độ là 178/179 = 99,44%, nên sai số là <b>−0,56%</b> (sai số âm vì dừng trước điểm tương đương). Phenolphtalein đổi màu quanh pH 8,2 – 10,0, bao quanh pH<sub>tđ</sub>, cho sai số nhỏ hơn nhiều.
+        </details></div>
+
+      <h3>8. Xác định điểm cuối bằng máy đo pH</h3>
+      <p>Chuẩn độ điện thế: đo pH sau mỗi lần thêm chất chuẩn và vẽ đường chuẩn độ. Điểm cuối là <b>điểm uốn</b>, nơi độ dốc dpH/dV lớn nhất. Có thể tìm bằng đạo hàm bậc một (cực đại) hoặc đạo hàm bậc hai (bằng 0). Máy chuẩn độ tự động làm việc này.</p>
+      <p><b>Đồ thị Gran</b>: số liệu sát điểm cuối thường kém tin cậy. Với chuẩn độ acid yếu bằng base mạnh, trong vùng khoảng 0,8V<sub>e</sub> – V<sub>e</sub> (bỏ qua hệ số hoạt độ):</p>
+      <div class="cong-thuc">\[ V_\mathrm{b}\cdot10^{-\mathrm{pH}} = \Ka\left(V_e - V_\mathrm{b}\right) \]</div>
+      <p>Vẽ V<sub>b</sub>·10<sup>−pH</sup> theo V<sub>b</sub> được đường thẳng: giao điểm với trục hoành là <b>V<sub>e</sub></b>, độ dốc là <b>−K<sub>a</sub></b>.</p>
+
+      <h3>9. Chất gốc và chuẩn hóa dung dịch</h3>
+      <p>Dung dịch NaOH hút CO<sub>2</sub> và hơi nước, HCl đặc không có nồng độ chính xác, nên phải <b>chuẩn hóa</b> bằng chất gốc (tinh khiết, bền, khối lượng mol lớn, phản ứng đúng hợp thức).</p>
+      <ul>
+        <li>Chuẩn hóa base: kali hydrophtalat KHC<sub>8</sub>H<sub>4</sub>O<sub>4</sub> (KHP), KH(IO<sub>3</sub>)<sub>2</sub>, acid benzoic, acid oxalic.</li>
+        <li>Chuẩn hóa acid: Na<sub>2</sub>CO<sub>3</sub>, borax Na<sub>2</sub>B<sub>4</sub>O<sub>7</sub>·10H<sub>2</sub>O, Tris.</li>
+        <li>Dung dịch đã chuẩn hóa bằng chất gốc gọi là <b>chuẩn thứ cấp</b>, cần chuẩn hóa lại định kì.</li>
+      </ul>
+      <div class="vi-du"><b>Ví dụ 6.</b> Cân 0,5105 g KHP (M = 204,22), hòa tan rồi chuẩn độ bằng NaOH, hết 24,85 mL. Tính nồng độ NaOH.
+        <details><summary>Xem lời giải</summary>
+          KHP có một H<sup>+</sup> acid, phản ứng 1 : 1 với NaOH:
+          \[ \begin{aligned} n_\mathrm{KHP} &= \frac{0,5105}{204,22} = 2,4998\cdot10^{-3}\ \mathrm{mol} \\ C_\mathrm{NaOH} &= \frac{2,4998\cdot10^{-3}}{0,02485} = \mathbf{0,1006\ M} \end{aligned} \]
+        </details></div>
+
+      <h3>10. Ứng dụng</h3>
+      <p><b>a) Hỗn hợp carbonate (phương pháp hai chỉ thị)</b>: chuẩn độ mẫu bằng HCl, trước với phenolphtalein (hết V<sub>1</sub>), sau đó thêm metyl da cam và chuẩn tiếp (hết thêm V<sub>2</sub>).</p>
+      <ul>
+        <li>Chỉ có Na<sub>2</sub>CO<sub>3</sub>: V<sub>1</sub> = V<sub>2</sub>.</li>
+        <li>Na<sub>2</sub>CO<sub>3</sub> + NaHCO<sub>3</sub>: V<sub>2</sub> &gt; V<sub>1</sub>; n(CO<sub>3</sub><sup>2−</sup>) ứng với V<sub>1</sub>, n(HCO<sub>3</sub><sup>−</sup>) ban đầu ứng với V<sub>2</sub> − V<sub>1</sub>.</li>
+        <li>NaOH + Na<sub>2</sub>CO<sub>3</sub>: V<sub>1</sub> &gt; V<sub>2</sub>; n(CO<sub>3</sub><sup>2−</sup>) ứng với V<sub>2</sub>, n(OH<sup>−</sup>) ứng với V<sub>1</sub> − V<sub>2</sub>.</li>
+      </ul>
+      <div class="vi-du"><b>Ví dụ 7.</b> Chuẩn độ 25,00 mL dung dịch hỗn hợp Na<sub>2</sub>CO<sub>3</sub> và NaHCO<sub>3</sub> bằng HCl 0,1000 M: với phenolphtalein hết 12,50 mL, thêm metyl da cam chuẩn tiếp hết thêm 30,00 mL. Tính nồng độ mỗi chất.
+        <details><summary>Xem lời giải</summary>
+          Đến điểm cuối phenolphtalein: CO<sub>3</sub><sup>2−</sup> + H<sup>+</sup> → HCO<sub>3</sub><sup>−</sup>:
+          \[ \begin{aligned} n_\mathrm{CO_3^{2-}} &= 0,1000\cdot12,50 = 1,250\ \mathrm{mmol} \\ C_\mathrm{Na_2CO_3} &= \frac{1,250}{25,00} = \mathbf{0,05000\ M} \end{aligned} \]
+          Giai đoạn 2 chuẩn cả HCO<sub>3</sub><sup>−</sup> vừa tạo ra lẫn HCO<sub>3</sub><sup>−</sup> ban đầu:
+          \[ \begin{aligned} n_\mathrm{HCO_3^-,\,đầu} &= 0,1000\cdot(30,00 - 12,50) \\ &= 1,750\ \mathrm{mmol} \\ C_\mathrm{NaHCO_3} &= \frac{1,750}{25,00} = \mathbf{0,07000\ M} \end{aligned} \]
+        </details></div>
+      <p><b>b) Phương pháp Kjeldahl</b> xác định nitơ hữu cơ (hàm lượng protein trong thực phẩm):</p>
+      <ol>
+        <li>Vô cơ hóa mẫu bằng H<sub>2</sub>SO<sub>4</sub> đặc, nóng (có xúc tác): N hữu cơ → NH<sub>4</sub><sup>+</sup>.</li>
+        <li>Kiềm hóa bằng NaOH, chưng cất NH<sub>3</sub> sang bình hứng chứa một lượng HCl dư đã biết.</li>
+        <li>Chuẩn độ ngược lượng HCl dư bằng NaOH.</li>
+      </ol>
+      <div class="vi-du"><b>Ví dụ 8.</b> 0,5000 g mẫu thực phẩm được xử lí theo Kjeldahl. NH<sub>3</sub> được hấp thụ vào 50,00 mL HCl 0,1000 M; lượng HCl dư chuẩn độ hết 22,40 mL NaOH 0,1000 M. Tính %N và % protein (hệ số 6,25).
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} n_\mathrm{NH_3} &= 0,1000\cdot(50,00 - 22,40) \\ &= 2,760\ \mathrm{mmol} \\ \%\mathrm{N} &= \frac{2,760\cdot10^{-3}\cdot14,007}{0,5000}\cdot100 \\ &= \mathbf{7,732\%} \\ \%\,\text{protein} &= 6,25\cdot7,732 = \mathbf{48,3\%} \end{aligned} \]
+        </details></div>
+      <p><b>c) Các ứng dụng khác</b>: xác định độ acid (giấm, sữa, dầu mỡ), độ kiềm của nước, xác định khối lượng đương lượng và K<sub>a</sub> của acid chưa biết (pH tại nửa tương đương).</p>
     `,
     baiTap: [
       {
-        de: "Chuẩn độ 25,00 mL dung dịch HCl bằng NaOH 0,1000 M thì hết 20,00 mL. Tính nồng độ HCl.",
-        dapAn: "C<sub>HCl</sub> = 0,1000 × 20,00 / 25,00 = <b>0,08000 M</b>",
+        de: "Chuẩn độ 15,00 mL dung dịch HCl bằng NaOH 0,0500 M thì hết 20,70 mL. Tính nồng độ HCl.",
+        dapAn: "C<sub>HCl</sub> = 0,0500 × 20,70 / 15,00 = <b>0,0690 M</b>",
+      },
+      {
+        de: "Chuẩn độ 25,00 mL CH<sub>3</sub>COOH 0,1000 M bằng NaOH 0,1000 M (pK<sub>a</sub> = 4,75). Tính pH tại điểm tương đương và chọn chỉ thị.",
+        dapAn: "V<sub>e</sub> = 25,00 mL → C<sub>CH₃COO⁻</sub> = 2,500/50,00 = 0,05000 M<br>pOH = ½(9,25 − lg 0,05000) = 5,28 → <b>pH = 8,72</b> → chọn phenolphtalein.",
       },
     ],
   },
