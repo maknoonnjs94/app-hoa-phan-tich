@@ -1,6 +1,6 @@
 {
-  "name": "App Điện Thoại",
-  "short_name": "App ĐT",
+  "name": "Hóa phân tích",
+  "short_name": "Hóa phân tích",
   "description": "Web giống app dùng trên điện thoại",
   "lang": "vi",
   "start_url": "./",

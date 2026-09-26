@@ -83,7 +83,7 @@ function hienManHinh() {
   const duong = location.hash.replace(/^#/, "") || "/";
   const mh = MAN_HINH[duong] || MAN_HINH["/"];
   tieuDe.textContent = mh.tieuDe;
-  document.title = mh.tieuDe + " · App Điện Thoại";
+  document.title = mh.tieuDe + " · Hóa phân tích";
   noiDung.innerHTML = mh.ve();
   nutQuayLai.hidden = !mh.manHinhCon;
   document.querySelectorAll(".tabbar a").forEach(a =>

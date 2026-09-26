@@ -1,4 +1,4 @@
-# App Điện Thoại
+# Hóa phân tích
 
 Đây là một trang web chạy giống app trên điện thoại (PWA): mở toàn màn hình, có thanh tab dưới đáy, cài được ra màn hình chính và mở được cả khi mất mạng. Không cần đưa lên CH Play hay App Store.
 
