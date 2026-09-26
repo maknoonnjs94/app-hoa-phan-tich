@@ -1818,57 +1818,128 @@ const CHUONG = [
     nhom: "Phân tích công cụ",
     icon: "🌈",
     ten: "Quang phổ UV-Vis và huỳnh quang",
-    moTa: "Bức xạ điện từ, Lambert – Beer, máy đo, huỳnh quang",
+    moTa: "Bức xạ điện từ, định luật Beer, sai lệch, cách đo, hỗn hợp, huỳnh quang",
+    dayDu: true,
+    choDuyet: true,
     lyThuyet: String.raw`
-<h3>1. Bức xạ điện từ</h3>
-      <div class="cong-thuc">E = h · ν = h · c / λ &nbsp;;&nbsp; số sóng ν̃ = 1 / λ</div>
-      <p>h = 6,626·10<sup>−34</sup> J·s ; c = 3,00·10<sup>8</sup> m/s. Bước sóng càng ngắn thì năng lượng càng lớn.</p>
+      <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
+        <ul>
+          <li>Đổi qua lại bước sóng, tần số, số sóng, năng lượng photon.</li>
+          <li>Dùng định luật Beer để tính nồng độ, ε, độ truyền qua; phân tích hỗn hợp hai chất hấp thụ.</li>
+          <li>Biết các nguyên nhân sai lệch định luật Beer, cách đo chính xác và nguyên tắc của huỳnh quang phân tử.</li>
+        </ul>
+      </div>
+      <h3>1. Các phương pháp phổ</h3>
+      <p>Phương pháp phổ dựa trên tương tác giữa bức xạ điện từ và vật chất. Các phương pháp chính:</p>
       <ul>
-        <li><b>Tử ngoại (UV)</b> 190 – 400 nm và <b>khả kiến (Vis)</b> 400 – 800 nm: chuyển mức năng lượng electron.</li>
-        <li><b>Hồng ngoại (IR)</b> 4000 – 400 cm<sup>−1</sup>: dao động liên kết → nhận biết nhóm chức.</li>
+        <li><b>Hấp thụ phân tử UV – Vis</b> (chương này).</li>
+        <li><b>Huỳnh quang phân tử</b> (mục 8).</li>
+        <li><b>Hấp thụ nguyên tử (AAS), phát xạ nguyên tử (AES)</b> (Chương 12).</li>
+        <li><b>Hồng ngoại (IR), Raman</b>: dao động liên kết, dùng nhận biết nhóm chức.</li>
       </ul>
 
-      <h3>2. Định luật Lambert – Beer</h3>
-      <div class="cong-thuc">Độ truyền qua: T = I / I<sub>0</sub> &nbsp;;&nbsp; %T = T × 100</div>
-      <div class="cong-thuc">Độ hấp thụ quang: A = −lg T = lg( I<sub>0</sub> / I )</div>
-      <div class="cong-thuc">A = ε · l · C</div>
-      <p>ε: hệ số hấp thụ mol (L·mol<sup>−1</sup>·cm<sup>−1</sup>); l: bề dày cuvet (cm); C: nồng độ (mol/L).</p>
-      <ul>
-        <li><b>Tính cộng tính</b>: dung dịch nhiều chất hấp thụ: A = Σ ε<sub>i</sub> · l · C<sub>i</sub>.</li>
-        <li>Đo ở bước sóng hấp thụ cực đại <b>λ<sub>max</sub></b> để có độ nhạy cao nhất và ít sai số.</li>
-        <li>Nên đo trong khoảng A ≈ 0,2 – 0,8 (sai số tương đối nhỏ nhất ở A = 0,434).</li>
-      </ul>
-      <div class="vi-du"><b>Ví dụ.</b> Dung dịch có A = 0,450 trong cuvet 1,00 cm, ε = 1,50·10<sup>4</sup> L·mol<sup>−1</sup>·cm<sup>−1</sup>.<br>
-        C = A / (ε·l) = 0,450 / (1,50·10<sup>4</sup> × 1,00) = <b>3,00·10<sup>−5</sup> M</b><br>
-        %T = 10<sup>−0,450</sup> × 100 = <b>35,5%</b></div>
+      <h3>2. Bức xạ điện từ</h3>
+      <p>Ánh sáng vừa có tính sóng vừa có tính hạt (photon).</p>
+      <div class="cong-thuc"><div class="nhan">λ: bước sóng; ν: tần số; ν̃: số sóng; c = 2,998·10<sup>8</sup> m/s; h = 6,626·10<sup>−34</sup> J·s</div>\[ \begin{gathered} \nu = \frac{c}{\lambda} \qquad \tilde{\nu} = \frac{1}{\lambda} \\ E = h\nu = \frac{hc}{\lambda} = hc\tilde{\nu} \end{gathered} \]</div>
+      <p>Bước sóng càng ngắn, năng lượng photon càng lớn. Số sóng thường tính bằng cm<sup>−1</sup>.</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Vùng</th><th>Bước sóng</th><th>Quá trình gây ra</th></tr></thead>
+          <tbody>
+            <tr><td>Tử ngoại (UV)</td><td>200 – 400 nm</td><td>Chuyển mức năng lượng electron</td></tr>
+            <tr><td>Khả kiến (Vis)</td><td>400 – 750 nm</td><td>Chuyển mức năng lượng electron</td></tr>
+            <tr><td>Hồng ngoại (IR)</td><td>2,5 – 25 µm (4000 – 400 cm<sup>−1</sup>)</td><td>Dao động liên kết</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="vi-du"><b>Ví dụ 1.</b> Tính tần số, số sóng và năng lượng (J/photon và kJ/mol) của ánh sáng có λ = 500 nm.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} \nu &= \frac{2,998\cdot10^{8}}{500\cdot10^{-9}} = 6,00\cdot10^{14}\ \mathrm{Hz} \\ \tilde{\nu} &= \frac{1}{500\cdot10^{-7}\ \mathrm{cm}} = 2,00\cdot10^{4}\ \mathrm{cm^{-1}} \\ E &= 6,626\cdot10^{-34}\cdot6,00\cdot10^{14} \\ &= 3,97\cdot10^{-19}\ \mathrm{J} \end{aligned} \]
+          Nhân với N<sub>A</sub> = 6,022·10<sup>23</sup>: E = <b>239 kJ/mol</b>, cùng cỡ năng lượng liên kết hóa học.
+        </details></div>
 
-      <h3>3. Các nguyên nhân sai lệch định luật Beer</h3>
+      <h3>3. Tương tác giữa bức xạ và vật chất</h3>
       <ul>
-        <li><b>Nồng độ cao</b> (thường &gt; 0,01 M): tương tác giữa các phân tử, chiết suất thay đổi.</li>
-        <li><b>Hóa học</b>: chất phân li, tạo phức, cân bằng acid – base làm thay đổi dạng hấp thụ.</li>
-        <li><b>Thiết bị</b>: ánh sáng không đơn sắc, ánh sáng tạp (stray light).</li>
+        <li><b>Hấp thụ</b>: phân tử nhận năng lượng photon, chuyển lên trạng thái kích thích. Chỉ hấp thụ photon có năng lượng đúng bằng hiệu hai mức năng lượng.</li>
+        <li><b>Phát quang</b>: phân tử ở trạng thái kích thích trở về trạng thái cơ bản và phát ra photon. Nếu trạng thái kích thích tạo ra do hấp thụ ánh sáng thì gọi là <b>quang phát quang</b> (huỳnh quang, lân quang); nếu do phản ứng hóa học thì gọi là <b>hóa phát quang</b>.</li>
+        <li><b>Phát xạ</b>: nguyên tử, phân tử được kích thích bằng nhiệt (ngọn lửa, plasma) rồi phát bức xạ (Chương 12).</li>
+      </ul>
+      <p><b>Màu của dung dịch</b> là <b>màu phụ</b> của màu ánh sáng bị hấp thụ. Ví dụ dung dịch hấp thụ ánh sáng xanh lục (khoảng 500 – 560 nm) sẽ có màu đỏ tím.</p>
+
+      <h3>4. Độ truyền qua, độ hấp thụ và định luật Beer</h3>
+      <p>Chùm sáng đơn sắc có cường độ P<sub>0</sub> đi qua dung dịch, ra khỏi dung dịch còn cường độ P.</p>
+      <div class="cong-thuc"><div class="nhan">Độ truyền qua T và độ hấp thụ A</div>\[ \begin{gathered} T = \frac{P}{P_0} \qquad \%T = 100\,T \\ A = -\lg T = \lg\frac{P_0}{P} = 2 - \lg\%T \end{gathered} \]</div>
+      <div class="cong-thuc"><div class="nhan">Định luật Beer (ε: hệ số hấp thụ mol, M<sup>−1</sup>cm<sup>−1</sup>; b: bề dày cuvet, cm; C: nồng độ, M)</div>\[ A = \varepsilon bC \]</div>
+      <ul>
+        <li>ε đặc trưng cho từng chất và <b>phụ thuộc bước sóng</b>. Phổ hấp thụ là đồ thị A (hoặc ε) theo λ.</li>
+        <li>Thường đo ở <b>λ<sub>max</sub></b> (đỉnh hấp thụ): độ nhạy cao nhất, và A ít thay đổi khi λ lệch chút ít.</li>
+        <li><b>Tính cộng tính</b>: dung dịch có nhiều chất hấp thụ thì A = Σε<sub>i</sub>bC<sub>i</sub> ở mỗi bước sóng.</li>
+      </ul>
+      <div class="vi-du"><b>Ví dụ 2.</b> Dung dịch có A = 0,450 trong cuvet 1,00 cm, ε = 1,50·10<sup>4</sup> M<sup>−1</sup>cm<sup>−1</sup>. Tính C và %T.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} C &= \frac{A}{\varepsilon b} = \frac{0,450}{1,50\cdot10^{4}\cdot1,00} \\ &= \mathbf{3,00\cdot10^{-5}\ M} \\ \%T &= 100\cdot10^{-0,450} = \mathbf{35,5\%} \end{aligned} \]
+        </details></div>
+      <div class="vi-du"><b>Ví dụ 3.</b> Dung dịch chuẩn 2,00·10<sup>−5</sup> M của một chất có A = 0,312 trong cuvet 1,00 cm. Tính ε. Mẫu cùng chất đo trong cuvet 2,00 cm có A = 0,540; tính nồng độ mẫu.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} \varepsilon &= \frac{0,312}{1,00\cdot2,00\cdot10^{-5}} \\ &= 1,56\cdot10^{4}\ \mathrm{M^{-1}cm^{-1}} \\ C &= \frac{0,540}{1,56\cdot10^{4}\cdot2,00} \\ &= \mathbf{1,73\cdot10^{-5}\ M} \end{aligned} \]
+          Lỗi hay gặp: quên bề dày cuvet mới là 2,00 cm.
+        </details></div>
+
+      <h3>5. Sai lệch khỏi định luật Beer</h3>
+      <ul>
+        <li><b>Dung dịch quá đặc</b> (thường &gt; 0,01 M): các phân tử tương tác với nhau, ε thay đổi.</li>
+        <li><b>Nguyên nhân hóa học</b>: chất hấp thụ tham gia cân bằng (kết hợp, phân li, cân bằng acid – base, phản ứng với dung môi), nên nồng độ dạng hấp thụ không tỉ lệ với tổng nồng độ.</li>
+        <li><b>Nguyên nhân thiết bị</b>: ánh sáng không thật đơn sắc (nhất là khi đo ở sườn dốc của phổ); ánh sáng lạc (stray light) lọt vào detector làm A đo được thấp hơn thực tế ở A cao.</li>
       </ul>
 
-      <h3>4. Máy quang phổ UV-Vis</h3>
-      <p>Nguồn sáng → bộ đơn sắc → cuvet chứa mẫu → detector → bộ xử lí.</p>
+      <h3>6. Máy quang phổ và cách đo</h3>
+      <p><b>Sơ đồ</b>: nguồn sáng → bộ đơn sắc → cuvet → detector → bộ xử lí.</p>
       <ul>
         <li>Nguồn: đèn deuteri (vùng UV), đèn wolfram – halogen (vùng Vis).</li>
-        <li>Bộ đơn sắc: cách tử hoặc lăng kính.</li>
-        <li>Cuvet: thạch anh (dùng được cả UV), thủy tinh hoặc nhựa (chỉ vùng Vis).</li>
-        <li>Detector: ống nhân quang, dãy diode (DAD).</li>
+        <li>Bộ đơn sắc: cách tử. Detector: ống nhân quang, dãy diode (đo cả phổ một lúc).</li>
+        <li>Máy một chùm tia đo mẫu trắng và mẫu lần lượt; máy hai chùm tia đo đồng thời, bù được dao động của nguồn.</li>
+        <li><b>Cuvet</b>: thạch anh (dùng được cả UV); thủy tinh, nhựa (chỉ vùng Vis); NaCl, KBr (vùng IR); cuvet 10 cm cho mẫu khí.</li>
       </ul>
-      <p>Chất không màu có thể cho phản ứng với <b>thuốc thử tạo màu</b> (ví dụ Fe<sup>2+</sup> + 1,10-phenanthrolin tạo phức đỏ cam) rồi đo quang.</p>
+      <p><b>Cách đo</b>: chọn bước sóng; đặt cuvet chứa <b>mẫu trắng</b> để đo P<sub>0</sub> (chỉnh A = 0); thay bằng cuvet chứa mẫu để đo P.</p>
+      <p class="luu-y"><b>Để đo chính xác</b>: đo trong khoảng <b>A ≈ 0,3 – 2</b> (mẫu đặc quá thì pha loãng, loãng quá thì dùng cuvet dài hơn hoặc làm giàu); đóng kín buồng đo; lọc bỏ hạt lơ lửng; cầm cuvet ở mặt nhám hoặc bằng giấy mềm, lau sạch mặt quang học; đặt cuvet đúng chiều, lặp lại vị trí.</p>
+      <p>Chất không hấp thụ hoặc hấp thụ yếu có thể cho phản ứng với <b>thuốc thử tạo màu</b> rồi đo. Ví dụ Fe<sup>2+</sup> + 1,10-phenanthrolin tạo phức đỏ cam (λ<sub>max</sub> 510 nm).</p>
 
-      <h3>5. Huỳnh quang phân tử</h3>
-      <p>Phân tử hấp thụ bức xạ (kích thích), rồi phát ra bức xạ có <b>bước sóng dài hơn</b> khi trở về trạng thái cơ bản.</p>
-      <div class="cong-thuc">Ở nồng độ thấp: F = K · C</div>
+      <h3>7. Phân tích hỗn hợp hai chất</h3>
+      <p>Hỗn hợp X và Y có phổ chồng lên nhau: đo A ở hai bước sóng λ' và λ'', biết ε của từng chất ở từng bước sóng (từ dung dịch chuẩn riêng), rồi giải hệ hai phương trình:</p>
+      <div class="cong-thuc">\[ \begin{aligned} A' &= \varepsilon_\mathrm{X}'b[\mathrm{X}] + \varepsilon_\mathrm{Y}'b[\mathrm{Y}] \\ A'' &= \varepsilon_\mathrm{X}''b[\mathrm{X}] + \varepsilon_\mathrm{Y}''b[\mathrm{Y}] \end{aligned} \]</div>
+      <p>Nên chọn hai bước sóng mà ở đó hai chất có ε chênh nhau nhiều (mỗi chất hấp thụ mạnh ở một bước sóng).</p>
+      <div class="vi-du"><b>Ví dụ 4.</b> Hai chất X, Y có ε (M<sup>−1</sup>cm<sup>−1</sup>): ở λ': ε<sub>X</sub> = 16 440, ε<sub>Y</sub> = 3 990; ở λ'': ε<sub>X</sub> = 3 870, ε<sub>Y</sub> = 6 420. Hỗn hợp đo trong cuvet 1,000 cm có A' = 0,957 và A'' = 0,559. Tính [X] và [Y].
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} 0,957 &= 16\,440[\mathrm{X}] + 3\,990[\mathrm{Y}] \\ 0,559 &= 3\,870[\mathrm{X}] + 6\,420[\mathrm{Y}] \end{aligned} \]
+          Giải hệ (ví dụ bằng định thức):
+          \[ \begin{aligned} D &= 16\,440\cdot6\,420 - 3\,990\cdot3\,870 \\ &= 9,01\cdot10^{7} \\ [\mathrm{X}] &= \frac{0,957\cdot6\,420 - 0,559\cdot3\,990}{D} \\ &= \mathbf{4,34\cdot10^{-5}\ M} \\ [\mathrm{Y}] &= \frac{16\,440\cdot0,559 - 3\,870\cdot0,957}{D} \\ &= \mathbf{6,09\cdot10^{-5}\ M} \end{aligned} \]
+        </details></div>
+
+      <h3>8. Huỳnh quang và lân quang</h3>
+      <p>Phân tử hấp thụ photon lên trạng thái kích thích, mất bớt một phần năng lượng dưới dạng nhiệt (dao động) rồi phát photon khi trở về trạng thái cơ bản. Vì mất bớt năng lượng, <b>bức xạ phát ra có bước sóng dài hơn</b> bức xạ kích thích.</p>
       <ul>
-        <li>Detector đặt vuông góc (90°) với chùm sáng kích thích.</li>
-        <li>Nhạy hơn đo quang hấp thụ 10 – 1000 lần, chọn lọc hơn (chọn được cả λ kích thích và λ phát xạ).</li>
-        <li>Nồng độ cao: hiện tượng tự dập tắt, mất tuyến tính.</li>
+        <li><b>Huỳnh quang</b>: phát xạ rất nhanh (cỡ ns), tắt ngay khi ngừng chiếu sáng.</li>
+        <li><b>Lân quang</b>: phát xạ chậm (ms đến vài phút), qua trạng thái kích thích có spin khác.</li>
       </ul>
+      <div class="cong-thuc"><div class="nhan">Cường độ huỳnh quang ở nồng độ thấp (Φ: hiệu suất lượng tử; P<sub>0</sub>: công suất chiếu tới)</div>\[ I = k\,\Phi\,P_0\,C \]</div>
+      <ul>
+        <li>Detector đặt vuông góc với chùm kích thích nên đo tín hiệu trên nền tối: <b>nhạy hơn</b> đo hấp thụ nhiều bậc.</li>
+        <li><b>Chọn lọc hơn</b>: chọn được cả bước sóng kích thích và bước sóng phát xạ.</li>
+        <li>Tín hiệu tỉ lệ với P<sub>0</sub>: tăng cường độ nguồn thì tăng độ nhạy (điều không làm được với đo hấp thụ).</li>
+        <li>Chỉ tuyến tính ở nồng độ thấp; nồng độ cao bị tự hấp thụ và dập tắt.</li>
+      </ul>
+      <p><b>Ứng dụng</b>: xác định Se trong hạt ngũ cốc. Mẫu được phá bằng HNO<sub>3</sub> trong lò vi sóng; Se(VI) được khử về Se(IV) bằng NH<sub>2</sub>OH; Se(IV) phản ứng với thuốc thử tạo dẫn xuất huỳnh quang; kích thích ở 378 nm, đo phát xạ ở 518 nm; đường chuẩn tuyến tính đến khoảng 0,1 µg/mL.</p>
     `,
-    baiTap: [],
+    baiTap: [
+      {
+        de: "Dung dịch có %T = 25,0% trong cuvet 1,00 cm. Tính A. Nếu ε = 8,20·10<sup>3</sup> M<sup>−1</sup>cm<sup>−1</sup>, tính nồng độ.",
+        dapAn: "A = 2 − lg 25,0 = 0,602<br>C = 0,602/(8,20·10<sup>3</sup> × 1,00) = <b>7,34·10<sup>−5</sup> M</b>",
+      },
+      {
+        de: "Pha loãng dung dịch ở bài trên 2 lần rồi đo trong cuvet 1,00 cm. Tính A và %T mới.",
+        dapAn: "A tỉ lệ thuận với C: A = 0,602/2 = <b>0,301</b> → %T = 100·10<sup>−0,301</sup> = <b>50,0%</b>.<br>%T không tăng gấp đôi theo kiểu tuyến tính: T mới = √(T cũ) = √0,250 = 0,500.",
+      },
+    ],
   },
   {
     id: "quang-nguyen-tu",
