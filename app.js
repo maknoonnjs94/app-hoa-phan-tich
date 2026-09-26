@@ -94,6 +94,23 @@ function timKiem(q) {
   }).join("")}</div>` : `<div class="trong">Không tìm thấy mục nào khớp “${q}”.</div>`;
 }
 
+/* Nhóm các bảng tra cho dễ tìm; bảng chưa khai báo nhóm vào "Khác" */
+const NHOM_BANG = [
+  ["Acid – base", ["pka", "pka-huu-co", "pka-amin", "amino-acid", "pkb", "kw", "dem", "dem-chuan-ph", "chi-thi"]],
+  ["Kết tủa", ["ksp", "ksp-hydroxide", "ksp-sulfide", "chi-thi-ket-tua"]],
+  ["Tạo phức", ["edta-kf", "alpha-y", "phuc-beta", "chi-thi-kl"]],
+  ["Oxi hóa – khử và điện hóa", ["the-dien-cuc", "the-dieu-kien", "dien-cuc-so-sanh", "chi-thi-oxh"]],
+  ["Thống kê", ["t-student", "q-test", "grubbs", "f-test", "f-test-975"]],
+  ["Khối lượng, hóa chất, hằng số", ["nguyen-tu-khoi", "chat-chuan", "hoa-chat-dac", "hang-so-vat-li"]],
+  ["Quang phổ và sắc kí", ["aas", "thuoc-thu-mau", "mau-bo-sung", "cuvet", "detector-gc", "detector-hplc"]],
+];
+function nhomBang() {
+  const daXep = new Set(NHOM_BANG.flatMap(n => n[1]));
+  const kq = NHOM_BANG.map(([ten, ids]) => [ten, ids.map(id => TRA_CUU.find(b => b.id === id)).filter(Boolean)]);
+  kq.push(["Khác", TRA_CUU.filter(b => !daXep.has(b.id))]);
+  return kq.filter(n => n[1].length);
+}
+
 /* ---------- Tra cứu kiểu thư viện: một từ → bảng hằng số, lý thuyết, ảnh thiết bị, câu hỏi ---------- */
 let tuTra = "", henTra = null;
 const CHI_MUC_BANG = TRA_CUU.flatMap(b => b.dong.map((d, i) => ({ b, i, khoa: boDau(`${boThe(b.ten)} ${d.map(boThe).join(" ")}`) })));
@@ -359,10 +376,10 @@ const MAN_HINH = {
       </label>
       <div id="kq-tra"></div>
       <div id="ds-bang">
-        <h2>Bảng hằng số</h2>
+        ${nhomBang().map(([ten, ds]) => `<h2>${ten}</h2>
         <div class="list">
-          ${TRA_CUU.map(b => dongDanhSach(`#/tra-cuu/${b.id}`, b.icon, b.ten, `${b.dong.length} dòng`)).join("")}
-        </div>
+          ${ds.map(b => dongDanhSach(`#/tra-cuu/${b.id}`, b.icon, b.ten, `${b.dong.length} dòng`)).join("")}
+        </div>`).join("")}
         <p class="ghi-chu">Giá trị ở 25 °C, có thể lệch nhẹ giữa các tài liệu. Khi đề bài cho số, dùng số của đề.</p>
       </div>
     `,
