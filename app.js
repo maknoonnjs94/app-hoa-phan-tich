@@ -10,13 +10,17 @@ const dongDanhSach = (link, icon, ten, phu) => `
     <span class="chevron">›</span>
   </a>`;
 
+// Chia các chương theo nhóm (Phân tích hóa học / Phân tích công cụ), mỗi nhóm một tiêu đề
+const theoNhom = veNhom => [...new Set(CHUONG.map(c => c.nhom))]
+  .map(nhom => `<h2>${nhom}</h2>${veNhom(CHUONG.filter(c => c.nhom === nhom))}`).join("");
+
 const MAN_HINH = {
   "/": {
     tieuDe: "Hóa phân tích",
     ve: () => `
       <div class="card hero">
         <h3>Hóa phân tích 🧪</h3>
-        <p>Ôn lý thuyết, luyện bài tập, tính nhanh và tra cứu hằng số — ngay trên điện thoại.</p>
+        <p>Phân tích hóa học và phân tích công cụ (điện hóa, quang phổ, sắc kí): lý thuyết, bài tập, công cụ tính, tra cứu.</p>
       </div>
       <div class="grid">
         <a class="card o-tat" href="#/ly-thuyet"><div class="big">📘</div>Lý thuyết</a>
@@ -37,20 +41,20 @@ const MAN_HINH = {
   "/ly-thuyet": {
     tieuDe: "Lý thuyết",
     ve: () => `
-      <h2>Các chương</h2>
-      <div class="list">
-        ${CHUONG.map((c, i) => dongDanhSach(`#/ly-thuyet/${c.id}`, c.icon, `${i + 1}. ${c.ten}`, c.moTa)).join("")}
-      </div>
+      ${theoNhom(ds => `
+        <div class="list">
+          ${ds.map((c, i) => dongDanhSach(`#/ly-thuyet/${c.id}`, c.icon, `${i + 1}. ${c.ten}`, c.moTa)).join("")}
+        </div>`)}
     `,
   },
 
   "/bai-tap": {
     tieuDe: "Bài tập",
     ve: () => `
-      <h2>Chọn chương</h2>
-      <div class="list">
-        ${CHUONG.map(c => dongDanhSach(`#/bai-tap/${c.id}`, c.icon, c.ten, `${c.baiTap.length} bài`)).join("")}
-      </div>
+      ${theoNhom(ds => `
+        <div class="list">
+          ${ds.map(c => dongDanhSach(`#/bai-tap/${c.id}`, c.icon, c.ten, c.baiTap.length ? `${c.baiTap.length} bài` : "Đang soạn")).join("")}
+        </div>`)}
     `,
   },
 
@@ -126,7 +130,7 @@ CHUONG.forEach((c, i) => {
         ${muc.map((t, j) => `<button onclick="document.getElementById('muc-${j}').scrollIntoView({behavior: 'smooth'})">${t}</button>`).join("")}
       </div>
       <div class="card bai-hoc">${baiHoc}</div>
-      <a class="btn full" href="#/bai-tap/${c.id}">Làm bài tập chương này ✏️</a>
+      ${c.baiTap.length ? `<a class="btn full" href="#/bai-tap/${c.id}">Làm bài tập chương này ✏️</a>` : ""}
     `;
     },
   };
@@ -134,6 +138,7 @@ CHUONG.forEach((c, i) => {
     tieuDe: `Bài tập: ${c.ten}`,
     manHinhCon: true,
     ve: () => `
+      ${c.baiTap.length ? "" : `<div class="card">Bài tập chương này đang được soạn.</div>`}
       ${c.baiTap.map((b, j) => `
         <div class="card bai-tap">
           <div class="so-bai">Bài ${j + 1}</div>

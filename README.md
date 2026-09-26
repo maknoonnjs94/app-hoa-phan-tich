@@ -46,7 +46,7 @@ Trong `noi-dung.js`, mỗi chương có danh sách `baiTap`. Thêm một bài b�
 },
 ```
 
-Thêm chương mới thì chép nguyên một khối `{ id: ..., ten: ..., lyThuyet: ..., baiTap: [...] }`. Nhớ đặt `id` khác các chương cũ và không có dấu. App tự tạo trang lý thuyết và trang bài tập cho chương đó.
+Thêm chương mới thì chép nguyên một khối `{ id: ..., nhom: ..., ten: ..., lyThuyet: ..., baiTap: [...] }`. `nhom` là tên nhóm hiện trên danh sách ("Phân tích hóa học" hoặc "Phân tích công cụ"). Nhớ đặt `id` khác các chương cũ và không có dấu. App tự tạo trang lý thuyết và trang bài tập cho chương đó.
 
 ### Thêm một màn hình mới
 
