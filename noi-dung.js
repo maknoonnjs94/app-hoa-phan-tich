@@ -2470,82 +2470,1349 @@ const CHUONG = [
 /* Bảng tra cứu (giá trị ở 25 °C, có thể lệch nhẹ giữa các tài liệu) */
 const TRA_CUU = [
   {
-    id: "pka",
-    icon: "⚗️",
-    ten: "Hằng số acid Ka, pKa",
-    cot: ["Acid", "K<sub>a</sub>", "pK<sub>a</sub>"],
-    dong: [
-      ["HF", "7,1·10<sup>−4</sup>", "3,15"],
-      ["HCOOH (acid formic)", "1,7·10<sup>−4</sup>", "3,77"],
-      ["CH<sub>3</sub>CH(OH)COOH (acid lactic)", "1,4·10<sup>−4</sup>", "3,85"],
-      ["C<sub>6</sub>H<sub>5</sub>COOH (acid benzoic)", "6,5·10<sup>−5</sup>", "4,19"],
-      ["CH<sub>3</sub>COOH (acid acetic)", "1,8·10<sup>−5</sup> (quy ước 10<sup>−4,75</sup>)", "4,75"],
-      ["HOCl", "3,0·10<sup>−8</sup>", "7,52"],
-      ["NH<sub>4</sub><sup>+</sup>", "5,6·10<sup>−10</sup>", "9,25"],
-      ["HCN", "4,9·10<sup>−10</sup>", "9,31"],
-      ["H<sub>2</sub>CO<sub>3</sub>", "4,2·10<sup>−7</sup> ; 4,8·10<sup>−11</sup>", "6,38 ; 10,32"],
-      ["H<sub>3</sub>PO<sub>4</sub>", "7,5·10<sup>−3</sup> ; 6,2·10<sup>−8</sup> ; 4,8·10<sup>−13</sup>", "2,12 ; 7,21 ; 12,32"],
-      ["H<sub>2</sub>C<sub>2</sub>O<sub>4</sub>", "6,5·10<sup>−2</sup> ; 6,46·10<sup>−5</sup>", "1,19 ; 4,19"],
+    "id": "pka",
+    "icon": "⚗️",
+    "ten": "Hằng số acid Ka, pKa",
+    "cot": [
+      "Acid",
+      "K<sub>a</sub>",
+      "pK<sub>a</sub>"
     ],
+    "dong": [
+      [
+        "HF",
+        "7,1·10<sup>−4</sup>",
+        "3,15"
+      ],
+      [
+        "HCOOH (acid formic)",
+        "1,7·10<sup>−4</sup>",
+        "3,77"
+      ],
+      [
+        "CH<sub>3</sub>CH(OH)COOH (acid lactic)",
+        "1,4·10<sup>−4</sup>",
+        "3,85"
+      ],
+      [
+        "C<sub>6</sub>H<sub>5</sub>COOH (acid benzoic)",
+        "6,5·10<sup>−5</sup>",
+        "4,19"
+      ],
+      [
+        "CH<sub>3</sub>COOH (acid acetic)",
+        "1,8·10<sup>−5</sup> (quy ước 10<sup>−4,75</sup>)",
+        "4,75"
+      ],
+      [
+        "HOCl",
+        "3,0·10<sup>−8</sup>",
+        "7,52"
+      ],
+      [
+        "NH<sub>4</sub><sup>+</sup>",
+        "5,6·10<sup>−10</sup>",
+        "9,25"
+      ],
+      [
+        "HCN",
+        "4,9·10<sup>−10</sup>",
+        "9,31"
+      ],
+      [
+        "H<sub>2</sub>CO<sub>3</sub>",
+        "4,2·10<sup>−7</sup> ; 4,8·10<sup>−11</sup>",
+        "6,38 ; 10,32"
+      ],
+      [
+        "H<sub>3</sub>PO<sub>4</sub>",
+        "7,5·10<sup>−3</sup> ; 6,2·10<sup>−8</sup> ; 4,8·10<sup>−13</sup>",
+        "2,12 ; 7,21 ; 12,32"
+      ],
+      [
+        "H<sub>2</sub>C<sub>2</sub>O<sub>4</sub> (acid oxalic)",
+        "6,5·10<sup>−2</sup> ; 6,46·10<sup>−5</sup>",
+        "1,19 ; 4,19"
+      ],
+      [
+        "HSO<sub>4</sub><sup>−</sup>",
+        "1,0·10<sup>−2</sup>",
+        "1,99"
+      ],
+      [
+        "ClCH<sub>2</sub>COOH (acid cloroacetic)",
+        "1,4·10<sup>−3</sup>",
+        "2,87"
+      ],
+      [
+        "HNO<sub>2</sub>",
+        "7,1·10<sup>−4</sup>",
+        "3,15"
+      ],
+      [
+        "C<sub>6</sub>H<sub>5</sub>NH<sub>3</sub><sup>+</sup> (ion anilini)",
+        "2,5·10<sup>−5</sup>",
+        "4,60"
+      ],
+      [
+        "C<sub>5</sub>H<sub>5</sub>NH<sup>+</sup> (ion pyridini)",
+        "6,3·10<sup>−6</sup>",
+        "5,20"
+      ],
+      [
+        "H<sub>2</sub>S",
+        "9,5·10<sup>−8</sup>",
+        "7,02"
+      ],
+      [
+        "Tris-H<sup>+</sup> (đệm tris)",
+        "8,5·10<sup>−9</sup>",
+        "8,07"
+      ],
+      [
+        "H<sub>3</sub>BO<sub>3</sub> (acid boric)",
+        "5,8·10<sup>−10</sup>",
+        "9,24"
+      ],
+      [
+        "C<sub>6</sub>H<sub>5</sub>OH (phenol)",
+        "1,0·10<sup>−10</sup>",
+        "10,00"
+      ],
+      [
+        "CH<sub>3</sub>NH<sub>3</sub><sup>+</sup> (ion metylamoni)",
+        "2,3·10<sup>−11</sup>",
+        "10,64"
+      ],
+      [
+        "H<sub>2</sub>SO<sub>3</sub>",
+        "1,4·10<sup>−2</sup> ; 6,7·10<sup>−8</sup>",
+        "1,86 ; 7,17"
+      ],
+      [
+        "C<sub>6</sub>H<sub>4</sub>(COOH)<sub>2</sub> (acid phtalic)",
+        "1,1·10<sup>−3</sup> ; 3,9·10<sup>−6</sup>",
+        "2,95 ; 5,41"
+      ],
+      [
+        "Acid tartaric",
+        "9,2·10<sup>−4</sup> ; 4,3·10<sup>−5</sup>",
+        "3,04 ; 4,37"
+      ],
+      [
+        "Acid citric",
+        "7,4·10<sup>−4</sup> ; 1,7·10<sup>−5</sup> ; 4,0·10<sup>−7</sup>",
+        "3,13 ; 4,76 ; 6,40"
+      ]
+    ],
+    "ghiChu": "25 °C. 11 dòng đầu là số liệu quy ước dùng trong bài giảng và bài tập; các dòng sau theo Harris. Acid nhiều nấc ghi lần lượt K<sub>a1</sub> ; K<sub>a2</sub> ; … Khi đề bài cho hằng số, luôn dùng số của đề."
   },
   {
-    id: "ksp",
-    icon: "🧂",
-    ten: "Tích số tan Ksp",
-    cot: ["Chất", "K<sub>sp</sub>"],
-    dong: [
-      ["AgCl", "1,8·10<sup>−10</sup>"],
-      ["AgBr", "5,4·10<sup>−13</sup>"],
-      ["CuBr", "6,3·10<sup>−9</sup>"],
-      ["PbBr<sub>2</sub>", "6,6·10<sup>−6</sup>"],
-      ["Hg<sub>2</sub>Br<sub>2</sub>", "6,4·10<sup>−23</sup>"],
-      ["AgI", "8,3·10<sup>−17</sup>"],
-      ["Ag<sub>2</sub>CrO<sub>4</sub>", "1,1·10<sup>−12</sup>"],
-      ["BaSO<sub>4</sub>", "1,1·10<sup>−10</sup>"],
-      ["CaC<sub>2</sub>O<sub>4</sub>", "2,3·10<sup>−9</sup>"],
-      ["CaCO<sub>3</sub>", "5,0·10<sup>−9</sup>"],
-      ["MgCO<sub>3</sub>", "6,8·10<sup>−6</sup>"],
-      ["NiCO<sub>3</sub>", "1,3·10<sup>−7</sup>"],
-      ["SrCO<sub>3</sub>", "5,6·10<sup>−10</sup>"],
-      ["MgC<sub>2</sub>O<sub>4</sub>", "4,8·10<sup>−6</sup>"],
-      ["FeC<sub>2</sub>O<sub>4</sub>", "2·10<sup>−7</sup>"],
-      ["NiC<sub>2</sub>O<sub>4</sub>", "1·10<sup>−7</sup>"],
-      ["SrC<sub>2</sub>O<sub>4</sub>", "5·10<sup>−8</sup>"],
-      ["Mg(OH)<sub>2</sub>", "1,8·10<sup>−11</sup>"],
+    "id": "pkb",
+    "icon": "🧪",
+    "ten": "Hằng số base Kb, pKb",
+    "cot": [
+      "Base",
+      "K<sub>b</sub>",
+      "pK<sub>b</sub>"
     ],
+    "dong": [
+      [
+        "NH<sub>3</sub>",
+        "1,8·10<sup>−5</sup>",
+        "4,75"
+      ],
+      [
+        "CH<sub>3</sub>NH<sub>2</sub> (metylamin)",
+        "4,4·10<sup>−4</sup>",
+        "3,36"
+      ],
+      [
+        "(CH<sub>3</sub>)<sub>2</sub>NH (đimetylamin)",
+        "5,9·10<sup>−4</sup>",
+        "3,23"
+      ],
+      [
+        "(C<sub>2</sub>H<sub>5</sub>)<sub>3</sub>N (trietylamin)",
+        "5,2·10<sup>−4</sup>",
+        "3,28"
+      ],
+      [
+        "Tris",
+        "1,2·10<sup>−6</sup>",
+        "5,93"
+      ],
+      [
+        "C<sub>5</sub>H<sub>5</sub>N (pyridin)",
+        "1,6·10<sup>−9</sup>",
+        "8,80"
+      ],
+      [
+        "C<sub>6</sub>H<sub>5</sub>NH<sub>2</sub> (anilin)",
+        "4,0·10<sup>−10</sup>",
+        "9,40"
+      ],
+      [
+        "CH<sub>3</sub>COO<sup>−</sup>",
+        "5,6·10<sup>−10</sup>",
+        "9,25"
+      ],
+      [
+        "CO<sub>3</sub><sup>2−</sup>",
+        "2,1·10<sup>−4</sup>",
+        "3,68"
+      ],
+      [
+        "HCO<sub>3</sub><sup>−</sup>",
+        "2,4·10<sup>−8</sup>",
+        "7,62"
+      ],
+      [
+        "PO<sub>4</sub><sup>3−</sup>",
+        "2,1·10<sup>−2</sup>",
+        "1,68"
+      ],
+      [
+        "HPO<sub>4</sub><sup>2−</sup>",
+        "1,6·10<sup>−7</sup>",
+        "6,79"
+      ],
+      [
+        "CN<sup>−</sup>",
+        "2,0·10<sup>−5</sup>",
+        "4,69"
+      ],
+      [
+        "F<sup>−</sup>",
+        "1,4·10<sup>−11</sup>",
+        "10,85"
+      ]
+    ],
+    "ghiChu": "pK<sub>b</sub> = 14,00 − pK<sub>a</sub> của acid liên hợp (25 °C). NH<sub>3</sub> dùng quy ước pK<sub>b</sub> = 4,75. Base nhiều nấc: K<sub>b1</sub> ứng với K<sub>a</sub> nấc cuối, ví dụ K<sub>b1</sub>(CO<sub>3</sub><sup>2−</sup>) = K<sub>w</sub>/K<sub>a2</sub>."
   },
   {
-    id: "the-dien-cuc",
-    icon: "⚡",
-    ten: "Thế điện cực chuẩn E°",
-    cot: ["Cặp", "E° (V)"],
-    dong: [
-      ["F<sub>2</sub> / F<sup>−</sup>", "+2,87"],
-      ["MnO<sub>4</sub><sup>−</sup> / Mn<sup>2+</sup>", "+1,51"],
-      ["Cl<sub>2</sub> / Cl<sup>−</sup>", "+1,36"],
-      ["Cr<sub>2</sub>O<sub>7</sub><sup>2−</sup> / Cr<sup>3+</sup>", "+1,33"],
-      ["O<sub>2</sub> / H<sub>2</sub>O", "+1,23"],
-      ["Br<sub>2</sub> / Br<sup>−</sup>", "+1,07"],
-      ["Ag<sup>+</sup> / Ag", "+0,80"],
-      ["Fe<sup>3+</sup> / Fe<sup>2+</sup>", "+0,77"],
-      ["I<sub>2</sub> / I<sup>−</sup>", "+0,54"],
-      ["Cu<sup>2+</sup> / Cu", "+0,34"],
-      ["S<sub>4</sub>O<sub>6</sub><sup>2−</sup> / S<sub>2</sub>O<sub>3</sub><sup>2−</sup>", "+0,08"],
-      ["2H<sup>+</sup> / H<sub>2</sub>", "0,00"],
-      ["Fe<sup>2+</sup> / Fe", "−0,44"],
-      ["Zn<sup>2+</sup> / Zn", "−0,76"],
+    "id": "ksp",
+    "icon": "🧂",
+    "ten": "Tích số tan Ksp",
+    "cot": [
+      "Chất",
+      "K<sub>sp</sub>",
+      "pK<sub>sp</sub>"
     ],
+    "dong": [
+      [
+        "AgCl",
+        "1,8·10<sup>−10</sup>",
+        "9,74"
+      ],
+      [
+        "AgBr",
+        "5,4·10<sup>−13</sup>",
+        "12,27"
+      ],
+      [
+        "CuBr",
+        "6,3·10<sup>−9</sup>",
+        "8,20"
+      ],
+      [
+        "PbBr<sub>2</sub>",
+        "6,6·10<sup>−6</sup>",
+        "5,18"
+      ],
+      [
+        "Hg<sub>2</sub>Br<sub>2</sub>",
+        "6,4·10<sup>−23</sup>",
+        "22,19"
+      ],
+      [
+        "AgI",
+        "8,3·10<sup>−17</sup>",
+        "16,08"
+      ],
+      [
+        "Ag<sub>2</sub>CrO<sub>4</sub>",
+        "1,1·10<sup>−12</sup>",
+        "11,96"
+      ],
+      [
+        "BaSO<sub>4</sub>",
+        "1,1·10<sup>−10</sup>",
+        "9,96"
+      ],
+      [
+        "CaC<sub>2</sub>O<sub>4</sub>",
+        "2,3·10<sup>−9</sup>",
+        "8,64"
+      ],
+      [
+        "CaCO<sub>3</sub>",
+        "5,0·10<sup>−9</sup>",
+        "8,30"
+      ],
+      [
+        "MgCO<sub>3</sub>",
+        "6,8·10<sup>−6</sup>",
+        "5,17"
+      ],
+      [
+        "NiCO<sub>3</sub>",
+        "1,3·10<sup>−7</sup>",
+        "6,89"
+      ],
+      [
+        "SrCO<sub>3</sub>",
+        "5,6·10<sup>−10</sup>",
+        "9,25"
+      ],
+      [
+        "MgC<sub>2</sub>O<sub>4</sub>",
+        "4,8·10<sup>−6</sup>",
+        "5,32"
+      ],
+      [
+        "FeC<sub>2</sub>O<sub>4</sub>",
+        "2·10<sup>−7</sup>",
+        "6,70"
+      ],
+      [
+        "NiC<sub>2</sub>O<sub>4</sub>",
+        "1·10<sup>−7</sup>",
+        "7,00"
+      ],
+      [
+        "SrC<sub>2</sub>O<sub>4</sub>",
+        "5·10<sup>−8</sup>",
+        "7,30"
+      ],
+      [
+        "Mg(OH)<sub>2</sub>",
+        "1,8·10<sup>−11</sup>",
+        "10,74"
+      ],
+      [
+        "AgSCN",
+        "1,1·10<sup>−12</sup>",
+        "11,96"
+      ],
+      [
+        "Ag<sub>3</sub>PO<sub>4</sub>",
+        "2,8·10<sup>−18</sup>",
+        "17,55"
+      ],
+      [
+        "Hg<sub>2</sub>Cl<sub>2</sub>",
+        "1,2·10<sup>−18</sup>",
+        "17,92"
+      ],
+      [
+        "PbCl<sub>2</sub>",
+        "1,7·10<sup>−5</sup>",
+        "4,77"
+      ],
+      [
+        "PbI<sub>2</sub>",
+        "7,9·10<sup>−9</sup>",
+        "8,10"
+      ],
+      [
+        "PbSO<sub>4</sub>",
+        "6,3·10<sup>−7</sup>",
+        "6,20"
+      ],
+      [
+        "SrSO<sub>4</sub>",
+        "3,2·10<sup>−7</sup>",
+        "6,49"
+      ],
+      [
+        "CaSO<sub>4</sub>",
+        "2,4·10<sup>−5</sup>",
+        "4,62"
+      ],
+      [
+        "BaCO<sub>3</sub>",
+        "5,0·10<sup>−9</sup>",
+        "8,30"
+      ],
+      [
+        "BaCrO<sub>4</sub>",
+        "2,1·10<sup>−10</sup>",
+        "9,68"
+      ],
+      [
+        "PbCrO<sub>4</sub>",
+        "2,8·10<sup>−13</sup>",
+        "12,55"
+      ],
+      [
+        "CaF<sub>2</sub>",
+        "3,2·10<sup>−11</sup>",
+        "10,49"
+      ],
+      [
+        "Ca(OH)<sub>2</sub>",
+        "6,5·10<sup>−6</sup>",
+        "5,19"
+      ],
+      [
+        "Zn(OH)<sub>2</sub>",
+        "3,0·10<sup>−16</sup>",
+        "15,52"
+      ],
+      [
+        "Cu(OH)<sub>2</sub>",
+        "4,8·10<sup>−20</sup>",
+        "19,32"
+      ],
+      [
+        "Fe(OH)<sub>3</sub>",
+        "1,6·10<sup>−39</sup>",
+        "38,80"
+      ]
+    ],
+    "ghiChu": "25 °C. 18 dòng đầu là số liệu quy ước dùng trong bài giảng và bài tập; các dòng sau là giá trị tham khảo (các tài liệu có thể lệch nhau). Khi đề bài cho K<sub>sp</sub>, luôn dùng số của đề."
   },
   {
-    id: "chi-thi",
-    icon: "🎨",
-    ten: "Chỉ thị acid – base",
-    cot: ["Chỉ thị", "Khoảng pH", "Đổi màu"],
-    dong: [
-      ["Metyl da cam", "3,1 – 4,4", "đỏ → vàng"],
-      ["Metyl đỏ", "4,4 – 6,2", "đỏ → vàng"],
-      ["Bromthymol xanh", "6,0 – 7,6", "vàng → xanh lam"],
-      ["Phenolphtalein", "8,2 – 10,0", "không màu → hồng"],
+    "id": "the-dien-cuc",
+    "icon": "⚡",
+    "ten": "Thế điện cực chuẩn E°",
+    "cot": [
+      "Cặp",
+      "E° (V)"
     ],
+    "dong": [
+      [
+        "F<sub>2</sub> / F<sup>−</sup>",
+        "+2,87"
+      ],
+      [
+        "S<sub>2</sub>O<sub>8</sub><sup>2−</sup> / SO<sub>4</sub><sup>2−</sup>",
+        "+2,01"
+      ],
+      [
+        "H<sub>2</sub>O<sub>2</sub> / H<sub>2</sub>O",
+        "+1,78"
+      ],
+      [
+        "Ce<sup>4+</sup> / Ce<sup>3+</sup> (HNO<sub>3</sub> 1 M, E<sup>0</sup>')",
+        "+1,61"
+      ],
+      [
+        "MnO<sub>4</sub><sup>−</sup> / Mn<sup>2+</sup>",
+        "+1,51"
+      ],
+      [
+        "Cl<sub>2</sub> / Cl<sup>−</sup>",
+        "+1,36"
+      ],
+      [
+        "Cr<sub>2</sub>O<sub>7</sub><sup>2−</sup> / Cr<sup>3+</sup>",
+        "+1,33"
+      ],
+      [
+        "O<sub>2</sub> / H<sub>2</sub>O",
+        "+1,23"
+      ],
+      [
+        "IO<sub>3</sub><sup>−</sup> / I<sub>2</sub>",
+        "+1,20"
+      ],
+      [
+        "Br<sub>2</sub> / Br<sup>−</sup>",
+        "+1,07"
+      ],
+      [
+        "NO<sub>3</sub><sup>−</sup> / NO",
+        "+0,96"
+      ],
+      [
+        "Ag<sup>+</sup> / Ag",
+        "+0,80"
+      ],
+      [
+        "Fe<sup>3+</sup> / Fe<sup>2+</sup>",
+        "+0,77"
+      ],
+      [
+        "O<sub>2</sub> / H<sub>2</sub>O<sub>2</sub>",
+        "+0,69"
+      ],
+      [
+        "H<sub>3</sub>AsO<sub>4</sub> / H<sub>3</sub>AsO<sub>3</sub>",
+        "+0,56"
+      ],
+      [
+        "I<sub>2</sub> / I<sup>−</sup>",
+        "+0,54"
+      ],
+      [
+        "Cu<sup>2+</sup> / Cu",
+        "+0,34"
+      ],
+      [
+        "Hg<sub>2</sub>Cl<sub>2</sub> / Hg (calomen)",
+        "+0,27"
+      ],
+      [
+        "AgCl / Ag",
+        "+0,22"
+      ],
+      [
+        "Sn<sup>4+</sup> / Sn<sup>2+</sup>",
+        "+0,15"
+      ],
+      [
+        "S<sub>4</sub>O<sub>6</sub><sup>2−</sup> / S<sub>2</sub>O<sub>3</sub><sup>2−</sup>",
+        "+0,08"
+      ],
+      [
+        "2H<sup>+</sup> / H<sub>2</sub>",
+        "0,00"
+      ],
+      [
+        "Pb<sup>2+</sup> / Pb",
+        "−0,13"
+      ],
+      [
+        "Sn<sup>2+</sup> / Sn",
+        "−0,14"
+      ],
+      [
+        "Ni<sup>2+</sup> / Ni",
+        "−0,25"
+      ],
+      [
+        "Cd<sup>2+</sup> / Cd",
+        "−0,40"
+      ],
+      [
+        "Fe<sup>2+</sup> / Fe",
+        "−0,44"
+      ],
+      [
+        "Zn<sup>2+</sup> / Zn",
+        "−0,76"
+      ],
+      [
+        "Al<sup>3+</sup> / Al",
+        "−1,66"
+      ],
+      [
+        "Mg<sup>2+</sup> / Mg",
+        "−2,37"
+      ],
+      [
+        "Na<sup>+</sup> / Na",
+        "−2,71"
+      ],
+      [
+        "K<sup>+</sup> / K",
+        "−2,93"
+      ]
+    ],
+    "ghiChu": "25 °C, so với điện cực hydro chuẩn. Xếp từ chất oxi hóa mạnh nhất xuống. Cặp có ghi E<sup>0</sup>' là thế điều kiện trong môi trường nêu kèm."
   },
+  {
+    "id": "chi-thi",
+    "icon": "🎨",
+    "ten": "Chỉ thị acid – base",
+    "cot": [
+      "Chỉ thị",
+      "Khoảng pH",
+      "Đổi màu"
+    ],
+    "dong": [
+      [
+        "Thymol xanh (nấc 1)",
+        "1,2 – 2,8",
+        "đỏ → vàng"
+      ],
+      [
+        "Bromphenol xanh",
+        "3,0 – 4,6",
+        "vàng → tím"
+      ],
+      [
+        "Metyl da cam",
+        "3,1 – 4,4",
+        "đỏ → vàng"
+      ],
+      [
+        "Bromcresol lục",
+        "3,8 – 5,4",
+        "vàng → xanh lam"
+      ],
+      [
+        "Metyl đỏ",
+        "4,4 – 6,2",
+        "đỏ → vàng"
+      ],
+      [
+        "Bromthymol xanh",
+        "6,0 – 7,6",
+        "vàng → xanh lam"
+      ],
+      [
+        "Phenol đỏ",
+        "6,4 – 8,0",
+        "vàng → đỏ"
+      ],
+      [
+        "Cresol tím",
+        "7,6 – 9,2",
+        "vàng → tím"
+      ],
+      [
+        "Thymol xanh (nấc 2)",
+        "8,0 – 9,6",
+        "vàng → xanh lam"
+      ],
+      [
+        "Phenolphtalein",
+        "8,2 – 10,0",
+        "không màu → hồng"
+      ],
+      [
+        "Thymolphtalein",
+        "9,4 – 10,6",
+        "không màu → xanh lam"
+      ],
+      [
+        "Alizarin vàng",
+        "10,1 – 12,0",
+        "vàng → cam đỏ"
+      ]
+    ],
+    "ghiChu": "Chọn chỉ thị có khoảng đổi màu nằm trong bước nhảy pH của đường chuẩn độ. Tài liệu khác nhau có thể lệch 0,1 – 0,2 đơn vị pH."
+  },
+  {
+    "id": "chi-thi-kl",
+    "icon": "🟣",
+    "ten": "Chỉ thị kim loại (EDTA)",
+    "cot": [
+      "Chỉ thị",
+      "pH dùng",
+      "Màu (MIn → In)",
+      "Dùng cho"
+    ],
+    "dong": [
+      [
+        "ET-OO (eriocrom đen T)",
+        "10",
+        "đỏ nho → xanh chàm",
+        "Mg<sup>2+</sup>, Zn<sup>2+</sup>, tổng Ca + Mg (độ cứng)"
+      ],
+      [
+        "Calmagit",
+        "10",
+        "đỏ → xanh lam",
+        "Ca<sup>2+</sup> + Mg<sup>2+</sup> (thay ET-OO, dung dịch bền hơn)"
+      ],
+      [
+        "Murexit",
+        "12 – 13",
+        "đỏ → tím",
+        "Ca<sup>2+</sup> riêng (Mg kết tủa Mg(OH)<sub>2</sub>)"
+      ],
+      [
+        "Xylenol da cam",
+        "1 – 6",
+        "đỏ tím → vàng",
+        "Bi<sup>3+</sup> (pH 1 – 3), Zn<sup>2+</sup>, Pb<sup>2+</sup> (pH 5 – 6)"
+      ]
+    ],
+    "ghiChu": "Phức kim loại – chỉ thị (MIn) phải kém bền hơn phức MY để EDTA đẩy được chỉ thị ra ở điểm tương đương."
+  },
+  {
+    "id": "chi-thi-oxh",
+    "icon": "🔶",
+    "ten": "Chỉ thị oxi hóa – khử",
+    "cot": [
+      "Chỉ thị",
+      "E<sup>0</sup> (V)",
+      "Màu (khử → oxi hóa)"
+    ],
+    "dong": [
+      [
+        "Xanh methylen",
+        "0,53",
+        "không màu → xanh lam"
+      ],
+      [
+        "Diphenylamin",
+        "0,76",
+        "không màu → tím"
+      ],
+      [
+        "Acid diphenylamin sulfonic",
+        "0,85",
+        "không màu → tím đỏ"
+      ],
+      [
+        "Ferroin",
+        "1,15",
+        "đỏ → xanh nhạt"
+      ],
+      [
+        "Nitroferroin",
+        "1,25",
+        "đỏ → xanh nhạt"
+      ],
+      [
+        "Hồ tinh bột (với I<sub>2</sub>)",
+        "—",
+        "I<sub>3</sub><sup>−</sup> + hồ tinh bột: xanh đậm"
+      ],
+      [
+        "KMnO<sub>4</sub> (tự chỉ thị)",
+        "—",
+        "không màu → hồng nhạt (dư 1 giọt)"
+      ]
+    ],
+    "ghiChu": "Chỉ thị có H<sup>+</sup> tham gia bán phản ứng có thế phụ thuộc pH; số trong bảng ứng với [H<sup>+</sup>] = 1 M."
+  },
+  {
+    "id": "edta-kf",
+    "icon": "🔗",
+    "ten": "Hằng số bền phức EDTA (lg Kf)",
+    "cot": [
+      "Ion",
+      "lg K<sub>f</sub>",
+      "pH tối thiểu (≈)"
+    ],
+    "dong": [
+      [
+        "Ag<sup>+</sup>",
+        "7,20",
+        "không đạt"
+      ],
+      [
+        "Ba<sup>2+</sup>",
+        "7,88",
+        "không đạt"
+      ],
+      [
+        "Sr<sup>2+</sup>",
+        "8,72",
+        "9,7"
+      ],
+      [
+        "Mg<sup>2+</sup>",
+        "8,79",
+        "9,7"
+      ],
+      [
+        "Ca<sup>2+</sup>",
+        "10,70",
+        "7,7"
+      ],
+      [
+        "Mn<sup>2+</sup>",
+        "13,89",
+        "5,3"
+      ],
+      [
+        "Fe<sup>2+</sup>",
+        "14,30",
+        "5,1"
+      ],
+      [
+        "Co<sup>2+</sup>",
+        "16,45",
+        "4,0"
+      ],
+      [
+        "Cd<sup>2+</sup>",
+        "16,46",
+        "4,0"
+      ],
+      [
+        "Al<sup>3+</sup>",
+        "16,4",
+        "4,1"
+      ],
+      [
+        "Zn<sup>2+</sup>",
+        "16,50",
+        "4,0"
+      ],
+      [
+        "Pb<sup>2+</sup>",
+        "18,04",
+        "3,3"
+      ],
+      [
+        "Ni<sup>2+</sup>",
+        "18,52",
+        "3,1"
+      ],
+      [
+        "Cu<sup>2+</sup>",
+        "18,78",
+        "3,0"
+      ],
+      [
+        "Hg<sup>2+</sup>",
+        "21,5",
+        "2,0"
+      ],
+      [
+        "Cr<sup>3+</sup>",
+        "23,4",
+        "1,5"
+      ],
+      [
+        "Fe<sup>3+</sup>",
+        "25,1",
+        "1,2"
+      ],
+      [
+        "Bi<sup>3+</sup>",
+        "27,8",
+        "0,6"
+      ]
+    ],
+    "ghiChu": "25 °C, μ = 0,1 M (Ca<sup>2+</sup> dùng quy ước 10,70). Cột cuối: pH thấp nhất để K<sub>f</sub>' = α<sub>Y⁴⁻</sub>K<sub>f</sub> ≥ 10<sup>8</sup> (tính từ α<sub>Y⁴⁻</sub>, chưa xét kết tủa hydroxide hay chất tạo phức phụ)."
+  },
+  {
+    "id": "alpha-y",
+    "icon": "📈",
+    "ten": "Phân số α(Y⁴⁻) theo pH",
+    "cot": [
+      "pH",
+      "α<sub>Y⁴⁻</sub>",
+      "lg α<sub>Y⁴⁻</sub>"
+    ],
+    "dong": [
+      [
+        "1",
+        "1,4·10<sup>−18</sup>",
+        "−17,85"
+      ],
+      [
+        "2",
+        "2,6·10<sup>−14</sup>",
+        "−13,59"
+      ],
+      [
+        "3",
+        "2,1·10<sup>−11</sup>",
+        "−10,69"
+      ],
+      [
+        "4",
+        "3,0·10<sup>−9</sup>",
+        "−8,52"
+      ],
+      [
+        "5",
+        "2,9·10<sup>−7</sup>",
+        "−6,53"
+      ],
+      [
+        "6",
+        "1,8·10<sup>−5</sup>",
+        "−4,74"
+      ],
+      [
+        "7",
+        "3,8·10<sup>−4</sup>",
+        "−3,43"
+      ],
+      [
+        "8",
+        "4,2·10<sup>−3</sup>",
+        "−2,38"
+      ],
+      [
+        "9",
+        "0,041",
+        "−1,39"
+      ],
+      [
+        "10",
+        "0,30",
+        "−0,52"
+      ],
+      [
+        "11",
+        "0,81",
+        "−0,09"
+      ],
+      [
+        "12",
+        "0,98",
+        "−0,01"
+      ],
+      [
+        "13",
+        "0,998",
+        "−0,001"
+      ],
+      [
+        "14",
+        "0,9998",
+        "≈ 0"
+      ]
+    ],
+    "ghiChu": "Tính từ pK<sub>1</sub>…pK<sub>6</sub> của H<sub>6</sub>Y<sup>2+</sup> = 0,0; 1,5; 2,00; 2,69; 6,13; 10,37 (25 °C, μ = 0,1 M). Khi đề cho α<sub>Y⁴⁻</sub>, dùng số của đề."
+  },
+  {
+    "id": "t-student",
+    "icon": "📊",
+    "ten": "Bảng t (Student)",
+    "cot": [
+      "f = n − 1",
+      "90%",
+      "95%",
+      "99%"
+    ],
+    "dong": [
+      [
+        "1",
+        "6,31",
+        "12,71",
+        "63,66"
+      ],
+      [
+        "2",
+        "2,92",
+        "4,30",
+        "9,92"
+      ],
+      [
+        "3",
+        "2,35",
+        "3,18",
+        "5,84"
+      ],
+      [
+        "4",
+        "2,13",
+        "2,78",
+        "4,60"
+      ],
+      [
+        "5",
+        "2,02",
+        "2,57",
+        "4,03"
+      ],
+      [
+        "6",
+        "1,94",
+        "2,45",
+        "3,71"
+      ],
+      [
+        "7",
+        "1,89",
+        "2,36",
+        "3,50"
+      ],
+      [
+        "8",
+        "1,86",
+        "2,31",
+        "3,36"
+      ],
+      [
+        "9",
+        "1,83",
+        "2,26",
+        "3,25"
+      ],
+      [
+        "10",
+        "1,81",
+        "2,23",
+        "3,17"
+      ],
+      [
+        "15",
+        "1,75",
+        "2,13",
+        "2,95"
+      ],
+      [
+        "20",
+        "1,72",
+        "2,09",
+        "2,85"
+      ],
+      [
+        "30",
+        "1,70",
+        "2,04",
+        "2,75"
+      ],
+      [
+        "∞",
+        "1,64",
+        "1,96",
+        "2,58"
+      ]
+    ],
+    "ghiChu": "Hai phía. Dùng cho khoảng tin cậy μ = x̄ ± ts/√n và các phép kiểm định t."
+  },
+  {
+    "id": "q-test",
+    "icon": "🎯",
+    "ten": "Bảng Q (loại số liệu ngờ)",
+    "cot": [
+      "n",
+      "90%",
+      "95%",
+      "99%"
+    ],
+    "dong": [
+      [
+        "3",
+        "0,941",
+        "0,970",
+        "0,994"
+      ],
+      [
+        "4",
+        "0,765",
+        "0,829",
+        "0,926"
+      ],
+      [
+        "5",
+        "0,642",
+        "0,710",
+        "0,821"
+      ],
+      [
+        "6",
+        "0,560",
+        "0,625",
+        "0,740"
+      ],
+      [
+        "7",
+        "0,507",
+        "0,568",
+        "0,680"
+      ],
+      [
+        "8",
+        "0,468",
+        "0,526",
+        "0,634"
+      ],
+      [
+        "9",
+        "0,437",
+        "0,493",
+        "0,598"
+      ],
+      [
+        "10",
+        "0,412",
+        "0,466",
+        "0,568"
+      ]
+    ],
+    "ghiChu": "Q<sub>tính</sub> = |x<sub>ngờ</sub> − x<sub>gần nhất</sub>| / (x<sub>max</sub> − x<sub>min</sub>). Q<sub>tính</sub> &gt; Q<sub>bảng</sub> thì loại."
+  },
+  {
+    "id": "f-test",
+    "icon": "⚖️",
+    "ten": "Bảng F (95%)",
+    "cot": [
+      "f<sub>2</sub> ↓ f<sub>1</sub> →",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "8",
+      "10"
+    ],
+    "dong": [
+      [
+        "2",
+        "19,00",
+        "19,16",
+        "19,25",
+        "19,30",
+        "19,33",
+        "19,37",
+        "19,40"
+      ],
+      [
+        "3",
+        "9,55",
+        "9,28",
+        "9,12",
+        "9,01",
+        "8,94",
+        "8,85",
+        "8,79"
+      ],
+      [
+        "4",
+        "6,94",
+        "6,59",
+        "6,39",
+        "6,26",
+        "6,16",
+        "6,04",
+        "5,96"
+      ],
+      [
+        "5",
+        "5,79",
+        "5,41",
+        "5,19",
+        "5,05",
+        "4,95",
+        "4,82",
+        "4,74"
+      ],
+      [
+        "6",
+        "5,14",
+        "4,76",
+        "4,53",
+        "4,39",
+        "4,28",
+        "4,15",
+        "4,06"
+      ],
+      [
+        "7",
+        "4,74",
+        "4,35",
+        "4,12",
+        "3,97",
+        "3,87",
+        "3,73",
+        "3,64"
+      ],
+      [
+        "8",
+        "4,46",
+        "4,07",
+        "3,84",
+        "3,69",
+        "3,58",
+        "3,44",
+        "3,35"
+      ],
+      [
+        "9",
+        "4,26",
+        "3,86",
+        "3,63",
+        "3,48",
+        "3,37",
+        "3,23",
+        "3,14"
+      ],
+      [
+        "10",
+        "4,10",
+        "3,71",
+        "3,48",
+        "3,33",
+        "3,22",
+        "3,07",
+        "2,98"
+      ]
+    ],
+    "ghiChu": "F = s<sub>1</sub><sup>2</sup>/s<sub>2</sub><sup>2</sup> với s<sub>1</sub> ≥ s<sub>2</sub>; f<sub>1</sub>: bậc tự do của tử số (phương sai lớn hơn), f<sub>2</sub>: bậc tự do của mẫu số. F<sub>tính</sub> &gt; F<sub>bảng</sub>: hai độ lệch chuẩn khác nhau có ý nghĩa."
+  },
+  {
+    "id": "chat-chuan",
+    "icon": "⚖️",
+    "ten": "Chất chuẩn và khối lượng mol",
+    "cot": [
+      "Chất",
+      "M (g/mol)",
+      "Dùng làm"
+    ],
+    "dong": [
+      [
+        "KHC<sub>8</sub>H<sub>4</sub>O<sub>4</sub> (KHP)",
+        "204,22",
+        "chất gốc chuẩn hóa NaOH"
+      ],
+      [
+        "H<sub>2</sub>C<sub>2</sub>O<sub>4</sub>·2H<sub>2</sub>O",
+        "126,07",
+        "chất gốc chuẩn hóa NaOH, KMnO<sub>4</sub>"
+      ],
+      [
+        "Na<sub>2</sub>CO<sub>3</sub>",
+        "105,99",
+        "chất gốc chuẩn hóa HCl"
+      ],
+      [
+        "Na<sub>2</sub>B<sub>4</sub>O<sub>7</sub>·10H<sub>2</sub>O (borax)",
+        "381,37",
+        "chất gốc chuẩn hóa HCl"
+      ],
+      [
+        "Na<sub>2</sub>C<sub>2</sub>O<sub>4</sub>",
+        "134,00",
+        "chất gốc chuẩn hóa KMnO<sub>4</sub>"
+      ],
+      [
+        "K<sub>2</sub>Cr<sub>2</sub>O<sub>7</sub>",
+        "294,18",
+        "chất gốc (oxi hóa)"
+      ],
+      [
+        "KIO<sub>3</sub>",
+        "214,00",
+        "chất gốc chuẩn hóa Na<sub>2</sub>S<sub>2</sub>O<sub>3</sub>"
+      ],
+      [
+        "NaCl",
+        "58,44",
+        "chất gốc chuẩn hóa AgNO<sub>3</sub>"
+      ],
+      [
+        "CaCO<sub>3</sub>",
+        "100,09",
+        "chất gốc chuẩn hóa EDTA; đơn vị độ cứng"
+      ],
+      [
+        "Na<sub>2</sub>H<sub>2</sub>Y·2H<sub>2</sub>O (EDTA)",
+        "372,24",
+        "dung dịch chuẩn EDTA"
+      ],
+      [
+        "NaOH",
+        "40,00",
+        "dung dịch chuẩn base (phải chuẩn hóa)"
+      ],
+      [
+        "HCl",
+        "36,46",
+        "dung dịch chuẩn acid (phải chuẩn hóa)"
+      ],
+      [
+        "H<sub>2</sub>SO<sub>4</sub>",
+        "98,08",
+        "dung dịch chuẩn acid"
+      ],
+      [
+        "KMnO<sub>4</sub>",
+        "158,03",
+        "dung dịch chuẩn oxi hóa (phải chuẩn hóa)"
+      ],
+      [
+        "Na<sub>2</sub>S<sub>2</sub>O<sub>3</sub>·5H<sub>2</sub>O",
+        "248,18",
+        "dung dịch chuẩn iod (phải chuẩn hóa)"
+      ],
+      [
+        "(NH<sub>4</sub>)<sub>2</sub>Fe(SO<sub>4</sub>)<sub>2</sub>·6H<sub>2</sub>O (muối Mohr)",
+        "392,14",
+        "dung dịch chuẩn khử"
+      ],
+      [
+        "AgNO<sub>3</sub>",
+        "169,87",
+        "dung dịch chuẩn kết tủa"
+      ],
+      [
+        "KSCN",
+        "97,18",
+        "dung dịch chuẩn (Volhard)"
+      ]
+    ],
+    "ghiChu": "Chất gốc: tinh khiết cao, bền, không hút ẩm, M lớn; cân rồi pha trực tiếp được. Các chất còn lại phải chuẩn hóa lại bằng chất gốc."
+  },
+  {
+    "id": "mau-bo-sung",
+    "icon": "🌈",
+    "ten": "Màu hấp thụ và màu quan sát",
+    "cot": [
+      "λ hấp thụ (nm)",
+      "Màu bị hấp thụ",
+      "Màu thấy (bổ sung)"
+    ],
+    "dong": [
+      [
+        "380 – 435",
+        "tím",
+        "vàng lục"
+      ],
+      [
+        "435 – 480",
+        "xanh lam",
+        "vàng"
+      ],
+      [
+        "480 – 490",
+        "lam lục",
+        "cam"
+      ],
+      [
+        "490 – 500",
+        "lục lam",
+        "đỏ"
+      ],
+      [
+        "500 – 560",
+        "lục",
+        "đỏ tía"
+      ],
+      [
+        "560 – 580",
+        "vàng lục",
+        "tím"
+      ],
+      [
+        "580 – 595",
+        "vàng",
+        "xanh lam"
+      ],
+      [
+        "595 – 650",
+        "cam",
+        "lam lục"
+      ],
+      [
+        "650 – 780",
+        "đỏ",
+        "lục lam"
+      ]
+    ],
+    "ghiChu": "Dung dịch có màu vì hấp thụ một vùng ánh sáng trắng; mắt thấy màu bổ sung. Ví dụ KMnO<sub>4</sub> hấp thụ lục (≈ 525 nm) nên có màu tím đỏ."
+  },
+  {
+    "id": "cuvet",
+    "icon": "🔬",
+    "ten": "Vật liệu cuvet và vùng dùng",
+    "cot": [
+      "Vật liệu",
+      "Vùng dùng (≈ nm)",
+      "Ghi chú"
+    ],
+    "dong": [
+      [
+        "Thạch anh (silica nóng chảy)",
+        "190 – 2500",
+        "bắt buộc khi đo UV (&lt; 350 nm)"
+      ],
+      [
+        "Thủy tinh",
+        "350 – 2000",
+        "chỉ đo vùng khả kiến"
+      ],
+      [
+        "Nhựa (polystyren, PMMA)",
+        "380 – 800",
+        "rẻ, dùng một lần, không dùng dung môi hữu cơ"
+      ]
+    ],
+    "ghiChu": "Nguồn sáng: đèn deuteri cho UV (≈ 160 – 380 nm), đèn wolfram – halogen cho vùng khả kiến (≈ 320 – 2500 nm)."
+  }
 ];

@@ -408,6 +408,7 @@ TRA_CUU.forEach(b => {
           <tbody>${b.dong.map(d => `<tr>${d.map(o => `<td>${o}</td>`).join("")}</tr>`).join("")}</tbody>
         </table>
       </div>
+      ${b.ghiChu ? `<p class="luu-y">${b.ghiChu}</p>` : ""}
     `,
   };
 });
