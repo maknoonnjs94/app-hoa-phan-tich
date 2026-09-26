@@ -1504,6 +1504,7 @@ const CHUONG = [
         <li><b>Pin Galvani</b> dùng phản ứng oxi hóa – khử tự diễn biến để sinh ra dòng điện: chất khử nhường electron ở anot, electron đi qua mạch ngoài sang catot và khử chất oxi hóa.</li>
         <li><b>Thế khử chuẩn E<sup>0</sup></b> của một cặp được đo so với điện cực hydro chuẩn (SHE, quy ước E<sup>0</sup> = 0,00 V), ở 25 °C, hoạt độ các chất bằng 1, áp suất khí 1 bar.</li>
       </ul>
+      <p class="luu-y">Bài giảng có chỗ dùng E<sup>0</sup>(MnO<sub>4</sub><sup>−</sup>/Mn<sup>2+</sup>) = 1,55 V và E<sup>0</sup>(Cr<sub>2</sub>O<sub>7</sub><sup>2−</sup>/Cr<sup>3+</sup>) = 1,36 V. App dùng 1,51 V và 1,33 V (giá trị tra bảng thông dụng). Khi làm bài, dùng số đề bài cho.</p>
       <p><b>E<sup>0</sup> càng lớn thì dạng oxi hóa càng mạnh</b>; E<sup>0</sup> càng nhỏ thì dạng khử càng mạnh. Phản ứng tự xảy ra theo chiều: Ox của cặp có E lớn hơn + Kh của cặp có E nhỏ hơn.</p>
       <div class="bang-cuon">
         <table class="bang bang-hep">
@@ -1550,8 +1551,8 @@ const CHUONG = [
         <details><summary>Xem lời giải</summary>
           Thế của điện cực do cặp Ag<sup>+</sup>/Ag quyết định, với [Ag<sup>+</sup>] = K<sub>sp</sub>/[Cl<sup>−</sup>]:
           \[ \begin{aligned} E &= 0,80 + 0,059\lg\frac{K_\mathrm{sp}}{[\mathrm{Cl^-}]} \\ &= \underbrace{0,80 + 0,059\lg K_\mathrm{sp}}_{E^0(\mathrm{AgCl/Ag})} - 0,059\lg[\mathrm{Cl^-}] \end{aligned} \]
-          \[ \begin{aligned} E^0(\mathrm{AgCl/Ag}) &= 0,80 + 0,059\lg K_\mathrm{sp} \\ &= 0,80 + 0,059\cdot(-9,74) \\ &= \mathbf{0,22\ V} \end{aligned} \]
-          Đây là điện cực so sánh Ag/AgCl dùng trong máy đo pH (Chương 12).
+          \[ \begin{aligned} E^0(\mathrm{AgCl/Ag}) &= 0,80 + 0,059\lg K_\mathrm{sp} \\ &= 0,80 + 0,059\cdot(-9,74) \\ &= 0,225 \approx \mathbf{0,23\ V} \end{aligned} \]
+          Giá trị tra bảng 0,222 V hơi khác vì dùng E<sup>0</sup>(Ag<sup>+</sup>/Ag) = 0,799 V và hệ số 0,05916. Đây là điện cực so sánh Ag/AgCl dùng trong máy đo pH (Chương 13).
         </details></div>
 
       <h3>3. Thế khử chuẩn và hằng số cân bằng</h3>
@@ -1564,7 +1565,7 @@ const CHUONG = [
         </details></div>
 
       <h3>4. Thế điều kiện E<sup>0</sup>'</h3>
-      <p><b>Thế điều kiện</b> E<sup>0</sup>' là thế của cặp khi tổng nồng độ dạng oxi hóa và dạng khử bằng nhau, trong một môi trường cụ thể (pH, chất tạo phức, chất tạo kết tủa đã cố định). Dùng E<sup>0</sup>' thay E<sup>0</sup> sẽ dự đoán đúng chiều phản ứng trong điều kiện thực tế.</p>
+      <p><b>Thế điều kiện</b> E<sup>0</sup>' là thế của cặp khi nồng độ tổng (phân tích) của dạng oxi hóa bằng nồng độ tổng của dạng khử (C<sub>Ox</sub> = C<sub>Kh</sub>), trong một môi trường cụ thể (pH, chất tạo phức, chất tạo kết tủa đã cố định). Dùng E<sup>0</sup>' thay E<sup>0</sup> sẽ dự đoán đúng chiều phản ứng trong điều kiện thực tế.</p>
       <p><b>a) Ảnh hưởng của pH.</b> Với AsO<sub>4</sub><sup>3−</sup> + 2H<sup>+</sup> + 2e ⇌ AsO<sub>3</sub><sup>3−</sup> + H<sub>2</sub>O:</p>
       <div class="cong-thuc">\[ \begin{aligned} E &= 0,57 + \frac{0,059}{2}\lg\frac{[\mathrm{AsO_4^{3-}}]\Hp^2}{[\mathrm{AsO_3^{3-}}]} \\ E^{0\prime} &= 0,57 - 0,059\,\mathrm{pH} \end{aligned} \]</div>
       <p><b>b) Ảnh hưởng của chất tạo phức.</b> Chất tạo phức làm giảm nồng độ tự do của dạng bị tạo phức. Nếu dạng oxi hóa tạo phức bền (β lớn) thì E<sup>0</sup>' giảm:</p>
@@ -1573,7 +1574,7 @@ const CHUONG = [
       <div class="cong-thuc"><div class="nhan">Cu<sup>2+</sup> + I<sup>−</sup> + e ⇌ CuI(r), [I<sup>−</sup>] = 1 M</div>\[ E^{0\prime} = E^0 + 0,059\lg\frac{1}{T_\mathrm{CuI}} \]</div>
       <div class="vi-du"><b>Ví dụ 6.</b> Dùng E<sup>0</sup>(I<sub>2</sub>/I<sup>−</sup>) = 0,54 V, hãy xét: (a) chiều phản ứng giữa AsO<sub>4</sub><sup>3−</sup> và I<sup>−</sup> ở pH 0 và pH 8; (b) Fe<sup>3+</sup> có oxi hóa được I<sup>−</sup> khi có F<sup>−</sup> 1 M không (β<sub>6</sub>(FeF<sub>6</sub><sup>3−</sup>) = 10<sup>16</sup>)? (c) Cu<sup>2+</sup> có oxi hóa được I<sup>−</sup> không (T<sub>CuI</sub> = 10<sup>−12</sup>)?
         <details><summary>Xem lời giải</summary>
-          (a) pH 0: E<sup>0</sup>' = 0,57 V &gt; 0,54 V → AsO<sub>4</sub><sup>3−</sup> oxi hóa I<sup>−</sup> thành I<sub>2</sub>. pH 8: E<sup>0</sup>' = 0,57 − 0,059·8 = 0,10 V &lt; 0,54 V → ngược lại, <b>I<sub>2</sub> oxi hóa AsO<sub>3</sub><sup>3−</sup></b>. Chiều phản ứng đảo ngược theo pH.<br>
+          (a) pH 0: E<sup>0</sup>' = 0,57 V &gt; 0,54 V → AsO<sub>4</sub><sup>3−</sup> oxi hóa I<sup>−</sup> thành I<sub>2</sub>. Vì hai thế chỉ chênh 0,03 V (lg K ≈ 1), phản ứng chỉ xảy ra đáng kể khi [H<sup>+</sup>] cao và I<sup>−</sup> dư. Ở pH 2: E<sup>0</sup>' = 0,45 V. pH 8: E<sup>0</sup>' = 0,57 − 0,059·8 = 0,10 V &lt; 0,54 V → ngược lại, <b>I<sub>2</sub> oxi hóa AsO<sub>3</sub><sup>3−</sup></b> (chuẩn độ As(III) bằng I<sub>2</sub> trong đệm NaHCO<sub>3</sub> pH ≈ 8). Chiều phản ứng đảo ngược theo pH.<br>
           (b) E<sup>0</sup>' = 0,77 − 0,059·16 = −0,17 V &lt; 0,54 V → <b>không</b>. F<sup>−</sup> "che" Fe<sup>3+</sup>, dùng khi xác định Cu bằng phương pháp iod trong mẫu có sắt.<br>
           (c) E<sup>0</sup>' = 0,18 + 0,059·12 = 0,89 V &gt; 0,54 V → <b>có</b>: 2Cu<sup>2+</sup> + 4I<sup>−</sup> → 2CuI + I<sub>2</sub>, dù E<sup>0</sup>(Cu<sup>2+</sup>/Cu<sup>+</sup>) = 0,18 V nhỏ hơn 0,54 V.
         </details></div>
@@ -1583,11 +1584,11 @@ const CHUONG = [
       <ol>
         <li>Tính V<sub>e</sub> từ hợp thức phản ứng.</li>
         <li><b>Trước điểm tương đương</b>: tính E theo cặp của <b>chất phân tích</b> (biết cả hai dạng).</li>
-        <li><b>Tại điểm tương đương</b> (khi H<sup>+</sup> không tham gia hoặc [H<sup>+</sup>] = 1 M):
+        <li><b>Tại điểm tương đương</b> (khi H<sup>+</sup> không tham gia hoặc [H<sup>+</sup>] = 1 M, và mỗi cặp có hệ số dạng Ox bằng hệ số dạng Kh; với Cr<sub>2</sub>O<sub>7</sub><sup>2−</sup>/2Cr<sup>3+</sup> công thức có thêm số hạng phụ thuộc nồng độ):
           \[ E_\mathrm{tđ} = \frac{n_1E^0_1 + n_2E^0_2}{n_1 + n_2} \]</li>
         <li><b>Sau điểm tương đương</b>: tính E theo cặp của <b>chất chuẩn</b>.</li>
       </ol>
-      <p>Bước nhảy càng lớn khi hiệu E<sup>0</sup> của hai cặp càng lớn. Khi n<sub>1</sub> = n<sub>2</sub> đường chuẩn độ đối xứng quanh E<sub>tđ</sub>; khi n<sub>1</sub> ≠ n<sub>2</sub>, E<sub>tđ</sub> lệch về phía cặp có n lớn hơn.</p>
+      <p>Khi [H<sup>+</sup>] ≠ 1, ví dụ với MnO<sub>4</sub><sup>−</sup>: E<sub>tđ</sub> = (E<sup>0</sup><sub>Fe</sub> + 5E<sup>0</sup><sub>Mn</sub>)/6 − (8·0,059/6)·pH. Bước nhảy càng lớn khi hiệu E<sup>0</sup> của hai cặp càng lớn; với các cặp đối xứng, đường chuẩn độ gần như không phụ thuộc độ pha loãng. Khi n<sub>1</sub> = n<sub>2</sub> đường chuẩn độ đối xứng quanh E<sub>tđ</sub>; khi n<sub>1</sub> ≠ n<sub>2</sub>, E<sub>tđ</sub> lệch về phía cặp có n lớn hơn.</p>
       <div class="vi-du"><b>Ví dụ 7.</b> Chuẩn độ Fe<sup>2+</sup> bằng Ce<sup>4+</sup> trong HNO<sub>3</sub> 1 M (E<sup>0</sup>'(Ce<sup>4+</sup>/Ce<sup>3+</sup>) = 1,61 V). Tính lg K và E<sub>tđ</sub>.
         <details><summary>Xem lời giải</summary>
           Ce<sup>4+</sup> + Fe<sup>2+</sup> → Ce<sup>3+</sup> + Fe<sup>3+</sup> (n = 1):
@@ -1598,7 +1599,7 @@ const CHUONG = [
           (a) MnO<sub>4</sub><sup>−</sup> + 5Fe<sup>2+</sup> + 8H<sup>+</sup> → Mn<sup>2+</sup> + 5Fe<sup>3+</sup> + 4H<sub>2</sub>O:
           \[ [\mathrm{Fe^{2+}}] = \frac{5\cdot0,0125\cdot8,50}{10,00} = \mathbf{0,0531\ M} \]
           (b) <b>V = 5,50 mL</b>: Fe<sup>3+</sup> tạo thành = 5·0,0125·5,50 = 0,344 mmol; Fe<sup>2+</sup> còn 0,531 − 0,344 = 0,188 mmol:
-          \[ E = 0,77 + 0,059\lg\frac{0,344}{0,188} = \mathbf{0,79\ V} \]
+          \[ \begin{aligned} E &= 0,77 + 0,059\lg\frac{0,344}{0,188} \\ &= 0,786 \approx \mathbf{0,79\ V} \end{aligned} \]
           <b>V = 8,50 mL</b> (tương đương):
           \[ E_\mathrm{tđ} = \frac{0,77 + 5\cdot1,51}{6} = \mathbf{1,39\ V} \]
           <b>V = 10,50 mL</b>: MnO<sub>4</sub><sup>−</sup> dư = 0,0125·2,00 = 0,0250 mmol; Mn<sup>2+</sup> = 0,0125·8,50 = 0,106 mmol:
@@ -1623,6 +1624,7 @@ const CHUONG = [
           </tbody>
         </table>
       </div>
+      <p>Chỉ thị có H<sup>+</sup> tham gia bán phản ứng (xanh methylen, diphenylamin) có thế phụ thuộc pH; số trong bảng ứng với [H<sup>+</sup>] = 1 M.</p>
       <p><b>Nguyên tắc chọn</b>: khoảng đổi màu nằm trong bước nhảy, E<sup>0</sup> của chỉ thị càng gần E<sub>tđ</sub> càng tốt. Ví dụ chuẩn Fe<sup>2+</sup> bằng Ce<sup>4+</sup> (E<sub>tđ</sub> = 1,19 V) dùng ferroin. Khi chuẩn Fe<sup>2+</sup> bằng Cr<sub>2</sub>O<sub>7</sub><sup>2−</sup> với diphenylamin sulfonic, người ta thêm H<sub>3</sub>PO<sub>4</sub> để tạo phức với Fe<sup>3+</sup>, hạ thế của cặp Fe<sup>3+</sup>/Fe<sup>2+</sup> (mục 4b) cho bước nhảy bắt đầu sớm hơn.</p>
 
       <h3>7. Điều chỉnh số oxi hóa trước khi chuẩn độ (tự đọc)</h3>
@@ -1639,19 +1641,21 @@ const CHUONG = [
         <details><summary>Xem lời giải</summary>
           \[ \begin{aligned} n_\mathrm{C_2O_4^{2-}} &= \frac{0,2010}{134,00} = 1,500\cdot10^{-3}\ \mathrm{mol} \\ n_\mathrm{MnO_4^-} &= \frac{2}{5}\cdot1,500\cdot10^{-3} \\ &= 6,000\cdot10^{-4}\ \mathrm{mol} \\ C &= \frac{6,000\cdot10^{-4}}{0,02985} = \mathbf{0,02010\ M} \end{aligned} \]
         </details></div>
-      <p><b>b) Phương pháp dicromat.</b> K<sub>2</sub>Cr<sub>2</sub>O<sub>7</sub> là chất gốc, dung dịch rất bền, dùng được trong HCl. Chỉ thị acid diphenylamin sulfonic. Dùng xác định Fe<sup>2+</sup> và nhu cầu oxy hóa học (COD) của nước thải:</p>
+      <p><b>b) Phương pháp dicromat.</b> K<sub>2</sub>Cr<sub>2</sub>O<sub>7</sub> là chất gốc, dung dịch rất bền, dùng được trong HCl. Chỉ thị acid diphenylamin sulfonic. Dùng xác định Fe<sup>2+</sup> và nhu cầu oxy hóa học (COD) của nước thải (COD: đun mẫu với K<sub>2</sub>Cr<sub>2</sub>O<sub>7</sub> dư, rồi chuẩn ngược lượng dư bằng muối Mohr Fe<sup>2+</sup> với chỉ thị ferroin):</p>
       <div class="cong-thuc">\[ \begin{gathered} \mathrm{Cr_2O_7^{2-}} + 6\mathrm{Fe^{2+}} + 14\mathrm{H^+} \\ \rightarrow 2\mathrm{Cr^{3+}} + 6\mathrm{Fe^{3+}} + 7\mathrm{H_2O} \end{gathered} \]</div>
       <p><b>c) Các phương pháp iod.</b> Chỉ thị hồ tinh bột.</p>
       <ul>
         <li><b>Chuẩn độ iod trực tiếp</b> (iodimetry): dùng dung dịch I<sub>2</sub> (trong KI, dạng I<sub>3</sub><sup>−</sup>) chuẩn độ chất khử như vitamin C, SO<sub>3</sub><sup>2−</sup>, As(III). Hồ tinh bột cho vào từ đầu, điểm cuối xuất hiện màu xanh.</li>
         <li><b>Chuẩn độ iod gián tiếp</b> (iodometry): chất oxi hóa + KI dư → giải phóng I<sub>2</sub>, rồi chuẩn I<sub>2</sub> bằng Na<sub>2</sub>S<sub>2</sub>O<sub>3</sub>. Hồ tinh bột cho vào <b>gần điểm cuối</b> (khi dung dịch vàng nhạt) để tránh I<sub>2</sub> bị hấp phụ chặt vào tinh bột; điểm cuối mất màu xanh.
           \[ \mathrm{I_2} + 2\mathrm{S_2O_3^{2-}} \rightarrow 2\mathrm{I^-} + \mathrm{S_4O_6^{2-}} \]</li>
-        <li>Na<sub>2</sub>S<sub>2</sub>O<sub>3</sub> không phải chất gốc, chuẩn hóa bằng KIO<sub>3</sub> hoặc K<sub>2</sub>Cr<sub>2</sub>O<sub>7</sub> (qua I<sub>2</sub> giải phóng từ KI).</li>
+        <li>Na<sub>2</sub>S<sub>2</sub>O<sub>3</sub> không phải chất gốc, chuẩn hóa bằng KIO<sub>3</sub> hoặc K<sub>2</sub>Cr<sub>2</sub>O<sub>7</sub> qua I<sub>2</sub> giải phóng từ KI: IO<sub>3</sub><sup>−</sup> + 5I<sup>−</sup> + 6H<sup>+</sup> → 3I<sub>2</sub> + 3H<sub>2</sub>O, tức 1 IO<sub>3</sub><sup>−</sup> ↔ 6 S<sub>2</sub>O<sub>3</sub><sup>2−</sup>.</li>
+        <li><b>Điều kiện</b>: chuẩn I<sub>2</sub> bằng S<sub>2</sub>O<sub>3</sub><sup>2−</sup> trong môi trường trung tính hoặc acid yếu (acid mạnh phân hủy S<sub>2</sub>O<sub>3</sub><sup>2−</sup>; pH cao làm I<sub>2</sub> tự oxi hóa – khử và oxi hóa S<sub>2</sub>O<sub>3</sub><sup>2−</sup> lên SO<sub>4</sub><sup>2−</sup>). Dùng KI dư để I<sub>2</sub> nằm ở dạng I<sub>3</sub><sup>−</sup>, ít bay hơi, và chuẩn nhanh vì I<sup>−</sup> bị oxi của không khí oxi hóa trong acid.</li>
       </ul>
       <div class="vi-du"><b>Ví dụ 10.</b> 25,00 mL dung dịch Cu<sup>2+</sup> được thêm KI dư. I<sub>2</sub> sinh ra phản ứng vừa đủ với 12,50 mL Na<sub>2</sub>S<sub>2</sub>O<sub>3</sub> 0,1000 M. Tính nồng độ Cu<sup>2+</sup>.
         <details><summary>Xem lời giải</summary>
           2Cu<sup>2+</sup> + 4I<sup>−</sup> → 2CuI + I<sub>2</sub>; I<sub>2</sub> + 2S<sub>2</sub>O<sub>3</sub><sup>2−</sup> → 2I<sup>−</sup> + S<sub>4</sub>O<sub>6</sub><sup>2−</sup>. Vậy 2 Cu<sup>2+</sup> ↔ 1 I<sub>2</sub> ↔ 2 S<sub>2</sub>O<sub>3</sub><sup>2−</sup>, tức n<sub>Cu²⁺</sub> = n<sub>S₂O₃²⁻</sub>:
           \[ C_\mathrm{Cu^{2+}} = \frac{0,1000\cdot12,50}{25,00} = \mathbf{0,05000\ M} \]
+          Thực tế: thêm SCN<sup>−</sup> gần điểm cuối để giải phóng I<sub>2</sub> bị CuI hấp phụ; nếu mẫu có Fe<sup>3+</sup> thì thêm F<sup>−</sup> (NH<sub>4</sub>HF<sub>2</sub>) để che (Ví dụ 6b).
         </details></div>
     `,
     baiTap: [
@@ -1700,7 +1704,7 @@ const CHUONG = [
       <p>Tìm đường thẳng y = mx + b sao cho <b>tổng bình phương độ lệch theo phương thẳng đứng</b> giữa điểm đo và đường thẳng là nhỏ nhất (giả thiết sai số của x không đáng kể so với y).</p>
       <div class="cong-thuc"><div class="nhan">n điểm (x<sub>i</sub>, y<sub>i</sub>)</div>\[ \begin{aligned} D &= n\sum x_i^2 - \left(\sum x_i\right)^2 \\ m &= \frac{n\sum x_iy_i - \sum x_i\sum y_i}{D} \\ b &= \frac{\sum x_i^2\sum y_i - \sum x_iy_i\sum x_i}{D} \end{aligned} \]</div>
       <div class="cong-thuc"><div class="nhan">Độ lệch chuẩn (bậc tự do n − 2); d<sub>i</sub> = y<sub>i</sub> − (mx<sub>i</sub> + b)</div>\[ \begin{gathered} s_y = \sqrt{\frac{\sum d_i^2}{n - 2}} \\ s_m = s_y\sqrt{\frac{n}{D}} \qquad s_b = s_y\sqrt{\frac{\sum x_i^2}{D}} \end{gathered} \]</div>
-      <p>Khoảng tin cậy: m ± t·s<sub>m</sub>, b ± t·s<sub>b</sub>, với t tra ở bậc tự do <b>n − 2</b>. Báo cáo dạng y = (b ± t·s<sub>b</sub>) + (m ± t·s<sub>m</sub>)x kèm R<sup>2</sup>. R<sup>2</sup> càng gần 1 càng tốt; b nên gần 0 (khoảng tin cậy của b chứa 0).</p>
+      <p>Khoảng tin cậy: m ± t·s<sub>m</sub>, b ± t·s<sub>b</sub>, với t tra ở bậc tự do <b>n − 2</b>. Báo cáo dạng y = (b ± t·s<sub>b</sub>) + (m ± t·s<sub>m</sub>)x kèm R<sup>2</sup>. R<sup>2</sup> càng gần 1 càng tốt, nhưng R<sup>2</sup> cao chưa chứng minh được tính tuyến tính: nên xem thêm đồ thị phần dư d<sub>i</sub> (phải phân bố ngẫu nhiên quanh 0). b nên gần 0 (khoảng tin cậy của b chứa 0).</p>
       <div class="cong-thuc"><div class="nhan">Nồng độ mẫu và độ lệch chuẩn của nó (ȳ<sub>0</sub>: trung bình k lần đo mẫu; ȳ: trung bình các y<sub>i</sub> của dãy chuẩn)</div>\[ \begin{gathered} x_0 = \frac{\bar{y}_0 - b}{m} \\ s_x = \frac{s_y}{|m|}\sqrt{\frac{1}{k} + \frac{1}{n} + \frac{(\bar{y}_0 - \bar{y})^2}{m^2\sum(x_i - \bar{x})^2}} \end{gathered} \]</div>
       <p class="luu-y">Trong Excel nên dùng <b>Data Analysis → Regression</b> (cho cả s<sub>b</sub>, s<sub>m</sub>, s<sub>y</sub>, R<sup>2</sup>). Không nên chỉ dùng Add Trendline trên đồ thị, vì nó không cho độ không đảm bảo của các hệ số.</p>
       <div class="vi-du"><b>Ví dụ 1.</b> Dãy chuẩn cho kết quả (tín hiệu đã trừ mẫu trắng):
@@ -1752,11 +1756,15 @@ const CHUONG = [
           [Cu<sup>2+</sup>]<sub>f</sub> = 0,950[Cu<sup>2+</sup>]<sub>i</sub>; [S]<sub>f</sub> = 100,0·1,00/100,0 = 1,00 ppm:
           \[ \begin{gathered} \frac{[\mathrm{Cu^{2+}}]_i}{1,00 + 0,950[\mathrm{Cu^{2+}}]_i} = \frac{0,262}{0,500} \\ [\mathrm{Cu^{2+}}]_i = \mathbf{1,04\ ppm} \end{gathered} \]
         </details></div>
+      <p><b>Thêm chuẩn liên tiếp vào cùng một bình</b> (thể tích thay đổi): vẽ I·(V/V<sub>0</sub>) theo [S]<sub>i</sub>·(V<sub>s</sub>/V<sub>0</sub>); giao điểm với trục hoành là −[X]<sub>i</sub>.</p>
       <p><b>Thêm chuẩn nhiều mức</b> (chính xác hơn): chia mẫu vào nhiều bình cùng thể tích, thêm các lượng chuẩn tăng dần, định mức bằng nhau. Vẽ tín hiệu I theo [S]<sub>f</sub>; kéo dài đường thẳng cắt trục hoành tại <b>−[X]<sub>f</sub></b>, tức [X]<sub>f</sub> = b/m.</p>
       <div class="vi-du"><b>Ví dụ 4.</b> Năm bình 50,00 mL, mỗi bình có 10,00 mL mẫu và lượng chuẩn thêm vào sao cho [S]<sub>f</sub> = 0; 0,40; 0,80; 1,20; 1,60 ppm. Tín hiệu đo được 0,241; 0,299; 0,362; 0,419; 0,481. Tính nồng độ chất phân tích trong mẫu.
         <details><summary>Xem lời giải</summary>
-          Hồi quy I theo [S]<sub>f</sub>: m = 0,150; b = 0,2404.
-          \[ \begin{aligned} [\mathrm{X}]_f &= \frac{b}{m} = \frac{0,2404}{0,150} = 1,60\ \mathrm{ppm} \\ [\mathrm{X}]_i &= 1,60\cdot\frac{50,00}{10,00} = \mathbf{8,01\ ppm} \end{aligned} \]
+          Hồi quy I theo [S]<sub>f</sub>: m = 0,150; b = 0,2404; s<sub>y</sub> = 0,0016.
+          \[ \begin{aligned} [\mathrm{X}]_f &= \frac{b}{m} = \frac{0,2404}{0,150} = 1,603\ \mathrm{ppm} \\ [\mathrm{X}]_i &= 1,603\cdot\frac{50,00}{10,00} = 8,01\ \mathrm{ppm} \end{aligned} \]
+          Độ không đảm bảo khi ngoại suy tới trục hoành:
+          \[ \begin{aligned} s_x &= \frac{s_y}{|m|}\sqrt{\frac{1}{n} + \frac{\bar{y}^2}{m^2\sum(x_i - \bar{x})^2}} \\ &= 0,020\ \mathrm{ppm} \end{aligned} \]
+          Nhân 5 (hệ số pha loãng) được 0,10 ppm; với t = 3,18: [X]<sub>i</sub> = <b>8,0 ± 0,3 ppm</b> (95%).
         </details></div>
 
       <h3>6. Phương pháp nội chuẩn</h3>
@@ -1946,39 +1954,112 @@ const CHUONG = [
     nhom: "Phân tích công cụ",
     icon: "🔥",
     ten: "Quang phổ nguyên tử",
-    moTa: "AAS, AES, ICP-OES, ICP-MS",
+    moTa: "Nguyên tử hóa (ngọn lửa, lò graphit, ICP), AAS, AES, cản trở, ICP-MS",
+    dayDu: true,
+    choDuyet: true,
     lyThuyet: String.raw`
-<h3>1. Phổ nguyên tử và phổ phân tử</h3>
+      <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
+        <ul>
+          <li>Hiểu các cách nguyên tử hóa: ngọn lửa, lò graphit, plasma ICP, và ưu nhược điểm của từng cách.</li>
+          <li>Nắm nguyên tắc, sơ đồ máy AAS, AES; so sánh hai phương pháp; giải thích vai trò của nhiệt độ qua phân bố Boltzmann.</li>
+          <li>Biết các loại cản trở và cách khắc phục.</li>
+        </ul>
+      </div>
+      <h3>1. Phổ nguyên tử</h3>
       <ul>
-        <li><b>Phổ nguyên tử</b>: nguyên tử tự do ở trạng thái hơi, cho <b>vạch phổ</b> rất hẹp, đặc trưng cho từng nguyên tố → dùng xác định kim loại.</li>
-        <li><b>Phổ phân tử</b>: cho <b>dải phổ</b> rộng (vì có thêm mức dao động, quay).</li>
-        <li>Mọi phương pháp phổ nguyên tử đều cần bước <b>nguyên tử hóa</b>: chuyển mẫu thành nguyên tử tự do.</li>
+        <li>Trong phổ nguyên tử, mẫu bị phân hủy ở nhiệt độ cao thành <b>nguyên tử tự do ở pha khí</b>. Nồng độ nguyên tố được xác định qua sự hấp thụ (AAS), phát xạ (AES) hoặc huỳnh quang (AFS) của các nguyên tử này.</li>
+        <li>Nguyên tử không có mức dao động, quay, nên cho <b>vạch phổ rất hẹp</b> (cỡ vài pm), đặc trưng cho từng nguyên tố. Nhờ vậy phổ nguyên tử rất chọn lọc. Phổ phân tử (Chương 11) cho <b>dải phổ</b> rộng.</li>
+        <li>Phổ nguyên tử dùng để xác định kim loại và một số á kim ở hàm lượng ppm đến ppt.</li>
       </ul>
 
-      <h3>2. Quang phổ hấp thụ nguyên tử (AAS)</h3>
-      <p>Nguyên tử ở trạng thái cơ bản hấp thụ bức xạ đúng bằng vạch cộng hưởng của nó.</p>
-      <ul>
-        <li><b>Nguồn</b>: đèn catot rỗng (HCL) làm bằng chính nguyên tố cần đo → phát vạch đặc trưng, mỗi nguyên tố một đèn.</li>
-        <li><b>Nguyên tử hóa ngọn lửa (F-AAS)</b>: không khí – axetilen (~2300 °C) hoặc N<sub>2</sub>O – axetilen (~2700 °C); nhanh, cỡ ppm.</li>
-        <li><b>Nguyên tử hóa lò graphit (GF-AAS)</b>: nhạy hơn 100 – 1000 lần (cỡ ppb), cần ít mẫu.</li>
-        <li>Kĩ thuật hydrua hóa (As, Se, Sb...), hóa hơi lạnh (Hg).</li>
-      </ul>
-      <div class="cong-thuc">A = k · C &nbsp;(trong khoảng tuyến tính)</div>
-      <p><b>Ảnh hưởng cản trở</b>: hóa học (tạo hợp chất bền khó nguyên tử hóa, ví dụ PO<sub>4</sub><sup>3−</sup> với Ca → thêm La<sup>3+</sup> hoặc Sr<sup>2+</sup> làm chất giải phóng); ion hóa (thêm K, Cs làm chất khử ion hóa); hấp thụ nền (hiệu chỉnh bằng đèn D<sub>2</sub> hoặc Zeeman).</p>
+      <h3>2. Nguyên tử hóa</h3>
+      <p><b>a) Ngọn lửa.</b> Dung dịch mẫu được hút và phun thành sương mù vào ngọn lửa (không khí – axetilen khoảng 2300 °C, N<sub>2</sub>O – axetilen khoảng 2700 °C). Trong ngọn lửa: dung môi bay hơi → hạt rắn nóng chảy, bay hơi → phân tử bị phân li thành nguyên tử. Một phần nguyên tử có thể bị ion hóa hoặc tạo oxide. Nhanh, rẻ, độ lặp lại tốt nhưng chỉ khoảng vài % mẫu vào được ngọn lửa, nguyên tử lưu lại rất ngắn nên độ nhạy cỡ ppm.</p>
+      <p><b>b) Lò graphit</b> (GF-AAS). Một lượng mẫu rất nhỏ (vài µL) được bơm vào ống graphit, gia nhiệt bằng dòng điện theo chương trình:</p>
+      <ol>
+        <li><b>Sấy</b>: đuổi dung môi (khoảng 100 °C).</li>
+        <li><b>Tro hóa</b>: phân hủy chất hữu cơ và nền dễ bay hơi (vài trăm đến hơn 1000 °C).</li>
+        <li><b>Nguyên tử hóa</b>: tăng nhiệt rất nhanh (2000 – 3000 °C), đo tín hiệu lúc này.</li>
+        <li><b>Làm sạch</b>: nung ở nhiệt độ cao nhất để loại cặn, tránh <b>hiệu ứng nhớ</b> (mẫu trước ảnh hưởng mẫu sau).</li>
+      </ol>
+      <p>Nguyên tử lưu lại lâu trong ống và gần như toàn bộ mẫu được nguyên tử hóa, nên GF-AAS <b>nhạy hơn ngọn lửa khoảng 100 – 1000 lần</b> (cỡ ppb) và cần ít mẫu. <b>Chất cải biến nền</b> (NH<sub>4</sub>NO<sub>3</sub>, Pd(NO<sub>3</sub>)<sub>2</sub>) được thêm vào để nền bay hơi sớm hoặc giữ chất phân tích bền hơn ở bước tro hóa.</p>
+      <p><b>c) Plasma cảm ứng cao tần (ICP).</b> Khí Ar được ion hóa và duy trì bằng từ trường cao tần, tạo plasma 6000 – 10 000 K. Nhiệt độ rất cao nên nguyên tử hóa gần như hoàn toàn, ít cản trở hóa học, kích thích được nhiều nguyên tố. Dùng làm nguồn cho phát xạ (ICP-OES) và làm nguồn ion cho khối phổ (ICP-MS).</p>
 
-      <h3>3. Quang phổ phát xạ nguyên tử (AES) và ICP-OES</h3>
-      <p>Nguyên tử bị kích thích lên mức năng lượng cao, khi trở về phát ra bức xạ đặc trưng. Cường độ vạch tỉ lệ với nồng độ:</p>
-      <div class="cong-thuc">I = k · C</div>
+      <h3>3. Quang phổ hấp thụ nguyên tử (AAS)</h3>
+      <p>Nguyên tử tự do ở trạng thái cơ bản hấp thụ bức xạ có bước sóng đúng bằng vạch đặc trưng của nó. Trong khoảng tuyến tính:</p>
+      <div class="cong-thuc">\[ A = k\,C \]</div>
+      <p><b>Sơ đồ máy</b>: nguồn đèn catot rỗng → bộ nguyên tử hóa (ngọn lửa hoặc lò) → bộ đơn sắc → detector.</p>
       <ul>
-        <li><b>Nguồn kích thích plasma ICP</b> (Ar, 6000 – 10000 K): nguyên tử hóa và kích thích gần như hoàn toàn, ít cản trở hóa học.</li>
-        <li>Phân tích <b>đồng thời nhiều nguyên tố</b>, khoảng tuyến tính rộng (4 – 6 bậc nồng độ).</li>
-        <li>Quang kế ngọn lửa: dùng ngọn lửa làm nguồn kích thích, hay dùng cho Na, K.</li>
+        <li><b>Đèn catot rỗng</b> (HCL): catot làm bằng chính nguyên tố cần xác định, đèn chứa khí trơ áp suất thấp. Điện áp cao ion hóa khí; ion khí bắn phá catot làm bật các nguyên tử kim loại ra (sự phún xạ); các nguyên tử này bị kích thích và phát đúng các vạch đặc trưng của nguyên tố đó.</li>
+        <li>Vạch phát ra từ đèn hẹp hơn vạch hấp thụ của nguyên tử trong ngọn lửa, nên định luật Beer được thỏa mãn. Mỗi nguyên tố cần một đèn riêng.</li>
+        <li>Bộ đơn sắc đặt <b>sau</b> ngọn lửa để loại bớt bức xạ do chính ngọn lửa phát ra.</li>
       </ul>
 
-      <h3>4. ICP-MS</h3>
-      <p>Plasma ICP ion hóa nguyên tử → khối phổ kế tách ion theo tỉ số <b>m/z</b> → đếm ion. Nhạy nhất trong nhóm (cỡ ppt), phân tích đồng thời nhiều nguyên tố và đồng vị. Cản trở: ion đa nguyên tử cùng m/z (ví dụ <sup>40</sup>Ar<sup>35</sup>Cl<sup>+</sup> trùng <sup>75</sup>As<sup>+</sup>).</p>
+      <h3>4. Quang phổ phát xạ nguyên tử (AES)</h3>
+      <p>Nguyên tử được nguyên tử hóa rồi <b>kích thích</b> bằng nhiệt (ngọn lửa, plasma); khi trở về trạng thái cơ bản chúng phát ra bức xạ đặc trưng. Cường độ vạch tỉ lệ với nồng độ: I = k·C. Máy giống AAS nhưng <b>không cần nguồn sáng</b>.</p>
+      <ul>
+        <li><b>Quang kế ngọn lửa</b>: dùng ngọn lửa làm nguồn kích thích, thích hợp cho kim loại kiềm (Na, K) dễ kích thích.</li>
+        <li><b>ICP-OES</b>: plasma kích thích được hầu hết nguyên tố; phân tích <b>đồng thời nhiều nguyên tố</b>, khoảng tuyến tính rộng (4 – 6 bậc nồng độ).</li>
+      </ul>
+      <p><b>Ảnh hưởng của nhiệt độ</b>: tỉ lệ nguyên tử ở trạng thái kích thích (N*) và cơ bản (N<sub>0</sub>) tuân theo phân bố Boltzmann:</p>
+      <div class="cong-thuc"><div class="nhan">g*, g<sub>0</sub>: số trạng thái cùng năng lượng; ΔE: hiệu năng lượng; k = 1,381·10<sup>−23</sup> J/K</div>\[ \frac{N^*}{N_0} = \frac{g^*}{g_0}\,e^{-\Delta E/kT} \]</div>
+      <div class="vi-du"><b>Ví dụ 1.</b> Với vạch Na 589,0 nm (g*/g<sub>0</sub> = 3), tính N*/N<sub>0</sub> ở 2500 K và 2510 K. Nhận xét ảnh hưởng của dao động nhiệt độ ngọn lửa tới AAS và AES.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} \Delta E &= \frac{hc}{\lambda} = \frac{6,626\cdot10^{-34}\cdot2,998\cdot10^{8}}{589,0\cdot10^{-9}} \\ &= 3,373\cdot10^{-19}\ \mathrm{J} \end{aligned} \]
+          Ở 2500 K: \[ \frac{N^*}{N_0} = 3\,e^{-9,77} = 1,72\cdot10^{-4} \]
+          Ở 2510 K: \[ \frac{N^*}{N_0} = 1,78\cdot10^{-4} \]
+          Tăng 10 K làm số nguyên tử kích thích tăng khoảng <b>4%</b>, nên tín hiệu <b>AES</b> thay đổi khoảng 4%. Trong khi đó N<sub>0</sub> gần như không đổi (99,98% nguyên tử vẫn ở trạng thái cơ bản), nên tín hiệu <b>AAS</b> hầu như không bị ảnh hưởng. AES đòi hỏi nhiệt độ nguồn rất ổn định.
+        </details></div>
+
+      <h3>5. So sánh AAS và AES</h3>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Tiêu chí</th><th>AAS</th><th>AES</th></tr></thead>
+          <tbody>
+            <tr><td>Tín hiệu phụ thuộc</td><td>Số nguyên tử ở trạng thái cơ bản</td><td>Số nguyên tử ở trạng thái kích thích</td></tr>
+            <tr><td>Nguồn sáng</td><td>Cần đèn catot rỗng cho từng nguyên tố</td><td>Không cần (nguồn nhiệt vừa nguyên tử hóa vừa kích thích)</td></tr>
+            <tr><td>Nhiệt độ</td><td>Vừa đủ để nguyên tử hóa</td><td>Đủ cao để kích thích, phải rất ổn định</td></tr>
+            <tr><td>Số nguyên tố mỗi lần đo</td><td>Thường một</td><td>Nhiều nguyên tố đồng thời (ICP-OES)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>6. Cản trở và cách khắc phục</h3>
+      <ul>
+        <li><b>Cản trở phổ</b>: vạch hoặc dải hấp thụ của chất khác chồng lên vạch chất phân tích; hạt rắn, phân tử trong ngọn lửa hấp thụ hoặc tán xạ ánh sáng (hấp thụ nền). Khắc phục: chọn vạch khác; <b>hiệu chỉnh nền</b> bằng đèn D<sub>2</sub> hoặc hiệu ứng Zeeman.</li>
+        <li><b>Cản trở hóa học</b>: chất phân tích tạo hợp chất bền khó nguyên tử hóa, ví dụ Ca<sup>2+</sup> với PO<sub>4</sub><sup>3−</sup>. Khắc phục: thêm <b>chất giải phóng</b> (La<sup>3+</sup>, Sr<sup>2+</sup> kết hợp với PO<sub>4</sub><sup>3−</sup> thay cho Ca); thêm chất tạo phức bảo vệ (EDTA); dùng ngọn lửa nóng hơn (N<sub>2</sub>O – axetilen).</li>
+        <li><b>Cản trở ion hóa</b>: kim loại kiềm bị ion hóa một phần trong ngọn lửa nóng, làm giảm số nguyên tử. Khắc phục: thêm <b>chất khử ion hóa</b> (K, Cs dễ ion hóa hơn, cung cấp nhiều electron).</li>
+        <li><b>Ảnh hưởng nền</b> (độ nhớt, sức căng bề mặt khác nhau giữa mẫu và chuẩn làm tốc độ hút mẫu khác nhau): dùng phương pháp <b>thêm chuẩn</b> (Chương 10).</li>
+      </ul>
+
+      <h3>7. ICP-MS</h3>
+      <p>Plasma ICP vừa nguyên tử hóa vừa <b>ion hóa</b> mẫu; ion được đưa vào khối phổ kế, tách theo tỉ số khối lượng/điện tích <b>m/z</b> rồi đếm. Đây là phương pháp nhạy nhất trong nhóm (cỡ ppt), phân tích đồng thời nhiều nguyên tố và cả tỉ lệ đồng vị. Cản trở chính là ion đa nguyên tử có cùng m/z, ví dụ <sup>40</sup>Ar<sup>35</sup>Cl<sup>+</sup> trùng với <sup>75</sup>As<sup>+</sup>; khắc phục bằng buồng va chạm/phản ứng hoặc máy phân giải cao.</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Kĩ thuật</th><th>Giới hạn phát hiện điển hình</th><th>Đặc điểm</th></tr></thead>
+          <tbody>
+            <tr><td>F-AAS (ngọn lửa)</td><td>ppm (mg/L)</td><td>Rẻ, nhanh, một nguyên tố</td></tr>
+            <tr><td>GF-AAS (lò graphit)</td><td>ppb (µg/L)</td><td>Ít mẫu, chậm hơn</td></tr>
+            <tr><td>ICP-OES</td><td>ppb</td><td>Nhiều nguyên tố, khoảng tuyến tính rộng</td></tr>
+            <tr><td>ICP-MS</td><td>ppt (ng/L)</td><td>Nhạy nhất, đồng vị; đắt</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="vi-du"><b>Ví dụ 2.</b> Xác định Pb trong nước uống bằng GF-AAS. Đường chuẩn A = 0,0184·C + 0,0012 (C: µg/L). Mẫu đo được A = 0,112. Mẫu có đạt quy chuẩn Pb ≤ 10 µg/L không?
+        <details><summary>Xem lời giải</summary>
+          \[ C = \frac{0,112 - 0,0012}{0,0184} = \mathbf{6,02\ \mu g/L} \]
+          6,02 µg/L &lt; 10 µg/L nên <b>đạt</b>. Nồng độ cỡ µg/L này nằm dưới giới hạn phát hiện của F-AAS, vì vậy phải dùng lò graphit (hoặc ICP-MS).
+        </details></div>
     `,
-    baiTap: [],
+    baiTap: [
+      {
+        de: "Vì sao khi xác định Ca bằng F-AAS trong mẫu có nhiều phosphate, người ta thêm LaCl<sub>3</sub> vào cả mẫu và chuẩn?",
+        dapAn: "PO<sub>4</sub><sup>3−</sup> tạo với Ca hợp chất bền, khó nguyên tử hóa, làm tín hiệu Ca giảm (cản trở hóa học). La<sup>3+</sup> là <b>chất giải phóng</b>: nó kết hợp với phosphate mạnh hơn, trả Ca về dạng dễ nguyên tử hóa. Thêm vào cả chuẩn để nền của chuẩn và mẫu giống nhau.",
+      },
+      {
+        de: "Tín hiệu của phương pháp nào (AAS hay AES) nhạy hơn với dao động nhiệt độ của ngọn lửa? Giải thích ngắn.",
+        dapAn: "<b>AES</b>. Số nguyên tử kích thích tăng theo hàm mũ với nhiệt độ (phân bố Boltzmann), tăng 10 K có thể làm tín hiệu thay đổi vài %. AAS đo nguyên tử ở trạng thái cơ bản, chiếm gần 100% nên hầu như không đổi.",
+      },
+    ],
   },
   {
     id: "dien-hoa",

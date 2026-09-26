@@ -138,7 +138,7 @@ const MAN_HINH = {
       <div id="kq-tim" hidden></div>
       <div id="ds-chuong">
         ${theDocTiep()}
-        ${theoNhom(ds => `<div class="list list-chuong">${ds.map((c, i) => theChuong(c, i + 1)).join("")}</div>`)}
+        ${theoNhom(ds => `<div class="list list-chuong">${ds.map((c, i) => theChuong(c, CHUONG.indexOf(c) + 1)).join("")}</div>`)}
       </div>
     `,
   },
@@ -318,8 +318,7 @@ const MAN_HINH = {
 
 /* Màn hình con (có nút "Quay lại"): tự tạo cho từng chương và từng bảng tra */
 CHUONG.forEach((c, i) => {
-  const cungNhom = CHUONG.filter(x => x.nhom === c.nhom);
-  const soTrongNhom = cungNhom.indexOf(c) + 1;
+  const soTrongNhom = i + 1;   // đánh số liên tục toàn app để dẫn chiếu "Chương N" khớp
   MAN_HINH[`/ly-thuyet/${c.id}`] = {
     tieuDe: c.ten,
     manHinhCon: true,
