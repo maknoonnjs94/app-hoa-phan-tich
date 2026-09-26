@@ -24,7 +24,8 @@ Sau khi cài, app có biểu tượng riêng trên màn hình chính và mở to
 
 | Muốn sửa | Mở file |
 |---|---|
-| Nội dung các màn hình, thêm màn hình mới | `app.js` (phần `MAN_HINH` ở đầu file) |
+| Lý thuyết, bài tập, bảng tra cứu | `noi-dung.js` (`CHUONG` và `TRA_CUU`) |
+| Bố cục các màn hình, công cụ tính, thêm màn hình mới | `app.js` (phần `MAN_HINH` ở đầu file) |
 | Màu sắc, cỡ chữ | `style.css` (các biến `--mau-chinh`, `--nen`… ở đầu file) |
 | Tên các tab dưới đáy | `index.html` (phần `<nav class="tabbar">`) |
 | Tên app, màu thanh trạng thái | `manifest.webmanifest` và `index.html` |
@@ -33,6 +34,19 @@ Sau khi cài, app có biểu tượng riêng trên màn hình chính và mở to
 **Sau mỗi lần sửa:** mở `sw.js` và tăng số phiên bản (`v1` thành `v2`, `v3`…). Nếu không tăng, điện thoại đã cài app có thể vẫn hiện bản cũ. Mở lại app 1–2 lần là nhận bản mới.
 
 Cách sửa ngay trên web GitHub: mở file, bấm biểu tượng ✏️, sửa, rồi bấm **Commit changes**. Khoảng 1 phút sau web tự cập nhật.
+
+### Thêm bài tập hoặc chương mới
+
+Trong `noi-dung.js`, mỗi chương có danh sách `baiTap`. Thêm một bài bằng cách chép mẫu:
+
+```js
+{
+  de: "Đề bài. Chỉ số dưới viết H<sub>2</sub>O, số mũ viết 10<sup>-5</sup>.",
+  dapAn: "Lời giải... kết quả <b>in đậm</b>",
+},
+```
+
+Thêm chương mới thì chép nguyên một khối `{ id: ..., ten: ..., lyThuyet: ..., baiTap: [...] }`. Nhớ đặt `id` khác các chương cũ và không có dấu. App tự tạo trang lý thuyết và trang bài tập cho chương đó.
 
 ### Thêm một màn hình mới
 
@@ -65,7 +79,8 @@ Sau đó mở http://localhost:8000. Muốn xem giống điện thoại thì b�
 ```
 index.html            Khung app: thanh tiêu đề, vùng nội dung, thanh tab
 style.css             Giao diện (tự đổi nền tối theo điện thoại)
-app.js                Các màn hình và điều hướng
+noi-dung.js           Nội dung học: lý thuyết, bài tập, bảng tra
+app.js                Các màn hình, công cụ tính và điều hướng
 manifest.webmanifest  Khai báo để cài được như app
 sw.js                 Lưu sẵn giao diện để mở khi mất mạng
 icons/                Biểu tượng app

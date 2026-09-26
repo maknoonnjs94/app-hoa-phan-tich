@@ -1,78 +1,228 @@
 /* =========================================================
    Các màn hình của app.
+   Nội dung học tập (lý thuyết, bài tập, bảng tra) nằm ở file noi-dung.js.
    Muốn thêm màn hình: thêm một mục vào MAN_HINH, rồi trỏ link tới "#/ten-duong-dan".
    ========================================================= */
+const dongDanhSach = (link, icon, ten, phu) => `
+  <a href="${link}">
+    <span class="icon">${icon}</span>
+    <span class="text">${ten}<small>${phu}</small></span>
+    <span class="chevron">›</span>
+  </a>`;
+
 const MAN_HINH = {
   "/": {
-    tieuDe: "Trang chủ",
+    tieuDe: "Hóa phân tích",
     ve: () => `
       <div class="card hero">
-        <h3>Xin chào 👋</h3>
-        <p>Đây là web chạy như app trên điện thoại. Sửa nội dung trong file <b>app.js</b>.</p>
+        <h3>Hóa phân tích 🧪</h3>
+        <p>Ôn lý thuyết, luyện bài tập, tính nhanh và tra cứu hằng số — ngay trên điện thoại.</p>
       </div>
-      <h2>Lối tắt</h2>
       <div class="grid">
-        <a class="card" href="#/kham-pha" style="color:inherit;text-decoration:none"><div class="big">🔍</div>Khám phá</a>
-        <a class="card" href="#/thong-bao" style="color:inherit;text-decoration:none"><div class="big">🔔</div>Thông báo</a>
-        <a class="card" href="#/chi-tiet" style="color:inherit;text-decoration:none"><div class="big">📄</div>Trang chi tiết</a>
-        <a class="card" href="#/ca-nhan" style="color:inherit;text-decoration:none"><div class="big">👤</div>Cá nhân</a>
+        <a class="card o-tat" href="#/ly-thuyet"><div class="big">📘</div>Lý thuyết</a>
+        <a class="card o-tat" href="#/bai-tap"><div class="big">✏️</div>Bài tập</a>
+        <a class="card o-tat" href="#/cong-cu"><div class="big">🧮</div>Công cụ</a>
+        <a class="card o-tat" href="#/tra-cuu"><div class="big">📋</div>Tra cứu</a>
       </div>
-    `,
-  },
-
-  "/kham-pha": {
-    tieuDe: "Khám phá",
-    ve: () => `
-      <h2>Danh mục</h2>
-      <div class="list">
-        ${["Bài viết", "Hình ảnh", "Video", "Tài liệu"].map((ten, i) => `
-          <a href="#/chi-tiet">
-            <span class="icon">${["📝", "🖼️", "🎬", "📚"][i]}</span>
-            <span class="text">${ten}<small>Bấm để xem chi tiết</small></span>
-            <span class="chevron">›</span>
-          </a>`).join("")}
-      </div>
-    `,
-  },
-
-  "/thong-bao": {
-    tieuDe: "Thông báo",
-    ve: () => `
-      <div class="list">
-        <div class="row"><span class="icon">🎉</span><span class="text">Chào mừng bạn!<small>Vừa xong</small></span></div>
-        <div class="row"><span class="icon">📌</span><span class="text">Nhớ cài app ra màn hình chính<small>Hôm nay</small></span></div>
-      </div>
-    `,
-  },
-
-  "/ca-nhan": {
-    tieuDe: "Cá nhân",
-    ve: () => `
-      <div class="card" style="display:flex;align-items:center;gap:14px">
-        <div class="icon" style="width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font-size:28px;background:var(--nen)">👤</div>
-        <div><strong>Khách</strong><br><small style="color:var(--chu-phu)">Chưa đăng nhập</small></div>
-      </div>
-      <h2>Cài đặt</h2>
-      <div class="list">
-        <div class="row"><span class="icon">📱</span><span class="text">Chế độ đang chạy<small>${dangChayNhuApp() ? "Đã cài như app" : "Đang mở trong trình duyệt"}</small></span></div>
-        <div class="row"><span class="icon">🌐</span><span class="text">Mạng<small>${navigator.onLine ? "Đang có mạng" : "Đang ngoại tuyến"}</small></span></div>
-      </div>
-    `,
-  },
-
-  /* Màn hình con: có nút "Quay lại" thay vì nằm trên thanh tab */
-  "/chi-tiet": {
-    tieuDe: "Chi tiết",
-    manHinhCon: true,
-    ve: () => `
+      <h2>Công thức hay dùng</h2>
       <div class="card">
-        <h3 style="margin-top:0">Trang chi tiết</h3>
-        <p>Màn hình con có nút quay lại ở góc trên, giống app thật. Nút "Back" của Android cũng quay lại được.</p>
+        <div class="cong-thuc">pH = −lg[H<sup>+</sup>] &nbsp;;&nbsp; pH + pOH = 14</div>
+        <div class="cong-thuc">C<sub>1</sub>·V<sub>1</sub> = C<sub>2</sub>·V<sub>2</sub></div>
+        <div class="cong-thuc">pH = pK<sub>a</sub> + lg( C<sub>A⁻</sub> / C<sub>HA</sub> )</div>
+        <div class="cong-thuc">E = E° + (0,0592 / n) · lg( [Ox] / [Kh] )</div>
       </div>
-      <button class="btn full" onclick="history.back()">Quay lại</button>
+    `,
+  },
+
+  "/ly-thuyet": {
+    tieuDe: "Lý thuyết",
+    ve: () => `
+      <h2>Các chương</h2>
+      <div class="list">
+        ${CHUONG.map((c, i) => dongDanhSach(`#/ly-thuyet/${c.id}`, c.icon, `${i + 1}. ${c.ten}`, c.moTa)).join("")}
+      </div>
+    `,
+  },
+
+  "/bai-tap": {
+    tieuDe: "Bài tập",
+    ve: () => `
+      <h2>Chọn chương</h2>
+      <div class="list">
+        ${CHUONG.map(c => dongDanhSach(`#/bai-tap/${c.id}`, c.icon, c.ten, `${c.baiTap.length} bài`)).join("")}
+      </div>
+    `,
+  },
+
+  "/cong-cu": {
+    tieuDe: "Công cụ",
+    ve: () => `
+      <div class="card cong-cu">
+        <h3>Tính pH dung dịch</h3>
+        <label>Loại chất
+          <select id="ph-loai" onchange="tinhPH()">
+            <option value="axit-manh">Axit mạnh (1 nấc)</option>
+            <option value="bazo-manh">Bazơ mạnh (1 nấc)</option>
+            <option value="axit-yeu">Axit yếu (1 nấc)</option>
+            <option value="bazo-yeu">Bazơ yếu (1 nấc)</option>
+          </select>
+        </label>
+        <label>Nồng độ C (mol/L)
+          <input id="ph-c" inputmode="decimal" placeholder="ví dụ 0,1" oninput="tinhPH()">
+        </label>
+        <label id="ph-k-nhan" hidden><span id="ph-k-ten">pKa</span>
+          <input id="ph-k" inputmode="decimal" placeholder="ví dụ 4,76" oninput="tinhPH()">
+        </label>
+        <div class="ket-qua" id="ph-kq">Nhập nồng độ để xem kết quả.</div>
+      </div>
+
+      <div class="card cong-cu">
+        <h3>Pha loãng: C₁·V₁ = C₂·V₂</h3>
+        <p class="ghi-chu">Nhập 3 ô bất kỳ, để trống ô cần tính.</p>
+        <div class="hai-cot">
+          <label>C₁<input id="pl-c1" inputmode="decimal" oninput="tinhPhaLoang()"></label>
+          <label>V₁<input id="pl-v1" inputmode="decimal" oninput="tinhPhaLoang()"></label>
+          <label>C₂<input id="pl-c2" inputmode="decimal" oninput="tinhPhaLoang()"></label>
+          <label>V₂<input id="pl-v2" inputmode="decimal" oninput="tinhPhaLoang()"></label>
+        </div>
+        <div class="ket-qua" id="pl-kq">C và V dùng cùng đơn vị ở hai vế.</div>
+      </div>
+
+      <div class="card cong-cu">
+        <h3>Pha dung dịch từ chất rắn</h3>
+        <label>Nồng độ cần pha (mol/L)<input id="cr-c" inputmode="decimal" oninput="tinhChatRan()"></label>
+        <label>Thể tích (mL)<input id="cr-v" inputmode="decimal" oninput="tinhChatRan()"></label>
+        <label>Khối lượng mol M (g/mol)<input id="cr-m" inputmode="decimal" oninput="tinhChatRan()"></label>
+        <div class="ket-qua" id="cr-kq">m = C · V · M</div>
+      </div>
+    `,
+  },
+
+  "/tra-cuu": {
+    tieuDe: "Tra cứu",
+    ve: () => `
+      <h2>Bảng tra</h2>
+      <div class="list">
+        ${TRA_CUU.map(b => dongDanhSach(`#/tra-cuu/${b.id}`, b.icon, b.ten, `${b.dong.length} dòng`)).join("")}
+      </div>
+      <p class="ghi-chu">Giá trị ở 25 °C, có thể lệch nhẹ giữa các tài liệu.</p>
     `,
   },
 };
+
+/* Màn hình con (có nút "Quay lại"): tự tạo cho từng chương và từng bảng tra */
+CHUONG.forEach((c, i) => {
+  MAN_HINH[`/ly-thuyet/${c.id}`] = {
+    tieuDe: c.ten,
+    manHinhCon: true,
+    ve: () => `
+      <div class="card bai-hoc">${c.lyThuyet}</div>
+      <a class="btn full" href="#/bai-tap/${c.id}">Làm bài tập chương này ✏️</a>
+    `,
+  };
+  MAN_HINH[`/bai-tap/${c.id}`] = {
+    tieuDe: `Bài tập: ${c.ten}`,
+    manHinhCon: true,
+    ve: () => `
+      ${c.baiTap.map((b, j) => `
+        <div class="card bai-tap">
+          <div class="so-bai">Bài ${j + 1}</div>
+          <p>${b.de}</p>
+          <details>
+            <summary>Xem đáp án</summary>
+            <div class="dap-an">${b.dapAn}</div>
+          </details>
+        </div>`).join("")}
+      <a class="btn full phu" href="#/ly-thuyet/${c.id}">Xem lại lý thuyết 📘</a>
+    `,
+  };
+});
+TRA_CUU.forEach(b => {
+  MAN_HINH[`/tra-cuu/${b.id}`] = {
+    tieuDe: b.ten,
+    manHinhCon: true,
+    ve: () => `
+      <div class="bang-cuon">
+        <table class="bang">
+          <thead><tr>${b.cot.map(t => `<th>${t}</th>`).join("")}</tr></thead>
+          <tbody>${b.dong.map(d => `<tr>${d.map(o => `<td>${o}</td>`).join("")}</tr>`).join("")}</tbody>
+        </table>
+      </div>
+    `,
+  };
+});
+
+/* ================= Công cụ tính ================= */
+// Đọc số người dùng nhập (chấp nhận cả dấu phẩy "0,1" và dấu chấm "0.1")
+function docSo(id) {
+  const chu = document.getElementById(id).value.trim().replace(",", ".");
+  if (chu === "") return null;
+  const so = Number(chu);
+  return Number.isFinite(so) ? so : NaN;
+}
+// Hiện số kiểu Việt Nam: 3 chữ số có nghĩa, dấu phẩy thập phân
+function vietSo(x) {
+  if (x !== 0 && (Math.abs(x) < 1e-3 || Math.abs(x) >= 1e5)) {
+    const [co, mu] = x.toExponential(2).split("e");
+    return `${co.replace(".", ",")}·10<sup>${Number(mu)}</sup>`.replace("-", "−");
+  }
+  return Number(x.toPrecision(4)).toLocaleString("vi-VN", { maximumFractionDigits: 6 });
+}
+
+const KW = 1e-14;
+// Giải cân bằng điện tích cho axit 1 nấc (Ka = Infinity nghĩa là axit mạnh), có tính cả nước:
+//   [H+] − Kw/[H+] − C·Ka/(Ka + [H+]) = 0   (vế trái tăng dần theo [H+] nên chia đôi được)
+function tinhH(C, Ka) {
+  const f = h => h - KW / h - (Ka === Infinity ? C : C * Ka / (Ka + h));
+  let thap = -16, cao = 2;   // tìm lg[H+] trong khoảng 10^-16 … 10^2
+  for (let i = 0; i < 200; i++) {
+    const giua = (thap + cao) / 2;
+    if (f(10 ** giua) > 0) cao = giua; else thap = giua;
+  }
+  return 10 ** ((thap + cao) / 2);
+}
+
+function tinhPH() {
+  const loai = document.getElementById("ph-loai").value;
+  const yeu = loai.endsWith("yeu");
+  const laBazo = loai.startsWith("bazo");
+  document.getElementById("ph-k-nhan").hidden = !yeu;
+  document.getElementById("ph-k-ten").textContent = laBazo ? "pKb" : "pKa";
+  const kq = document.getElementById("ph-kq");
+  const C = docSo("ph-c");
+  const pK = yeu ? docSo("ph-k") : 0;
+  if (C === null || (yeu && pK === null)) { kq.innerHTML = "Nhập nồng độ để xem kết quả."; return; }
+  if (!(C > 0) || Number.isNaN(pK)) { kq.innerHTML = "⚠️ Số nhập vào chưa hợp lệ."; return; }
+  const K = yeu ? 10 ** -pK : Infinity;
+  // Bazơ: tính [OH-] bằng đúng công thức như axit, rồi đổi sang pH
+  const x = tinhH(C, K);
+  const pH = laBazo ? 14 + Math.log10(x) : -Math.log10(x);
+  const H = 10 ** -pH;
+  kq.innerHTML = `pH = <b>${pH.toFixed(2).replace(".", ",")}</b><br>
+    [H<sup>+</sup>] = ${vietSo(H)} M &nbsp; [OH<sup>−</sup>] = ${vietSo(KW / H)} M`;
+}
+
+function tinhPhaLoang() {
+  const ten = ["c1", "v1", "c2", "v2"];
+  const gt = ten.map(t => docSo("pl-" + t));
+  const kq = document.getElementById("pl-kq");
+  const trong = gt.map((g, i) => g === null ? i : -1).filter(i => i >= 0);
+  if (trong.length !== 1) { kq.innerHTML = "Nhập đúng 3 ô, để trống 1 ô cần tính."; return; }
+  if (gt.some(g => g !== null && !(g > 0))) { kq.innerHTML = "⚠️ Các số phải lớn hơn 0."; return; }
+  const [c1, v1, c2, v2] = gt;
+  const i = trong[0];
+  const ketQua = [c2 * v2 / v1, c2 * v2 / c1, c1 * v1 / v2, c1 * v1 / c2][i];
+  const nhan = ["C₁", "V₁", "C₂", "V₂"][i];
+  kq.innerHTML = `${nhan} = <b>${vietSo(ketQua)}</b>`;
+}
+
+function tinhChatRan() {
+  const C = docSo("cr-c"), V = docSo("cr-v"), M = docSo("cr-m");
+  const kq = document.getElementById("cr-kq");
+  if (C === null || V === null || M === null) { kq.innerHTML = "m = C · V · M"; return; }
+  if (!(C > 0 && V > 0 && M > 0)) { kq.innerHTML = "⚠️ Các số phải lớn hơn 0."; return; }
+  kq.innerHTML = `Cân <b>${vietSo(C * V / 1000 * M)} g</b> chất rắn, hòa tan và định mức thành ${vietSo(V)} mL.`;
+}
 
 /* ================= Bộ điều hướng (không cần sửa) ================= */
 const noiDung = document.getElementById("noi-dung");
@@ -83,11 +233,12 @@ function hienManHinh() {
   const duong = location.hash.replace(/^#/, "") || "/";
   const mh = MAN_HINH[duong] || MAN_HINH["/"];
   tieuDe.textContent = mh.tieuDe;
-  document.title = mh.tieuDe + " · Hóa phân tích";
+  document.title = duong === "/" ? "Hóa phân tích" : mh.tieuDe + " · Hóa phân tích";
   noiDung.innerHTML = mh.ve();
   nutQuayLai.hidden = !mh.manHinhCon;
   document.querySelectorAll(".tabbar a").forEach(a =>
-    a.classList.toggle("active", a.dataset.tab === duong));
+    a.classList.toggle("active", a.dataset.tab === duong ||
+      (a.dataset.tab !== "/" && duong.startsWith(a.dataset.tab + "/"))));
   window.scrollTo(0, 0);
 }
 window.addEventListener("hashchange", hienManHinh);

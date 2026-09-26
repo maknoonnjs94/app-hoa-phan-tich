@@ -5,7 +5,7 @@
   <!-- viewport-fit=cover: cho giao diện tràn vào vùng "tai thỏ" của iPhone -->
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Hóa phân tích</title>
-  <meta name="description" content="Web giống app dùng trên điện thoại">
+  <meta name="description" content="Ôn tập Hóa phân tích: lý thuyết, bài tập, công cụ tính và bảng tra">
 
   <!-- Khai báo để cài được như app -->
   <link rel="manifest" href="manifest.webmanifest">
@@ -28,7 +28,7 @@
       <button class="icon-btn" id="nut-quay-lai" aria-label="Quay lại" hidden>
         <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
       </button>
-      <h1 id="tieu-de">Trang chủ</h1>
+      <h1 id="tieu-de">Hóa phân tích</h1>
     </header>
 
     <!-- Nội dung từng màn hình được app.js vẽ vào đây -->
@@ -40,17 +40,21 @@
         <svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>
         <span>Trang chủ</span>
       </a>
-      <a href="#/kham-pha" data-tab="/kham-pha">
+      <a href="#/ly-thuyet" data-tab="/ly-thuyet">
+        <svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21a2 2 0 0 1 2-2h13v2H6"/></svg>
+        <span>Lý thuyết</span>
+      </a>
+      <a href="#/bai-tap" data-tab="/bai-tap">
+        <svg viewBox="0 0 24 24"><path d="M14 4l6 6L9 21H3v-6z"/><path d="M12 6l6 6"/></svg>
+        <span>Bài tập</span>
+      </a>
+      <a href="#/cong-cu" data-tab="/cong-cu">
+        <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M8 6h8M8 11h2M14 11h2M8 15h2M14 15h2M8 19h2M14 19h2"/></svg>
+        <span>Công cụ</span>
+      </a>
+      <a href="#/tra-cuu" data-tab="/tra-cuu">
         <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-        <span>Khám phá</span>
-      </a>
-      <a href="#/thong-bao" data-tab="/thong-bao">
-        <svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></svg>
-        <span>Thông báo</span>
-      </a>
-      <a href="#/ca-nhan" data-tab="/ca-nhan">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
-        <span>Cá nhân</span>
+        <span>Tra cứu</span>
       </a>
     </nav>
   </div>
@@ -68,6 +72,7 @@
     </button>
   </div>
 
+  <script src="noi-dung.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

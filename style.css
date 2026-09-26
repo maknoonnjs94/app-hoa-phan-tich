@@ -158,3 +158,63 @@ svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width:
 .install-text { flex: 1; min-width: 0; font-size: 13px; }
 .install-text strong { display: block; font-size: 14px; }
 .install-text span { color: var(--chu-phu); }
+
+/* ===== Nội dung môn Hóa phân tích ===== */
+.topbar h1 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.o-tat { color: inherit; text-decoration: none; }
+.o-tat:active { transform: scale(.97); }
+a.btn { display: grid; place-items: center; text-decoration: none; margin-top: 4px; }
+.btn.phu { background: color-mix(in srgb, var(--mau-chinh) 15%, transparent); color: var(--mau-chinh); }
+.ghi-chu { color: var(--chu-phu); font-size: 14px; }
+
+/* Ô công thức */
+.cong-thuc {
+  background: color-mix(in srgb, var(--mau-chinh) 8%, var(--the));
+  border-left: 3px solid var(--mau-chinh);
+  border-radius: 8px; padding: 10px 12px; margin: 8px 0;
+  font-family: "Cambria Math", "Times New Roman", serif; font-size: 16px;
+  overflow-x: auto;
+}
+sub, sup { font-size: .72em; line-height: 0; }
+
+/* Bài lý thuyết */
+.bai-hoc h3 { font-size: 17px; margin: 18px 0 6px; color: var(--mau-chinh); }
+.bai-hoc h3:first-child { margin-top: 0; }
+.bai-hoc ul { padding-left: 20px; line-height: 1.55; }
+.bai-hoc li { margin-bottom: 6px; }
+
+/* Bài tập */
+.bai-tap p { margin: 6px 0 10px; }
+.so-bai { font-size: 13px; font-weight: 700; color: var(--mau-chinh); text-transform: uppercase; letter-spacing: .03em; }
+.bai-tap summary {
+  cursor: pointer; font-weight: 600; color: var(--mau-chinh);
+  padding: 8px 0; list-style-position: inside;
+}
+.dap-an {
+  margin-top: 6px; padding: 10px 12px; border-radius: 10px; line-height: 1.7;
+  background: color-mix(in srgb, #16a34a 12%, var(--the));
+}
+
+/* Công cụ tính */
+.cong-cu h3 { margin: 0 0 10px; font-size: 17px; }
+.cong-cu label { display: block; font-size: 14px; color: var(--chu-phu); margin-bottom: 10px; }
+.cong-cu input, .cong-cu select {
+  display: block; width: 100%; margin-top: 4px;
+  font: inherit; font-size: 16px;               /* 16px: iPhone không tự phóng to khi gõ */
+  color: var(--chu); background: var(--nen);
+  border: 1px solid var(--vien); border-radius: 10px; padding: 10px 12px;
+}
+.cong-cu input:focus, .cong-cu select:focus { outline: 2px solid var(--mau-chinh); outline-offset: -1px; }
+.hai-cot { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+.ket-qua {
+  padding: 12px; border-radius: 10px; line-height: 1.6;
+  background: color-mix(in srgb, var(--mau-chinh) 10%, var(--the));
+}
+
+/* Bảng tra cứu */
+.bang-cuon { overflow-x: auto; border-radius: 16px; border: 1px solid var(--vien); }
+.bang { width: 100%; border-collapse: collapse; background: var(--the); }
+.bang th, .bang td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--vien); }
+.bang th { font-size: 13px; color: var(--chu-phu); text-transform: uppercase; background: var(--nen); }
+.bang tr:last-child td { border-bottom: 0; }
+.bang td:not(:first-child) { white-space: nowrap; }
