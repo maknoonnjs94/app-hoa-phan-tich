@@ -702,3 +702,8 @@ details[open] > summary .khi-mo { display: inline; }
 .luoi-anh-tra { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
 .luoi-anh-tra .mp-anh { margin: 0; }
 .luoi-anh-tra .mp-anh img { max-height: 220px; object-fit: contain; }
+
+/* Hình tĩnh (SVG vẽ tay trong lý thuyết): <div class="hinh-tinh"><svg viewBox="...">…</svg><p class="chu-thich">…</p></div> */
+.hinh-tinh { margin: 12px 0; padding: 10px; border: 1px solid var(--vien); border-radius: 14px; background: var(--the); }
+.hinh-tinh svg { width: 100%; height: auto; display: block; fill: initial; stroke: initial; stroke-width: initial; font-family: var(--phong); }
+.hinh-tinh .chu-thich { margin: 6px 2px 0; font-size: .88em; color: var(--chu-phu); }
