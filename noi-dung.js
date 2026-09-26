@@ -1670,46 +1670,148 @@ const CHUONG = [
     nhom: "Phân tích công cụ",
     icon: "📈",
     ten: "Các phương pháp hiệu chuẩn",
-    moTa: "Đường chuẩn, LOD, thêm chuẩn, nội chuẩn, thẩm định",
+    moTa: "Đường chuẩn, bình phương tối thiểu, độ không đảm bảo, thêm chuẩn, nội chuẩn, QA/QC",
+    dayDu: true,
+    choDuyet: true,
     lyThuyet: String.raw`
-      <h3>1. Đường chuẩn (phương pháp ngoại chuẩn)</h3>
-      <p>Đo tín hiệu y của một dãy dung dịch chuẩn đã biết nồng độ x, dựng đường thẳng y = mx + b bằng <b>phương pháp bình phương tối thiểu</b>, rồi thay tín hiệu mẫu để tìm nồng độ.</p>
-      <div class="cong-thuc"><div class="nhan">Hệ số góc và hệ số chặn</div>\[ \begin{gathered} m = \frac{\sum(x_i - \bar{x})(y_i - \bar{y})}{\sum(x_i - \bar{x})^2} \\ b = \bar{y} - m\bar{x} \end{gathered} \]</div>
-      <div class="cong-thuc"><div class="nhan">Nồng độ mẫu</div>\[ x_\text{mẫu} = \frac{y_\text{mẫu} - b}{m} \]</div>
+      <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
+        <ul>
+          <li>Dựng đường chuẩn bằng bình phương tối thiểu, báo cáo hệ số kèm khoảng tin cậy và tính nồng độ mẫu kèm độ không đảm bảo.</li>
+          <li>Chọn và tính toán theo ba cách hiệu chuẩn: ngoại chuẩn, thêm chuẩn, nội chuẩn.</li>
+          <li>Hiểu các khái niệm bảo đảm chất lượng: mẫu trắng, CRM, độ thu hồi, LOD/LOQ, thẩm định phương pháp.</li>
+        </ul>
+      </div>
+      <h3>1. Đường chuẩn</h3>
+      <p><b>Đường chuẩn</b> (calibration curve) biểu diễn đáp ứng của phương pháp (tín hiệu y) theo lượng chất phân tích đã biết (x). Các khái niệm:</p>
       <ul>
-        <li>Chỉ dùng trong <b>khoảng tuyến tính</b>; mẫu phải nằm trong khoảng nồng độ của dãy chuẩn (không ngoại suy).</li>
-        <li><b>Mẫu trắng</b> (blank) chứa mọi thành phần trừ chất phân tích, dùng để trừ tín hiệu nền.</li>
-        <li>Nên tính hồi quy bằng công cụ thống kê (ví dụ Data Analysis trong Excel) để có cả độ lệch chuẩn của m và b, không chỉ vẽ đường xu hướng.</li>
+        <li><b>Dung dịch chuẩn</b>: chứa lượng chất phân tích đã biết chính xác.</li>
+        <li><b>Mẫu trắng</b> (blank): chứa mọi thuốc thử, dung môi trừ chất phân tích; tín hiệu của nó là tín hiệu nền cần trừ đi.</li>
+        <li><b>Khoảng tuyến tính</b>: vùng nồng độ mà tín hiệu tỉ lệ thuận với nồng độ. <b>Khoảng động học</b> (dynamic range): vùng mà tín hiệu còn thay đổi theo nồng độ (có thể không tuyến tính).</li>
       </ul>
-      <h3>2. Giới hạn phát hiện và giới hạn định lượng</h3>
-      <div class="cong-thuc"><div class="nhan">s: độ lệch chuẩn tín hiệu mẫu trắng (hoặc mẫu nồng độ rất thấp); m: độ dốc đường chuẩn</div>\[ \mathrm{LOD} = \frac{3s}{m} \qquad \mathrm{LOQ} = \frac{10s}{m} \]</div>
-      <h3>3. Phương pháp thêm chuẩn</h3>
-      <p>Thêm lượng chuẩn đã biết vào chính mẫu → loại trừ ảnh hưởng của nền mẫu (matrix effect).</p>
-      <div class="cong-thuc"><div class="nhan">Thêm chuẩn một lần (thể tích thêm không đáng kể)</div>\[ C_x = \frac{\Delta C\cdot A_x}{A_{x+\text{chuẩn}} - A_x} \]</div>
-      <p>Thêm chuẩn nhiều mức: vẽ tín hiệu theo nồng độ chuẩn thêm vào, kéo dài đường thẳng cắt trục hoành; |giao điểm| chính là nồng độ chất phân tích.</p>
-      <div class="vi-du"><b>Ví dụ 1.</b> Mẫu có A<sub>x</sub> = 0,240. Thêm chuẩn làm nồng độ tăng thêm 2,00 ppm thì A = 0,400. Tính C<sub>x</sub>.
+      <p><b>Các bước dựng đường chuẩn</b>:</p>
+      <ol>
+        <li>Pha dãy chuẩn có nồng độ <b>bao trùm</b> nồng độ dự kiến của mẫu, đo tín hiệu (nên đo lặp). Đo cả mẫu trắng.</li>
+        <li>Trừ tín hiệu trung bình của mẫu trắng khỏi mọi tín hiệu.</li>
+        <li>Vẽ đồ thị, dùng bình phương tối thiểu tìm đường thẳng trong khoảng tuyến tính.</li>
+      </ol>
+      <p>Mẫu phải nằm trong khoảng nồng độ của dãy chuẩn: <b>không ngoại suy</b>. Mẫu đặc quá thì pha loãng rồi đo lại.</p>
+
+      <h3>2. Phương pháp bình phương tối thiểu</h3>
+      <p>Tìm đường thẳng y = mx + b sao cho <b>tổng bình phương độ lệch theo phương thẳng đứng</b> giữa điểm đo và đường thẳng là nhỏ nhất (giả thiết sai số của x không đáng kể so với y).</p>
+      <div class="cong-thuc"><div class="nhan">n điểm (x<sub>i</sub>, y<sub>i</sub>)</div>\[ \begin{aligned} D &= n\sum x_i^2 - \left(\sum x_i\right)^2 \\ m &= \frac{n\sum x_iy_i - \sum x_i\sum y_i}{D} \\ b &= \frac{\sum x_i^2\sum y_i - \sum x_iy_i\sum x_i}{D} \end{aligned} \]</div>
+      <div class="cong-thuc"><div class="nhan">Độ lệch chuẩn (bậc tự do n − 2); d<sub>i</sub> = y<sub>i</sub> − (mx<sub>i</sub> + b)</div>\[ \begin{gathered} s_y = \sqrt{\frac{\sum d_i^2}{n - 2}} \\ s_m = s_y\sqrt{\frac{n}{D}} \qquad s_b = s_y\sqrt{\frac{\sum x_i^2}{D}} \end{gathered} \]</div>
+      <p>Khoảng tin cậy: m ± t·s<sub>m</sub>, b ± t·s<sub>b</sub>, với t tra ở bậc tự do <b>n − 2</b>. Báo cáo dạng y = (b ± t·s<sub>b</sub>) + (m ± t·s<sub>m</sub>)x kèm R<sup>2</sup>. R<sup>2</sup> càng gần 1 càng tốt; b nên gần 0 (khoảng tin cậy của b chứa 0).</p>
+      <div class="cong-thuc"><div class="nhan">Nồng độ mẫu và độ lệch chuẩn của nó (ȳ<sub>0</sub>: trung bình k lần đo mẫu; ȳ: trung bình các y<sub>i</sub> của dãy chuẩn)</div>\[ \begin{gathered} x_0 = \frac{\bar{y}_0 - b}{m} \\ s_x = \frac{s_y}{|m|}\sqrt{\frac{1}{k} + \frac{1}{n} + \frac{(\bar{y}_0 - \bar{y})^2}{m^2\sum(x_i - \bar{x})^2}} \end{gathered} \]</div>
+      <p class="luu-y">Trong Excel nên dùng <b>Data Analysis → Regression</b> (cho cả s<sub>b</sub>, s<sub>m</sub>, s<sub>y</sub>, R<sup>2</sup>). Không nên chỉ dùng Add Trendline trên đồ thị, vì nó không cho độ không đảm bảo của các hệ số.</p>
+      <div class="vi-du"><b>Ví dụ 1.</b> Dãy chuẩn cho kết quả (tín hiệu đã trừ mẫu trắng):
+        <div class="bang-cuon"><table class="bang">
+          <thead><tr><th>x (ppm)</th><th>0,00</th><th>2,00</th><th>4,00</th><th>6,00</th><th>8,00</th></tr></thead>
+          <tbody><tr><td>A</td><td>0,003</td><td>0,127</td><td>0,251</td><td>0,372</td><td>0,498</td></tr></tbody>
+        </table></div>
+        Tìm phương trình đường chuẩn kèm khoảng tin cậy 95% (t = 3,18 với 3 bậc tự do). Mẫu đo 3 lần có A trung bình 0,300; tính nồng độ.
         <details><summary>Xem lời giải</summary>
-          \[ C_x = \frac{2,00\cdot0,240}{0,400 - 0,240} = \mathbf{3,00\ ppm} \]
+          Σx = 20,00; Σy = 1,251; Σx<sup>2</sup> = 120,0; Σxy = 7,474; n = 5:
+          \[ \begin{aligned} D &= 5\cdot120,0 - 20,00^2 = 200,0 \\ m &= \frac{5\cdot7,474 - 20,00\cdot1,251}{200,0} \\ &= 0,06175 \\ b &= \frac{120,0\cdot1,251 - 7,474\cdot20,00}{200,0} \\ &= 0,0032 \end{aligned} \]
+          Từ các độ lệch d<sub>i</sub>: s<sub>y</sub> = 0,0012; s<sub>m</sub> = 1,9·10<sup>−4</sup>; s<sub>b</sub> = 9,3·10<sup>−4</sup>; R<sup>2</sup> = 0,99997.
+          \[ \begin{gathered} A = (0,0032 \pm 0,0030) \\ + (0,0618 \pm 0,0006)\,x \end{gathered} \]
+          Nồng độ mẫu:
+          \[ \begin{aligned} x_0 &= \frac{0,300 - 0,0032}{0,06175} = 4,81\ \mathrm{ppm} \\ s_x &= 0,014\ \mathrm{ppm} \end{aligned} \]
+          Kết quả: <b>4,81 ± 0,05 ppm</b> (± t·s<sub>x</sub>, độ tin cậy 95%).
         </details></div>
-      <h3>4. Phương pháp nội chuẩn</h3>
-      <p>Thêm một lượng biết trước chất <b>nội chuẩn</b> (IS, khác chất phân tích nhưng tính chất gần giống) vào cả chuẩn và mẫu; dùng <b>tỉ số tín hiệu</b> để bù dao động thể tích tiêm, độ nhạy thiết bị.</p>
-      <div class="cong-thuc"><div class="nhan">Hệ số đáp ứng F (xác định từ hỗn hợp chuẩn)</div>\[ \frac{A_X}{[X]} = F\cdot\frac{A_{IS}}{[IS]} \]</div>
-      <h3>5. Đảm bảo chất lượng và thẩm định phương pháp</h3>
+
+      <h3>3. Giới hạn phát hiện và giới hạn định lượng</h3>
+      <div class="cong-thuc"><div class="nhan">s: độ lệch chuẩn tín hiệu của mẫu trắng (hoặc mẫu nồng độ rất thấp); m: độ dốc đường chuẩn</div>\[ \mathrm{LOD} = \frac{3s}{m} \qquad \mathrm{LOQ} = \frac{10s}{m} \]</div>
+      <ul>
+        <li><b>LOD</b> (giới hạn phát hiện): nồng độ nhỏ nhất phân biệt được với mẫu trắng, chưa định lượng tin cậy.</li>
+        <li><b>LOQ</b> (giới hạn định lượng): nồng độ nhỏ nhất định lượng được với độ chính xác chấp nhận.</li>
+        <li><b>Độ nhạy</b> là độ dốc m của đường chuẩn: m lớn thì một thay đổi nhỏ về nồng độ cho thay đổi lớn về tín hiệu.</li>
+      </ul>
+      <div class="vi-du"><b>Ví dụ 2.</b> Đo lặp 10 lần mẫu trắng được độ lệch chuẩn s = 0,0020. Với đường chuẩn ở Ví dụ 1, tính LOD và LOQ.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} \mathrm{LOD} &= \frac{3\cdot0,0020}{0,06175} = \mathbf{0,097\ ppm} \\ \mathrm{LOQ} &= \frac{10\cdot0,0020}{0,06175} = \mathbf{0,32\ ppm} \end{aligned} \]
+        </details></div>
+
+      <h3>4. Ba phương pháp hiệu chuẩn</h3>
       <div class="bang-cuon">
         <table class="bang bang-the">
-          <thead><tr><th>Chỉ tiêu</th><th>Kiểm tra bằng</th><th>Ghi chú</th></tr></thead>
+          <thead><tr><th>Phương pháp</th><th>Cách làm</th><th>Ưu điểm</th><th>Nhược điểm</th></tr></thead>
           <tbody>
-            <tr><td>Độ đúng</td><td>Mẫu chuẩn (CRM), độ thu hồi khi thêm chuẩn</td><td>\( R = \dfrac{C_\text{sau thêm} - C_\text{mẫu}}{C_\text{thêm}}\cdot100\% \)</td></tr>
-            <tr><td>Độ chụm</td><td>Đo lặp lại, tính RSD</td><td>Lặp lại trong ngày và giữa các ngày</td></tr>
-            <tr><td>Khoảng tuyến tính</td><td>Dãy chuẩn, hệ số xác định R<sup>2</sup></td><td></td></tr>
-            <tr><td>LOD, LOQ</td><td>Mẫu trắng lặp lại</td><td>3s/m và 10s/m</td></tr>
-            <tr><td>Độ chọn lọc</td><td>Thêm chất có thể cản trở</td><td></td></tr>
-            <tr><td>Độ bền vững</td><td>Thay đổi nhỏ điều kiện</td><td></td></tr>
+            <tr><td>Ngoại chuẩn</td><td>Đường chuẩn pha riêng, đo mẫu rồi nội suy</td><td>Đơn giản, một đường chuẩn dùng cho nhiều mẫu</td><td>Nền chuẩn khác nền mẫu gây sai số hệ thống (ảnh hưởng nền)</td></tr>
+            <tr><td>Thêm chuẩn</td><td>Thêm lượng chuẩn biết trước vào chính mẫu</td><td>Loại trừ ảnh hưởng nền</td><td>Mỗi mẫu cần một bộ thêm chuẩn: tốn mẫu, tốn thời gian</td></tr>
+            <tr><td>Nội chuẩn</td><td>Thêm chất nội chuẩn vào mọi dung dịch, dùng tỉ số tín hiệu</td><td>Bù dao động của máy, của thể tích tiêm, mất mẫu khi xử lí</td><td>Phải tìm được chất nội chuẩn phù hợp</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>5. Phương pháp thêm chuẩn</h3>
+      <p>Thêm chuẩn vào chính mẫu nên chất phân tích và chuẩn chịu cùng ảnh hưởng của nền. Giả thiết tín hiệu tỉ lệ thuận với nồng độ (đường thẳng đi qua gốc).</p>
+      <div class="cong-thuc"><div class="nhan">Thêm chuẩn một lần: V<sub>0</sub> mL mẫu + V<sub>s</sub> mL chuẩn [S]<sub>i</sub>, định mức thành V mL</div>\[ \begin{gathered} \frac{[\mathrm{X}]_i}{[\mathrm{S}]_f + [\mathrm{X}]_f} = \frac{I_\mathrm{X}}{I_\mathrm{S+X}} \\ [\mathrm{X}]_f = [\mathrm{X}]_i\frac{V_0}{V} \qquad [\mathrm{S}]_f = [\mathrm{S}]_i\frac{V_s}{V} \end{gathered} \]</div>
+      <p>I<sub>X</sub>: tín hiệu của mẫu ban đầu; I<sub>S+X</sub>: tín hiệu sau khi thêm chuẩn.</p>
+      <div class="vi-du"><b>Ví dụ 3.</b> Xác định Cu<sup>2+</sup> bằng AAS. Mẫu có A = 0,262. Lấy 95,0 mL mẫu, thêm 1,00 mL chuẩn Cu<sup>2+</sup> 100,0 ppm, định mức 100,0 mL, đo được A = 0,500. Tính [Cu<sup>2+</sup>] trong mẫu.
+        <details><summary>Xem lời giải</summary>
+          [Cu<sup>2+</sup>]<sub>f</sub> = 0,950[Cu<sup>2+</sup>]<sub>i</sub>; [S]<sub>f</sub> = 100,0·1,00/100,0 = 1,00 ppm:
+          \[ \begin{gathered} \frac{[\mathrm{Cu^{2+}}]_i}{1,00 + 0,950[\mathrm{Cu^{2+}}]_i} = \frac{0,262}{0,500} \\ [\mathrm{Cu^{2+}}]_i = \mathbf{1,04\ ppm} \end{gathered} \]
+        </details></div>
+      <p><b>Thêm chuẩn nhiều mức</b> (chính xác hơn): chia mẫu vào nhiều bình cùng thể tích, thêm các lượng chuẩn tăng dần, định mức bằng nhau. Vẽ tín hiệu I theo [S]<sub>f</sub>; kéo dài đường thẳng cắt trục hoành tại <b>−[X]<sub>f</sub></b>, tức [X]<sub>f</sub> = b/m.</p>
+      <div class="vi-du"><b>Ví dụ 4.</b> Năm bình 50,00 mL, mỗi bình có 10,00 mL mẫu và lượng chuẩn thêm vào sao cho [S]<sub>f</sub> = 0; 0,40; 0,80; 1,20; 1,60 ppm. Tín hiệu đo được 0,241; 0,299; 0,362; 0,419; 0,481. Tính nồng độ chất phân tích trong mẫu.
+        <details><summary>Xem lời giải</summary>
+          Hồi quy I theo [S]<sub>f</sub>: m = 0,150; b = 0,2404.
+          \[ \begin{aligned} [\mathrm{X}]_f &= \frac{b}{m} = \frac{0,2404}{0,150} = 1,60\ \mathrm{ppm} \\ [\mathrm{X}]_i &= 1,60\cdot\frac{50,00}{10,00} = \mathbf{8,01\ ppm} \end{aligned} \]
+        </details></div>
+
+      <h3>6. Phương pháp nội chuẩn</h3>
+      <p><b>Nội chuẩn</b> (S) là chất khác chất phân tích nhưng có tính chất gần giống, không có trong mẫu, được thêm một lượng biết trước vào cả chuẩn và mẫu. Nếu tín hiệu máy dao động hoặc một phần mẫu bị mất, tín hiệu của X và S thay đổi cùng tỉ lệ, nên <b>tỉ số tín hiệu</b> không đổi. Thường dùng trong sắc kí và quang phổ nguyên tử.</p>
+      <div class="cong-thuc"><div class="nhan">Hệ số đáp ứng F, xác định từ một hỗn hợp chuẩn đã biết [X] và [S]</div>\[ \frac{A_\mathrm{X}}{[\mathrm{X}]} = F\cdot\frac{A_\mathrm{S}}{[\mathrm{S}]} \]</div>
+      <div class="vi-du"><b>Ví dụ 5.</b> Hỗn hợp chuẩn chứa X 0,0837 M và S 0,0666 M cho diện tích pic 423 (X) và 347 (S). Lấy 10,0 mL mẫu, thêm 10,0 mL S 0,146 M, pha thành 25,0 mL; diện tích pic đo được 553 (X) và 582 (S). Tính [X] trong mẫu.
+        <details><summary>Xem lời giải</summary>
+          \[ F = \frac{423/0,0837}{347/0,0666} = 0,970 \]
+          Trong dung dịch đo: [S] = 0,146·10,0/25,0 = 0,0584 M:
+          \[ \begin{aligned} [\mathrm{X}] &= \frac{A_\mathrm{X}}{A_\mathrm{S}}\cdot\frac{[\mathrm{S}]}{F} = \frac{553}{582}\cdot\frac{0,0584}{0,970} \\ &= 0,0572\ \mathrm{M} \end{aligned} \]
+          Trong mẫu ban đầu (pha loãng 25,0/10,0 lần): [X] = 0,0572·2,50 = <b>0,143 M</b>.
+        </details></div>
+
+      <h3>7. Bảo đảm chất lượng</h3>
+      <p>Bảo đảm chất lượng (QA) trả lời câu hỏi: kết quả có đủ tin cậy cho mục đích sử dụng không? Gồm xác định <b>mục tiêu sử dụng</b>, đặt <b>tiêu chí kĩ thuật</b> (độ đúng, độ chụm, giới hạn phát hiện, chi phí...) và <b>đánh giá</b> xem đã đạt chưa.</p>
+      <ul>
+        <li><b>Dương tính giả</b>: kết luận có chất phân tích (hoặc vượt ngưỡng) trong khi thực tế không có. <b>Âm tính giả</b>: ngược lại, bỏ sót. Mục tiêu sử dụng quyết định loại sai lầm nào nguy hiểm hơn.</li>
+        <li><b>Độ chọn lọc</b>: khả năng phân biệt chất phân tích với các chất khác trong mẫu.</li>
+        <li><b>Chất chuẩn được chứng nhận</b> (CRM): mẫu có hàm lượng đã được chứng nhận, dùng kiểm tra độ đúng.</li>
+        <li><b>Các loại mẫu trắng</b>: mẫu trắng phương pháp (đi qua toàn bộ quy trình), mẫu trắng thuốc thử (chỉ có thuốc thử), mẫu trắng hiện trường (mang ra hiện trường cùng mẫu thật, phát hiện nhiễm bẩn khi lấy mẫu và vận chuyển).</li>
+        <li><b>Độ thu hồi</b> (spike recovery): thêm lượng biết trước chất phân tích vào mẫu, xem đo lại được bao nhiêu phần trăm:
+          \[ R = \frac{C_\text{mẫu thêm} - C_\text{mẫu}}{C_\text{thêm}}\cdot100\% \]</li>
+        <li><b>Biểu đồ kiểm soát</b>: đo định kì một mẫu kiểm tra, vẽ kết quả theo thời gian cùng các đường μ ± 2σ (cảnh báo) và μ ± 3σ (hành động) để phát hiện quy trình bị trôi.</li>
+      </ul>
+      <div class="vi-du"><b>Ví dụ 6.</b> Mẫu nước đo được 5,0 ppm Pb. Thêm chuẩn làm tăng 2,0 ppm, đo được 6,8 ppm. Tính độ thu hồi.
+        <details><summary>Xem lời giải</summary>
+          \[ R = \frac{6,8 - 5,0}{2,0}\cdot100\% = \mathbf{90\%} \]
+        </details></div>
+
+      <h3>8. Thẩm định phương pháp</h3>
+      <p>Thẩm định phương pháp (method validation) chứng minh phương pháp phù hợp với mục đích sử dụng:</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Chỉ tiêu</th><th>Kiểm tra bằng</th></tr></thead>
+          <tbody>
+            <tr><td>Độ tuyến tính, khoảng làm việc</td><td>Dãy chuẩn, R<sup>2</sup>, độ lệch của các điểm so với đường thẳng</td></tr>
+            <tr><td>Độ đúng</td><td>CRM, độ thu hồi, so sánh với phương pháp chuẩn (t-test, Chương 3)</td></tr>
+            <tr><td>Độ chụm</td><td>RSD của phép đo lặp: lặp lại (cùng ngày), trung gian (khác ngày, khác người)</td></tr>
+            <tr><td>LOD, LOQ</td><td>Mẫu trắng lặp lại (3s/m, 10s/m)</td></tr>
+            <tr><td>Độ chọn lọc</td><td>Thêm các chất có thể cản trở</td></tr>
+            <tr><td>Độ bền (robustness)</td><td>Thay đổi nhỏ điều kiện (pH, nhiệt độ, thời gian) xem kết quả có ổn định</td></tr>
           </tbody>
         </table>
       </div>
     `,
-    baiTap: [],
+    baiTap: [
+      {
+        de: "Đường chuẩn A = 0,0525x + 0,0021 (x: ppm). Mẫu pha loãng 10 lần có A = 0,367. Tính nồng độ trong mẫu ban đầu.",
+        dapAn: "x = (0,367 − 0,0021)/0,0525 = 6,95 ppm → mẫu ban đầu: 6,95 × 10 = <b>69,5 ppm</b>",
+      },
+      {
+        de: "Mẫu có tín hiệu 0,180. Thêm chuẩn một lần (thể tích thêm không đáng kể) làm nồng độ tăng 2,00 ppm thì tín hiệu là 0,300. Tính nồng độ mẫu.",
+        dapAn: "C<sub>x</sub>/(C<sub>x</sub> + 2,00) = 0,180/0,300 → C<sub>x</sub> = <b>3,00 ppm</b>",
+      },
+    ],
   },
   {
     id: "uv-vis",
