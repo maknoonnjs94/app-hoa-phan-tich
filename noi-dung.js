@@ -1979,7 +1979,7 @@ const CHUONG = [
         <ul>
           <li>Hiểu các cách nguyên tử hóa: ngọn lửa, lò graphit, plasma ICP, và ưu nhược điểm của từng cách.</li>
           <li>Nắm nguyên tắc, sơ đồ máy AAS, AES; so sánh hai phương pháp; giải thích vai trò của nhiệt độ qua phân bố Boltzmann.</li>
-          <li>Biết các loại cản trở và cách khắc phục.</li>
+          <li>Biết các loại cản trở và cách khắc phục; chọn kĩ thuật nguyên tử hóa phù hợp với bài toán thực tế.</li>
         </ul>
       </div>
       <h3>1. Phổ nguyên tử</h3>
@@ -1990,15 +1990,86 @@ const CHUONG = [
       </ul>
 
       <h3>2. Nguyên tử hóa</h3>
-      <p><b>a) Ngọn lửa.</b> Dung dịch mẫu được hút và phun thành sương mù vào ngọn lửa (không khí – axetilen khoảng 2300 °C, N<sub>2</sub>O – axetilen khoảng 2700 °C). Trong ngọn lửa: dung môi bay hơi → hạt rắn nóng chảy, bay hơi → phân tử bị phân li thành nguyên tử. Một phần nguyên tử có thể bị ion hóa hoặc tạo oxide. Nhanh, rẻ, độ lặp lại tốt nhưng chỉ khoảng vài % mẫu vào được ngọn lửa, nguyên tử lưu lại rất ngắn nên độ nhạy cỡ ppm.</p>
+      <p><b>a) Ngọn lửa.</b> Dung dịch mẫu được hút bằng ống mao dẫn nhờ hiệu ứng Venturi rồi đi qua <b>bộ phun sương</b> (nebulizer): dòng khí oxi hóa thổi qua đầu mao dẫn làm mẫu vỡ thành các giọt rất nhỏ. Trong <b>buồng trộn</b> (spray chamber), các giọt to và nặng va vào vách, chảy ra ống thải; chỉ sương mù thật mịn (thường chỉ khoảng <b>5% lượng mẫu hút vào</b>) đi tiếp lên đầu đốt cùng khí oxi hóa (không khí – axetilen khoảng <b>2300 °C</b>, N<sub>2</sub>O – axetilen khoảng <b>2700 °C</b>) và khí nhiên liệu. Đây là lí do chính khiến F-AAS kém nhạy hơn GF-AAS: phần lớn mẫu bị loại bỏ trước khi tới ngọn lửa. Kĩ thuật này <b>nhanh, rẻ, độ lặp lại tốt</b>, nhưng vì chỉ một phần nhỏ mẫu vào ngọn lửa và nguyên tử lưu lại rất ngắn, độ nhạy chỉ cỡ <b>ppm</b>.</p>
+      <p>Ngọn lửa có ba vùng, nhiệt độ và thành phần khác nhau: <b>vùng đốt sơ cấp</b> (lớp mỏng sát đầu đốt, cháy chưa hoàn toàn); <b>vùng liên vùng</b> (interzone, ngay phía trên, nhiệt độ cao nhất và giàu nguyên tử tự do — đây là nơi đặt chùm sáng đo AAS/AES); <b>vùng đốt thứ cấp</b> (phía ngoài, nơi sản phẩm cháy khuếch tán ra không khí, có thể oxi hóa lại một phần nguyên tử thành oxide). Chọn đúng chiều cao ngọn lửa để chùm sáng đi qua vùng liên vùng là một yếu tố tối ưu tín hiệu.</p>
+      <p>Trong ngọn lửa, mẫu trải qua chuỗi biến đổi: dung môi bay hơi → hạt rắn nóng chảy, bay hơi → phân tử bị phân li thành nguyên tử tự do M. Song song đó, một phần M có thể bị <b>ion hóa</b> (M ⇌ M<sup>+</sup> + e<sup>−</sup>) hoặc <b>tạo oxide bền</b> (M + O → MO rắn/khí), cả hai đều làm giảm số nguyên tử M đo được (xem cản trở ion hóa và cản trở hóa học, mục 6).</p>
+      <div class="hinh-tinh">
+        <svg viewBox="0 0 320 158" role="img" aria-label="Sơ đồ các giai đoạn của mẫu trong ngọn lửa AAS/AES, kèm hai nhánh phụ ion hóa và tạo oxide">
+          <defs>
+            <marker id="qnt-mt" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+              <path d="M0,0 L8,4 L0,8 Z" fill="var(--chu-phu)"/>
+            </marker>
+          </defs>
+          <text x="160" y="12" text-anchor="middle" font-size="11" font-weight="700" fill="var(--chu)">Các giai đoạn trong ngọn lửa (AAS/AES)</text>
+
+          <rect x="6" y="26" width="68" height="46" rx="6" fill="var(--the)" stroke="var(--vien)"/>
+          <text x="40" y="44" text-anchor="middle" font-size="10" fill="var(--chu)"><tspan x="40">Sương mù</tspan><tspan x="40" dy="12">(giọt mịn,</tspan><tspan x="40" dy="12">~5% mẫu)</tspan></text>
+
+          <rect x="82" y="26" width="68" height="46" rx="6" fill="var(--the)" stroke="var(--vien)"/>
+          <text x="116" y="40" text-anchor="middle" font-size="10" fill="var(--chu)"><tspan x="116">Bay hơi</tspan><tspan x="116" dy="12">dung môi →</tspan><tspan x="116" dy="12">hạt rắn</tspan></text>
+
+          <rect x="158" y="26" width="68" height="46" rx="6" fill="var(--the)" stroke="var(--vien)"/>
+          <text x="192" y="40" text-anchor="middle" font-size="10" fill="var(--chu)"><tspan x="192">Nóng chảy,</tspan><tspan x="192" dy="12">bay hơi →</tspan><tspan x="192" dy="12">phân tử khí</tspan></text>
+
+          <rect x="234" y="26" width="80" height="46" rx="6" fill="color-mix(in srgb, var(--mau-chinh) 14%, var(--the))" stroke="var(--mau-chinh)"/>
+          <text x="274" y="40" text-anchor="middle" font-size="10" fill="var(--chu)"><tspan x="274">Phân li →</tspan><tspan x="274" dy="12" font-weight="700">nguyên tử M</tspan><tspan x="274" dy="12">(đo tại đây)</tspan></text>
+
+          <line x1="74" y1="49" x2="81" y2="49" stroke="var(--chu-phu)" stroke-width="1.4" marker-end="url(#qnt-mt)"/>
+          <line x1="150" y1="49" x2="157" y2="49" stroke="var(--chu-phu)" stroke-width="1.4" marker-end="url(#qnt-mt)"/>
+          <line x1="226" y1="49" x2="233" y2="49" stroke="var(--chu-phu)" stroke-width="1.4" marker-end="url(#qnt-mt)"/>
+
+          <text x="40" y="88" text-anchor="middle" font-size="9.5" fill="var(--chu-phu)"><tspan x="40">Bộ phun sương loại</tspan><tspan x="40" dy="11">giọt to; chỉ ~5%</tspan><tspan x="40" dy="11">mẫu tới ngọn lửa</tspan></text>
+
+          <circle cx="273" cy="90" r="2.6" fill="var(--chu-phu)"/>
+          <line x1="273" y1="72" x2="273" y2="90" stroke="var(--chu-phu)" stroke-width="1.4"/>
+          <line x1="273" y1="90" x2="79" y2="114" stroke="var(--chu-phu)" stroke-width="1.4" marker-end="url(#qnt-mt)"/>
+          <line x1="273" y1="90" x2="236" y2="114" stroke="var(--chu-phu)" stroke-width="1.4" marker-end="url(#qnt-mt)"/>
+
+          <rect x="14" y="116" width="130" height="34" rx="6" fill="color-mix(in srgb, var(--vang) 16%, var(--the))" stroke="var(--vang)"/>
+          <text x="79" y="130" text-anchor="middle" font-size="10" fill="var(--chu)"><tspan x="79">Ion hóa: M ⇌ M⁺+e⁻</tspan><tspan x="79" dy="12">(mất bớt M, mục 6)</tspan></text>
+
+          <rect x="170" y="116" width="134" height="34" rx="6" fill="color-mix(in srgb, var(--vang) 16%, var(--the))" stroke="var(--vang)"/>
+          <text x="237" y="130" text-anchor="middle" font-size="10" fill="var(--chu)"><tspan x="237">Oxide: M+O→MO(r)</tspan><tspan x="237" dy="12">(khó nguyên tử hóa)</tspan></text>
+        </svg>
+        <p class="chu-thich">Cả hai nhánh phụ đều làm giảm số nguyên tử M đo được (khắc phục: mục 6 — chất giải phóng / chất khử ion hóa).</p>
+      </div>
       <p><b>b) Lò graphit</b> (GF-AAS). Một lượng mẫu rất nhỏ (vài µL) được bơm vào ống graphit, gia nhiệt bằng dòng điện theo chương trình:</p>
       <ol>
-        <li><b>Sấy</b>: đuổi dung môi (khoảng 100 °C).</li>
+        <li><b>Sấy</b>: đuổi dung môi (khoảng 100 °C, giữ vài chục giây để tránh bắn tóe mẫu).</li>
         <li><b>Tro hóa</b>: phân hủy chất hữu cơ và nền dễ bay hơi (vài trăm đến hơn 1000 °C).</li>
         <li><b>Nguyên tử hóa</b>: tăng nhiệt rất nhanh (2000 – 3000 °C), đo tín hiệu lúc này.</li>
         <li><b>Làm sạch</b>: nung ở nhiệt độ cao nhất để loại cặn, tránh <b>hiệu ứng nhớ</b> (mẫu trước ảnh hưởng mẫu sau).</li>
       </ol>
-      <p>Nguyên tử lưu lại lâu trong ống và gần như toàn bộ mẫu được nguyên tử hóa, nên GF-AAS <b>nhạy hơn ngọn lửa khoảng 100 – 1000 lần</b> (cỡ ppb) và cần ít mẫu. <b>Chất cải biến nền</b> (NH<sub>4</sub>NO<sub>3</sub>, Pd(NO<sub>3</sub>)<sub>2</sub>) được thêm vào để nền bay hơi sớm hoặc giữ chất phân tích bền hơn ở bước tro hóa.</p>
+      <div class="hinh-tinh">
+        <svg viewBox="0 0 320 218" role="img" aria-label="Đồ thị nhiệt độ theo thời gian của chương trình lò graphit GF-AAS, bốn giai đoạn">
+          <text x="160" y="11" text-anchor="middle" font-size="11" font-weight="700" fill="var(--chu)">Chương trình nhiệt độ lò graphit (GF-AAS)</text>
+
+          <rect x="40" y="20" width="97" height="145" fill="color-mix(in srgb, var(--chu-phu) 10%, transparent)"/>
+          <rect x="137" y="20" width="60" height="145" fill="color-mix(in srgb, var(--mau-chinh) 10%, transparent)"/>
+          <rect x="197" y="20" width="27" height="145" fill="color-mix(in srgb, var(--vang) 16%, transparent)"/>
+          <rect x="224" y="20" width="59" height="145" fill="color-mix(in srgb, var(--xanh) 12%, transparent)"/>
+
+          <line x1="40" y1="20" x2="40" y2="165" stroke="var(--chu-phu)" stroke-width="1.2"/>
+          <line x1="40" y1="165" x2="310" y2="165" stroke="var(--chu-phu)" stroke-width="1.2"/>
+          <text x="12" y="168" font-size="9.5" fill="var(--chu-phu)">0</text>
+          <text x="4" y="117" font-size="9.5" fill="var(--chu-phu)">1000</text>
+          <text x="4" y="69" font-size="9.5" fill="var(--chu-phu)">2000</text>
+          <text x="4" y="24" font-size="9.5" fill="var(--chu-phu)">3000</text>
+          <text x="10" y="95" font-size="10" fill="var(--chu-phu)" text-anchor="middle" transform="rotate(-90 10 95)">T (°C)</text>
+          <text x="304" y="162" font-size="10" fill="var(--chu-phu)" text-anchor="end">t (s)</text>
+
+          <polyline points="40,163.8 67,159.2 121,159.2 137.2,126.3 191.2,126.3 196.6,44.2 218.2,44.2 223.6,34.5 245.2,34.5 250.6,163.8 283,163.8" fill="none" stroke="var(--mau-chinh)" stroke-width="2.2"/>
+
+          <line x1="207" y1="20" x2="207" y2="165" stroke="var(--vang)" stroke-width="1.3" stroke-dasharray="3 3"/>
+          <text x="207" y="177" text-anchor="middle" font-size="9.5" fill="var(--vang)" font-weight="700">đo tín hiệu</text>
+
+          <rect x="8" y="188" width="8" height="8" fill="color-mix(in srgb, var(--chu-phu) 10%, transparent)"/><text x="20" y="196" font-size="10" fill="var(--chu-phu)">1 Sấy (~100 °C)</text>
+          <rect x="165" y="188" width="8" height="8" fill="color-mix(in srgb, var(--mau-chinh) 10%, transparent)"/><text x="177" y="196" font-size="10" fill="var(--chu-phu)">2 Tro hóa (vài trăm °C)</text>
+          <rect x="8" y="206" width="8" height="8" fill="color-mix(in srgb, var(--vang) 16%, transparent)"/><text x="20" y="214" font-size="10" fill="var(--chu-phu)">3 Nguyên tử hóa</text>
+          <rect x="165" y="206" width="8" height="8" fill="color-mix(in srgb, var(--xanh) 12%, transparent)"/><text x="177" y="214" font-size="10" fill="var(--chu-phu)">4 Làm sạch (cao nhất)</text>
+        </svg>
+      </div>
+      <p>Nguyên tử lưu lại lâu trong ống và gần như toàn bộ mẫu được nguyên tử hóa, nên GF-AAS <b>nhạy hơn ngọn lửa khoảng 100 – 1000 lần</b> (cỡ ppb) và cần ít mẫu. <b>Chất cải biến nền</b> (NH<sub>4</sub>NO<sub>3</sub>, Pd(NO<sub>3</sub>)<sub>2</sub>) được thêm vào để nền bay hơi sớm hoặc giữ chất phân tích bền hơn ở bước tro hóa. Nếu đặt nhiệt độ tro hóa quá thấp, nền hữu cơ chưa bay hết sẽ gây hấp thụ/tán xạ nền khi đo; nếu đặt quá cao, chất phân tích dễ bay hơi (Cd, Pb) có thể mất bớt trước khi đến bước nguyên tử hóa, làm tín hiệu thấp giả tạo — vì vậy cần dò nhiệt độ tro hóa tối ưu (đường cong tro hóa) trước khi phân tích thật.</p>
       <p><b>c) Plasma cảm ứng cao tần (ICP).</b> Khí Ar được ion hóa và duy trì bằng từ trường cao tần, tạo plasma 6000 – 10 000 K. Nhiệt độ rất cao nên nguyên tử hóa gần như hoàn toàn, ít cản trở hóa học, kích thích được nhiều nguyên tố. Dùng làm nguồn cho phát xạ (ICP-OES) và làm nguồn ion cho khối phổ (ICP-MS).</p>
 
       <h3>3. Quang phổ hấp thụ nguyên tử (AAS)</h3>
@@ -2012,16 +2083,51 @@ const CHUONG = [
         <li>Vạch phát ra từ đèn hẹp hơn vạch hấp thụ của nguyên tử trong ngọn lửa, nên định luật Beer được thỏa mãn. Mỗi nguyên tố cần một đèn riêng.</li>
         <li>Bộ đơn sắc đặt <b>sau</b> ngọn lửa để loại bớt bức xạ do chính ngọn lửa phát ra. Ngoài ra tia sáng của đèn được <b>điều biến</b> (bộ ngắt quãng hoặc đèn xung) để máy tách tín hiệu của đèn khỏi phát xạ liên tục của ngọn lửa.</li>
       </ul>
+      <div class="hinh-tinh">
+        <svg viewBox="0 0 320 128" role="img" aria-label="Cấu tạo đèn catot rỗng: vỏ thủy tinh chứa khí trơ, catot rỗng, anot">
+          <rect x="26" y="28" width="268" height="58" rx="26" fill="color-mix(in srgb, var(--mau-chinh) 6%, var(--the))" stroke="var(--vien)"/>
+          <path d="M118,44 L100,44 A14,14 0 0 0 100,72 L118,72" fill="none" stroke="var(--mau-chinh)" stroke-width="4"/>
+          <line x1="180" y1="44" x2="180" y2="72" stroke="var(--chu-phu)" stroke-width="3"/>
+          <line x1="294" y1="57" x2="312" y2="57" stroke="var(--vang)" stroke-width="2"/>
+          <path d="M312,57 L304,52 L304,62 Z" fill="var(--vang)"/>
+
+          <line x1="109" y1="28" x2="109" y2="10" stroke="var(--chu-phu)" stroke-width="0.9" stroke-dasharray="2 2"/>
+          <text x="109" y="9" text-anchor="middle" font-size="10" fill="var(--chu)">Catot rỗng (kim loại cần đo)</text>
+
+          <line x1="180" y1="28" x2="220" y2="10" stroke="var(--chu-phu)" stroke-width="0.9" stroke-dasharray="2 2"/>
+          <text x="222" y="9" text-anchor="start" font-size="10" fill="var(--chu)">Anot</text>
+
+          <text x="160" y="100" text-anchor="middle" font-size="10" fill="var(--chu-phu)">Khí trơ áp suất thấp (Ne hoặc Ar)</text>
+          <text x="316" y="100" text-anchor="end" font-size="9.5" fill="var(--vang)">ánh sáng ra</text>
+        </svg>
+        <p class="chu-thich">Ion khí trơ bắn phá catot (sự phún xạ), bật nguyên tử kim loại ra khỏi bề mặt; các nguyên tử này bị kích thích và phát đúng vạch đặc trưng của nguyên tố làm catot.</p>
+      </div>
+      <p>Vì ảnh hưởng nền (độ nhớt, sức căng bề mặt của mẫu thật khác dung dịch chuẩn pha trong nước) có thể làm sai tốc độ hút mẫu, AAS thường được hiệu chuẩn bằng <b>thêm chuẩn</b> thay vì ngoại chuẩn (Chương 10, mục 5). Với thêm chuẩn một điểm, có thể ngoại suy sai số lớn nếu chỉ dùng một mức; <b>thêm chuẩn nhiều mức</b> (chia mẫu vào nhiều bình, thêm lượng chuẩn tăng dần) cho kết quả đáng tin hơn và còn cho phép đánh giá độ tuyến tính.</p>
+      <div class="vi-du"><b>Ví dụ 1.</b> Xác định Zn trong một mẫu nước thải bằng F-AAS, dùng thêm chuẩn nhiều mức. Lấy 5,00 mL mẫu cho vào mỗi bình định mức 25,00 mL trong năm bình; thêm lần lượt 0; 1,00; 2,00; 3,00; 4,00 mL dung dịch chuẩn Zn 8,00 mg/L, định mức bằng nước cho mỗi bình, đo được A:
+        <div class="bang-cuon"><table class="bang">
+          <thead><tr><th>V<sub>s</sub> (mL)</th><th>0,00</th><th>1,00</th><th>2,00</th><th>3,00</th><th>4,00</th></tr></thead>
+          <tbody><tr><td>A</td><td>0,298</td><td>0,346</td><td>0,394</td><td>0,442</td><td>0,490</td></tr></tbody>
+        </table></div>
+        Tính nồng độ Zn trong mẫu nước thải ban đầu (mg/L).
+        <details><summary>Xem lời giải</summary>
+          Nồng độ Zn chuẩn thêm vào mỗi bình (đã pha loãng đến 25,00 mL):
+          \[ \begin{gathered} [\mathrm{S}]_f = \frac{8,00\cdot V_s}{25,00}\ \text{mg/L} \\ = 0;\ 0,320;\ 0,640;\ 0,960;\ 1,280\ \text{mg/L} \end{gathered} \]
+          Hồi quy A theo [S]<sub>f</sub> (phương pháp bình phương tối thiểu, Chương 10, mục 2): m = 0,1500 (A trên mg/L); b = 0,2980.
+          \[ [\mathrm{Zn}]_f = \frac{b}{m} = \frac{0,2980}{0,1500} = 1,987\ \mathrm{mg/L} \]
+          [Zn]<sub>f</sub> là nồng độ Zn trong bình 25,00 mL, ứng với 5,00 mL mẫu ban đầu (hệ số pha loãng 25,00/5,00 = 5,00):
+          \[ [\mathrm{Zn}]_\text{mẫu} = 1,987\times5,00 = \mathbf{9,93\ mg/L} \]
+          Lỗi hay gặp: quên nhân hệ số pha loãng 5,00 (nhầm nồng độ ngoại suy [Zn]<sub>f</sub> là đáp số cuối).
+        </details></div>
 
       <h3>4. Quang phổ phát xạ nguyên tử (AES)</h3>
       <p>Nguyên tử được nguyên tử hóa rồi <b>kích thích</b> bằng nhiệt (ngọn lửa, plasma); khi trở về trạng thái cơ bản chúng phát ra bức xạ đặc trưng. Cường độ vạch tỉ lệ với nồng độ: I = k·C. Máy giống AAS nhưng <b>không cần nguồn sáng</b>.</p>
       <ul>
         <li><b>Quang kế ngọn lửa</b>: dùng ngọn lửa làm nguồn kích thích, thích hợp cho kim loại kiềm (Na, K) dễ kích thích.</li>
-        <li><b>ICP-OES</b>: plasma kích thích được hầu hết nguyên tố; phân tích <b>đồng thời nhiều nguyên tố</b>, khoảng tuyến tính rộng (4 – 6 bậc nồng độ).</li>
+        <li><b>ICP-OES</b>: plasma kích thích được hầu hết nguyên tố; phân tích <b>đồng thời nhiều nguyên tố</b>, khoảng tuyến tính rộng (4 – 6 bậc nồng độ). Vì đo đồng thời và tín hiệu có thể trôi theo thời gian, ICP-OES thường dùng thêm <b>nội chuẩn</b> (một nguyên tố không có trong mẫu, thêm lượng biết trước vào mọi dung dịch) để bù dao động của plasma và của tốc độ hút mẫu — cùng nguyên lí và cách tính như nội chuẩn trong sắc kí (Chương 10, mục 6).</li>
       </ul>
       <p><b>Ảnh hưởng của nhiệt độ</b>: tỉ lệ nguyên tử ở trạng thái kích thích (N*) và cơ bản (N<sub>0</sub>) tuân theo phân bố Boltzmann:</p>
       <div class="cong-thuc"><div class="nhan">g*, g<sub>0</sub>: số trạng thái cùng năng lượng; ΔE: hiệu năng lượng; k = 1,381·10<sup>−23</sup> J/K</div>\[ \frac{N^*}{N_0} = \frac{g^*}{g_0}\,e^{-\Delta E/kT} \]</div>
-      <div class="vi-du"><b>Ví dụ 1.</b> Với vạch Na 589,0 nm (g*/g<sub>0</sub> = 3, theo Harris gộp cả mức 3p), tính N*/N<sub>0</sub> ở 2500 K và 2510 K. Nhận xét ảnh hưởng của dao động nhiệt độ ngọn lửa tới AAS và AES.
+      <div class="vi-du"><b>Ví dụ 2.</b> Với vạch Na 589,0 nm (g*/g<sub>0</sub> = 3, theo Harris gộp cả mức 3p), tính N*/N<sub>0</sub> ở 2500 K và 2510 K. Nhận xét ảnh hưởng của dao động nhiệt độ ngọn lửa tới AAS và AES.
         <details><summary>Xem lời giải</summary>
           \[ \begin{aligned} \Delta E &= \frac{hc}{\lambda} = \frac{6,626\cdot10^{-34}\cdot2,998\cdot10^{8}}{589,0\cdot10^{-9}} \\ &= 3,373\cdot10^{-19}\ \mathrm{J} \end{aligned} \]
           Ở 2500 K: \[ \frac{N^*}{N_0} = 3\,e^{-9,77} = 1,72\cdot10^{-4} \]
@@ -2045,11 +2151,21 @@ const CHUONG = [
 
       <h3>6. Cản trở và cách khắc phục</h3>
       <ul>
-        <li><b>Cản trở phổ</b>: vạch hoặc dải hấp thụ của chất khác chồng lên vạch chất phân tích; hạt rắn, phân tử trong ngọn lửa hấp thụ hoặc tán xạ ánh sáng (hấp thụ nền). Khắc phục: chọn vạch khác; <b>hiệu chỉnh nền</b> bằng đèn D<sub>2</sub> hoặc hiệu ứng Zeeman.</li>
+        <li><b>Cản trở phổ</b>: vạch hoặc dải hấp thụ của chất khác chồng lên vạch chất phân tích; hạt rắn, phân tử trong ngọn lửa hấp thụ hoặc tán xạ ánh sáng (<b>hấp thụ nền</b>). Khắc phục: chọn vạch khác; <b>hiệu chỉnh nền</b> bằng đèn D<sub>2</sub> hoặc hiệu ứng Zeeman.
+          <br>— <i>Vì sao đèn D<sub>2</sub> trừ được nền</i>: đèn D<sub>2</sub> (deuteri) phát phổ liên tục (băng rộng), nên hấp thụ của nó qua ngọn lửa chỉ phản ánh <b>nền</b> (vạch của nguyên tử phân tích rất hẹp, hầu như không hấp thụ đáng kể ánh sáng băng rộng này). Đèn catot rỗng (HCL) đo <b>tổng</b> tín hiệu (chất phân tích + nền). Máy chiếu luân phiên HCL và D<sub>2</sub> qua cùng vị trí, rồi lấy hiệu A<sub>HCL</sub> − A<sub>D2</sub> = A của riêng chất phân tích.
+          <br>— <i>Hiệu ứng Zeeman</i>: đặt từ trường mạnh quanh ống nguyên tử hóa làm tách vạch của chất phân tích thành các thành phần lệch bước sóng; từ trường được bật và tắt luân phiên rất nhanh tại cùng một vị trí, đo tín hiệu ở cả hai trạng thái rồi lấy hiệu, cho phép trừ nền chính xác hơn D<sub>2</sub> (đặc biệt với nền có cấu trúc, hay gặp trong GF-AAS).</li>
         <li><b>Cản trở hóa học</b>: chất phân tích tạo hợp chất bền khó nguyên tử hóa, ví dụ Ca<sup>2+</sup> với PO<sub>4</sub><sup>3−</sup>. Khắc phục: thêm <b>chất giải phóng</b> (La<sup>3+</sup>, Sr<sup>2+</sup> kết hợp với PO<sub>4</sub><sup>3−</sup> thay cho Ca); thêm chất tạo phức bảo vệ (EDTA); dùng ngọn lửa nóng hơn (N<sub>2</sub>O – axetilen).</li>
         <li><b>Cản trở ion hóa</b>: kim loại kiềm bị ion hóa một phần trong ngọn lửa nóng, làm giảm số nguyên tử. Khắc phục: thêm <b>chất khử ion hóa</b> (K, Cs dễ ion hóa hơn, cung cấp nhiều electron).</li>
-        <li><b>Ảnh hưởng nền</b> (độ nhớt, sức căng bề mặt khác nhau giữa mẫu và chuẩn làm tốc độ hút mẫu khác nhau): dùng phương pháp <b>thêm chuẩn</b> (Chương 10).</li>
+        <li><b>Ảnh hưởng nền</b> (độ nhớt, sức căng bề mặt khác nhau giữa mẫu và chuẩn làm tốc độ hút mẫu khác nhau): dùng phương pháp <b>thêm chuẩn</b> (Chương 10, xem Ví dụ 1).</li>
       </ul>
+      <div class="vi-du"><b>Ví dụ 3.</b> Xác định Ca<sup>2+</sup> trong mẫu nước có lẫn PO<sub>4</sub><sup>3−</sup> bằng F-AAS. Chuẩn Ca<sup>2+</sup> 5,00 mg/L (không có PO<sub>4</sub><sup>3−</sup>) cho A = 0,250. Mẫu có cùng nồng độ Ca<sup>2+</sup> danh nghĩa 5,00 mg/L nhưng lẫn PO<sub>4</sub><sup>3−</sup> chỉ cho A = 0,087. Sau khi thêm La<sup>3+</sup> 1% (chất giải phóng) vào cả mẫu và chuẩn, đo lại mẫu được A = 0,246. Tính % tín hiệu bị mất do cản trở và % phục hồi sau khi thêm La<sup>3+</sup>.
+        <details><summary>Xem lời giải</summary>
+          \[ \%\text{mất} = \left(1-\frac{0,087}{0,250}\right)\times100 = \mathbf{65,2\%} \]
+          PO<sub>4</sub><sup>3−</sup> tạo với Ca<sup>2+</sup> hợp chất bền (Ca<sub>3</sub>(PO<sub>4</sub>)<sub>2</sub>), khó nguyên tử hóa, làm mất hơn 65% tín hiệu — đây là <b>cản trở hóa học</b>, không phải sai số ngẫu nhiên.
+          \[ \%\text{phục hồi} = \frac{0,246}{0,250}\times100 = \mathbf{98,4\%} \]
+          La<sup>3+</sup> phản ứng với PO<sub>4</sub><sup>3−</sup> mạnh hơn Ca<sup>2+</sup>, giải phóng Ca<sup>2+</sup> trở lại dạng tự do, phục hồi gần như hoàn toàn tín hiệu. Phải thêm La<sup>3+</sup> vào <b>cả chuẩn lẫn mẫu</b> để nền giống nhau.
+        </details></div>
+      <p class="luu-y"><b>Lỗi hay gặp:</b> tưởng ngọn lửa càng nóng luôn tốt hơn — ngọn lửa N<sub>2</sub>O–C<sub>2</sub>H<sub>2</sub> nóng hơn nhưng ion hóa mạnh kim loại kiềm, có thể làm tín hiệu <i>giảm</i> nếu không thêm chất khử ion hóa; nhầm <b>chất giải phóng</b> (La<sup>3+</sup>, Sr<sup>2+</sup>, phản ứng với chất gây cản trở) với <b>chất khử ion hóa</b> (K<sup>+</sup>, Cs<sup>+</sup>, cung cấp electron); dùng ngoại chuẩn khi mẫu có ảnh hưởng nền đáng kể thay vì thêm chuẩn; đặt nhiệt độ tro hóa trong GF-AAS quá cao làm mất chất phân tích trước khi đo; nhầm rằng tín hiệu AAS phụ thuộc N* (thực ra phụ thuộc N<sub>0</sub>, gần như không đổi theo nhiệt độ).</p>
 
       <h3>7. ICP-MS</h3>
       <p>Plasma ICP vừa nguyên tử hóa vừa <b>ion hóa</b> mẫu; ion được đưa vào khối phổ kế, tách theo tỉ số khối lượng/điện tích <b>m/z</b> rồi đếm. Đây là phương pháp nhạy nhất trong nhóm (cỡ ppt), phân tích đồng thời nhiều nguyên tố và cả tỉ lệ đồng vị. Cản trở chính là ion đa nguyên tử có cùng m/z, ví dụ <sup>40</sup>Ar<sup>35</sup>Cl<sup>+</sup> trùng với <sup>75</sup>As<sup>+</sup>; khắc phục bằng buồng va chạm/phản ứng hoặc máy phân giải cao.</p>
@@ -2064,12 +2180,32 @@ const CHUONG = [
           </tbody>
         </table>
       </div>
-      <div class="vi-du"><b>Ví dụ 2.</b> Xác định Pb trong nước uống bằng GF-AAS. Đường chuẩn A = 0,0184·C + 0,0012 (C: µg/L). Mẫu đo được A = 0,112. Mẫu có đạt quy chuẩn Pb ≤ 10 µg/L không?
+      <div class="vi-du"><b>Ví dụ 4.</b> Xác định Pb trong nước uống bằng GF-AAS. Đường chuẩn A = 0,0184·C + 0,0012 (C: µg/L). Mẫu đo được A = 0,112. Mẫu có đạt quy chuẩn Pb ≤ 10 µg/L không?
         <details><summary>Xem lời giải</summary>
           \[ C = \frac{0,112 - 0,0012}{0,0184} = \mathbf{6,02\ \mu g/L} \]
           6,02 µg/L &lt; 10 µg/L nên <b>đạt</b>. Nồng độ cỡ µg/L này nằm dưới giới hạn phát hiện của F-AAS, vì vậy phải dùng lò graphit (hoặc ICP-MS).
         </details></div>
-    `,
+
+      <h3>8. Chọn kĩ thuật nguyên tử hóa phù hợp</h3>
+      <p>Việc chọn F-AAS, GF-AAS, ICP-OES hay ICP-MS phụ thuộc chủ yếu vào <b>nồng độ dự kiến</b>, <b>số nguyên tố cần đo</b> và <b>lượng mẫu có sẵn</b>:</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Tình huống</th><th>Kĩ thuật nên chọn</th></tr></thead>
+          <tbody>
+            <tr><td>Một nguyên tố, nồng độ cỡ mg/L, mẫu dồi dào, cần nhanh và rẻ</td><td>F-AAS</td></tr>
+            <tr><td>Một vài nguyên tố, nồng độ cỡ µg/L, lượng mẫu rất ít (vài chục µL)</td><td>GF-AAS</td></tr>
+            <tr><td>Nhiều nguyên tố (&gt; 10) cùng lúc, nồng độ từ µg/L đến mg/L</td><td>ICP-OES</td></tr>
+            <tr><td>Nhiều nguyên tố ở mức vết đến siêu vết (ppt–ppb), hoặc cần tỉ lệ đồng vị</td><td>ICP-MS</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="vi-du"><b>Ví dụ 5.</b> Chọn kĩ thuật phù hợp cho ba tình huống: (a) kiểm tra nhanh Ca, Mg trong 50 mẫu nước máy, nồng độ cỡ chục mg/L; (b) xác định Cd trong 0,50 mL huyết thanh, nồng độ dự kiến cỡ 1 µg/L; (c) xác định đồng thời 20 nguyên tố vết (Pb, Cd, As, Hg...) trong mẫu đất ở mức ppb, cần cả thông tin đồng vị chì.
+        <details><summary>Xem lời giải</summary>
+          (a) Nồng độ cao, một vài nguyên tố, số mẫu nhiều, cần nhanh rẻ → <b>F-AAS</b>.<br>
+          (b) Lượng mẫu rất ít và nồng độ rất thấp (µg/L) → <b>GF-AAS</b> (bơm được vài chục µL, đủ nhạy tới ppb).<br>
+          (c) Rất nhiều nguyên tố, mức ppb, cần tỉ lệ đồng vị → <b>ICP-MS</b> (không kĩ thuật nào khác trong bảng cho đồng thời cả độ nhạy ppb–ppt lẫn thông tin đồng vị).
+        </details></div>
+`,
     baiTap: [
       {
         de: "Vì sao khi xác định Ca bằng F-AAS trong mẫu có nhiều phosphate, người ta thêm LaCl<sub>3</sub> vào cả mẫu và chuẩn?",
@@ -2093,7 +2229,7 @@ const CHUONG = [
       <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
         <ul>
           <li>Viết kí hiệu pin, tính thế pin bằng phương trình Nernst; đổi thế giữa các điện cực so sánh.</li>
-          <li>Hiểu cấu tạo, phương trình đáp ứng của điện cực chọn lọc ion và điện cực thủy tinh; cách hiệu chuẩn máy đo pH.</li>
+          <li>Hiểu cấu tạo, phương trình đáp ứng của điện cực chọn lọc ion và điện cực thủy tinh; cách hiệu chuẩn máy đo pH và cách tính thêm chuẩn cho ISE.</li>
           <li>Xác định điểm tương đương bằng đạo hàm trong chuẩn độ điện thế; tính theo định luật Faraday.</li>
         </ul>
       </div>
@@ -2112,7 +2248,7 @@ const CHUONG = [
       </div>
 
       <h3>2. Pin điện hóa</h3>
-      <p>Pin Galvani gồm hai điện cực nhúng trong dung dịch, nối bằng <b>cầu muối</b> (ví dụ KCl trong gel) để dòng ion đi qua mà hai dung dịch không trộn lẫn. <b>Anot</b> là nơi xảy ra sự oxi hóa, <b>catot</b> là nơi xảy ra sự khử.</p>
+      <p>Pin Galvani gồm hai điện cực nhúng trong dung dịch, nối bằng <b>cầu muối</b> (ví dụ KCl trong gel) để dòng ion đi qua mà hai dung dịch không trộn lẫn. <b>Anot</b> là nơi xảy ra sự oxi hóa, <b>catot</b> là nơi xảy ra sự khử (quy ước này đúng cho cả pin Galvani lẫn bình điện phân, không phụ thuộc dấu điện cực).</p>
       <p><b>Kí hiệu pin</b>: điện cực bên trái viết như nơi xảy ra oxi hóa (anot), bên phải như nơi xảy ra khử (catot); "|" là ranh giới pha, "||" là cầu muối. Ví dụ pin Daniell:</p>
       <div class="cong-thuc">\[ \mathrm{Zn(r)}\,|\,\mathrm{Zn^{2+}(aq)}\,\|\,\mathrm{Cu^{2+}(aq)}\,|\,\mathrm{Cu(r)} \]</div>
       <div class="cong-thuc"><div class="nhan">E<sub>+</sub>: thế điện cực bên phải; E<sub>−</sub>: bên trái (cả hai viết dạng thế khử)</div>\[ E_\text{pin} = E_+ - E_- \]</div>
@@ -2137,6 +2273,35 @@ const CHUONG = [
         </table>
       </div>
       <p>Đổi thế đo so với điện cực so sánh này sang điện cực khác: E(so với SCE) = E(so với SHE) − 0,241 V.</p>
+      <div class="hinh-tinh">
+        <svg viewBox="0 0 320 132" role="img" aria-label="Trục thế so sánh SHE, Ag/AgCl bão hòa và SCE trên cùng thang đo so với SHE">
+          <defs>
+            <marker id="dh-mt" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+              <path d="M0,0 L8,4 L0,8 Z" fill="var(--chu-phu)"/>
+            </marker>
+          </defs>
+          <text x="160" y="13" text-anchor="middle" font-size="11" font-weight="700" fill="var(--chu)">Trục thế so sánh (V so với SHE)</text>
+
+          <line x1="30" y1="66" x2="292" y2="66" stroke="var(--chu-phu)" stroke-width="1.4" marker-end="url(#dh-mt)"/>
+          <text x="296" y="70" font-size="10" fill="var(--chu-phu)">E</text>
+
+          <line x1="67" y1="56" x2="67" y2="76" stroke="var(--chu-phu)" stroke-width="1.2"/>
+          <circle cx="67" cy="66" r="4" fill="var(--mau-chinh)"/>
+          <text x="67" y="48" text-anchor="middle" font-size="10" font-weight="600" fill="var(--chu)">SHE</text>
+          <text x="67" y="90" text-anchor="middle" font-size="10" fill="var(--chu-phu)">0,000 V</text>
+
+          <line x1="214" y1="56" x2="214" y2="76" stroke="var(--chu-phu)" stroke-width="1.2"/>
+          <circle cx="214" cy="66" r="4" fill="var(--mau-chinh)"/>
+          <text x="214" y="98" text-anchor="middle" font-size="10" font-weight="600" fill="var(--chu)">Ag/AgCl</text>
+          <text x="214" y="112" text-anchor="middle" font-size="10" fill="var(--chu-phu)">+0,197 V</text>
+
+          <line x1="246" y1="56" x2="246" y2="76" stroke="var(--chu-phu)" stroke-width="1.2"/>
+          <circle cx="246" cy="66" r="4" fill="var(--mau-chinh)"/>
+          <text x="246" y="48" text-anchor="middle" font-size="10" font-weight="600" fill="var(--chu)">SCE</text>
+          <text x="246" y="34" text-anchor="middle" font-size="10" fill="var(--chu-phu)">+0,241 V</text>
+        </svg>
+        <p class="chu-thich">Đổi thang: E(so với X) = E(so với SHE) − E(X so với SHE).</p>
+      </div>
       <div class="vi-du"><b>Ví dụ 2.</b> Một điện cực có thế 0,500 V so với SHE. Thế của nó so với SCE và so với Ag/AgCl (KCl bão hòa) là bao nhiêu?
         <details><summary>Xem lời giải</summary>
           So với SCE: 0,500 − 0,241 = <b>0,259 V</b>. So với Ag/AgCl: 0,500 − 0,197 = <b>0,303 V</b>.
@@ -2152,32 +2317,100 @@ const CHUONG = [
       <h3>5. Điện cực chọn lọc ion (ISE)</h3>
       <div class="cong-thuc"><div class="nhan">Ion i có điện tích z (kể cả dấu), 25 °C; K là hằng số của điện cực</div>\[ E = K + \frac{0,059}{z}\lg\mathcal{A}_i \]</div>
       <ul>
-        <li>Phương trình viết cho E = E<sub>ISE</sub> − E<sub>so sánh</sub> (ISE nối cực + của máy đo). Hằng số K gộp thế của điện cực so sánh và <b>thế tiếp xúc lỏng</b> ở cầu muối; thế tiếp xúc lỏng thay đổi theo thành phần dung dịch là nguồn sai số chính của phép đo thế (cỡ ±0,02 đơn vị pH).</li>
+        <li>Phương trình viết cho E = E<sub>ISE</sub> − E<sub>so sánh</sub> (ISE nối cực + của máy đo). Hằng số K gộp thế của điện cực so sánh và <b>thế tiếp xúc lỏng</b> ở cầu muối.
+          <br>— <i>Vì sao có thế tiếp xúc lỏng</i>: ở chỗ hai dung dịch khác nồng độ/thành phần tiếp xúc nhau qua cầu muối, các ion khuếch tán qua ranh giới với <b>tốc độ khác nhau</b> (linh độ ion khác nhau); điện tích dương và âm tách nhau một chút tạo ra một hiệu thế nhỏ. Thế này thay đổi theo thành phần dung dịch đo nên là nguồn sai số hệ thống chính của phép đo thế trực tiếp (thường cỡ ±0,02 đơn vị pH, tức khoảng ±1 mV cho ISE hóa trị 1).</li>
         <li>Độ dốc lí thuyết: 59 mV khi hoạt độ ion hóa trị 1 thay đổi 10 lần, 29,5 mV với ion hóa trị 2. Với anion (z âm), thế giảm khi nồng độ tăng.</li>
-        <li>Các loại màng: thủy tinh (H<sup>+</sup>, Na<sup>+</sup>), tinh thể (F<sup>−</sup> dùng màng LaF<sub>3</sub>), màng lỏng/polymer chứa chất mang ion (Ca<sup>2+</sup>, K<sup>+</sup>, NO<sub>3</sub><sup>−</sup>).</li>
-        <li><b>Hệ số chọn lọc</b> k<sub>A,X</sub> càng nhỏ thì ion lạ X càng ít cản trở ion cần đo A.</li>
+        <li>Các loại màng: thủy tinh (H<sup>+</sup>, Na<sup>+</sup>), tinh thể (F<sup>−</sup> dùng màng đơn tinh thể LaF<sub>3</sub> pha tạp Eu<sup>2+</sup> để tăng độ dẫn ion), màng lỏng/polymer chứa chất mang ion (Ca<sup>2+</sup>, K<sup>+</sup>, NO<sub>3</sub><sup>−</sup>).</li>
         <li>ISE đáp ứng theo <b>hoạt độ</b>. Để đo nồng độ, thêm dung dịch điều chỉnh lực ion (TISAB) như nhau vào mẫu và chuẩn. TISAB của điện cực F<sup>−</sup> còn giữ pH khoảng 5 – 5,5 (tránh HF và OH<sup>−</sup>) và chứa chất tạo phức giải phóng F<sup>−</sup> khỏi Al<sup>3+</sup>, Fe<sup>3+</sup>.</li>
       </ul>
+      <p><b>Hệ số chọn lọc và phương trình Nikolsky – Eisenman</b>: khi có ion lạ X cùng dấu điện tích với ion cần đo A, thế điện cực không chỉ phụ thuộc A mà còn phụ thuộc X:</p>
+      <div class="cong-thuc"><div class="nhan">z<sub>A</sub>: điện tích ion A; k<sub>A,X</sub>: hệ số chọn lọc; z<sub>X</sub>: điện tích ion X</div>\[ E = K + \frac{0,059}{z_\mathrm{A}}\lg\!\left(\mathcal{A}_\mathrm{A} + k_{\mathrm{A,X}}\,\mathcal{A}_\mathrm{X}^{\,z_\mathrm{A}/z_\mathrm{X}}\right) \]</div>
+      <p>k<sub>A,X</sub> càng nhỏ (thường ≪ 1) thì ion lạ X càng ít cản trở phép đo A. Ví dụ điện cực F<sup>−</sup> có k đối với OH<sup>−</sup> khá lớn ở pH cao (vì OH<sup>−</sup> cùng kích thước, cạnh tranh vào màng LaF<sub>3</sub>), đây là lí do TISAB phải khống chế pH dưới khoảng 8.</p>
       <div class="vi-du"><b>Ví dụ 3.</b> Điện cực F<sup>−</sup> cho E = 0,100 V trong chuẩn F<sup>−</sup> 1,00·10<sup>−3</sup> M và E = 0,159 V trong mẫu (cùng TISAB). Tính [F<sup>−</sup>] trong mẫu.
         <details><summary>Xem lời giải</summary>
           Với F<sup>−</sup>, z = −1: E = K − 0,059 lg[F<sup>−</sup>]. Trừ hai phương trình:
           \[ \begin{aligned} \lg[\mathrm{F^-}]_x &= \lg\left(1,00\cdot10^{-3}\right) \\ &\quad - \frac{0,159 - 0,100}{0,059} \\ &= -3,00 - 1,00 = -4,00 \end{aligned} \]
           [F<sup>−</sup>] = <b>1,0·10<sup>−4</sup> M</b>. Thế tăng 59 mV ứng với nồng độ anion giảm 10 lần.
         </details></div>
+      <p><b>Thêm chuẩn với ISE</b>: cách này tránh phải pha một dãy chuẩn riêng và tự bù ảnh hưởng nền của mẫu, hay dùng khi mẫu chỉ có sẵn lượng nhỏ (ví dụ dịch chiết). Thêm V<sub>s</sub> dung dịch chuẩn nồng độ C<sub>s</sub> vào V<sub>x</sub> mL mẫu, đo thế trước (E<sub>1</sub>) và sau khi thêm (E<sub>2</sub>); đặt ΔE = E<sub>2</sub> − E<sub>1</sub> và S là độ dốc điện cực (âm cho anion, dương cho cation, đơn vị V):</p>
+      <div class="cong-thuc"><div class="nhan">C<sub>x</sub>: nồng độ ion cần tìm trong V<sub>x</sub> mL mẫu ban đầu</div>\[ C_x = \frac{C_s V_s}{(V_x+V_s)\,10^{\Delta E/S} - V_x} \]</div>
+      <p class="luu-y">Với <b>anion</b>, S mang dấu âm (S = −0,059/|z|): thêm chuẩn làm tăng nồng độ ion nên thế <i>giảm</i>, tức ΔE &lt; 0. Với <b>cation</b>, S dương và ΔE &gt; 0. Dùng nhầm dấu của S là lỗi hay gặp nhất khi tính công thức này.</p>
+      <div class="vi-du"><b>Ví dụ 4.</b> Xác định F<sup>−</sup> trong kem đánh răng. Cân 0,3020 g kem đánh răng, hòa tan cùng TISAB và định mức thành 50,0 mL; lấy toàn bộ 50,0 mL này (V<sub>x</sub>) cho vào cốc, điện cực F<sup>−</sup> cho E<sub>1</sub> = −100,0 mV. Thêm V<sub>s</sub> = 0,500 mL chuẩn F<sup>−</sup> 1,00·10<sup>−2</sup> M, đo được E<sub>2</sub> = −105,2 mV. Tính %F<sup>−</sup> và %NaF trong kem đánh răng (M<sub>F</sub> = 19,00; M<sub>NaF</sub> = 41,99).
+        <details><summary>Xem lời giải</summary>
+          F<sup>−</sup> là anion hóa trị 1 nên S = −0,05916 V (dùng độ dốc lí thuyết vì đề không cho độ dốc thực); ΔE = −0,1052 − (−0,1000) = −0,0052 V:
+          \[ 10^{\Delta E/S} = 10^{\,-0,0052/-0,05916} = 1,224 \]
+          \[ \begin{aligned} C_x &= \frac{1,00\cdot10^{-2}\times0,500}{(50,0+0,500)\times1,224 - 50,0} \\ &= \mathbf{4,23\cdot10^{-4}\ M} \end{aligned} \]
+          Đây cũng là nồng độ F<sup>−</sup> trong 50,0 mL dung dịch mẫu (V<sub>x</sub> lấy toàn bộ, không pha loãng thêm):
+          \[ \begin{aligned} m_{\mathrm{F^-}} &= 4,23\cdot10^{-4}\times19,00\times\frac{50,0}{1000} \\ &= 4,02\cdot10^{-4}\ \mathrm{g} \\ \%\mathrm{F^-} &= \frac{4,02\cdot10^{-4}}{0,3020}\times100 = \mathbf{0,133\%} \end{aligned} \]
+          Quy ra %NaF (nhân theo tỉ lệ khối lượng mol M<sub>NaF</sub>/M<sub>F</sub>):
+          \[ \%\mathrm{NaF} = 0,133\times\frac{41,99}{19,00} = \mathbf{0,294\%} \]
+          Kết quả phù hợp với hàm lượng NaF thường gặp trong kem đánh răng (khoảng 0,2 – 0,3%).
+        </details></div>
 
       <h3>6. Đo pH bằng điện cực thủy tinh</h3>
-      <p>Điện cực thủy tinh có màng thủy tinh mỏng, trao đổi H<sup>+</sup> với dung dịch; thường ghép chung với điện cực so sánh Ag/AgCl thành <b>điện cực tổ hợp</b>. Đáp ứng ở 25 °C:</p>
+      <p>Điện cực thủy tinh có màng thủy tinh mỏng, trao đổi H<sup>+</sup> với dung dịch; thường ghép chung với điện cực so sánh Ag/AgCl thành <b>điện cực tổ hợp</b> (combination electrode) để chỉ cần nhúng một đầu dò vào mẫu. Điện cực tổ hợp gồm hai ống lồng nhau: ống trong chứa dây Ag/AgCl nhúng trong dung dịch đệm pH cố định (có Cl<sup>−</sup> cố định), tận cùng là <b>bầu thủy tinh mỏng</b> nhạy với H<sup>+</sup>; ống ngoài chứa dây Ag/AgCl thứ hai nhúng trong dung dịch KCl bão hòa (hoặc gel KCl) làm điện cực so sánh ngoài, tiếp xúc với dung dịch đo qua một <b>cầu nối xốp</b> (gốm hoặc sợi) — chính chỗ này sinh ra thế tiếp xúc lỏng đã nói ở mục 5.</p>
+      <div class="hinh-tinh">
+        <svg viewBox="0 0 345 250" role="img" aria-label="Mặt cắt điện cực thủy tinh tổ hợp: điện cực trong, điện cực ngoài, màng thủy tinh liền thân và cầu nối xốp trên thành ống ngoài">
+          <text x="160" y="10" text-anchor="middle" font-size="11" font-weight="700" fill="var(--chu)">Điện cực thủy tinh (tổ hợp)</text>
+
+          <rect x="100" y="20" width="120" height="174" rx="12" fill="color-mix(in srgb, var(--vang) 10%, var(--the))" stroke="var(--vien)" stroke-width="1.2"/>
+
+          <path d="M140,36 L140,196 Q140,212 150,220 Q160,228 170,220 Q180,212 180,196 L180,36 Z" fill="color-mix(in srgb, var(--mau-chinh) 12%, var(--the))" stroke="var(--mau-chinh)" stroke-width="1.2"/>
+
+          <line x1="160" y1="24" x2="160" y2="54" stroke="var(--chu-phu)" stroke-width="1.3"/>
+          <circle cx="160" cy="54" r="5" fill="var(--chu)"/>
+          <line x1="118" y1="24" x2="118" y2="66" stroke="var(--chu-phu)" stroke-width="1.3"/>
+          <circle cx="118" cy="66" r="5" fill="var(--chu)"/>
+
+          <circle cx="217" cy="172" r="4.5" fill="var(--the)" stroke="var(--xanh)" stroke-width="1.3"/>
+
+          <line x1="160" y1="54" x2="234" y2="54" stroke="var(--chu-phu)" stroke-width="0.9" stroke-dasharray="2 2"/>
+          <text x="238" y="58" font-size="10" fill="var(--chu)">Ag/AgCl (trong)</text>
+
+          <line x1="160" y1="110" x2="234" y2="110" stroke="var(--chu-phu)" stroke-width="0.9" stroke-dasharray="2 2"/>
+          <text x="238" y="104" font-size="10" fill="var(--chu)">Đệm nội,</text>
+          <text x="238" y="116" font-size="10" fill="var(--chu)">Cl⁻ cố định</text>
+
+          <line x1="118" y1="66" x2="20" y2="66" stroke="var(--chu-phu)" stroke-width="0.9" stroke-dasharray="2 2"/>
+          <text x="16" y="60" font-size="10" text-anchor="start" fill="var(--chu)">Ag/AgCl</text>
+          <text x="16" y="72" font-size="10" text-anchor="start" fill="var(--chu)">(điện cực ngoài)</text>
+
+          <line x1="103" y1="150" x2="20" y2="150" stroke="var(--chu-phu)" stroke-width="0.9" stroke-dasharray="2 2"/>
+          <text x="16" y="144" font-size="10" text-anchor="start" fill="var(--chu)">KCl bão hòa</text>
+          <text x="16" y="156" font-size="10" text-anchor="start" fill="var(--chu)">(hoặc gel)</text>
+
+          <line x1="220" y1="172" x2="252" y2="172" stroke="var(--chu-phu)" stroke-width="0.9" stroke-dasharray="2 2"/>
+          <text x="256" y="166" font-size="10" fill="var(--chu)">Cầu nối xốp</text>
+          <text x="256" y="178" font-size="10" fill="var(--chu)">(tiếp xúc lỏng)</text>
+
+          <line x1="160" y1="224" x2="234" y2="224" stroke="var(--chu-phu)" stroke-width="0.9" stroke-dasharray="2 2"/>
+          <text x="238" y="220" font-size="10" fill="var(--chu)">Màng thủy tinh</text>
+          <text x="238" y="232" font-size="10" fill="var(--chu)">(nhạy với H⁺, liền</text>
+          <text x="238" y="244" font-size="10" fill="var(--chu)">thân ống trong)</text>
+        </svg>
+        <p class="chu-thich">Ống trong chứa dây Ag/AgCl và dung dịch đệm nội, thu hẹp liền mạch thành bầu thủy tinh ở đáy. Ống ngoài chứa dây Ag/AgCl thứ hai trong KCl bão hòa, thông với dung dịch đo qua cầu nối xốp trên thành ống.</p>
+      </div>
+      <p>Đáp ứng ở 25 °C:</p>
       <div class="cong-thuc">\[ E = K - 0,059\,\mathrm{pH} \]</div>
       <p>K thay đổi theo từng điện cực và theo thời gian, độ dốc thực cũng thường chỉ đạt 95 – 100% giá trị lí thuyết 0,059 V, nên phải <b>hiệu chuẩn</b> bằng dung dịch đệm chuẩn trước khi đo, thường dùng 2 đệm bao quanh pH mẫu (ví dụ 4,01 và 7,00, hoặc 7,00 và 10,01): đệm thứ nhất xác định K, đệm thứ hai xác định độ dốc thực.</p>
       <div class="cong-thuc"><div class="nhan">Đo so với một đệm chuẩn (giả định độ dốc lí thuyết)</div>\[ \mathrm{pH}_x = \mathrm{pH}_\text{chuẩn} + \frac{E_\text{chuẩn} - E_x}{0,059} \]</div>
-      <div class="vi-du"><b>Ví dụ 4.</b> Trong đệm pH 4,00 đo được E = 0,250 V; trong mẫu đo được E = 0,132 V. Tính pH mẫu.
+      <div class="vi-du"><b>Ví dụ 5.</b> Trong đệm pH 4,00 đo được E = 0,250 V; trong mẫu đo được E = 0,132 V. Tính pH mẫu.
         <details><summary>Xem lời giải</summary>
           \[ \mathrm{pH}_x = 4,00 + \frac{0,250 - 0,132}{0,059} = \mathbf{6,00} \]
+        </details></div>
+      <p><b>Hiệu chuẩn 2 điểm và độ dốc thực</b>: đo thế trong hai đệm chuẩn pH<sub>1</sub>, pH<sub>2</sub> (E<sub>1</sub>, E<sub>2</sub>), tính độ dốc thực S và so với độ dốc Nernst lí thuyết S<sub>Nernst</sub> = 0,05916 V (25 °C) để biết điện cực còn tốt không (thường chấp nhận nếu %Nernst ≥ 95%):</p>
+      <div class="cong-thuc"><div class="nhan">S: độ dốc thực (V/đơn vị pH)</div>\[ \begin{gathered} S = \frac{E_1 - E_2}{\mathrm{pH}_2 - \mathrm{pH}_1} \\ \%\text{Nernst} = \frac{S}{0,05916}\times100\% \\ \mathrm{pH}_x = \mathrm{pH}_1 + \frac{E_1 - E_x}{S} \end{gathered} \]</div>
+      <div class="vi-du"><b>Ví dụ 6.</b> Hiệu chuẩn máy đo pH bằng hai đệm chuẩn: pH 4,01 cho E<sub>1</sub> = 201,0 mV; pH 7,00 cho E<sub>2</sub> = 29,1 mV. Tính độ dốc thực, %Nernst. Mẫu đo được E<sub>x</sub> = 90,0 mV; tính pH mẫu.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} S &= \frac{0,2010 - 0,0291}{7,00 - 4,01} = \frac{0,1719}{2,99} \\ &= 0,05749\ \mathrm{V} = \mathbf{57,5\ mV} \\ \%\text{Nernst} &= \frac{0,0575}{0,05916}\times100 = \mathbf{97,2\%} \end{aligned} \]
+          Độ dốc đạt 97,2% lí thuyết, điện cực còn dùng tốt (thường chấp nhận nếu ≥ 95%).
+          \[ \mathrm{pH}_x = 4,01 + \frac{0,2010 - 0,0900}{0,0575} = \mathbf{5,94} \]
+          Lỗi hay gặp: dùng thẳng độ dốc lí thuyết 0,059 (bỏ qua bước hiệu chuẩn 2 điểm) thay vì độ dốc thực 0,0575 vừa tính được, sẽ ra pH<sub>x</sub> = 4,01 + 0,1110/0,059 = <b>5,89</b> — lệch 0,05 đơn vị pH so với kết quả đúng (5,94); sai lệch càng lớn khi điện cực càng xuống cấp (%Nernst càng thấp).
         </details></div>
       <ul>
         <li><b>Sai số kiềm</b>: ở pH rất cao (&gt; 11) và có nhiều Na<sup>+</sup>, màng đáp ứng cả với Na<sup>+</sup>, pH đo được <b>thấp hơn</b> thật.</li>
         <li><b>Sai số acid</b>: ở pH rất thấp (&lt; 0,5), pH đo được <b>cao hơn</b> thật.</li>
-        <li>Bảo quản: ngâm điện cực trong dung dịch bảo quản (KCl), không để khô, không lau mạnh màng thủy tinh; hiệu chuẩn ở cùng nhiệt độ với mẫu (độ dốc thay đổi theo nhiệt độ).</li>
+        <li>Bảo quản: ngâm điện cực trong dung dịch bảo quản (KCl), không để khô, không lau mạnh màng thủy tinh; hiệu chuẩn ở cùng nhiệt độ với mẫu (độ dốc Nernst tỉ lệ thuận với nhiệt độ tuyệt đối T: 0,05916 V ở 25 °C nhưng tăng thành 0,05916×318,15/298,15 = 0,06313 V ở 45 °C).</li>
       </ul>
 
       <div class="mo-phong" data-loai="anh-that" data-anh="may-do-ph"></div>
@@ -2188,7 +2421,7 @@ const CHUONG = [
         <li><b>Đạo hàm bậc 2</b>: Δ²E/ΔV² đổi dấu (bằng 0) tại điểm tương đương.</li>
         <li><b>Đồ thị Gran</b>: biến đổi số liệu trước điểm tương đương thành đường thẳng, kéo dài cắt trục V (Chương 6, mục 8).</li>
       </ul>
-      <div class="vi-du"><b>Ví dụ 5.</b> Số liệu gần điểm tương đương:
+      <div class="vi-du"><b>Ví dụ 7.</b> Số liệu gần điểm tương đương:
         <div class="bang-cuon"><table class="bang">
           <thead><tr><th>V (mL)</th><th>24,80</th><th>24,90</th><th>25,00</th><th>25,10</th><th>25,20</th><th>25,30</th></tr></thead>
           <tbody><tr><td>E (V)</td><td>0,412</td><td>0,431</td><td>0,468</td><td>0,559</td><td>0,596</td><td>0,612</td></tr></tbody>
@@ -2198,16 +2431,26 @@ const CHUONG = [
           ΔE/ΔV tại các điểm giữa (V/mL): 24,85: 0,19; 24,95: 0,37; <b>25,05: 0,91</b>; 25,15: 0,37; 25,25: 0,16. Cực đại ở 25,05 mL.<br>
           Δ²E/ΔV²: tại 25,00: (0,91 − 0,37)/0,10 = +5,4; tại 25,10: (0,37 − 0,91)/0,10 = −5,4. Đổi dấu đúng giữa hai điểm → <b>V<sub>e</sub> = 25,05 mL</b>.
         </details></div>
+      <p>Điện cực chỉ thị trong chuẩn độ oxi hóa – khử (điện cực Pt) thường được đo so với <b>SCE</b> chứ không phải SHE, vì SCE bền và tiện dùng hơn điện cực hydro chuẩn. Muốn so sánh với thế tính theo Nernst (vốn viết theo thang SHE), phải đổi thang như mục 3.</p>
+      <div class="vi-du"><b>Ví dụ 8.</b> Chuẩn độ điện thế Cu<sup>+</sup> bằng Fe<sup>3+</sup> (Cu<sup>+</sup> + Fe<sup>3+</sup> → Cu<sup>2+</sup> + Fe<sup>2+</sup>), điện cực Pt đo so với SCE. Biết E<sup>0</sup>(Fe<sup>3+</sup>/Fe<sup>2+</sup>) = 0,77 V; E<sup>0</sup>(Cu<sup>2+</sup>/Cu<sup>+</sup>) = 0,16 V (cả hai n = 1). Tính thế đo được (so với SCE) tại điểm tương đương.
+        <details><summary>Xem lời giải</summary>
+          Tại điểm tương đương, vì n<sub>1</sub> = n<sub>2</sub> = 1 (Chương 9, mục 2), tính E<sub>tđ</sub> so với SHE:
+          \[ E_\text{tđ} = \frac{1\times0,77 + 1\times0,16}{1+1} = \mathbf{0,465\ V} \] (so với SHE).
+          Đổi sang thang SCE (trừ 0,241 V vì SCE dương hơn SHE):
+          \[ E_\text{tđ} = 0,465 - 0,241 = \mathbf{0,224\ V} \] (so với SCE) — đây là giá trị máy đo thực sự hiển thị; nếu quên đổi thang sẽ báo cáo nhầm 0,465 V.
+        </details></div>
 
       <h3>8. Phương pháp điện lượng và von-ampe (giới thiệu)</h3>
       <p><b>Định luật Faraday</b>: lượng chất phản ứng ở điện cực tỉ lệ với điện lượng đi qua.</p>
       <div class="cong-thuc"><div class="nhan">Q = I·t (C); n: số electron trao đổi; F = 96 485 C/mol</div>\[ n_\text{chất} = \frac{Q}{nF} \qquad m = \frac{Q\,M}{nF} \]</div>
-      <div class="vi-du"><b>Ví dụ 6.</b> Điện phân dung dịch Cu<sup>2+</sup> với dòng 0,100 A trong 600 s (hiệu suất 100%). Tính khối lượng Cu bám vào catot (M = 63,55).
+      <div class="vi-du"><b>Ví dụ 9.</b> Điện phân dung dịch Cu<sup>2+</sup> với dòng 0,100 A trong 600 s (hiệu suất 100%). Tính khối lượng Cu bám vào catot (M = 63,55).
         <details><summary>Xem lời giải</summary>
           \[ \begin{aligned} Q &= 0,100\cdot600 = 60,0\ \mathrm{C} \\ m &= \frac{60,0\cdot63,55}{2\cdot96\,485} \\ &= 0,0198\ \mathrm{g} = \mathbf{19,8\ mg} \end{aligned} \]
         </details></div>
       <p><b>Von-ampe</b>: áp một thế biến thiên lên điện cực làm việc và đo dòng. Dòng giới hạn tỉ lệ với nồng độ chất bị oxi hóa hoặc khử. Von-ampe hòa tan (làm giàu kim loại lên điện cực rồi hòa tan) xác định được kim loại nặng ở mức ppb.</p>
-    `,
+
+      <p class="luu-y"><b>Lỗi hay gặp:</b> quên đổi dấu số hạng logarit khi tính cho anion (thế <i>giảm</i> khi nồng độ anion <i>tăng</i>, ngược chiều với cation); dùng thẳng độ dốc lí thuyết 59,16 mV thay vì độ dốc thực vừa hiệu chuẩn bằng 2 đệm; quên thêm TISAB, hoặc thêm không cùng lượng vào mẫu và chuẩn khi đo ISE; đổi thế giữa các điện cực so sánh sai dấu (cộng thay vì trừ, hoặc nhầm chiều SHE → SCE); nhầm anot luôn là cực âm — thực ra anot là nơi xảy ra oxi hóa, dấu điện cực còn tùy pin Galvani hay bình điện phân; trong chuẩn độ điện thế bằng đạo hàm bậc 2, tưởng điểm tương đương là nơi Δ²E/ΔV² <i>lớn nhất</i> (thực ra là nơi nó <i>đổi dấu</i>, tức bằng 0 — thường phải nội suy giữa hai điểm đo có Δ²E/ΔV² trái dấu).</p>
+`,
     baiTap: [
       {
         de: "Điện cực Ca<sup>2+</sup> (ISE) cho E = 0,215 V trong chuẩn Ca<sup>2+</sup> 1,00·10<sup>−3</sup> M. Mẫu (cùng lực ion) cho E = 0,186 V. Tính [Ca<sup>2+</sup>].",
@@ -2344,26 +2587,129 @@ const CHUONG = [
         <ul>
           <li>Nắm nguyên tắc, phạm vi áp dụng và cấu tạo máy GC, HPLC.</li>
           <li>Dự đoán thứ tự rửa giải trong GC và HPLC pha thường, pha đảo.</li>
-          <li>Chọn detector, loại cột và chế độ rửa giải phù hợp với bài toán.</li>
+          <li>Chọn detector, loại cột và chế độ rửa giải phù hợp với bài toán; định lượng bằng đường chuẩn.</li>
         </ul>
       </div>
       <h3>1. Sắc kí khí (GC): nguyên tắc và phạm vi</h3>
       <p>Pha động là <b>khí trơ</b> (khí mang), pha tĩnh là chất rắn hoặc chất lỏng phủ trong cột. Mẫu được <b>hóa hơi</b> ở buồng tiêm rồi được khí mang đưa qua cột.</p>
       <ul>
         <li>Áp dụng cho chất <b>dễ bay hơi và bán bay hơi, bền nhiệt</b>, chủ yếu hữu cơ: dung môi tồn dư, tinh dầu, thuốc trừ sâu, hydrocarbon, chất béo (sau khi chuyển thành ester methyl).</li>
-        <li>Chất khó bay hơi hoặc kém bền nhiệt phải được <b>dẫn xuất hóa</b> (ví dụ silyl hóa) hoặc chuyển sang HPLC.</li>
+        <li>Chất khó bay hơi hoặc kém bền nhiệt phải được <b>dẫn xuất hóa</b> để tăng độ bay hơi và độ bền nhiệt, hoặc chuyển sang HPLC:</li>
+      </ul>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Loại dẫn xuất</th><th>Phản ứng vào nhóm chức</th><th>Ví dụ thuốc thử</th></tr></thead>
+          <tbody>
+            <tr><td>Silyl hóa</td><td>Thay H linh động (–OH, –NH, –COOH) bằng –Si(CH<sub>3</sub>)<sub>3</sub></td><td>BSTFA, TMCS</td></tr>
+            <tr><td>Acyl hóa</td><td>Acyl hóa –OH, –NH<sub>2</sub> thành ester/amide</td><td>Anhydrid acetic, PFPA</td></tr>
+            <tr><td>Alkyl hóa (ester hóa)</td><td>–COOH thành ester methyl (dễ bay hơi hơn)</td><td>BF<sub>3</sub>/methanol, diazomethan</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul>
         <li>Sắc kí khí – rắn (hấp phụ): tách khí vô cơ, hydrocarbon mạch ngắn. Sắc kí khí – lỏng (phân bố): phổ biến nhất.</li>
       </ul>
 
       <h3>2. Thiết bị GC</h3>
       <p>Bình khí mang → bộ điều khiển dòng → buồng tiêm mẫu → cột (trong lò cột) → detector → hệ xử lí số liệu.</p>
+      <div class="hinh-tinh">
+        <svg viewBox="0 0 320 100" role="img" aria-label="Sơ đồ khối máy sắc kí khí: khí mang, buồng tiêm, lò cột, detector, xử lí số liệu">
+          <defs>
+            <marker id="gc-mt" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+              <path d="M0,0 L8,4 L0,8 Z" fill="var(--chu-phu)"/>
+            </marker>
+          </defs>
+          <text x="160" y="12" text-anchor="middle" font-size="11" font-weight="700" fill="var(--chu)">Sơ đồ khối máy sắc kí khí (GC)</text>
+
+          <rect x="4" y="26" width="58" height="50" rx="6" fill="var(--the)" stroke="var(--vien)"/>
+          <text x="33" y="44" text-anchor="middle" font-size="10" fill="var(--chu)"><tspan x="33">Khí mang</tspan><tspan x="33" dy="12">+ bộ điều</tspan><tspan x="33" dy="12">áp/dòng</tspan></text>
+
+          <rect x="68" y="26" width="58" height="50" rx="6" fill="var(--the)" stroke="var(--vien)"/>
+          <text x="97" y="44" text-anchor="middle" font-size="10" fill="var(--chu)"><tspan x="97">Buồng tiêm</tspan><tspan x="97" dy="12">(split/</tspan><tspan x="97" dy="12">splitless)</tspan></text>
+
+          <rect x="132" y="26" width="58" height="50" rx="6" fill="color-mix(in srgb, var(--mau-chinh) 10%, var(--the))" stroke="var(--mau-chinh)"/>
+          <path d="M141,38 q6,-7 12,0 q6,7 12,0 q6,-7 12,0" fill="none" stroke="var(--mau-chinh)" stroke-width="1.6"/>
+          <text x="161" y="56" text-anchor="middle" font-size="10" fill="var(--chu)"><tspan x="161">Lò cột</tspan><tspan x="161" dy="12">(mao quản)</tspan></text>
+
+          <rect x="196" y="26" width="58" height="50" rx="6" fill="var(--the)" stroke="var(--vien)"/>
+          <text x="225" y="54" text-anchor="middle" font-size="10" fill="var(--chu)">Detector</text>
+
+          <rect x="260" y="26" width="56" height="50" rx="6" fill="var(--the)" stroke="var(--vien)"/>
+          <text x="288" y="46" text-anchor="middle" font-size="10" fill="var(--chu)"><tspan x="288">Xử lí số</tspan><tspan x="288" dy="12">liệu (sắc</tspan><tspan x="288" dy="12">đồ)</tspan></text>
+
+          <line x1="62" y1="51" x2="67" y2="51" stroke="var(--chu-phu)" stroke-width="1.4" marker-end="url(#gc-mt)"/>
+          <line x1="126" y1="51" x2="131" y2="51" stroke="var(--chu-phu)" stroke-width="1.4" marker-end="url(#gc-mt)"/>
+          <line x1="190" y1="51" x2="195" y2="51" stroke="var(--chu-phu)" stroke-width="1.4" marker-end="url(#gc-mt)"/>
+          <line x1="254" y1="51" x2="259" y2="51" stroke="var(--chu-phu)" stroke-width="1.4" marker-end="url(#gc-mt)"/>
+        </svg>
+      </div>
       <ul>
         <li><b>Khí mang</b>: He, N<sub>2</sub>, H<sub>2</sub>, Ar; phải tinh khiết và khô.</li>
-        <li><b>Tiêm mẫu</b>: bằng xi lanh hoặc bộ tiêm tự động. Chế độ <b>chia dòng</b> (split): chỉ một phần nhỏ mẫu vào cột, dùng cho mẫu đặc; <b>không chia dòng</b> (splitless): gần như toàn bộ mẫu vào cột, dùng cho phân tích vết.</li>
+        <li><b>Tiêm mẫu</b>: bằng xi lanh hoặc bộ tiêm tự động vào buồng tiêm được gia nhiệt (hóa hơi mẫu tức thời). Có hai chế độ:
+          <ul>
+            <li><b>Chia dòng</b> (split): sau khi hóa hơi, chỉ một phần nhỏ dòng khí mang mang mẫu vào cột, phần lớn thoát ra ngoài qua van chia dòng. <b>Tỉ lệ chia dòng</b> (split ratio, dòng ra van : dòng vào cột) thường <b>10:1 đến 100:1</b>, có thể tới vài trăm:1 với mẫu rất đặc. Dùng cho mẫu đặc, tránh <b>quá tải cột</b> (pic doãng, kéo đuôi, mất độ phân giải).</li>
+            <li><b>Không chia dòng</b> (splitless): van chia dòng đóng trong một khoảng thời gian đầu (thường 30 – 90 s, gọi là <i>splitless purge time</i>) để gần như toàn bộ mẫu đi vào cột, dùng cho phân tích vết. Sau đó phải mở van để đuổi hết hơi dung môi còn đọng trong buồng tiêm, nếu không dung môi dư sẽ làm doãng pic của các chất ra sớm.</li>
+          </ul>
+        </li>
+      </ul>
+      <div class="hinh-tinh">
+        <svg viewBox="0 0 320 168" role="img" aria-label="So sánh buồng tiêm chế độ chia dòng và không chia dòng, mũi tên thể hiện lượng dòng khí">
+          <defs>
+            <marker id="gc-mt2" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+              <path d="M0,0 L8,4 L0,8 Z" fill="var(--mau-chinh)"/>
+            </marker>
+            <marker id="gc-mt3" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+              <path d="M0,0 L8,4 L0,8 Z" fill="var(--chu-phu)"/>
+            </marker>
+          </defs>
+          <line x1="160" y1="20" x2="160" y2="152" stroke="var(--vien)" stroke-width="1" stroke-dasharray="2 3"/>
+
+          <text x="80" y="11" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--chu)">CHIA DÒNG</text>
+          <text x="10" y="26" font-size="9.5" fill="var(--chu-phu)">khí mang</text>
+          <line x1="12" y1="30" x2="64" y2="42" stroke="var(--mau-chinh)" stroke-width="1.6" marker-end="url(#gc-mt2)"/>
+          <text x="150" y="26" text-anchor="end" font-size="9.5" fill="var(--chu-phu)">tiêm mẫu</text>
+          <line x1="148" y1="30" x2="96" y2="42" stroke="var(--mau-chinh)" stroke-width="1.6" marker-end="url(#gc-mt2)"/>
+          <rect x="66" y="38" width="28" height="46" rx="3" fill="color-mix(in srgb, var(--mau-chinh) 8%, var(--the))" stroke="var(--vien)"/>
+          <line x1="80" y1="86" x2="135" y2="110" stroke="var(--mau-chinh)" stroke-width="5" marker-end="url(#gc-mt2)"/>
+          <text x="124" y="128" text-anchor="start" font-size="9.5" fill="var(--chu-phu)">ra van chia</text>
+          <text x="124" y="140" text-anchor="start" font-size="9.5" fill="var(--chu-phu)">dòng (phần lớn)</text>
+          <line x1="80" y1="86" x2="80" y2="132" stroke="var(--mau-chinh)" stroke-width="1.6" marker-end="url(#gc-mt2)"/>
+          <text x="80" y="144" text-anchor="middle" font-size="9.5" fill="var(--chu-phu)">vào cột (ít)</text>
+
+          <text x="240" y="11" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--chu)">KHÔNG CHIA DÒNG</text>
+          <text x="170" y="26" text-anchor="start" font-size="9.5" fill="var(--chu-phu)">khí mang</text>
+          <line x1="172" y1="30" x2="224" y2="42" stroke="var(--mau-chinh)" stroke-width="1.6" marker-end="url(#gc-mt2)"/>
+          <text x="310" y="26" text-anchor="end" font-size="9.5" fill="var(--chu-phu)">tiêm mẫu</text>
+          <line x1="308" y1="30" x2="256" y2="42" stroke="var(--mau-chinh)" stroke-width="1.6" marker-end="url(#gc-mt2)"/>
+          <rect x="226" y="38" width="28" height="46" rx="3" fill="color-mix(in srgb, var(--mau-chinh) 8%, var(--the))" stroke="var(--vien)"/>
+          <line x1="240" y1="86" x2="278" y2="98" stroke="var(--chu-phu)" stroke-width="1.3" stroke-dasharray="3 3"/>
+          <text x="316" y="96" text-anchor="end" font-size="9.5" fill="var(--chu-phu)">van đóng</text>
+          <text x="316" y="108" text-anchor="end" font-size="9.5" fill="var(--chu-phu)">(30–90 s đầu)</text>
+          <line x1="240" y1="86" x2="240" y2="132" stroke="var(--chu-phu)" stroke-width="5" marker-end="url(#gc-mt3)"/>
+          <text x="240" y="144" text-anchor="middle" font-size="9.5" fill="var(--chu-phu)">vào cột (gần hết mẫu)</text>
+        </svg>
+        <p class="chu-thich">Độ dày mũi tên ≈ lượng dòng khí; tỉ lệ chia dòng = dòng ra van : dòng vào cột (thường 10:1 – 100:1).</p>
+      </div>
+      <ul>
         <li><b>Cột nhồi</b>: ống kim loại/thủy tinh nhồi hạt, dung lượng mẫu lớn nhưng hiệu quả thấp.</li>
         <li><b>Cột mao quản</b>: ống silica nung chảy phủ polyimide bên ngoài, pha tĩnh phủ ở thành trong; đường kính trong 0,10 – 0,53 mm (thường 0,25 và 0,32 mm), dài 10 – 100 m (thường 30 m). Hiệu quả rất cao (khoảng 150 000 đĩa) nhưng dung lượng mẫu nhỏ.</li>
-        <li><b>Pha tĩnh</b>: polysiloxan với tỉ lệ nhóm phenyl, cyanopropyl khác nhau (từ không phân cực đến phân cực), polyethylen glycol (phân cực).</li>
-        <li><b>Nhiệt độ cột</b>: đẳng nhiệt (thường hơi thấp hơn nhiệt độ sôi của các chất), hoặc <b>chương trình nhiệt độ</b> (tăng dần) cho hỗn hợp có nhiệt độ sôi khác nhau nhiều: chất sôi thấp tách tốt ở đầu, chất sôi cao ra nhanh ở cuối, pic gọn hơn.</li>
+        <li><b>Pha tĩnh</b>: chọn theo độ phân cực của chất cần tách và nhiệt độ làm việc:</li>
+      </ul>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Pha tĩnh</th><th>Thành phần</th><th>Độ phân cực</th><th>Nhiệt độ tối đa</th></tr></thead>
+          <tbody>
+            <tr><td>OV-1 / DB-1</td><td>100% dimethylpolysiloxan</td><td>Không phân cực</td><td>≈ 320 – 350 °C</td></tr>
+            <tr><td>DB-5</td><td>5% phenyl, 95% methylpolysiloxan</td><td>Phân cực rất nhẹ</td><td>≈ 320 – 350 °C</td></tr>
+            <tr><td>OV-17</td><td>50% phenyl methylpolysiloxan</td><td>Phân cực trung bình</td><td>≈ 300 °C</td></tr>
+            <tr><td>Cyanopropylphenyl</td><td>Nhóm cyanopropyl</td><td>Phân cực mạnh</td><td>≈ 240 – 275 °C</td></tr>
+            <tr><td>Carbowax (PEG)</td><td>Polyethylen glycol</td><td>Phân cực mạnh (có –OH)</td><td>≈ 250 – 260 °C</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="luu-y">Nhiệt độ tối đa là giá trị điển hình, khác nhau đôi chút giữa các hãng sản xuất; luôn tra catalogue cột thật khi làm việc.</p>
+      <ul>
+        <li><b>Nhiệt độ cột</b>: đẳng nhiệt (thường hơi thấp hơn nhiệt độ sôi của các chất), hoặc <b>chương trình nhiệt độ</b> (tăng dần) cho hỗn hợp có nhiệt độ sôi khác nhau nhiều: chất sôi thấp tách tốt ở đầu, chất sôi cao ra nhanh ở cuối, pic gọn hơn — nguyên lí tương tự rửa giải gradient trong HPLC (mục 6).</li>
       </ul>
 
       <div class="mo-phong" data-loai="anh-that" data-anh="may-gc"></div>
@@ -2380,15 +2726,15 @@ const CHUONG = [
       <h3>4. Detector GC</h3>
       <div class="bang-cuon">
         <table class="bang bang-the">
-          <thead><tr><th>Detector</th><th>Nguyên tắc</th><th>Đối tượng, đặc điểm</th></tr></thead>
+          <thead><tr><th>Detector</th><th>Nguyên tắc</th><th>Đối tượng, đặc điểm</th><th>LOD điển hình</th><th>Không đáp ứng với</th></tr></thead>
           <tbody>
-            <tr><td>TCD (dẫn nhiệt)</td><td>Chất làm thay đổi độ dẫn nhiệt của khí mang</td><td>Vạn năng (cả khí vô cơ), không phá mẫu, kém nhạy</td></tr>
-            <tr><td>FID (ion hóa ngọn lửa)</td><td>Đốt chất hữu cơ trong ngọn lửa H<sub>2</sub>, đo dòng ion</td><td>Hợp chất có C–H; nhạy, khoảng tuyến tính rộng; không nhạy với H<sub>2</sub>O, CO<sub>2</sub></td></tr>
-            <tr><td>ECD (bắt electron)</td><td>Chất hút electron làm giảm dòng electron từ nguồn phóng xạ</td><td>Hợp chất halogen (thuốc trừ sâu clo hữu cơ, PCB): rất nhạy, chọn lọc</td></tr>
-            <tr><td>NPD (nitơ – phospho)</td><td>Hạt muối kiềm nung nóng ion hóa chọn lọc hợp chất N, P</td><td>Thuốc trừ sâu phospho hữu cơ, dược chất chứa N</td></tr>
-            <tr><td>FPD (quang ngọn lửa)</td><td>Đo phát xạ của S, P trong ngọn lửa</td><td>Hợp chất lưu huỳnh, phospho</td></tr>
-            <tr><td>MS (khối phổ)</td><td>Ion hóa, tách ion theo m/z</td><td>Vừa định lượng vừa nhận danh cấu trúc (GC-MS)</td></tr>
-            <tr><td>FT-IR</td><td>Đo phổ hồng ngoại của từng pic khí</td><td>Nhận danh nhóm chức, phân biệt đồng phân (GC-IR)</td></tr>
+            <tr><td>TCD (dẫn nhiệt)</td><td>Chất làm thay đổi độ dẫn nhiệt của khí mang</td><td>Vạn năng (cả khí vô cơ), không phá mẫu</td><td>≈ ng (kém nhạy nhất)</td><td>Chất có độ dẫn nhiệt gần bằng khí mang</td></tr>
+            <tr><td>FID (ion hóa ngọn lửa)</td><td>Đốt chất hữu cơ trong ngọn lửa H<sub>2</sub>, đo dòng ion</td><td>Hợp chất có C–H; nhạy, khoảng tuyến tính rất rộng</td><td>≈ pg</td><td>H<sub>2</sub>O, CO<sub>2</sub>, CO, khí trơ, CS<sub>2</sub> (không có liên kết C–H)</td></tr>
+            <tr><td>ECD (bắt electron)</td><td>Chất hút electron làm giảm dòng electron từ nguồn phóng xạ</td><td>Hợp chất halogen (thuốc trừ sâu clo hữu cơ, PCB): rất nhạy, chọn lọc</td><td>≈ fg (với hợp chất nhiều halogen)</td><td>Hydrocarbon không có nhóm hút electron (halogen, nitro, carbonyl liên hợp)</td></tr>
+            <tr><td>NPD (nitơ – phospho)</td><td>Hạt muối kiềm nung nóng ion hóa chọn lọc hợp chất N, P</td><td>Thuốc trừ sâu phospho hữu cơ, dược chất chứa N</td><td>≈ pg</td><td>Hydrocarbon thường (không N, P)</td></tr>
+            <tr><td>FPD (quang ngọn lửa)</td><td>Đo phát xạ của S, P trong ngọn lửa</td><td>Hợp chất lưu huỳnh, phospho</td><td>≈ pg (S, P)</td><td>Hợp chất không chứa S, P</td></tr>
+            <tr><td>MS (khối phổ)</td><td>Ion hóa, tách ion theo m/z</td><td>Vừa định lượng vừa nhận danh cấu trúc (GC-MS)</td><td>≈ pg (scan), ≈ fg (SIM)</td><td>(hầu như đáp ứng mọi chất ion hóa được)</td></tr>
+            <tr><td>FT-IR</td><td>Đo phổ hồng ngoại của từng pic khí</td><td>Nhận danh nhóm chức, phân biệt đồng phân (GC-IR)</td><td>≈ ng</td><td>Chất không có dao động IR đặc trưng</td></tr>
           </tbody>
         </table>
       </div>
@@ -2406,12 +2752,12 @@ const CHUONG = [
         </table>
       </div>
       <ul>
-        <li><b>Sắc kí ion</b>: tách anion, cation trên nhựa trao đổi ion.</li>
-        <li><b>Sắc kí loại theo kích thước</b> (SEC): tách phân tử lớn (M &gt; 10 000) như protein, polymer; phân tử lớn ra trước.</li>
+        <li><b>Sắc kí ion</b>: tách anion, cation trên nhựa trao đổi ion; dùng detector độ dẫn kèm <b>bộ triệt nền</b> (suppressor) để trung hòa hoặc loại ion của pha động, hạ nền tín hiệu và tăng độ nhạy.</li>
+        <li><b>Sắc kí loại theo kích thước</b> (SEC): tách phân tử lớn (M &gt; 10 000) như protein, polymer; phân tử lớn ra trước (không lọt vào lỗ xốp của hạt nhồi). Đường chuẩn SEC là lg M theo thể tích lưu V<sub>R</sub> (gần như tuyến tính nghịch trong một khoảng M), dùng để ước lượng khối lượng phân tử của chất chưa biết từ V<sub>R</sub> đo được.</li>
         <li><b>Sắc kí chiral</b>: tách các đối quang (quan trọng trong dược phẩm).</li>
         <li><b>Sắc kí ái lực</b>: dựa trên tương tác sinh học đặc hiệu, tinh chế protein, kháng thể.</li>
       </ul>
-      <p>Trong HPLC pha đảo, độ lưu giữ tăng theo <b>tính kị nước</b>: chất càng phân cực càng ra sớm. Tăng tỉ lệ dung môi hữu cơ trong pha động làm các chất ra nhanh hơn.</p>
+      <p>Trong HPLC pha đảo, độ lưu giữ tăng theo <b>tính kị nước</b>: chất càng phân cực càng ra sớm. Tăng tỉ lệ dung môi hữu cơ trong pha động làm các chất ra nhanh hơn. Với chất có thể ion hóa (acid, base yếu), pH pha động ảnh hưởng mạnh đến độ lưu giữ trên C18: dạng <b>trung hòa</b> (không mang điện) kị nước hơn dạng ion nên bị giữ lâu hơn nhiều. Ví dụ dùng đệm phosphat pH 3 cho acid carboxylic (pK<sub>a</sub> ≈ 4 – 5): ở pH thấp hơn pK<sub>a</sub> nhiều, acid chủ yếu ở dạng phân tử HA (trung hòa) nên bị giữ lại trên C18 lâu hơn, cho pic gọn và tách tốt hơn so với để pH gần trung tính (khi đó acid ion hóa thành A<sup>−</sup>, ra rất sớm và có thể lẫn với các ion khác).</p>
       <div class="vi-du"><b>Ví dụ 2.</b> Caffeine (1,3,7-trimethylxanthin) và theobromine (3,7-dimethylxanthin) được tách trên cột C18, pha động nước – methanol. Chất nào ra trước?
         <details><summary>Xem lời giải</summary>
           Theobromine ít hơn caffeine một nhóm –CH<sub>3</sub> (có N–H tạo liên kết hydro), nên phân cực hơn, kém kị nước hơn. Trên cột pha đảo, <b>theobromine ra trước</b>, caffeine ra sau.
@@ -2425,6 +2771,7 @@ const CHUONG = [
         <li><b>Bơm</b>: tạo dòng ổn định ở áp suất cao (có thể vài trăm bar). <b>Rửa giải đẳng dòng</b> (isocratic): thành phần pha động không đổi. <b>Rửa giải gradient</b>: tăng dần tỉ lệ dung môi mạnh, dùng cho hỗn hợp có độ lưu giữ khác nhau nhiều (tương tự chương trình nhiệt độ trong GC).</li>
         <li><b>Cột nhồi</b>: thép không gỉ, đường kính trong 2,1 – 4,6 mm, dài 30 – 300 mm, hạt silica xốp 3 – 10 µm (40 000 – 60 000 đĩa/m). Hạt càng nhỏ, cột càng hiệu quả nhưng áp suất càng cao (UHPLC dùng hạt dưới 2 µm).</li>
         <li><b>Cột mao quản</b>: silica nung chảy, đường kính trong 44 – 200 µm, dài 50 – 250 mm, hạt 3 – 5 µm (khoảng 250 000 đĩa/m), tốn rất ít dung môi và mẫu.</li>
+        <li><b>Chuẩn bị mẫu</b>: luôn <b>lọc qua màng 0,45 µm</b> (hoặc 0,22 µm) trước khi tiêm để không nghẹt cột và đầu bơm; mẫu phức tạp (huyết tương, nước thải) thường được làm sạch và làm giàu bằng <b>chiết pha rắn</b> (SPE): cho mẫu qua cột nhỏ nhồi chất hấp phụ để giữ chất phân tích lại, rửa tạp chất, rồi rửa giải chất phân tích bằng dung môi thích hợp.</li>
       </ul>
       <p><b>Detector HPLC</b>:</p>
       <div class="bang-cuon">
@@ -2453,7 +2800,37 @@ const CHUONG = [
         </table>
       </div>
       <div class="mo-phong" data-loai="thu-tu-rua-giai"></div>
-    `,
+
+      <h3>8. Định lượng bằng sắc kí</h3>
+      <p>Diện tích (hoặc chiều cao) pic tỉ lệ với lượng chất bơm vào, tương tự tín hiệu quang phổ. Có thể dùng ngoại chuẩn (đường chuẩn), thêm chuẩn, hoặc <b>nội chuẩn</b> để bù sai số thể tích tiêm và biến động của máy — cách tính hoàn toàn giống Chương 10, mục 6 (ví dụ nội chuẩn cho sắc kí đã có ở đó).</p>
+      <div class="vi-du"><b>Ví dụ 3.</b> Xác định hàm lượng hoạt chất X trong một mẫu dược liệu bằng HPLC. Đường chuẩn (diện tích pic y theo nồng độ x, mg/mL): y = 1250 + 95 500x (R<sup>2</sup> tốt, đã trừ mẫu trắng). Cân 1,0568 g bột dược liệu, chiết và định mức thành 50,00 mL, lọc qua màng 0,45 µm rồi tiêm sắc kí, được diện tích pic A<sub>x</sub> = 62 480. Tính nồng độ hoạt chất X trong dung dịch và phần trăm khối lượng X trong mẫu.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} x &= \frac{A_x - 1250}{95\,500} = \frac{62\,480-1250}{95\,500} \\ &= 0,6412\ \mathrm{mg/mL} \end{aligned} \]
+          Khối lượng X trong bình định mức 50,00 mL:
+          \[ m_\mathrm{X} = 0,6412\times50,00 = 32,06\ \mathrm{mg} \]
+          Phần trăm khối lượng trong mẫu (m<sub>mẫu</sub> = 1,0568 g = 1056,8 mg):
+          \[ \%\mathrm{X} = \frac{32,06}{1056,8}\times100 = \mathbf{3,03\%} \]
+          Lỗi hay gặp: quên nhân thể tích định mức 50,00 mL (chỉ báo cáo x = 0,6412 mg/mL là chưa xong bài); quên đổi khối lượng mẫu sang cùng đơn vị (mg) với m<sub>X</sub> trước khi lấy tỉ số.
+        </details></div>
+      <div class="vi-du"><b>Ví dụ 4.</b> Xác định hexanol (X) trong một mẫu bằng GC-FID, dùng nội chuẩn heptanol (S). Hỗn hợp chuẩn X 0,100 M và S 0,100 M cho diện tích pic A<sub>X</sub> = 850, A<sub>S</sub> = 910. Lấy 5,00 mL mẫu, thêm 1,00 mL S 0,200 M, định mức thành 10,00 mL; đo được A<sub>X</sub> = 620, A<sub>S</sub> = 780. Tính [X] trong mẫu ban đầu.
+        <details><summary>Xem lời giải</summary>
+          Hệ số đáp ứng F từ hỗn hợp chuẩn (công thức Chương 10, mục 6):
+          \[ F = \frac{850/0,100}{910/0,100} = 0,934 \]
+          Trong dung dịch đo: [S] = 0,200×1,00/10,00 = 0,0200 M:
+          \[ \begin{aligned} [\mathrm{X}]_f &= \frac{A_\mathrm{X}}{A_\mathrm{S}}\cdot\frac{[\mathrm{S}]}{F} = \frac{620}{780}\cdot\frac{0,0200}{0,934} \\ &= 0,01702\ \mathrm{M} \end{aligned} \]
+          Quy về mẫu ban đầu (pha loãng 10,00/5,00 = 2,00 lần):
+          \[ [\mathrm{X}]_\text{mẫu} = 0,01702\times2,00 = \mathbf{0,0340\ M} \]
+        </details></div>
+      <p><b>Trả lời nhanh một số câu hay nhầm trong đề:</b></p>
+      <ul>
+        <li>C18 là pha tĩnh <b>không phân cực</b> (không phải phân cực); trong sắc kí pha đảo, chính <b>pha động</b> mới là thành phần phân cực.</li>
+        <li>Detector UV – Vis trong HPLC đo <b>độ hấp thụ</b> (không phải phát xạ); detector huỳnh quang mới đo tín hiệu phát xạ.</li>
+        <li>Tín hiệu trong AAS/AES (Chương 12) là tín hiệu <b>nguyên tử</b>; tín hiệu UV-Vis, huỳnh quang trong HPLC là tín hiệu <b>phân tử</b>.</li>
+        <li>Thứ tự rửa giải của nitromethane (chỉ số phân cực P' ≈ 6,0), acetone (P' ≈ 5,1) và dichloromethane (P' ≈ 3,1): trên <b>pha đảo C18</b>, chất phân cực hơn ra trước → nitromethane → acetone → dichloromethane. Trên <b>pha thường</b> (silica), thứ tự đảo ngược: dichloromethane → acetone → nitromethane.</li>
+      </ul>
+
+      <p class="luu-y"><b>Lỗi hay gặp:</b> nhầm C18 là pha tĩnh phân cực; nhầm detector UV là đo phát xạ; chọn splitless cho mẫu đậm đặc (quá tải cột, pic doãng) hoặc chọn split cho phân tích vết (mất độ nhạy); quên hệ số pha loãng hoặc thể tích định mức khi đổi nồng độ đo được trên đường chuẩn sang % khối lượng trong mẫu ban đầu; dự đoán thứ tự rửa giải GC chỉ dựa vào nhiệt độ sôi mà quên xét độ phân cực khi pha tĩnh phân cực mạnh (Carbowax, cyanopropyl); nhầm SEC — phân tử <i>lớn</i> ra trước chứ không phải phân tử nhỏ.</p>
+`,
     baiTap: [
       {
         de: "Cần xác định dư lượng thuốc trừ sâu clo hữu cơ ở mức vết trong rau. Chọn kĩ thuật sắc kí, chế độ tiêm và detector phù hợp.",
