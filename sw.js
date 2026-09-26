@@ -1,7 +1,7 @@
 /* Service worker: lưu sẵn các file giao diện để app mở được khi mất mạng.
    MỖI LẦN SỬA CODE: tăng số phiên bản bên dưới (v1 → v2 → v3...)
    để điện thoại đã cài app nhận bản mới. */
-const PHIEN_BAN = "app-dien-thoai-v42";
+const PHIEN_BAN = "app-dien-thoai-v43";
 
 const FILE_GIAO_DIEN = [
   "./",
@@ -11,6 +11,7 @@ const FILE_GIAO_DIEN = [
   "ngan-hang.js",
   "ngan-hang-cho-duyet.js",
   "ngan-hang-cho-duyet-2.js",
+  "ngan-hang-cho-duyet-3.js",
   "mo-phong.js",
   "anh/nguon.js",
   "anh/binh-dinh-muc.webp",
