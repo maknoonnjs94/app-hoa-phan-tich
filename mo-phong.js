@@ -771,3 +771,63 @@ MO_PHONG["thu-tu-rua-giai"] = el => {
   $("select").onchange = e => { cd = CHE_DO[e.target.value]; tao(); };
   tao();
 };
+
+/* ---------------- 18. Chuẩn độ EDTA: ảnh hưởng của pH ---------------- */
+MO_PHONG["chuan-do-edta"] = el => {
+  const ALPHA = { 6: 1.8e-5, 7: 3.8e-4, 8: 4.2e-3, 9: 0.041, 10: 0.30, 11: 0.81, 12: 0.98 };
+  const ION = { "Ca²⁺ (lg Kf = 10,70)": 10.70, "Mg²⁺ (lg Kf = 8,79)": 8.79, "Zn²⁺ (lg Kf = 16,50)": 16.50 };
+  let pH = 10, lgKf = 10.70;
+  const V0 = 50, C = 0.0400, Cy = 0.0800, Ve = 25, Vmax = 40;
+  el.innerHTML = `
+    <div class="mp-dau"><b>🔗 Đường chuẩn độ EDTA theo pH</b><span>50,0 mL M²⁺ 0,0400 M chuẩn bằng EDTA 0,0800 M</span></div>
+    <div class="mp-chon"><select>${Object.keys(ION).map(k => `<option>${k}</option>`).join("")}</select></div>
+    <svg class="mp-do-thi"></svg>
+    <label class="mp-truot">pH của đệm = <b class="mp-ph-edta"></b><input type="range" min="6" max="12" step="1" value="10"></label>
+    <div class="mp-so"><div><small>α<sub>Y⁴⁻</sub></small><b class="mp-al">–</b></div><div><small>lg K<sub>f</sub>'</small><b class="mp-kf">–</b></div><div><small>Chuẩn độ được?</small><b class="mp-dg">–</b></div></div>`;
+  const $ = s => el.querySelector(s), svg = $("svg");
+  function pM(V, Kf) {
+    const Vt = V0 + V, M = C * V0 / Vt, Y = Cy * V / Vt;
+    // [M] + [MY] = M ; [Y]' + [MY] = Y ; [MY] = Kf'[M][Y]' → bậc hai theo [M]
+    const a = Kf, b = 1 + Kf * (Y - M), c = -M, m = (-b + Math.sqrt(b * b - 4 * a * c)) / (2 * a);
+    return -Math.log10(m);
+  }
+  function ve() {
+    const Kf = ALPHA[pH] * 10 ** lgKf;
+    const { X, Y } = doThi(svg, { x0: 0, x1: Vmax, y0: 0, y1: 14, nhanX: "mL EDTA", nhanY: "pM", vachX: [0, 10, 20, 30, 40], vachY: [0, 4, 8, 12] });
+    [6, 8, 10, 12].forEach(p => { if (p === pH) return; const K = ALPHA[p] * 10 ** lgKf, pts = []; for (let v = 0; v <= Vmax; v += 0.25) pts.push([v, Math.min(14, pM(v, K))]); phanTu("path", { d: duongSVG(pts, X, Y), fill: "none", stroke: "var(--vien)", "stroke-width": 1.2 }, svg); phanTu("text", { x: X(Vmax) - 2, y: Y(Math.min(13.5, pM(Vmax, K))) - 3, "text-anchor": "end", class: "mp-tr" }, svg).textContent = "pH " + p; });
+    const pts = []; for (let v = 0; v <= Vmax; v += 0.1) pts.push([v, Math.min(14, pM(v, Kf))]);
+    phanTu("path", { d: duongSVG(pts, X, Y), fill: "none", class: "mp-duong" }, svg);
+    phanTu("line", { x1: X(Ve), x2: X(Ve), y1: Y(0), y2: Y(14), class: "mp-tđ" }, svg);
+    const lg = Math.log10(Kf);
+    $(".mp-ph-edta").textContent = pH; $(".mp-al").textContent = ALPHA[pH] < 0.01 ? ALPHA[pH].toExponential(1).replace(".", ",").replace("e-", "·10⁻").replace(/⁻(\d)/, (m, d) => "⁻" + "⁰¹²³⁴⁵⁶⁷⁸⁹"[d]) : soVN(ALPHA[pH]);
+    $(".mp-kf").textContent = soVN(lg, 1); $(".mp-dg").textContent = lg >= 8 ? "✅ Được" : "❌ Không"; $(".mp-dg").style.color = lg >= 8 ? "var(--xanh)" : "#ef4444";
+  }
+  $("input").oninput = e => { pH = +e.target.value; ve(); };
+  $("select").onchange = e => { lgKf = ION[e.target.value]; ve(); };
+  ve();
+};
+
+/* ---------------- 19. Phân bố Boltzmann: AAS và AES ---------------- */
+MO_PHONG["boltzmann"] = el => {
+  const NT = { "Na 589,0 nm (g*/g₀ = 3)": [589.0, 3], "Ca 422,7 nm (g*/g₀ = 3)": [422.7, 3], "Zn 213,9 nm (g*/g₀ = 3)": [213.9, 3] };
+  let lam = 589.0, g = 3, T = 2500;
+  el.innerHTML = `
+    <div class="mp-dau"><b>🔥 Nguyên tử kích thích theo nhiệt độ</b><span>240 chấm là 240 nguyên tử; số chấm sáng (kích thích) được phóng đại 100 lần để nhìn thấy</span></div>
+    <div class="mp-chon"><select>${Object.keys(NT).map(k => `<option>${k}</option>`).join("")}</select></div>
+    <svg class="mp-nt" viewBox="0 0 300 110"></svg>
+    <label class="mp-truot">Nhiệt độ = <b class="mp-t"></b><input type="range" min="2000" max="8000" step="100" value="2500"></label>
+    <div class="mp-so"><div><small>N*/N₀</small><b class="mp-r">–</b></div><div><small>Tăng 10 K làm N* tăng</small><b class="mp-d">–</b></div><div><small>N₀ (cơ bản)</small><b class="mp-n0">–</b></div></div>
+    <p class="mp-nhan-xet">AES đo nguyên tử kích thích (rất nhạy với nhiệt độ); AAS đo nguyên tử ở trạng thái cơ bản (gần như 100%, ít phụ thuộc nhiệt độ). Nguyên tố có vạch bước sóng ngắn (ΔE lớn) khó kích thích hơn: cần nguồn nóng như ICP.</p>`;
+  const $ = s => el.querySelector(s), svg = $("svg");
+  const r = (Tk) => g * Math.exp(-6.626e-34 * 2.998e8 / (lam * 1e-9) / (1.381e-23 * Tk));
+  function ve() {
+    const ti = r(T), n = 240, soSang = Math.min(n, Math.round(ti * n * 100));   // phóng đại 100 lần
+    let s = ""; for (let i = 0; i < n; i++) { const x = 8 + (i % 30) * 9.6, y = 10 + Math.floor(i / 30) * 12.5; const sang = (i * 97) % n < soSang; s += `<circle cx="${x}" cy="${y}" r="${sang ? 4 : 3}" fill="${sang ? "#f97316" : "#64748b"}" ${sang ? 'class="mp-sang"' : 'opacity=".55"'}/>`; }
+    svg.innerHTML = s;
+    $(".mp-t").textContent = T.toLocaleString("vi-VN") + " K"; const [m, e] = ti.toExponential(2).split("e"); $(".mp-r").innerHTML = `${m.replace(".", ",")}·10<sup>${e.replace("-", "−").replace("+", "")}</sup>`;
+    $(".mp-d").textContent = soVN((r(T + 10) / ti - 1) * 100, 1) + "%"; $(".mp-n0").textContent = soVN(100 / (1 + ti), 2) + "%";
+  }
+  $("input").oninput = e => { T = +e.target.value; ve(); };
+  $("select").onchange = e => { [lam, g] = NT[e.target.value]; ve(); };
+  ve();
+};

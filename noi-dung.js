@@ -1271,6 +1271,7 @@ const CHUONG = [
         </table>
       </div>
       <p>Bước nhảy pM càng lớn khi K<sub>f</sub>' càng lớn (K<sub>f</sub> lớn, pH cao) và nồng độ càng lớn.</p>
+      <div class="mo-phong" data-loai="chuan-do-edta"></div>
       <div class="vi-du"><b>Ví dụ 2.</b> Chuẩn độ 50,0 mL Ca<sup>2+</sup> 0,0400 M (đệm pH 10) bằng EDTA 0,0800 M. Tính pCa tại các điểm đặc trưng (lg K<sub>f</sub> = 10,70; α<sub>Y⁴⁻</sub> = 0,30).
         <details><summary>Xem lời giải</summary>
           \[ \begin{aligned} K_\mathrm{f}' &= 0,30\cdot10^{10,70} = 1,50\cdot10^{10} \\ V_e &= \frac{50,0\cdot0,0400}{0,0800} = 25,0\ \mathrm{mL} \end{aligned} \]
@@ -2022,6 +2023,7 @@ const CHUONG = [
           Ở 2510 K: \[ \frac{N^*}{N_0} = 1,78\cdot10^{-4} \]
           Tăng 10 K làm số nguyên tử kích thích tăng khoảng <b>4%</b>, nên tín hiệu <b>AES</b> thay đổi khoảng 4%. Trong khi đó N<sub>0</sub> gần như không đổi (99,98% nguyên tử vẫn ở trạng thái cơ bản), nên tín hiệu <b>AAS</b> hầu như không bị ảnh hưởng. AES đòi hỏi nhiệt độ nguồn rất ổn định.
         </details></div>
+      <div class="mo-phong" data-loai="boltzmann"></div>
 
       <h3>5. So sánh AAS và AES</h3>
       <div class="bang-cuon">
