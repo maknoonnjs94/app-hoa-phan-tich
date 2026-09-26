@@ -51,6 +51,7 @@ const theChuong = (c, so) => {
       <small>${c.moTa}</small>
       <span class="dong-duoi">
         <span class="nhan-chuong ${c.dayDu ? "day-du" : ""}">${c.dayDu ? "Đầy đủ" : "Tóm tắt"}</span>
+        ${c.choDuyet ? '<span class="nhan-chuong cho-duyet">Chờ duyệt</span>' : ""}
         ${pt ? `<span class="thanh-nho"><i style="width:${pt}%"></i></span><span class="pt">${pt}%</span>` : ""}
       </span>
     </span>
@@ -336,6 +337,7 @@ CHUONG.forEach((c, i) => {
           ${tk.soViDu ? `<span class="chip">${tk.soViDu} ví dụ</span>` : ""}
           <span class="chip">${tk.phut} phút đọc</span>
           <span class="chip">${c.dayDu ? "Bản đầy đủ" : "Bản tóm tắt"}</span>
+          ${c.choDuyet ? '<span class="chip">⏳ Chờ duyệt</span>' : ""}
         </div>
       </div>
       <details class="the-trang muc-luc" open>
