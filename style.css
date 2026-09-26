@@ -494,3 +494,19 @@ details[open] > summary .khi-mo { display: inline; }
   .cong-thuc { padding: 10px 8px; }
   .vi-du { padding: 12px 10px; }
 }
+
+/* ===================== KHO CÂU HỎI ===================== */
+.the-kho { background: linear-gradient(135deg, #4f46e5, #0ea5e9); }
+.bo-loc { display: grid; gap: 10px; }
+.bo-loc .nhom-chip { gap: 6px; }
+.bo-loc .chip-chon span { padding: 6px 12px; font-size: 13px; }
+.chon-dang { font: inherit; font-size: 15px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--vien); background: var(--nen); color: var(--chu); }
+.bat-tat { display: flex; align-items: center; gap: 8px; font-weight: 500; }
+.bat-tat input { width: 18px; height: 18px; accent-color: var(--mau-chinh); }
+.cho-duyet { color: #b45309 !important; background: color-mix(in srgb, #f59e0b 18%, transparent) !important; }
+.cau-kho .de-cau { font-size: 16px; }
+.cau-kho .phuong-an button { padding: 9px 12px; font-size: 15px; }
+.cau-kho .phuong-an .chu { width: 28px; height: 28px; font-size: 13px; }
+.cau-kho details { margin-top: 10px; }
+.cau-kho summary { list-style: none; cursor: pointer; color: var(--mau-chinh); font-weight: 600; font-size: 14px; }
+.cau-kho summary::-webkit-details-marker { display: none; }

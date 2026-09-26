@@ -150,6 +150,11 @@ const MAN_HINH = {
         <span class="text"><b>Luyện trắc nghiệm</b><small>${NGAN_HANG.length} câu hỏi A, B, C, D · chấm điểm ngay</small></span>
         <span class="chevron">›</span>
       </a>
+      <a class="the-luyen the-kho" href="#/kho">
+        <span class="o-icon">📚</span>
+        <span class="text"><b>Kho câu hỏi theo chương</b><small>${NGAN_HANG.length} câu đã duyệt · ${NGAN_HANG_CHO_DUYET.length} câu chờ duyệt</small></span>
+        <span class="chevron">›</span>
+      </a>
       <h2>Bài tập tự luận theo chương</h2>
       ${theoNhom(ds => `
         <div class="list">
@@ -199,6 +204,18 @@ const MAN_HINH = {
         <label>Khối lượng mol M (g/mol)<input id="cr-m" inputmode="decimal" oninput="tinhChatRan()"></label>
         <div class="ket-qua" id="cr-kq">m = C · V · M</div>
       </div>
+    `,
+  },
+
+  "/kho": {
+    tieuDe: "Kho câu hỏi",
+    manHinhCon: true,
+    ve: () => `
+      <p class="ghi-chu">Câu <b>chờ duyệt</b> chỉ hiển thị ở đây để người quản trị xem xét, chưa dùng trong luyện tập hay kiểm tra.</p>
+      ${theoNhom(ds => `<div class="list">${ds.map(c => {
+        const da = NGAN_HANG.filter(q => q.chuong === c.id).length, cho = NGAN_HANG_CHO_DUYET.filter(q => q.chuong === c.id).length;
+        return dongDanhSach(`#/kho/${c.id}`, c.icon, c.ten, da + cho ? `${da} đã duyệt${cho ? ` · ${cho} chờ duyệt` : ""}` : "Chưa có câu hỏi");
+      }).join("")}</div>`)}
     `,
   },
 
@@ -339,6 +356,29 @@ CHUONG.forEach((c, i) => {
     `;
     },
   };
+  MAN_HINH[`/kho/${c.id}`] = {
+    tieuDe: `Kho: ${c.ten}`,
+    manHinhCon: true,
+    khoChuong: c.id,
+    ve: () => {
+      const cauChuong = KHO.filter(q => q.chuong === c.id);
+      const dsDang = [...new Set(cauChuong.map(q => q.dang))];
+      return `
+      <div class="the-trang bo-loc">
+        <div class="nhom-chip">${[["tat-ca", "Tất cả"], ["da", "Đã duyệt"], ["cho", "Chờ duyệt"]].map(([v, t]) =>
+          `<label class="chip-chon"><input type="radio" name="kho-tt" ${locKho.trangThai === v ? "checked" : ""} onchange="datLocKho('trangThai','${v}','${c.id}')"><span>${t}</span></label>`).join("")}</div>
+        <div class="nhom-chip">${[0, 1, 2, 3, 4].map(m =>
+          `<label class="chip-chon"><input type="radio" name="kho-muc" ${locKho.muc === m ? "checked" : ""} onchange="datLocKho('muc',${m},'${c.id}')"><span>${m ? MUC_DO[m] : "Mọi mức độ"}</span></label>`).join("")}</div>
+        <select class="chon-dang" onchange="datLocKho('dang', this.value, '${c.id}')">
+          <option value="">Mọi dạng bài (${dsDang.length})</option>
+          ${dsDang.map(d => `<option ${locKho.dang === d ? "selected" : ""}>${d}</option>`).join("")}
+        </select>
+        <label class="bat-tat"><input type="checkbox" ${locKho.hienDapAn ? "checked" : ""} onchange="datLocKho('hienDapAn', this.checked, '${c.id}')"> Hiện đáp án</label>
+        <div class="ghi-chu" id="dem-kho"></div>
+      </div>
+      <div id="ds-kho"></div>`;
+    },
+  };
   MAN_HINH[`/bai-tap/${c.id}`] = {
     tieuDe: `Bài tập: ${c.ten}`,
     manHinhCon: true,
@@ -371,6 +411,30 @@ TRA_CUU.forEach(b => {
     `,
   };
 });
+
+/* ================= KHO CÂU HỎI =================
+   Xem toàn bộ câu hỏi theo chương: đã duyệt (NGAN_HANG) và chờ duyệt (NGAN_HANG_CHO_DUYET).
+   Câu chờ duyệt KHÔNG dùng trong luyện tập / kiểm tra. */
+const KHO = [...NGAN_HANG.map(c => ({ ...c, choDuyet: false })), ...NGAN_HANG_CHO_DUYET.map(c => ({ ...c, choDuyet: true }))];
+const locKho = { trangThai: "tat-ca", muc: 0, dang: "", hienDapAn: false };
+function veKho(idChuong) {
+  const ds = KHO.filter(c => c.chuong === idChuong
+    && (locKho.trangThai === "tat-ca" || (locKho.trangThai === "cho" ? c.choDuyet : !c.choDuyet))
+    && (!locKho.muc || c.mucDo === locKho.muc) && (!locKho.dang || c.dang === locKho.dang));
+  document.getElementById("dem-kho").textContent = `${ds.length} câu`;
+  const vung = document.getElementById("ds-kho");
+  vung.innerHTML = lamToan(ds.length ? ds.map((c, i) => `
+    <div class="the-trang cau-kho">
+      <div class="nhan-cau"><span>${c.id}</span><span>${MUC_DO[c.mucDo]}</span><span>${c.dang}</span>
+        ${c.choDuyet ? '<span class="cho-duyet">Chờ duyệt</span>' : ""}</div>
+      <div class="de-cau">${c.de}</div>
+      <div class="phuong-an">${c.phuongAn.map((p, j) =>
+        `<button disabled class="${locKho.hienDapAn && CHU[j] === c.dapAn ? "dung" : ""}"><span class="chu">${CHU[j]}</span><span class="nd">${p}</span></button>`).join("")}</div>
+      <details ${locKho.hienDapAn ? "open" : ""}><summary><span class="khi-dong">Xem đáp án và lời giải</span><span class="khi-mo">Ẩn lời giải</span></summary>
+        <div class="loi-giai dung"><b>Đáp án ${c.dapAn}</b><div>${c.loiGiai}</div></div></details>
+    </div>`).join("") : `<div class="trong">Không có câu nào khớp bộ lọc.</div>`);
+}
+function datLocKho(khoa, giaTri, idChuong) { locKho[khoa] = giaTri; veKho(idChuong); }
 
 /* ================= TRẮC NGHIỆM =================
    Dùng chung cho HS tự luyện và (sau này) bài kiểm tra do GV mở.
@@ -653,6 +717,7 @@ function hienManHinh() {
   document.querySelectorAll(".tabbar a").forEach(a =>
     a.classList.toggle("active", a.dataset.tab === duong ||
       (a.dataset.tab !== "/" && duong.startsWith(a.dataset.tab + "/"))));
+  if (mh.khoChuong) { if (locKho.chuong !== mh.khoChuong) Object.assign(locKho, { dang: "", chuong: mh.khoChuong }); veKho(mh.khoChuong); }
   clearInterval(henGioDongHo);
   if (mh.lamBai && baiLam && !baiLam.ketThuc) {
     veCau();
