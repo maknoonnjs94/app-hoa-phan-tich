@@ -78,7 +78,7 @@ const theoNhom = veNhom => [...new Set(CHUONG.map(c => c.nhom))]
 /* ---------- Tìm kiếm trong lý thuyết (không phân biệt dấu) ---------- */
 const boDau = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D").toLowerCase();
 const CHI_MUC_TIM = CHUONG.flatMap(c => CHUONG_MUC[c.id].muc.map((m, k) => {
-  const chu = boThe(m.than).replace(/\\[\[\(][\s\S]*?\\[\]\)]/g, " ").replace(/\s+/g, " ").trim();
+  const chu = boThe(m.than.replace(/<\/?(td|th|tr|li|p|div|br|h\d|summary|details)\b[^>]*>/gi, " $&")).replace(/\\[\[\(][\s\S]*?\\[\]\)]/g, " ").replace(/\s+/g, " ").trim();
   return { c, k, tieuDe: boThe(m.tieuDe), chu, khoa: boDau(`${c.ten} ${boThe(m.tieuDe)} ${chu}`) };
 }));
 function timKiem(q) {
@@ -92,6 +92,52 @@ function timKiem(q) {
     const trich = vt < 0 ? x.chu.slice(0, 90) : (vt > 30 ? "…" : "") + x.chu.slice(Math.max(0, vt - 30), vt + 70);
     return dongDanhSach(`#/ly-thuyet/${x.c.id}?muc=${x.k}`, x.c.icon, x.tieuDe, `${x.c.ten} · ${trich}…`);
   }).join("")}</div>` : `<div class="trong">Không tìm thấy mục nào khớp “${q}”.</div>`;
+}
+
+/* ---------- Tra cứu kiểu thư viện: một từ → bảng hằng số, lý thuyết, ảnh thiết bị, câu hỏi ---------- */
+let tuTra = "", henTra = null;
+const CHI_MUC_BANG = TRA_CUU.flatMap(b => b.dong.map((d, i) => ({ b, i, khoa: boDau(`${boThe(b.ten)} ${d.map(boThe).join(" ")}`) })));
+const danhDau = (html, tu) => tu.length ? html.replace(/(<[^>]+>)|([^<]+)/g, (m, the, chu) => the || chu.replace(
+  new RegExp(tu.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|"), "gi"), x => `<mark>${x}</mark>`)) : html;
+function traCuuHen(q) { clearTimeout(henTra); henTra = setTimeout(() => traCuu(q), 200); }
+function traCuu(q) {
+  tuTra = q; const kq = document.getElementById("kq-tra"), ds = document.getElementById("ds-bang");
+  if (!kq) return;
+  const tu = boDau(q.trim()).split(/\s+/).filter(Boolean);
+  ds.hidden = tu.length > 0;
+  if (!tu.length) { kq.innerHTML = ""; return; }
+  const khop = k => tu.every(t => k.includes(t));
+  const tuGoc = q.trim().split(/\s+/).filter(t => t.length > 1);
+  // 1) Dòng trong bảng hằng số, gom theo bảng
+  const theoBang = new Map();
+  CHI_MUC_BANG.filter(x => khop(x.khoa)).forEach(x => (theoBang.get(x.b) || theoBang.set(x.b, []).get(x.b)).push(x.i));
+  const phanBang = [...theoBang].map(([b, dong]) => `
+    <div class="the-tra"><a class="tieu-de-tra" href="#/tra-cuu/${b.id}">${b.icon} ${b.ten} ›</a>
+      <div class="bang-cuon"><table class="bang"><thead><tr>${b.cot.map(t => `<th>${t}</th>`).join("")}</tr></thead>
+      <tbody>${dong.slice(0, 12).map(i => `<tr>${b.dong[i].map(o => `<td>${danhDau(o, tuGoc)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
+      ${dong.length > 12 ? `<small>… và ${dong.length - 12} dòng nữa</small>` : ""}</div>`).join("");
+  // 2) Mục lý thuyết (gồm cả ví dụ trong mục)
+  const muc = CHI_MUC_TIM.filter(x => khop(x.khoa));
+  const phanLT = muc.slice(0, 20).map(x => {
+    const vt = boDau(x.chu).indexOf(tu[0]);
+    const trich = vt < 0 ? x.chu.slice(0, 90) : (vt > 30 ? "…" : "") + x.chu.slice(Math.max(0, vt - 30), vt + 90);
+    return dongDanhSach(`#/ly-thuyet/${x.c.id}?muc=${x.k}`, x.c.icon, x.tieuDe, `${x.c.ten} · ${danhDau(trich, tuGoc)}…`);
+  }).join("");
+  // 3) Ảnh thiết bị, dụng cụ
+  const anh = typeof ANH_THAT === "undefined" ? [] : Object.keys(ANH_THAT).filter(k => khop(boDau(`${ANH_THAT[k].ten} ${k}`)));
+  // 4) Câu hỏi trong kho, đếm theo chương
+  const cau = demTheo(KHO.filter(c => khop(khoaTimCau(c))), c => c.chuong);
+  const phanCau = CHUONG.filter(c => cau[c.id]).map(c =>
+    `<a href="#/kho/${c.id}" onclick="Object.assign(locKho,{chuong:'${c.id}',dang:'',tu:${JSON.stringify(q.trim()).replace(/"/g, "&quot;")}})">
+      <span class="icon">${c.icon}</span><span class="text">${c.ten}<small>${cau[c.id]} câu hỏi có “${q.trim().replace(/</g, "&lt;")}”</small></span><span class="chevron">›</span></a>`).join("");
+  const nhom = (t, n, html) => n ? `<h2>${t} <small class="dem-tra">${n}</small></h2>${html}` : "";
+  const tong = theoBang.size + muc.length + anh.length + Object.keys(cau).length;
+  kq.innerHTML = tong ? [
+    nhom("Bảng hằng số", [...theoBang.values()].reduce((a, d) => a + d.length, 0), phanBang),
+    nhom("Lý thuyết và ví dụ", muc.length, `<div class="list">${phanLT}</div>${muc.length > 20 ? `<p class="ghi-chu">Hiện 20 / ${muc.length} mục. Thêm từ để thu hẹp.</p>` : ""}`),
+    nhom("Hình ảnh thiết bị", anh.length, `<div class="luoi-anh-tra">${anh.map(hinhAnhThat).join("")}</div>`),
+    nhom("Câu hỏi", Object.values(cau).reduce((a, b) => a + b, 0), `<div class="list">${phanCau}</div>`),
+  ].join("") : `<div class="trong">Không tìm thấy “${q.replace(/</g, "&lt;")}”. Thử từ khác, không cần gõ dấu.</div>`;
 }
 
 const CONG_THUC_TRANG_CHU = String.raw`
@@ -307,11 +353,18 @@ const MAN_HINH = {
   "/tra-cuu": {
     tieuDe: "Tra cứu",
     ve: () => `
-      <h2>Bảng tra</h2>
-      <div class="list">
-        ${TRA_CUU.map(b => dongDanhSach(`#/tra-cuu/${b.id}`, b.icon, b.ten, `${b.dong.length} dòng`)).join("")}
+      <label class="o-tim">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input type="search" id="o-tra" placeholder="Gõ một từ: AgCl, EDTA, buret, Nernst…" oninput="traCuuHen(this.value)" autocomplete="off" value="${tuTra.replace(/"/g, "&quot;")}">
+      </label>
+      <div id="kq-tra"></div>
+      <div id="ds-bang">
+        <h2>Bảng hằng số</h2>
+        <div class="list">
+          ${TRA_CUU.map(b => dongDanhSach(`#/tra-cuu/${b.id}`, b.icon, b.ten, `${b.dong.length} dòng`)).join("")}
+        </div>
+        <p class="ghi-chu">Giá trị ở 25 °C, có thể lệch nhẹ giữa các tài liệu. Khi đề bài cho số, dùng số của đề.</p>
       </div>
-      <p class="ghi-chu">Giá trị ở 25 °C, có thể lệch nhẹ giữa các tài liệu.</p>
     `,
   },
 };
@@ -804,6 +857,7 @@ function hienManHinh() {
   document.querySelectorAll(".tabbar a").forEach(a =>
     a.classList.toggle("active", a.dataset.tab === duong ||
       (a.dataset.tab !== "/" && duong.startsWith(a.dataset.tab + "/"))));
+  if (duong === "/tra-cuu" && tuTra) traCuu(tuTra);
   if (mh.khoChuong) { if (locKho.chuong !== mh.khoChuong) { Object.assign(locKho, { dang: "", tu: "", chuong: mh.khoChuong }); document.getElementById("tim-kho").value = ""; } veKho(); }
   clearInterval(henGioDongHo);
   if (mh.lamBai && baiLam && !baiLam.ketThuc) {

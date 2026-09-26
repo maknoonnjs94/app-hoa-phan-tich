@@ -689,3 +689,14 @@ details[open] > summary .khi-mo { display: inline; }
 .mp-phong-anh { position: fixed; inset: 0; z-index: 60; background: rgba(0,0,0,.88); display: grid; place-items: center; padding: 16px; animation: hien .2s; }
 .mp-phong-anh img { max-width: 100%; max-height: 85vh; border-radius: 8px; }
 .mp-phong-anh span { position: absolute; bottom: 24px; color: #cbd5e1; font-size: 13px; }
+
+/* Tra cứu kiểu thư viện */
+#kq-tra h2 small.dem-tra { font-weight: 600; color: var(--chu-phu); font-size: .8em; margin-left: 4px; }
+.the-tra { background: var(--the); border: 1px solid var(--vien); border-radius: var(--bo-goc); padding: 12px; margin-bottom: 10px; }
+.the-tra .tieu-de-tra { display: block; font-weight: 700; color: var(--mau-chinh); text-decoration: none; margin-bottom: 8px; }
+.the-tra .bang-cuon { margin: 0; }
+.the-tra small { color: var(--chu-phu); }
+#kq-tra mark { background: color-mix(in srgb, var(--vang) 35%, transparent); color: inherit; border-radius: 3px; padding: 0 1px; }
+.luoi-anh-tra { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+.luoi-anh-tra .mp-anh { margin: 0; }
+.luoi-anh-tra .mp-anh img { max-height: 220px; object-fit: contain; }
