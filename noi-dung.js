@@ -1094,22 +1094,22 @@ const CHUONG = [
           </tbody>
         </table>
       </div>
-      <p>Muốn thấy rõ hai bước nhảy riêng biệt, hai hằng số phải cách nhau đủ xa (thường K<sub>a1</sub>/K<sub>a2</sub> ≥ 10<sup>4</sup>).</p>
+      <p>Muốn thấy rõ hai bước nhảy riêng biệt, hai hằng số phải cách nhau đủ xa (thường K<sub>a1</sub>/K<sub>a2</sub> ≥ 10<sup>4</sup>). Hệ carbonate chỉ có K<sub>a1</sub>/K<sub>a2</sub> ≈ 9·10<sup>3</sup>, nên bước nhảy thứ nhất nhỏ (sai số cỡ 1%); điểm cuối thứ hai rõ hơn và thường dùng để tính tổng lượng base.</p>
       <div class="vi-du"><b>Ví dụ 4.</b> Chuẩn độ 20,0 mL Na<sub>2</sub>CO<sub>3</sub> 0,100 M bằng HCl 0,100 M (H<sub>2</sub>CO<sub>3</sub>: K<sub>a1</sub> = 4,2·10<sup>−7</sup>; K<sub>a2</sub> = 4,8·10<sup>−11</sup>). Tính pH tại hai điểm tương đương và chọn chỉ thị.
         <details><summary>Xem lời giải</summary>
           V<sub>e1</sub> = 20,0 mL (CO<sub>3</sub><sup>2−</sup> → HCO<sub>3</sub><sup>−</sup>); V<sub>e2</sub> = 40,0 mL (HCO<sub>3</sub><sup>−</sup> → H<sub>2</sub>CO<sub>3</sub>).<br>
           <b>Tại V<sub>e1</sub></b>: dung dịch NaHCO<sub>3</sub> (lưỡng tính):
           \[ \begin{aligned} \Hp &= \sqrt{4,2\cdot10^{-7}\cdot4,8\cdot10^{-11}} \\ &= 4,49\cdot10^{-9}\ \mathrm{M} \\ \mathrm{pH} &= \mathbf{8,35} \end{aligned} \]
-          → dùng phenolphtalein.<br>
+          → dùng phenolphtalein (khi chuẩn bằng HCl, màu chuyển từ hồng sang không màu).<br>
           <b>Tại V<sub>e2</sub></b>: H<sub>2</sub>CO<sub>3</sub> 2,00 mmol/60,0 mL = 0,0333 M, coi như acid một nấc với K<sub>a1</sub>:
           \[ \mathrm{pH} = \tfrac{1}{2}\left(6,38 - \lg 0,0333\right) = \mathbf{3,93} \]
-          → dùng metyl da cam. Trong thực tế nên đun sôi gần cuối để đuổi CO<sub>2</sub>, điểm cuối sẽ rõ hơn.
+          → dùng metyl da cam (màu chuyển từ vàng sang da cam). Trong thực tế nên đun sôi gần cuối để đuổi CO<sub>2</sub>, điểm cuối sẽ rõ hơn.
         </details></div>
 
       <h3>7. Chỉ thị acid – base</h3>
       <p>Chỉ thị là acid (base) yếu có dạng acid HInd và dạng base Ind<sup>−</sup> khác màu nhau:</p>
       <div class="cong-thuc">\[ \begin{gathered} \mathrm{HInd} \rightleftharpoons \mathrm{H^+} + \mathrm{Ind^-} \\ \mathrm{pH} = \mathrm{p}K_\mathrm{HInd} + \lg\frac{[\mathrm{Ind^-}]}{[\mathrm{HInd}]} \end{gathered} \]</div>
-      <p>Mắt chỉ thấy rõ màu của một dạng khi nó nhiều gấp khoảng 10 lần dạng kia, nên <b>khoảng đổi màu ≈ pK<sub>HInd</sub> ± 1</b>.</p>
+      <p>Mắt chỉ thấy rõ màu của một dạng khi nó nhiều gấp khoảng 10 lần dạng kia, nên <b>khoảng đổi màu ≈ pK<sub>HInd</sub> ± 1</b>. Khoảng thực nghiệm không nhất thiết đối xứng như vậy, vì mắt nhạy với một số màu hơn màu khác.</p>
       <div class="bang-cuon">
         <table class="bang bang-the">
           <thead><tr><th>Chỉ thị</th><th>Khoảng đổi màu (pH)</th><th>Màu (acid → base)</th></tr></thead>
@@ -1121,6 +1121,8 @@ const CHUONG = [
           </tbody>
         </table>
       </div>
+      <p class="luu-y">Bài giảng minh họa quy tắc pK ± 1 bằng một chỉ thị có pK ≈ 5 (khoảng 4 – 6). Giá trị thực nghiệm của metyl da cam là pK ≈ 3,5, khoảng 3,1 – 4,4; khoảng 4,4 – 6,2 là của metyl đỏ. Khi thi, dùng số liệu đề bài cho.</p>
+      <p>Bảng ghi màu theo chiều pH tăng. Khi chuẩn độ bằng acid (pH giảm), màu đi theo chiều ngược lại, ví dụ phenolphtalein chuyển từ hồng sang không màu.</p>
       <p><b>Nguyên tắc chọn chỉ thị</b>: khoảng đổi màu phải nằm trong bước nhảy, càng gần pH tương đương càng tốt. Chỉ dùng vài giọt, vì chỉ thị cũng là acid/base và tiêu tốn chất chuẩn.</p>
       <div class="vi-du"><b>Ví dụ 5.</b> Trong Ví dụ 2 (pH<sub>tđ</sub> = 8,64), nếu dùng bromthymol xanh và dừng chuẩn độ ở pH = 7,00 thì sai số bao nhiêu?
         <details><summary>Xem lời giải</summary>
@@ -1166,7 +1168,8 @@ const CHUONG = [
       <ol>
         <li>Vô cơ hóa mẫu bằng H<sub>2</sub>SO<sub>4</sub> đặc, nóng (có xúc tác): N hữu cơ → NH<sub>4</sub><sup>+</sup>.</li>
         <li>Kiềm hóa bằng NaOH, chưng cất NH<sub>3</sub> sang bình hứng chứa một lượng HCl dư đã biết.</li>
-        <li>Chuẩn độ ngược lượng HCl dư bằng NaOH.</li>
+        <li>Chuẩn độ ngược lượng HCl dư bằng NaOH với chỉ thị <b>metyl đỏ</b> (điểm cuối ở vùng acid). Không dùng phenolphtalein vì NaOH sẽ chuẩn luôn cả NH<sub>4</sub><sup>+</sup> trong bình hứng.</li>
+        <li>Biến thể: hứng NH<sub>3</sub> bằng dung dịch H<sub>3</sub>BO<sub>3</sub> rồi chuẩn độ trực tiếp borat tạo thành bằng HCl chuẩn.</li>
       </ol>
       <div class="vi-du"><b>Ví dụ 8.</b> 0,5000 g mẫu thực phẩm được xử lí theo Kjeldahl. NH<sub>3</sub> được hấp thụ vào 50,00 mL HCl 0,1000 M; lượng HCl dư chuẩn độ hết 22,40 mL NaOH 0,1000 M. Tính %N và % protein (hệ số 6,25).
         <details><summary>Xem lời giải</summary>
@@ -1230,9 +1233,16 @@ const CHUONG = [
       <p><b>Chỉ có dạng Y<sup>4−</sup> phản ứng với ion kim loại.</b> Phần EDTA tự do ở dạng Y<sup>4−</sup> phụ thuộc pH:</p>
       <div class="cong-thuc"><div class="nhan">[EDTA]: tổng nồng độ EDTA tự do (mọi dạng proton hóa)</div>\[ \alpha_\mathrm{Y^{4-}} = \frac{[\mathrm{Y^{4-}}]}{[\mathrm{EDTA}]} = \frac{K_1K_2K_3K_4K_5K_6}{D} \]</div>
       <div class="cong-thuc"><div class="nhan">K<sub>1</sub>…K<sub>6</sub>: hằng số phân li acid của H<sub>6</sub>Y<sup>2+</sup></div>\[ \begin{aligned} D = {} &\Hp^6 + \Hp^5K_1 \\ &+ \Hp^4K_1K_2 + \Hp^3K_1K_2K_3 \\ &+ \Hp^2K_1K_2K_3K_4 \\ &+ \Hp K_1K_2K_3K_4K_5 \\ &+ K_1K_2K_3K_4K_5K_6 \end{aligned} \]</div>
-      <p>pH càng cao thì α<sub>Y⁴⁻</sub> càng lớn. Ví dụ α<sub>Y⁴⁻</sub> ≈ 3,5·10<sup>−7</sup> ở pH 5; 0,30 ở pH 10; gần bằng 1 ở pH ≥ 13.</p>
+      <p>Các hằng số phân li của H<sub>6</sub>Y<sup>2+</sup> (25 °C, μ = 0,1 M): pK<sub>1</sub> = 0,0; pK<sub>2</sub> = 1,5; pK<sub>3</sub> = 2,00; pK<sub>4</sub> = 2,69; pK<sub>5</sub> = 6,13; pK<sub>6</sub> = 10,37. pH càng cao thì α<sub>Y⁴⁻</sub> càng lớn:</p>
+      <div class="bang-cuon">
+        <table class="bang">
+          <thead><tr><th>pH</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th></tr></thead>
+          <tbody><tr><td>α<sub>Y⁴⁻</sub></td><td>3,0·10<sup>−9</sup></td><td>2,9·10<sup>−7</sup></td><td>1,8·10<sup>−5</sup></td><td>3,8·10<sup>−4</sup></td><td>4,2·10<sup>−3</sup></td><td>0,041</td><td>0,30</td><td>0,81</td><td>0,98</td></tr></tbody>
+        </table>
+      </div>
+      <p class="luu-y">Tài liệu khác nhau có thể cho α<sub>Y⁴⁻</sub> hơi khác (ví dụ 3,5·10<sup>−7</sup> ở pH 5) do dùng bộ hằng số khác. Khi đề bài cho sẵn α<sub>Y⁴⁻</sub>, dùng số của đề.</p>
       <div class="cong-thuc"><div class="nhan">Hằng số bền điều kiện (ở một pH cố định)</div>\[ K_\mathrm{f}' = \alpha_\mathrm{Y^{4-}}K_\mathrm{f} = \frac{[\mathrm{MY^{n-4}}]}{[\mathrm{M^{n+}}][\mathrm{EDTA}]} \]</div>
-      <p>Chuẩn độ đạt yêu cầu khi 99,99% ion kim loại phản ứng tại điểm tương đương, tương ứng <b>K<sub>f</sub>' ≳ 10<sup>8</sup></b>. Vì vậy mỗi ion có một <b>pH tối thiểu</b> để chuẩn độ: ion tạo phức càng bền (K<sub>f</sub> lớn như Fe<sup>3+</sup>) thì chuẩn độ được ở pH càng thấp. Dựa vào đó có thể <b>chuẩn độ chọn lọc</b> bằng cách chỉnh pH.</p>
+      <p>Để chuẩn độ đạt yêu cầu, phản ứng tạo phức phải gần như hoàn toàn tại điểm tương đương. Quy ước thường dùng: <b>K<sub>f</sub>' ≳ 10<sup>8</sup></b> (với C ≈ 0,01 M, lúc đó khoảng 99,9% ion kim loại đã tạo phức; dạng tổng quát lg(C·K<sub>f</sub>') ≥ 6). Vì vậy mỗi ion có một <b>pH tối thiểu</b> để chuẩn độ: ion tạo phức càng bền (K<sub>f</sub> lớn như Fe<sup>3+</sup>) thì chuẩn độ được ở pH càng thấp. Dựa vào đó có thể <b>chuẩn độ chọn lọc</b> bằng cách chỉnh pH.</p>
       <div class="vi-du"><b>Ví dụ 1.</b> Có chuẩn độ được Mg<sup>2+</sup> bằng EDTA ở pH 5 không? Ở pH 10 thì sao? (lg K<sub>f</sub>(MgY<sup>2−</sup>) = 8,79; α<sub>Y⁴⁻</sub> = 3,5·10<sup>−7</sup> ở pH 5 và 0,30 ở pH 10.)
         <details><summary>Xem lời giải</summary>
           Ở pH 5: \[ K_\mathrm{f}' = 3,5\cdot10^{-7}\cdot10^{8,79} = 2,2\cdot10^{2} \]
@@ -1257,10 +1267,10 @@ const CHUONG = [
         <details><summary>Xem lời giải</summary>
           \[ \begin{aligned} K_\mathrm{f}' &= 0,30\cdot10^{10,70} = 1,50\cdot10^{10} \\ V_e &= \frac{50,0\cdot0,0400}{0,0800} = 25,0\ \mathrm{mL} \end{aligned} \]
           <b>V = 20,0 mL</b>: Ca<sup>2+</sup> dư = 2,000 − 1,600 = 0,400 mmol trong 70,0 mL → [Ca<sup>2+</sup>] = 5,71·10<sup>−3</sup> M → pCa = 2,24.<br>
-          <b>V = 25,0 mL</b>: [CaY<sup>2−</sup>] = 2,000/75,0 = 0,0267 M:
-          \[ \begin{aligned} [\mathrm{Ca^{2+}}] &= \sqrt{\frac{0,0267}{1,50\cdot10^{10}}} = 1,33\cdot10^{-6}\ \mathrm{M} \\ \mathrm{pCa} &= \mathbf{5,88} \end{aligned} \]
+          <b>V = 25,0 mL</b>: [CaY<sup>2−</sup>] = 2,000/75,0 = 0,02667 M:
+          \[ \begin{aligned} [\mathrm{Ca^{2+}}] &= \sqrt{\frac{0,02667}{1,50\cdot10^{10}}} = 1,33\cdot10^{-6}\ \mathrm{M} \\ \mathrm{pCa} &= \mathbf{5,88} \end{aligned} \]
           <b>V = 30,0 mL</b>: EDTA dư 0,400 mmol/80,0 mL = 5,00·10<sup>−3</sup> M; [CaY<sup>2−</sup>] = 0,0250 M:
-          \[ \begin{aligned} [\mathrm{Ca^{2+}}] &= \frac{0,0250}{1,50\cdot10^{10}\cdot5,00\cdot10^{-3}} \\ &= 3,32\cdot10^{-10}\ \mathrm{M} \;\Rightarrow\; \mathrm{pCa} = 9,48 \end{aligned} \]
+          \[ \begin{aligned} [\mathrm{Ca^{2+}}] &= \frac{0,0250}{1,50\cdot10^{10}\cdot5,00\cdot10^{-3}} \\ &= 3,33\cdot10^{-10}\ \mathrm{M} \;\Rightarrow\; \mathrm{pCa} = 9,48 \end{aligned} \]
           <div class="bang-cuon"><table class="bang">
             <thead><tr><th>V (mL)</th><th>15,0</th><th>20,0</th><th>24,9</th><th>25,0</th><th>25,1</th><th>30,0</th><th>35,0</th></tr></thead>
             <tbody><tr><td>pCa</td><td>1,91</td><td>2,24</td><td>3,97</td><td><b>5,88</b></td><td>7,78</td><td>9,48</td><td>9,78</td></tr></tbody>
@@ -1287,16 +1297,17 @@ const CHUONG = [
         <li><b>ET-OO</b> (eriocrom đen T), pH 10: đỏ nho → xanh chàm. Xác định Mg<sup>2+</sup>, Zn<sup>2+</sup>, tổng Ca<sup>2+</sup> + Mg<sup>2+</sup>.</li>
         <li><b>Murexit</b>, pH 12 – 13: đỏ → tím. Xác định riêng Ca<sup>2+</sup> (Mg<sup>2+</sup> đã kết tủa thành Mg(OH)<sub>2</sub>).</li>
         <li>Chỉ thị kim loại cũng là acid/base yếu, màu phụ thuộc pH, nên mỗi chỉ thị chỉ dùng trong một khoảng pH nhất định.</li>
-        <li>Phức M–In quá yếu thì đổi màu trước điểm tương đương. Phức M–In quá bền (bền hơn MY) thì chỉ thị bị <b>khóa</b>: không đổi màu được.</li>
+        <li>Phức M–In quá yếu thì đổi màu trước điểm tương đương. Phức M–In quá bền (bền hơn MY) thì chỉ thị bị <b>khóa</b>: không đổi màu được. Ví dụ Cu<sup>2+</sup>, Ni<sup>2+</sup>, Co<sup>2+</sup>, Fe<sup>3+</sup>, Al<sup>3+</sup> khóa ET-OO; phải che các ion này hoặc dùng chuẩn độ ngược.</li>
+        <li>Ca<sup>2+</sup> tạo phức với ET-OO quá yếu, điểm cuối không rõ. Mẹo: thêm một ít MgY<sup>2−</sup> vào mẫu; Ca<sup>2+</sup> đẩy Mg<sup>2+</sup> ra (CaY bền hơn MgY), Mg<sup>2+</sup> cho điểm cuối rõ với ET-OO mà không làm thay đổi tổng lượng EDTA tiêu tốn.</li>
       </ul>
 
       <h3>7. Các kĩ thuật chuẩn độ EDTA</h3>
       <ul>
         <li><b>Trực tiếp</b>: chuẩn độ thẳng ion kim loại bằng EDTA trong đệm phù hợp. Ví dụ Pb<sup>2+</sup> trong đệm NH<sub>3</sub> pH 10 có tartrate (chất tạo phức phụ).</li>
-        <li><b>Ngược</b>: thêm EDTA dư đã biết, rồi chuẩn EDTA dư bằng dung dịch ion kim loại thứ hai (Mg<sup>2+</sup>, Zn<sup>2+</sup>, Pb<sup>2+</sup>). Dùng khi chất phân tích phản ứng chậm với EDTA (Al<sup>3+</sup>), bị kết tủa ở pH chuẩn độ, hoặc khóa chỉ thị.</li>
-        <li><b>Thay thế</b>: dùng khi không có chỉ thị phù hợp cho ion cần xác định. Ví dụ Ag<sup>+</sup> đẩy Ni<sup>2+</sup> ra khỏi Ni(CN)<sub>4</sub><sup>2−</sup>: 2Ag<sup>+</sup> + Ni(CN)<sub>4</sub><sup>2−</sup> → 2Ag(CN)<sub>2</sub><sup>−</sup> + Ni<sup>2+</sup>, rồi chuẩn Ni<sup>2+</sup> giải phóng bằng EDTA.</li>
+        <li><b>Ngược</b>: thêm EDTA dư đã biết, rồi chuẩn EDTA dư bằng dung dịch ion kim loại thứ hai (Mg<sup>2+</sup>, Zn<sup>2+</sup>, Pb<sup>2+</sup>). Dùng khi chất phân tích phản ứng chậm với EDTA (Al<sup>3+</sup>), bị kết tủa ở pH chuẩn độ, hoặc khóa chỉ thị. Ion chuẩn ngược thường phải tạo phức <b>kém bền hơn</b> phức của chất phân tích, để không đẩy chất phân tích ra khỏi phức. Ngoại lệ: phức trơ về động học như AlY<sup>−</sup> không trao đổi kịp trong thời gian chuẩn độ, nên dùng được cả Pb<sup>2+</sup> (Ví dụ 4).</li>
+        <li><b>Thay thế</b>: dùng khi không có chỉ thị phù hợp cho ion cần xác định. Ví dụ Ag<sup>+</sup> đẩy Ni<sup>2+</sup> ra khỏi Ni(CN)<sub>4</sub><sup>2−</sup>: 2Ag<sup>+</sup> + Ni(CN)<sub>4</sub><sup>2−</sup> → 2Ag(CN)<sub>2</sub><sup>−</sup> + Ni<sup>2+</sup>, rồi chuẩn Ni<sup>2+</sup> giải phóng bằng EDTA. Phép đo này xác định <b>Ag<sup>+</sup></b>: n(Ag<sup>+</sup>) = 2·n(Ni<sup>2+</sup>).</li>
         <li><b>Gián tiếp</b>: xác định anion. Ví dụ SO<sub>4</sub><sup>2−</sup> được kết tủa bằng Ba<sup>2+</sup>, lọc BaSO<sub>4</sub>, hòa tan bằng EDTA dư ở pH 10, rồi chuẩn ngược EDTA dư bằng Mg<sup>2+</sup>.</li>
-        <li><b>Chất che</b>: thuốc thử tạo phức bền với ion cản trở để nó không phản ứng với EDTA. Ví dụ CN<sup>−</sup> che Zn<sup>2+</sup>, Cu<sup>2+</sup>, Ni<sup>2+</sup>; F<sup>−</sup> hoặc triethanolamin che Al<sup>3+</sup>, Fe<sup>3+</sup>.</li>
+        <li><b>Chất che</b>: thuốc thử tạo phức bền với ion cản trở để nó không phản ứng với EDTA. Ví dụ CN<sup>−</sup> che Zn<sup>2+</sup>, Cu<sup>2+</sup>, Ni<sup>2+</sup>; F<sup>−</sup> hoặc triethanolamin che Al<sup>3+</sup>, Fe<sup>3+</sup>. <b>Giải che</b>: phá phức che để ion lại phản ứng được, ví dụ formaldehyd giải phóng Zn<sup>2+</sup> khỏi Zn(CN)<sub>4</sub><sup>2−</sup>.</li>
       </ul>
       <div class="vi-du"><b>Ví dụ 4.</b> 50,00 mL dung dịch chứa Fe<sup>3+</sup> và Al<sup>3+</sup>. Ở pH 2, chuẩn độ hết 29,61 mL EDTA 0,04016 M (chỉ Fe<sup>3+</sup> phản ứng). Thêm tiếp 50,00 mL EDTA 0,04016 M, đun sôi, chỉnh pH 5, chuẩn EDTA dư bằng Pb<sup>2+</sup> 0,03228 M hết 19,03 mL. Tính nồng độ Fe<sup>3+</sup> và Al<sup>3+</sup>.
         <details><summary>Xem lời giải</summary>
@@ -1314,7 +1325,7 @@ const CHUONG = [
         </details></div>
       <div class="vi-du"><b>Ví dụ 6.</b> Hòa tan 5 viên thuốc bổ sung canxi rồi pha thành 250,0 mL dung dịch A. Lấy 10,00 mL A, chuẩn độ bằng EDTA 0,0150 M ở pH 13 (murexit) hết 10,15 mL. Tính (a) [Ca<sup>2+</sup>] trong A; (b) khối lượng Ca trong mỗi viên (Ca = 40,08).
         <details><summary>Xem lời giải</summary>
-          \[ \begin{aligned} [\mathrm{Ca^{2+}}] &= \frac{0,0150\cdot10,15}{10,00} = \mathbf{0,01523\ M} \\ m_\mathrm{Ca} &= \frac{0,01523\cdot0,2500\cdot40,08}{5} \\ &= 0,0305\ \mathrm{g} = \mathbf{30,5\ mg/viên} \end{aligned} \]
+          \[ \begin{aligned} [\mathrm{Ca^{2+}}] &= \frac{0,0150\cdot10,15}{10,00} = \mathbf{0,0152\ M} \\ m_\mathrm{Ca} &= \frac{0,01522\cdot0,2500\cdot40,08}{5} \\ &= 0,0305\ \mathrm{g} = \mathbf{30,5\ mg/viên} \end{aligned} \]
           Màu tại điểm cuối: đỏ (Ca – murexit) → tím (murexit tự do).
         </details></div>
     `,
@@ -1357,7 +1368,7 @@ const CHUONG = [
       <h3>2. Các yếu tố ảnh hưởng tới độ tan</h3>
       <ul>
         <li><b>Ion chung</b>: làm độ tan giảm mạnh (Chương 4, Ví dụ 7).</li>
-        <li><b>pH</b>: nếu anion của kết tủa là base (CO<sub>3</sub><sup>2−</sup>, C<sub>2</sub>O<sub>4</sub><sup>2−</sup>, PO<sub>4</sub><sup>3−</sup>, OH<sup>−</sup>, S<sup>2−</sup>), H<sup>+</sup> kết hợp với anion làm cân bằng tan chuyển dịch sang phải: kết tủa <b>tan nhiều hơn trong acid</b>. Kết tủa của anion acid mạnh (AgCl, BaSO<sub>4</sub>) gần như không bị ảnh hưởng.</li>
+        <li><b>pH</b>: nếu anion của kết tủa là base (CO<sub>3</sub><sup>2−</sup>, C<sub>2</sub>O<sub>4</sub><sup>2−</sup>, PO<sub>4</sub><sup>3−</sup>, OH<sup>−</sup>, S<sup>2−</sup>), H<sup>+</sup> kết hợp với anion làm cân bằng tan chuyển dịch sang phải: kết tủa <b>tan nhiều hơn trong acid</b>. Kết tủa của anion acid mạnh (AgCl) gần như không bị ảnh hưởng. BaSO<sub>4</sub> chỉ tan thêm đáng kể trong acid rất mạnh (pH &lt; 2), vì HSO<sub>4</sub><sup>−</sup> có pK<sub>a</sub> ≈ 2.</li>
         <li><b>Tạo phức</b>: thuốc thử tạo phức với cation làm độ tan tăng, ví dụ AgCl tan trong NH<sub>3</sub> (Chương 4, Ví dụ 4). Lượng lớn ion chung đôi khi cũng tạo phức (AgCl<sub>2</sub><sup>−</sup> trong Cl<sup>−</sup> đặc), làm độ tan tăng trở lại.</li>
         <li><b>Lực ion</b> (hiệu ứng muối): chất điện li lạ làm γ giảm, độ tan tăng nhẹ.</li>
       </ul>
@@ -1413,7 +1424,17 @@ const CHUONG = [
         <li>Để Ag<sub>2</sub>CrO<sub>4</sub> bắt đầu kết tủa đúng tại điểm tương đương cần [CrO<sub>4</sub><sup>2−</sup>] = K<sub>sp</sub>(Ag<sub>2</sub>CrO<sub>4</sub>)/K<sub>sp</sub>(AgCl) ≈ 6·10<sup>−3</sup> M. Thực tế dùng nồng độ thấp hơn một chút để màu vàng của cromat không che điểm cuối, rồi hiệu chỉnh bằng <b>mẫu trắng</b>.</li>
         <li>Môi trường <b>trung tính hoặc kiềm yếu (pH 6,5 – 10)</b>: pH thấp thì CrO<sub>4</sub><sup>2−</sup> chuyển thành HCrO<sub>4</sub><sup>−</sup>, Cr<sub>2</sub>O<sub>7</sub><sup>2−</sup>, điểm cuối muộn; pH cao thì Ag<sup>+</sup> kết tủa thành Ag<sub>2</sub>O.</li>
         <li>Không dùng cho I<sup>−</sup>, SCN<sup>−</sup> vì kết tủa hấp phụ mạnh các ion này.</li>
+        <li>Khi mẫu có NH<sub>4</sub><sup>+</sup>, giữ pH 6,5 – 7,2 để tránh tạo Ag(NH<sub>3</sub>)<sub>2</sub><sup>+</sup>.</li>
+        <li>Phải chuẩn độ theo chiều Ag<sup>+</sup> vào mẫu. Không thể chuẩn ngược Ag<sup>+</sup> bằng Cl<sup>−</sup> với chỉ thị cromat, vì Ag<sub>2</sub>CrO<sub>4</sub> đã tạo ra tan lại rất chậm.</li>
+        <li>Mẫu trắng: huyền phù CaCO<sub>3</sub> không chứa Cl<sup>−</sup>, có cùng lượng chỉ thị, để tạo nền đục giống mẫu thật.</li>
       </ul>
+
+      <div class="vi-du"><b>Ví dụ 5.</b> Chuẩn độ 25,00 mL NaCl bằng AgNO<sub>3</sub> 0,05000 M theo phương pháp Mohr hết 18,60 mL. Mẫu trắng tốn 0,20 mL. Tính nồng độ NaCl.
+        <details><summary>Xem lời giải</summary>
+          Thể tích thực dùng cho Cl<sup>−</sup> = 18,60 − 0,20 = 18,40 mL:
+          \[ C_\mathrm{NaCl} = \frac{0,05000\cdot18,40}{25,00} = \mathbf{0,03680\ M} \]
+          Nếu quên trừ mẫu trắng sẽ ra 0,03720 M (sai số +1,1%).
+        </details></div>
 
       <h3>6. Phương pháp Volhard</h3>
       <ul>
@@ -1421,25 +1442,33 @@ const CHUONG = [
         <li>Xác định halogenua bằng <b>chuẩn độ ngược</b>: thêm AgNO<sub>3</sub> dư đã biết, chuẩn lượng Ag<sup>+</sup> dư bằng KSCN.</li>
         <li>Môi trường <b>acid HNO<sub>3</sub></b> (giữ Fe<sup>3+</sup> không thủy phân). Đây là ưu điểm lớn: các anion như CO<sub>3</sub><sup>2−</sup>, C<sub>2</sub>O<sub>4</sub><sup>2−</sup> không cản trở.</li>
         <li>Với Cl<sup>−</sup>: AgCl tan nhiều hơn AgSCN, nên AgCl có thể chuyển dần thành AgSCN làm tiêu tốn thêm SCN<sup>−</sup>. Phải lọc bỏ AgCl hoặc thêm nitrobenzen bọc kết tủa trước khi chuẩn độ ngược. Với Br<sup>−</sup>, I<sup>−</sup> không cần.</li>
+        <li>Với I<sup>−</sup>: chỉ thêm chỉ thị Fe<sup>3+</sup> sau khi toàn bộ I<sup>−</sup> đã kết tủa hết, vì Fe<sup>3+</sup> oxi hóa I<sup>−</sup> thành I<sub>2</sub>.</li>
+        <li>Màu điểm cuối là đỏ nâu. Khi chuẩn trực tiếp Ag<sup>+</sup> bằng SCN<sup>−</sup> phải lắc mạnh, vì AgSCN hấp phụ Ag<sup>+</sup> làm điểm cuối đến sớm.</li>
       </ul>
-      <div class="vi-du"><b>Ví dụ 5.</b> Thêm 50,00 mL AgNO<sub>3</sub> 0,1000 M vào 25,00 mL dung dịch Cl<sup>−</sup>, lọc bỏ AgCl. Chuẩn lượng Ag<sup>+</sup> dư hết 18,75 mL KSCN 0,0800 M. Tính [Cl<sup>−</sup>].
+      <div class="vi-du"><b>Ví dụ 6.</b> Thêm 50,00 mL AgNO<sub>3</sub> 0,1000 M vào 25,00 mL dung dịch Cl<sup>−</sup>, lọc bỏ AgCl. Chuẩn lượng Ag<sup>+</sup> dư hết 18,75 mL KSCN 0,0800 M. Tính [Cl<sup>−</sup>].
         <details><summary>Xem lời giải</summary>
           \[ \begin{aligned} n_\mathrm{Ag^+} &= 0,1000\cdot50,00 = 5,000\ \mathrm{mmol} \\ n_\mathrm{Ag^+,\,dư} &= 0,0800\cdot18,75 = 1,500\ \mathrm{mmol} \\ n_\mathrm{Cl^-} &= 5,000 - 1,500 = 3,500\ \mathrm{mmol} \\ [\mathrm{Cl^-}] &= \frac{3,500}{25,00} = \mathbf{0,1400\ M} \end{aligned} \]
         </details></div>
 
       <h3>7. Phương pháp Fajans</h3>
       <ul>
-        <li>Dùng <b>chỉ thị hấp phụ</b> (fluorescein, diclorofluorescein, eosin): thuốc nhuộm anion bám lên bề mặt kết tủa và đổi màu tại điểm tương đương.</li>
+        <li>Dùng <b>chỉ thị hấp phụ</b>: thuốc nhuộm anion bám lên bề mặt kết tủa và đổi màu tại điểm tương đương. Fluorescein (pH 7 – 10) và diclorofluorescein (pH 4 – 10) dùng cho Cl<sup>−</sup>; eosin (pH ≥ 2) chỉ dùng cho Br<sup>−</sup>, I<sup>−</sup>, SCN<sup>−</sup>, không dùng cho Cl<sup>−</sup> vì nó hấp phụ lên AgCl ngay từ trước điểm tương đương.</li>
         <li>Cơ chế (chuẩn Cl<sup>−</sup> bằng Ag<sup>+</sup>): trước điểm tương đương, Cl<sup>−</sup> dư hấp phụ lên AgCl nên bề mặt tích điện âm, đẩy chỉ thị anion ra xa. Sau điểm tương đương, Ag<sup>+</sup> dư hấp phụ làm bề mặt tích điện dương, hút chỉ thị lên bề mặt: kết tủa chuyển sang <b>màu hồng</b>.</li>
         <li>Kết tủa cần ở dạng keo, bề mặt lớn (thêm dextrin để giữ keo), tránh ánh sáng mạnh.</li>
-        <li>pH phải đủ cao để chỉ thị ở dạng anion (fluorescein cần pH ≳ 7; diclorofluorescein dùng được ở pH thấp hơn).</li>
+        <li>pH phải đủ cao để chỉ thị ở dạng anion, nên mỗi chỉ thị chỉ dùng trong khoảng pH riêng như trên.</li>
       </ul>
-      <div class="vi-du"><b>Ví dụ 6.</b> Chuẩn độ 25,00 mL NaCl bằng AgNO<sub>3</sub> 0,05000 M theo phương pháp Mohr hết 18,60 mL. Mẫu trắng tốn 0,20 mL. Tính nồng độ NaCl.
-        <details><summary>Xem lời giải</summary>
-          Thể tích thực dùng cho Cl<sup>−</sup> = 18,60 − 0,20 = 18,40 mL:
-          \[ C_\mathrm{NaCl} = \frac{0,05000\cdot18,40}{25,00} = \mathbf{0,03680\ M} \]
-          Nếu quên trừ mẫu trắng sẽ ra 0,03720 M (sai số +1,1%).
-        </details></div>
+      <p><b>So sánh ba phương pháp bạc</b>:</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Phương pháp</th><th>Kiểu chuẩn độ</th><th>Chỉ thị, điểm cuối</th><th>Môi trường</th><th>Xác định</th></tr></thead>
+          <tbody>
+            <tr><td>Mohr</td><td>Trực tiếp bằng AgNO<sub>3</sub></td><td>K<sub>2</sub>CrO<sub>4</sub>: kết tủa đỏ gạch</td><td>pH 6,5 – 10</td><td>Cl<sup>−</sup>, Br<sup>−</sup></td></tr>
+            <tr><td>Volhard</td><td>Ngược: Ag<sup>+</sup> dư chuẩn bằng SCN<sup>−</sup></td><td>Fe<sup>3+</sup>: phức đỏ nâu FeSCN<sup>2+</sup></td><td>HNO<sub>3</sub></td><td>Cl<sup>−</sup> (lọc AgCl), Br<sup>−</sup>, I<sup>−</sup>, SCN<sup>−</sup></td></tr>
+            <tr><td>Fajans</td><td>Trực tiếp bằng AgNO<sub>3</sub></td><td>Chỉ thị hấp phụ: kết tủa đổi sang hồng</td><td>Tùy chỉ thị (pH 2 – 10)</td><td>Cl<sup>−</sup>, Br<sup>−</sup>, I<sup>−</sup>, SCN<sup>−</sup></td></tr>
+          </tbody>
+        </table>
+      </div>
+
     `,
     baiTap: [
       {
@@ -1447,8 +1476,8 @@ const CHUONG = [
         dapAn: "Trong nước: S = √(1,8·10<sup>−10</sup>) = <b>1,3·10<sup>−5</sup> M</b><br>Trong NaCl 0,010 M: S = 1,8·10<sup>−10</sup>/0,010 = <b>1,8·10<sup>−8</sup> M</b> (giảm khoảng 750 lần do ion chung)",
       },
       {
-        de: "Chuẩn độ 25,00 mL I<sup>−</sup> 0,100 M bằng Ag<sup>+</sup> 0,0500 M. Tính pAg tại điểm tương đương (K<sub>sp</sub>(AgI) = 8,3·10<sup>−17</sup>).",
-        dapAn: "pAg = ½pK<sub>sp</sub> = ½ × 16,08 = <b>8,04</b>",
+        de: "Xác định Br<sup>−</sup> theo Volhard: thêm 40,00 mL AgNO<sub>3</sub> 0,1000 M vào 25,00 mL mẫu, chuẩn Ag<sup>+</sup> dư hết 12,20 mL KSCN 0,1000 M. Tính [Br<sup>−</sup>]. Có cần lọc AgBr trước khi chuẩn ngược không?",
+        dapAn: "n<sub>Br⁻</sub> = 0,1000 × 40,00 − 0,1000 × 12,20 = 2,780 mmol → [Br<sup>−</sup>] = 2,780/25,00 = <b>0,1112 M</b><br>Không cần lọc: AgBr ít tan hơn AgSCN nên không chuyển thành AgSCN.",
       },
     ],
   },
@@ -1457,56 +1486,178 @@ const CHUONG = [
     nhom: "Cân bằng và chuẩn độ",
     icon: "⚡",
     ten: "Oxi hóa – khử và chuẩn độ",
-    moTa: "Nernst, thế điều kiện, đường chuẩn độ, các phương pháp",
+    moTa: "Thế khử chuẩn, Nernst, thế điều kiện, đường chuẩn độ, chỉ thị, KMnO₄ – Cr₂O₇²⁻ – iod",
+    dayDu: true,
+    choDuyet: true,
     lyThuyet: String.raw`
-      <h3>1. Khái niệm</h3>
+      <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
+        <ul>
+          <li>Dùng thế khử chuẩn để dự đoán chiều phản ứng và tính hằng số cân bằng.</li>
+          <li>Viết và tính phương trình Nernst, kể cả khi có H<sup>+</sup>, chất tạo phức hoặc chất tạo kết tủa (thế điều kiện).</li>
+          <li>Tính thế trên đường chuẩn độ oxi hóa – khử, chọn chỉ thị và tính kết quả các phương pháp KMnO<sub>4</sub>, K<sub>2</sub>Cr<sub>2</sub>O<sub>7</sub>, iod.</li>
+        </ul>
+      </div>
+      <h3>1. Khái niệm cơ bản</h3>
       <ul>
-        <li><b>Chất oxi hóa</b> nhận electron, <b>chất khử</b> cho electron. Mỗi cặp oxi hóa – khử viết là Ox/Kh: Ox + ne ⇌ Kh.</li>
-        <li>Thế điện cực chuẩn E° càng lớn thì dạng Ox càng mạnh. E° càng nhỏ thì dạng Kh càng mạnh.</li>
-        <li>Phản ứng xảy ra theo chiều: Ox mạnh + Kh mạnh → Ox yếu + Kh yếu (cặp có E lớn hơn oxi hóa cặp có E nhỏ hơn).</li>
+        <li><b>Chất oxi hóa</b> nhận electron (bị khử); <b>chất khử</b> cho electron (bị oxi hóa). Phản ứng oxi hóa – khử là tổng của hai <b>bán phản ứng</b>.</li>
+        <li>Mỗi cặp oxi hóa – khử liên hợp viết là Ox/Kh, ví dụ Fe<sup>3+</sup>/Fe<sup>2+</sup>, CO<sub>2</sub>/H<sub>2</sub>C<sub>2</sub>O<sub>4</sub>: Ox + ne ⇌ Kh.</li>
+        <li><b>Pin Galvani</b> dùng phản ứng oxi hóa – khử tự diễn biến để sinh ra dòng điện: chất khử nhường electron ở anot, electron đi qua mạch ngoài sang catot và khử chất oxi hóa.</li>
+        <li><b>Thế khử chuẩn E<sup>0</sup></b> của một cặp được đo so với điện cực hydro chuẩn (SHE, quy ước E<sup>0</sup> = 0,00 V), ở 25 °C, hoạt độ các chất bằng 1, áp suất khí 1 bar.</li>
+      </ul>
+      <p><b>E<sup>0</sup> càng lớn thì dạng oxi hóa càng mạnh</b>; E<sup>0</sup> càng nhỏ thì dạng khử càng mạnh. Phản ứng tự xảy ra theo chiều: Ox của cặp có E lớn hơn + Kh của cặp có E nhỏ hơn.</p>
+      <div class="bang-cuon">
+        <table class="bang bang-hep">
+          <thead><tr><th>Cặp</th><th>E<sup>0</sup> (V)</th></tr></thead>
+          <tbody>
+            <tr><td>MnO<sub>4</sub><sup>−</sup> + 8H<sup>+</sup> + 5e ⇌ Mn<sup>2+</sup> + 4H<sub>2</sub>O</td><td>1,51</td></tr>
+            <tr><td>Cr<sub>2</sub>O<sub>7</sub><sup>2−</sup> + 14H<sup>+</sup> + 6e ⇌ 2Cr<sup>3+</sup> + 7H<sub>2</sub>O</td><td>1,33</td></tr>
+            <tr><td>2IO<sub>3</sub><sup>−</sup> + 12H<sup>+</sup> + 10e ⇌ I<sub>2</sub> + 6H<sub>2</sub>O</td><td>1,20</td></tr>
+            <tr><td>Ag<sup>+</sup> + e ⇌ Ag</td><td>0,80</td></tr>
+            <tr><td>Fe<sup>3+</sup> + e ⇌ Fe<sup>2+</sup></td><td>0,77</td></tr>
+            <tr><td>AsO<sub>4</sub><sup>3−</sup> + 2H<sup>+</sup> + 2e ⇌ AsO<sub>3</sub><sup>3−</sup> + H<sub>2</sub>O (viết gọn)</td><td>0,57</td></tr>
+            <tr><td>I<sub>2</sub> + 2e ⇌ 2I<sup>−</sup></td><td>0,54</td></tr>
+            <tr><td>Cu<sup>2+</sup> + e ⇌ Cu<sup>+</sup></td><td>0,18</td></tr>
+            <tr><td>2H<sup>+</sup> + 2e ⇌ H<sub>2</sub></td><td>0,00</td></tr>
+            <tr><td>Zn<sup>2+</sup> + 2e ⇌ Zn</td><td>−0,76</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="vi-du"><b>Ví dụ 1.</b> Ở điều kiện chuẩn: (a) H<sub>2</sub> có khử được Zn<sup>2+</sup> không? (b) Cr<sub>2</sub>O<sub>7</sub><sup>2−</sup> có oxi hóa được I<sub>2</sub> thành IO<sub>3</sub><sup>−</sup> không?
+        <details><summary>Xem lời giải</summary>
+          (a) E<sup>0</sup>(Zn<sup>2+</sup>/Zn) = −0,76 V &lt; E<sup>0</sup>(H<sup>+</sup>/H<sub>2</sub>) = 0,00 V, nên Zn<sup>2+</sup> là chất oxi hóa yếu hơn H<sup>+</sup>: <b>không</b>. Ngược lại, Zn khử được H<sup>+</sup> (kẽm tan trong acid).<br>
+          (b) E<sup>0</sup>(Cr<sub>2</sub>O<sub>7</sub><sup>2−</sup>/Cr<sup>3+</sup>) = 1,33 V &gt; E<sup>0</sup>(IO<sub>3</sub><sup>−</sup>/I<sub>2</sub>) = 1,20 V, nên <b>có</b>: Cr<sub>2</sub>O<sub>7</sub><sup>2−</sup> là chất oxi hóa mạnh hơn IO<sub>3</sub><sup>−</sup>.
+        </details></div>
+
+      <h3>2. Phương trình Nernst</h3>
+      <div class="cong-thuc"><div class="nhan">aOx + mH<sup>+</sup> + ne ⇌ bKh (25 °C)</div>\[ E = E^0 + \frac{0,059}{n}\lg\frac{[\mathrm{Ox}]^a\Hp^m}{[\mathrm{Kh}]^b} \]</div>
+      <ul>
+        <li>Chất rắn và H<sub>2</sub>O không có mặt trong biểu thức; chất khí dùng áp suất (bar).</li>
+        <li>Nếu H<sup>+</sup> tham gia bán phản ứng, thế phụ thuộc mạnh vào pH.</li>
+        <li>Nhân cả bán phản ứng với một hệ số (ví dụ viết 2Fe<sup>3+</sup> + 2e ⇌ 2Fe<sup>2+</sup>) <b>không làm thay đổi</b> E<sup>0</sup> và E.</li>
+        <li>Hệ số 0,059 V = 2,303RT/F ở 25 °C.</li>
+      </ul>
+      <div class="vi-du"><b>Ví dụ 2.</b> Tính thế của cặp Fe<sup>3+</sup>/Fe<sup>2+</sup> khi [Fe<sup>3+</sup>] = 0,10 M và [Fe<sup>2+</sup>] = 0,010 M.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} E &= 0,77 + 0,059\lg\frac{0,10}{0,010} \\ &= 0,77 + 0,059 = \mathbf{0,83\ V} \end{aligned} \]
+        </details></div>
+      <div class="vi-du"><b>Ví dụ 3.</b> Tính thế của dung dịch chứa MnO<sub>4</sub><sup>−</sup> 0,010 M và Mn<sup>2+</sup> 0,020 M ở pH 3,80.
+        <details><summary>Xem lời giải</summary>
+          MnO<sub>4</sub><sup>−</sup> + 8H<sup>+</sup> + 5e ⇌ Mn<sup>2+</sup> + 4H<sub>2</sub>O; [H<sup>+</sup>] = 10<sup>−3,80</sup>:
+          \[ \begin{aligned} E &= 1,51 + \frac{0,059}{5}\lg\frac{0,010\cdot\left(10^{-3,80}\right)^8}{0,020} \\ &= 1,51 + 0,0118\cdot(-0,30 - 30,40) \\ &= \mathbf{1,15\ V} \end{aligned} \]
+          Ở pH 3,80 thế giảm khoảng 0,36 V so với E<sup>0</sup>: KMnO<sub>4</sub> oxi hóa mạnh nhất trong môi trường acid mạnh.
+        </details></div>
+      <div class="vi-du"><b>Ví dụ 4.</b> Viết phương trình Nernst cho điện cực bạc – bạc clorid AgCl(r) + e ⇌ Ag(r) + Cl<sup>−</sup> và tính E<sup>0</sup> của nó từ E<sup>0</sup>(Ag<sup>+</sup>/Ag) = 0,80 V và K<sub>sp</sub>(AgCl) = 1,8·10<sup>−10</sup>.
+        <details><summary>Xem lời giải</summary>
+          Thế của điện cực do cặp Ag<sup>+</sup>/Ag quyết định, với [Ag<sup>+</sup>] = K<sub>sp</sub>/[Cl<sup>−</sup>]:
+          \[ \begin{aligned} E &= 0,80 + 0,059\lg\frac{K_\mathrm{sp}}{[\mathrm{Cl^-}]} \\ &= \underbrace{0,80 + 0,059\lg K_\mathrm{sp}}_{E^0(\mathrm{AgCl/Ag})} - 0,059\lg[\mathrm{Cl^-}] \end{aligned} \]
+          \[ \begin{aligned} E^0(\mathrm{AgCl/Ag}) &= 0,80 + 0,059\lg K_\mathrm{sp} \\ &= 0,80 + 0,059\cdot(-9,74) \\ &= \mathbf{0,22\ V} \end{aligned} \]
+          Đây là điện cực so sánh Ag/AgCl dùng trong máy đo pH (Chương 12).
+        </details></div>
+
+      <h3>3. Thế khử chuẩn và hằng số cân bằng</h3>
+      <p>Tại cân bằng, thế của hai cặp bằng nhau (E của pin = 0) và Q = K, suy ra:</p>
+      <div class="cong-thuc"><div class="nhan">E<sup>0</sup><sub>1</sub>: cặp của chất oxi hóa; E<sup>0</sup><sub>2</sub>: cặp của chất khử; n: số electron trao đổi trong phương trình tổng</div>\[ \lg K = \frac{n\left(E^0_1 - E^0_2\right)}{0,059} \]</div>
+      <div class="vi-du"><b>Ví dụ 5.</b> Tính hằng số cân bằng của phản ứng MnO<sub>4</sub><sup>−</sup> + 5Fe<sup>2+</sup> + 8H<sup>+</sup> → Mn<sup>2+</sup> + 5Fe<sup>3+</sup> + 4H<sub>2</sub>O.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} \lg K &= \frac{5\,(1,51 - 0,77)}{0,059} = 62,7 \\ K &= \mathbf{10^{62,7}} \end{aligned} \]
+          Tương tự, Cr<sub>2</sub>O<sub>7</sub><sup>2−</sup> với Fe<sup>2+</sup> (n = 6): lg K = 6(1,33 − 0,77)/0,059 = 56,9. Cả hai phản ứng xảy ra hoàn toàn, dùng để chuẩn độ được.
+        </details></div>
+
+      <h3>4. Thế điều kiện E<sup>0</sup>'</h3>
+      <p><b>Thế điều kiện</b> E<sup>0</sup>' là thế của cặp khi tổng nồng độ dạng oxi hóa và dạng khử bằng nhau, trong một môi trường cụ thể (pH, chất tạo phức, chất tạo kết tủa đã cố định). Dùng E<sup>0</sup>' thay E<sup>0</sup> sẽ dự đoán đúng chiều phản ứng trong điều kiện thực tế.</p>
+      <p><b>a) Ảnh hưởng của pH.</b> Với AsO<sub>4</sub><sup>3−</sup> + 2H<sup>+</sup> + 2e ⇌ AsO<sub>3</sub><sup>3−</sup> + H<sub>2</sub>O:</p>
+      <div class="cong-thuc">\[ \begin{aligned} E &= 0,57 + \frac{0,059}{2}\lg\frac{[\mathrm{AsO_4^{3-}}]\Hp^2}{[\mathrm{AsO_3^{3-}}]} \\ E^{0\prime} &= 0,57 - 0,059\,\mathrm{pH} \end{aligned} \]</div>
+      <p><b>b) Ảnh hưởng của chất tạo phức.</b> Chất tạo phức làm giảm nồng độ tự do của dạng bị tạo phức. Nếu dạng oxi hóa tạo phức bền (β lớn) thì E<sup>0</sup>' giảm:</p>
+      <div class="cong-thuc"><div class="nhan">Fe<sup>3+</sup> tạo phức FeF<sub>6</sub><sup>3−</sup> (β<sub>6</sub>), Fe<sup>2+</sup> không tạo phức, [F<sup>−</sup>] = 1 M</div>\[ E^{0\prime} = E^0 - 0,059\lg\beta_6 \]</div>
+      <p><b>c) Ảnh hưởng của chất tạo kết tủa.</b> Nếu dạng khử bị kết tủa (nồng độ tự do rất nhỏ) thì E<sup>0</sup>' tăng. Với Cu<sup>2+</sup>/Cu<sup>+</sup> khi có I<sup>−</sup> (CuI ít tan, tích số tan T):</p>
+      <div class="cong-thuc"><div class="nhan">Cu<sup>2+</sup> + I<sup>−</sup> + e ⇌ CuI(r), [I<sup>−</sup>] = 1 M</div>\[ E^{0\prime} = E^0 + 0,059\lg\frac{1}{T_\mathrm{CuI}} \]</div>
+      <div class="vi-du"><b>Ví dụ 6.</b> Dùng E<sup>0</sup>(I<sub>2</sub>/I<sup>−</sup>) = 0,54 V, hãy xét: (a) chiều phản ứng giữa AsO<sub>4</sub><sup>3−</sup> và I<sup>−</sup> ở pH 0 và pH 8; (b) Fe<sup>3+</sup> có oxi hóa được I<sup>−</sup> khi có F<sup>−</sup> 1 M không (β<sub>6</sub>(FeF<sub>6</sub><sup>3−</sup>) = 10<sup>16</sup>)? (c) Cu<sup>2+</sup> có oxi hóa được I<sup>−</sup> không (T<sub>CuI</sub> = 10<sup>−12</sup>)?
+        <details><summary>Xem lời giải</summary>
+          (a) pH 0: E<sup>0</sup>' = 0,57 V &gt; 0,54 V → AsO<sub>4</sub><sup>3−</sup> oxi hóa I<sup>−</sup> thành I<sub>2</sub>. pH 8: E<sup>0</sup>' = 0,57 − 0,059·8 = 0,10 V &lt; 0,54 V → ngược lại, <b>I<sub>2</sub> oxi hóa AsO<sub>3</sub><sup>3−</sup></b>. Chiều phản ứng đảo ngược theo pH.<br>
+          (b) E<sup>0</sup>' = 0,77 − 0,059·16 = −0,17 V &lt; 0,54 V → <b>không</b>. F<sup>−</sup> "che" Fe<sup>3+</sup>, dùng khi xác định Cu bằng phương pháp iod trong mẫu có sắt.<br>
+          (c) E<sup>0</sup>' = 0,18 + 0,059·12 = 0,89 V &gt; 0,54 V → <b>có</b>: 2Cu<sup>2+</sup> + 4I<sup>−</sup> → 2CuI + I<sub>2</sub>, dù E<sup>0</sup>(Cu<sup>2+</sup>/Cu<sup>+</sup>) = 0,18 V nhỏ hơn 0,54 V.
+        </details></div>
+
+      <h3>5. Đường chuẩn độ oxi hóa – khử</h3>
+      <p>Đồ thị thế E của dung dịch theo thể tích chất chuẩn. Sau mỗi lần thêm, phản ứng đạt cân bằng nên hai cặp có cùng thế; ta chọn cặp nào dễ tính:</p>
+      <ol>
+        <li>Tính V<sub>e</sub> từ hợp thức phản ứng.</li>
+        <li><b>Trước điểm tương đương</b>: tính E theo cặp của <b>chất phân tích</b> (biết cả hai dạng).</li>
+        <li><b>Tại điểm tương đương</b> (khi H<sup>+</sup> không tham gia hoặc [H<sup>+</sup>] = 1 M):
+          \[ E_\mathrm{tđ} = \frac{n_1E^0_1 + n_2E^0_2}{n_1 + n_2} \]</li>
+        <li><b>Sau điểm tương đương</b>: tính E theo cặp của <b>chất chuẩn</b>.</li>
+      </ol>
+      <p>Bước nhảy càng lớn khi hiệu E<sup>0</sup> của hai cặp càng lớn. Khi n<sub>1</sub> = n<sub>2</sub> đường chuẩn độ đối xứng quanh E<sub>tđ</sub>; khi n<sub>1</sub> ≠ n<sub>2</sub>, E<sub>tđ</sub> lệch về phía cặp có n lớn hơn.</p>
+      <div class="vi-du"><b>Ví dụ 7.</b> Chuẩn độ Fe<sup>2+</sup> bằng Ce<sup>4+</sup> trong HNO<sub>3</sub> 1 M (E<sup>0</sup>'(Ce<sup>4+</sup>/Ce<sup>3+</sup>) = 1,61 V). Tính lg K và E<sub>tđ</sub>.
+        <details><summary>Xem lời giải</summary>
+          Ce<sup>4+</sup> + Fe<sup>2+</sup> → Ce<sup>3+</sup> + Fe<sup>3+</sup> (n = 1):
+          \[ \begin{aligned} \lg K &= \frac{1,61 - 0,77}{0,059} = 14,2 \\ E_\mathrm{tđ} &= \frac{0,77 + 1,61}{2} = \mathbf{1,19\ V} \end{aligned} \]
+        </details></div>
+      <div class="vi-du"><b>Ví dụ 8.</b> Chuẩn độ 10,00 mL dung dịch Fe<sup>2+</sup> bằng KMnO<sub>4</sub> 0,0125 M ([H<sup>+</sup>] = 1 M) hết 8,50 mL. (a) Tính [Fe<sup>2+</sup>]. (b) Tính E khi thêm 5,50 mL; 8,50 mL và 10,50 mL KMnO<sub>4</sub>.
+        <details><summary>Xem lời giải</summary>
+          (a) MnO<sub>4</sub><sup>−</sup> + 5Fe<sup>2+</sup> + 8H<sup>+</sup> → Mn<sup>2+</sup> + 5Fe<sup>3+</sup> + 4H<sub>2</sub>O:
+          \[ [\mathrm{Fe^{2+}}] = \frac{5\cdot0,0125\cdot8,50}{10,00} = \mathbf{0,0531\ M} \]
+          (b) <b>V = 5,50 mL</b>: Fe<sup>3+</sup> tạo thành = 5·0,0125·5,50 = 0,344 mmol; Fe<sup>2+</sup> còn 0,531 − 0,344 = 0,188 mmol:
+          \[ E = 0,77 + 0,059\lg\frac{0,344}{0,188} = \mathbf{0,79\ V} \]
+          <b>V = 8,50 mL</b> (tương đương):
+          \[ E_\mathrm{tđ} = \frac{0,77 + 5\cdot1,51}{6} = \mathbf{1,39\ V} \]
+          <b>V = 10,50 mL</b>: MnO<sub>4</sub><sup>−</sup> dư = 0,0125·2,00 = 0,0250 mmol; Mn<sup>2+</sup> = 0,0125·8,50 = 0,106 mmol:
+          \[ E = 1,51 + \frac{0,059}{5}\lg\frac{0,0250}{0,106} = \mathbf{1,50\ V} \]
+        </details></div>
+
+      <h3>6. Chỉ thị trong chuẩn độ oxi hóa – khử</h3>
+      <ul>
+        <li><b>Tự chỉ thị</b>: chất chuẩn có màu đậm. KMnO<sub>4</sub> tím bị khử thành Mn<sup>2+</sup> gần như không màu; giọt dư đầu tiên làm dung dịch hồng nhạt.</li>
+        <li><b>Chỉ thị đặc hiệu</b>: phản ứng riêng với một chất. Hồ tinh bột tạo phức <b>xanh đậm</b> với I<sub>3</sub><sup>−</sup>.</li>
+        <li><b>Chỉ thị oxi hóa – khử thực sự</b>: In<sub>ox</sub> + ne ⇌ In<sub>kh</sub>, hai dạng khác màu. Mắt thấy rõ một màu khi dạng đó nhiều gấp 10 lần dạng kia, nên khoảng đổi màu:
+          \[ E = E^0_\mathrm{In} \pm \frac{0,059}{n} \]</li>
+      </ul>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Chỉ thị</th><th>E<sup>0</sup> (V)</th><th>Màu (khử → oxi hóa)</th></tr></thead>
+          <tbody>
+            <tr><td>Xanh methylen</td><td>0,53</td><td>không màu → xanh lam</td></tr>
+            <tr><td>Diphenylamin</td><td>0,76</td><td>không màu → tím</td></tr>
+            <tr><td>Acid diphenylamin sulfonic</td><td>0,85</td><td>không màu → tím đỏ</td></tr>
+            <tr><td>Ferroin</td><td>1,15</td><td>đỏ → xanh nhạt</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><b>Nguyên tắc chọn</b>: khoảng đổi màu nằm trong bước nhảy, E<sup>0</sup> của chỉ thị càng gần E<sub>tđ</sub> càng tốt. Ví dụ chuẩn Fe<sup>2+</sup> bằng Ce<sup>4+</sup> (E<sub>tđ</sub> = 1,19 V) dùng ferroin. Khi chuẩn Fe<sup>2+</sup> bằng Cr<sub>2</sub>O<sub>7</sub><sup>2−</sup> với diphenylamin sulfonic, người ta thêm H<sub>3</sub>PO<sub>4</sub> để tạo phức với Fe<sup>3+</sup>, hạ thế của cặp Fe<sup>3+</sup>/Fe<sup>2+</sup> (mục 4b) cho bước nhảy bắt đầu sớm hơn.</p>
+
+      <h3>7. Điều chỉnh số oxi hóa trước khi chuẩn độ (tự đọc)</h3>
+      <p>Chất phân tích phải ở đúng một số oxi hóa trước khi chuẩn độ. Thuốc thử dư phải loại bỏ được dễ dàng.</p>
+      <ul>
+        <li><b>Tiền oxi hóa</b>: peroxydisulfat S<sub>2</sub>O<sub>8</sub><sup>2−</sup> (dư được phân hủy bằng cách đun sôi), natri bismutat NaBiO<sub>3</sub> (chất rắn, lọc bỏ), H<sub>2</sub>O<sub>2</sub> trong môi trường base (dư được phân hủy khi đun).</li>
+        <li><b>Tiền khử</b>: SnCl<sub>2</sub> (khử Fe<sup>3+</sup> thành Fe<sup>2+</sup>, dư được loại bằng HgCl<sub>2</sub>), SO<sub>2</sub>, H<sub>2</sub>S (đuổi bằng cách đun), cột khử Jones (kẽm hỗn hống), cột khử Walden (Ag trong HCl).</li>
       </ul>
 
-      <h3>2. Phương trình Nernst (25 °C)</h3>
-      <div class="cong-thuc">Ox + ne ⇌ Kh: &nbsp; E = E° + (0,0592 / n) · lg( [Ox] / [Kh] )</div>
-      <div class="cong-thuc">Tổng quát aOx + mH<sup>+</sup> + ne ⇌ bKh + ...:<br>
-        E = E° + (0,0592 / n) · lg( [Ox]<sup>a</sup>[H<sup>+</sup>]<sup>m</sup> / [Kh]<sup>b</sup> )</div>
-      <p>Chất rắn và nước không đưa vào biểu thức.</p>
-      <div class="vi-du"><b>Ví dụ.</b> MnO<sub>4</sub><sup>−</sup> + 8H<sup>+</sup> + 5e ⇌ Mn<sup>2+</sup> + 4H<sub>2</sub>O (E° = 1,51 V). Tính E khi [MnO<sub>4</sub><sup>−</sup>] = [Mn<sup>2+</sup>] và pH = 1.<br>
-        E = 1,51 + (0,0592 / 5) · lg(10<sup>−1</sup>)<sup>8</sup> = 1,51 − 0,095 = <b>1,42 V</b><br>
-        → pH càng tăng, KMnO<sub>4</sub> oxi hóa càng yếu.</div>
-
-      <h3>3. Thế điều kiện E°'</h3>
-      <p>Thế đo được khi C<sub>Ox</sub> = C<sub>Kh</sub> = 1 M trong một môi trường cụ thể (pH, chất tạo phức, chất tạo kết tủa). Ví dụ: tạo phức với Fe<sup>3+</sup> (bằng F<sup>−</sup>, PO<sub>4</sub><sup>3−</sup>) làm E' của cặp Fe<sup>3+</sup>/Fe<sup>2+</sup> giảm.</p>
-
-      <h3>4. Hằng số cân bằng</h3>
-      <div class="cong-thuc">lg K = n · (E°<sub>1</sub> − E°<sub>2</sub>) / 0,0592</div>
-      <p>E°<sub>1</sub>: cặp của chất oxi hóa; E°<sub>2</sub>: cặp của chất khử; n: tổng số electron trao đổi (bội số chung nhỏ nhất của n<sub>1</sub> và n<sub>2</sub>).</p>
-
-      <h3>5. Thế tại điểm tương đương</h3>
-      <div class="cong-thuc">E<sub>tđ</sub> = ( n<sub>1</sub>E°<sub>1</sub> + n<sub>2</sub>E°<sub>2</sub> ) / ( n<sub>1</sub> + n<sub>2</sub> )</div>
-      <p>(áp dụng khi H<sup>+</sup> không tham gia phản ứng và hệ số các chất đều bằng 1)</p>
-      <div class="vi-du"><b>Ví dụ.</b> Chuẩn độ Fe<sup>2+</sup> bằng Ce<sup>4+</sup> trong H<sub>2</sub>SO<sub>4</sub> 1 M (E°' Ce<sup>4+</sup>/Ce<sup>3+</sup> = 1,44 V; E° Fe<sup>3+</sup>/Fe<sup>2+</sup> = 0,77 V).<br>
-        lg K = (1,44 − 0,77) / 0,0592 = 11,3 → phản ứng gần như hoàn toàn.<br>
-        E<sub>tđ</sub> = (0,77 + 1,44) / 2 = <b>1,11 V</b></div>
-
-      <h3>6. Các phương pháp chuẩn độ oxi hóa – khử</h3>
+      <h3>8. Các phương pháp chuẩn độ oxi hóa – khử</h3>
+      <p><b>a) Phương pháp permanganat.</b> KMnO<sub>4</sub> trong H<sub>2</sub>SO<sub>4</sub> (không dùng HCl vì Cl<sup>−</sup> bị oxi hóa). Tự chỉ thị. KMnO<sub>4</sub> không phải chất gốc (có lẫn MnO<sub>2</sub>, bị phân hủy chậm), phải chuẩn hóa bằng Na<sub>2</sub>C<sub>2</sub>O<sub>4</sub> hoặc H<sub>2</sub>C<sub>2</sub>O<sub>4</sub>·2H<sub>2</sub>O, đun nóng khoảng 60 – 70 °C:</p>
+      <div class="cong-thuc">\[ \begin{gathered} 2\mathrm{MnO_4^-} + 5\mathrm{C_2O_4^{2-}} + 16\mathrm{H^+} \\ \rightarrow 2\mathrm{Mn^{2+}} + 10\mathrm{CO_2} + 8\mathrm{H_2O} \end{gathered} \]</div>
+      <div class="vi-du"><b>Ví dụ 9.</b> Chuẩn hóa KMnO<sub>4</sub>: 0,2010 g Na<sub>2</sub>C<sub>2</sub>O<sub>4</sub> (M = 134,00) phản ứng vừa đủ với 29,85 mL KMnO<sub>4</sub>. Tính nồng độ KMnO<sub>4</sub>.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} n_\mathrm{C_2O_4^{2-}} &= \frac{0,2010}{134,00} = 1,500\cdot10^{-3}\ \mathrm{mol} \\ n_\mathrm{MnO_4^-} &= \frac{2}{5}\cdot1,500\cdot10^{-3} \\ &= 6,000\cdot10^{-4}\ \mathrm{mol} \\ C &= \frac{6,000\cdot10^{-4}}{0,02985} = \mathbf{0,02010\ M} \end{aligned} \]
+        </details></div>
+      <p><b>b) Phương pháp dicromat.</b> K<sub>2</sub>Cr<sub>2</sub>O<sub>7</sub> là chất gốc, dung dịch rất bền, dùng được trong HCl. Chỉ thị acid diphenylamin sulfonic. Dùng xác định Fe<sup>2+</sup> và nhu cầu oxy hóa học (COD) của nước thải:</p>
+      <div class="cong-thuc">\[ \begin{gathered} \mathrm{Cr_2O_7^{2-}} + 6\mathrm{Fe^{2+}} + 14\mathrm{H^+} \\ \rightarrow 2\mathrm{Cr^{3+}} + 6\mathrm{Fe^{3+}} + 7\mathrm{H_2O} \end{gathered} \]</div>
+      <p><b>c) Các phương pháp iod.</b> Chỉ thị hồ tinh bột.</p>
       <ul>
-        <li><b>Pemanganat</b>: KMnO<sub>4</sub> trong H<sub>2</sub>SO<sub>4</sub> (không dùng HCl vì Cl<sup>−</sup> bị oxi hóa). Tự chỉ thị: dư 1 giọt cho màu hồng nhạt. KMnO<sub>4</sub> không phải chất gốc, phải chuẩn hóa bằng H<sub>2</sub>C<sub>2</sub>O<sub>4</sub> hoặc Na<sub>2</sub>C<sub>2</sub>O<sub>4</sub>.<br>
-          MnO<sub>4</sub><sup>−</sup> + 5Fe<sup>2+</sup> + 8H<sup>+</sup> → Mn<sup>2+</sup> + 5Fe<sup>3+</sup> + 4H<sub>2</sub>O</li>
-        <li><b>Dicromat</b>: K<sub>2</sub>Cr<sub>2</sub>O<sub>7</sub> là chất chuẩn gốc, dung dịch rất bền. Chỉ thị diphenylamin. Dùng định lượng Fe<sup>2+</sup>, xác định COD.<br>
-          Cr<sub>2</sub>O<sub>7</sub><sup>2−</sup> + 6Fe<sup>2+</sup> + 14H<sup>+</sup> → 2Cr<sup>3+</sup> + 6Fe<sup>3+</sup> + 7H<sub>2</sub>O</li>
-        <li><b>Iot – thiosunfat</b>: chỉ thị hồ tinh bột (thêm khi gần điểm cuối, lúc dung dịch vàng nhạt).<br>
-          I<sub>2</sub> + 2S<sub>2</sub>O<sub>3</sub><sup>2−</sup> → 2I<sup>−</sup> + S<sub>4</sub>O<sub>6</sub><sup>2−</sup><br>
-          Chuẩn độ <b>gián tiếp</b>: chất oxi hóa + I<sup>−</sup> dư → giải phóng I<sub>2</sub>, rồi chuẩn độ I<sub>2</sub> bằng Na<sub>2</sub>S<sub>2</sub>O<sub>3</sub>.</li>
+        <li><b>Chuẩn độ iod trực tiếp</b> (iodimetry): dùng dung dịch I<sub>2</sub> (trong KI, dạng I<sub>3</sub><sup>−</sup>) chuẩn độ chất khử như vitamin C, SO<sub>3</sub><sup>2−</sup>, As(III). Hồ tinh bột cho vào từ đầu, điểm cuối xuất hiện màu xanh.</li>
+        <li><b>Chuẩn độ iod gián tiếp</b> (iodometry): chất oxi hóa + KI dư → giải phóng I<sub>2</sub>, rồi chuẩn I<sub>2</sub> bằng Na<sub>2</sub>S<sub>2</sub>O<sub>3</sub>. Hồ tinh bột cho vào <b>gần điểm cuối</b> (khi dung dịch vàng nhạt) để tránh I<sub>2</sub> bị hấp phụ chặt vào tinh bột; điểm cuối mất màu xanh.
+          \[ \mathrm{I_2} + 2\mathrm{S_2O_3^{2-}} \rightarrow 2\mathrm{I^-} + \mathrm{S_4O_6^{2-}} \]</li>
+        <li>Na<sub>2</sub>S<sub>2</sub>O<sub>3</sub> không phải chất gốc, chuẩn hóa bằng KIO<sub>3</sub> hoặc K<sub>2</sub>Cr<sub>2</sub>O<sub>7</sub> (qua I<sub>2</sub> giải phóng từ KI).</li>
       </ul>
-      <div class="vi-du"><b>Ví dụ (iot gián tiếp).</b> 25,00 mL dung dịch Cu<sup>2+</sup> + KI dư, I<sub>2</sub> sinh ra phản ứng vừa đủ 12,50 mL Na<sub>2</sub>S<sub>2</sub>O<sub>3</sub> 0,1000 M.<br>
-        2Cu<sup>2+</sup> + 4I<sup>−</sup> → 2CuI + I<sub>2</sub> ; I<sub>2</sub> + 2S<sub>2</sub>O<sub>3</sub><sup>2−</sup> → ... ⇒ n<sub>Cu²⁺</sub> = n<sub>S₂O₃²⁻</sub><br>
-        C<sub>Cu²⁺</sub> = 0,1000 × 12,50 / 25,00 = <b>0,05000 M</b></div>
+      <div class="vi-du"><b>Ví dụ 10.</b> 25,00 mL dung dịch Cu<sup>2+</sup> được thêm KI dư. I<sub>2</sub> sinh ra phản ứng vừa đủ với 12,50 mL Na<sub>2</sub>S<sub>2</sub>O<sub>3</sub> 0,1000 M. Tính nồng độ Cu<sup>2+</sup>.
+        <details><summary>Xem lời giải</summary>
+          2Cu<sup>2+</sup> + 4I<sup>−</sup> → 2CuI + I<sub>2</sub>; I<sub>2</sub> + 2S<sub>2</sub>O<sub>3</sub><sup>2−</sup> → 2I<sup>−</sup> + S<sub>4</sub>O<sub>6</sub><sup>2−</sup>. Vậy 2 Cu<sup>2+</sup> ↔ 1 I<sub>2</sub> ↔ 2 S<sub>2</sub>O<sub>3</sub><sup>2−</sup>, tức n<sub>Cu²⁺</sub> = n<sub>S₂O₃²⁻</sub>:
+          \[ C_\mathrm{Cu^{2+}} = \frac{0,1000\cdot12,50}{25,00} = \mathbf{0,05000\ M} \]
+        </details></div>
     `,
     baiTap: [
       {
-        de: "Tính thế của cặp Fe<sup>3+</sup>/Fe<sup>2+</sup> khi [Fe<sup>3+</sup>] = 0,10 M; [Fe<sup>2+</sup>] = 0,010 M (E° = 0,77 V).",
-        dapAn: "E = 0,77 + 0,0592 × lg(0,10 / 0,010) = 0,77 + 0,0592 = <b>0,83 V</b>",
+        de: "Tính thế của cặp Fe<sup>3+</sup>/Fe<sup>2+</sup> khi [Fe<sup>3+</sup>] = 0,010 M; [Fe<sup>2+</sup>] = 0,10 M (E<sup>0</sup> = 0,77 V).",
+        dapAn: "E = 0,77 + 0,059 × lg(0,010/0,10) = 0,77 − 0,059 = <b>0,71 V</b>",
       },
       {
         de: "Chuẩn độ 20,00 mL dung dịch Fe<sup>2+</sup> bằng KMnO<sub>4</sub> 0,02000 M trong môi trường acid thì hết 15,00 mL. Tính nồng độ Fe<sup>2+</sup>.",
