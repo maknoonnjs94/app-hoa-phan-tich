@@ -239,3 +239,41 @@ sub, sup { font-size: .72em; line-height: 0; }
   background: color-mix(in srgb, #f59e0b 14%, var(--the));
   border-left: 3px solid #f59e0b;
 }
+
+/* Ví dụ có lời giải ẩn */
+.vi-du details { margin-top: 6px; }
+.vi-du summary { cursor: pointer; font-weight: 600; color: #15803d; padding: 4px 0; }
+.vi-du details[open] summary { margin-bottom: 4px; }
+@media (prefers-color-scheme: dark) { .vi-du summary { color: #4ade80; } }
+
+/* Mục tiêu đầu chương */
+.muc-tieu {
+  padding: 12px 14px; border-radius: 12px; margin-bottom: 8px;
+  background: color-mix(in srgb, var(--mau-chinh) 10%, var(--the));
+}
+.muc-tieu ul { margin: 6px 0 0; }
+
+/* Bảng trong bài học */
+.bai-hoc .bang-cuon { margin: 10px 0; }
+.bai-hoc .bang th, .bai-hoc .bang td { padding: 9px 10px; font-size: 14px; }
+.bang-tom-tat td:not(:first-child) { white-space: normal; }
+.bang-tom-tat td:first-child { font-weight: 600; }
+
+/* Giản đồ phân bố */
+.gian-do { margin: 10px 0 14px; padding: 8px 6px 10px; border: 1px solid var(--vien); border-radius: 12px; }
+.gian-do svg { width: 100%; height: auto; display: block; font-size: 10px; fill: var(--chu-phu); stroke: none; }
+.gian-do .luoi { stroke: var(--vien); stroke-width: 1; }
+.gian-do .net-pka { stroke: var(--chu-phu); stroke-width: 1; stroke-dasharray: 3 3; opacity: .6; }
+.chu-giai { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; padding: 6px 8px 0; }
+.chu-giai span { display: inline-flex; align-items: center; gap: 6px; }
+.chu-giai i { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+.chu-giai .phu { color: var(--chu-phu); display: inline; }
+
+/* Nút lên đầu trang */
+.nut-len {
+  position: fixed; z-index: 15; right: max(16px, calc(50% - 240px + 16px));
+  bottom: calc(var(--cao-thanh-tab) + env(safe-area-inset-bottom) + 16px);
+  width: 44px; height: 44px; border-radius: 50%; border: 0; cursor: pointer;
+  display: grid; place-items: center;
+  background: var(--mau-chinh); color: #fff; box-shadow: 0 4px 14px rgba(0,0,0,.2);
+}

@@ -239,6 +239,44 @@ function tinhChatRan() {
   kq.innerHTML = `Cân <b>${vietSo(C * V / 1000 * M)} g</b> chất rắn, hòa tan và định mức thành ${vietSo(V)} mL.`;
 }
 
+/* ================= Giản đồ phân bố acid – base =================
+   Trong nội dung chỉ cần viết: <div class="gian-do" data-pka="2.15,7.20,12.35" data-dang="H₃PO₄,H₂PO₄⁻,HPO₄²⁻,PO₄³⁻"></div>
+   App tự tính phân số mol α của từng dạng theo pH (0 → 14) và vẽ đồ thị. */
+const MAU_DUONG = ["var(--mau-chinh)", "#16a34a", "#f59e0b", "#dc2626"];
+function veGianDo(khung) {
+  const pKa = khung.dataset.pka.split(",").map(Number);
+  const dang = khung.dataset.dang.split(",");
+  const n = pKa.length;
+  // α_i ∝ h^(n−i) · Ka1·…·Ka_i
+  const alpha = pH => {
+    const h = 10 ** -pH;
+    const t = [];
+    for (let i = 0, tich = 1; i <= n; i++) { t.push(h ** (n - i) * tich); tich *= 10 ** -pKa[i]; }
+    const tong = t.reduce((a, b) => a + b, 0);
+    return t.map(x => x / tong);
+  };
+  const R = 320, C = 180, T = 12, P = 12, D = 28, Tr = 34;   // rộng, cao, lề trên/phải/dưới/trái
+  const x = pH => Tr + pH / 14 * (R - Tr - P);
+  const y = a => T + (1 - a) * (C - T - D);
+  const diem = [...Array(141)].map((_, k) => k / 10);
+  const duong = [...Array(n + 1)].map((_, i) =>
+    `<path d="${diem.map((pH, k) => `${k ? "L" : "M"}${x(pH).toFixed(1)},${y(alpha(pH)[i]).toFixed(1)}`).join("")}"
+       fill="none" stroke="${MAU_DUONG[i % 4]}" stroke-width="2.5"/>`).join("");
+  const truc = [0, 2, 4, 6, 8, 10, 12, 14].map(v =>
+    `<line x1="${x(v)}" x2="${x(v)}" y1="${T}" y2="${C - D}" class="luoi"/><text x="${x(v)}" y="${C - D + 14}" text-anchor="middle">${v}</text>`).join("")
+    + [0, 0.5, 1].map(v =>
+    `<line x1="${Tr}" x2="${R - P}" y1="${y(v)}" y2="${y(v)}" class="luoi"/><text x="${Tr - 5}" y="${y(v) + 4}" text-anchor="end">${String(v).replace(".", ",")}</text>`).join("");
+  const pKaNet = pKa.map(v => `<line x1="${x(v)}" x2="${x(v)}" y1="${T}" y2="${C - D}" class="net-pka"/>`).join("");
+  khung.innerHTML = `
+    <svg viewBox="0 0 ${R} ${C}" role="img" aria-label="Giản đồ phân bố theo pH">
+      ${truc}${pKaNet}${duong}
+      <text x="${(R + Tr) / 2}" y="${C - 2}" text-anchor="middle">pH</text>
+      <text x="10" y="${(T + C - D) / 2}" text-anchor="middle" transform="rotate(-90 10 ${(T + C - D) / 2})">α</text>
+    </svg>
+    <div class="chu-giai">${dang.map((d, i) => `<span><i style="background:${MAU_DUONG[i % 4]}"></i>${d}</span>`).join("")}
+      <span class="phu">Nét đứt: pH = pK<sub>a</sub></span></div>`;
+}
+
 /* ================= Bộ điều hướng (không cần sửa) ================= */
 const noiDung = document.getElementById("noi-dung");
 const tieuDe = document.getElementById("tieu-de");
@@ -250,6 +288,7 @@ function hienManHinh() {
   tieuDe.textContent = mh.tieuDe;
   document.title = duong === "/" ? "Hóa phân tích" : mh.tieuDe + " · Hóa phân tích";
   noiDung.innerHTML = mh.ve();
+  noiDung.querySelectorAll(".gian-do").forEach(veGianDo);
   nutQuayLai.hidden = !mh.manHinhCon;
   document.querySelectorAll(".tabbar a").forEach(a =>
     a.classList.toggle("active", a.dataset.tab === duong ||
@@ -259,6 +298,14 @@ function hienManHinh() {
 window.addEventListener("hashchange", hienManHinh);
 nutQuayLai.addEventListener("click", () => history.length > 1 ? history.back() : (location.hash = "#/"));
 hienManHinh();
+
+// Nút "lên đầu trang": hiện khi đã cuộn xuống xa
+const nutLen = document.createElement("button");
+nutLen.className = "nut-len"; nutLen.hidden = true; nutLen.setAttribute("aria-label", "Lên đầu trang");
+nutLen.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg>';
+nutLen.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+document.body.appendChild(nutLen);
+window.addEventListener("scroll", () => { nutLen.hidden = window.scrollY < 600; }, { passive: true });
 
 /* ================= Chạy như app / chạy offline ================= */
 function dangChayNhuApp() {
