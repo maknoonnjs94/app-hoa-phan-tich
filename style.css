@@ -675,3 +675,5 @@ details[open] > summary .khi-mo { display: inline; }
 .mp-dc { font: inherit; font-size: 12px; font-weight: 600; color: var(--chu); background: var(--the); border: 1.5px solid var(--vien); border-radius: 12px; padding: 8px 4px 6px; display: grid; justify-items: center; gap: 4px; cursor: pointer; }
 .mp-dc svg { height: 120px; width: auto !important; }
 .mp-dc.chon { border-color: var(--mau-chinh); background: color-mix(in srgb, var(--mau-chinh) 8%, var(--the)); }
+.mo-phong .mp-so-lcd { font-size: 6px; fill: #22d3ee; font-family: ui-monospace, monospace; font-weight: 700; }
+.mo-phong .mp-chu-van { font-size: 7px; fill: #fff; font-weight: 700; }

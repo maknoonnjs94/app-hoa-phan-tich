@@ -891,6 +891,27 @@ MO_PHONG["dung-cu"] = el => {
       "Đong <b>ước lượng</b> thể tích (sai số cỡ 1%). Không dùng cho phép đo chính xác hay pha chuẩn."],
     ["Cốc có mỏ", `<path d="M8 90 h44 v80 q0 6 -6 6 h-32 q-6 0 -6 -6 z" fill="${G}" stroke="#64748b"/><path d="M8 90 l-4 -4" stroke="#64748b" fill="none"/><path d="M10 130 h40 v38 q0 6 -6 6 h-28 q-6 0 -6 -6 z" fill="${dd}" opacity=".8"/>${[110, 130, 150].map(y => `<line x1="12" x2="20" y1="${y}" y2="${y}" stroke="#0f172a" stroke-width=".7"/>`).join("")}`,
       "Hòa tan, đun, chứa dung dịch. Vạch trên cốc chỉ để ước lượng rất thô, <b>không dùng để đo thể tích</b>."],
+    ["Micropipet", `<rect x="24" y="4" width="12" height="8" rx="3" fill="#2563eb"/><rect x="28" y="12" width="4" height="10" fill="#94a3b8"/>
+      <path d="M18 22 h24 q4 0 4 5 v46 q0 6 -5 10 l-6 6 h-10 l-6 -6 q-5 -4 -5 -10 v-46 q0 -5 4 -5 z" fill="#e2e8f0" stroke="#475569"/>
+      <path d="M42 30 h7 q3 0 3 3 v6 q0 3 -3 3 h-7 z" fill="#94a3b8" stroke="#475569"/>
+      <rect x="23" y="44" width="14" height="22" rx="2" fill="#0f172a"/><text x="30" y="53" text-anchor="middle" class="mp-so-lcd">1</text><text x="30" y="59" text-anchor="middle" class="mp-so-lcd">0</text><text x="30" y="65" text-anchor="middle" class="mp-so-lcd">0</text>
+      <path d="M25 95 h10 l-1.5 40 h-7 z" fill="#cbd5e1" stroke="#475569"/>
+      <path d="M26.5 135 h7 l-2.6 44 h-1.8 z" fill="#fde68a" fill-opacity=".75" stroke="#ca8a04" stroke-width=".8"/>
+      <path d="M28.6 160 h2.8 l-0.9 19 h-1 z" fill="${dd}"/>`,
+      "Lấy thể tích <b>µL</b> (ví dụ 10 – 100 µL, 100 – 1000 µL), chỉnh bằng núm xoay, đọc trên cửa sổ số. Lắp <b>đầu tip</b> dùng một lần. Hút: nhấn pít-tông tới <b>nấc 1</b>, nhúng tip vào dung dịch, nhả từ từ. Xả: nhấn tới <b>nấc 2</b> để đẩy hết. Giữ thẳng đứng, thay tip giữa các mẫu."],
+    ["Cân phân tích", `<rect x="3" y="150" width="54" height="30" rx="4" fill="#e2e8f0" stroke="#475569"/><rect x="10" y="158" width="40" height="12" rx="2" fill="#0f172a"/><text x="30" y="167" text-anchor="middle" class="mp-so-lcd">25,4832 g</text>
+      <rect x="6" y="40" width="48" height="110" rx="2" fill="${G}" stroke="#64748b"/><line x1="30" x2="30" y1="40" y2="150" stroke="#94a3b8" stroke-width=".8"/><rect x="6" y="34" width="48" height="6" rx="2" fill="#cbd5e1" stroke="#64748b"/>
+      <rect x="27" y="134" width="6" height="10" fill="#94a3b8"/><ellipse cx="30" cy="134" rx="16" ry="3" fill="#cbd5e1" stroke="#64748b"/>
+      <path d="M21 131 h18 l-2 -10 h-14 z" fill="#f8fafc" stroke="#64748b"/><path d="M24 128 h12 l-1 -5 h-10 z" fill="#fef3c7"/>
+      <circle cx="49" cy="175" r="2" fill="#22c55e"/>`,
+      "Cân chính xác đến <b>0,1 mg</b> (0,0001 g). Đặt trên bàn chống rung, chỉnh cân bằng theo bọt thủy. Trừ bì (tare) vật chứa, <b>đóng cửa kính chắn gió</b> khi đọc. Không cân vật nóng (dòng khí đối lưu làm sai số). Chất hút ẩm hoặc dễ bay hơi thì cân theo hiệu: cân lọ đựng trước và sau khi lấy chất."],
+    ["Bóp cao su", `<path d="M28 150 h4 v36 h-4 z" fill="${G}" stroke="#64748b"/><path d="M29 170 h2 v16 h-2 z" fill="${dd}"/>
+      <rect x="26" y="126" width="8" height="24" rx="2" fill="#b91c1c"/>
+      <circle cx="30" cy="80" r="24" fill="#dc2626"/><ellipse cx="22" cy="72" rx="7" ry="10" fill="#fff" opacity=".25"/>
+      <rect x="26" y="40" width="8" height="18" rx="3" fill="#b91c1c"/><circle cx="30" cy="40" r="6" fill="#991b1b"/><text x="30" y="43" text-anchor="middle" class="mp-chu-van">A</text>
+      <circle cx="30" cy="112" r="6" fill="#991b1b"/><text x="30" y="115" text-anchor="middle" class="mp-chu-van">S</text>
+      <rect x="34" y="124" width="14" height="7" rx="3" fill="#b91c1c"/><circle cx="48" cy="127" r="6" fill="#991b1b"/><text x="48" y="130" text-anchor="middle" class="mp-chu-van">E</text>`,
+      "Dùng để hút dung dịch vào pipet. <b>Không bao giờ hút bằng miệng.</b> Loại 3 van: bóp van <b>A</b> (air) và bóp quả bóp để đẩy hết không khí ra; bóp van <b>S</b> (suction) để hút dung dịch lên quá vạch mức; bóp van <b>E</b> (empty) để cho dung dịch chảy xuống đúng vạch rồi xả vào bình."],
   ];
   el.innerHTML = `
     <div class="mp-dau"><b>🧫 Dụng cụ đo thể tích</b><span>Chạm vào từng dụng cụ để xem cách dùng</span></div>
