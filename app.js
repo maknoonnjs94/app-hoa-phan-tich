@@ -796,6 +796,7 @@ function hienManHinh() {
   document.title = duong === "/" ? "Hóa phân tích" : mh.tieuDe + " · Hóa phân tích";
   noiDung.innerHTML = lamToan(lamDepNoiDung(mh.ve()));
   noiDung.querySelectorAll(".gian-do").forEach(veGianDo);
+  khoiTaoMoPhong(noiDung);
   ganNhanBang(noiDung);
   nutQuayLai.hidden = !mh.manHinhCon;
   document.body.classList.toggle("man-con", !!mh.manHinhCon);

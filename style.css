@@ -559,3 +559,74 @@ details[open] > summary .khi-mo { display: inline; }
 .cau-kho summary { list-style: none; cursor: pointer; color: var(--mau-chinh); font-weight: 600; font-size: 14px; }
 .cau-kho summary::-webkit-details-marker { display: none; }
 @media (max-width: 400px) { .cau-kho .nhan-cau { gap: 4px; } .cau-kho .nhan-cau span { font-size: 11px; padding: 3px 8px; } }
+
+/* ================= Mô phỏng tương tác (mo-phong.js) ================= */
+.mo-phong { margin: 14px 0; padding: 14px; border-radius: 16px; background: var(--nen); border: 1px solid var(--vien); touch-action: pan-y; }
+.mp-dau { display: flex; flex-direction: column; gap: 2px; margin-bottom: 10px; }
+.mp-dau b { font-size: 15px; }
+.mp-dau span { font-size: 12px; color: var(--chu-phu); }
+.mo-phong svg text { font-size: 9px; fill: var(--chu-phu); font-family: var(--phong); }
+.mo-phong .mp-tr { font-size: 8px; }
+.mp-chon { display: flex; gap: 8px; margin-bottom: 10px; }
+.mp-chon select { flex: 1; min-width: 0; font: inherit; font-size: 13px; padding: 8px; border-radius: 10px; border: 1px solid var(--vien); background: var(--the); color: var(--chu); }
+.mp-khung-cd { display: grid; grid-template-columns: 90px 1fr; gap: 8px; align-items: end; }
+.mp-thuy-tinh { fill: color-mix(in srgb, var(--the) 70%, transparent); stroke: var(--chu-phu); stroke-width: 1.2; }
+.mp-vach { stroke: var(--chu-phu); stroke-width: .8; }
+.mp-khoa { fill: #475569; transition: transform .2s; transform-origin: 60px 161px; }
+.mp-khoa.mo { transform: rotate(90deg); }
+.mp-dd { transition: fill .25s; }
+.mp-do-thi { background: var(--the); border-radius: 10px; touch-action: none; cursor: crosshair; }
+.mp-luoi line { stroke: var(--vien); stroke-width: .6; }
+.mp-duong-mo { stroke: var(--vien); stroke-width: 2; stroke-dasharray: 3 3; }
+.mp-duong { stroke: var(--mau-chinh); stroke-width: 2.4; stroke-linejoin: round; }
+.mp-tđ { stroke: #f59e0b; stroke-width: 1; stroke-dasharray: 4 3; }
+.mp-vung-ct { fill: color-mix(in srgb, #10b981 16%, transparent); }
+.mp-diem { fill: var(--mau-chinh); stroke: var(--the); stroke-width: 2; }
+.mp-so { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 10px 0; }
+.mp-so > div { background: var(--the); border-radius: 10px; padding: 6px 8px; text-align: center; border: 1px solid var(--vien); }
+.mp-so small { display: block; font-size: 11px; color: var(--chu-phu); }
+.mp-so b { font-size: 15px; font-variant-numeric: tabular-nums; }
+.mp-nut { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.mp-nut button { font: inherit; font-size: 12px; font-weight: 600; padding: 9px 4px; border-radius: 10px; border: 1px solid var(--vien); background: var(--the); color: var(--chu); cursor: pointer; }
+.mp-nut button:active { transform: scale(.96); }
+.mp-nut .mp-mo-khoa { background: var(--mau-chinh); color: #fff; border-color: var(--mau-chinh); }
+.mp-nhan-xet { font-size: 13px; margin: 10px 0 0; line-height: 1.5; }
+.mp-may { width: 100%; background: #0f172a; border-radius: 12px; }
+.mp-may text { fill: #cbd5e1 !important; text-anchor: middle; }
+.mp-may .mp-man { fill: #22d3ee !important; font-size: 11px !important; font-weight: 700; }
+.mp-hop { fill: #1e293b; stroke: #64748b; }
+.mp-bp { cursor: pointer; }
+.mp-bp.chon rect, .mp-bp.chon circle:first-child { stroke: #facc15; stroke-width: 2.5; }
+.mp-tia-trang, .mp-tia-mau, .mp-tia-ra { stroke-width: 5; stroke-linecap: round; stroke-dasharray: 6 5; animation: mp-tia .6s linear infinite; }
+.mp-tia-trang { stroke: #fff7d6; }
+@keyframes mp-tia { to { stroke-dashoffset: -11; } }
+.mp-sang { animation: mp-sang 1.6s ease-in-out infinite alternate; }
+@keyframes mp-sang { from { opacity: .5; } to { opacity: 1; } }
+.mp-giai-thich { font-size: 13px; margin: 8px 0; min-height: 38px; padding: 8px 10px; border-radius: 10px; background: var(--the); border: 1px solid var(--vien); }
+.mp-truot { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 4px 10px; font-size: 13px; margin: 6px 0; }
+.mp-truot input { grid-column: 1 / -1; width: 100%; accent-color: var(--mau-chinh); }
+.mp-hai-do-thi { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.mp-hai-do-thi svg { background: var(--the); border-radius: 10px; }
+.mp-vach-lam { stroke-width: 2; }
+.mp-3d { width: 100%; max-width: 320px; display: block; margin: 0 auto; touch-action: none; cursor: grab; }
+.mp-lk { stroke: #94a3b8; stroke-width: 3.5; stroke-linecap: round; }
+.mp-lk-pt { stroke: #f59e0b; stroke-width: 2; stroke-dasharray: 3 2; }
+.mo-phong .mp-chu-m { fill: #fff; font-weight: 700; font-size: 10px; }
+.mp-chu-giai { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; font-size: 12px; }
+.mp-chu-giai i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; vertical-align: -1px; }
+.mp-so-do { display: flex; align-items: center; gap: 4px; margin-bottom: 12px; }
+.mp-o { flex: 1; min-height: 64px; border: 2px dashed var(--vien); border-radius: 12px; display: grid; place-items: center; text-align: center; font-size: 11px; padding: 4px; background: var(--the); transition: background .2s, border-color .2s; }
+.mp-o > span { font-size: 18px; font-weight: 700; color: var(--chu-phu); }
+.mp-o.dung { border-style: solid; border-color: var(--xanh); background: color-mix(in srgb, var(--xanh) 12%, var(--the)); }
+.mp-o.sai { border-color: #ef4444; animation: mp-rung .3s; }
+@keyframes mp-rung { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+.mp-mui { color: var(--chu-phu); font-weight: 700; }
+.mp-so-do.xong .mp-mui { color: #f59e0b; animation: mp-sang .6s infinite alternate; }
+.mp-kho-nhan { display: flex; flex-wrap: wrap; gap: 6px; }
+.mp-nhan { padding: 8px 12px; border-radius: 10px; background: var(--the); border: 1px solid var(--vien); font-size: 13px; font-weight: 600; cursor: grab; touch-action: none; user-select: none; }
+.mp-nhan.dang-keo { opacity: .35; }
+.mp-nhan.dung { opacity: .3; pointer-events: none; text-decoration: line-through; }
+.mp-bong { position: fixed; z-index: 50; pointer-events: none; box-shadow: 0 8px 24px rgba(0,0,0,.25); transform: rotate(-3deg); }
+.mo-phong svg { width: 100%; height: auto; display: block; fill: initial; stroke: initial; }
+.mp-khung-cd .mp-bo { width: 90px; }
+.mp-3d { max-width: 300px; margin: 0 auto; }

@@ -1038,6 +1038,7 @@ const CHUONG = [
         </table>
       </div>
       <p>Trong vùng đệm, tỉ số nồng độ bằng tỉ số số mol (cùng thể tích), nên chỉ cần tính số mol. Điểm nửa tương đương cho phép <b>xác định pK<sub>a</sub></b> trực tiếp từ đường chuẩn độ.</p>
+      <div class="mo-phong" data-loai="chuan-do"></div>
       <div class="vi-du"><b>Ví dụ 2.</b> Chuẩn độ 50,0 mL CH<sub>3</sub>COOH 0,0500 M (pK<sub>a</sub> = 4,75) bằng NaOH 0,100 M. Tính pH tại các điểm đặc trưng.
         <details><summary>Xem lời giải</summary>
           n<sub>HA</sub> ban đầu = 2,50 mmol → V<sub>e</sub> = 25,0 mL.<br>
@@ -1217,6 +1218,7 @@ const CHUONG = [
       <p>Dạng trung hòa H<sub>4</sub>Y là acid 4 nấc. Thuốc thử thường dùng là muối Na<sub>2</sub>H<sub>2</sub>Y·2H<sub>2</sub>O.</p>
       <p>EDTA tạo phức <b>1 : 1</b> với hầu hết ion kim loại, không phụ thuộc điện tích ion:</p>
       <div class="cong-thuc">\[ \begin{gathered} \mathrm{M^{n+}} + \mathrm{Y^{4-}} \rightleftharpoons \mathrm{MY^{n-4}} \\ K_\mathrm{f} = \frac{[\mathrm{MY^{n-4}}]}{[\mathrm{M^{n+}}][\mathrm{Y^{4-}}]} \end{gathered} \]</div>
+      <div class="mo-phong" data-loai="edta-3d"></div>
       <div class="bang-cuon">
         <table class="bang bang-hep">
           <thead><tr><th>Ion</th><th>lg K<sub>f</sub></th><th>Ion</th><th>lg K<sub>f</sub></th></tr></thead>
@@ -1902,6 +1904,7 @@ const CHUONG = [
 
       <h3>6. Máy quang phổ và cách đo</h3>
       <p><b>Sơ đồ</b>: nguồn sáng → bộ đơn sắc → cuvet → detector → bộ xử lí.</p>
+      <div class="mo-phong" data-loai="uv-vis"></div>
       <ul>
         <li>Nguồn: đèn deuteri (vùng UV), đèn wolfram – halogen (vùng Vis).</li>
         <li>Bộ đơn sắc: cách tử. Detector: ống nhân quang, dãy diode (đo cả phổ một lúc).</li>
@@ -1988,6 +1991,7 @@ const CHUONG = [
       <p>Nguyên tử tự do ở trạng thái cơ bản hấp thụ bức xạ có bước sóng đúng bằng vạch đặc trưng của nó. Trong khoảng tuyến tính:</p>
       <div class="cong-thuc">\[ A = k\,C \]</div>
       <p><b>Sơ đồ máy</b>: nguồn đèn catot rỗng → bộ nguyên tử hóa (ngọn lửa hoặc lò) → bộ đơn sắc → detector.</p>
+      <div class="mo-phong" data-loai="keo-tha-aas"></div>
       <ul>
         <li><b>Đèn catot rỗng</b> (HCL): catot làm bằng chính nguyên tố cần xác định, đèn chứa khí trơ áp suất thấp. Điện áp cao ion hóa khí; ion khí bắn phá catot làm bật các nguyên tử kim loại ra (sự phún xạ); các nguyên tử này bị kích thích và phát đúng các vạch đặc trưng của nguyên tố đó.</li>
         <li>Vạch phát ra từ đèn hẹp hơn vạch hấp thụ của nguyên tử trong ngọn lửa, nên định luật Beer được thỏa mãn. Mỗi nguyên tố cần một đèn riêng.</li>
