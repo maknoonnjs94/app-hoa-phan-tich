@@ -1342,8 +1342,8 @@ const CHUONG = [
     `,
     baiTap: [
       {
-        de: "Chuẩn độ 40,0 mL Ca<sup>2+</sup> 0,0120 M bằng EDTA 0,0120 M ở pH 13 (α<sub>Y⁴⁻</sub> = 0,988; lg K<sub>f</sub> = 10,70). Tính pCa khi thêm 20,0 mL; 40,0 mL và 60,0 mL EDTA.",
-        dapAn: "K<sub>f</sub>' = 0,988·10<sup>10,70</sup> = 4,95·10<sup>10</sup>; V<sub>e</sub> = 40,0 mL<br>20,0 mL: [Ca<sup>2+</sup>] = 0,240 mmol/60,0 mL = 4,00·10<sup>−3</sup> M → <b>pCa = 2,40</b><br>40,0 mL: [CaY] = 0,00600 M → [Ca<sup>2+</sup>] = √(0,00600/4,95·10<sup>10</sup>) = 3,48·10<sup>−7</sup> M → <b>pCa = 6,46</b><br>60,0 mL: [EDTA]<sub>dư</sub> = 2,40·10<sup>−3</sup> M; [CaY] = 4,80·10<sup>−3</sup> M → [Ca<sup>2+</sup>] = 4,04·10<sup>−11</sup> M → <b>pCa = 10,39</b>",
+        de: "Chuẩn độ 40,0 mL Ca<sup>2+</sup> 0,0120 M bằng EDTA 0,0120 M ở pH 13 (α<sub>Y⁴⁻</sub> = 0,998; lg K<sub>f</sub> = 10,70). Tính pCa khi thêm 20,0 mL; 40,0 mL và 60,0 mL EDTA.",
+        dapAn: "K<sub>f</sub>' = 0,998·10<sup>10,70</sup> = 5,00·10<sup>10</sup>; V<sub>e</sub> = 40,0 mL<br>20,0 mL: [Ca<sup>2+</sup>] = 0,240 mmol/60,0 mL = 4,00·10<sup>−3</sup> M → <b>pCa = 2,40</b><br>40,0 mL: [CaY] = 0,00600 M → [Ca<sup>2+</sup>] = √(0,00600/5,00·10<sup>10</sup>) = 3,46·10<sup>−7</sup> M → <b>pCa = 6,46</b><br>60,0 mL: [EDTA]<sub>dư</sub> = 2,40·10<sup>−3</sup> M; [CaY] = 4,80·10<sup>−3</sup> M → [Ca<sup>2+</sup>] = 4,00·10<sup>−11</sup> M → <b>pCa = 10,40</b>",
       },
       {
         de: "Chuẩn độ 25,00 mL dung dịch Ca<sup>2+</sup> bằng EDTA 0,01000 M thì hết 12,50 mL. Tính nồng độ Ca<sup>2+</sup>.",
@@ -2686,6 +2686,16 @@ const TRA_CUU = [
         "F<sup>−</sup>",
         "1,4·10<sup>−11</sup>",
         "10,85"
+      ],
+      [
+        "C<sub>2</sub>O<sub>4</sub><sup>2−</sup>",
+        "1,5·10<sup>−10</sup>",
+        "9,81"
+      ],
+      [
+        "H<sub>2</sub>PO<sub>4</sub><sup>−</sup>",
+        "1,3·10<sup>−12</sup>",
+        "11,88"
       ]
     ],
     "ghiChu": "pK<sub>b</sub> = 14,00 − pK<sub>a</sub> của acid liên hợp (25 °C). NH<sub>3</sub> dùng quy ước pK<sub>b</sub> = 4,75. Base nhiều nấc: K<sub>b1</sub> ứng với K<sub>a</sub> nấc cuối, ví dụ K<sub>b1</sub>(CO<sub>3</sub><sup>2−</sup>) = K<sub>w</sub>/K<sub>a2</sub>."
@@ -2773,17 +2783,17 @@ const TRA_CUU = [
       [
         "FeC<sub>2</sub>O<sub>4</sub>",
         "2·10<sup>−7</sup>",
-        "6,70"
+        "6,7"
       ],
       [
         "NiC<sub>2</sub>O<sub>4</sub>",
         "1·10<sup>−7</sup>",
-        "7,00"
+        "7,0"
       ],
       [
         "SrC<sub>2</sub>O<sub>4</sub>",
         "5·10<sup>−8</sup>",
-        "7,30"
+        "7,3"
       ],
       [
         "Mg(OH)<sub>2</sub>",
@@ -2869,6 +2879,21 @@ const TRA_CUU = [
         "Fe(OH)<sub>3</sub>",
         "1,6·10<sup>−39</sup>",
         "38,80"
+      ],
+      [
+        "CuI",
+        "1,1·10<sup>−12</sup>",
+        "11,96"
+      ],
+      [
+        "Fe(OH)<sub>2</sub>",
+        "7,9·10<sup>−16</sup>",
+        "15,10"
+      ],
+      [
+        "Al(OH)<sub>3</sub>",
+        "3·10<sup>−34</sup>",
+        "33,5"
       ]
     ],
     "ghiChu": "25 °C. 18 dòng đầu là số liệu quy ước dùng trong bài giảng và bài tập; các dòng sau là giá trị tham khảo (các tài liệu có thể lệch nhau). Khi đề bài cho K<sub>sp</sub>, luôn dùng số của đề."
@@ -2927,6 +2952,10 @@ const TRA_CUU = [
         "+0,96"
       ],
       [
+        "2Hg<sup>2+</sup> / Hg<sub>2</sub><sup>2+</sup>",
+        "+0,92"
+      ],
+      [
         "Ag<sup>+</sup> / Ag",
         "+0,80"
       ],
@@ -2940,23 +2969,39 @@ const TRA_CUU = [
       ],
       [
         "H<sub>3</sub>AsO<sub>4</sub> / H<sub>3</sub>AsO<sub>3</sub>",
-        "+0,56"
+        "+0,57"
       ],
       [
         "I<sub>2</sub> / I<sup>−</sup>",
         "+0,54"
       ],
       [
+        "Fe(CN)<sub>6</sub><sup>3−</sup> / Fe(CN)<sub>6</sub><sup>4−</sup>",
+        "+0,36"
+      ],
+      [
         "Cu<sup>2+</sup> / Cu",
         "+0,34"
       ],
       [
-        "Hg<sub>2</sub>Cl<sub>2</sub> / Hg (calomen)",
+        "Hg<sub>2</sub>Cl<sub>2</sub> / Hg (a<sub>Cl⁻</sub> = 1)",
         "+0,27"
       ],
       [
-        "AgCl / Ag",
+        "Điện cực calomen bão hòa (SCE, KCl bão hòa)",
+        "+0,241"
+      ],
+      [
+        "AgCl / Ag (a<sub>Cl⁻</sub> = 1)",
         "+0,22"
+      ],
+      [
+        "Ag/AgCl (KCl bão hòa)",
+        "+0,197"
+      ],
+      [
+        "Cu<sup>2+</sup> / Cu<sup>+</sup> (quy ước bài giảng; Harris 0,161)",
+        "+0,18"
       ],
       [
         "Sn<sup>4+</sup> / Sn<sup>2+</sup>",
@@ -3084,7 +3129,7 @@ const TRA_CUU = [
         "vàng → cam đỏ"
       ]
     ],
-    "ghiChu": "Chọn chỉ thị có khoảng đổi màu nằm trong bước nhảy pH của đường chuẩn độ. Tài liệu khác nhau có thể lệch 0,1 – 0,2 đơn vị pH."
+    "ghiChu": "Chọn chỉ thị có khoảng đổi màu nằm trong bước nhảy pH của đường chuẩn độ. Tài liệu khác nhau có thể lệch 0,1 – 0,2 đơn vị pH. Chỉ số chuẩn độ pT (pH tại đó mắt thấy đổi màu rõ) thường dùng: metyl da cam 4; metyl đỏ 5; bromthymol xanh 7; phenolphtalein 9."
   },
   {
     "id": "chi-thi-kl",
@@ -3101,7 +3146,7 @@ const TRA_CUU = [
         "ET-OO (eriocrom đen T)",
         "10",
         "đỏ nho → xanh chàm",
-        "Mg<sup>2+</sup>, Zn<sup>2+</sup>, tổng Ca + Mg (độ cứng)"
+        "Mg<sup>2+</sup>, Zn<sup>2+</sup>, tổng Ca + Mg (độ cứng); Ca<sup>2+</sup> riêng cho điểm cuối kém, phải thêm ít MgY<sup>2−</sup>"
       ],
       [
         "Calmagit",
@@ -3114,6 +3159,12 @@ const TRA_CUU = [
         "12 – 13",
         "đỏ → tím",
         "Ca<sup>2+</sup> riêng (Mg kết tủa Mg(OH)<sub>2</sub>)"
+      ],
+      [
+        "Acid sulfosalicylic",
+        "2 – 3",
+        "tím đỏ → vàng nhạt",
+        "Fe<sup>3+</sup>"
       ],
       [
         "Xylenol da cam",
@@ -3218,6 +3269,11 @@ const TRA_CUU = [
         "5,1"
       ],
       [
+        "Al<sup>3+</sup>",
+        "16,4",
+        "4,1"
+      ],
+      [
         "Co<sup>2+</sup>",
         "16,45",
         "4,0"
@@ -3226,11 +3282,6 @@ const TRA_CUU = [
         "Cd<sup>2+</sup>",
         "16,46",
         "4,0"
-      ],
-      [
-        "Al<sup>3+</sup>",
-        "16,4",
-        "4,1"
       ],
       [
         "Zn<sup>2+</sup>",
@@ -3273,7 +3324,7 @@ const TRA_CUU = [
         "0,6"
       ]
     ],
-    "ghiChu": "25 °C, μ = 0,1 M (Ca<sup>2+</sup> dùng quy ước 10,70). Cột cuối: pH thấp nhất để K<sub>f</sub>' = α<sub>Y⁴⁻</sub>K<sub>f</sub> ≥ 10<sup>8</sup> (tính từ α<sub>Y⁴⁻</sub>, chưa xét kết tủa hydroxide hay chất tạo phức phụ)."
+    "ghiChu": "25 °C, μ = 0,1 M (Ca<sup>2+</sup> dùng quy ước 10,70). Cột cuối: pH thấp nhất để K<sub>f</sub>' = α<sub>Y⁴⁻</sub>K<sub>f</sub> ≥ 10<sup>8</sup> (tính từ α<sub>Y⁴⁻</sub>, chưa xét kết tủa hydroxide hay chất tạo phức phụ). Al<sup>3+</sup>, Cr<sup>3+</sup> phản ứng với EDTA rất chậm nên phải dùng chuẩn độ ngược. Đề bài có thể viết β, β' thay cho K<sub>f</sub>, K<sub>f</sub>'; α<sub>Y(H)</sub> = 1/α<sub>Y⁴⁻</sub>."
   },
   {
     "id": "alpha-y",
@@ -3624,7 +3675,7 @@ const TRA_CUU = [
         "2,98"
       ]
     ],
-    "ghiChu": "F = s<sub>1</sub><sup>2</sup>/s<sub>2</sub><sup>2</sup> với s<sub>1</sub> ≥ s<sub>2</sub>; f<sub>1</sub>: bậc tự do của tử số (phương sai lớn hơn), f<sub>2</sub>: bậc tự do của mẫu số. F<sub>tính</sub> &gt; F<sub>bảng</sub>: hai độ lệch chuẩn khác nhau có ý nghĩa."
+    "ghiChu": "F = s<sub>1</sub><sup>2</sup>/s<sub>2</sub><sup>2</sup> với s<sub>1</sub> ≥ s<sub>2</sub>; f<sub>1</sub>: bậc tự do của tử số (phương sai lớn hơn), f<sub>2</sub>: bậc tự do của mẫu số. F<sub>tính</sub> &gt; F<sub>bảng</sub>: hai độ lệch chuẩn khác nhau có ý nghĩa. Đây là giá trị tới hạn một phía 5% (tương ứng kiểm định hai phía mức 90% khi đặt phương sai lớn ở tử)."
   },
   {
     "id": "chat-chuan",
@@ -3699,7 +3750,7 @@ const TRA_CUU = [
       [
         "H<sub>2</sub>SO<sub>4</sub>",
         "98,08",
-        "dung dịch chuẩn acid"
+        "dung dịch chuẩn acid (phải chuẩn hóa)"
       ],
       [
         "KMnO<sub>4</sub>",
@@ -3709,12 +3760,12 @@ const TRA_CUU = [
       [
         "Na<sub>2</sub>S<sub>2</sub>O<sub>3</sub>·5H<sub>2</sub>O",
         "248,18",
-        "dung dịch chuẩn iod (phải chuẩn hóa)"
+        "dung dịch chuẩn khử trong phương pháp iod (phải chuẩn hóa)"
       ],
       [
         "(NH<sub>4</sub>)<sub>2</sub>Fe(SO<sub>4</sub>)<sub>2</sub>·6H<sub>2</sub>O (muối Mohr)",
         "392,14",
-        "dung dịch chuẩn khử"
+        "dung dịch chuẩn khử (phải chuẩn hóa, Fe<sup>2+</sup> bị không khí oxi hóa)"
       ],
       [
         "AgNO<sub>3</sub>",
@@ -3725,6 +3776,31 @@ const TRA_CUU = [
         "KSCN",
         "97,18",
         "dung dịch chuẩn (Volhard)"
+      ],
+      [
+        "Tris (HOCH<sub>2</sub>)<sub>3</sub>CNH<sub>2</sub>",
+        "121,14",
+        "chất gốc chuẩn hóa acid"
+      ],
+      [
+        "C<sub>6</sub>H<sub>5</sub>COOH (acid benzoic)",
+        "122,12",
+        "chất gốc chuẩn hóa base"
+      ],
+      [
+        "KH(IO<sub>3</sub>)<sub>2</sub>",
+        "389,91",
+        "chất gốc chuẩn hóa base"
+      ],
+      [
+        "As<sub>2</sub>O<sub>3</sub>",
+        "197,84",
+        "chất gốc chuẩn hóa I<sub>2</sub>, KMnO<sub>4</sub>"
+      ],
+      [
+        "Zn kim loại",
+        "65,38",
+        "chất gốc chuẩn hóa EDTA"
       ]
     ],
     "ghiChu": "Chất gốc: tinh khiết cao, bền, không hút ẩm, M lớn; cân rồi pha trực tiếp được. Các chất còn lại phải chuẩn hóa lại bằng chất gốc."
@@ -3785,7 +3861,7 @@ const TRA_CUU = [
         "lục lam"
       ]
     ],
-    "ghiChu": "Dung dịch có màu vì hấp thụ một vùng ánh sáng trắng; mắt thấy màu bổ sung. Ví dụ KMnO<sub>4</sub> hấp thụ lục (≈ 525 nm) nên có màu tím đỏ."
+    "ghiChu": "Dung dịch có màu vì hấp thụ một vùng ánh sáng trắng; mắt thấy màu bổ sung. Ví dụ KMnO<sub>4</sub> hấp thụ lục (≈ 525 nm) nên có màu tím đỏ. Ranh giới giữa các màu chỉ gần đúng."
   },
   {
     "id": "cuvet",
@@ -3811,6 +3887,11 @@ const TRA_CUU = [
         "Nhựa (polystyren, PMMA)",
         "380 – 800",
         "rẻ, dùng một lần, không dùng dung môi hữu cơ"
+      ],
+      [
+        "NaCl, KBr (tinh thể muối)",
+        "vùng hồng ngoại (IR)",
+        "tan trong nước, chỉ dùng mẫu khan"
       ]
     ],
     "ghiChu": "Nguồn sáng: đèn deuteri cho UV (≈ 160 – 380 nm), đèn wolfram – halogen cho vùng khả kiến (≈ 320 – 2500 nm)."
