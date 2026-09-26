@@ -172,7 +172,7 @@ a.btn { display: grid; place-items: center; text-decoration: none; margin-top: 4
   background: color-mix(in srgb, var(--mau-chinh) 8%, var(--the));
   border-left: 3px solid var(--mau-chinh);
   border-radius: 8px; padding: 10px 12px; margin: 8px 0;
-  font-family: "Cambria Math", "Times New Roman", serif; font-size: 16px;
+  font-family: "Cambria Math", "Times New Roman", serif; font-size: 16px; line-height: 1.7;
   overflow-x: auto;
 }
 sub, sup { font-size: .72em; line-height: 0; }
@@ -218,3 +218,24 @@ sub, sup { font-size: .72em; line-height: 0; }
 .bang th { font-size: 13px; color: var(--chu-phu); text-transform: uppercase; background: var(--nen); }
 .bang tr:last-child td { border-bottom: 0; }
 .bang td:not(:first-child) { white-space: nowrap; }
+
+/* Mục lục, ví dụ, lưu ý trong bài lý thuyết */
+.muc-luc button {
+  display: block; width: 100%; text-align: left; cursor: pointer;
+  appearance: none; border: 0; background: none; font: inherit; color: var(--chu);
+  padding: 9px 0; border-bottom: 1px solid var(--vien);
+}
+.muc-luc button:last-child { border-bottom: 0; }
+.muc-luc button:active { color: var(--mau-chinh); }
+.bai-hoc h3 { scroll-margin-top: 80px; }
+.bai-hoc p { margin: 8px 0; }
+.vi-du {
+  margin: 10px 0 4px; padding: 10px 12px; border-radius: 10px; line-height: 1.7;
+  background: color-mix(in srgb, #16a34a 12%, var(--the));
+  border-left: 3px solid #16a34a;
+}
+.luu-y {
+  padding: 10px 12px; border-radius: 10px;
+  background: color-mix(in srgb, #f59e0b 14%, var(--the));
+  border-left: 3px solid #f59e0b;
+}

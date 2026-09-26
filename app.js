@@ -61,10 +61,10 @@ const MAN_HINH = {
         <h3>Tính pH dung dịch</h3>
         <label>Loại chất
           <select id="ph-loai" onchange="tinhPH()">
-            <option value="axit-manh">Axit mạnh (1 nấc)</option>
-            <option value="bazo-manh">Bazơ mạnh (1 nấc)</option>
-            <option value="axit-yeu">Axit yếu (1 nấc)</option>
-            <option value="bazo-yeu">Bazơ yếu (1 nấc)</option>
+            <option value="axit-manh">Acid mạnh (1 nấc)</option>
+            <option value="bazo-manh">Base mạnh (1 nấc)</option>
+            <option value="axit-yeu">Acid yếu (1 nấc)</option>
+            <option value="bazo-yeu">Base yếu (1 nấc)</option>
           </select>
         </label>
         <label>Nồng độ C (mol/L)
@@ -115,10 +115,20 @@ CHUONG.forEach((c, i) => {
   MAN_HINH[`/ly-thuyet/${c.id}`] = {
     tieuDe: c.ten,
     manHinhCon: true,
-    ve: () => `
-      <div class="card bai-hoc">${c.lyThuyet}</div>
+    ve: () => {
+      // Tự tạo mục lục từ các tiêu đề <h3> của bài
+      const muc = [...c.lyThuyet.matchAll(/<h3>(.*?)<\/h3>/g)].map(m => m[1]);
+      let k = 0;
+      const baiHoc = c.lyThuyet.replace(/<h3>/g, () => `<h3 id="muc-${k++}">`);
+      return `
+      <div class="card muc-luc">
+        <div class="so-bai">Nội dung chính</div>
+        ${muc.map((t, j) => `<button onclick="document.getElementById('muc-${j}').scrollIntoView({behavior: 'smooth'})">${t}</button>`).join("")}
+      </div>
+      <div class="card bai-hoc">${baiHoc}</div>
       <a class="btn full" href="#/bai-tap/${c.id}">Làm bài tập chương này ✏️</a>
-    `,
+    `;
+    },
   };
   MAN_HINH[`/bai-tap/${c.id}`] = {
     tieuDe: `Bài tập: ${c.ten}`,
