@@ -1,13 +1,26 @@
 /* Service worker: lưu sẵn các file giao diện để app mở được khi mất mạng.
    MỖI LẦN SỬA CODE: tăng số phiên bản bên dưới (v1 → v2 → v3...)
    để điện thoại đã cài app nhận bản mới. */
-const PHIEN_BAN = "app-dien-thoai-v8";
+const PHIEN_BAN = "app-dien-thoai-v9";
 
 const FILE_GIAO_DIEN = [
   "./",
   "index.html",
   "style.css",
   "noi-dung.js",
+  "vendor/be-vietnam-pro/fonts.css",
+  "vendor/be-vietnam-pro/be-vietnam-pro-latin-400-normal.woff2",
+  "vendor/be-vietnam-pro/be-vietnam-pro-latin-500-normal.woff2",
+  "vendor/be-vietnam-pro/be-vietnam-pro-latin-600-normal.woff2",
+  "vendor/be-vietnam-pro/be-vietnam-pro-latin-700-normal.woff2",
+  "vendor/be-vietnam-pro/be-vietnam-pro-latin-ext-400-normal.woff2",
+  "vendor/be-vietnam-pro/be-vietnam-pro-latin-ext-500-normal.woff2",
+  "vendor/be-vietnam-pro/be-vietnam-pro-latin-ext-600-normal.woff2",
+  "vendor/be-vietnam-pro/be-vietnam-pro-latin-ext-700-normal.woff2",
+  "vendor/be-vietnam-pro/be-vietnam-pro-vietnamese-400-normal.woff2",
+  "vendor/be-vietnam-pro/be-vietnam-pro-vietnamese-500-normal.woff2",
+  "vendor/be-vietnam-pro/be-vietnam-pro-vietnamese-600-normal.woff2",
+  "vendor/be-vietnam-pro/be-vietnam-pro-vietnamese-700-normal.woff2",
   "vendor/katex/katex.min.css",
   "vendor/katex/katex.min.js",
   "vendor/katex/mhchem.min.js",

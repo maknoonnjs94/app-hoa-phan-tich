@@ -97,4 +97,5 @@ manifest.webmanifest  Khai báo để cài được như app
 sw.js                 Lưu sẵn giao diện để mở khi mất mạng
 icons/                Biểu tượng app
 vendor/katex/         Thư viện hiển thị công thức toán (KaTeX, giấy phép MIT)
+vendor/be-vietnam-pro/ Phông chữ Be Vietnam Pro (giấy phép SIL OFL)
 ```

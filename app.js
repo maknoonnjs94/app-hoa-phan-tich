@@ -3,6 +3,37 @@
    Nội dung học tập (lý thuyết, bài tập, bảng tra) nằm ở file noi-dung.js.
    Muốn thêm màn hình: thêm một mục vào MAN_HINH, rồi trỏ link tới "#/ten-duong-dan".
    ========================================================= */
+
+/* ---------- Ghi nhớ tiến độ đọc (lưu trên máy người dùng) ---------- */
+const boNho = {
+  doc(khoa, macDinh) { try { return JSON.parse(localStorage.getItem(khoa)) ?? macDinh; } catch { return macDinh; } },
+  ghi(khoa, giaTri) { try { localStorage.setItem(khoa, JSON.stringify(giaTri)); } catch {} },
+};
+const tienDo = id => boNho.doc("tien-do", {})[id] || 0;          // % đã đọc của chương
+const docGanNhat = () => boNho.doc("doc-gan-nhat", null);         // { id, muc }
+
+/* ---------- Tách bài lý thuyết thành các mục theo <h3> ---------- */
+const boThe = html => html.replace(/<[^>]+>/g, "");
+function tachMuc(html) {
+  const phan = html.split(/(?=<h3>)/);
+  const dau = phan[0].startsWith("<h3>") ? "" : phan.shift();
+  const muc = phan.map(p => {
+    const m = p.match(/^<h3>([\s\S]*?)<\/h3>/);
+    return { tieuDe: m[1].replace(/^\s*\d+\.\s*/, ""), than: p.slice(m[0].length) };
+  });
+  return { dau, muc };
+}
+const CHUONG_MUC = Object.fromEntries(CHUONG.map(c => [c.id, tachMuc(c.lyThuyet)]));
+const thongKe = c => {
+  const chu = boThe(c.lyThuyet).replace(/\\[\[\(][\s\S]*?\\[\]\)]/g, " ").split(/\s+/).length;
+  return {
+    soMuc: CHUONG_MUC[c.id].muc.length,
+    soViDu: (c.lyThuyet.match(/class="vi-du"/g) || []).length,
+    phut: Math.max(3, Math.round(chu / 130 + (c.lyThuyet.match(/\\\[/g) || []).length * 0.25)),
+  };
+};
+
+/* ---------- Mảnh giao diện dùng lại ---------- */
 const dongDanhSach = (link, icon, ten, phu) => `
   <a href="${link}">
     <span class="icon">${icon}</span>
@@ -10,41 +41,104 @@ const dongDanhSach = (link, icon, ten, phu) => `
     <span class="chevron">›</span>
   </a>`;
 
-// Chia các chương theo nhóm (Phân tích hóa học / Phân tích công cụ), mỗi nhóm một tiêu đề
+const theChuong = (c, so) => {
+  const pt = tienDo(c.id);
+  return `
+  <a class="the-chuong" href="#/ly-thuyet/${c.id}">
+    <span class="icon">${c.icon}</span>
+    <span class="text">
+      <span class="ten">${so}. ${c.ten}</span>
+      <small>${c.moTa}</small>
+      <span class="dong-duoi">
+        <span class="nhan-chuong ${c.dayDu ? "day-du" : ""}">${c.dayDu ? "Đầy đủ" : "Tóm tắt"}</span>
+        ${pt ? `<span class="thanh-nho"><i style="width:${pt}%"></i></span><span class="pt">${pt}%</span>` : ""}
+      </span>
+    </span>
+  </a>`;
+};
+
+const theDocTiep = () => {
+  const g = docGanNhat();
+  const c = g && CHUONG.find(x => x.id === g.id);
+  if (!c) return "";
+  const muc = CHUONG_MUC[c.id].muc[g.muc];
+  return `
+  <a class="doc-tiep" href="#/ly-thuyet/${c.id}?muc=${g.muc}">
+    <span class="icon">${c.icon}</span>
+    <span class="text"><small>Đọc tiếp</small>${c.ten}<small>${muc ? `Mục ${g.muc + 1} · ${muc.tieuDe}` : ""}</small></span>
+    <span class="nut-tron">▶</span>
+  </a>`;
+};
+
+// Chia các chương theo nhóm (Phân tích hóa học / Phân tích công cụ)
 const theoNhom = veNhom => [...new Set(CHUONG.map(c => c.nhom))]
   .map(nhom => `<h2>${nhom}</h2>${veNhom(CHUONG.filter(c => c.nhom === nhom))}`).join("");
+
+/* ---------- Tìm kiếm trong lý thuyết (không phân biệt dấu) ---------- */
+const boDau = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D").toLowerCase();
+const CHI_MUC_TIM = CHUONG.flatMap(c => CHUONG_MUC[c.id].muc.map((m, k) => {
+  const chu = boThe(m.than).replace(/\\[\[\(][\s\S]*?\\[\]\)]/g, " ").replace(/\s+/g, " ").trim();
+  return { c, k, tieuDe: boThe(m.tieuDe), chu, khoa: boDau(`${c.ten} ${boThe(m.tieuDe)} ${chu}`) };
+}));
+function timKiem(q) {
+  const ds = document.getElementById("ds-chuong"), kq = document.getElementById("kq-tim");
+  const tu = boDau(q.trim()).split(/\s+/).filter(Boolean);
+  ds.hidden = tu.length > 0; kq.hidden = !tu.length;
+  if (!tu.length) return;
+  const trung = CHI_MUC_TIM.filter(x => tu.every(t => x.khoa.includes(t))).slice(0, 30);
+  kq.innerHTML = trung.length ? `<div class="list">${trung.map(x => {
+    const vt = boDau(x.chu).indexOf(tu[0]);
+    const trich = vt < 0 ? x.chu.slice(0, 90) : (vt > 30 ? "…" : "") + x.chu.slice(Math.max(0, vt - 30), vt + 70);
+    return dongDanhSach(`#/ly-thuyet/${x.c.id}?muc=${x.k}`, x.c.icon, x.tieuDe, `${x.c.ten} · ${trich}…`);
+  }).join("")}</div>` : `<div class="trong">Không tìm thấy mục nào khớp “${q}”.</div>`;
+}
+
+const CONG_THUC_TRANG_CHU = String.raw`
+        <div class="cong-thuc"><div class="nhan">Định nghĩa pH</div>\[ \mathrm{pH} = -\lg\Hp \qquad \mathrm{pH} + \mathrm{pOH} = 14 \]</div>
+        <div class="cong-thuc"><div class="nhan">Pha loãng</div>\[ C_1V_1 = C_2V_2 \]</div>
+        <div class="cong-thuc"><div class="nhan">Dung dịch đệm</div>\[ \mathrm{pH} = \pKa + \lg\frac{C_\mathrm{A^-}}{C_\mathrm{HA}} \]</div>
+        <div class="cong-thuc"><div class="nhan">Phương trình Nernst (25 °C)</div>\[ E = E^\circ + \frac{0,0592}{n}\lg\frac{[\mathrm{Ox}]}{[\mathrm{Kh}]} \]</div>
+`;
 
 const MAN_HINH = {
   "/": {
     tieuDe: "Hóa phân tích",
-    ve: () => `
-      <div class="card hero">
-        <h3>Hóa phân tích 🧪</h3>
-        <p>Phân tích hóa học và phân tích công cụ (điện hóa, quang phổ, sắc kí): lý thuyết, bài tập, công cụ tính, tra cứu.</p>
+    ve: () => {
+      const daDoc = CHUONG.filter(c => tienDo(c.id) >= 90).length;
+      return `
+      <div class="hero">
+        <div class="hero-nho">Ôn tập đại học</div>
+        <h3>Hóa phân tích</h3>
+        <p>Phân tích hóa học và phân tích công cụ: lý thuyết, bài tập, công cụ tính, tra cứu.</p>
+        <div class="hero-tien-do"><span class="thanh-nho sang"><i style="width:${daDoc / CHUONG.length * 100}%"></i></span>
+          Đã đọc ${daDoc}/${CHUONG.length} chương</div>
       </div>
+      ${theDocTiep()}
       <div class="grid">
-        <a class="card o-tat" href="#/ly-thuyet"><div class="big">📘</div>Lý thuyết</a>
-        <a class="card o-tat" href="#/bai-tap"><div class="big">✏️</div>Bài tập</a>
-        <a class="card o-tat" href="#/cong-cu"><div class="big">🧮</div>Công cụ</a>
-        <a class="card o-tat" href="#/tra-cuu"><div class="big">📋</div>Tra cứu</a>
+        <a class="o-tat" href="#/ly-thuyet"><span class="o-icon">📘</span><b>Lý thuyết</b><small>${CHUONG.length} chương</small></a>
+        <a class="o-tat" href="#/bai-tap"><span class="o-icon">✏️</span><b>Bài tập</b><small>${CHUONG.reduce((t, c) => t + c.baiTap.length, 0)} bài</small></a>
+        <a class="o-tat" href="#/cong-cu"><span class="o-icon">🧮</span><b>Công cụ</b><small>3 máy tính</small></a>
+        <a class="o-tat" href="#/tra-cuu"><span class="o-icon">📋</span><b>Tra cứu</b><small>${TRA_CUU.length} bảng</small></a>
       </div>
       <h2>Công thức hay dùng</h2>
-      <div class="card">
-        <div class="cong-thuc">pH = −lg[H<sup>+</sup>] &nbsp;;&nbsp; pH + pOH = 14</div>
-        <div class="cong-thuc">C<sub>1</sub>·V<sub>1</sub> = C<sub>2</sub>·V<sub>2</sub></div>
-        <div class="cong-thuc">pH = pK<sub>a</sub> + lg( C<sub>A⁻</sub> / C<sub>HA</sub> )</div>
-        <div class="cong-thuc">E = E° + (0,0592 / n) · lg( [Ox] / [Kh] )</div>
-      </div>
-    `,
+      <div class="the-trang">
+        ${CONG_THUC_TRANG_CHU}
+      </div>`;
+    },
   },
 
   "/ly-thuyet": {
     tieuDe: "Lý thuyết",
     ve: () => `
-      ${theoNhom(ds => `
-        <div class="list">
-          ${ds.map((c, i) => dongDanhSach(`#/ly-thuyet/${c.id}`, c.icon, `${i + 1}. ${c.ten}`, c.moTa)).join("")}
-        </div>`)}
+      <label class="o-tim">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input type="search" placeholder="Tìm chương, mục, công thức…" oninput="timKiem(this.value)" autocomplete="off">
+      </label>
+      <div id="kq-tim" hidden></div>
+      <div id="ds-chuong">
+        ${theDocTiep()}
+        ${theoNhom(ds => `<div class="list list-chuong">${ds.map((c, i) => theChuong(c, i + 1)).join("")}</div>`)}
+      </div>
     `,
   },
 
@@ -61,7 +155,7 @@ const MAN_HINH = {
   "/cong-cu": {
     tieuDe: "Công cụ",
     ve: () => `
-      <div class="card cong-cu">
+      <div class="the-trang cong-cu">
         <h3>Tính pH dung dịch</h3>
         <label>Loại chất
           <select id="ph-loai" onchange="tinhPH()">
@@ -80,7 +174,7 @@ const MAN_HINH = {
         <div class="ket-qua" id="ph-kq">Nhập nồng độ để xem kết quả.</div>
       </div>
 
-      <div class="card cong-cu">
+      <div class="the-trang cong-cu">
         <h3>Pha loãng: C₁·V₁ = C₂·V₂</h3>
         <p class="ghi-chu">Nhập 3 ô bất kỳ, để trống ô cần tính.</p>
         <div class="hai-cot">
@@ -92,7 +186,7 @@ const MAN_HINH = {
         <div class="ket-qua" id="pl-kq">C và V dùng cùng đơn vị ở hai vế.</div>
       </div>
 
-      <div class="card cong-cu">
+      <div class="the-trang cong-cu">
         <h3>Pha dung dịch từ chất rắn</h3>
         <label>Nồng độ cần pha (mol/L)<input id="cr-c" inputmode="decimal" oninput="tinhChatRan()"></label>
         <label>Thể tích (mL)<input id="cr-v" inputmode="decimal" oninput="tinhChatRan()"></label>
@@ -116,21 +210,42 @@ const MAN_HINH = {
 
 /* Màn hình con (có nút "Quay lại"): tự tạo cho từng chương và từng bảng tra */
 CHUONG.forEach((c, i) => {
+  const cungNhom = CHUONG.filter(x => x.nhom === c.nhom);
+  const soTrongNhom = cungNhom.indexOf(c) + 1;
   MAN_HINH[`/ly-thuyet/${c.id}`] = {
     tieuDe: c.ten,
     manHinhCon: true,
+    chuong: c,
     ve: () => {
-      // Tự tạo mục lục từ các tiêu đề <h3> của bài
-      const muc = [...c.lyThuyet.matchAll(/<h3>(.*?)<\/h3>/g)].map(m => m[1]);
-      let k = 0;
-      const baiHoc = c.lyThuyet.replace(/<h3>/g, () => `<h3 id="muc-${k++}">`);
+      const { dau, muc } = CHUONG_MUC[c.id];
+      const tk = thongKe(c);
+      const truoc = CHUONG[i - 1], sau = CHUONG[i + 1];
       return `
-      <div class="card muc-luc">
-        <div class="so-bai">Nội dung chính</div>
-        ${muc.map((t, j) => `<button onclick="document.getElementById('muc-${j}').scrollIntoView({behavior: 'smooth'})">${t}</button>`).join("")}
+      <div class="hero hero-chuong">
+        <div class="hero-nho">Chương ${soTrongNhom} · ${c.nhom}</div>
+        <h3><span>${c.icon}</span> ${c.ten}</h3>
+        <div class="chip-dong">
+          <span class="chip">${tk.soMuc} mục</span>
+          ${tk.soViDu ? `<span class="chip">${tk.soViDu} ví dụ</span>` : ""}
+          <span class="chip">${tk.phut} phút đọc</span>
+          <span class="chip">${c.dayDu ? "Bản đầy đủ" : "Bản tóm tắt"}</span>
+        </div>
       </div>
-      <div class="card bai-hoc">${baiHoc}</div>
+      <details class="the-trang muc-luc" open>
+        <summary>Mục lục</summary>
+        <ol>${muc.map((m, k) => `<li><button onclick="denMuc(${k})"><span class="so">${k + 1}</span><span>${m.tieuDe}</span></button></li>`).join("")}</ol>
+      </details>
+      ${dau.trim() ? `<div class="the-trang bai-hoc">${dau}</div>` : ""}
+      ${muc.map((m, k) => `
+        <section class="the-trang bai-hoc muc" id="muc-${k}">
+          <h3><span class="so">${k + 1}</span><span>${m.tieuDe}</span></h3>
+          ${m.than}
+        </section>`).join("")}
       ${c.baiTap.length ? `<a class="btn full" href="#/bai-tap/${c.id}">Làm bài tập chương này ✏️</a>` : ""}
+      <nav class="chuyen-chuong">
+        ${truoc ? `<a href="#/ly-thuyet/${truoc.id}"><small>‹ Chương trước</small>${truoc.ten}</a>` : "<span></span>"}
+        ${sau ? `<a class="sau" href="#/ly-thuyet/${sau.id}"><small>Chương sau ›</small>${sau.ten}</a>` : "<span></span>"}
+      </nav>
     `;
     },
   };
@@ -138,9 +253,9 @@ CHUONG.forEach((c, i) => {
     tieuDe: `Bài tập: ${c.ten}`,
     manHinhCon: true,
     ve: () => `
-      ${c.baiTap.length ? "" : `<div class="card">Bài tập chương này đang được soạn.</div>`}
+      ${c.baiTap.length ? "" : `<div class="trong">Bài tập chương này đang được soạn.</div>`}
       ${c.baiTap.map((b, j) => `
-        <div class="card bai-tap">
+        <div class="the-trang bai-tap">
           <div class="so-bai">Bài ${j + 1}</div>
           <p>${b.de}</p>
           <details>
@@ -305,35 +420,117 @@ function veGianDo(khung) {
       <span class="phu">Nét đứt: pH = pK<sub>a</sub></span></div>`;
 }
 
+/* ================= Làm đẹp nội dung sau khi vẽ =================
+   - "Ví dụ N." thành nhãn, nút "Xem lời giải" đổi chữ khi mở
+   - Bảng có class "bang-the": trên điện thoại hiện thành từng thẻ */
+function lamDepNoiDung(html) {
+  return html
+    .replace(/<b>Ví dụ\s*([\d.]*?)\.?<\/b>/g, '<span class="nhan-vd">Ví dụ $1</span>')
+    .replace(/<summary>Xem (lời giải|đáp án)<\/summary>/g,
+      '<summary><span class="khi-dong">Xem $1</span><span class="khi-mo">Ẩn $1</span></summary>');
+}
+function ganNhanBang(goc) {
+  goc.querySelectorAll("table.bang-the").forEach(bang => {
+    const cot = [...bang.querySelectorAll("thead th")].map(th => th.textContent.trim());
+    bang.querySelectorAll("tbody tr").forEach(tr => [...tr.children].forEach((td, i) => { td.dataset.nhan = cot[i] || ""; }));
+  });
+}
+
 /* ================= Bộ điều hướng (không cần sửa) ================= */
 const noiDung = document.getElementById("noi-dung");
 const tieuDe = document.getElementById("tieu-de");
 const nutQuayLai = document.getElementById("nut-quay-lai");
+const thanhTienDo = document.getElementById("tien-do-doc");
+let chuongDangDoc = null;   // chương đang mở (để theo dõi tiến độ đọc)
 
 function hienManHinh() {
-  const duong = location.hash.replace(/^#/, "") || "/";
+  const [duong, thamSo] = (location.hash.replace(/^#/, "") || "/").split("?");
   const mh = MAN_HINH[duong] || MAN_HINH["/"];
   tieuDe.textContent = mh.tieuDe;
   document.title = duong === "/" ? "Hóa phân tích" : mh.tieuDe + " · Hóa phân tích";
-  noiDung.innerHTML = lamToan(mh.ve());
+  noiDung.innerHTML = lamToan(lamDepNoiDung(mh.ve()));
   noiDung.querySelectorAll(".gian-do").forEach(veGianDo);
+  ganNhanBang(noiDung);
   nutQuayLai.hidden = !mh.manHinhCon;
+  document.body.classList.toggle("man-con", !!mh.manHinhCon);
   document.querySelectorAll(".tabbar a").forEach(a =>
     a.classList.toggle("active", a.dataset.tab === duong ||
       (a.dataset.tab !== "/" && duong.startsWith(a.dataset.tab + "/"))));
-  window.scrollTo(0, 0);
+  chuongDangDoc = mh.chuong || null;
+  thanhTienDo.hidden = !chuongDangDoc;
+  nutMucLuc.hidden = !chuongDangDoc;
+  nutMucLuc.classList.remove("an");
+  nhayLuc = Date.now();
+  dongMucLuc();
+  const muc = new URLSearchParams(thamSo).get("muc");
+  if (chuongDangDoc && muc !== null) requestAnimationFrame(() => denMuc(Number(muc), false));
+  else window.scrollTo(0, 0);
+  capNhatKhiCuon();
 }
+
+let nhayLuc = 0;   // thời điểm app tự cuộn (nhảy mục) — lúc đó không ẩn nút Mục lục
+function denMuc(k, muot = true) {
+  dongMucLuc();
+  nhayLuc = Date.now();
+  nutMucLuc.classList.remove("an");
+  const el = document.getElementById("muc-" + k);
+  if (el) el.scrollIntoView({ behavior: muot ? "smooth" : "auto" });
+}
+
+/* Theo dõi cuộn: thanh tiến độ, mục đang đọc, ghi nhớ vị trí */
+let dangCho = false;
+function capNhatKhiCuon() {
+  if (!chuongDangDoc) return;
+  const cao = document.documentElement.scrollHeight - innerHeight;
+  const pt = cao > 0 ? Math.min(100, Math.round(scrollY / cao * 100)) : 100;
+  thanhTienDo.style.setProperty("--pt", pt + "%");
+  const cacMuc = [...noiDung.querySelectorAll("section.muc")];
+  let hienTai = 0;
+  cacMuc.forEach((el, k) => { if (el.getBoundingClientRect().top < 140) hienTai = k; });
+  nutMucLuc.querySelector("span").textContent = `Mục ${hienTai + 1}/${cacMuc.length}`;
+  const ds = boNho.doc("tien-do", {});
+  if (pt > (ds[chuongDangDoc.id] || 0)) { ds[chuongDangDoc.id] = pt; boNho.ghi("tien-do", ds); }
+  if (scrollY > 200) boNho.ghi("doc-gan-nhat", { id: chuongDangDoc.id, muc: hienTai });
+  bangMucLuc.querySelectorAll("ol button").forEach((b, k) => b.classList.toggle("dang-doc", k === hienTai));
+}
+let viTriCu = 0;
+window.addEventListener("scroll", () => {
+  // Nút "Mục lục" ẩn khi cuộn xuống đọc, hiện lại khi cuộn lên
+  if (Date.now() - nhayLuc < 1200) viTriCu = scrollY;
+  else if (Math.abs(scrollY - viTriCu) > 8) { nutMucLuc.classList.toggle("an", scrollY > viTriCu && scrollY > 300); viTriCu = scrollY; }
+  if (dangCho) return;
+  dangCho = true;
+  requestAnimationFrame(() => { dangCho = false; capNhatKhiCuon(); });
+}, { passive: true });
+
+/* Nút "Mục lục" nổi + bảng mục lục trượt từ dưới lên */
+const nutMucLuc = document.createElement("button");
+nutMucLuc.className = "nut-muc-luc"; nutMucLuc.hidden = true;
+nutMucLuc.innerHTML = '<svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span></span>';
+const manChe = document.createElement("div");
+manChe.className = "man-che"; manChe.hidden = true;
+const bangMucLuc = document.createElement("div");
+bangMucLuc.className = "bang-muc-luc"; bangMucLuc.hidden = true;
+document.body.append(nutMucLuc, manChe, bangMucLuc);
+function moMucLuc() {
+  const { muc } = CHUONG_MUC[chuongDangDoc.id];
+  bangMucLuc.innerHTML = `
+    <div class="dau-sticky"><div class="tay-cam"></div>
+    <div class="dau-bang"><b>${chuongDangDoc.ten}</b>
+      <button class="nut-phu" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); dongMucLuc()">↑ Đầu trang</button></div></div>
+    <ol>${muc.map((m, k) => `<li><button onclick="denMuc(${k})"><span class="so">${k + 1}</span><span>${m.tieuDe}</span></button></li>`).join("")}</ol>`;
+  manChe.hidden = bangMucLuc.hidden = false;
+  capNhatKhiCuon();
+  const dangDoc = bangMucLuc.querySelector(".dang-doc");   // cuộn bảng (không cuộn trang) tới mục đang đọc
+  if (dangDoc) bangMucLuc.scrollTop = dangDoc.offsetTop - bangMucLuc.clientHeight / 2;
+}
+function dongMucLuc() { manChe.hidden = bangMucLuc.hidden = true; }
+nutMucLuc.addEventListener("click", moMucLuc);
+manChe.addEventListener("click", dongMucLuc);
+
 window.addEventListener("hashchange", hienManHinh);
 nutQuayLai.addEventListener("click", () => history.length > 1 ? history.back() : (location.hash = "#/"));
 hienManHinh();
-
-// Nút "lên đầu trang": hiện khi đã cuộn xuống xa
-const nutLen = document.createElement("button");
-nutLen.className = "nut-len"; nutLen.hidden = true; nutLen.setAttribute("aria-label", "Lên đầu trang");
-nutLen.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg>';
-nutLen.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
-document.body.appendChild(nutLen);
-window.addEventListener("scroll", () => { nutLen.hidden = window.scrollY < 600; }, { passive: true });
 
 /* ================= Chạy như app / chạy offline ================= */
 function dangChayNhuApp() {

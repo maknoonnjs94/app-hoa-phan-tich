@@ -1,6 +1,8 @@
 /* =========================================================
    NỘI DUNG HỌC TẬP của app — sửa/thêm bài ở file này.
    - CHUONG: mỗi chương có lý thuyết (lyThuyet) và bài tập (baiTap).
+     Mỗi <h3> trong lý thuyết là một mục: app tự đánh số, tự làm mục lục và thanh điều hướng.
+     dayDu: true → chương đã soạn đầy đủ (hiện nhãn "Đầy đủ").
    - TRA_CUU: các bảng tra cứu.
    Viết chỉ số dưới bằng <sub>, số mũ bằng <sup>. Ví dụ: H<sub>2</sub>O, 10<sup>-14</sup>
    ========================================================= */
@@ -73,7 +75,8 @@ const CHUONG = [
     nhom: "Phân tích hóa học",
     icon: "⚗️",
     ten: "Cân bằng acid – base",
-    moTa: "✅ Bản đầy đủ · pH, phân bố, đa acid, lưỡng tính, đệm",
+    moTa: "pH, phân bố, đa acid, lưỡng tính, đệm",
+    dayDu: true,
     lyThuyet: String.raw`
       <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
         <ul>
@@ -278,7 +281,7 @@ const CHUONG = [
 
       <h3>12. Tóm tắt: chọn công thức tính pH</h3>
       <div class="bang-cuon">
-        <table class="bang bang-tom-tat">
+        <table class="bang bang-the">
           <thead><tr><th>Dung dịch</th><th>Công thức</th><th>Điều kiện</th></tr></thead>
           <tbody>
             <tr><td>Acid mạnh</td><td>\( \Hp = \Ca \)</td><td>\( \Ca \ge 10^{-6} \)</td></tr>
