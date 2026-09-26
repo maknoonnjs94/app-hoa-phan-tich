@@ -54,7 +54,7 @@ const CHUONG = [
           <thead><tr><th>Nhóm</th><th>Gồm</th><th>Đặc điểm</th></tr></thead>
           <tbody>
             <tr><td>Phương pháp hóa học (cổ điển)</td><td><b>Khối lượng</b> (gravimetric): cân sản phẩm.<br><b>Thể tích</b> (volumetric): đo thể tích dung dịch chuẩn — tức chuẩn độ.</td><td>Chính xác cao, rẻ, nhưng chậm; hợp với nồng độ lớn (cỡ %, mM trở lên)</td></tr>
-            <tr><td>Phương pháp công cụ</td><td><b>Điện hóa</b> (đo thế, von-ampe...)<br><b>Quang phổ</b> (UV-Vis, AAS, AES, MS...)<br><b>Tách</b> (GC, HPLC, điện di mao quản CE)</td><td>Nhanh, nhạy, đo được lượng vết (ppm, ppb) nhưng thiết bị đắt; độ chính xác thường thấp hơn</td></tr>
+            <tr><td>Phương pháp công cụ</td><td><b>Điện hóa</b> (đo thế, von-ampe...)<br><b>Quang phổ</b> (UV-Vis, AAS, AES...), <b>khối phổ</b> (MS)<br><b>Tách</b> (GC, HPLC, điện di mao quản CE)</td><td>Nhanh, nhạy, đo được lượng vết (ppm, ppb) nhưng thiết bị đắt; độ chính xác thường thấp hơn</td></tr>
           </tbody>
         </table>
       </div>
@@ -104,7 +104,7 @@ const CHUONG = [
             <tr><td>Độ nhạy</td><td>Tín hiệu thay đổi nhiều khi nồng độ thay đổi ít (độ dốc đường chuẩn lớn)</td><td>sensitivity</td></tr>
             <tr><td>Giới hạn phát hiện</td><td>Lượng chất nhỏ nhất phát hiện được một cách tin cậy</td><td>LOD</td></tr>
             <tr><td>Độ chọn lọc</td><td>Đo được chất phân tích mà ít bị chất khác trong mẫu cản trở</td><td>selectivity</td></tr>
-            <tr><td>Độ bền vững</td><td>Kết quả ít bị ảnh hưởng khi điều kiện thay đổi nhỏ (nhiệt độ, người làm, hóa chất)</td><td>ruggedness</td></tr>
+            <tr><td>Độ bền vững</td><td>Kết quả ít bị ảnh hưởng khi điều kiện thay đổi nhỏ (nhiệt độ, người làm, hóa chất)</td><td>robustness (ruggedness)</td></tr>
           </tbody>
         </table>
       </div>
@@ -146,7 +146,7 @@ const CHUONG = [
         </table>
       </div>
       <p>Ngoài ra: 1% = 10<sup>4</sup> ppm; 1 ppm = 10<sup>3</sup> ppb.</p>
-      <p class="luu-y">"≈" chỉ đúng với dung dịch loãng trong nước (khối lượng riêng ≈ 1 g/mL). Với mẫu rắn, ppm luôn là mg/kg.</p>
+      <p class="luu-y">Coi ppm ≈ mg/L (ppb ≈ µg/L) chỉ đúng với dung dịch loãng trong nước (khối lượng riêng ≈ 1 g/mL). Với mẫu rắn, ppm luôn là mg/kg.</p>
       <p><b>Nồng độ molan</b> (molality) = số mol chất tan / kg dung môi. Không phụ thuộc nhiệt độ vì không dùng thể tích.</p>
       <p><b>Nồng độ đương lượng</b> C<sub>N</sub> (tài liệu cũ hay dùng): C<sub>N</sub> = z·C<sub>M</sub>, với z là số H<sup>+</sup> trao đổi (phản ứng acid – base) hoặc số electron trao đổi (phản ứng oxi hóa – khử). Ví dụ H<sub>2</sub>SO<sub>4</sub> 0,1 M = 0,2 N khi phản ứng hết 2 nấc.</p>
 
@@ -161,7 +161,7 @@ const CHUONG = [
       <div class="vi-du"><b>Ví dụ 2.</b> Nước có hàm lượng chì 2,5 ppm. Tính nồng độ mol của Pb (M = 207,2).
         <details><summary>Xem lời giải</summary>
           2,5 ppm = 2,5 mg/L = 2,5·10<sup>−3</sup> g/L.
-          \[ C_\mathrm{M} = \frac{2,5\cdot10^{-3}}{207,2} = \mathbf{1,21\cdot10^{-5}\ M} \]
+          \[ C_\mathrm{M} = \frac{2,5\cdot10^{-3}}{207,2} = \mathbf{1,2\cdot10^{-5}\ M} \]
         </details></div>
 
             <div class="vi-du"><b>Ví dụ 3.</b> Hòa tan 5,76 g KCl·MgCl<sub>2</sub>·6H<sub>2</sub>O (M = 277,85) trong nước rồi định mức thành 2,000 L. Tính: (a) [Mg<sup>2+</sup>]; (b) [Cl<sup>−</sup>]; (c) nồng độ % khối lượng/thể tích; (d) số mmol Cl<sup>−</sup> trong 25,0 mL dung dịch; (e) nồng độ K<sup>+</sup> theo ppm.
@@ -170,7 +170,7 @@ const CHUONG = [
           (a) và (b):
           \[ \begin{aligned} [\mathrm{Mg^{2+}}] &= \frac{0,02073}{2,000} = \mathbf{0,0104\ M} \\ [\mathrm{Cl^-}] &= 3\cdot0,01037 = \mathbf{0,0311\ M} \end{aligned} \]
           (c) \( \dfrac{5,76\ \mathrm{g}}{2000\ \mathrm{mL}}\cdot100 = \mathbf{0,288\%\ (w/v)} \)<br>
-          (d) \( n_\mathrm{Cl^-} = 0,03110\cdot25,0 = \mathbf{0,777\ mmol} \)<br>
+          (d) \( n_\mathrm{Cl^-} = 0,031096\cdot25,0 = \mathbf{0,777\ mmol} \)<br>
           (e) \( \mathrm{K^+} = 0,01037\cdot39,10\cdot10^3 = \mathbf{405\ ppm} \)
         </details></div>
 
@@ -185,8 +185,8 @@ const CHUONG = [
       <div class="cong-thuc">\[ C = \frac{C_1V_1 + C_2V_2}{V_1 + V_2} \]</div>
       <div class="vi-du"><b>Ví dụ 4.</b> Tính khối lượng CuSO<sub>4</sub>·5H<sub>2</sub>O (M = 249,68) cần để pha 500,0 mL dung dịch Cu<sup>2+</sup> 0,0500 M.
         <details><summary>Xem lời giải</summary>
-          \[ \begin{aligned} m &= 0,0500\cdot0,5000\cdot249,68 \\ &= \mathbf{6,242\ g} \end{aligned} \]
-          Cân 6,242 g, hòa tan rồi định mức tới vạch trong bình định mức 500 mL.
+          \[ \begin{aligned} m &= 0,0500\cdot0,5000\cdot249,68 \\ &= \mathbf{6,24\ g} \end{aligned} \]
+          Cân chính xác khoảng 6,24 g, hòa tan rồi định mức tới vạch trong bình định mức 500 mL.
         </details></div>
       <div class="vi-du"><b>Ví dụ 5.</b> Cần bao nhiêu mL H<sub>2</sub>SO<sub>4</sub> 98% (d = 1,84 g/mL, M = 98,08) để pha 500,0 mL H<sub>2</sub>SO<sub>4</sub> 0,100 M?
         <details><summary>Xem lời giải</summary>
@@ -222,7 +222,7 @@ const CHUONG = [
       <ul>
         <li><b>Dạng kết tủa</b> cần: độ tan rất nhỏ, tinh khiết, dễ lọc rửa. <b>Dạng cân</b> cần: đúng công thức, bền, khối lượng mol lớn.</li>
         <li>Kết tủa tinh thể (BaSO<sub>4</sub>...): tạo từ dung dịch loãng, nóng, thêm thuốc thử chậm, để muồi. Kết tủa vô định hình (Fe(OH)<sub>3</sub>...): dung dịch đặc, nóng, có chất điện li.</li>
-        <li><b>Cộng kết</b>: tạp chất bị kéo theo kết tủa, gây sai số dương.</li>
+        <li><b>Cộng kết</b>: tạp chất bị kéo theo kết tủa, thường gây sai số dương (có thể âm nếu tạp chất chứa chính ion cần xác định).</li>
       </ul>
       <div class="vi-du"><b>Ví dụ 7.</b> Xác định sắt trong viên bổ sung sắt fumarat: 15 viên được hòa tan trong HCl, oxi hóa Fe<sup>2+</sup> thành Fe<sup>3+</sup> bằng H<sub>2</sub>O<sub>2</sub>, kết tủa Fe(OH)<sub>3</sub> bằng NH<sub>3</sub>, lọc, nung thu được 0,277 g Fe<sub>2</sub>O<sub>3</sub> (M = 159,69). Tính khối lượng Fe (55,845) trung bình trong mỗi viên.
         <details><summary>Xem lời giải</summary>
@@ -293,7 +293,7 @@ const CHUONG = [
       },
       {
         de: "Phân tích 0,5000 g mẫu thu được 0,4660 g BaSO<sub>4</sub> (M = 233,39). Tính % lưu huỳnh (S = 32,06) trong mẫu.",
-        dapAn: "F = 32,06 / 233,39 = 0,1374<br>%S = 0,4660 × 0,1374 / 0,5000 × 100% ≈ <b>12,80%</b>",
+        dapAn: "F = 32,06 / 233,39 = 0,13737<br>%S = 0,4660 × 0,13737 / 0,5000 × 100% = <b>12,80%</b>",
       },
     ],
   },
@@ -360,7 +360,7 @@ const CHUONG = [
         <details><summary>Xem lời giải</summary>
           \[ s_V = \sqrt{0,02^2 + 0,02^2} = \mathbf{0,028\ mL} \]
         </details></div>
-      <div class="vi-du"><b>Ví dụ 2.</b> Chuẩn độ 25,00 (±0,02) mL HCl hết 20,00 (±0,02) mL NaOH 0,1000 (±0,0002) M. Tính C<sub>HCl</sub> kèm độ lệch chuẩn.
+      <div class="vi-du"><b>Ví dụ 2.</b> Chuẩn độ 25,00 (s = 0,02) mL HCl hết 20,00 (s = 0,02) mL NaOH 0,1000 (s = 0,0002) M. Tính C<sub>HCl</sub> kèm độ lệch chuẩn.
         <details><summary>Xem lời giải</summary>
           \[ C_\mathrm{HCl} = \frac{0,1000\cdot20,00}{25,00} = 0,08000\ \mathrm{M} \]
           \[ \begin{aligned} \frac{s_C}{C} &= \Bigl[\left(\tfrac{0,0002}{0,1000}\right)^2 + \left(\tfrac{0,02}{20,00}\right)^2 \\ &\qquad + \left(\tfrac{0,02}{25,00}\right)^2\Bigr]^{1/2} \\ &= 2,4\cdot10^{-3} \end{aligned} \]
@@ -386,10 +386,10 @@ const CHUONG = [
       </div>
       <div class="vi-du"><b>Ví dụ 3.</b> Bốn lần xác định hàm lượng một chất cho kết quả (%): 10,12 ; 10,15 ; 10,10 ; 10,14. Tính x̄, s, RSD và khoảng tin cậy 95%.
         <details><summary>Xem lời giải</summary>
-          Tổng 4 giá trị: 10,12 + 10,15 + 10,10 + 10,14 = 40,51.
+          Kiểm tra số liệu ngờ trước (mục 5): với 10,10, Q = (10,12 − 10,10)/(10,15 − 10,10) = 0,40 &lt; Q<sub>bảng</sub> = 0,829 (n = 4, 95%) → giữ; với 10,15, Q = 0,20 → giữ. Tổng 4 giá trị: 10,12 + 10,15 + 10,10 + 10,14 = 40,51.
           \[ \begin{aligned} \bar{x} &= \frac{40,51}{4} = 10,13 \\ s &= 0,022 \\ \mathrm{RSD} &= \frac{0,022}{10,13}\cdot100\% = 0,22\% \end{aligned} \]
           Với f = 3, t = 3,18:
-          \[ \begin{aligned} \mu &= 10,13 \pm \frac{3,18\cdot0,022}{\sqrt{4}} \\ &= \mathbf{10,13 \pm 0,04\ \%} \end{aligned} \]
+          \[ \begin{aligned} \mu &= 10,13 \pm \frac{3,18\cdot0,0222}{\sqrt{4}} \\ &= \mathbf{10,13 \pm 0,04\ \%} \end{aligned} \]
         </details></div>
 
       <h3>5. Loại số liệu ngờ: chuẩn Q (Dixon)</h3>
@@ -414,7 +414,8 @@ const CHUONG = [
           Xếp tăng dần: 23,2 ; 24,3 ; 24,4 ; 24,5 ; 24,7 ; 24,9 ; 25,1. Giá trị ngờ là 23,2.
           \[ \begin{aligned} Q_\text{tính} &= \frac{24,3 - 23,2}{25,1 - 23,2} = \frac{1,1}{1,9} \\ &= 0,58 > Q_\text{bảng} = 0,568 \end{aligned} \]
           → loại 23,2. Với 6 giá trị còn lại:
-          \[ \begin{aligned} \bar{x} &= 24,65 \\ s &= 0,31 \\ \mathrm{RSD} &= \frac{0,31}{24,65}\cdot100\% = 1,3\% \\ \mu &= 24,65 \pm \frac{2,57\cdot0,31}{\sqrt{6}} \\ &= \mathbf{24,65 \pm 0,32} \end{aligned} \]
+          \[ \begin{aligned} \bar{x} &= 24,65 \\ s &= 0,31 \\ \mathrm{RSD} &= \frac{0,31}{24,65}\cdot100\% = 1,3\% \\ \mu &= 24,65 \pm \frac{2,57\cdot0,31}{\sqrt{6}} \\ &= 24,65 \pm 0,32 \end{aligned} \]
+          Số liệu gốc chỉ có 1 chữ số thập phân, nên làm tròn kết quả cuối (24,65 làm tròn về số chẵn): <b>μ = 24,6 ± 0,3</b>.
           (t = 2,57 với f = 5.)
         </details></div>
 <h3>6. Kiểm tra sai số hệ thống</h3>
@@ -429,17 +430,17 @@ const CHUONG = [
       <div class="cong-thuc"><div class="nhan">Độ lệch chuẩn gộp</div>\[ s_\text{gộp} = \sqrt{\frac{s_1^2(n_1 - 1) + s_2^2(n_2 - 1)}{n_1 + n_2 - 2}} \]</div>
       <div class="cong-thuc"><div class="nhan">Bậc tự do f = n<sub>1</sub> + n<sub>2</sub> − 2</div>\[ t_\text{tính} = \frac{\left|\bar{x}_1 - \bar{x}_2\right|}{s_\text{gộp}}\sqrt{\frac{n_1n_2}{n_1 + n_2}} \]</div>
       <p>Nếu t<sub>tính</sub> &gt; t<sub>bảng</sub> thì hai kết quả khác nhau có ý nghĩa thống kê.</p>
-      <div class="vi-du"><b>Ví dụ 6.</b> Mẫu chuẩn có hàm lượng thật 10,00%. Dùng số liệu ví dụ 3 (x̄ = 10,128 ; s = 0,0222 ; n = 4), phương pháp có sai số hệ thống không?
+      <div class="vi-du"><b>Ví dụ 6.</b> Mẫu chuẩn có hàm lượng thật 10,00%. Dùng số liệu ví dụ 3 (x̄ = 10,1275 ; s = 0,02217 ; n = 4), phương pháp có sai số hệ thống không?
         <details><summary>Xem lời giải</summary>
-          \[ t_\text{tính} = \frac{\left|10,128 - 10,00\right|\cdot\sqrt{4}}{0,0222} = 11,5 \]
+          \[ t_\text{tính} = \frac{\left|10,1275 - 10,00\right|\cdot\sqrt{4}}{0,02217} = 11,5 \]
           t<sub>tính</sub> = 11,5 &gt; t<sub>bảng</sub> = 3,18 → <b>có sai số hệ thống</b>: kết quả rất chụm nhưng lệch cao so với giá trị thật.
         </details></div>
 
             <div class="vi-du"><b>Ví dụ 7.</b> Hai phương pháp phân tích cùng một mẫu, mỗi phương pháp 5 lần: phương pháp 1 cho x̄<sub>1</sub> = 10,24 ; s<sub>1</sub> = 0,12. Phương pháp 2 cho x̄<sub>2</sub> = 10,41 ; s<sub>2</sub> = 0,10. Hai kết quả có khác nhau đáng kể không (95%)? Biết F<sub>bảng</sub>(4, 4) = 6,39 ; t<sub>bảng</sub>(f = 8) = 2,31.
         <details><summary>Xem lời giải</summary>
           \[ F_\text{tính} = \frac{0,12^2}{0,10^2} = 1,44 < 6,39 \]
-          → độ chụm hai phương pháp như nhau, được gộp s:
-          \[ \begin{aligned} s_\text{gộp} &= \sqrt{\frac{0,12^2\cdot4 + 0,10^2\cdot4}{8}} = 0,110 \\ t_\text{tính} &= \frac{\left|10,24 - 10,41\right|}{0,110}\sqrt{\frac{5\cdot5}{5 + 5}} = 2,43 \end{aligned} \]
+          → độ chụm hai phương pháp không khác nhau có ý nghĩa, được gộp s:
+          \[ \begin{aligned} s_\text{gộp} &= \sqrt{\frac{0,12^2\cdot4 + 0,10^2\cdot4}{8}} = 0,110 \\ t_\text{tính} &= \frac{\left|10,24 - 10,41\right|}{0,1105}\sqrt{\frac{5\cdot5}{5 + 5}} = 2,43 \end{aligned} \]
           t<sub>tính</sub> = 2,43 &gt; 2,31 → <b>hai kết quả khác nhau có ý nghĩa</b> (ít nhất một phương pháp có sai số hệ thống).
         </details></div>
 <h3>7. Tóm tắt công thức</h3>
@@ -447,10 +448,10 @@ const CHUONG = [
         <table class="bang bang-the">
           <thead><tr><th>Nội dung</th><th>Công thức</th><th>Ghi chú</th></tr></thead>
           <tbody>
-            <tr><td>Đổi C% → C<sub>M</sub></td><td>\( C_\mathrm{M} = \dfrac{10\,d\,C\%}{M} \)</td><td>d tính bằng g/mL</td></tr>
-            <tr><td>Đổi C<sub>M</sub> → ppm</td><td>\( \mathrm{ppm} = C_\mathrm{M}\cdot M\cdot1000 \)</td><td>Dung dịch loãng</td></tr>
-            <tr><td>Pha từ chất rắn</td><td>\( m = C_\mathrm{M}VM\cdot\dfrac{100}{P} \)</td><td>V tính bằng lít</td></tr>
-            <tr><td>Pha loãng</td><td>\( C_1V_1 = C_2V_2 \)</td><td>Cùng đơn vị hai vế</td></tr>
+            <tr><td>Lan truyền (cộng, trừ)</td><td>\( s_y = \sqrt{s_a^2 + s_b^2} \)</td><td>Cộng bình phương s tuyệt đối</td></tr>
+            <tr><td>Lan truyền (nhân, chia)</td><td>\( \dfrac{s_y}{y} = \sqrt{\left(\dfrac{s_a}{a}\right)^2 + \left(\dfrac{s_b}{b}\right)^2} \)</td><td>Cộng bình phương s tương đối</td></tr>
+            <tr><td>Chuẩn F</td><td>\( F = \dfrac{s_1^2}{s_2^2} \)</td><td>s<sub>1</sub> ≥ s<sub>2</sub></td></tr>
+            <tr><td>So sánh hai trung bình</td><td>\( t = \dfrac{|\bar{x}_1 - \bar{x}_2|}{s_\text{gộp}}\sqrt{\dfrac{n_1n_2}{n_1+n_2}} \)</td><td>f = n<sub>1</sub> + n<sub>2</sub> − 2</td></tr>
             <tr><td>Độ lệch chuẩn</td><td>\( s = \sqrt{\dfrac{\sum(x_i - \bar{x})^2}{n-1}} \)</td><td>n − 1 bậc tự do</td></tr>
             <tr><td>Khoảng tin cậy</td><td>\( \mu = \bar{x} \pm \dfrac{ts}{\sqrt{n}} \)</td><td>t tra theo f = n − 1</td></tr>
             <tr><td>Chuẩn Q</td><td>\( Q = \dfrac{|x_1 - x_2|}{x_\text{max} - x_\text{min}} \)</td><td>Q<sub>tính</sub> &gt; Q<sub>bảng</sub> → loại</td></tr>
