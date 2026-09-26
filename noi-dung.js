@@ -21,7 +21,7 @@ const CHUONG = [
         <ul>
           <li>Phân biệt chất phân tích, mẫu, nền mẫu; phân tích định tính, định lượng, đặc trưng.</li>
           <li>So sánh phương pháp hóa học và phương pháp công cụ.</li>
-          <li>Nắm 6 bước của một quy trình phân tích và các tiêu chí chọn phương pháp.</li>
+          <li>Nắm 6 giai đoạn của một quy trình phân tích (đúng như cách đề bài thường hỏi), cách bảo quản và xử lí mẫu, và các tiêu chí chọn phương pháp.</li>
         </ul>
       </div>
 
@@ -61,62 +61,198 @@ const CHUONG = [
         </table>
       </div>
       <p class="luu-y">Phương pháp công cụ phần lớn là phép đo <b>tương đối</b>: phải so với dung dịch chuẩn (dựng đường chuẩn). Phương pháp khối lượng và chuẩn độ dựa trực tiếp trên hợp thức phản ứng.</p>
+      <p><b>Vì sao phương pháp công cụ thường kém chính xác hơn?</b> Vì tín hiệu đo (dòng, thế, độ hấp thụ...) chỉ <b>tỉ lệ gián tiếp</b> với nồng độ qua một đường chuẩn dựng từ vài điểm chuẩn — mọi sai số khi pha chuẩn, sai số của đường chuẩn và nhiễu nền đều cộng dồn vào kết quả. Phương pháp khối lượng và chuẩn độ thì cân hoặc đo thể tích trực tiếp lượng chất, không qua khâu trung gian nào, nên sai số chỉ đến từ dụng cụ đo (cân, buret).</p>
 
-      <h3>4. Các bước của một quy trình phân tích</h3>
+      <h3>4. Sáu giai đoạn của một quy trình phân tích</h3>
+      <p>Một quy trình phân tích đầy đủ gồm 6 giai đoạn sau (cách chia này khớp với cách đề bài thường hỏi):</p>
       <ol>
-        <li><b>Xác định vấn đề, chọn quy trình</b>: cần đo chất gì, trong nền mẫu nào, cần độ chính xác bao nhiêu, ngân sách và thời gian ra sao.</li>
-        <li><b>Lấy mẫu</b>: lấy được <b>mẫu đại diện</b> cho toàn bộ đối tượng.</li>
-        <li><b>Chuẩn bị mẫu</b>: chuyển mẫu về dạng đo được (hòa tan, tách, làm giàu, loại hoặc che chất cản).</li>
-        <li><b>Phân tích</b>: đo tín hiệu của mẫu và của các chuẩn (đường chuẩn), lặp lại nhiều lần.</li>
-        <li><b>Báo cáo và diễn giải</b>: tính kết quả kèm độ không đảm bảo đo.</li>
-        <li><b>Kết luận</b>: trả lời câu hỏi ban đầu.</li>
+        <li><b>Xác định vấn đề, chọn phương pháp</b>: cần đo chất gì, trong nền mẫu nào, cần độ chính xác bao nhiêu, ngân sách và thời gian ra sao.</li>
+        <li><b>Lấy mẫu và bảo quản mẫu</b>: lấy được <b>mẫu đại diện</b>, rồi giữ mẫu không đổi cho đến lúc đo (mục 5).</li>
+        <li><b>Xử lí mẫu</b>: chuyển mẫu về dạng đo được (hòa tan, phá mẫu, tách, làm giàu, loại hoặc che chất cản).</li>
+        <li><b>Phân tích (đo)</b>: đo tín hiệu của mẫu và của các chuẩn (đường chuẩn), lặp lại nhiều lần.</li>
+        <li><b>Xử lí số liệu và đánh giá</b>: tính kết quả, đánh giá độ chụm, độ đúng và độ không đảm bảo đo (Chương 3).</li>
+        <li><b>Báo cáo và kết luận</b>: trình bày kết quả kèm độ không đảm bảo đo, trả lời câu hỏi ban đầu.</li>
       </ol>
-      <div class="vi-du"><b>Ví dụ 2.</b> Xác định caffeine trong chocolate bằng HPLC. Hãy chỉ ra các bước.
+      <p>Một số sách gộp các bước trên gọn hơn; bảng dưới đối chiếu hai cách chia để không bỡ ngỡ khi gặp cách hỏi khác:</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Cách chia 6 giai đoạn (dùng trong bài này)</th><th>Cách chia gộp (một số tài liệu khác)</th></tr></thead>
+          <tbody>
+            <tr><td>1. Xác định vấn đề, chọn phương pháp</td><td>Lập kế hoạch</td></tr>
+            <tr><td>2. Lấy mẫu và bảo quản mẫu</td><td>Lấy mẫu</td></tr>
+            <tr><td>3. Xử lí mẫu</td><td>Chuẩn bị mẫu</td></tr>
+            <tr><td>4. Phân tích (đo)</td><td>Đo</td></tr>
+            <tr><td>5. Xử lí số liệu và đánh giá</td><td>Báo cáo và diễn giải</td></tr>
+            <tr><td>6. Báo cáo và kết luận</td><td>Kết luận</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="vi-du"><b>Ví dụ 2.</b> Xác định caffeine trong chocolate bằng HPLC. Hãy chỉ ra các bước theo 6 giai đoạn ở trên.
         <details><summary>Xem lời giải</summary>
           <ol>
-            <li>Chọn phương pháp HPLC vì tách được caffeine khỏi theobromine có cấu trúc gần giống.</li>
-            <li>Lấy mẫu: nghiền nhiều thanh chocolate, trộn đều rồi lấy phần đại diện.</li>
-            <li>Chuẩn bị mẫu: loại chất béo bằng dung môi, chiết caffeine bằng nước nóng, lọc.</li>
+            <li>Chọn phương pháp HPLC vì tách được caffeine khỏi theobromine có cấu trúc gần giống — nếu chỉ đo UV-Vis trực tiếp, hai chất sẽ chồng phổ lên nhau.</li>
+            <li>Lấy mẫu: nghiền nhiều thanh chocolate, trộn đều rồi lấy phần đại diện; bảo quản mẫu nghiền trong túi kín, tránh ẩm, ở nơi mát nếu chưa phân tích ngay.</li>
+            <li>Xử lí mẫu: loại chất béo bằng dung môi không phân cực, chiết caffeine bằng nước nóng, lọc bỏ bã rắn.</li>
             <li>Phân tích: tiêm dung dịch chuẩn caffeine và dịch chiết mẫu vào HPLC, so sánh diện tích pic.</li>
-            <li>Báo cáo: hàm lượng caffeine (mg/g) kèm độ lệch chuẩn.</li>
-            <li>Kết luận: so sánh với mức công bố trên nhãn.</li>
+            <li>Xử lí số liệu: tính hàm lượng từ đường chuẩn, lặp lại ít nhất 3 lần, tính độ lệch chuẩn tương đối.</li>
+            <li>Báo cáo: hàm lượng caffeine (mg/g) kèm độ lệch chuẩn; so sánh với mức công bố trên nhãn để kết luận.</li>
           </ol>
         </details></div>
 
+      <div class="hinh-tinh">
+        <svg viewBox="0 0 320 165" role="img" aria-label="Sắc đồ HPLC minh họa caffeine và theobromine trong chocolate">
+          <line x1="30" y1="130" x2="300" y2="130" stroke="var(--vien)" stroke-width="1.5"/>
+          <line x1="30" y1="130" x2="30" y2="20" stroke="var(--vien)" stroke-width="1.5"/>
+          <path d="M100,130 C108.8,130 108.8,25 117.5,25 C126.3,25 126.3,130 135,130" fill="none" stroke="var(--mau-chinh)" stroke-width="2.2"/>
+          <path d="M176.3,130 C184.4,130 184.4,115 192.5,115 C200.6,115 200.6,130 208.8,130" fill="none" stroke="var(--xanh)" stroke-width="2.2"/>
+          <text x="117.5" y="17" text-anchor="middle" font-size="10" fill="var(--chu)">Theobromine</text>
+          <text x="192.5" y="106" text-anchor="middle" font-size="10" fill="var(--chu)">Caffeine</text>
+          <text x="30" y="145" text-anchor="middle" font-size="10" fill="var(--chu-phu)">0</text>
+          <text x="80" y="145" text-anchor="middle" font-size="10" fill="var(--chu-phu)">2</text>
+          <text x="130" y="145" text-anchor="middle" font-size="10" fill="var(--chu-phu)">4</text>
+          <text x="180" y="145" text-anchor="middle" font-size="10" fill="var(--chu-phu)">6</text>
+          <text x="230" y="145" text-anchor="middle" font-size="10" fill="var(--chu-phu)">8</text>
+          <text x="280" y="145" text-anchor="middle" font-size="10" fill="var(--chu-phu)">10</text>
+          <text x="290" y="158" text-anchor="end" font-size="10" fill="var(--chu-phu)">Thời gian (phút)</text>
+          <text x="14" y="40" text-anchor="middle" transform="rotate(-90 14 40)" font-size="10" fill="var(--chu-phu)">Tín hiệu</text>
+        </svg>
+        <p class="chu-thich">Sắc đồ minh họa: theobromine ra trước caffeine, mỗi pic ứng với một chất — diện tích pic tỉ lệ với hàm lượng.</p>
+      </div>
+
       <div class="mo-phong" data-loai="sap-xep-quy-trinh"></div>
-      <h3>5. Lấy mẫu và chuẩn bị mẫu</h3>
+
+      <div class="hinh-tinh">
+        <svg viewBox="0 0 320 300" role="img" aria-label="Sơ đồ vòng 6 giai đoạn của quy trình phân tích">
+          <defs>
+            <marker id="mt-md-1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--mau-chinh)"/>
+            </marker>
+            <marker id="mt-md-2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--chu-phu)"/>
+            </marker>
+          </defs>
+          <line x1="191.8" y1="60.4" x2="221.7" y2="77.6" stroke="var(--mau-chinh)" stroke-width="2" marker-end="url(#mt-md-1)"/>
+          <line x1="253.5" y1="132.7" x2="253.5" y2="167.3" stroke="var(--mau-chinh)" stroke-width="2" marker-end="url(#mt-md-1)"/>
+          <line x1="221.7" y1="222.4" x2="191.8" y2="239.6" stroke="var(--mau-chinh)" stroke-width="2" marker-end="url(#mt-md-1)"/>
+          <line x1="128.2" y1="239.6" x2="98.3" y2="222.4" stroke="var(--mau-chinh)" stroke-width="2" marker-end="url(#mt-md-1)"/>
+          <line x1="66.5" y1="167.3" x2="66.5" y2="132.7" stroke="var(--mau-chinh)" stroke-width="2" marker-end="url(#mt-md-1)"/>
+          <path d="M66.5,79 Q95,20 125,42" fill="none" stroke="var(--chu-phu)" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#mt-md-2)"/>
+          <text x="95" y="12" text-anchor="middle" font-size="10" fill="var(--chu-phu)">lặp lại nếu cần</text>
+          <rect x="125" y="25" width="70" height="34" rx="8" fill="var(--nen)" stroke="var(--mau-chinh)" stroke-width="1.5"/>
+          <text x="160" y="40" text-anchor="middle" font-size="10" font-weight="600" fill="var(--chu)">1. Chọn</text>
+          <text x="160" y="52" text-anchor="middle" font-size="10" font-weight="600" fill="var(--chu)">phương pháp</text>
+          <rect x="218.5" y="79" width="70" height="34" rx="8" fill="var(--nen)" stroke="var(--mau-chinh)" stroke-width="1.5"/>
+          <text x="253.5" y="94" text-anchor="middle" font-size="10" font-weight="600" fill="var(--chu)">2. Lấy &amp; BQ</text>
+          <text x="253.5" y="106" text-anchor="middle" font-size="10" font-weight="600" fill="var(--chu)">mẫu</text>
+          <rect x="218.5" y="187" width="70" height="34" rx="8" fill="var(--nen)" stroke="var(--mau-chinh)" stroke-width="1.5"/>
+          <text x="253.5" y="202" text-anchor="middle" font-size="10" font-weight="600" fill="var(--chu)">3. Xử lí</text>
+          <text x="253.5" y="214" text-anchor="middle" font-size="10" font-weight="600" fill="var(--chu)">mẫu</text>
+          <rect x="125" y="241" width="70" height="34" rx="8" fill="var(--nen)" stroke="var(--mau-chinh)" stroke-width="1.5"/>
+          <text x="160" y="256" text-anchor="middle" font-size="10" font-weight="600" fill="var(--chu)">4. Phân tích</text>
+          <text x="160" y="268" text-anchor="middle" font-size="10" font-weight="600" fill="var(--chu)">(đo)</text>
+          <rect x="31.5" y="187" width="70" height="34" rx="8" fill="var(--nen)" stroke="var(--mau-chinh)" stroke-width="1.5"/>
+          <text x="66.5" y="202" text-anchor="middle" font-size="10" font-weight="600" fill="var(--chu)">5. Xử lí</text>
+          <text x="66.5" y="214" text-anchor="middle" font-size="10" font-weight="600" fill="var(--chu)">số liệu</text>
+          <rect x="31.5" y="79" width="70" height="34" rx="8" fill="var(--nen)" stroke="var(--mau-chinh)" stroke-width="1.5"/>
+          <text x="66.5" y="94" text-anchor="middle" font-size="10" font-weight="600" fill="var(--chu)">6. Báo cáo,</text>
+          <text x="66.5" y="106" text-anchor="middle" font-size="10" font-weight="600" fill="var(--chu)">kết luận</text>
+        </svg>
+        <p class="chu-thich">Quy trình khép vòng: kết luận ở bước 6 có thể dẫn tới việc lấy thêm mẫu hoặc điều chỉnh phương pháp (đường nét đứt).</p>
+      </div>
+
+      <h3>5. Lấy mẫu, bảo quản và xử lí mẫu</h3>
       <ul>
         <li><b>Mẫu đồng nhất</b> (dung dịch đã khuấy đều): lấy một phần bất kì là đại diện.</li>
         <li><b>Mẫu không đồng nhất</b> (đất, quặng, thực phẩm): chia thành nhiều phần, lấy ngẫu nhiên nhiều phần nhỏ, gộp và trộn đều thành <b>mẫu gộp</b> (composite sample).</li>
         <li>Sai số do lấy mẫu không đại diện <b>không thể</b> sửa được ở các bước sau, dù máy đo chính xác đến đâu.</li>
       </ul>
-      <p><b>Chuẩn bị mẫu</b> gồm:</p>
+      <p><b>Bảo quản mẫu</b> (preservation) nhằm giữ mẫu không đổi từ lúc lấy đến lúc đo — nếu bảo quản sai, chất phân tích có thể mất đi hoặc biến đổi trước khi đến phòng thí nghiệm, và sai số này <b>cũng không sửa được</b> ở bước đo:</p>
+      <ul>
+        <li><b>Nhiệt độ</b>: làm lạnh 2 – 4 °C (giữ được vài ngày) hoặc đông lạnh −20 °C (giữ lâu hơn) để chậm phản ứng sinh học, hóa học và sự bay hơi.</li>
+        <li><b>Acid hóa</b>: mẫu nước phân tích kim loại thường được thêm HNO<sub>3</sub> đến pH &lt; 2 để kim loại không hấp phụ lên thành bình hoặc kết tủa thành hydroxide.</li>
+        <li><b>Vật liệu chai đựng</b>: chai <b>PE</b> (polyethylene) dùng cho mẫu chứa F<sup>−</sup> hoặc kiềm mạnh (tránh hòa tan SiO<sub>2</sub> từ thủy tinh làm sai kết quả); chai <b>thủy tinh tối màu</b> cho chất dễ bị quang phân (dễ phân hủy dưới ánh sáng); tránh chai nhựa khi mẫu là dung môi hữu cơ (có thể hòa tan nhựa, gây nhiễm mẫu).</li>
+        <li><b>Thời gian giữ mẫu tối đa</b> (holding time): mỗi phép đo có một mốc thời gian quy định — quá mốc này, kết quả không còn đáng tin dù mẫu chưa hỏng rõ rệt.</li>
+      </ul>
+      <p><b>Xử lí mẫu</b> (sample preparation) chuyển mẫu về dạng đo được, gồm các nhóm kĩ thuật sau:</p>
       <ul>
         <li><b>Hòa tan</b> mẫu: bằng nước, dung môi hữu cơ, acid mạnh (HCl, HNO<sub>3</sub>...) hoặc nung chảy với kiềm.</li>
         <li><b>Làm giàu</b>: tăng nồng độ chất phân tích khi quá thấp (chiết, cô đặc...).</li>
         <li><b>Loại chất cản</b> (interference) hoặc <b>che</b> (masking): dùng thuốc thử tạo phức bền với chất cản để nó không tham gia phản ứng đo.</li>
       </ul>
-
-      <h3>6. Tiêu chí chọn phương pháp</h3>
       <div class="bang-cuon">
         <table class="bang bang-the">
-          <thead><tr><th>Tiêu chí</th><th>Ý nghĩa</th><th>Tiếng Anh</th></tr></thead>
+          <thead><tr><th>Kĩ thuật</th><th>Cách làm</th><th>Dùng khi</th></tr></thead>
           <tbody>
-            <tr><td>Độ đúng</td><td>Kết quả gần giá trị thật</td><td>accuracy</td></tr>
-            <tr><td>Độ chụm</td><td>Các lần đo lặp lại gần nhau</td><td>precision</td></tr>
-            <tr><td>Độ nhạy</td><td>Tín hiệu thay đổi nhiều khi nồng độ thay đổi ít (độ dốc đường chuẩn lớn)</td><td>sensitivity</td></tr>
-            <tr><td>Giới hạn phát hiện</td><td>Lượng chất nhỏ nhất phát hiện được một cách tin cậy</td><td>LOD</td></tr>
-            <tr><td>Độ chọn lọc</td><td>Đo được chất phân tích mà ít bị chất khác trong mẫu cản trở</td><td>selectivity</td></tr>
-            <tr><td>Độ bền vững</td><td>Kết quả ít bị ảnh hưởng khi điều kiện thay đổi nhỏ (nhiệt độ, người làm, hóa chất)</td><td>robustness (ruggedness)</td></tr>
+            <tr><td>Phá mẫu ướt bằng acid</td><td>Đun mẫu với HNO<sub>3</sub>, HCl, H<sub>2</sub>SO<sub>4</sub> đặc (có thể thêm H<sub>2</sub>O<sub>2</sub>)</td><td>Mẫu hữu cơ, sinh học cần phá hủy chất nền để đo kim loại</td></tr>
+            <tr><td>Phá mẫu bằng lò vi sóng</td><td>Đun mẫu với acid trong bình kín, gia nhiệt bằng vi sóng dưới áp suất</td><td>Cần nhanh, kín (không mất chất dễ bay hơi như As, Hg), tốn ít acid hơn phá ướt hở</td></tr>
+            <tr><td>Nung chảy với kiềm</td><td>Trộn mẫu rắn khó tan (quặng, gốm, thủy tinh) với Na<sub>2</sub>CO<sub>3</sub> hoặc NaOH, nung ở nhiệt độ cao rồi hòa tan khối nung chảy bằng acid</td><td>Mẫu vô cơ khó tan trong acid thông thường (silicat, oxide bền)</td></tr>
+            <tr><td>Tro hóa khô</td><td>Nung mẫu hữu cơ trong không khí (400 – 700 °C) để đốt hết chất hữu cơ, còn lại tro vô cơ đem hòa tan</td><td>Mẫu thực phẩm, sinh học cần xác định khoáng, kim loại; đơn giản nhưng dễ mất chất dễ bay hơi (As, Hg, Se)</td></tr>
+            <tr><td>Chiết lỏng – lỏng</td><td>Lắc mẫu với dung môi hữu cơ không tan trong nước để chuyển chất phân tích sang pha hữu cơ</td><td>Tách hoặc làm giàu chất phân tích khỏi nền mẫu nước phức tạp</td></tr>
+            <tr><td>Chiết pha rắn (SPE)</td><td>Cho mẫu chảy qua cột nhồi chất hấp phụ, chất phân tích giữ lại rồi rửa giải bằng một lượng nhỏ dung môi</td><td>Làm giàu mẫu ở lượng vết, dùng ít dung môi hữu cơ hơn chiết lỏng – lỏng</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="luu-y"><b>Lỗi hay gặp:</b> nhầm mẫu (sample) với chất phân tích (analyte); quên xét nền mẫu khi đánh giá chất cản; để mẫu nước ở nhiệt độ phòng nhiều ngày hoặc không acid hóa mẫu kim loại trước khi đo — sai số do bảo quản sai không sửa được bằng cách đo lại cẩn thận hơn.</p>
+
+      <h3>6. Phân loại theo lượng mẫu và theo hàm lượng cấu tử</h3>
+      <p>Ngoài phân loại theo phương pháp, một phép phân tích còn được gọi tên theo hai cách sau:</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Theo lượng mẫu đem phân tích</th><th>Khối lượng mẫu</th></tr></thead>
+          <tbody>
+            <tr><td>Phân tích lượng lớn (macro)</td><td>&gt; 0,1 g</td></tr>
+            <tr><td>Phân tích bán vi lượng (semimicro)</td><td>0,01 – 0,1 g</td></tr>
+            <tr><td>Phân tích vi lượng (micro)</td><td>&lt; 0,01 g</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Theo hàm lượng cấu tử trong mẫu</th><th>Khoảng hàm lượng</th></tr></thead>
+          <tbody>
+            <tr><td>Đa lượng (major)</td><td>&gt; 1%</td></tr>
+            <tr><td>Vi lượng (minor)</td><td>0,01% – 1%</td></tr>
+            <tr><td>Vết (trace)</td><td>&lt; 0,01% (khoảng 1 ppb – 100 ppm)</td></tr>
+            <tr><td>Siêu vết (ultratrace)</td><td>&lt; 1 ppb</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="luu-y">Hàm lượng càng thấp thì càng cần phương pháp công cụ nhạy (Chương 11 – 15); phương pháp khối lượng và chuẩn độ (Chương 2) chỉ phù hợp với mức đa lượng trở lên, vì cần lượng chất đủ lớn để cân hoặc để bước nhảy chuẩn độ rõ ràng.</p>
+
+      <div class="vi-du"><b>Ví dụ 3.</b> Một mẫu tương ớt bị nghi ngờ có phẩm màu công nghiệp Rhodamine B (chất cấm dùng trong thực phẩm). (a) Nếu chỉ cần biết "có hay không có" Rhodamine B, đây là loại câu hỏi phân tích nào? (b) Nếu cơ quan quản lí muốn biết cụ thể có bao nhiêu mg/kg, cần thêm loại câu hỏi nào, và nên xếp hàm lượng đó vào mức nào (đa lượng, vi lượng hay vết)? (c) Nên chọn phương pháp hóa học hay phương pháp công cụ?
+        <details><summary>Xem lời giải</summary>
+          (a) Câu hỏi "có hay không" là câu hỏi <b>định tính</b>.<br>
+          (b) Cần thêm câu hỏi <b>định lượng</b>. Rhodamine B trộn trái phép vào thực phẩm thường ở mức mg/kg (ppm), tức mức <b>vết</b>.<br>
+          (c) Ở mức vết và cần phân biệt Rhodamine B khỏi các phẩm màu khác có cấu trúc gần giống, nên chọn <b>phương pháp công cụ</b> có khả năng tách và phát hiện chọn lọc — ví dụ HPLC kèm detector huỳnh quang hoặc UV-Vis (Rhodamine B hấp thụ mạnh quanh 550 – 560 nm, Chương 11).
+        </details></div>
+
+      <div class="vi-du"><b>Ví dụ 4.</b> Ba phòng thí nghiệm cần xác định: (1) hàm lượng NaCl trong nước biển (khoảng 3,5%); (2) hàm lượng nitrat trong nước giếng (khoảng 15 mg/L); (3) hàm lượng thủy ngân trong cá biển (khoảng 0,05 µg/g). Với mỗi trường hợp, nên ưu tiên phương pháp hóa học hay phương pháp công cụ? Vì sao?
+        <details><summary>Xem lời giải</summary>
+          (1) NaCl 3,5% là mức <b>đa lượng</b> (&gt; 1%): dùng được <b>phương pháp hóa học</b>, ví dụ chuẩn độ kết tủa kiểu Mohr (Chương 8) — vừa rẻ vừa đủ chính xác.<br>
+          (2) Nitrat 15 mg/L = 15 ppm = 0,0015% là mức <b>vết</b> (dưới 0,01%): lượng chất trong một mẫu vừa phải đã quá nhỏ để cân hay chuẩn độ chính xác, nên chọn <b>phương pháp công cụ</b> (UV-Vis với brucin, hoặc điện cực chọn lọc ion — Chương 11 và 13).<br>
+          (3) Hg 0,05 µg/g = 0,05 ppm = 50 ppb là mức <b>vết</b>: bắt buộc dùng phương pháp công cụ có độ nhạy rất cao, ví dụ AAS hóa hơi lạnh hoặc ICP-MS (Chương 12).
+        </details></div>
+
+      <h3>7. Tiêu chí chọn phương pháp</h3>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Tiêu chí</th><th>Ý nghĩa</th><th>Đo bằng gì</th></tr></thead>
+          <tbody>
+            <tr><td>Độ đúng</td><td>Kết quả gần giá trị thật (accuracy)</td><td>So với mẫu chuẩn chứng nhận (CRM) hoặc độ thu hồi (Chương 10)</td></tr>
+            <tr><td>Độ chụm</td><td>Các lần đo lặp lại gần nhau (precision)</td><td>Độ lệch chuẩn tương đối RSD (Chương 3)</td></tr>
+            <tr><td>Độ nhạy</td><td>Tín hiệu thay đổi nhiều khi nồng độ thay đổi ít (sensitivity)</td><td>Độ dốc đường chuẩn</td></tr>
+            <tr><td>Giới hạn phát hiện</td><td>Lượng chất nhỏ nhất phát hiện được một cách tin cậy (LOD)</td><td>LOD ≈ 3s/độ dốc (Chương 10)</td></tr>
+            <tr><td>Độ chọn lọc</td><td>Đo được chất phân tích mà ít bị chất khác trong mẫu cản trở (selectivity)</td><td>Độ thu hồi khi thêm chất cản vào mẫu</td></tr>
+            <tr><td>Độ bền vững</td><td>Kết quả ít bị ảnh hưởng khi điều kiện thay đổi nhỏ (robustness)</td><td>So sánh kết quả giữa các điều kiện, người làm khác nhau</td></tr>
           </tbody>
         </table>
       </div>
       <p>Ngoài ra còn cân nhắc: thời gian, chi phí, lượng mẫu cần dùng, mức độ an toàn.</p>
-      <div class="vi-du"><b>Ví dụ 3.</b> Cần xác định Pb ở mức vài ppb trong nước uống. Nên chọn phương pháp chuẩn độ hay phương pháp công cụ? Vì sao?
+      <div class="vi-du"><b>Ví dụ 5.</b> Cần xác định Pb ở mức vài ppb trong nước uống. Nên chọn phương pháp chuẩn độ hay phương pháp công cụ? Vì sao?
         <details><summary>Xem lời giải</summary>
           Chọn <b>phương pháp công cụ</b> (ví dụ AAS lò graphit hoặc ICP-MS). Ở mức ppb, lượng Pb quá nhỏ để chuẩn độ hay cân; cần phương pháp có giới hạn phát hiện thấp và độ nhạy cao.
         </details></div>
-    `,
+`,
     baiTap: [],
   },
   {
@@ -131,8 +267,9 @@ const CHUONG = [
       <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
         <ul>
           <li>Đổi qua lại giữa các loại nồng độ: C<sub>M</sub>, C%, ppm, ppb (cả mẫu lỏng và mẫu rắn).</li>
-          <li>Biết dùng đúng dụng cụ đo lường và tính lượng hóa chất để pha dung dịch.</li>
+          <li>Biết dùng đúng dụng cụ đo lường, dung sai của chúng, và tính lượng hóa chất để pha dung dịch.</li>
           <li>Tính kết quả phân tích khối lượng và chuẩn độ (trực tiếp, ngược, gián tiếp) từ hợp thức phản ứng.</li>
+          <li>Tính hàm lượng chất trong mẫu gốc qua một chuỗi pha loãng — aliquot — chuẩn độ, ra đúng đơn vị đề yêu cầu (mg/viên, %, g/L, ppm...).</li>
         </ul>
       </div>
 <h3>1. Các cách biểu diễn nồng độ</h3>
@@ -153,6 +290,7 @@ const CHUONG = [
       <p class="luu-y">Coi ppm ≈ mg/L (ppb ≈ µg/L) chỉ đúng với dung dịch loãng trong nước (khối lượng riêng ≈ 1 g/mL). Với mẫu rắn, ppm luôn là mg/kg.</p>
       <p><b>Nồng độ molan</b> (molality) = số mol chất tan / kg dung môi. Không phụ thuộc nhiệt độ vì không dùng thể tích.</p>
       <p><b>Nồng độ đương lượng</b> C<sub>N</sub> (tài liệu cũ hay dùng): C<sub>N</sub> = z·C<sub>M</sub>, với z là số H<sup>+</sup> trao đổi (phản ứng acid – base) hoặc số electron trao đổi (phản ứng oxi hóa – khử). Ví dụ H<sub>2</sub>SO<sub>4</sub> 0,1 M = 0,2 N khi phản ứng hết 2 nấc.</p>
+      <p><b>Nồng độ formal</b> F: nồng độ tính theo <b>công thức ban đầu</b> đem hòa tan, không quan tâm chất đó có phân li hay chuyển dạng trong dung dịch hay không. Ví dụ hòa tan 0,10 mol CH<sub>3</sub>COOH vào nước thành 1 L thì nồng độ formal là 0,10 F, nhưng vì acid yếu phân li một phần nên [CH<sub>3</sub>COOH] thực tế nhỏ hơn 0,10 M. Nhiều tài liệu (kể cả trong app này) vẫn viết C hoặc [ ] cho nồng độ formal khi nói "dung dịch pha ra nồng độ C" — cần phân biệt với nồng độ cân bằng thực sự khi tính pH (Chương 5).</p>
 
       <h3>2. Đổi đơn vị nồng độ</h3>
       <div class="cong-thuc"><div class="nhan">C% sang C<sub>M</sub> (d: khối lượng riêng, g/mL)</div>\[ C_\mathrm{M} = \frac{10\cdot d\cdot C\%}{M} \]</div>
@@ -178,6 +316,18 @@ const CHUONG = [
           (e) \( \mathrm{K^+} = 0,01037\cdot39,10\cdot10^3 = \mathbf{405\ ppm} \)
         </details></div>
 
+      <div class="vi-du"><b>Ví dụ 4.</b> Bốn bài đổi đơn vị thường gặp: (a) nước có Ni<sup>2+</sup> 10 ppm (M = 58,69), đổi sang M; (b) dung dịch thuốc amikacin 2,0·10<sup>−6</sup> M (M = 585,6), đổi sang ppm; (c) một mẫu đất 1 tấn nhiễm dioxin 150 ppb, tính khối lượng dioxin có trong cả mẫu; (d) mẫu sáp ong có C<sub>29</sub>H<sub>60</sub> (M = 408,8) ở mức 34 ppb, đổi sang mol/kg.
+        <details><summary>Xem lời giải</summary>
+          (a) 10 ppm = 10 mg/L = 1,0·10<sup>−2</sup> g/L:
+          \[ C_\mathrm{M} = \frac{1,0\cdot10^{-2}}{58,69} = \mathbf{1,7\cdot10^{-4}\ M} \]
+          (b) \[ \begin{aligned} \mathrm{ppm} &= 2,0\cdot10^{-6}\cdot585,6\cdot10^{3} \\ &= \mathbf{1,2\ ppm} \end{aligned} \]
+          (c) 150 ppb (đất) = 150 µg/kg; 1 tấn = 1000 kg:
+          \[ m = 150\cdot1000 = 1,5\cdot10^{5}\ \mathrm{\mu g} = \mathbf{0,150\ g} \]
+          (d) 34 ppb (rắn) = 34 µg/kg = 34·10<sup>−6</sup> g/kg:
+          \[ \frac{34\cdot10^{-6}}{408,8} = \mathbf{8,3\cdot10^{-8}\ mol/kg} \]
+          Lỗi hay gặp: dùng đúng ppm = mg/L cho <b>dung dịch loãng</b> (a, b) nhưng lại quên ppm = mg/kg cho <b>mẫu rắn</b> (c, d) — hai định nghĩa không hoán đổi cho nhau (mục 1).
+        </details></div>
+
 <h3>3. Pha chế dung dịch</h3>
       <p><b>a) Từ chất rắn</b> (V tính bằng lít; P là độ tinh khiết, %):</p>
       <div class="cong-thuc">\[ m = C_\mathrm{M}\cdot V\cdot M\cdot\frac{100}{P} \]</div>
@@ -187,23 +337,23 @@ const CHUONG = [
       <p><b>c) Từ dung dịch đặc có C% và d</b>: đổi sang C<sub>M</sub> (mục 2), rồi pha loãng.</p>
       <p><b>d) Trộn hai dung dịch cùng chất</b> (coi thể tích cộng được):</p>
       <div class="cong-thuc">\[ C = \frac{C_1V_1 + C_2V_2}{V_1 + V_2} \]</div>
-      <div class="vi-du"><b>Ví dụ 4.</b> Tính khối lượng CuSO<sub>4</sub>·5H<sub>2</sub>O (M = 249,68) cần để pha 500,0 mL dung dịch Cu<sup>2+</sup> 0,0500 M.
+      <div class="vi-du"><b>Ví dụ 5.</b> Tính khối lượng CuSO<sub>4</sub>·5H<sub>2</sub>O (M = 249,68) cần để pha 500,0 mL dung dịch Cu<sup>2+</sup> 0,0500 M.
         <details><summary>Xem lời giải</summary>
           \[ \begin{aligned} m &= 0,0500\cdot0,5000\cdot249,68 \\ &= \mathbf{6,24\ g} \end{aligned} \]
           Cân chính xác khoảng 6,24 g, hòa tan rồi định mức tới vạch trong bình định mức 500 mL.
         </details></div>
-      <div class="vi-du"><b>Ví dụ 5.</b> Cần bao nhiêu mL H<sub>2</sub>SO<sub>4</sub> 98% (d = 1,84 g/mL, M = 98,08) để pha 500,0 mL H<sub>2</sub>SO<sub>4</sub> 0,100 M?
+      <div class="vi-du"><b>Ví dụ 6.</b> Cần bao nhiêu mL H<sub>2</sub>SO<sub>4</sub> 98% (d = 1,84 g/mL, M = 98,08) để pha 500,0 mL H<sub>2</sub>SO<sub>4</sub> 0,100 M?
         <details><summary>Xem lời giải</summary>
           \[ C_\mathrm{M} = \frac{10\cdot1,84\cdot98}{98,08} = 18,4\ \mathrm{M} \]
           \[ \begin{aligned} V_1 &= \frac{C_2V_2}{C_1} = \frac{0,100\cdot500,0}{18,4} \\ &= \mathbf{2,72\ mL} \end{aligned} \]
           Nhớ: rót từ từ acid vào nước, không làm ngược lại.
         </details></div>
-      <div class="vi-du"><b>Ví dụ 6.</b> Trộn 100,0 mL HCl 0,200 M với 300,0 mL HCl 0,100 M. Tính nồng độ dung dịch thu được.
+      <div class="vi-du"><b>Ví dụ 7.</b> Trộn 100,0 mL HCl 0,200 M với 300,0 mL HCl 0,100 M. Tính nồng độ dung dịch thu được.
         <details><summary>Xem lời giải</summary>
           \[ \begin{aligned} C &= \frac{0,200\cdot100,0 + 0,100\cdot300,0}{100,0 + 300,0} \\ &= \mathbf{0,125\ M} \end{aligned} \]
         </details></div>
 
-      
+
       <h3>4. Dụng cụ đo lường</h3>
       <div class="mo-phong" data-loai="dung-cu"></div>
       <div class="bang-cuon">
@@ -219,6 +369,54 @@ const CHUONG = [
           </tbody>
         </table>
       </div>
+      <p><b>Cân theo hiệu</b> (weighing by difference) dùng khi chất hút ẩm hoặc dễ bay hơi, để tránh sai số do bì (cốc rỗng) đổi khối lượng theo thời gian nếu cân bì riêng trước:</p>
+      <ol>
+        <li>Cân cốc (hoặc lọ) đã chứa sẵn chất rắn: được khối lượng m<sub>1</sub>.</li>
+        <li>Rót hoặc gạt một phần chất sang bình pha, không cần rót hết và không cần cân riêng phần đã rót.</li>
+        <li>Cân lại cốc còn lại: được khối lượng m<sub>2</sub>. Khối lượng chất đã lấy = m<sub>1</sub> − m<sub>2</sub>.</li>
+      </ol>
+
+      <p><b>Dung sai dụng cụ loại A</b> (class A) — dùng khi ước lượng sai số dụng cụ trong lan truyền sai số (Chương 3):</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Dụng cụ</th><th>Dung sai</th></tr></thead>
+          <tbody>
+            <tr><td>Buret 50 mL</td><td>±0,05 mL</td></tr>
+            <tr><td>Pipet bầu 10 mL</td><td>±0,02 mL</td></tr>
+            <tr><td>Pipet bầu 25 mL</td><td>±0,03 mL</td></tr>
+            <tr><td>Bình định mức 100 mL</td><td>±0,08 mL</td></tr>
+            <tr><td>Bình định mức 250 mL</td><td>±0,12 mL</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><b>Hiệu chuẩn dụng cụ bằng cân nước</b>: cân khối lượng nước cất mà dụng cụ chứa hoặc chảy ra, rồi đổi sang thể tích thật bằng khối lượng riêng của nước ở nhiệt độ phòng. Vì cân trong không khí, khối lượng cân được (biểu kiến) nhỏ hơn khối lượng thật do <b>lực đẩy Ácsimét</b> của không khí đẩy lên cả vật cân lẫn quả cân — cần hiệu chỉnh:</p>
+      <div class="cong-thuc"><div class="nhan">m: khối lượng thật; m′: khối lượng cân được; d<sub>kk</sub> ≈ 0,0012 g/mL; d<sub>qc</sub>: khối lượng riêng quả cân chuẩn (thép không gỉ, ≈ 8,0 g/mL); d: khối lượng riêng nước ở nhiệt độ cân</div>\[ m = m'\cdot\frac{1-\dfrac{d_\text{kk}}{d_\text{qc}}}{1-\dfrac{d_\text{kk}}{d}} \]</div>
+      <div class="vi-du"><b>Ví dụ 8.</b> Cân nước cất ở 20 °C (d = 0,9982 g/mL) chứa trong một bình định mức ghi 10 mL, được khối lượng biểu kiến 9,982 g (quả cân thép, d<sub>qc</sub> = 8,0 g/mL; d<sub>kk</sub> = 0,0012 g/mL). Tính thể tích thật của bình.
+        <details><summary>Xem lời giải</summary>
+          \[ m = 9,982\cdot\frac{1-\frac{0,0012}{8,0}}{1-\frac{0,0012}{0,9982}} = 9,993\ \mathrm{g} \]
+          \[ V = \frac{m}{d} = \frac{9,993}{0,9982} = \mathbf{10,01\ mL} \]
+          Bình ghi 10 mL thực tế chứa 10,01 mL — sai lệch nhỏ nhưng đáng kể khi cần độ chính xác cao.
+        </details></div>
+
+      <div class="hinh-tinh">
+        <svg viewBox="0 0 320 195" role="img" aria-label="Vạch TC trên bình định mức và vạch TD trên pipet">
+          <path d="M70,50 L60,148 Q77,167 94,148 L84,50 Z" fill="none" stroke="var(--chu-phu)" stroke-width="1.8"/>
+          <rect x="70" y="15" width="14" height="35" fill="none" stroke="var(--chu-phu)" stroke-width="1.8"/>
+          <line x1="66" y1="40" x2="88" y2="40" stroke="var(--mau-chinh)" stroke-width="2" stroke-dasharray="3 2"/>
+          <text x="94" y="43" font-size="10" fill="var(--mau-chinh)">vạch mức</text>
+          <text x="77" y="185" text-anchor="middle" font-size="11" font-weight="700" fill="var(--chu)">TC</text>
+          <rect x="216" y="15" width="8" height="45" fill="none" stroke="var(--chu-phu)" stroke-width="1.8"/>
+          <ellipse cx="220" cy="90" rx="22" ry="28" fill="none" stroke="var(--chu-phu)" stroke-width="1.8"/>
+          <path d="M212,116 L228,116 L220,165 Z" fill="none" stroke="var(--chu-phu)" stroke-width="1.8"/>
+          <line x1="212" y1="27" x2="228" y2="27" stroke="var(--mau-chinh)" stroke-width="2" stroke-dasharray="3 2"/>
+          <circle cx="220" cy="170" r="2.4" fill="var(--chu-phu)"/>
+          <text x="232" y="30" font-size="10" fill="var(--mau-chinh)">vạch mức</text>
+          <text x="232" y="163" font-size="10" fill="var(--chu-phu)">không thổi</text>
+          <text x="232" y="174" font-size="10" fill="var(--chu-phu)">giọt cuối</text>
+          <text x="220" y="185" text-anchor="middle" font-size="11" font-weight="700" fill="var(--chu)">TD</text>
+        </svg>
+        <p class="chu-thich"><b>TC</b> (to contain, bình định mức): thể tích đúng khi dung dịch nằm trong bình, tới vạch. <b>TD</b> (to deliver, pipet, buret): thể tích đúng là lượng chất lỏng <i>đã chảy ra</i> — để giọt tự chảy hết theo thành, không thổi giọt cuối.</p>
+      </div>
 
       <div class="mo-phong" data-loai="doc-buret"></div>
       <h3>5. Hợp thức và phân tích khối lượng</h3>
@@ -230,11 +428,46 @@ const CHUONG = [
         <li>Kết tủa tinh thể (BaSO<sub>4</sub>...): tạo từ dung dịch loãng, nóng, thêm thuốc thử chậm, để muồi. Kết tủa vô định hình (Fe(OH)<sub>3</sub>...): dung dịch đặc, nóng, có chất điện li.</li>
         <li><b>Cộng kết</b>: tạp chất bị kéo theo kết tủa, thường gây sai số dương (có thể âm nếu tạp chất chứa chính ion cần xác định).</li>
       </ul>
-      <div class="vi-du"><b>Ví dụ 7.</b> Xác định sắt trong viên bổ sung sắt fumarat: 15 viên được hòa tan trong HCl, oxi hóa Fe<sup>2+</sup> thành Fe<sup>3+</sup> bằng H<sub>2</sub>O<sub>2</sub>, kết tủa Fe(OH)<sub>3</sub> bằng NH<sub>3</sub>, lọc, nung thu được 0,277 g Fe<sub>2</sub>O<sub>3</sub> (M = 159,69). Tính khối lượng Fe (55,845) trung bình trong mỗi viên.
+      <p><b>Vì sao lại pha loãng, đun nóng, thêm chậm khi tạo kết tủa tinh thể?</b> Theo quy tắc Von Weimarn, kích thước hạt kết tủa phụ thuộc <b>độ quá bão hòa tương đối</b>:</p>
+      <div class="cong-thuc"><div class="nhan">Q: nồng độ tức thời ngay sau khi trộn; S: độ tan lúc cân bằng</div>\[ \text{RSS} = \frac{Q-S}{S} \]</div>
+      <p>RSS càng nhỏ, tốc độ tạo mầm tinh thể càng chậm so với tốc độ lớn lên của mầm sẵn có, nên hạt lớn thành tinh thể to, dễ lọc rửa. Pha loãng dung dịch làm <b>Q giảm</b> (cùng số mol chất tan trong thể tích lớn hơn); đun nóng làm <b>S tăng</b> (hầu hết chất rắn tan tốt hơn khi nóng) — cả hai đều làm RSS giảm. Thêm thuốc thử từ từ, khuấy đều và để yên cho "muồi" (digestion) cũng làm giảm RSS. Kết tủa vô định hình (như Fe(OH)<sub>3</sub>) có S rất nhỏ (gần như không tan) nên RSS luôn lớn dù pha loãng cỡ nào — phải thêm chất điện li (ví dụ NH<sub>4</sub>NO<sub>3</sub>) để các hạt keo hút nhau kết tụ lại thay vì lơ lửng.</p>
+      <div class="vi-du"><b>Ví dụ 9.</b> Xác định sắt trong viên bổ sung sắt fumarat: 15 viên được hòa tan trong HCl, oxi hóa Fe<sup>2+</sup> thành Fe<sup>3+</sup> bằng H<sub>2</sub>O<sub>2</sub>, kết tủa Fe(OH)<sub>3</sub> bằng NH<sub>3</sub>, lọc, nung thu được 0,277 g Fe<sub>2</sub>O<sub>3</sub> (M = 159,69). Tính khối lượng Fe (55,845) trung bình trong mỗi viên.
         <details><summary>Xem lời giải</summary>
           \[ m_\mathrm{Fe} = 0,277\cdot\frac{2\cdot55,845}{159,69} = 0,194\ \mathrm{g} \]
           Mỗi viên chứa: \[ \frac{0,194}{15} = 0,0129\ \mathrm{g} = \mathbf{12,9\ mg} \]
         </details></div>
+
+      <div class="hinh-tinh">
+        <svg viewBox="0 0 320 175" role="img" aria-label="Sơ đồ khối phân tích khối lượng sắt fumarat">
+          <defs>
+            <marker id="mt-dl-1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--mau-chinh)"/>
+            </marker>
+          </defs>
+          <line x1="100" y1="40" x2="118" y2="40" stroke="var(--mau-chinh)" stroke-width="2" marker-end="url(#mt-dl-1)"/>
+          <line x1="202" y1="40" x2="220" y2="40" stroke="var(--mau-chinh)" stroke-width="2" marker-end="url(#mt-dl-1)"/>
+          <line x1="262" y1="60" x2="262" y2="110" stroke="var(--mau-chinh)" stroke-width="2" marker-end="url(#mt-dl-1)"/>
+          <line x1="220" y1="130" x2="202" y2="130" stroke="var(--mau-chinh)" stroke-width="2" marker-end="url(#mt-dl-1)"/>
+          <line x1="118" y1="130" x2="100" y2="130" stroke="var(--mau-chinh)" stroke-width="2" marker-end="url(#mt-dl-1)"/>
+          <rect x="16" y="20" width="84" height="40" rx="8" fill="var(--nen)" stroke="var(--vien)" stroke-width="1.5"/>
+          <text x="58" y="37" text-anchor="middle" font-size="10" font-weight="600" fill="var(--chu)">1. Hòa tan</text>
+          <text x="58" y="49" text-anchor="middle" font-size="10" fill="var(--chu-phu)">(HCl)</text>
+          <rect x="118" y="20" width="84" height="40" rx="8" fill="var(--nen)" stroke="var(--vien)" stroke-width="1.5"/>
+          <text x="160" y="35" text-anchor="middle" font-size="10" font-weight="600" fill="var(--chu)">2. Oxi hóa</text>
+          <text x="160" y="48" text-anchor="middle" font-size="10" fill="var(--chu-phu)">Fe²⁺→Fe³⁺</text>
+          <rect x="220" y="20" width="84" height="40" rx="8" fill="var(--nen)" stroke="var(--vien)" stroke-width="1.5"/>
+          <text x="262" y="35" text-anchor="middle" font-size="10" font-weight="600" fill="var(--chu)">3. Kết tủa</text>
+          <text x="262" y="48" text-anchor="middle" font-size="9.5" fill="var(--chu-phu)">Fe(OH)₃ (NH₃)</text>
+          <rect x="220" y="110" width="84" height="40" rx="8" fill="var(--nen)" stroke="var(--vien)" stroke-width="1.5"/>
+          <text x="262" y="134" text-anchor="middle" font-size="10" font-weight="600" fill="var(--chu)">4. Lọc, rửa</text>
+          <rect x="118" y="110" width="84" height="40" rx="8" fill="var(--nen)" stroke="var(--vien)" stroke-width="1.5"/>
+          <text x="160" y="127" text-anchor="middle" font-size="10" font-weight="600" fill="var(--chu)">5. Nung</text>
+          <text x="160" y="140" text-anchor="middle" font-size="9.5" fill="var(--chu-phu)">→ Fe₂O₃</text>
+          <rect x="16" y="110" width="84" height="40" rx="8" fill="var(--nen)" stroke="var(--vien)" stroke-width="1.5"/>
+          <text x="58" y="134" text-anchor="middle" font-size="10" font-weight="600" fill="var(--chu)">6. Cân</text>
+        </svg>
+        <p class="chu-thich">Sơ đồ khối của Ví dụ 8: dạng cân cuối cùng là Fe₂O₃, từ đó tính ngược ra khối lượng Fe bằng hệ số chuyển F.</p>
+      </div>
 
       <h3>6. Giới thiệu phương pháp chuẩn độ</h3>
       <ul>
@@ -257,23 +490,69 @@ const CHUONG = [
           </tbody>
         </table>
       </div>
-      <div class="vi-du"><b>Ví dụ 8.</b> Chuẩn độ 10,00 mL dung dịch HCl bằng NaOH 0,02000 M (chỉ thị phenolphtalein) hết 9,46 mL. Tính nồng độ HCl.
+      <div class="vi-du"><b>Ví dụ 10.</b> Chuẩn độ 10,00 mL dung dịch HCl bằng NaOH 0,02000 M (chỉ thị phenolphtalein) hết 9,46 mL. Tính nồng độ HCl.
         <details><summary>Xem lời giải</summary>
           \[ C_\mathrm{HCl} = \frac{0,02000\cdot9,46}{10,00} = \mathbf{0,0189\ M} \]
         </details></div>
-      <div class="vi-du"><b>Ví dụ 9.</b> <i>(Chuẩn độ ngược)</i> Hòa tan 0,2500 g đá vôi trong 50,00 mL HCl 0,1000 M. Lượng HCl dư chuẩn độ hết 10,00 mL NaOH 0,1000 M. Tính %CaCO<sub>3</sub> (M = 100,09).
+      <div class="vi-du"><b>Ví dụ 11.</b> <i>(Chuẩn độ ngược)</i> Hòa tan 0,2500 g đá vôi trong 50,00 mL HCl 0,1000 M. Lượng HCl dư chuẩn độ hết 10,00 mL NaOH 0,1000 M. Tính %CaCO<sub>3</sub> (M = 100,09).
         <details><summary>Xem lời giải</summary>
           \[ \begin{aligned} n_\text{HCl ban đầu} &= 5,000\cdot10^{-3}\ \mathrm{mol} \\ n_\text{HCl dư} &= 1,000\cdot10^{-3}\ \mathrm{mol} \\ n_\text{HCl phản ứng} &= 4,000\cdot10^{-3}\ \mathrm{mol} \end{aligned} \]
           CaCO<sub>3</sub> + 2HCl → CaCl<sub>2</sub> + CO<sub>2</sub> + H<sub>2</sub>O, nên n<sub>CaCO₃</sub> = 2,000·10<sup>−3</sup> mol:
           \[ \begin{aligned} \%\mathrm{CaCO_3} &= \frac{2,000\cdot10^{-3}\cdot100,09}{0,2500}\cdot100\% \\ &= \mathbf{80,07\%} \end{aligned} \]
         </details></div>
-      <div class="vi-du"><b>Ví dụ 10.</b> <i>(Chuẩn độ gián tiếp)</i> Ca<sup>2+</sup> trong 5,00 mL mẫu được kết tủa hết dưới dạng CaC<sub>2</sub>O<sub>4</sub>. Lọc, rửa, hòa tan kết tủa trong H<sub>2</sub>SO<sub>4</sub>, rồi chuẩn độ H<sub>2</sub>C<sub>2</sub>O<sub>4</sub> sinh ra bằng KMnO<sub>4</sub> 0,00200 M hết 4,80 mL. Tính nồng độ Ca<sup>2+</sup>.
+      <div class="vi-du"><b>Ví dụ 12.</b> <i>(Chuẩn độ gián tiếp)</i> Ca<sup>2+</sup> trong 5,00 mL mẫu được kết tủa hết dưới dạng CaC<sub>2</sub>O<sub>4</sub>. Lọc, rửa, hòa tan kết tủa trong H<sub>2</sub>SO<sub>4</sub>, rồi chuẩn độ H<sub>2</sub>C<sub>2</sub>O<sub>4</sub> sinh ra bằng KMnO<sub>4</sub> 0,00200 M hết 4,80 mL. Tính nồng độ Ca<sup>2+</sup>.
         <details><summary>Xem lời giải</summary>
           \[ \begin{aligned} &\ce{5H2C2O4 + 2MnO4- + 6H+} \\ &\qquad\ce{-> 10CO2 + 2Mn^2+ + 8H2O} \end{aligned} \]
           \[ \begin{aligned} n_\mathrm{MnO_4^-} &= 0,00200\cdot4,80\cdot10^{-3} \\ &= 9,60\cdot10^{-6}\ \mathrm{mol} \\ n_\mathrm{Ca^{2+}} &= n_\mathrm{H_2C_2O_4} = \tfrac{5}{2}\cdot9,60\cdot10^{-6} \\ &= 2,40\cdot10^{-5}\ \mathrm{mol} \\ C_\mathrm{Ca^{2+}} &= \frac{2,40\cdot10^{-5}}{5,00\cdot10^{-3}} \\ &= \mathbf{4,80\cdot10^{-3}\ M} \end{aligned} \]
         </details></div>
 
-      <h3>7. Tóm tắt công thức</h3>
+      <h3>7. Chuỗi pha loãng và quy về mẫu gốc</h3>
+      <p>Rất nhiều bài toán thực tế có chung một khung: mẫu gốc (viên thuốc, mẫu rắn, mẫu lỏng) được hòa tan hoặc pha loãng thành một bình định mức, rồi chỉ lấy ra một phần nhỏ (<b>aliquot</b>) đem phản ứng hoặc chuẩn độ. Kết quả đo được trên phần nhỏ đó phải <b>quy ngược lại</b> về mẫu gốc ban đầu — đây cũng là dạng bài hay bị mất điểm nhất vì bỏ sót bước quy đổi này.</p>
+      <p>Làm theo đúng thứ tự bốn bước sau:</p>
+      <ol>
+        <li>Từ số liệu chuẩn độ (hoặc phản ứng) trên thể tích lấy ra V<sub>aliquot</sub>, tính số mol chất phân tích n<sub>aliquot</sub> bằng hợp thức phản ứng (mục 6).</li>
+        <li>Quy về lượng có trong <b>cả bình định mức</b> V<sub>bình</sub> (nơi lấy aliquot ra) bằng hệ số pha loãng:
+          \[ n_\text{trong bình} = n_\text{aliquot}\times\frac{V_\text{bình}}{V_\text{aliquot}} \]
+        </li>
+        <li>Nếu có nhiều bình pha loãng liên tiếp (mẫu gốc → bình A → lấy ra pha thành bình B), nhân thêm hệ số pha loãng của từng bước.</li>
+        <li>Đổi sang đơn vị đề bài yêu cầu, chia cho khối lượng/thể tích/số đơn vị của <b>mẫu gốc</b> ban đầu:
+          \[ \%X = \frac{n_\text{trong bình}\cdot M}{m_\text{mẫu gốc}}\cdot100\% \]
+          \[ C_\text{mẫu gốc} = \frac{n_\text{trong bình}}{V_\text{mẫu gốc}} \]
+        </li>
+      </ol>
+      <div class="cong-thuc"><div class="nhan">Khung chung: chuẩn độ tỉ lệ a (chất phân tích) : b (chất chuẩn)</div>\[ n_\text{mẫu gốc} = C_\text{chuẩn}\cdot V_\text{chuẩn}\cdot\frac{a}{b}\cdot\frac{V_\text{bình}}{V_\text{aliquot}} \]</div>
+      <p class="luu-y"><b>Lỗi hay gặp:</b> quên nhân hệ số pha loãng V<sub>bình</sub>/V<sub>aliquot</sub> (coi lượng đo trên aliquot là của cả mẫu); nhân <b>ngược</b> hệ số pha loãng (lấy V<sub>aliquot</sub>/V<sub>bình</sub>); dùng khối lượng mol của muối khan thay cho muối ngậm nước hoặc ngược lại; sai tỉ lượng phản ứng (quên hệ số a : b); ghi kết quả cuối với số chữ số có nghĩa không khớp với dữ kiện đề bài; nhầm mg/L (ppm) với %.</p>
+
+      <div class="vi-du"><b>Ví dụ 13.</b> Hòa tan 10 viên sắt(II) fumarat trong HCl, định mức thành 250,0 mL (bình B). Lấy 5,00 mL dung dịch B, chuẩn độ Fe<sup>2+</sup> bằng K<sub>2</sub>Cr<sub>2</sub>O<sub>7</sub> 0,008000 M hết 3,75 mL. Tính khối lượng Fe (M = 55,845) trung bình trong mỗi viên (mg/viên).
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} &\ce{6Fe^2+ + Cr2O7^2- + 14H+} \\ &\qquad\ce{-> 6Fe^3+ + 2Cr^3+ + 7H2O} \end{aligned} \]
+          \[ \begin{aligned} n_\mathrm{Cr_2O_7^{2-}} &= 0,008000\cdot3,75\cdot10^{-3} \\ &= 3,00\cdot10^{-5}\ \mathrm{mol} \\ n_\mathrm{Fe^{2+}} &= 6\cdot3,00\cdot10^{-5} \\ &= 1,80\cdot10^{-4}\ \mathrm{mol}\ (5,00\ \mathrm{mL}) \end{aligned} \]
+          \[ \begin{aligned} m_\mathrm{Fe}\,(5,00\ \mathrm{mL}) &= 1,80\cdot10^{-4}\cdot55,845\ \mathrm{g} \\ &= 1,005\cdot10^{-2}\ \mathrm{g} \\ &= \mathbf{10,05\ mg} \end{aligned} \]
+          Hệ số pha loãng \( \dfrac{250,0}{5,00} = 50,0 \):
+          \[ \begin{aligned} m_\mathrm{Fe}\,(10\ \text{viên}) &= 10,05\cdot50,0 \\ &= 502,6\ \mathrm{mg} \end{aligned} \]
+          \[ \frac{m_\mathrm{Fe}}{\text{viên}} = \frac{502,6}{10} = \mathbf{50,3\ mg/viên} \]
+        </details></div>
+
+      <div class="vi-du"><b>Ví dụ 14.</b> Lấy 25,00 mL mẫu nước thải (dung dịch A), định mức thành 250,0 mL (dung dịch B). Lấy 50,00 mL dung dịch B, chuẩn độ Cl<sup>−</sup> bằng AgNO<sub>3</sub> 0,1000 M (phương pháp Mohr) hết 15,20 mL. Tính nồng độ Cl<sup>−</sup> (M = 35,45) trong mẫu gốc A theo g/L.
+        <details><summary>Xem lời giải</summary>
+          \[ \ce{Ag+ + Cl- -> AgCl v} \]
+          \[ \begin{aligned} n_\mathrm{Ag^+} &= 0,1000\cdot15,20\cdot10^{-3} \\ &= 1,520\cdot10^{-3}\ \mathrm{mol} \\ &= n_\mathrm{Cl^-}\ (50,00\ \mathrm{mL\ B}) \end{aligned} \]
+          \[ C_\mathrm{Cl^-}(B) = \frac{1,520\cdot10^{-3}}{0,05000} = 0,03040\ \mathrm{M} \]
+          Hệ số pha loãng khi tạo B từ A: \( \dfrac{250,0}{25,00} = 10,00 \)
+          \[ \begin{aligned} C_\mathrm{Cl^-}(A) &= 0,03040\cdot10,00 = 0,3040\ \mathrm{M} \\ &\to 0,3040\cdot35,45 = \mathbf{10,78\ g/L} \end{aligned} \]
+        </details></div>
+
+      <div class="vi-du"><b>Ví dụ 15.</b> Hòa tan 1,2345 g mẫu quặng sắt, định mức thành 100,0 mL. Lấy 10,00 mL, khử toàn bộ Fe<sup>3+</sup> về Fe<sup>2+</sup> (ví dụ bằng SnCl<sub>2</sub>), rồi chuẩn độ hết Fe<sup>2+</sup> bằng KMnO<sub>4</sub> 0,02000 M hết 8,20 mL. Tính %Fe (M = 55,845) trong quặng.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} &\ce{5Fe^2+ + MnO4- + 8H+} \\ &\qquad\ce{-> 5Fe^3+ + Mn^2+ + 4H2O} \end{aligned} \]
+          \[ \begin{aligned} n_\mathrm{MnO_4^-} &= 0,02000\cdot8,20\cdot10^{-3} \\ &= 1,640\cdot10^{-4}\ \mathrm{mol} \\ n_\mathrm{Fe^{2+}} &= 5\cdot1,640\cdot10^{-4} \\ &= 8,20\cdot10^{-4}\ \mathrm{mol}\ (10,00\ \mathrm{mL}) \end{aligned} \]
+          \[ \begin{aligned} m_\mathrm{Fe} &= 8,20\cdot10^{-4}\cdot55,845 \\ &= 4,579\cdot10^{-2}\ \mathrm{g} = 45,79\ \mathrm{mg} \end{aligned} \]
+          Hệ số pha loãng \( \dfrac{100,0}{10,00} = 10,00 \)
+          \[ \begin{aligned} m_\mathrm{Fe}\,(\text{cả mẫu}) &= 45,79\cdot10,00 \\ &= 457,9\ \mathrm{mg} = 0,4579\ \mathrm{g} \end{aligned} \]
+          \[ \%\mathrm{Fe} = \frac{0,4579}{1,2345}\cdot100 = \mathbf{37,1\%} \]
+        </details></div>
+
+      <h3>8. Tóm tắt công thức</h3>
       <div class="bang-cuon">
         <table class="bang bang-the">
           <thead><tr><th>Nội dung</th><th>Công thức</th><th>Ghi chú</th></tr></thead>
@@ -284,10 +563,11 @@ const CHUONG = [
             <tr><td>Pha loãng</td><td>\( C_1V_1 = C_2V_2 \)</td><td>Cùng đơn vị hai vế</td></tr>
             <tr><td>Phân tích khối lượng</td><td>\( \%X = \dfrac{m\cdot F}{m_\text{mẫu}}\cdot100 \)</td><td>F: hệ số chuyển</td></tr>
             <tr><td>Chuẩn độ</td><td>\( \dfrac{n_\mathrm{A}}{a} = \dfrac{n_\mathrm{B}}{b} \)</td><td>Ngược: trừ lượng dư</td></tr>
+            <tr><td>Chuỗi pha loãng → hàm lượng</td><td>\( n_\text{gốc} = C_\text{chuẩn}V_\text{chuẩn}\dfrac{a}{b}\dfrac{V_\text{bình}}{V_\text{aliquot}} \)</td><td>Nhân đúng chiều hệ số pha loãng</td></tr>
           </tbody>
         </table>
       </div>
-    `,
+`,
     baiTap: [
       {
         de: "Hòa tan 4,00 g NaOH (M = 40,0 g/mol) thành 250,0 mL dung dịch. Tính nồng độ mol của dung dịch.",
@@ -1847,15 +2127,15 @@ const CHUONG = [
       <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
         <ul>
           <li>Đổi qua lại bước sóng, tần số, số sóng, năng lượng photon.</li>
-          <li>Dùng định luật Beer để tính nồng độ, ε, độ truyền qua; phân tích hỗn hợp hai chất hấp thụ.</li>
-          <li>Biết các nguyên nhân sai lệch định luật Beer, cách đo chính xác và nguyên tắc của huỳnh quang phân tử.</li>
+          <li>Dùng định luật Beer để tính nồng độ, ε, độ truyền qua; đổi kết quả sang ppm; phân tích hỗn hợp hai chất hấp thụ; dùng thêm chuẩn khi cần.</li>
+          <li>Biết các nguyên nhân sai lệch định luật Beer, khoảng đo tối ưu theo A, cách đo chính xác và nguyên tắc của huỳnh quang phân tử.</li>
         </ul>
       </div>
       <h3>1. Các phương pháp phổ</h3>
       <p>Phương pháp phổ dựa trên tương tác giữa bức xạ điện từ và vật chất. Các phương pháp chính:</p>
       <ul>
         <li><b>Hấp thụ phân tử UV – Vis</b> (chương này).</li>
-        <li><b>Huỳnh quang phân tử</b> (mục 8).</li>
+        <li><b>Huỳnh quang phân tử</b> (mục 11).</li>
         <li><b>Hấp thụ nguyên tử (AAS), phát xạ nguyên tử (AES)</b> (Chương 12).</li>
         <li><b>Hồng ngoại (IR), Raman</b>: dao động liên kết, dùng nhận biết nhóm chức.</li>
       </ul>
@@ -1883,21 +2163,98 @@ const CHUONG = [
       <h3>3. Tương tác giữa bức xạ và vật chất</h3>
       <ul>
         <li><b>Hấp thụ</b>: phân tử nhận năng lượng photon, chuyển lên trạng thái kích thích. Chỉ hấp thụ photon có năng lượng đúng bằng hiệu hai mức năng lượng.</li>
-        <li><b>Phát quang</b>: phân tử ở trạng thái kích thích trở về trạng thái cơ bản và phát ra photon. Nếu trạng thái kích thích tạo ra do hấp thụ ánh sáng thì gọi là <b>quang phát quang</b> (huỳnh quang, lân quang); nếu do phản ứng hóa học thì gọi là <b>hóa phát quang</b>.</li>
+        <li><b>Phát quang</b>: phân tử ở trạng thái kích thích trở về trạng thái cơ bản và phát ra photon. Nếu trạng thái kích thích tạo ra do hấp thụ ánh sáng thì gọi là <b>quang phát quang</b> (huỳnh quang, lân quang — mục 11); nếu do phản ứng hóa học thì gọi là <b>hóa phát quang</b>.</li>
         <li><b>Phát xạ</b>: nguyên tử, phân tử được kích thích bằng nhiệt (ngọn lửa, plasma) rồi phát bức xạ (Chương 12).</li>
       </ul>
-      <p><b>Màu của dung dịch</b> là <b>màu phụ</b> của màu ánh sáng bị hấp thụ. Ví dụ dung dịch hấp thụ ánh sáng xanh lục (khoảng 500 – 560 nm) sẽ có màu đỏ tím.</p>
+      <p>Màu của dung dịch là <b>màu phụ</b> (bù) của màu ánh sáng bị hấp thụ — xem bảng và vòng màu ở mục 4.</p>
 
-      <h3>4. Độ truyền qua, độ hấp thụ và định luật Beer</h3>
+      <h3>4. Màu sắc dung dịch và vòng màu bù</h3>
+      <p>Ánh sáng trắng gồm đủ các màu. Khi dung dịch hấp thụ một vùng bước sóng, phần ánh sáng còn lại truyền qua tạo ra <b>màu quan sát được</b> — đúng bằng màu <b>bù</b> (complementary) của màu bị hấp thụ.</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Bước sóng hấp thụ (nm)</th><th>Màu hấp thụ</th><th>Màu quan sát (màu bù)</th></tr></thead>
+          <tbody>
+            <tr><td>400 – 435</td><td>Tím</td><td>Vàng lục</td></tr>
+            <tr><td>435 – 480</td><td>Lam</td><td>Vàng</td></tr>
+            <tr><td>480 – 490</td><td>Lam lục</td><td>Cam</td></tr>
+            <tr><td>490 – 500</td><td>Lục lam</td><td>Đỏ</td></tr>
+            <tr><td>500 – 560</td><td>Lục</td><td>Đỏ tía (đỏ cánh sen)</td></tr>
+            <tr><td>560 – 580</td><td>Vàng lục</td><td>Tím</td></tr>
+            <tr><td>580 – 595</td><td>Vàng</td><td>Lam</td></tr>
+            <tr><td>595 – 650</td><td>Cam</td><td>Lục lam</td></tr>
+            <tr><td>650 – 750</td><td>Đỏ</td><td>Lam lục (cyan)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="luu-y">Bảng trên chỉ để <b>đoán màu</b> — không dùng để tính toán. Muốn định lượng vẫn phải đo A ở đúng λ<sub>max</sub> của chất, không suy từ màu mắt thấy.</p>
+
+      <div class="hinh-tinh">
+        <svg viewBox="0 0 300 250" role="img" aria-label="Vòng màu hấp thụ, 9 dải đúng theo bảng ở trên">
+          <path d="M140,128 L140.0,64.0 A64,64 0 0 1 181.1,79.0 Z" fill="#7c3aed" stroke="none"/>
+          <path d="M140,128 L181.1,79.0 A64,64 0 0 1 203.0,116.9 Z" fill="#2563eb" stroke="none"/>
+          <path d="M140,128 L203.0,116.9 A64,64 0 0 1 195.4,160.0 Z" fill="#0891b2" stroke="none"/>
+          <path d="M140,128 L195.4,160.0 A64,64 0 0 1 161.9,188.1 Z" fill="#06b6d4" stroke="none"/>
+          <path d="M140,128 L161.9,188.1 A64,64 0 0 1 118.1,188.1 Z" fill="#16a34a" stroke="none"/>
+          <path d="M140,128 L118.1,188.1 A64,64 0 0 1 84.6,160.0 Z" fill="#84cc16" stroke="none"/>
+          <path d="M140,128 L84.6,160.0 A64,64 0 0 1 77.0,116.9 Z" fill="#eab308" stroke="none"/>
+          <path d="M140,128 L77.0,116.9 A64,64 0 0 1 98.9,79.0 Z" fill="#f97316" stroke="none"/>
+          <path d="M140,128 L98.9,79.0 A64,64 0 0 1 140.0,64.0 Z" fill="#dc2626" stroke="none"/>
+          <circle cx="140" cy="128" r="64" fill="none" stroke="var(--the)" stroke-width="2"/>
+          <text x="168.0" y="50.9" font-size="10" fill="var(--chu)">Tím</text>
+          <text x="168.0" y="61.9" font-size="10" fill="var(--chu-phu)">400-435</text>
+          <text x="211.0" y="87.0" font-size="10" fill="var(--chu)">Lam</text>
+          <text x="211.0" y="98.0" font-size="10" fill="var(--chu-phu)">435-480</text>
+          <text x="220.8" y="142.2" font-size="10" fill="var(--chu)">Lam lục</text>
+          <text x="220.8" y="153.2" font-size="10" fill="var(--chu-phu)">480-490</text>
+          <text x="192.7" y="190.8" font-size="10" fill="var(--chu)">Lục lam</text>
+          <text x="192.7" y="201.8" font-size="10" fill="var(--chu-phu)">490-500</text>
+          <text x="140.0" y="214" text-anchor="middle" font-size="10" fill="var(--chu)">Lục</text>
+          <text x="140.0" y="225" text-anchor="middle" font-size="10" fill="var(--chu-phu)">500-560</text>
+          <text x="87.3" y="190.8" text-anchor="end" font-size="10" fill="var(--chu)">Vàng lục</text>
+          <text x="87.3" y="201.8" text-anchor="end" font-size="10" fill="var(--chu-phu)">560-580</text>
+          <text x="59.2" y="142.2" text-anchor="end" font-size="10" fill="var(--chu)">Vàng</text>
+          <text x="59.2" y="153.2" text-anchor="end" font-size="10" fill="var(--chu-phu)">580-595</text>
+          <text x="69.0" y="87.0" text-anchor="end" font-size="10" fill="var(--chu)">Cam</text>
+          <text x="69.0" y="98.0" text-anchor="end" font-size="10" fill="var(--chu-phu)">595-650</text>
+          <text x="112.0" y="50.9" text-anchor="end" font-size="10" fill="var(--chu)">Đỏ</text>
+          <text x="112.0" y="61.9" text-anchor="end" font-size="10" fill="var(--chu-phu)">650-750</text>
+        </svg>
+        <p class="chu-thich">Vòng xếp đúng 9 dải màu hấp thụ như bảng ở trên (theo chiều bước sóng tăng dần). Muốn biết màu <b>quan sát được</b> (màu bù) khi chất hấp thụ ở một dải, tra cột thứ ba của bảng.</p>
+      </div>
+
+      <h3>5. Độ truyền qua, độ hấp thụ và định luật Beer</h3>
       <p>Chùm sáng đơn sắc có cường độ P<sub>0</sub> đi qua dung dịch, ra khỏi dung dịch còn cường độ P.</p>
       <div class="cong-thuc"><div class="nhan">Độ truyền qua T và độ hấp thụ A</div>\[ \begin{gathered} T = \frac{P}{P_0} \qquad \%T = 100\,T \\ A = -\lg T = \lg\frac{P_0}{P} = 2 - \lg\%T \end{gathered} \]</div>
       <div class="cong-thuc"><div class="nhan">Định luật Beer (ε: hệ số hấp thụ mol, M<sup>−1</sup>cm<sup>−1</sup>; b: bề dày cuvet, cm; C: nồng độ, M)</div>\[ A = \varepsilon bC \]</div>
       <ul>
         <li>ε đặc trưng cho từng chất và <b>phụ thuộc bước sóng</b>. Phổ hấp thụ là đồ thị A (hoặc ε) theo λ.</li>
-        <li>Thường đo ở <b>λ<sub>max</sub></b> (đỉnh hấp thụ): độ nhạy cao nhất, và A ít thay đổi khi λ lệch chút ít.</li>
+        <li>Thường đo ở <b>λ<sub>max</sub></b> (đỉnh hấp thụ): độ nhạy cao nhất, và A ít thay đổi khi λ lệch chút ít (đỉnh phổ "phẳng" hơn hai bên sườn).</li>
         <li><b>Tính cộng tính</b>: dung dịch có nhiều chất hấp thụ thì A = Σε<sub>i</sub>bC<sub>i</sub> ở mỗi bước sóng.</li>
         <li><b>Điều kiện áp dụng</b>: bức xạ đơn sắc; dung dịch loãng (thường ≲ 0,01 M); dung dịch trong, không tán xạ; chất hấp thụ không tham gia cân bằng hay tương tác làm đổi dạng hấp thụ.</li>
       </ul>
+
+      <div class="hinh-tinh">
+        <svg viewBox="0 0 320 180" role="img" aria-label="Phổ hấp thụ minh họa, đo ở đỉnh λmax">
+          <line x1="40" y1="150" x2="300" y2="150" stroke="var(--vien)" stroke-width="1.5"/>
+          <line x1="40" y1="150" x2="40" y2="15" stroke="var(--vien)" stroke-width="1.5"/>
+          <path d="M40,150 C70,150 80,130 92,111 C104,92 120,42 135,29 C150,16 165,60 179,99 C193,138 215,150 250,150 L300,150" fill="none" stroke="var(--mau-chinh)" stroke-width="2.2"/>
+          <line x1="135" y1="29" x2="135" y2="150" stroke="var(--chu-phu)" stroke-width="1.3" stroke-dasharray="3 3"/>
+          <text x="140" y="24" font-size="10" font-weight="600" fill="var(--chu)">λ<tspan baseline-shift="sub" font-size="7">max</tspan> ≈ 510 nm</text>
+          <line x1="203" y1="93" x2="184" y2="103" stroke="var(--chu-phu)" stroke-width="1" stroke-dasharray="2 2"/>
+          <text x="207" y="92" font-size="10" fill="var(--chu-phu)">sườn phổ</text>
+          <text x="40" y="164" text-anchor="middle" font-size="10" fill="var(--chu-phu)">400</text>
+          <text x="127" y="164" text-anchor="middle" font-size="10" fill="var(--chu-phu)">500</text>
+          <text x="213" y="164" text-anchor="middle" font-size="10" fill="var(--chu-phu)">600</text>
+          <text x="300" y="164" text-anchor="middle" font-size="10" fill="var(--chu-phu)">700</text>
+          <text x="296" y="177" text-anchor="end" font-size="10" fill="var(--chu-phu)">λ (nm)</text>
+          <text x="11" y="85" text-anchor="middle" transform="rotate(-90 11 85)" font-size="10" fill="var(--chu-phu)">A</text>
+          <text x="34" y="153" text-anchor="end" font-size="10" fill="var(--chu-phu)">0</text>
+          <text x="34" y="88" text-anchor="end" font-size="10" fill="var(--chu-phu)">0,5</text>
+          <text x="34" y="23" text-anchor="end" font-size="10" fill="var(--chu-phu)">1,0</text>
+        </svg>
+        <p class="chu-thich">Đo ở λ<sub>max</sub> vì ở đó ε lớn nhất (nhạy nhất) và đường cong gần như nằm ngang — sai số do lệch bước sóng một vài nm gần như không ảnh hưởng đến A.</p>
+      </div>
+
       <div class="vi-du"><b>Ví dụ 2.</b> Dung dịch có A = 0,450 trong cuvet 1,00 cm, ε = 1,50·10<sup>4</sup> M<sup>−1</sup>cm<sup>−1</sup>. Tính C và %T.
         <details><summary>Xem lời giải</summary>
           \[ \begin{aligned} C &= \frac{A}{\varepsilon b} = \frac{0,450}{1,50\cdot10^{4}\cdot1,00} \\ &= \mathbf{3,00\cdot10^{-5}\ M} \\ \%T &= 100\cdot10^{-0,450} = \mathbf{35,5\%} \end{aligned} \]
@@ -1907,54 +2264,198 @@ const CHUONG = [
           \[ \begin{aligned} \varepsilon &= \frac{0,312}{1,00\cdot2,00\cdot10^{-5}} \\ &= 1,56\cdot10^{4}\ \mathrm{M^{-1}cm^{-1}} \\ C &= \frac{0,540}{1,56\cdot10^{4}\cdot2,00} \\ &= \mathbf{1,73\cdot10^{-5}\ M} \end{aligned} \]
           Lỗi hay gặp: quên bề dày cuvet mới là 2,00 cm.
         </details></div>
+      <div class="vi-du"><b>Ví dụ 4.</b> Hòa tan 4,0 mg một chất X (M = 220 g/mol) thành 100,0 mL dung dịch. Đo trong cuvet 1,00 cm được %T = 43,0%. Tính A và ε của X.
+        <details><summary>Xem lời giải</summary>
+          \[ A = 2 - \lg43,0 = \mathbf{0,367} \]
+          \[ C = \frac{4,0\cdot10^{-3}/220}{0,1000} = 1,8\cdot10^{-4}\ \mathrm{M} \]
+          \[ \begin{aligned} \varepsilon &= \frac{A}{bC} = \frac{0,367}{1,00\cdot1,8\cdot10^{-4}} \\ &= \mathbf{2,0\cdot10^{3}\ M^{-1}cm^{-1}} \end{aligned} \]
+          Lỗi hay gặp: tính C bằng mg/L rồi chia thẳng cho A để ra "ε" — phải đổi sang <b>mol/L</b> trước vì ε có đơn vị M<sup>−1</sup>cm<sup>−1</sup>; giữ đúng 2 chữ số có nghĩa vì 4,0 mg chỉ có 2 CSCN.
+        </details></div>
+      <div class="vi-du"><b>Ví dụ 5.</b> Dung dịch caffeine 50,0 mg/L (M = 194,19 g/mol) đo trong cuvet 1,00 cm được A = 2,439. Tính ε. Phép đo này có đáng tin không?
+        <details><summary>Xem lời giải</summary>
+          \[ C = \frac{50,0\cdot10^{-3}}{194,19} = 2,575\cdot10^{-4}\ \mathrm{M} \]
+          \[ \begin{aligned} \varepsilon &= \frac{2,439}{1,00\cdot2,575\cdot10^{-4}} \\ &= \mathbf{9,47\cdot10^{3}\ M^{-1}cm^{-1}} \end{aligned} \]
+          A = 2,439 tương ứng %T ≈ 0,36% — quá thấp, hầu như không còn ánh sáng tới detector: sai số của phép đo này rất lớn (mục 7). Nên <b>pha loãng mẫu</b> (ví dụ 10 lần) để A rơi vào khoảng 0,2 – 0,8 rồi đo lại.
+        </details></div>
+      <div class="vi-du"><b>Ví dụ 6.</b> NO<sub>3</sub><sup>−</sup> trong nước ngầm được xác định trực tiếp ở 220 nm (đã hiệu chỉnh nền hữu cơ), ε = 7,24·10<sup>3</sup> M<sup>−1</sup>cm<sup>−1</sup>. Mẫu đo trong cuvet 1,00 cm có A = 0,256. Tính nồng độ NO<sub>3</sub><sup>−</sup> (M = 62,00) theo M và theo ppm.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} C &= \frac{A}{\varepsilon b} = \frac{0,256}{7,24\cdot10^{3}\cdot1,00} \\ &= \mathbf{3,54\cdot10^{-5}\ M} \end{aligned} \]
+          \[ \begin{aligned} \mathrm{ppm} &= C\cdot M\cdot10^{3} \\ &= 3,536\cdot10^{-5}\cdot62,00\cdot10^{3} \\ &= \mathbf{2,19\ ppm} \end{aligned} \]
+        </details></div>
+      <p class="luu-y"><b>Lỗi hay gặp:</b> dùng nhầm công thức A = −lg(43,0) thay vì A = 2 − lg(%T) (bỏ quên đổi %T sang T = %T/100); tính ε hoặc C bằng mg/L thay vì đổi sang mol/L; cộng trừ trực tiếp hai giá trị %T (chỉ có A mới cộng tính, %T thì không); quên nhân hệ số pha loãng đã thực hiện trước khi đo; đọc nhầm chiều A2/A1 khi so hai phép đo cùng chất.</p>
 
-      <h3>5. Sai lệch khỏi định luật Beer</h3>
+      <h3>6. Sai lệch khỏi định luật Beer</h3>
       <ul>
         <li><b>Dung dịch quá đặc</b> (thường &gt; 0,01 M): các phân tử tương tác với nhau, ε thay đổi.</li>
-        <li><b>Nguyên nhân hóa học</b>: chất hấp thụ tham gia cân bằng (kết hợp, phân li, cân bằng acid – base, phản ứng với dung môi), nên nồng độ dạng hấp thụ không tỉ lệ với tổng nồng độ.</li>
-        <li><b>Nguyên nhân thiết bị</b>: ánh sáng không thật đơn sắc (nhất là khi đo ở sườn dốc của phổ); ánh sáng lạc (stray light) lọt vào detector làm A đo được thấp hơn thực tế ở A cao.</li>
+        <li><b>Nguyên nhân hóa học</b>: chất hấp thụ tham gia cân bằng (kết hợp, phân li, cân bằng acid – base, phản ứng với dung môi), nên nồng độ dạng hấp thụ không tỉ lệ với tổng nồng độ. Ví dụ một chỉ thị acid – base có dạng acid và base liên hợp hấp thụ khác nhau: nếu pH dung dịch trôi trong lúc đo, tỉ lệ hai dạng đổi theo, làm A đo được không còn tỉ lệ thẳng với tổng nồng độ chỉ thị — vì vậy phải đo trong dung dịch đệm ổn định pH.</li>
+        <li><b>Nguyên nhân thiết bị</b>: ánh sáng không thật đơn sắc (nhất là khi đo ở sườn dốc của phổ, xem hình ở mục 5); <b>ánh sáng lạc</b> (stray light) lọt vào detector làm A đo được thấp hơn thực tế ở A cao. Ví dụ máy có 0,5% ánh sáng lạc thì %T đo được không bao giờ xuống dưới khoảng 0,5%, nên A đo được không thể vượt quá A ≈ lg(100/0,5) ≈ 2,3 dù dung dịch có đặc đến đâu — đường Beer "gãy" ở vùng A cao.</li>
       </ul>
 
-      <h3>6. Máy quang phổ và cách đo</h3>
+      <h3>7. Sai số phép đo trắc quang theo A</h3>
+      <p>Với một sai số đọc %T tuyệt đối cố định của máy (thường lấy s<sub>T</sub> ≈ 0,44%T là giá trị điển hình), sai số tương đối của nồng độ tính ra phụ thuộc vào A theo một đường cong hình chữ U, nhỏ nhất khi %T ≈ 36,8% (tức A ≈ 0,43):</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>%T</th><th>A</th><th>Sai số tương đối của C</th></tr></thead>
+          <tbody>
+            <tr><td>10%</td><td>1,00</td><td>1,9%</td></tr>
+            <tr><td>20%</td><td>0,70</td><td>1,4%</td></tr>
+            <tr><td>36,8%</td><td>0,43</td><td>1,2% (nhỏ nhất)</td></tr>
+            <tr><td>63%</td><td>0,20</td><td>1,5%</td></tr>
+            <tr><td>80%</td><td>0,10</td><td>2,5%</td></tr>
+            <tr><td>90%</td><td>0,05</td><td>4,6%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="luu-y">Vì lí do này, thực hành thường pha loãng hoặc cô đặc mẫu (đổi cuvet, đổi thể tích định mức) để A rơi vào khoảng <b>0,2 – 0,8</b> (một số tài liệu ghi rộng hơn, 0,3 – 2); A quá thấp thì tín hiệu quá yếu so với nhiễu nền, A quá cao thì gần hết ánh sáng tới detector (mục 6) — cả hai đầu đều làm sai số tương đối tăng vọt.</p>
+
+      <h3>8. Máy quang phổ và cách đo</h3>
       <p><b>Sơ đồ</b>: nguồn sáng → bộ đơn sắc → cuvet → detector → bộ xử lí.</p>
       <div class="mo-phong" data-loai="uv-vis"></div>
       <div class="mo-phong" data-loai="anh-that" data-anh="may-uv-vis,cuvet"></div>
       <ul>
         <li>Nguồn: đèn deuteri (vùng UV), đèn wolfram – halogen (vùng Vis).</li>
         <li>Bộ đơn sắc: cách tử. Detector: ống nhân quang, dãy diode (đo cả phổ một lúc).</li>
-        <li>Máy một chùm tia đo mẫu trắng và mẫu lần lượt; máy hai chùm tia đo đồng thời, bù được dao động của nguồn.</li>
+        <li>Máy <b>một chùm tia</b>: đo mẫu trắng và mẫu lần lượt tại cùng một vị trí cuvet — rẻ, nhưng nếu cường độ nguồn trôi giữa hai lần đo thì sai số. Máy <b>hai chùm tia</b>: tách chùm sáng thành hai đường (mẫu và trắng) đo gần như đồng thời, tự bù được dao động của nguồn và thường có sẵn khả năng quét phổ nhanh.</li>
         <li><b>Cuvet</b>: thạch anh (dùng được cả UV); thủy tinh, nhựa (chỉ vùng Vis); NaCl, KBr (vùng IR); cuvet 10 cm cho mẫu khí.</li>
       </ul>
       <p><b>Cách đo</b>: chọn bước sóng; đặt cuvet chứa <b>mẫu trắng</b> để đo P<sub>0</sub> (chỉnh A = 0); thay bằng cuvet chứa mẫu để đo P.</p>
-      <p class="luu-y"><b>Để đo chính xác</b>: đo trong khoảng <b>A ≈ 0,3 – 2</b> (mẫu đặc quá thì pha loãng, loãng quá thì dùng cuvet dài hơn hoặc làm giàu); đóng kín buồng đo; lọc bỏ hạt lơ lửng; cầm cuvet ở mặt nhám hoặc bằng giấy mềm, lau sạch mặt quang học; đặt cuvet đúng chiều, lặp lại vị trí.</p>
-      <p>Chất không hấp thụ hoặc hấp thụ yếu có thể cho phản ứng với <b>thuốc thử tạo màu</b> rồi đo. Ví dụ Fe<sup>2+</sup> + 1,10-phenanthrolin tạo phức đỏ cam (λ<sub>max</sub> 510 nm).</p>
+      <p class="luu-y"><b>Để đo chính xác</b>: đo trong khoảng <b>A ≈ 0,2 – 0,8</b> (mục 7); đóng kín buồng đo; lọc bỏ hạt lơ lửng; cầm cuvet ở mặt nhám hoặc bằng giấy mềm, lau sạch mặt quang học; đặt cuvet đúng chiều, lặp lại vị trí.</p>
+      <p>Chất không hấp thụ hoặc hấp thụ yếu có thể cho phản ứng với <b>thuốc thử tạo màu</b> rồi đo:</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Thuốc thử</th><th>Xác định</th><th>Màu phức</th><th>λ<sub>max</sub></th></tr></thead>
+          <tbody>
+            <tr><td>1,10-Phenanthrolin</td><td>Fe<sup>2+</sup></td><td>Đỏ cam</td><td>510 nm</td></tr>
+            <tr><td>Brucin (hoặc acid phenoldisulfonic)</td><td>NO<sub>3</sub><sup>−</sup></td><td>Vàng</td><td>~410 nm</td></tr>
+            <tr><td>Phenol + hypoclorit (phương pháp indophenol)</td><td>NH<sub>4</sub><sup>+</sup>/NH<sub>3</sub></td><td>Xanh lam (indophenol)</td><td>~630 nm</td></tr>
+            <tr><td>SCN<sup>−</sup> (thiocyanat)</td><td>Fe<sup>3+</sup></td><td>Đỏ máu (FeSCN<sup>2+</sup>)</td><td>~480 nm</td></tr>
+            <tr><td>1,5-Diphenylcarbazide</td><td>Cr(VI) (CrO<sub>4</sub><sup>2−</sup>)</td><td>Tím đỏ</td><td>~540 nm</td></tr>
+            <tr><td>DPD (N,N-diethyl-p-phenylenediamin)</td><td>Cl<sub>2</sub> dư trong nước</td><td>Hồng</td><td>~515 nm</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="vi-du"><b>Ví dụ 7.</b> <i>(Thêm chuẩn trong bình định mức, xem thêm Chương 10)</i> Lấy hai bình định mức 50,0 mL. Bình 1: 10,00 mL mẫu nước chứa Fe<sup>2+</sup>, tạo phức với phenanthrolin, định mức, đo được A<sub>1</sub> = 0,216. Bình 2: 10,00 mL mẫu như trên + 5,00 mL dung dịch chuẩn Fe<sup>2+</sup> 10,0 ppm, cùng thuốc thử, định mức tới cùng 50,0 mL, đo được A<sub>2</sub> = 0,402. Tính nồng độ Fe<sup>2+</sup> trong mẫu gốc (ppm).
+        <details><summary>Xem lời giải</summary>
+          Vì hai bình có cùng thể tích cuối và cùng bề dày cuvet, A tỉ lệ thẳng với nồng độ tại thời điểm đo. Gọi C<sub>x</sub> là nồng độ mẫu gốc:
+          \[ \frac{A_1}{C_\mathrm{x}V_\mathrm{x}} = \frac{A_2}{C_\mathrm{x}V_\mathrm{x} + C_\mathrm{s}V_\mathrm{s}} \]
+          \[ \Rightarrow\ C_\mathrm{x} = \frac{C_\mathrm{s}V_\mathrm{s}A_1}{(A_2-A_1)V_\mathrm{x}} \]
+          \[ \begin{aligned} C_\mathrm{x} &= \frac{10,0\cdot5,00\cdot0,216}{(0,402-0,216)\cdot10,00} \\ &= \mathbf{5,81\ ppm} \end{aligned} \]
+          Lỗi hay gặp: quên rằng hai bình phải được định mức tới <b>cùng một thể tích cuối</b> — nếu không, phải đưa V<sub>bình</sub> vào công thức.
+        </details></div>
 
-      <h3>7. Phân tích hỗn hợp hai chất</h3>
+      <h3>9. Phân tích hỗn hợp hai chất</h3>
       <p>Hỗn hợp X và Y có phổ chồng lên nhau: đo A ở hai bước sóng λ' và λ'', biết ε của từng chất ở từng bước sóng (từ dung dịch chuẩn riêng), rồi giải hệ hai phương trình:</p>
       <div class="cong-thuc">\[ \begin{aligned} A' &= \varepsilon_\mathrm{X}'b[\mathrm{X}] + \varepsilon_\mathrm{Y}'b[\mathrm{Y}] \\ A'' &= \varepsilon_\mathrm{X}''b[\mathrm{X}] + \varepsilon_\mathrm{Y}''b[\mathrm{Y}] \end{aligned} \]</div>
       <p>Nên chọn hai bước sóng mà ở đó hai chất có ε chênh nhau nhiều (mỗi chất hấp thụ mạnh ở một bước sóng).</p>
-      <div class="vi-du"><b>Ví dụ 4.</b> Hai chất X, Y có ε (M<sup>−1</sup>cm<sup>−1</sup>): ở λ': ε<sub>X</sub> = 16 440, ε<sub>Y</sub> = 3 990; ở λ'': ε<sub>X</sub> = 3 870, ε<sub>Y</sub> = 6 420. Hỗn hợp đo trong cuvet 1,000 cm có A' = 0,957 và A'' = 0,559. Tính [X] và [Y].
+      <div class="vi-du"><b>Ví dụ 8.</b> Hai chất X, Y có ε (M<sup>−1</sup>cm<sup>−1</sup>): ở λ': ε<sub>X</sub> = 16 440, ε<sub>Y</sub> = 3 990; ở λ'': ε<sub>X</sub> = 3 870, ε<sub>Y</sub> = 6 420. Hỗn hợp đo trong cuvet 1,000 cm có A' = 0,957 và A'' = 0,559. Tính [X] và [Y].
         <details><summary>Xem lời giải</summary>
           \[ \begin{aligned} 0,957 &= 16\,440[\mathrm{X}] + 3\,990[\mathrm{Y}] \\ 0,559 &= 3\,870[\mathrm{X}] + 6\,420[\mathrm{Y}] \end{aligned} \]
           Giải hệ (ví dụ bằng định thức):
           \[ \begin{aligned} D &= 16\,440\cdot6\,420 - 3\,990\cdot3\,870 \\ &= 9,01\cdot10^{7} \\ [\mathrm{X}] &= \frac{0,957\cdot6\,420 - 0,559\cdot3\,990}{D} \\ &= \mathbf{4,34\cdot10^{-5}\ M} \\ [\mathrm{Y}] &= \frac{16\,440\cdot0,559 - 3\,870\cdot0,957}{D} \\ &= \mathbf{6,09\cdot10^{-5}\ M} \end{aligned} \]
         </details></div>
+      <div class="vi-du"><b>Ví dụ 9.</b> <i>(Tự tính ε từ chuẩn riêng rồi giải hỗn hợp)</i> Chuẩn X 3,00·10<sup>−5</sup> M cho A' = 0,522 ở λ' và A'' = 0,129 ở λ''. Chuẩn Y 4,00·10<sup>−5</sup> M cho A' = 0,152 ở λ' và A'' = 0,284 ở λ'' (cuvet 1,00 cm cho cả bốn phép đo). Hỗn hợp X, Y đo được A' = 0,610 và A'' = 0,390. Tính [X] và [Y] trong hỗn hợp.
+        <details><summary>Xem lời giải</summary>
+          Tính ε từ mỗi chuẩn riêng (ε = A/(bC)):
+          \[ \begin{gathered} \varepsilon_\mathrm{X}' = \frac{0,522}{3,00\cdot10^{-5}} = 17\,400 \\ \varepsilon_\mathrm{X}'' = \frac{0,129}{3,00\cdot10^{-5}} = 4\,300 \\ \varepsilon_\mathrm{Y}' = \frac{0,152}{4,00\cdot10^{-5}} = 3\,800 \\ \varepsilon_\mathrm{Y}'' = \frac{0,284}{4,00\cdot10^{-5}} = 7\,100 \end{gathered} \]
+          Giải hệ như Ví dụ 8:
+          \[ \begin{aligned} 0,610 &= 17\,400[\mathrm{X}] + 3\,800[\mathrm{Y}] \\ 0,390 &= 4\,300[\mathrm{X}] + 7\,100[\mathrm{Y}] \end{aligned} \]
+          \[ \begin{aligned} D &= 17\,400\cdot7\,100 - 3\,800\cdot4\,300 \\ &= 1,072\cdot10^{8} \end{aligned} \]
+          \[ \begin{aligned} [\mathrm{X}] &= \frac{0,610\cdot7\,100 - 0,390\cdot3\,800}{D} \\ &= \mathbf{2,66\cdot10^{-5}\ M} \end{aligned} \]
+          \[ \begin{aligned} [\mathrm{Y}] &= \frac{17\,400\cdot0,390 - 4\,300\cdot0,610}{D} \\ &= \mathbf{3,88\cdot10^{-5}\ M} \end{aligned} \]
+        </details></div>
+      <p class="luu-y">Muốn biết tỉ lệ mol chính xác của phức tạo thành (ví dụ M : L trong phức kim loại — thuốc thử) mà chưa biết trước, có thể dùng <b>phương pháp Job</b> (phương pháp biến thiên liên tục): pha một dãy dung dịch giữ tổng số mol (C<sub>M</sub> + C<sub>L</sub>) không đổi nhưng đổi tỉ lệ mol từng cặp, đo A của mỗi dung dịch ở λ<sub>max</sub> của phức; đỉnh của đồ thị A theo phần mol x<sub>M</sub> = C<sub>M</sub>/(C<sub>M</sub>+C<sub>L</sub>) cho biết tỉ lệ mol trong phức (đỉnh ở x<sub>M</sub> = 1/3 ứng với phức ML<sub>2</sub>, đỉnh ở x<sub>M</sub> = 1/2 ứng với ML).</p>
 
-      <h3>8. Huỳnh quang và lân quang</h3>
+      <h3>10. Chuẩn độ trắc quang</h3>
+      <p>Thay vì chỉ đo A của một dung dịch, có thể vừa chuẩn độ vừa đo A sau mỗi lần thêm chất chuẩn (chất phân tích, chất chuẩn hoặc sản phẩm phải hấp thụ ánh sáng ở bước sóng đo). Vẽ đồ thị A (đã hiệu chỉnh pha loãng) theo V<sub>chuẩn</sub>: đồ thị gồm hai đoạn thẳng có độ dốc khác nhau, giao điểm của hai đoạn kéo dài là <b>điểm tương đương</b>.</p>
+      <div class="cong-thuc"><div class="nhan">Hiệu chỉnh pha loãng khi thể tích tăng đáng kể (V<sub>0</sub>: thể tích ban đầu; V: thể tích đã thêm)</div>\[ A_\text{hiệu chỉnh} = A_\text{đo được}\cdot\frac{V_0+V}{V_0} \]</div>
+      <p class="luu-y">Ưu điểm so với chuẩn độ dùng chỉ thị màu: xác định điểm tương đương bằng đồ thị (ngoại suy hai đoạn thẳng) nên chính xác hơn ở gần điểm tương đương, không cần chọn chỉ thị đổi màu đúng lúc; dùng được cả khi chưa có bước nhảy rõ (phản ứng không hoàn toàn).</p>
+
+      <h3>11. Huỳnh quang và lân quang</h3>
       <p>Phân tử hấp thụ photon lên trạng thái kích thích, mất bớt một phần năng lượng dưới dạng nhiệt (dao động) rồi phát photon khi trở về trạng thái cơ bản. Vì mất bớt năng lượng, <b>bức xạ phát ra có bước sóng dài hơn</b> bức xạ kích thích.</p>
       <ul>
-        <li><b>Huỳnh quang</b>: phát xạ rất nhanh (cỡ ns), tắt ngay khi ngừng chiếu sáng.</li>
-        <li><b>Lân quang</b>: phát xạ chậm (ms đến vài phút), qua trạng thái kích thích có spin khác.</li>
+        <li><b>Huỳnh quang</b>: phát xạ rất nhanh (cỡ ns), tắt ngay khi ngừng chiếu sáng; xảy ra giữa hai trạng thái cùng độ bội spin (singlet – singlet).</li>
+        <li><b>Lân quang</b>: phát xạ chậm (ms đến vài phút), qua trạng thái kích thích có spin khác (triplet) nhờ <b>chuyển hệ</b> (intersystem crossing).</li>
       </ul>
+
+      <div class="hinh-tinh">
+        <svg viewBox="0 0 320 200" role="img" aria-label="Giản đồ Jablonski">
+          <line x1="30" y1="175" x2="290" y2="175" stroke="var(--chu)" stroke-width="2.4"/>
+          <text x="18" y="179" text-anchor="end" font-size="10.5" font-weight="600" fill="var(--chu)">S₀</text>
+          <line x1="40" y1="55" x2="160" y2="55" stroke="var(--chu)" stroke-width="2.2"/>
+          <text x="30" y="59" text-anchor="end" font-size="10.5" font-weight="600" fill="var(--chu)">S₁</text>
+          <line x1="40" y1="37" x2="160" y2="37" stroke="var(--chu-phu)" stroke-width="1.4"/>
+          <line x1="40" y1="95" x2="160" y2="95" stroke="var(--chu)" stroke-width="2.2"/>
+          <text x="30" y="99" text-anchor="end" font-size="10.5" font-weight="600" fill="var(--chu)">T₁</text>
+          <defs>
+            <marker id="mt-uv-1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--mau-chinh)"/>
+            </marker>
+            <marker id="mt-uv-2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--xanh)"/>
+            </marker>
+            <marker id="mt-uv-3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--vang)"/>
+            </marker>
+            <marker id="mt-uv-4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--chu)"/>
+            </marker>
+            <marker id="mt-uv-5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--chu-phu)"/>
+            </marker>
+          </defs>
+          <line x1="65" y1="175" x2="65" y2="39" stroke="var(--mau-chinh)" stroke-width="2.2" marker-end="url(#mt-uv-1)"/>
+          <path d="M65,37 L61,41 L69,45 L61,49 L69,53 L65,55" fill="none" stroke="var(--chu-phu)" stroke-width="1.3" stroke-dasharray="2 2" marker-end="url(#mt-uv-5)"/>
+          <line x1="95" y1="55" x2="95" y2="173" stroke="var(--xanh)" stroke-width="2.2" marker-end="url(#mt-uv-2)"/>
+          <line x1="130" y1="57" x2="130" y2="93" stroke="var(--chu)" stroke-width="1.6" stroke-dasharray="3 2" marker-end="url(#mt-uv-4)"/>
+          <line x1="150" y1="95" x2="150" y2="173" stroke="var(--vang)" stroke-width="2" stroke-dasharray="1 2.5" marker-end="url(#mt-uv-3)"/>
+        </svg>
+        <div style="display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:6px;font-size:11px;color:var(--chu-phu)">
+          <span><i style="display:inline-block;width:10px;height:10px;background:var(--mau-chinh);border-radius:2px;vertical-align:-1px;margin-right:4px"></i>Hấp thụ</span>
+          <span><i style="display:inline-block;width:10px;height:10px;background:var(--chu-phu);border-radius:2px;vertical-align:-1px;margin-right:4px"></i>Giãn động (mất nhiệt)</span>
+          <span><i style="display:inline-block;width:10px;height:10px;background:var(--xanh);border-radius:2px;vertical-align:-1px;margin-right:4px"></i>Huỳnh quang</span>
+          <span><i style="display:inline-block;width:10px;height:10px;background:var(--chu);border-radius:2px;vertical-align:-1px;margin-right:4px"></i>Chuyển hệ (ISC)</span>
+          <span><i style="display:inline-block;width:10px;height:10px;background:var(--vang);border-radius:2px;vertical-align:-1px;margin-right:4px"></i>Lân quang</span>
+        </div>
+        <p class="chu-thich">Hấp thụ đưa phân tử lên mức dao động cao của S₁; phân tử giãn động (mất nhiệt) về đáy S₁ rồi mới phát huỳnh quang — vì vậy huỳnh quang luôn có bước sóng dài hơn ánh sáng kích thích. Lân quang qua T₁ nên chậm và có bước sóng dài hơn huỳnh quang.</p>
+      </div>
+
       <div class="cong-thuc"><div class="nhan">Cường độ huỳnh quang ở nồng độ thấp (Φ: hiệu suất lượng tử; P<sub>0</sub>: công suất chiếu tới)</div>\[ I = k\,\Phi\,P_0\,C \]</div>
       <ul>
         <li>Detector đặt vuông góc với chùm kích thích nên đo tín hiệu trên nền tối: <b>nhạy hơn</b> đo hấp thụ nhiều bậc.</li>
         <li><b>Chọn lọc hơn</b>: chọn được cả bước sóng kích thích và bước sóng phát xạ.</li>
         <li>Tín hiệu tỉ lệ với P<sub>0</sub>: tăng cường độ nguồn thì tăng độ nhạy (điều không làm được với đo hấp thụ).</li>
-        <li>Chỉ tuyến tính ở nồng độ thấp; nồng độ cao bị tự hấp thụ và dập tắt.</li>
+        <li>Chỉ tuyến tính ở nồng độ thấp; nồng độ cao bị tự hấp thụ và <b>dập tắt</b> (quenching, mục dưới).</li>
       </ul>
+      <p><b>Hai loại phổ huỳnh quang</b>: <b>phổ kích thích</b> (excitation spectrum) là đồ thị cường độ phát xạ (đo ở một λ<sub>phát xạ</sub> cố định) theo λ kích thích quét qua — hình dạng gần giống phổ hấp thụ UV-Vis của chất đó, dùng để chọn bước sóng kích thích tối ưu. <b>Phổ phát xạ</b> (emission spectrum) là đồ thị cường độ theo λ phát xạ khi giữ λ kích thích cố định (thường ở λ<sub>kích thích, max</sub>) — dùng để chọn bước sóng đo và luôn nằm ở vùng bước sóng dài hơn phổ kích thích.</p>
+      <p><b>Dập tắt huỳnh quang</b> (quenching): cường độ huỳnh quang giảm khi có mặt một chất khác (chất dập tắt, ví dụ O<sub>2</sub> hòa tan, I<sup>−</sup>, ion kim loại nặng) do va chạm làm phân tử kích thích mất năng lượng không phát xạ (dập tắt động, va chạm) hoặc do tạo phức không huỳnh quang với chất phân tích (dập tắt tĩnh). Đây vừa là <b>hạn chế</b> (làm nồng độ cao lệch khỏi tuyến tính, mục trên) vừa là <b>nguyên tắc đo</b> của một số phương pháp (đo độ giảm huỳnh quang để định lượng chất dập tắt, ví dụ cảm biến oxy hòa tan).</p>
+
+      <div class="hinh-tinh">
+        <svg viewBox="0 0 320 165" role="img" aria-label="Sơ đồ máy đo huỳnh quang, detector đặt vuông góc 90° với chùm kích thích">
+          <rect x="152" y="2" width="96" height="32" rx="6" fill="var(--nen)" stroke="var(--xanh)" stroke-width="1.5"/>
+          <text x="200" y="22" text-anchor="middle" font-size="10" font-weight="600" fill="var(--chu)">Detector</text>
+          <line x1="200" y1="34" x2="200" y2="48" stroke="var(--xanh)" stroke-width="2"/>
+          <rect x="164" y="48" width="72" height="36" rx="6" fill="var(--nen)" stroke="var(--xanh)" stroke-width="1.5"/>
+          <text x="200" y="63" text-anchor="middle" font-size="9.5" fill="var(--chu)">Đơn sắc</text>
+          <text x="200" y="75" text-anchor="middle" font-size="9.5" fill="var(--chu)">phát xạ</text>
+          <line x1="200" y1="84" x2="200" y2="98" stroke="var(--xanh)" stroke-width="2"/>
+          <text x="207" y="94" font-size="9.5" fill="var(--xanh)">90°</text>
+          <rect x="16" y="101" width="46" height="34" rx="6" fill="var(--nen)" stroke="var(--mau-chinh)" stroke-width="1.5"/>
+          <text x="39" y="122" text-anchor="middle" font-size="10" fill="var(--chu)">Nguồn</text>
+          <line x1="62" y1="118" x2="98" y2="118" stroke="var(--mau-chinh)" stroke-width="2"/>
+          <rect x="98" y="98" width="56" height="40" rx="6" fill="var(--nen)" stroke="var(--mau-chinh)" stroke-width="1.5"/>
+          <text x="126" y="115" text-anchor="middle" font-size="9.5" fill="var(--chu)">Đơn sắc</text>
+          <text x="126" y="127" text-anchor="middle" font-size="9.5" fill="var(--chu)">kích thích</text>
+          <line x1="154" y1="118" x2="184" y2="118" stroke="var(--mau-chinh)" stroke-width="2"/>
+          <rect x="184" y="98" width="32" height="40" fill="none" stroke="var(--chu-phu)" stroke-width="1.6"/>
+          <text x="200" y="152" text-anchor="middle" font-size="10" fill="var(--chu-phu)">Cuvet</text>
+          <line x1="216" y1="118" x2="260" y2="118" stroke="var(--vien)" stroke-width="2" stroke-dasharray="3 3"/>
+          <text x="264" y="121" font-size="9.5" fill="var(--chu-phu)">(không đo)</text>
+        </svg>
+        <p class="chu-thich">Detector đặt vuông góc (90°) với chùm kích thích nên không "nhìn" thẳng vào nguồn — chỉ thu ánh sáng phát xạ, đo được tín hiệu nhỏ trên nền tối gần như bằng 0, nhạy hơn nhiều so với đo hấp thụ (đo P trên nền P₀ lớn).</p>
+      </div>
+
       <p><b>Ứng dụng</b>: xác định Se trong hạt ngũ cốc. Mẫu được phá bằng HNO<sub>3</sub> trong lò vi sóng; Se(VI) được khử về Se(IV) bằng NH<sub>2</sub>OH; Se(IV) phản ứng với thuốc thử tạo dẫn xuất huỳnh quang; kích thích ở 378 nm, đo phát xạ ở 518 nm; đường chuẩn tuyến tính đến khoảng 0,1 µg/mL.</p>
-    `,
+`,
     baiTap: [
       {
         de: "Dung dịch có %T = 25,0% trong cuvet 1,00 cm. Tính A. Nếu ε = 8,20·10<sup>3</sup> M<sup>−1</sup>cm<sup>−1</sup>, tính nồng độ.",
