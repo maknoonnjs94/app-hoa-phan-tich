@@ -279,3 +279,223 @@ MO_PHONG["keo-tha-aas"] = el => {
     });
   });
 };
+
+/* ---------------- Khung đồ thị dùng chung ---------------- */
+// Tạo SVG đồ thị: trả về {svg, X, Y} với trục x [x0,x1], y [y0,y1]
+function doThi(el, { x0, x1, y0, y1, nhanX, nhanY, vachX, vachY, rong = 300, cao = 190 }) {
+  const L = 32, R = rong - 8, T = 10, B = cao - 22;
+  const X = x => L + (x - x0) / (x1 - x0) * (R - L), Y = y => B - (y - y0) / (y1 - y0) * (B - T);
+  el.setAttribute("viewBox", `0 0 ${rong} ${cao}`);
+  el.innerHTML = `<g class="mp-luoi">${vachY.map(v => `<line x1="${L}" x2="${R}" y1="${Y(v)}" y2="${Y(v)}"/><text x="${L - 4}" y="${Y(v) + 3}" text-anchor="end">${String(v).replace(".", ",")}</text>`).join("")}
+    ${vachX.map(v => `<text x="${X(v)}" y="${B + 12}" text-anchor="middle">${String(v).replace(".", ",")}</text>`).join("")}
+    <text x="${R}" y="${cao - 1}" text-anchor="end" class="mp-tr">${nhanX}</text><text x="${L + 3}" y="${T + 6}" class="mp-tr">${nhanY}</text></g>`;
+  return { X, Y, L, R, T, B };
+}
+const duongSVG = (pts, X, Y) => pts.map((p, i) => (i ? "L" : "M") + X(p[0]).toFixed(1) + " " + Y(p[1]).toFixed(1)).join("");
+const phanTu = (tag, attrs, cha) => { const e = document.createElementNS(svgNS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); cha.append(e); return e; };
+
+/* ---------------- 5. Giản đồ phân bố theo pH (kéo pH) ---------------- */
+const HE_PHAN_BO = {
+  "Acid acetic": { pK: [4.75], dang: ["CH₃COOH", "CH₃COO⁻"] },
+  "Acid carbonic": { pK: [6.38, 10.32], dang: ["H₂CO₃", "HCO₃⁻", "CO₃²⁻"] },
+  "Acid phosphoric": { pK: [2.12, 7.21, 12.32], dang: ["H₃PO₄", "H₂PO₄⁻", "HPO₄²⁻", "PO₄³⁻"] },
+  "Acid oxalic": { pK: [1.19, 4.19], dang: ["H₂C₂O₄", "HC₂O₄⁻", "C₂O₄²⁻"] },
+};
+const MAU_DANG = ["#6366f1", "#10b981", "#f59e0b", "#ef4444"];
+function alphaDang(pK, pH) {
+  const h = 10 ** -pH, K = pK.map(p => 10 ** -p), n = K.length;
+  const t = []; let tich = 1;
+  for (let i = 0; i <= n; i++) { t.push(h ** (n - i) * tich); tich *= K[i] ?? 1; }
+  const D = t.reduce((a, b) => a + b); return t.map(x => x / D);
+}
+MO_PHONG["phan-bo"] = el => {
+  let he = HE_PHAN_BO["Acid phosphoric"], pH = 7;
+  el.innerHTML = `
+    <div class="mp-dau"><b>📊 Dạng tồn tại theo pH</b><span>Kéo ngang trên đồ thị để đổi pH</span></div>
+    <div class="mp-chon"><select>${Object.keys(HE_PHAN_BO).map(k => `<option ${k === "Acid phosphoric" ? "selected" : ""}>${k}</option>`).join("")}</select></div>
+    <svg class="mp-do-thi"></svg>
+    <div class="mp-cot-dang"></div>
+    <p class="mp-nhan-xet"></p>`;
+  const svg = el.querySelector("svg"), $ = s => el.querySelector(s);
+  function ve() {
+    const { X, Y } = doThi(svg, { x0: 0, x1: 14, y0: 0, y1: 100, nhanX: "pH", nhanY: "%", vachX: [0, 2, 4, 6, 8, 10, 12, 14], vachY: [0, 25, 50, 75, 100] });
+    he.dang.forEach((_, k) => { const pts = []; for (let p = 0; p <= 14.001; p += 0.1) pts.push([p, alphaDang(he.pK, p)[k] * 100]); phanTu("path", { d: duongSVG(pts, X, Y), fill: "none", stroke: MAU_DANG[k], "stroke-width": 2.4 }, svg); });
+    he.pK.forEach(p => phanTu("line", { x1: X(p), x2: X(p), y1: Y(0), y2: Y(100), class: "mp-tđ" }, svg));
+    const vach = phanTu("line", { y1: Y(0), y2: Y(100), stroke: "var(--chu)", "stroke-width": 1.5 }, svg);
+    const nhan = phanTu("text", { y: 20, "text-anchor": "middle", class: "mp-nhan-ph" }, svg);
+    const capNhat = () => {
+      vach.setAttribute("x1", X(pH)); vach.setAttribute("x2", X(pH)); nhan.setAttribute("x", kep(X(pH), 40, 270)); nhan.textContent = "pH " + soVN(pH, 1);
+      const a = alphaDang(he.pK, pH), iMax = a.indexOf(Math.max(...a));
+      $(".mp-cot-dang").innerHTML = he.dang.map((d, k) => `<div><span style="color:${MAU_DANG[k]}">${d}</span><i><b style="width:${(a[k] * 100).toFixed(1)}%;background:${MAU_DANG[k]}"></b></i><small>${soVN(a[k] * 100, 1)}%</small></div>`).join("");
+      $(".mp-nhan-xet").innerHTML = `Dạng chủ yếu: <b>${he.dang[iMax]}</b>. pK<sub>a</sub> = ${he.pK.map(p => soVN(p)).join(" ; ")} (đường đứt): tại pH = pK<sub>a</sub> hai dạng kề nhau bằng nhau, mỗi dạng 50%.`;
+    };
+    keoTren(svg, x => { pH = kep(Math.round(((x * 300 - 32) / 260 * 14) * 10) / 10, 0, 14); capNhat(); });
+    capNhat();
+  }
+  $("select").onchange = e => { he = HE_PHAN_BO[e.target.value]; ve(); };
+  ve();
+};
+
+/* ---------------- 6. Le Chatelier: Fe³⁺ + SCN⁻ ⇌ FeSCN²⁺ ---------------- */
+MO_PHONG["le-chatelier"] = el => {
+  const K = 140;                                   // hằng số cân bằng gần đúng
+  let Fe = 2e-3, SCN = 2e-3, x = 0, dang = null;    // tổng nồng độ; x = [FeSCN²⁺]
+  const canBang = () => { const a = K, b = -(K * (Fe + SCN) + 1), c = K * Fe * SCN; return (-b - Math.sqrt(b * b - 4 * a * c)) / (2 * a); };
+  x = canBang();
+  el.innerHTML = `
+    <div class="mp-dau"><b>⚖️ Nguyên lí Le Chatelier</b><span>Fe³⁺ (vàng nhạt) + SCN⁻ ⇌ FeSCN²⁺ (đỏ máu), K = 140</span></div>
+    <div class="mp-le">
+      <svg class="mp-coc" viewBox="0 0 100 120"><path d="M15 10 h70 v95 q0 8 -8 8 h-54 q-8 0 -8-8z" class="mp-thuy-tinh"/><path class="mp-dd" d="M17 40 h66 v64 q0 7 -7 7 h-52 q-7 0 -7-7z"/></svg>
+      <div class="mp-cot-dang mp-cot-le"></div>
+    </div>
+    <div class="mp-so"><div><small>Q</small><b class="mp-q">–</b></div><div><small>K</small><b>140</b></div><div><small>Chiều chuyển dịch</small><b class="mp-chieu">Cân bằng</b></div></div>
+    <div class="mp-nut mp-nut-le"><button data-l="fe">+ Fe³⁺</button><button data-l="scn">+ SCN⁻</button><button data-l="ag">+ Ag⁺ (lấy SCN⁻)</button><button data-l="loang">Pha loãng ×2</button></div>
+    <p class="mp-nhan-xet">Bấm một tác động rồi quan sát: Q thay đổi ngay, sau đó hệ tự chuyển dịch về Q = K.</p>`;
+  const $ = s => el.querySelector(s);
+  function hien(xh) {
+    const f = Fe - xh, s = SCN - xh, Q = xh / (f * s);
+    $(".mp-q").textContent = Q.toFixed(0);
+    $(".mp-dd").setAttribute("fill", `rgba(${Math.round(250 - 60 * Math.min(1, xh / 3e-3))},${Math.round(210 - 190 * Math.min(1, xh / 1.5e-3))},${Math.round(80 - 60 * Math.min(1, xh / 1.5e-3))},${0.35 + 0.6 * Math.min(1, xh / 2e-3)})`);
+    const max = Math.max(f, s, xh, 1e-4) * 1.1;
+    $(".mp-cot-le").innerHTML = [["Fe³⁺", f, "#eab308"], ["SCN⁻", s, "#94a3b8"], ["FeSCN²⁺", xh, "#dc2626"]].map(([t, c, m]) => `<div><span>${t}</span><i><b style="width:${c / max * 100}%;background:${m}"></b></i><small>${(c * 1e3).toFixed(2).replace(".", ",")} mM</small></div>`).join("");
+    return Q;
+  }
+  function tacDong(l) {
+    cancelAnimationFrame(dang);
+    if (l === "fe") Fe += 2e-3; if (l === "scn") SCN += 2e-3;
+    if (l === "ag") { const bot = Math.min(1e-3, SCN - x - 1e-5); SCN -= bot; }
+    if (l === "loang") { Fe /= 2; SCN /= 2; x /= 2; }
+    const Q = hien(x), dich = Q < K ? "→ Thuận" : Q > K ? "← Nghịch" : "Cân bằng";
+    $(".mp-chieu").textContent = dich;
+    $(".mp-nhan-xet").innerHTML = { fe: "Thêm Fe³⁺: Q giảm dưới K → cân bằng chuyển dịch thuận, màu đỏ đậm lên.", scn: "Thêm SCN⁻: Q < K → chuyển dịch thuận, tạo thêm FeSCN²⁺.", ag: "Ag⁺ kết tủa AgSCN, lấy bớt SCN⁻: Q > K → chuyển dịch nghịch, màu đỏ nhạt đi.", loang: "Pha loãng: cả tử và mẫu giảm, nhưng Q = [FeSCN²⁺]/([Fe³⁺][SCN⁻]) tăng gấp đôi → chuyển dịch nghịch (về phía nhiều tiểu phân hơn)." }[l];
+    const dau = x, cuoi = canBang(), t0 = performance.now();
+    const buoc = t => { const k = Math.min(1, (t - t0) / 1400); x = dau + (cuoi - dau) * (1 - (1 - k) ** 3); hien(x); if (k < 1 && el.isConnected) dang = requestAnimationFrame(buoc); else $(".mp-chieu").textContent = "Cân bằng (Q = K)"; };
+    setTimeout(() => { dang = requestAnimationFrame(buoc); }, 500);
+  }
+  el.querySelectorAll("[data-l]").forEach(b => b.onclick = () => tacDong(b.dataset.l));
+  hien(x);
+};
+
+/* ---------------- 7. Chuẩn độ kết tủa Mohr ---------------- */
+MO_PHONG["mohr"] = el => {
+  const Va = 25, C = 0.0500, Cag = 0.0500, Ve = 25, Vmax = 40, Ksp = 1.8e-10, KspCr = 1.1e-12, Cr0 = 5e-3;
+  let V = 0, chay = null;
+  const tinh = v => { const Vt = Va + v, d = (C * Va - Cag * v) / Vt; const ag = (-d + Math.sqrt(d * d + 4 * Ksp)) / 2; const cr = Cr0 * Va / Vt; return { ag, pAg: -Math.log10(ag), do: ag * ag * cr > KspCr, ket: Math.min(v, Ve) / Ve }; };
+  el.innerHTML = `
+    <div class="mp-dau"><b>🧂 Chuẩn độ Mohr</b><span>25,00 mL Cl⁻ 0,0500 M + K₂CrO₄, chuẩn bằng AgNO₃ 0,0500 M</span></div>
+    <div class="mp-khung-cd">
+      <svg class="mp-bo" viewBox="0 0 120 260"><rect x="52" y="6" width="16" height="150" rx="3" class="mp-thuy-tinh"/><rect class="mp-muc-buret" x="54" y="8" width="12" height="146" fill="#e2e8f0"/><path d="M56 156 h8 v10 l-3 8 h-2 l-3-8z" class="mp-thuy-tinh"/><path d="M44 196 h32 v12 l26 40 q2 6 -5 6 h-74 q-7 0 -5-6 l26-40z" class="mp-thuy-tinh"/><path class="mp-dd" d="M30 226 h60 l12 18 q2 4 -4 4 h-76 q-6 0 -4-4z"/><g class="mp-hat"></g></svg>
+      <svg class="mp-do-thi"></svg>
+    </div>
+    <div class="mp-so"><div><small>V AgNO₃</small><b class="mp-v">0,00 mL</b></div><div><small>pAg</small><b class="mp-ph">–</b></div><div><small>Quan sát</small><b class="mp-vung">–</b></div></div>
+    <div class="mp-nut"><button data-d="0.05">+1 giọt</button><button data-d="1">+1 mL</button><button class="mp-mo-khoa">▶ Mở khóa</button><button class="mp-lai">↺ Làm lại</button></div>
+    <p class="mp-nhan-xet">AgCl (trắng) kết tủa trước vì cần [Ag⁺] rất nhỏ. Khi Cl⁻ gần hết, [Ag⁺] tăng vọt, Ag₂CrO₄ đỏ gạch xuất hiện: đó là điểm cuối.</p>`;
+  const $ = s => el.querySelector(s), svg = $(".mp-do-thi");
+  const { X, Y } = doThi(svg, { x0: 0, x1: Vmax, y0: 0, y1: 10, nhanX: "mL", nhanY: "pAg", vachX: [0, 10, 20, 30, 40], vachY: [0, 2, 4, 6, 8, 10] });
+  const pts = []; for (let v = 0; v <= Vmax; v += 0.2) pts.push([v, tinh(v).pAg]);
+  phanTu("path", { d: duongSVG(pts, X, Y), class: "mp-duong-mo", fill: "none" }, svg);
+  phanTu("line", { x1: X(Ve), x2: X(Ve), y1: Y(0), y2: Y(10), class: "mp-tđ" }, svg);
+  const duong = phanTu("path", { class: "mp-duong", fill: "none" }, svg), diem = phanTu("circle", { r: 5, class: "mp-diem" }, svg);
+  const hat = $(".mp-hat"); hat.innerHTML = Array.from({ length: 40 }, (_, i) => `<circle cx="${34 + (i * 37) % 64}" cy="${230 + (i * 13) % 16}" r="${1.2 + (i % 3) * 0.5}" fill="#f8fafc" opacity="0"/>`).join("");
+  function capNhat() {
+    const r = tinh(V);
+    duong.setAttribute("d", V > 0 ? duongSVG(pts.filter(p => p[0] <= V).concat([[V, r.pAg]]), X, Y) : "");
+    diem.setAttribute("cx", X(V)); diem.setAttribute("cy", Y(r.pAg));
+    $(".mp-v").textContent = soVN(V) + " mL"; $(".mp-ph").textContent = soVN(r.pAg);
+    $(".mp-muc-buret").setAttribute("y", 8 + V / Vmax * 146); $(".mp-muc-buret").setAttribute("height", 146 - V / Vmax * 146);
+    $(".mp-dd").setAttribute("fill", r.do ? "rgba(185,60,40,.75)" : `rgba(250,204,21,${0.55 - 0.25 * r.ket})`);
+    hat.querySelectorAll("circle").forEach((c, i) => { c.setAttribute("opacity", i / 40 < r.ket ? 0.9 : 0); c.setAttribute("fill", r.do ? "#c2410c" : "#f8fafc"); });
+    $(".mp-vung").textContent = r.do ? "Đỏ gạch" : V > 0 ? "Kết tủa trắng" : "Vàng";
+  }
+  const dat = v => { V = kep(Math.round(v * 100) / 100, 0, Vmax); capNhat(); };
+  el.querySelectorAll("[data-d]").forEach(b => b.onclick = () => dat(V + +b.dataset.d));
+  const dung = () => { clearInterval(chay); chay = null; $(".mp-mo-khoa").textContent = "▶ Mở khóa"; };
+  $(".mp-lai").onclick = () => { dung(); dat(0); };
+  $(".mp-mo-khoa").onclick = () => { if (chay) return dung(); if (V >= Vmax) dat(0); $(".mp-mo-khoa").textContent = "⏸ Khóa lại"; chay = setInterval(() => { dat(V + (Math.abs(V - Ve) < 1.5 ? 0.05 : 0.5)); if (tinh(V).do || V >= Vmax || !el.isConnected) dung(); }, 110); };
+  keoTren(svg, x => dat((x * 300 - 32) / 260 * Vmax));
+  capNhat();
+};
+
+/* ---------------- 8. Chuẩn độ oxi hóa – khử ---------------- */
+MO_PHONG["chuan-do-oxh"] = el => {
+  const HE = { "Fe²⁺ bằng Ce⁴⁺ (HNO₃ 1 M)": { E2: 1.61, n: 1 }, "Fe²⁺ bằng KMnO₄ ([H⁺] = 1 M)": { E2: 1.51, n: 5 } };
+  const E1 = 0.77, Ve = 25, Vmax = 40, Einde = 1.15;
+  let he = HE["Fe²⁺ bằng Ce⁴⁺ (HNO₃ 1 M)"], V = 12.5;
+  const E = v => { if (v <= 0) v = 0.01; if (Math.abs(v - Ve) < 1e-6) return (E1 + he.n * he.E2) / (1 + he.n); if (v < Ve) return E1 + 0.059 * Math.log10(v / (Ve - v)); return he.E2 + 0.059 / he.n * Math.log10((v - Ve) / Ve); };
+  el.innerHTML = `
+    <div class="mp-dau"><b>⚡ Đường chuẩn độ oxi hóa – khử</b><span>Kéo trên đồ thị · chỉ thị ferroin (E⁰ = 1,15 V)</span></div>
+    <div class="mp-chon"><select>${Object.keys(HE).map(k => `<option>${k}</option>`).join("")}</select></div>
+    <svg class="mp-do-thi"></svg>
+    <div class="mp-so"><div><small>V chuẩn</small><b class="mp-v">–</b></div><div><small>E (V)</small><b class="mp-e">–</b></div><div><small>Ferroin</small><b class="mp-mau">–</b></div></div>
+    <p class="mp-nhan-xet"></p>`;
+  const $ = s => el.querySelector(s), svg = $("svg");
+  let X, Y, duong, diem, oMau;
+  function ve() {
+    ({ X, Y } = doThi(svg, { x0: 0, x1: Vmax, y0: 0.5, y1: 1.8, nhanX: "mL", nhanY: "E (V)", vachX: [0, 10, 20, 30, 40], vachY: [0.6, 0.8, 1, 1.2, 1.4, 1.6] }));
+    phanTu("rect", { x: X(0), width: X(Vmax) - X(0), y: Y(Einde + 0.059), height: Y(Einde - 0.059) - Y(Einde + 0.059), class: "mp-vung-ct" }, svg);
+    const pts = []; for (let v = 0.25; v <= Vmax; v += 0.25) pts.push([v, E(v)]);
+    phanTu("path", { d: duongSVG(pts, X, Y), class: "mp-duong", fill: "none" }, svg);
+    phanTu("line", { x1: X(Ve), x2: X(Ve), y1: Y(0.5), y2: Y(1.8), class: "mp-tđ" }, svg);
+    phanTu("line", { x1: X(Ve / 2), x2: X(Ve / 2), y1: Y(0.5), y2: Y(1.8), stroke: "var(--vien)", "stroke-dasharray": "2 3" }, svg);
+    diem = phanTu("circle", { r: 5, class: "mp-diem" }, svg);
+    capNhat();
+  }
+  function capNhat() {
+    const e = E(V); diem.setAttribute("cx", X(V)); diem.setAttribute("cy", Y(e));
+    $(".mp-v").textContent = soVN(V) + " mL"; $(".mp-e").textContent = soVN(e, 3);
+    const f = 1 / (1 + 10 ** ((Einde - e) / 0.059));            // phần ferroin ở dạng oxi hóa (xanh nhạt)
+    const mau = tronMau([220, 38, 38], [147, 197, 253], f);
+    $(".mp-mau").innerHTML = `<span class="mp-cham" style="background:${rgba(mau)}"></span>${f < 0.3 ? "đỏ" : f > 0.7 ? "xanh nhạt" : "đang đổi"}`;
+    const Etd = (E1 + he.n * he.E2) / (1 + he.n);
+    $(".mp-nhan-xet").innerHTML = V < Ve ? `Trước tương đương: tính E theo cặp Fe³⁺/Fe²⁺. Tại V = V<sub>e</sub>/2 = 12,5 mL, E = E⁰(Fe) = 0,77 V.` : Math.abs(V - Ve) < 0.2 ? `Tại tương đương: E<sub>tđ</sub> = (0,77 + ${he.n}·${soVN(he.E2)})/${1 + he.n} = <b>${soVN(Etd)} V</b>.` : `Sau tương đương: tính E theo cặp của chất chuẩn. Tại V = 2V<sub>e</sub>, E = E⁰ = ${soVN(he.E2)} V.`;
+  }
+  keoTren(svg, x => { V = kep(Math.round(((x * 300 - 32) / 260 * Vmax) * 10) / 10, 0.1, Vmax); if (Math.abs(V - Ve) < 0.25) V = Ve; capNhat(); });
+  $("select").onchange = e => { he = HE[e.target.value]; ve(); };
+  ve();
+};
+
+/* ---------------- 9. Đường chuẩn: kéo điểm, hồi quy tức thì ---------------- */
+MO_PHONG["duong-chuan"] = el => {
+  const xs = [0, 2, 4, 6, 8, 10];
+  let ys = [0.004, 0.126, 0.249, 0.374, 0.497, 0.620], yMau = 0.300;
+  const T95 = { 2: 4.30, 3: 3.18, 4: 2.78, 5: 2.57 };
+  el.innerHTML = `
+    <div class="mp-dau"><b>📈 Dựng đường chuẩn</b><span>Kéo các điểm lên/xuống · kéo đường ngang cam để đổi tín hiệu mẫu</span></div>
+    <svg class="mp-do-thi mp-dc"></svg>
+    <div class="mp-so mp-so-4"><div><small>m</small><b class="mp-m">–</b></div><div><small>b</small><b class="mp-b">–</b></div><div><small>R²</small><b class="mp-r2">–</b></div><div><small>s<sub>y</sub></small><b class="mp-sy">–</b></div></div>
+    <p class="mp-nhan-xet"></p>`;
+  const $ = s => el.querySelector(s), svg = $("svg");
+  const { X, Y, B, T } = doThi(svg, { x0: 0, x1: 10.5, y0: 0, y1: 0.7, nhanX: "C (ppm)", nhanY: "A", vachX: [0, 2, 4, 6, 8, 10], vachY: [0, 0.2, 0.4, 0.6] });
+  const lg = phanTu("line", { class: "mp-duong" }, svg), ngang = phanTu("line", { stroke: "#f59e0b", "stroke-width": 2, "stroke-dasharray": "5 3" }, svg);
+  const doc = phanTu("line", { stroke: "#f59e0b", "stroke-width": 1.5 }, svg), band = phanTu("rect", { fill: "rgba(245,158,11,.25)" }, svg);
+  const dps = xs.map((x, i) => phanTu("circle", { r: 7, cx: X(x), class: "mp-diem mp-keo" }, svg));
+  function capNhat() {
+    const n = xs.length, Sx = xs.reduce((a, b) => a + b), Sy = ys.reduce((a, b) => a + b), Sxx = xs.reduce((a, x) => a + x * x, 0), Sxy = xs.reduce((a, x, i) => a + x * ys[i], 0);
+    const D = n * Sxx - Sx * Sx, m = (n * Sxy - Sx * Sy) / D, b = (Sxx * Sy - Sxy * Sx) / D;
+    const d = ys.map((y, i) => y - (m * xs[i] + b)), sy = Math.sqrt(d.reduce((a, v) => a + v * v, 0) / (n - 2));
+    const yb = Sy / n, SStot = ys.reduce((a, y) => a + (y - yb) ** 2, 0), r2 = 1 - d.reduce((a, v) => a + v * v, 0) / SStot;
+    dps.forEach((c, i) => c.setAttribute("cy", Y(ys[i])));
+    lg.setAttribute("x1", X(0)); lg.setAttribute("y1", Y(b)); lg.setAttribute("x2", X(10.5)); lg.setAttribute("y2", Y(m * 10.5 + b));
+    const x0 = (yMau - b) / m, xb = Sx / n, Sxxc = Sxx - n * xb * xb;
+    const sx = sy / Math.abs(m) * Math.sqrt(1 + 1 / n + (yMau - yb) ** 2 / (m * m * Sxxc)), ci = T95[n - 2] * sx;
+    ngang.setAttribute("x1", X(0)); ngang.setAttribute("x2", X(kep(x0, 0, 10.5))); ngang.setAttribute("y1", Y(yMau)); ngang.setAttribute("y2", Y(yMau));
+    doc.setAttribute("x1", X(kep(x0, 0, 10.5))); doc.setAttribute("x2", X(kep(x0, 0, 10.5))); doc.setAttribute("y1", Y(yMau)); doc.setAttribute("y2", B);
+    band.setAttribute("x", X(kep(x0 - ci, 0, 10.5))); band.setAttribute("width", Math.max(0, X(kep(x0 + ci, 0, 10.5)) - X(kep(x0 - ci, 0, 10.5)))); band.setAttribute("y", B - 6); band.setAttribute("height", 6);
+    $(".mp-m").textContent = soVN(m, 4); $(".mp-b").textContent = soVN(b, 4); $(".mp-r2").textContent = soVN(r2, 4); $(".mp-sy").textContent = soVN(sy, 4);
+    const ngoai = x0 < 0 || x0 > 10;
+    $(".mp-nhan-xet").innerHTML = `Mẫu có A = ${soVN(yMau, 3)} → C = <b>${soVN(x0, 2)} ± ${soVN(ci, 2)} ppm</b> (95%, đo mẫu 1 lần). ${ngoai ? "⚠️ Nằm ngoài dãy chuẩn: không được ngoại suy, hãy pha loãng mẫu." : "Thử kéo một điểm lệch khỏi đường thẳng: s<sub>y</sub> tăng, khoảng tin cậy của mẫu rộng ra."}`;
+  }
+  let dang = -1;
+  svg.addEventListener("pointerdown", e => {
+    const r = svg.getBoundingClientRect(), px = (e.clientX - r.left) / r.width * 300, py = (e.clientY - r.top) / r.height * 190;
+    let best = -1, dmin = 22; xs.forEach((x, i) => { const dd = Math.hypot(X(x) - px, Y(ys[i]) - py); if (dd < dmin) { dmin = dd; best = i; } });
+    dang = best >= 0 ? best : "mau"; svg.setPointerCapture(e.pointerId); e.preventDefault();
+  });
+  svg.addEventListener("pointermove", e => {
+    if (dang === -1 || !svg.hasPointerCapture(e.pointerId)) return;
+    const r = svg.getBoundingClientRect(), py = (e.clientY - r.top) / r.height * 190, y = kep((B - py) / (B - T) * 0.7, 0, 0.7);
+    if (dang === "mau") yMau = y; else ys[dang] = y; capNhat();
+  });
+  svg.addEventListener("pointerup", () => { dang = -1; });
+  capNhat();
+};

@@ -630,3 +630,18 @@ details[open] > summary .khi-mo { display: inline; }
 .mo-phong svg { width: 100%; height: auto; display: block; fill: initial; stroke: initial; }
 .mp-khung-cd .mp-bo { width: 90px; }
 .mp-3d { max-width: 300px; margin: 0 auto; }
+.mp-cot-dang { display: grid; gap: 6px; margin-top: 10px; }
+.mp-cot-dang > div { display: grid; grid-template-columns: 72px 1fr 48px; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; }
+.mp-cot-dang i { height: 10px; border-radius: 6px; background: var(--vien); overflow: hidden; }
+.mp-cot-dang i b { display: block; height: 100%; border-radius: 6px; transition: width .15s; }
+.mp-cot-dang small { text-align: right; font-variant-numeric: tabular-nums; color: var(--chu-phu); }
+.mo-phong .mp-nhan-ph { font-size: 10px; font-weight: 700; fill: var(--chu); }
+.mp-le { display: grid; grid-template-columns: 90px 1fr; gap: 12px; align-items: center; }
+.mp-cot-le { margin: 0; }
+.mp-nut-le { grid-template-columns: 1fr 1fr; }
+.mp-cham { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 5px; vertical-align: -1px; border: 1px solid var(--vien); }
+.mp-so-4 { grid-template-columns: repeat(4, 1fr); }
+.mp-so-4 b { font-size: 13px; }
+.mp-keo { cursor: ns-resize; }
+.mp-dc { touch-action: none; }
+.mo-phong .mp-do-thi { touch-action: none; }

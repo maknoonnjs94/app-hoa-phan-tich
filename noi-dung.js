@@ -529,6 +529,7 @@ const CHUONG = [
         <li><b>Nhiệt độ</b>: tăng nhiệt độ thì cân bằng chuyển dịch theo chiều thu nhiệt. Đây là tác động duy nhất <b>làm thay đổi K</b>: phản ứng thu nhiệt có K tăng khi tăng nhiệt độ, phản ứng tỏa nhiệt có K giảm.</li>
       </ul>
       <p>Ứng dụng trong phân tích: thêm ion chung để kết tủa hoàn toàn hơn (mục 6); thêm NH<sub>3</sub> để hòa tan AgCl vì NH<sub>3</sub> "kéo" Ag<sup>+</sup> ra khỏi cân bằng tan (mục 5).</p>
+      <div class="mo-phong" data-loai="le-chatelier"></div>
 
       <h3>4. Cân bằng acid – base và tích số ion của nước</h3>
       <p>Theo Brønsted – Lowry, <b>acid</b> là chất cho proton (H<sup>+</sup>), <b>base</b> là chất nhận proton. Acid mất một proton thành base liên hợp của nó, ví dụ các cặp CH<sub>3</sub>COOH/CH<sub>3</sub>COO<sup>−</sup> và NH<sub>4</sub><sup>+</sup>/NH<sub>3</sub>.</p>
@@ -792,6 +793,7 @@ const CHUONG = [
       <p><b>Giản đồ phân bố của acid phosphoric</b> (pK<sub>a</sub> = 2,12 ; 7,21 ; 12,32):</p>
       <div class="gian-do" data-pka="2.12,7.21,12.32" data-dang="H₃PO₄,H₂PO₄⁻,HPO₄²⁻,PO₄³⁻"></div>
       <p>Từ giản đồ thấy ngay: ở pH ≈ 4,7 dạng H<sub>2</sub>PO<sub>4</sub><sup>−</sup> gần như chiếm toàn bộ, ở pH ≈ 9,7 – 9,8 là HPO<sub>4</sub><sup>2−</sup>. Đây cũng là pH gần đúng của dung dịch NaH<sub>2</sub>PO<sub>4</sub> và Na<sub>2</sub>HPO<sub>4</sub> (xem mục 10).</p>
+      <div class="mo-phong" data-loai="phan-bo"></div>
       <p><b>Dạng tồn tại chủ yếu</b>: pH &lt; pK<sub>a</sub> thì dạng acid chiếm ưu thế; pH &gt; pK<sub>a</sub> thì dạng base chiếm ưu thế. Với acid nhiều nấc, dạng chủ yếu là dạng có pH nằm giữa hai pK<sub>a</sub> kề nó.</p>
       <div class="vi-du"><b>Ví dụ 2.</b> Cho biết dạng tồn tại chủ yếu của acid acetic (pK<sub>a</sub> = 4,75) ở pH 3 và pH 8; của acid phosphoric (pK<sub>a</sub> = 2,12 ; 7,21 ; 12,32) ở pH 4, 9 và 12.
         <details><summary>Xem lời giải</summary>
@@ -1438,6 +1440,7 @@ const CHUONG = [
           Nếu quên trừ mẫu trắng sẽ ra 0,03720 M (sai số +1,1%).
         </details></div>
 
+      <div class="mo-phong" data-loai="mohr"></div>
       <h3>6. Phương pháp Volhard</h3>
       <ul>
         <li>Chuẩn độ Ag<sup>+</sup> bằng SCN<sup>−</sup>, chỉ thị Fe<sup>3+</sup>: Ag<sup>+</sup> + SCN<sup>−</sup> → AgSCN(r). SCN<sup>−</sup> dư đầu tiên tạo phức <b>đỏ</b> FeSCN<sup>2+</sup>.</li>
@@ -1591,6 +1594,7 @@ const CHUONG = [
         <li><b>Sau điểm tương đương</b>: tính E theo cặp của <b>chất chuẩn</b>.</li>
       </ol>
       <p>Khi [H<sup>+</sup>] ≠ 1, ví dụ với MnO<sub>4</sub><sup>−</sup>: E<sub>tđ</sub> = (E<sup>0</sup><sub>Fe</sub> + 5E<sup>0</sup><sub>Mn</sub>)/6 − (8·0,059/6)·pH. Bước nhảy càng lớn khi hiệu E<sup>0</sup> của hai cặp càng lớn; với các cặp đối xứng, đường chuẩn độ gần như không phụ thuộc độ pha loãng. Khi n<sub>1</sub> = n<sub>2</sub> đường chuẩn độ đối xứng quanh E<sub>tđ</sub>; khi n<sub>1</sub> ≠ n<sub>2</sub>, E<sub>tđ</sub> lệch về phía cặp có n lớn hơn.</p>
+      <div class="mo-phong" data-loai="chuan-do-oxh"></div>
       <div class="vi-du"><b>Ví dụ 7.</b> Chuẩn độ Fe<sup>2+</sup> bằng Ce<sup>4+</sup> trong HNO<sub>3</sub> 1 M (E<sup>0</sup>'(Ce<sup>4+</sup>/Ce<sup>3+</sup>) = 1,61 V). Tính lg K và E<sub>tđ</sub>.
         <details><summary>Xem lời giải</summary>
           Ce<sup>4+</sup> + Fe<sup>2+</sup> → Ce<sup>3+</sup> + Fe<sup>3+</sup> (n = 1):
@@ -1709,6 +1713,7 @@ const CHUONG = [
       <p>Khoảng tin cậy: m ± t·s<sub>m</sub>, b ± t·s<sub>b</sub>, với t tra ở bậc tự do <b>n − 2</b>. Báo cáo dạng y = (b ± t·s<sub>b</sub>) + (m ± t·s<sub>m</sub>)x kèm R<sup>2</sup>. R<sup>2</sup> càng gần 1 càng tốt, nhưng R<sup>2</sup> cao chưa chứng minh được tính tuyến tính: nên xem thêm đồ thị phần dư d<sub>i</sub> (phải phân bố ngẫu nhiên quanh 0). b nên gần 0 (khoảng tin cậy của b chứa 0).</p>
       <div class="cong-thuc"><div class="nhan">Nồng độ mẫu và độ lệch chuẩn của nó (ȳ<sub>0</sub>: trung bình k lần đo mẫu; ȳ: trung bình các y<sub>i</sub> của dãy chuẩn)</div>\[ \begin{gathered} x_0 = \frac{\bar{y}_0 - b}{m} \\ s_x = \frac{s_y}{|m|}\sqrt{\frac{1}{k} + \frac{1}{n} + \frac{(\bar{y}_0 - \bar{y})^2}{m^2\sum(x_i - \bar{x})^2}} \end{gathered} \]</div>
       <p class="luu-y">Trong Excel nên dùng <b>Data Analysis → Regression</b> (cho cả s<sub>b</sub>, s<sub>m</sub>, s<sub>y</sub>, R<sup>2</sup>). Không nên chỉ dùng Add Trendline trên đồ thị, vì nó không cho độ không đảm bảo của các hệ số.</p>
+      <div class="mo-phong" data-loai="duong-chuan"></div>
       <div class="vi-du"><b>Ví dụ 1.</b> Dãy chuẩn cho kết quả (tín hiệu đã trừ mẫu trắng):
         <div class="bang-cuon"><table class="bang">
           <thead><tr><th>x (ppm)</th><th>0,00</th><th>2,00</th><th>4,00</th><th>6,00</th><th>8,00</th></tr></thead>
