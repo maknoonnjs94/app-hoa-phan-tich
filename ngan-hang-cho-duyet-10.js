@@ -2,7 +2,6 @@
    Dạng D02 (8 câu), D04 (8 câu), D05 (7 câu), D06 (7 câu + 2 câu chùm ED-C01/ED-C02, 5+5 câu) = 40 câu.
    4 hằng số phân li dùng cho các câu D02 (coi EDTA là acid 4 nấc H4Y, đúng quy ước các đề thi thật):
    pKa1 = 2,00; pKa2 = 2,69; pKa3 = 6,13; pKa4 = 10,37. lg Kf CaY2- = 10,70 (theo TRA_CUU edta-kf). */
-var NGAN_HANG_CHO_DUYET = typeof NGAN_HANG_CHO_DUYET !== "undefined" ? NGAN_HANG_CHO_DUYET : [];
 
 // ================= D02 · Hằng số bền điều kiện và điều kiện chuẩn độ (8 câu) =================
 
