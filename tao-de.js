@@ -31,19 +31,32 @@ const cauDungDuoc = (chuong, ch = cauHinhDe) =>
 
 // Bốc n câu của một chương, trải đều các dạng (mỗi vòng lấy 1 câu của mỗi dạng)
 function bocCau(pool, n, rng, tranh = new Set()) {
-  const theoDang = {};
-  tronRng(pool.filter(c => !tranh.has(c.id)), rng).forEach(c => (theoDang[c.dang] ||= []).push(c));
+  // Câu chùm (cùng trường "chum") được bốc nguyên cụm, tính theo số câu của cụm
+  const donVi = {}, theoDang = {};
+  pool.filter(c => !tranh.has(c.id)).forEach(c => { const k = c.chum || c.id; (donVi[k] ||= []).push(c); });
+  tronRng(Object.values(donVi), rng).forEach(u => (theoDang[u[0].dang] ||= []).push(u));
   const nhom = tronRng(Object.values(theoDang), rng), kq = [];
-  while (kq.length < n && nhom.some(g => g.length)) nhom.forEach(g => { if (kq.length < n && g.length) kq.push(g.shift()); });
+  let conCho = true;
+  while (kq.length < n && conCho) {
+    conCho = false;
+    for (const g of nhom) {
+      const i = g.findIndex(u => kq.length + u.length <= n);
+      if (i >= 0) { kq.push(...g.splice(i, 1)[0]); conCho = true; }
+    }
+  }
   return kq;
 }
 
 // Tạo các mã đề từ danh sách câu gốc
 function taoMaDe(dsId, soMa, daoCau, daoPA, hat) {
   const rng = taoRng(hat);
+  // Nhóm vị trí theo cụm câu chùm để khi đảo câu, cụm vẫn đi liền nhau
+  const cum = [];
+  dsId.forEach((id, i) => { const k = CAU_THEO_ID[id]?.chum; const cuoi = cum[cum.length - 1];
+    if (k && cuoi && CAU_THEO_ID[dsId[cuoi[0]]]?.chum === k) cuoi.push(i); else cum.push([i]); });
   return MA_DE.slice(0, soMa).map(ma => ({
     ma,
-    thuTu: daoCau ? tronRng(dsId.map((_, i) => i), rng) : dsId.map((_, i) => i),
+    thuTu: (daoCau ? tronRng(cum, rng) : cum).flat(),
     pa: dsId.map(() => daoPA ? tronRng([0, 1, 2, 3], rng) : [0, 1, 2, 3]),
   }));
 }
@@ -149,10 +162,11 @@ function cauTheoMa(de, k) {
 }
 const chuDapAn = (x) => CHU[x.pa.indexOf(CHU.indexOf(CAU_THEO_ID[x.id].dapAn))];
 
-function veCauDe(x, so, coDapAn, coNhan = true) {
+function veCauDe(x, so, coDapAn, coNhan = true, truoc = null) {
   const g = CAU_THEO_ID[x.id]; if (!g) return "";
+  const dauCum = g.dan && (!truoc || CAU_THEO_ID[truoc.id]?.chum !== g.chum);
   const dung = chuDapAn(x);
-  return `<div class="cau-de">
+  return `${dauCum ? `<div class="de-dan">${g.dan}</div>` : ""}<div class="cau-de">
     <div class="dau-cau-de"><b>Câu ${so}.</b>${coNhan ? ` <span class="nhan-nho">${tenChuong(g.chuong)} · ${MUC_DO[g.mucDo]}${g.choDuyet ? ' · <i class="cho">chờ duyệt</i>' : ""}</span>` : ""}</div>
     <div class="de-cau">${g.de}</div>
     <ol class="pa-de" type="A">${x.pa.map((k, j) => `<li class="${coDapAn && CHU[j] === dung ? "dung" : ""}"><span class="chu">${CHU[j]}.</span> ${g.phuongAn[k]}</li>`).join("")}</ol>
@@ -185,7 +199,7 @@ MAN_HINH["/de"] = {
       <div class="nhom-chip">${de.ma.map((m, k) => `<label class="chip-chon"><input type="radio" name="ma-xem" ${k === maDangXem ? "checked" : ""} onchange="maDangXem=${k};hienManHinh()"><span>Mã ${m.ma}</span></label>`).join("")}</div>
       <label class="dong-bat gon"><input type="checkbox" ${hienDapAnDe ? "checked" : ""} onchange="hienDapAnDe=this.checked;hienManHinh()"><span>Hiện đáp án</span></label>
     </div>
-    <div class="the-trang">${ds.map((x, i) => veCauDe(x, i + 1, hienDapAnDe)).join("")}</div>
+    <div class="the-trang">${ds.map((x, i) => veCauDe(x, i + 1, hienDapAnDe, true, ds[i - 1])).join("")}</div>
     <h2>Đáp án mã ${de.ma[maDangXem].ma}</h2>
     <div class="the-trang luoi-dap-an">${ds.map((x, i) => `<span><b>${i + 1}</b>${chuDapAn(x)}</span>`).join("")}</div>`;
   },
@@ -259,7 +273,7 @@ function inDe() {
       <div class="ma-in">Mã đề<br><b>${m.ma}</b></div></div>
     <div class="ho-ten-in">Họ và tên: ……………………………………… Lớp: ………… Số báo danh: …………</div>`;
   const cacMa = de.ma.map((m, k) => `<section class="trang-in">${dauTrang(m)}
-      ${cauTheoMa(de, k).map((x, i) => veCauDe(x, i + 1, false, false)).join("")}
+      ${cauTheoMa(de, k).map((x, i, a) => veCauDe(x, i + 1, false, false, a[i - 1])).join("")}
       <p class="het-in">— HẾT —</p></section>`).join("");
   const dapAn = `<section class="trang-in"><h3>ĐÁP ÁN · ${coDau(de.ten)}</h3>
     <table class="bang-dap-an"><thead><tr><th>Câu</th>${de.ma.map(m => `<th>${m.ma}</th>`).join("")}</tr></thead>

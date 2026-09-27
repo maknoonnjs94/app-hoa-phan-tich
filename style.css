@@ -767,3 +767,6 @@ details[open] > summary .khi-mo { display: inline; }
   #vung-in .bang-dap-an { border-collapse: collapse; margin-top: 8px; }
   #vung-in .bang-dap-an th, #vung-in .bang-dap-an td { border: 1px solid #000; padding: 2px 10px; text-align: center; }
 }
+/* Đề dẫn của câu chùm */
+.de-dan { margin: 0 0 10px; padding: 10px 12px; border-left: 3px solid var(--mau-chinh); border-radius: 8px; background: color-mix(in srgb, var(--mau-chinh) 7%, var(--the)); font-size: .95em; }
+@media print { #vung-in .de-dan { background: none; border: 1px solid #000; border-left-width: 3px; break-inside: avoid; } }
