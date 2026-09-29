@@ -33,7 +33,6 @@ PWA tĩnh (HTML/CSS/JS), chạy trên GitHub Pages từ nhánh `main`: https://m
 
 ## Trạng thái (cuối phiên trước)
 - Lí thuyết 15 chương đủ, đã phản biện; 6 chương sơ sài nhất đã bổ sung hình, ví dụ, "Lỗi hay gặp". Tất cả đang "Chờ duyệt".
-- Câu chờ duyệt trong app: chương 4–8, 14–15 (bộ gốc) + bổ sung theo đề thi cho chương 2, 5, 6, 7, 8, 9, 11, 12, 13, 15 (`ngan-hang-cho-duyet-8.js` … `-13.js`).
-- CHƯA đưa vào app: bộ gốc chương 1–3, 9–10, 11–13 (đang sửa dở ở phiên trước; file nằm trong thư mục tạm của phiên cũ).
+- Câu chờ duyệt trong app: đủ 15 chương, khoảng 1 950 câu (bộ gốc đã phản biện + bổ sung theo đề thi, có câu chùm), file `ngan-hang-cho-duyet*.js`. Người dùng chưa duyệt; khi duyệt thì chuyển câu sang `ngan-hang.js`.
 - Chưa làm: tài khoản học sinh (Firebase, gói Spark; tài khoản = email học sinh, mật khẩu khởi tạo = mã học sinh, bắt đổi lần đầu; vai trò quản trị viên / giáo viên / học sinh). Đang chờ người dùng tạo dự án Firebase và gửi `firebaseConfig`.
 - Chưa làm (chờ lệnh): làm dày lí thuyết các chương còn lại (Sắc kí đại cương, EDTA, Kết tủa, Thống kê, Chuẩn độ acid – base).
