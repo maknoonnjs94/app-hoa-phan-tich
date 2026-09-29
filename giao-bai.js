@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v86";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v87";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -43,7 +43,7 @@ MAN_HINH["/giao-de"] = {
     }
     const bayGio = Date.now(), bt = giaoTam.loai === "bai-tap";
     return `<div class="the-trang form-tk">
-      <p><b>${coDau(de.ten)}</b> · ${de.cau.length} câu</p>
+      <p><b>${coDau(de.ten)}</b> · ${de.cau.length} câu${de.ma.length > 1 ? ` · <b>${de.ma.length} mã đề</b>: mỗi sinh viên nhận ngẫu nhiên một mã (câu khác cùng dạng), thứ tự xáo riêng từng em` : ""}</p>
       <div class="phan-doan hai">${[["kiem-tra", "📝 Bài kiểm tra", "bấm giờ · 1 lần"], ["bai-tap", "📚 Bài tập về nhà", "làm lại · xem đáp án"]].map(([k, t, m]) =>
         `<button class="${giaoTam.loai === k ? "chon" : ""}" onclick="giaoTam.loai='${k}';hienManHinh()"><b>${t}</b><small>${m}</small></button>`).join("")}</div>
       <label>Tên bài giao<input id="gd-ten" value="${coDau((bt ? "Bài tập: " : "") + de.ten)}"></label>
@@ -83,7 +83,9 @@ async function luuGiaoDe(idDe) {
   if (!bt && !(phut >= 5)) { loi.textContent = "Bài kiểm tra: thời gian làm tối thiểu 5 phút."; return; }
   loi.textContent = "Đang giao…";
   try {
-    const cau = de.cau.map(id => CAU_THEO_ID[id]).filter(Boolean);
+    const maDe = de.ma.length > 1 ? de.ma.map(m => ({ ma: m.ma, cau: [...cauCuaMa(de, m)] })) : null;
+    const cau = moiCauDe(de).map(id => CAU_THEO_ID[id]).filter(Boolean);   // mọi câu của mọi mã
+    const cauMau = (maDe ? maDe[0].cau : de.cau);
     const noiDung = cau.map(c => ({ id: c.id, chuong: c.chuong, dang: c.dang || "", mucDo: c.mucDo, de: c.de, phuongAn: c.phuongAn, ...(c.chum ? { chum: c.chum, dan: c.dan || "" } : {}) }));
     const ref = fbDb.collection("deGiao").doc(), lo = fbDb.batch();
     const lopTen = document.getElementById("gd-lop").selectedOptions[0]?.textContent || "";
@@ -92,7 +94,7 @@ async function luuGiaoDe(idDe) {
     const kieu = { hienDapAn, dapAnLuc, hienLoiGiai, ...(bt ? { loai: "bai-tap", soLanLam: Number(g("gd-solan")), chongGianLan: document.getElementById("gd-cgl").checked, soLanRoi: 3 }
       : { loai: "kiem-tra", soLanLam: 1, chongGianLan: true, soLanRoi: Math.max(0, Number(g("gd-roi")) || 0) }) };
     lo.set(ref, { ten: g("gd-ten").trim() || de.ten, lop, lopTen, gvUid: tk.user.uid, gvTen: tk.hoSo.hoTen,
-      cau: cau.map(c => c.id), noiDung, phut, moLuc, dongLuc, ...kieu, taoLuc: Date.now() });
+      cau: cauMau, ...(maDe ? { maDe } : {}), noiDung, phut, moLuc, dongLuc, ...kieu, taoLuc: Date.now() });
     // Đáp số để riêng (SV đọc sau dapAnLuc, hoặc ngay sau khi nộp nếu "sau-nop"); lời giải để riêng nữa, GV bật / tắt
     lo.set(fbDb.collection("dapAnDe").doc(ref.id), { lop, dongLuc, dapAnLuc, hienDapAn, gvUid: tk.user.uid,
       cau: Object.fromEntries(cau.map(c => [c.id, { dapAn: c.dapAn }])) });
@@ -161,7 +163,7 @@ MAN_HINH["/bang-diem"] = {
           <button class="btn phu" onclick="xoaGiaoDe('${id}')">🗑 Xóa bài giao</button></div></div>
         <div class="the-trang bang-cuon"><table class="bang"><thead><tr><th>Học sinh</th><th>Điểm</th><th>Rời app</th><th>Trạng thái</th></tr></thead><tbody>
         ${dong.map(({ u, b, dung, diem }) => `<tr class="${b?.roi?.length ? "co-roi" : ""}">
-          <td>${b ? `<a class="ten-anh lien-ket" href="#/bai-lam?de=${id}&uid=${u.uid}">` : `<span class="ten-anh">`}${anhDaiDien(u, 28)}<span>${hoa(u.hoTen)}<small>${hoa(u.maHS || "")}${u.nganh ? " · " + hoa(u.nganh) : ""}</small></span>${b ? "</a>" : "</span>"}</td>
+          <td>${b ? `<a class="ten-anh lien-ket" href="#/bai-lam?de=${id}&uid=${u.uid}">` : `<span class="ten-anh">`}${anhDaiDien(u, 28)}<span>${hoa(u.hoTen)}<small>${hoa(u.maHS || "")}${u.nganh ? " · " + hoa(u.nganh) : ""}${b?.maDe ? " · mã " + hoa(b.maDe) : ""}</small></span>${b ? "</a>" : "</span>"}</td>
           <td>${b?.daNop || (b && quaHan) ? `<b>${diemVN(diem)}</b><small>${dung}/${b.cau.length}${b.diemSua != null ? " · đã sửa" : ""}</small>` : "–"}</td>
           <td>${b ? `${b.roi?.length || 0} lần<small>${b.roi?.length ? b.roi.reduce((t, r) => t + r.giay, 0) + " giây" : ""}</small>` : "–"}</td>
           <td>${!b ? "Chưa làm" : b.daNop ? `Nộp ${gioVN(b.nopLuc)}${LY_DO[b.lyDo] ? `<small>${LY_DO[b.lyDo]}</small>` : ""}` : quaHan ? "Hết hạn, chưa bấm nộp<small>chấm theo bài đã làm</small>" : "Đang làm"}</td></tr>
@@ -264,11 +266,14 @@ async function batDauBaiGiao(id) {
       return alert("Bài này đang được làm trên một máy khác. Chỉ được làm trên một máy. Nếu đó là máy của em, hãy đóng app ở máy kia, đợi 1 phút rồi thử lại.");
     if (!d.noiDung && !d.cau.every(x => CAU_THEO_ID[x])) return alert("Đề này được giao theo cách cũ. Nhờ giáo viên giao lại.");
     napNoiDung(d.noiDung);
+    // Đề nhiều mã: mỗi SV cố định một mã (theo mã hóa uid + id bài), rồi xáo thứ tự câu / phương án riêng của em
+    const phienBan = d.maDe?.length > 1 ? d.maDe[hatTu(tk.user.uid + id) % d.maDe.length] : null, dsGoc = phienBan ? phienBan.cau : d.cau;
     let cau = lamLai ? null : cu?.cau;
-    if (!cau) { const m = taoMaDe(d.cau, 1, true, true, hatTu(tk.user.uid + id + (cu?.lanNop || 0)))[0]; cau = m.thuTu.map(i => ({ id: d.cau[i], thuTu: m.pa[i] })); }
+    if (!cau) { const m = taoMaDe(dsGoc, 1, true, true, hatTu(tk.user.uid + id + (cu?.lanNop || 0)))[0]; cau = m.thuTu.map(i => ({ id: dsGoc[i], thuTu: m.pa[i] })); }
     const batDau = lamLai ? Date.now() : cu?.batDau || Date.now(), roi = lamLai ? [] : cu?.roi || [];
     const bai = { deGiaoId: id, uid: tk.user.uid, hoTen: tk.hoSo.hoTen, maHS: tk.hoSo.maHS || "", lop: d.lop, cau,
       chon: lamLai ? cau.map(() => null) : cu?.chon || cau.map(() => null), batDau, capNhat: Date.now(), phien, roi, daNop: false, lanNop: cu?.lanNop || 0,
+      ...(phienBan ? { maDe: phienBan.ma } : {}),
       ...(lamLai ? { lichSu: [...(cu.lichSu || []), { lan: cu.lanNop || 1, nopLuc: cu.nopLuc || 0, soCau: cu.cau?.length || 0 }] } : {}) };
     await refBai(id).set(bai);
     baiLam = { cau, chon: bai.chon, cheDo: "thi", viTri: 0, batDau, ketThuc: null,

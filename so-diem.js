@@ -34,7 +34,7 @@ MAN_HINH["/bai-lam"] = {
       await taiDapAn(d, id);
       const { dung, diem } = chamBai(b);
       v.innerHTML = lamToan(`
-        <div class="the-trang the-tk">${anhDaiDien(u, 52)}<div><b>${hoa(u.hoTen)}</b><small>${hoa(u.maHS || "")} · Lớp ${hoa(d.lopTen || d.lop)}</small>
+        <div class="the-trang the-tk">${anhDaiDien(u, 52)}<div><b>${hoa(u.hoTen)}</b><small>${hoa(u.maHS || "")} · Lớp ${hoa(d.lopTen || d.lop)}${b.maDe ? " · mã đề " + hoa(b.maDe) : ""}</small>
           <small>${hoa(d.ten)} · ${b.daNop ? "nộp " + gioVN(b.nopLuc) : "chưa nộp"}</small></div></div>
         <div class="the-trang form-tk">
           <div class="hang-diem"><div><small>Điểm tính</small><b>${diemVN(diem)}</b><small>${dung}/${b.cau.length} câu</small></div>

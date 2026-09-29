@@ -1056,3 +1056,13 @@ a.dong-lop { color: inherit; text-decoration: none; }
 .form-tk label.dong-bat { flex-direction: row; align-items: center; gap: 10px; font-weight: 500; }
 .form-tk .hang-2 select, .form-tk .hang-2 input { min-width: 0; width: 100%; }
 .the-con { display: flex; flex-direction: column; gap: 8px; padding: 10px 12px; border: 1px dashed var(--vien); border-radius: 14px; }
+/* Đề mẫu theo dạng */
+.doi-dang, .chon-ma { font: inherit; font-size: 13px; padding: 7px 6px; border: 1px solid var(--vien); border-radius: 12px; background: var(--nen); color: var(--chu); max-width: 46%; min-width: 0; }
+.chon-ma { max-width: 84px; }
+.them-dang { padding: 10px 14px; margin-bottom: 8px; }
+.them-dang summary { cursor: pointer; }
+.hai-cot { grid-template-columns: 1fr 1fr !important; margin: 8px 0; }
+.hai-cot select { font-size: 13px !important; }
+.cau-chon .nut-hang { flex-wrap: wrap; }
+.ten-dang small { font-weight: 400; }
+.cau-chon .ten-dang { display: block; margin-bottom: 6px; }

@@ -17,7 +17,7 @@ PWA tĩnh (HTML/CSS/JS), chạy trên GitHub Pages từ nhánh `main`: https://m
 - Sửa/thêm câu: xin người dùng **mật khẩu kho** → `node cong-cu/kho.mjs mo <mk> <thư mục scratchpad>` → sửa `kho.json` (câu mới đưa vào `choDuyet`) → `node cong-cu/kho.mjs dong <kho.json> <mk>` → commit `kho.bin`. TUYỆT ĐỐI không commit `kho.json` hay mật khẩu.
 - `phan-dang.js`: bảng dạng đã duyệt cho từng chương; câu cũ tự đổi nhãn dạng theo mã Dxx; câu mới có `dangMoi: true`.
 - Câu chùm: các câu cùng trường `chum` và `dan` (đề dẫn chung).
-- `app.js`: màn hình, kho câu hỏi, luyện tập, tra cứu kiểu thư viện. `tao-de.js`: tạo đề nhiều mã, làm bài có hạn giờ, in PDF, chia sẻ link.
+- `app.js`: màn hình, kho câu hỏi, luyện tập, tra cứu kiểu thư viện. `tao-de.js`: tạo đề = ĐỀ MẪU theo dạng (mỗi vị trí là một dạng; 🎲 câu khác cùng dạng, 🔁 đổi dạng, ✋ chọn tay, ＋ thêm theo dạng) rồi SINH N MÃ: mỗi mã `ma[k].cau` lấy câu KHÁC cùng dạng (không trùng mã nào, `canhBao` khi hết câu), thứ tự câu/phương án xáo riêng; làm bài có hạn giờ, in PDF, chia sẻ link. Giao lớp nhiều mã: `deGiao.maDe=[{ma,cau}]`, SV nhận mã theo hash(uid+id) rồi xáo riêng; `baiNop.maDe` ghi mã.
 - `mo-phong.js`: mô phỏng tương tác. `anh/`: ảnh thật (Wikimedia, có ghi nguồn trong `anh/nguon.js`).
 - Hình SVG tĩnh trong lí thuyết: `<div class="hinh-tinh"><svg>…</svg><p class="chu-thich">…</p></div>`; không dùng class `gian-do`, không `<style>` trong SVG.
 
