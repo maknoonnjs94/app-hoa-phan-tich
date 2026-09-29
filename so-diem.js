@@ -34,7 +34,7 @@ MAN_HINH["/bai-lam"] = {
       await taiDapAn(d, id);
       const { dung, diem } = chamBai(b);
       v.innerHTML = lamToan(`
-        <div class="the-trang the-tk">${anhDaiDien(u, 52)}<div><b>${hoa(u.hoTen)}</b><small>${hoa(u.maHS || "")} · Lớp ${hoa(d.lop)}</small>
+        <div class="the-trang the-tk">${anhDaiDien(u, 52)}<div><b>${hoa(u.hoTen)}</b><small>${hoa(u.maHS || "")} · Lớp ${hoa(d.lopTen || d.lop)}</small>
           <small>${hoa(d.ten)} · ${b.daNop ? "nộp " + gioVN(b.nopLuc) : "chưa nộp"}</small></div></div>
         <div class="the-trang form-tk">
           <div class="hang-diem"><div><small>Điểm tính</small><b>${diemVN(diem)}</b><small>${dung}/${b.cau.length} câu</small></div>
@@ -79,14 +79,14 @@ MAN_HINH["/so-diem"] = {
   sauKhiVe: async () => {
     const o = document.getElementById("sd-lop"), v = document.getElementById("vung-sd"); if (!o || !laGVtk()) return;
     try {
-      const dsLop = (await fbDb.collection("lop").get()).docs.map(x => x.data())
-        .filter(l => tk.hoSo.vaiTro === "qtv" || (l.gv || []).includes(tk.user.uid)).map(l => l.ten).sort((a, b) => a.localeCompare(b, "vi"));
-      const lop = thamSoHash().get("lop") || dsLop[0] || "";
-      o.innerHTML = dsLop.length ? dsLop.map(l => `<option ${l === lop ? "selected" : ""}>${hoa(l)}</option>`).join("") : `<option value="">Chưa được gán lớp nào</option>`;
+      const dsLop = (await fbDb.collection("lop").get()).docs.map(x => ({ id: x.id, ...x.data() }))
+        .filter(l => tk.hoSo.vaiTro === "qtv" || (l.gv || []).includes(tk.user.uid)).sort((a, b) => a.ten.localeCompare(b.ten, "vi"));
+      const lop = thamSoHash().get("lop") || dsLop[0]?.id || "", tenLopSd = dsLop.find(l => l.id === lop)?.ten || lop;
+      o.innerHTML = dsLop.length ? dsLop.map(l => `<option value="${l.id}" ${l.id === lop ? "selected" : ""}>${hoa(l.ten)}</option>`).join("") : `<option value="">Chưa có lớp học phần</option>`;
       if (!lop) return;
       v.innerHTML = `<div class="trong">Đang tải sổ điểm…</div>`;
       const [hs, giao, nop] = await Promise.all([
-        fbDb.collection("nguoiDung").where("lop", "==", lop).where("vaiTro", "==", "hs").get(),
+        fbDb.collection("nguoiDung").where("lopHoc", "array-contains", lop).get(),
         fbDb.collection("deGiao").where("lop", "==", lop).get(),
         fbDb.collection("baiNop").where("lop", "==", lop).get()]);
       const de = giao.docs.map(x => ({ id: x.id, ...x.data() })).sort((a, b) => a.moLuc - b.moLuc);
@@ -99,16 +99,16 @@ MAN_HINH["/so-diem"] = {
         const s = diemCuoi(b); return { so: s, chu: diemVN(s), lop: s < 5 ? "yeu" : s >= 8 ? "gioi" : "", link: `#/bai-lam?de=${d.id}&uid=${u.uid}`, sua: b.diemSua != null, vp: b.roi?.length }; };
       const hang = dsHS.map(u => { const o = de.map(d => o1(d, u)), co = o.filter(x => x.so != null);
         return { u, o, tb: co.length ? Math.round(co.reduce((t, x) => t + x.so, 0) / co.length * 100) / 100 : null, vang: o.filter(x => x.lop === "vang").length }; });
-      soDiemHienTai = { lop, de, hang };
+      soDiemHienTai = { lop: tenLopSd, de, hang };
       v.innerHTML = de.length ? `<div class="nut-hang"><button class="btn" onclick="xuatSoDiem()">⬇ Tải sổ điểm Excel</button></div>
         <p class="ghi-chu">${dsHS.length} học sinh · ${de.length} bài · bấm vào điểm để xem bài làm, sửa điểm. <span class="o-mau yeu">dưới 5</span> <span class="o-mau gioi">từ 8</span> ✎ đã sửa · ⚠ có vi phạm</p>
         <div class="the-trang bang-cuon so-diem"><table class="bang"><thead><tr><th>Học sinh</th>${de.map((d, k) => `<th title="${hoa(d.ten)}"><a class="lien-ket" href="#/bang-diem?id=${d.id}">Bài ${k + 1}</a><small>${new Date(d.moLuc).toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit" })}${d.daChot ? " 🔒" : ""}</small></th>`).join("")}<th>TB</th></tr></thead><tbody>
-          ${hang.map(h => `<tr><td><span class="ten-anh">${anhDaiDien(h.u, 24)}<span>${hoa(h.u.hoTen)}<small>${hoa(h.u.maHS || "")}</small></span></span></td>
+          ${hang.map(h => `<tr><td><span class="ten-anh">${anhDaiDien(h.u, 24)}<span>${hoa(h.u.hoTen)}<small>${hoa(h.u.maHS || "")}${h.u.nganh ? " · " + hoa(h.u.nganh) : ""}</small></span></span></td>
             ${h.o.map(x => `<td class="${x.lop || ""}">${x.link ? `<a class="lien-ket" href="${x.link}">${x.chu}${x.sua ? "✎" : ""}${x.vp ? "⚠" : ""}</a>` : x.chu}</td>`).join("")}
             <td><b>${h.tb != null ? diemVN(h.tb) : "–"}</b>${h.vang ? `<small>vắng ${h.vang}</small>` : ""}</td></tr>`).join("")}
         </tbody></table></div>
         <div class="the-trang"><b>Các bài</b><ol class="ds-bai-sd">${de.map(d => `<li><a class="lien-ket" href="#/bang-diem?id=${d.id}">${hoa(d.ten)}</a> <small class="ghi-chu">${gioVN(d.moLuc)}${d.daChot ? " · đã chốt" : ""}</small></li>`).join("")}</ol></div>`
-        : `<div class="trong">Lớp ${hoa(lop)} chưa có bài nào được giao.</div>`;
+        : `<div class="trong">Lớp ${hoa(tenLopSd)} chưa có bài nào được giao.</div>`;
     } catch (e) { (v || o).innerHTML = `<div class="trong">${loiTk(e)}</div>`; }
   },
 };
@@ -131,66 +131,81 @@ MAN_HINH["/da-giao"].ve = () => laGVtk() ? `<a class="the-luyen" href="#/so-diem
 if (["/bai-lam", "/so-diem"].includes(location.hash.slice(1).split("?")[0])) hienManHinh();
 if (fbAuth) fbAuth.onAuthStateChanged(() => setTimeout(() => { if (["/bai-lam", "/so-diem", "/lop"].includes(location.hash.slice(1).split("?")[0])) hienManHinh(); }, 900));
 
-/* ---------- Trang chi tiết lớp: danh sách SV, tài khoản, kết quả học tập ---------- */
+/* ---------- Trang lớp học phần: danh sách SV (nhiều ngành), tài khoản, kết quả, thao tác ---------- */
 let lopHienTai = null;
-const moChiTiet = {};
+const locLopHP = { nganh: "", tu: "" };
 MAN_HINH["/lop"] = {
-  tieuDe: "Lớp",
+  tieuDe: "Lớp học phần",
   manHinhCon: true,
   ve: () => laGVtk() ? `<div id="vung-lop"><div class="trong">Đang tải…</div></div>` : `<div class="trong">Chỉ giáo viên, quản trị viên mới xem được mục này.</div>`,
   sauKhiVe: async () => {
     const v = document.getElementById("vung-lop"); if (!v || !laGVtk()) return;
-    const ten = thamSoHash().get("ten") || "";
-    if (laGvThuong() && !lopDay().includes(ten)) { v.innerHTML = `<div class="trong">Lớp này không do thầy/cô phụ trách.</div>`; return; }
+    const id = thamSoHash().get("id") || "";
     try {
       await taiQt();
-      const [hs, giao, nop, lopSnap] = await Promise.all([
-        fbDb.collection("nguoiDung").where("lop", "==", ten).where("vaiTro", "==", "hs").get(),
-        fbDb.collection("deGiao").where("lop", "==", ten).get(),
-        fbDb.collection("baiNop").where("lop", "==", ten).get(),
-        fbDb.collection("lop").where("ten", "==", ten).get()]);
+      const l = qt.lop.find(x => x.id === id);
+      if (!l) { v.innerHTML = `<div class="trong">Không tìm thấy lớp, hoặc lớp không do thầy/cô phụ trách.</div>`; return; }
+      if (lopHienTai?.id !== id) Object.assign(locLopHP, { nganh: "", tu: "" });
+      const [hs, giao, nop] = await Promise.all([
+        fbDb.collection("nguoiDung").where("lopHoc", "array-contains", id).get(),
+        fbDb.collection("deGiao").where("lop", "==", id).get(),
+        fbDb.collection("baiNop").where("lop", "==", id).get()]);
       const de = giao.docs.map(x => ({ id: x.id, ...x.data() })).sort((a, b) => a.moLuc - b.moLuc);
       await Promise.all(de.map(d => taiDapAn(d, d.id).catch(() => {})));
       const bai = {}; nop.docs.forEach(x => { const b = x.data(); bai[`${b.deGiaoId}_${b.uid}`] = b; });
-      const gvLop = (await Promise.all((lopSnap.docs[0]?.data().gv || []).map(id => fbDb.collection("nguoiDung").doc(id).get().then(x => x.exists ? x.data().hoTen : null).catch(() => null)))).filter(Boolean);
+      // đồng bộ bản ghi SV vào qt.tatCa để các nút Sửa / Khóa / Bỏ khỏi lớp dùng chung
+      const dsHS = hs.docs.map(x => { const u = { uid: x.id, ...x.data() }, cu = qt.tatCa.find(y => y.uid === u.uid); return cu ? Object.assign(cu, u) : (qt.tatCa.push(u), u); });
+      const gvLop = (l.gv || []).map(g => qt.tatCa.find(u => u.uid === g)?.hoTen).filter(Boolean);
       const bg = Date.now();
-      const ds = hs.docs.map(x => ({ uid: x.id, ...x.data() })).sort((a, b) => a.hoTen.split(" ").pop().localeCompare(b.hoTen.split(" ").pop(), "vi") || a.hoTen.localeCompare(b.hoTen, "vi"))
+      const ds = dsHS.sort((a, b) => a.hoTen.split(" ").pop().localeCompare(b.hoTen.split(" ").pop(), "vi") || a.hoTen.localeCompare(b.hoTen, "vi"))
         .map(u => {
           const kq = de.map(d => { const b = bai[`${d.id}_${u.uid}`]; return { d, b, diem: b && (b.daNop || bg > d.dongLuc) ? diemCuoi(b) : null }; });
           const co = kq.filter(x => x.diem != null);
           return { u, kq, lam: kq.filter(x => x.b).length, tb: co.length ? Math.round(co.reduce((t, x) => t + x.diem, 0) / co.length * 100) / 100 : null, vp: kq.reduce((t, x) => t + (x.b?.roi?.length || 0), 0) };
         });
-      lopHienTai = { ten, ds, de };
-      const tt = u => u.khoa ? `<span class="nhan-vt">🔒 Đã khóa</span>` : u.doiMatKhau ? `<span class="nhan-vt vt-qtv">Chưa đổi MK lần đầu</span>` : `<span class="nhan-vt vt-hs">Đang dùng</span>`;
+      lopHienTai = { id, ten: l.ten, ds, de };
+      const theoNganh = {}; ds.forEach(x => theoNganh[x.u.nganh || "Chưa ghi ngành"] = (theoNganh[x.u.nganh || "Chưa ghi ngành"] || 0) + 1);
       const dem = { khoa: ds.filter(x => x.u.khoa).length, chua: ds.filter(x => !x.u.khoa && x.u.doiMatKhau).length };
-      v.innerHTML = `<div class="the-trang"><b style="font-size:18px">Lớp ${hoa(ten)}</b>
-          <p class="ghi-chu">${ds.length} sinh viên · GV: ${gvLop.map(hoa).join(", ") || "chưa có"} · ${de.length} bài đã giao<br>
-            Tài khoản: ${ds.length - dem.khoa - dem.chua} đang dùng · ${dem.chua} chưa đổi MK · ${dem.khoa} đã khóa</p>
-          <div class="nut-hang"><a class="btn" href="#/so-diem?lop=${encodeURIComponent(ten)}">📒 Sổ điểm</a>
-            <button class="btn phu" onclick="xuatDsLop()">⬇ Danh sách Excel</button>
-            <button class="btn phu" onclick="qt.tab='nhap';location.hash='#/quan-tri'">＋ Nhập thêm SV</button></div></div>
-        <input class="o-tim-lop" type="search" placeholder="🔍 Tìm tên, mã SV…" oninput="locLop(this.value)">
-        <div id="ds-lop">${ds.map(({ u, kq, lam, tb, vp }) => `<div class="the-trang dong-sv" data-tim="${hoa(boDau(`${u.hoTen} ${u.maHS || ""} ${u.email}`))}">
-          <div class="dau-sv" onclick="moChiTiet['${u.uid}']=!moChiTiet['${u.uid}'];this.parentNode.classList.toggle('mo')">${anhDaiDien(u, 40)}
-            <div class="giua"><b>${hoa(u.hoTen)}</b> ${tt(u)}<small>${hoa(u.maHS || "")} · ${hoa(u.email)}</small>
-              <small>Đã làm ${lam}/${de.length} bài${tb != null ? ` · TB <b class="${tb < 5 ? "chu-yeu" : tb >= 8 ? "chu-gioi" : ""}">${diemVN(tb)}</b>` : ""}${vp ? ` · ⚠ ${vp} vi phạm` : ""}</small></div><span class="mui">▾</span></div>
-          <div class="chi-tiet-sv">
-            ${de.length ? `<table class="bang"><tbody>${kq.map(({ d, b, diem }) => `<tr><td>${hoa(d.ten)}<small>${gioVN(d.moLuc)}</small></td>
-              <td>${diem != null ? `<a class="lien-ket" href="#/bai-lam?de=${d.id}&uid=${u.uid}"><b>${diemVN(diem)}</b> ›</a>` : b ? "đang làm" : bg > d.dongLuc ? "vắng" : "chưa làm"}</td></tr>`).join("")}</tbody></table>` : `<p class="ghi-chu">Lớp chưa có bài nào được giao.</p>`}
-            <div class="nut-hang"><button class="btn phu" onclick="qtDatLaiMk('${u.uid}')">Gửi email đặt lại MK</button>
-              <button class="btn phu" onclick="qtSuaNguoi('${u.uid}').then(()=>hienManHinh())">Sửa</button>
-              <button class="btn phu" onclick="qtKhoa('${u.uid}').then(()=>hienManHinh())">${u.khoa ? "Mở khóa" : "Khóa"}</button></div></div>
-        </div>`).join("") || `<div class="trong">Lớp chưa có sinh viên.</div>`}</div>`;
-      Object.keys(moChiTiet).forEach(id => { if (moChiTiet[id]) document.querySelector(`[onclick*="${id}"]`)?.parentNode.classList.add("mo"); });
+      v.innerHTML = `<div class="the-trang"><b style="font-size:17px">${hoa(l.ten)}</b>
+          <p class="ghi-chu">${ds.length} sinh viên · ${Object.keys(theoNganh).length} ngành · GV: ${gvLop.map(hoa).join(", ") || "chưa có"} · ${de.length} bài đã giao<br>
+            Tài khoản: ${ds.length - dem.khoa - dem.chua} đang dùng · ⏳ ${dem.chua} chưa đổi MK · 🔒 ${dem.khoa} đã khóa</p>
+          <div class="nut-hang trai"><a class="btn" href="#/nhap-lop?id=${id}">＋ Thêm SV (link sheet / Excel)</a>
+            <button class="btn phu" onclick="themTheoMa('${id}')">＋ 1 SV theo mã</button>
+            <a class="btn phu" href="#/so-diem?lop=${id}">📒 Sổ điểm</a>
+            <button class="btn phu" onclick="xuatDsLop()">⬇ Excel</button>
+            ${dem.chua ? `<button class="btn phu" onclick="khoaChuaDoi('${id}')">🔒 Khóa ${dem.chua} TK chưa đổi MK</button>` : ""}</div></div>
+        ${ds.length ? `<div class="nhom-chip loc-tt"><button class="chip-nhanh ${locLopHP.nganh ? "" : "chon"}" onclick="locLopHP.nganh='';locLop()">Mọi ngành (${ds.length})</button>
+          ${Object.entries(theoNganh).sort((a, b) => b[1] - a[1]).map(([n, k]) => `<button class="chip-nhanh ${locLopHP.nganh === n ? "chon" : ""}" data-nganh="${hoa(n)}" onclick="locLopHP.nganh=this.dataset.nganh;locLop()">${hoa(n)} (${k})</button>`).join("")}</div>
+        <input class="o-tim-lop" type="search" placeholder="🔍 Tìm tên, mã SV…" value="${hoa(locLopHP.tu)}" oninput="locLopHP.tu=this.value;locLop()">` : ""}
+        <div class="the-trang ds-gon" id="ds-lop">${ds.map(({ u, kq, lam, tb, vp }) => `<div class="dong-gon dong-sv" data-tim="${hoa(boDau(`${u.hoTen} ${u.maHS || ""} ${u.email}`))}" data-nganh="${hoa(u.nganh || "Chưa ghi ngành")}">
+            ${anhDaiDien(u, 30)}
+            <div class="giua"><b>${hoa(u.hoTen)}</b><small>${hoa(u.maHS || u.email)}${u.nganh ? " · " + hoa(u.nganh) : ""}</small></div>
+            <span class="tt">${u.khoa ? "🔒" : u.doiMatKhau ? "⏳" : ""}${tb != null ? ` <b class="${tb < 5 ? "chu-yeu" : tb >= 8 ? "chu-gioi" : ""}">${diemVN(tb)}</b>` : ""}</span>
+            <button class="nut-ba-cham" onclick="this.parentNode.classList.toggle('mo')" aria-label="Chi tiết">⋯</button>
+            <div class="thao-tac">
+              <small>${hoa(u.email)} · đã làm ${lam}/${de.length} bài${vp ? ` · ⚠ ${vp} vi phạm` : ""}</small>
+              ${de.length ? `<table class="bang bang-sv"><tbody>${kq.map(({ d, b, diem }) => `<tr><td>${hoa(d.ten)}<small>${gioVN(d.moLuc)}</small></td>
+                <td>${diem != null ? `<a class="lien-ket" href="#/bai-lam?de=${d.id}&uid=${u.uid}"><b>${diemVN(diem)}</b> ›</a>` : b ? "đang làm" : bg > d.dongLuc ? "vắng" : "chưa làm"}</td></tr>`).join("")}</tbody></table>` : ""}
+              <button class="btn phu" onclick="qtDatLaiMk('${u.uid}')">📧 Đặt lại MK</button>
+              <button class="btn phu" onclick="qtSuaNguoi('${u.uid}')">✎ Sửa</button>
+              <button class="btn phu" onclick="qtKhoa('${u.uid}')">${u.khoa ? "🔓 Mở khóa" : "🔒 Khóa"}</button>
+              <button class="btn phu" onclick="boKhoiLop('${u.uid}','${id}')">➖ Bỏ khỏi lớp</button></div>
+          </div>`).join("") || `<p class="ghi-chu" style="padding:14px">Lớp chưa có sinh viên. Bấm “＋ Thêm SV” và dán link Google Sheets danh sách lớp.</p>`}</div>`;
+      locLop();
     } catch (e) { v.innerHTML = `<div class="trong">${loiTk(e)}</div>`; }
   },
 };
-function locLop(q) { const tu = boDau(q.trim()); document.querySelectorAll(".dong-sv").forEach(x => x.hidden = tu && !x.dataset.tim.includes(tu)); }
+function locLop() {
+  const tu = boDau((locLopHP.tu || "").trim());
+  document.querySelectorAll("#ds-lop .dong-sv").forEach(x => x.hidden = (tu && !x.dataset.tim.includes(tu)) || (locLopHP.nganh && x.dataset.nganh !== locLopHP.nganh));
+  document.querySelectorAll(".loc-tt [data-nganh]").forEach(b => b.classList.toggle("chon", b.dataset.nganh === locLopHP.nganh));
+  document.querySelector(".loc-tt .chip-nhanh")?.classList.toggle("chon", !locLopHP.nganh);
+}
 function xuatDsLop() {
   const { ten, ds, de } = lopHienTai, o = s => `"${String(s ?? "").replace(/"/g, '""')}"`;
-  const dong = [["STT", "Họ tên", "Mã SV", "Email đăng nhập", "Trạng thái tài khoản", "Số bài đã làm", "Số bài được giao", "Điểm TB", "Số lần vi phạm"],
-    ...ds.map((x, i) => [i + 1, x.u.hoTen, x.u.maHS, x.u.email, x.u.khoa ? "Đã khóa" : x.u.doiMatKhau ? "Chưa đổi mật khẩu" : "Đang dùng", x.lam, de.length, x.tb != null ? diemVN(x.tb) : "", x.vp])];
+  const dong = [["STT", "Họ tên", "Mã SV", "Ngành / lớp HC", "Email đăng nhập", "Trạng thái tài khoản", "Số bài đã làm", "Số bài được giao", "Điểm TB", "Số lần vi phạm"],
+    ...ds.map((x, i) => [i + 1, x.u.hoTen, x.u.maHS, x.u.nganh, x.u.email, x.u.khoa ? "Đã khóa" : x.u.doiMatKhau ? "Chưa đổi mật khẩu" : "Đang dùng", x.lam, de.length, x.tb != null ? diemVN(x.tb) : "", x.vp])];
   const blob = new Blob(["﻿" + dong.map(r => r.map(o).join(";")).join("\r\n")], { type: "text/csv;charset=utf-8" });
-  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `Danh sach lop ${ten}.csv`; a.click();
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `Danh sach - ${ten}.csv`; a.click();
 }
 if (location.hash.startsWith("#/lop?")) hienManHinh();

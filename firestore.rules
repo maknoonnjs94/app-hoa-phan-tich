@@ -8,20 +8,34 @@ service cloud.firestore {
     function laGV() { return coHoSo() && toi().vaiTro in ['gv', 'qtv'] && toi().khoa != true; }
     function laHS() { return coHoSo() && toi().khoa != true; }
     function bayGio() { return request.time.toMillis(); }
+    function lopHocToi() { return toi().get('lopHoc', []); }   // lớp học phần của SV
+    function lopDayToi() { return toi().get('lopDay', []); }   // lớp học phần GV dạy
+    function deGiao(id) { return get(/databases/$(database)/documents/deGiao/$(id)).data; }
 
-    // Hồ sơ người dùng: vai trò, lớp, mã HS
+    // Hồ sơ người dùng. SV: lopHoc = [id lớp học phần], nganh = lớp hành chính. GV: lopDay = [id lớp dạy].
     match /nguoiDung/{uid} {
       allow read: if dn() && (request.auth.uid == uid || laGV());
       allow create: if laQTV()
         || (dn() && request.auth.uid == uid && uid == 'EyKqi3Iyn1OsfVHmbe3ATpmGfJl2' && request.resource.data.vaiTro == 'qtv')
-        // Giáo viên tạo tài khoản sinh viên cho lớp mình dạy
-        || (laGV() && request.resource.data.vaiTro == 'hs' && request.resource.data.lop in toi().get('lopDay', []));
-      // Người dùng tự sửa: đánh dấu đã đổi mật khẩu lần đầu, ảnh đại diện (≤ 60 KB)
+        // GV tạo tài khoản SV, xếp vào lớp mình dạy
+        || (laGV() && request.resource.data.vaiTro == 'hs' && request.resource.data.get('lopHoc', []).size() > 0
+            && request.resource.data.lopHoc.hasOnly(lopDayToi()));
       allow update: if laQTV()
-        // Giáo viên sửa / khóa sinh viên lớp mình (không đổi vai trò, chỉ chuyển giữa các lớp mình dạy)
-        || (laGV() && resource.data.vaiTro == 'hs' && resource.data.lop in toi().get('lopDay', [])
-            && request.resource.data.vaiTro == 'hs' && request.resource.data.lop in toi().get('lopDay', [])
-            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['hoTen', 'maHS', 'lop', 'khoa']))
+        // GV thêm / bỏ SV (bất kì) vào / khỏi lớp mình dạy
+        || (laGV() && resource.data.vaiTro == 'hs'
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['lopHoc'])
+            && request.resource.data.lopHoc.toSet().difference(resource.data.get('lopHoc', []).toSet()).hasOnly(lopDayToi())
+            && resource.data.get('lopHoc', []).toSet().difference(request.resource.data.lopHoc.toSet()).hasOnly(lopDayToi()))
+        // GV sửa / khóa SV đang học lớp mình
+        || (laGV() && resource.data.vaiTro == 'hs' && resource.data.get('lopHoc', []).hasAny(lopDayToi())
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['hoTen', 'maHS', 'nganh', 'khoa']))
+        // GV ghi lớp mới tạo vào danh sách lớp dạy của mình (chỉ lớp có tên mình trong gv); bỏ lớp thì tự do
+        || (laGV() && request.auth.uid == uid
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['lopDay', 'lopVuaDoi'])
+            && request.resource.data.lopDay.toSet().difference(resource.data.get('lopDay', []).toSet()).hasOnly([request.resource.data.get('lopVuaDoi', '')])
+            && (request.resource.data.lopDay.toSet().difference(resource.data.get('lopDay', []).toSet()).size() == 0
+                || get(/databases/$(database)/documents/lop/$(request.resource.data.lopVuaDoi)).data.gv.hasAny([request.auth.uid])))
+        // Tự sửa: đánh dấu đã đổi mật khẩu lần đầu, ảnh đại diện (≤ 60 KB)
         || (dn() && request.auth.uid == uid
             && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['doiMatKhau', 'anhDaiDien'])
             && request.resource.data.get('doiMatKhau', false) == false
@@ -35,37 +49,39 @@ service cloud.firestore {
       allow write: if laQTV();
     }
 
-    // Lớp học
+    // Lớp học phần: GV tự tạo (gv = [mình]); QTV gán thêm GV, xóa mọi lớp
     match /lop/{id} {
       allow read: if laHS();
-      allow write: if laQTV();
+      allow create: if laQTV() || (laGV() && request.resource.data.gv == [request.auth.uid] && request.resource.data.taoBoi == request.auth.uid);
+      allow update: if laQTV() || (laGV() && resource.data.gv.hasAny([request.auth.uid]) && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['ten']));
+      allow delete: if laQTV() || (laGV() && resource.data.get('taoBoi', '') == request.auth.uid);
     }
 
-    // Đề giao cho lớp (giáo viên tạo)
+    // Đề giao cho lớp học phần (lop = id lớp)
     match /deGiao/{id} {
-      allow read: if laGV() || (laHS() && resource.data.lop == toi().lop);
-      allow create: if laGV() && request.resource.data.gvUid == request.auth.uid;
+      allow read: if laGV() || (laHS() && resource.data.lop in lopHocToi());
+      allow create: if laQTV() || (laGV() && request.resource.data.gvUid == request.auth.uid && request.resource.data.lop in lopDayToi());
       allow update, delete: if laQTV() || (laGV() && resource.data.gvUid == request.auth.uid);
     }
 
-    // Bài làm của học sinh: mã = <mã đề giao>_<uid>; chỉ làm trong giờ mở đề, nộp rồi không sửa
+    // Đáp án của đề giao: SV trong lớp chỉ đọc được sau giờ đóng đề
+    match /dapAnDe/{id} {
+      allow read: if laGV() || (laHS() && resource.data.lop in lopHocToi() && bayGio() > resource.data.dongLuc);
+      allow write: if laGV();
+    }
+
+    // Bài làm: mã = <mã đề giao>_<uid>; chỉ làm trong giờ mở đề, nộp rồi không sửa; GV thu bài, chốt / sửa điểm
     match /baiNop/{id} {
       allow read: if laGV() || (dn() && (resource == null || resource.data.uid == request.auth.uid));
       allow create: if laHS() && request.resource.data.uid == request.auth.uid
         && id == request.resource.data.deGiaoId + '_' + request.auth.uid
-        && get(/databases/$(database)/documents/deGiao/$(request.resource.data.deGiaoId)).data.lop == toi().lop
-        && bayGio() >= get(/databases/$(database)/documents/deGiao/$(request.resource.data.deGiaoId)).data.moLuc
-        && bayGio() <= get(/databases/$(database)/documents/deGiao/$(request.resource.data.deGiaoId)).data.dongLuc;
+        && deGiao(request.resource.data.deGiaoId).lop in lopHocToi()
+        && bayGio() >= deGiao(request.resource.data.deGiaoId).moLuc
+        && bayGio() <= deGiao(request.resource.data.deGiaoId).dongLuc;
       allow update: if laGV() || (laHS() && resource.data.uid == request.auth.uid && resource.data.daNop != true
         && request.resource.data.uid == resource.data.uid && request.resource.data.deGiaoId == resource.data.deGiaoId
-        && bayGio() <= get(/databases/$(database)/documents/deGiao/$(resource.data.deGiaoId)).data.dongLuc + 300000);
+        && bayGio() <= deGiao(resource.data.deGiaoId).dongLuc + 300000);
       allow delete: if laGV();
-    }
-
-    // Đáp án của đề giao: học sinh trong lớp chỉ đọc được sau giờ đóng đề
-    match /dapAnDe/{id} {
-      allow read: if laGV() || (laHS() && resource.data.lop == toi().lop && bayGio() > resource.data.dongLuc);
-      allow write: if laGV();
     }
 
     // Báo lỗi nội dung
