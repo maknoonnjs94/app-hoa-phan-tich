@@ -957,3 +957,19 @@ button.the-luyen { width: 100%; border: 0; font: inherit; text-align: left; curs
 .buoc-md { display: flex; align-items: center; gap: 2px; }
 .buoc-md button { width: 26px !important; height: 26px !important; font-size: 15px !important; }
 .buoc-md b { min-width: 22px; text-align: center; font-size: 18px !important; }
+
+/* ===== Ảnh đại diện ===== */
+.anh-dd { display: inline-grid; place-items: center; border-radius: 50%; object-fit: cover; flex: none; color: #fff; font-weight: 700;
+  background: linear-gradient(135deg, #14b8a6, #3b82f6); line-height: 1; }
+.doi-anh { position: relative; display: inline-block; text-decoration: none; }
+.doi-anh > span:last-child { position: absolute; right: -2px; bottom: -2px; width: 22px; height: 22px; border-radius: 50%; background: var(--the);
+  border: 1px solid var(--vien); display: grid; place-items: center; font-size: 12px; color: var(--chu); }
+.luoi-bt { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin: 8px 0 12px; }
+.luoi-bt button { font-size: 24px; padding: 6px 0; border-radius: 12px; border: 1px solid var(--vien); background: var(--nen); }
+.luoi-bt button.chon, .luoi-mau button.chon { outline: 3px solid var(--mau-chinh); outline-offset: 1px; }
+.luoi-mau { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.luoi-mau button { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--the); }
+.dong-tk.co-anh, .dong-td { display: flex; gap: 10px; align-items: center; }
+.dong-tk.co-anh > div:nth-child(2), .dong-td .giua { flex: 1; min-width: 0; }
+.dong-tk.co-anh { flex-wrap: wrap; } .dong-tk.co-anh .nut-hang { width: 100%; }
+.ten-anh { display: flex; gap: 8px; align-items: center; }

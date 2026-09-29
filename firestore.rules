@@ -14,10 +14,12 @@ service cloud.firestore {
       allow read: if dn() && (request.auth.uid == uid || laGV());
       allow create: if laQTV()
         || (dn() && request.auth.uid == uid && uid == 'EyKqi3Iyn1OsfVHmbe3ATpmGfJl2' && request.resource.data.vaiTro == 'qtv');
+      // Người dùng tự sửa: đánh dấu đã đổi mật khẩu lần đầu, ảnh đại diện (≤ 60 KB)
       allow update: if laQTV()
         || (dn() && request.auth.uid == uid
-            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['doiMatKhau'])
-            && request.resource.data.doiMatKhau == false);
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['doiMatKhau', 'anhDaiDien'])
+            && request.resource.data.get('doiMatKhau', false) == false
+            && request.resource.data.get('anhDaiDien', '').size() < 60000);
       allow delete: if laQTV();
     }
 

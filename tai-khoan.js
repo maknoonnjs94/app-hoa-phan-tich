@@ -63,6 +63,17 @@ const canDoiMk = () => tk.user && tk.hoSo?.doiMatKhau;
 // Chưa đổi mật khẩu lần đầu thì không cho đi màn khác
 window.addEventListener("hashchange", () => { if (canDoiMk() && location.hash !== "#/doi-mat-khau") location.hash = "#/doi-mat-khau"; });
 
+/* ---------- Ảnh đại diện: ảnh chụp (thu nhỏ, lưu thẳng trong hồ sơ) hoặc biểu tượng + màu ----------
+   anhDaiDien = "data:image/jpeg;base64,…"  |  "bt:🧪|#14b8a6"  |  không có → chữ cái đầu tên */
+const BIEU_TUONG = ["🧪", "⚗️", "🔬", "🧫", "🧬", "⚛️", "💧", "🔥", "🌈", "📊", "⚖️", "🔋", "💡", "🌿", "🦉", "🐱", "🐶", "🦊", "🐼", "🤖", "👩‍🔬", "👨‍🔬", "🎓", "⭐"];
+const MAU_NEN = ["#14b8a6", "#3b82f6", "#8b5cf6", "#ec4899", "#f59e0b", "#ef4444", "#22c55e", "#0f172a"];
+function anhDaiDien(h, co = 32) {
+  const a = h?.anhDaiDien || "", st = `width:${co}px;height:${co}px;font-size:${Math.round(co * .5)}px`;
+  if (a.startsWith("data:image/")) return `<img class="anh-dd" src="${a}" alt="" style="${st}">`;
+  if (a.startsWith("bt:")) { const [bt, mau] = a.slice(3).split("|"); return `<span class="anh-dd" style="${st};background:${hoa(mau)}">${hoa(bt)}</span>`; }
+  return `<span class="anh-dd" style="${st}">${hoa(((h?.hoTen || h?.email || "?").trim().split(/\s+/).pop() || "?")[0].toUpperCase())}</span>`;
+}
+
 /* ---------- Nút tài khoản trên thanh tiêu đề ---------- */
 const nutTk = document.createElement("a");
 nutTk.className = "icon-btn nut-tk"; nutTk.href = "#/tai-khoan"; nutTk.setAttribute("aria-label", "Tài khoản");
@@ -70,7 +81,7 @@ document.querySelector(".topbar").append(nutTk);
 function capNhatNutTk() {
   const ten = tk.hoSo?.hoTen || tk.user?.email || "";
   nutTk.innerHTML = tk.user
-    ? `<span class="chu-cai">${hoa((ten.trim().split(/\s+/).pop() || "?")[0].toUpperCase())}</span>`
+    ? anhDaiDien(tk.hoSo || { hoTen: ten }, 32)
     : `<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>`;
 }
 capNhatNutTk();
@@ -100,7 +111,7 @@ MAN_HINH["/tai-khoan"] = {
       <button class="btn full phu" onclick="dangXuat()">Đăng xuất</button></div>`;
     return `
       <div class="the-trang the-tk">
-        <span class="anh-tk">${hoa((h.hoTen.trim().split(/\s+/).pop() || "?")[0].toUpperCase())}</span>
+        <a href="#/anh-dai-dien" class="doi-anh" aria-label="Đổi ảnh đại diện">${anhDaiDien(h, 56)}<span>✎</span></a>
         <div><b>${hoa(h.hoTen)}</b><small>${hoa(h.email)}</small>
           <small>${VAI_TRO[h.vaiTro] || ""}${h.maHS ? " · Mã HS " + hoa(h.maHS) : ""}${h.lop ? " · Lớp " + hoa(h.lop) : ""}</small></div>
       </div>
@@ -129,6 +140,50 @@ async function thuLaiHoSo() {
   capNhatNutTk(); if (canDoiMk()) location.hash = "#/doi-mat-khau"; else hienManHinh();
 }
 function dangXuat() { fbAuth.signOut(); location.hash = "#/tai-khoan"; }
+
+/* ---------- Đổi ảnh đại diện ---------- */
+let anhTam = null;   // ảnh đang chọn, chưa lưu
+MAN_HINH["/anh-dai-dien"] = {
+  tieuDe: "Ảnh đại diện",
+  manHinhCon: true,
+  ve: () => {
+    if (!tk.hoSo) return `<div class="trong">Hãy đăng nhập trước.</div>`;
+    const xem = { ...tk.hoSo, anhDaiDien: anhTam ?? tk.hoSo.anhDaiDien };
+    const bt = (xem.anhDaiDien || "").startsWith("bt:") ? xem.anhDaiDien.slice(3).split("|") : ["", MAU_NEN[0]];
+    return `<div class="the-trang form-tk" style="align-items:center">
+      ${anhDaiDien(xem, 96)}
+      <div class="nut-hang"><label class="btn">📷 Chụp / chọn ảnh<input type="file" accept="image/*" hidden onchange="chonAnhDD(this.files[0])"></label>
+        <button class="btn phu" onclick="anhTam='';hienManHinh()">Dùng chữ cái</button></div></div>
+    <div class="the-trang"><b>Hoặc chọn biểu tượng</b>
+      <div class="luoi-bt">${BIEU_TUONG.map(b => `<button class="${bt[0] === b ? "chon" : ""}" onclick="anhTam='bt:${b}|${bt[1]}';hienManHinh()">${b}</button>`).join("")}</div>
+      <b>Màu nền</b>
+      <div class="luoi-mau">${MAU_NEN.map(m => `<button style="background:${m}" class="${bt[1] === m ? "chon" : ""}" onclick="anhTam='bt:${bt[0] || BIEU_TUONG[0]}|${m}';hienManHinh()" aria-label="Màu"></button>`).join("")}</div></div>
+    <p class="loi-tk" id="tk-loi"></p>
+    <button class="btn full" onclick="luuAnhDD()" ${anhTam === null ? "disabled" : ""}>Lưu ảnh đại diện</button>`;
+  },
+};
+// Cắt vuông giữa ảnh, thu nhỏ 160×160, nén JPEG (~10 KB)
+function chonAnhDD(tep) {
+  if (!tep) return;
+  const img = new Image(), url = URL.createObjectURL(tep);
+  img.onload = () => {
+    const c = document.createElement("canvas"), n = 160, k = Math.min(img.width, img.height);
+    c.width = c.height = n;
+    c.getContext("2d").drawImage(img, (img.width - k) / 2, (img.height - k) / 2, k, k, 0, 0, n, n);
+    anhTam = c.toDataURL("image/jpeg", .82); URL.revokeObjectURL(url); hienManHinh();
+  };
+  img.onerror = () => alert("Không đọc được ảnh này.");
+  img.src = url;
+}
+async function luuAnhDD() {
+  const loi = document.getElementById("tk-loi"); loi.textContent = "Đang lưu…";
+  try {
+    const gt = anhTam || firebase.firestore.FieldValue.delete();
+    await fbDb.collection("nguoiDung").doc(tk.user.uid).update({ anhDaiDien: gt });
+    if (anhTam) tk.hoSo.anhDaiDien = anhTam; else delete tk.hoSo.anhDaiDien;
+    anhTam = null; capNhatNutTk(); location.hash = "#/tai-khoan";
+  } catch (e) { loi.textContent = loiTk(e); }
+}
 
 /* ---------- Đổi mật khẩu (bắt buộc ở lần đầu) ---------- */
 MAN_HINH["/doi-mat-khau"] = {
@@ -186,7 +241,7 @@ async function veQuanTri() {
       <div class="hang-loc"><input type="search" placeholder="Tìm tên, email, mã HS…" value="${hoa(qt.loc)}" oninput="qt.loc=this.value;clearTimeout(qt.t);qt.t=setTimeout(veQuanTri,300)">
         ${chonLop("loc-lop", "Mọi lớp").replace("<select", `<select onchange="qt.locLop=this.value;veQuanTri()"`)}</div>
       <p class="ghi-chu">${ds.length} tài khoản</p>
-      ${ds.map(u => `<div class="the-trang dong-tk ${u.khoa ? "da-khoa" : ""}">
+      ${ds.map(u => `<div class="the-trang dong-tk co-anh ${u.khoa ? "da-khoa" : ""}">${anhDaiDien(u, 40)}
         <div><b>${hoa(u.hoTen)}</b> <span class="nhan-vt vt-${u.vaiTro}">${VAI_TRO[u.vaiTro]}</span>${u.khoa ? ' <span class="nhan-vt">Đã khóa</span>' : ""}
           <small>${hoa(u.email)}${u.maHS ? " · " + hoa(u.maHS) : ""}${u.lop ? " · " + hoa(u.lop) : ""}${u.doiMatKhau ? " · chưa đổi MK lần đầu" : ""}</small></div>
         ${u.uid === tk.user.uid ? "" : `<div class="nut-hang">
