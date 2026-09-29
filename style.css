@@ -771,22 +771,24 @@ details[open] > summary .khi-mo { display: inline; }
 .de-dan { margin: 0 0 10px; padding: 10px 12px; border-left: 3px solid var(--mau-chinh); border-radius: 8px; background: color-mix(in srgb, var(--mau-chinh) 7%, var(--the)); font-size: .95em; }
 @media print { #vung-in .de-dan { background: none; border: 1px solid #000; border-left-width: 3px; break-inside: avoid; } }
 
-/* ===== Trang chủ: ảnh nền phòng thí nghiệm ===== */
-body.trang-chu .app { background: transparent; }
-body.trang-chu .app::before {
-  content: ""; position: fixed; inset: 0; z-index: -1;
-  background: linear-gradient(180deg, rgba(10,14,40,.55) 0%, rgba(10,14,40,.25) 35%, rgba(10,14,40,.6) 100%),
-    url(anh/giao-dien/nen-lab-dem.webp) center top / cover no-repeat, #1e1b4b;
+/* ===== Trang chủ: cảnh phòng thí nghiệm (ảnh để lộ rõ, chỉ phủ mờ mép trên/dưới) ===== */
+body.trang-chu .topbar { background: #141a3c; color: #fff; backdrop-filter: none; }
+.canh-lab {
+  position: relative; margin: -8px -16px 8px; color: #fff;
+  height: min(calc(100svh - 130px - env(safe-area-inset-top) - env(safe-area-inset-bottom)), 150vw, 840px);
+  min-height: 420px; display: flex; flex-direction: column; justify-content: space-between;
+  background: linear-gradient(180deg, #141a3c 0%, rgba(20,26,60,0) 22%, rgba(20,26,60,0) 72%, rgba(10,14,40,.75) 100%),
+    url(anh/giao-dien/nen-lab-dem.webp) center 35% / cover no-repeat, #1e1b4b;
 }
-body.trang-chu .topbar { background: rgba(10,14,40,.35); color: #fff; }
-body.trang-chu .hero {
-  background: rgba(15,23,60,.45); border: 1px solid rgba(255,255,255,.18);
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-  text-shadow: 0 1px 3px rgba(0,0,0,.5);
+.canh-dau { padding: 4px 20px 0; text-shadow: 0 1px 4px rgba(0,0,0,.6); }
+.canh-dau h3 { margin: 0; font-size: 26px; line-height: 1.25; font-weight: 700; }
+.canh-dau .hero-tien-do { margin-top: 8px; }
+.canh-nut { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; padding: 0 12px 16px; }
+.canh-nut a { display: flex; flex-direction: column; align-items: center; gap: 6px; color: #fff; text-decoration: none; }
+.canh-nut span {
+  width: 58px; height: 58px; border-radius: 18px; display: grid; place-items: center; font-size: 28px;
+  background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.35);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); box-shadow: 0 4px 14px rgba(0,0,0,.3);
 }
-body.trang-chu .hero::after { background: rgba(20,184,166,.18); }
-body.trang-chu .content h2 { color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,.7); }
-body.trang-chu .o-tat, body.trang-chu .the-trang, body.trang-chu .doc-tiep {
-  background: color-mix(in srgb, var(--the) 80%, transparent);
-  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-}
+.canh-nut a:active span { transform: scale(.94); }
+.canh-nut b { font-size: 13px; font-weight: 600; text-shadow: 0 1px 4px rgba(0,0,0,.8); }

@@ -170,20 +170,21 @@ const MAN_HINH = {
     ve: () => {
       const daDoc = CHUONG.filter(c => tienDo(c.id) >= 90).length;
       return `
-      <div class="hero">
-        <div class="hero-nho">Ôn tập đại học</div>
-        <h3>Hóa phân tích</h3>
-        <p>Phân tích hóa học và phân tích công cụ: lý thuyết, bài tập, công cụ tính, tra cứu.</p>
-        <div class="hero-tien-do"><span class="thanh-nho sang"><i style="width:${daDoc / CHUONG.length * 100}%"></i></span>
-          Đã đọc ${daDoc}/${CHUONG.length} chương</div>
-      </div>
+      <section class="canh-lab">
+        <div class="canh-dau">
+          <div class="hero-nho">Ôn tập đại học</div>
+          <h3>Hóa phân tích</h3>
+          <div class="hero-tien-do"><span class="thanh-nho sang"><i style="width:${daDoc / CHUONG.length * 100}%"></i></span>
+            Đã đọc ${daDoc}/${CHUONG.length} chương</div>
+        </div>
+        <nav class="canh-nut">
+          <a href="#/ly-thuyet"><span>📘</span><b>Lý thuyết</b></a>
+          <a href="#/bai-tap"><span>✏️</span><b>Bài tập</b></a>
+          <a href="#/tao-de"><span>📝</span><b>Tạo đề</b></a>
+          <a href="#/tra-cuu"><span>📋</span><b>Tra cứu</b></a>
+        </nav>
+      </section>
       ${theDocTiep()}
-      <div class="grid">
-        <a class="o-tat" href="#/ly-thuyet"><span class="o-icon">📘</span><b>Lý thuyết</b><small>${CHUONG.length} chương</small></a>
-        <a class="o-tat" href="#/bai-tap"><span class="o-icon">✏️</span><b>Bài tập</b><small>${CHUONG.reduce((t, c) => t + c.baiTap.length, 0)} bài</small></a>
-        <a class="o-tat" href="#/tao-de"><span class="o-icon">📝</span><b>Tạo đề</b><small>Đề kiểm tra, đề thi</small></a>
-        <a class="o-tat" href="#/tra-cuu"><span class="o-icon">📋</span><b>Tra cứu</b><small>${TRA_CUU.length} bảng</small></a>
-      </div>
       <h2>Công thức hay dùng</h2>
       <div class="the-trang">
         ${CONG_THUC_TRANG_CHU}
