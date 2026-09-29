@@ -13,9 +13,15 @@ service cloud.firestore {
     match /nguoiDung/{uid} {
       allow read: if dn() && (request.auth.uid == uid || laGV());
       allow create: if laQTV()
-        || (dn() && request.auth.uid == uid && uid == 'EyKqi3Iyn1OsfVHmbe3ATpmGfJl2' && request.resource.data.vaiTro == 'qtv');
+        || (dn() && request.auth.uid == uid && uid == 'EyKqi3Iyn1OsfVHmbe3ATpmGfJl2' && request.resource.data.vaiTro == 'qtv')
+        // Giáo viên tạo tài khoản sinh viên cho lớp mình dạy
+        || (laGV() && request.resource.data.vaiTro == 'hs' && request.resource.data.lop in toi().get('lopDay', []));
       // Người dùng tự sửa: đánh dấu đã đổi mật khẩu lần đầu, ảnh đại diện (≤ 60 KB)
       allow update: if laQTV()
+        // Giáo viên sửa / khóa sinh viên lớp mình (không đổi vai trò, chỉ chuyển giữa các lớp mình dạy)
+        || (laGV() && resource.data.vaiTro == 'hs' && resource.data.lop in toi().get('lopDay', [])
+            && request.resource.data.vaiTro == 'hs' && request.resource.data.lop in toi().get('lopDay', [])
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['hoTen', 'maHS', 'lop', 'khoa']))
         || (dn() && request.auth.uid == uid
             && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['doiMatKhau', 'anhDaiDien'])
             && request.resource.data.get('doiMatKhau', false) == false
