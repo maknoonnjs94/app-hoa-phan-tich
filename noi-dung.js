@@ -1363,7 +1363,7 @@ const CHUONG = [
 
       <h3>5. Các yếu tố ảnh hưởng tới bước nhảy</h3>
       <ul>
-        <li><b>Nồng độ</b>: dung dịch càng loãng thì bước nhảy càng ngắn. Chuẩn độ acid mạnh – base mạnh 0,1 M có bước nhảy (ứng với sai số ±0,1%) từ pH 4,3 đến 9,7; ở 0,001 M chỉ còn khoảng 6,3 – 7,7. Khi C &lt; 10<sup>−4</sup> M, bước nhảy quá nhỏ, không chuẩn độ được bằng chỉ thị màu.</li>
+        <li><b>Nồng độ</b>: dung dịch càng loãng thì bước nhảy càng ngắn. Chuẩn độ acid mạnh – base mạnh 0,1 M có bước nhảy (ứng với sai số ±0,1%) từ pH 4,3 đến 9,7; ở 0,001 M chỉ còn khoảng 6,3 – 7,7. Khi C &lt; 10<sup>−4</sup> M, bước nhảy quá nhỏ, không chuẩn độ được bằng chỉ thị màu. Cách tính pH tại 99,9 % và 100,1 % (hai đầu bước nhảy) nằm ở mục 11.</li>
         <li><b>Độ mạnh của acid (base)</b>: acid càng yếu thì phần đầu đường chuẩn độ càng cao và bước nhảy càng ngắn. Acid có pK<sub>a</sub> &gt; 10 hầu như không còn bước nhảy trong nước, phải chuẩn độ trong dung môi không nước.</li>
         <li>Tiêu chí thường dùng để chuẩn độ acid yếu với sai số khoảng 0,1% bằng chỉ thị màu: \( \Ca\Ka \ge 10^{-8} \).</li>
       </ul>
@@ -1401,15 +1401,21 @@ const CHUONG = [
       <p>Mắt chỉ thấy rõ màu của một dạng khi nó nhiều gấp khoảng 10 lần dạng kia, nên <b>khoảng đổi màu ≈ pK<sub>HInd</sub> ± 1</b>. Khoảng thực nghiệm không nhất thiết đối xứng như vậy, vì mắt nhạy với một số màu hơn màu khác.</p>
       <div class="bang-cuon">
         <table class="bang bang-the">
-          <thead><tr><th>Chỉ thị</th><th>Khoảng đổi màu (pH)</th><th>Màu (acid → base)</th></tr></thead>
+          <thead><tr><th>Chỉ thị</th><th>Khoảng đổi màu (pH)</th><th>pT</th><th>Màu (acid → base)</th></tr></thead>
           <tbody>
-            <tr><td>Metyl da cam</td><td>3,1 – 4,4</td><td>đỏ → vàng</td></tr>
-            <tr><td>Metyl đỏ</td><td>4,4 – 6,2</td><td>đỏ → vàng</td></tr>
-            <tr><td>Bromthymol xanh</td><td>6,0 – 7,6</td><td>vàng → xanh lam</td></tr>
-            <tr><td>Phenolphtalein</td><td>8,2 – 10,0</td><td>không màu → hồng</td></tr>
+            <tr><td>Metyl da cam</td><td>3,1 – 4,4</td><td>4</td><td>đỏ → vàng</td></tr>
+            <tr><td>Bromocresol lục</td><td>3,8 – 5,4</td><td>4,6</td><td>vàng → xanh lam</td></tr>
+            <tr><td>Metyl đỏ</td><td>4,4 – 6,2</td><td>5</td><td>đỏ → vàng</td></tr>
+            <tr><td>Bromthymol xanh</td><td>6,0 – 7,6</td><td>7</td><td>vàng → xanh lam</td></tr>
+            <tr><td>Phenol đỏ</td><td>6,4 – 8,4</td><td>7,4</td><td>vàng → đỏ</td></tr>
+            <tr><td>Cresol đỏ</td><td>7,2 – 8,8</td><td>8</td><td>vàng → đỏ</td></tr>
+            <tr><td>Thymol xanh (nấc 2)</td><td>8,0 – 9,6</td><td>8,8</td><td>vàng → xanh lam</td></tr>
+            <tr><td>Phenolphtalein</td><td>8,2 – 10,0</td><td>9</td><td>không màu → hồng</td></tr>
+            <tr><td>Thymolphtalein</td><td>9,3 – 10,5</td><td>10</td><td>không màu → xanh lam</td></tr>
           </tbody>
         </table>
       </div>
+      <p><b>pT</b> (chuẩn độ điểm cuối) là pH mà tại đó ta dừng chuẩn độ, xấp xỉ giữa khoảng đổi màu. Bảng dùng pT thường gặp trong đề (metyl da cam 4, metyl đỏ 5, phenolphtalein 9); đề có thể ghi giá trị khác (ví dụ phenolphtalein 9,6), khi đó dùng số của đề.</p>
       <p class="luu-y">Bài giảng minh họa quy tắc pK ± 1 bằng một chỉ thị có pK ≈ 5 (khoảng 4 – 6). Giá trị thực nghiệm của metyl da cam là pK ≈ 3,5, khoảng 3,1 – 4,4; khoảng 4,4 – 6,2 là của metyl đỏ. Khi thi, dùng số liệu đề bài cho.</p>
       <p>Bảng ghi màu theo chiều pH tăng. Khi chuẩn độ bằng acid (pH giảm), màu đi theo chiều ngược lại, ví dụ phenolphtalein chuyển từ hồng sang không màu.</p>
       <p><b>Nguyên tắc chọn chỉ thị</b>: khoảng đổi màu phải nằm trong bước nhảy, càng gần pH tương đương càng tốt. Chỉ dùng vài giọt, vì chỉ thị cũng là acid/base và tiêu tốn chất chuẩn.</p>
@@ -1433,6 +1439,7 @@ const CHUONG = [
         <li>Chuẩn hóa acid: Na<sub>2</sub>CO<sub>3</sub>, borax Na<sub>2</sub>B<sub>4</sub>O<sub>7</sub>·10H<sub>2</sub>O, Tris.</li>
         <li>Dung dịch đã chuẩn hóa bằng chất gốc gọi là <b>chuẩn thứ cấp</b>, cần chuẩn hóa lại định kì.</li>
       </ul>
+      <p>Chuỗi tính từ chất gốc đến kết quả (ví dụ chuẩn hóa NaOH bằng acid oxalic, rồi dùng NaOH đó chuẩn giấm) xem Ví dụ 13 ở mục 14.</p>
       <div class="vi-du"><b>Ví dụ 6.</b> Cân 0,5105 g KHP (M = 204,22), hòa tan rồi chuẩn độ bằng NaOH, hết 24,85 mL. Tính nồng độ NaOH.
         <details><summary>Xem lời giải</summary>
           KHP có một H<sup>+</sup> acid, phản ứng 1 : 1 với NaOH:
@@ -1459,12 +1466,267 @@ const CHUONG = [
         <li>Kiềm hóa bằng NaOH, chưng cất NH<sub>3</sub> sang bình hứng chứa một lượng HCl dư đã biết.</li>
         <li>Chuẩn độ ngược lượng HCl dư bằng NaOH với chỉ thị <b>metyl đỏ</b> (điểm cuối ở vùng acid). Không dùng phenolphtalein vì NaOH sẽ chuẩn luôn cả NH<sub>4</sub><sup>+</sup> trong bình hứng.</li>
         <li>Biến thể: hứng NH<sub>3</sub> bằng dung dịch H<sub>3</sub>BO<sub>3</sub> rồi chuẩn độ trực tiếp borat tạo thành bằng HCl chuẩn.</li>
+        <li>Bình hứng cũng có thể chứa H<sub>2</sub>SO<sub>4</sub> dư đã biết (đề thi hay dùng). Vì H<sub>2</sub>SO<sub>4</sub> cho 2 H<sup>+</sup> nên n<sub>H⁺</sub> = 2n<sub>H₂SO₄</sub>; xem Ví dụ 14 và sơ đồ ở mục 14.</li>
       </ol>
       <div class="vi-du"><b>Ví dụ 8.</b> 0,5000 g mẫu thực phẩm được xử lí theo Kjeldahl. NH<sub>3</sub> được hấp thụ vào 50,00 mL HCl 0,1000 M; lượng HCl dư chuẩn độ hết 22,40 mL NaOH 0,1000 M. Tính %N và % protein (hệ số 6,25).
         <details><summary>Xem lời giải</summary>
           \[ \begin{aligned} n_\mathrm{NH_3} &= 0,1000\cdot(50,00 - 22,40) \\ &= 2,760\ \mathrm{mmol} \\ \%\mathrm{N} &= \frac{2,760\cdot10^{-3}\cdot14,007}{0,5000}\cdot100 \\ &= \mathbf{7,732\%} \\ \%\,\text{protein} &= 6,25\cdot7,732 = \mathbf{48,3\%} \end{aligned} \]
         </details></div>
       <p><b>c) Các ứng dụng khác</b>: xác định độ acid (giấm, sữa, dầu mỡ), độ kiềm của nước, xác định khối lượng đương lượng và K<sub>a</sub> của acid chưa biết (pH tại nửa tương đương).</p>
+
+      <h3>11. Bước nhảy tại 99,9 % và 100,1 %: ảnh hưởng của C và K<sub>a</sub></h3>
+      <p>Đề thi hay hỏi "pH khi thêm 99,9 % và 100,1 % lượng base". Hai điểm này là hai đầu của <b>bước nhảy</b> ứng với sai số chuẩn độ ±0,1 %. Chỉ thị nào đổi màu trong khoảng này thì dùng được.</p>
+      <div class="cong-thuc"><div class="nhan">Chuẩn độ acid yếu HA bằng NaOH (V<sub>e</sub>: thể tích tương đương; n<sub>e</sub>: số mmol NaOH tại V<sub>e</sub>)</div>\[ \begin{aligned} \text{99,9 \%}:\ & \mathrm{pH} = \pKa + \lg 10^{3} = \pKa + 3 \\ \text{100,1 \%}:\ & \OH = \frac{0,001\,n_e}{V_0 + 1,001\,V_e} \\ & \mathrm{pH} = 14 + \lg\OH \end{aligned} \]</div>
+      <p>Ở 99,9 %, còn 0,1 % HA chưa phản ứng nên dung dịch là đệm với tỉ số A<sup>−</sup>/HA = 10<sup>3</sup>. Ở 100,1 %, chỉ còn OH<sup>−</sup> dư 0,1 % quyết định pH (A<sup>−</sup> quá yếu để đóng góp). Với chuẩn độ base yếu bằng HCl thì đối xứng: 99,9 % có pH = pK<sub>a</sub>(BH<sup>+</sup>) − 3; 100,1 % do H<sup>+</sup> dư.</p>
+      <div class="vi-du"><b>Ví dụ 9.</b> Chuẩn độ 25,00 mL acid lactic 0,0800 M (pK<sub>a</sub> = 3,85) bằng NaOH 0,0800 M. Tính pH ban đầu, pH tại 99,9 %, 100 %, 100,1 % và chọn chỉ thị trong bảng ở mục 7.
+        <details><summary>Xem lời giải</summary>
+          V<sub>e</sub> = 25,00 mL; n<sub>e</sub> = 2,000 mmol.<br>
+          <b>Ban đầu</b> (C/K<sub>a</sub> ≥ 400): \( \mathrm{pH} = \tfrac{1}{2}(3,85 - \lg 0,0800) = 2,47 \)<br>
+          <b>99,9 %</b> (V = 24,975 mL): \( \mathrm{pH} = 3,85 + 3 = \mathbf{6,85} \)<br>
+          <b>100 %</b>: C<sub>A⁻</sub> = 2,000/50,00 = 0,04000 M; pK<sub>b</sub> = 10,15:
+          \[ \begin{aligned} \mathrm{pOH} &= \tfrac{1}{2}(10,15 - \lg 0,04000) = 5,77 \\ \mathrm{pH} &= \mathbf{8,23} \end{aligned} \]
+          <b>100,1 %</b> (V = 25,025 mL): OH<sup>−</sup> dư = 0,001·2,000 = 0,002000 mmol trong 50,025 mL:
+          \[ \begin{aligned} \OH &= 4,00\cdot10^{-5}\ \mathrm{M} \\ \mathrm{pH} &= 14 + \lg\left(4,00\cdot10^{-5}\right) = \mathbf{9,60} \end{aligned} \]
+          Bước nhảy: <b>pH 6,85 → 9,60</b>. Trong bảng, bromthymol xanh (pT 7), cresol đỏ (pT 8), thymol xanh (pT 8,8) và phenolphtalein (pT 9) đều nằm trong bước nhảy; <b>cresol đỏ</b> gần pH tương đương 8,23 nhất (vàng → đỏ khi thêm base). Metyl đỏ (pT 5) nằm ngoài: dừng ở pH 5 thì
+          \[ \begin{aligned} \frac{n_\mathrm{A^-}}{n_\mathrm{HA}} &= 10^{5 - 3,85} = 14,1 \\ \text{sai số} &= \frac{14,1}{15,1} - 1 = \mathbf{-6,6\ \%} \end{aligned} \]
+          Với phenolphtalein (pT 9), sai số chỉ khoảng khoảng +0,03 %.
+        </details></div>
+
+      <div class="hinh-tinh">
+        <svg viewBox="0 0 320 236" role="img" aria-label="Đường chuẩn độ acid mạnh, acid yếu pKa 4,75 và acid rất yếu pKa 9 bằng NaOH, với vùng đổi màu của hai chỉ thị">
+<defs><marker id="cd-mt" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="var(--chu-phu)"/></marker></defs>
+<text x="160" y="12" text-anchor="middle" font-size="11" font-weight="700" fill="var(--chu)">Đường chuẩn độ: acid càng yếu, bước nhảy càng ngắn</text>
+<rect x="38" y="105.6" width="262" height="19.3" fill="var(--vang)" fill-opacity="0.18"/>
+<rect x="38" y="64.9" width="262" height="19.3" fill="var(--mau-chinh)" fill-opacity="0.16"/>
+<line x1="38" y1="172.0" x2="300" y2="172.0" stroke="var(--vien)" stroke-width="0.8"/>
+<text x="33" y="175.5" text-anchor="end" font-size="10" fill="var(--chu-phu)">0</text>
+<line x1="38" y1="150.6" x2="300" y2="150.6" stroke="var(--vien)" stroke-width="0.8"/>
+<text x="33" y="154.1" text-anchor="end" font-size="10" fill="var(--chu-phu)">2</text>
+<line x1="38" y1="129.1" x2="300" y2="129.1" stroke="var(--vien)" stroke-width="0.8"/>
+<text x="33" y="132.6" text-anchor="end" font-size="10" fill="var(--chu-phu)">4</text>
+<line x1="38" y1="107.7" x2="300" y2="107.7" stroke="var(--vien)" stroke-width="0.8"/>
+<text x="33" y="111.2" text-anchor="end" font-size="10" fill="var(--chu-phu)">6</text>
+<line x1="38" y1="86.3" x2="300" y2="86.3" stroke="var(--vien)" stroke-width="0.8"/>
+<text x="33" y="89.8" text-anchor="end" font-size="10" fill="var(--chu-phu)">8</text>
+<line x1="38" y1="64.9" x2="300" y2="64.9" stroke="var(--vien)" stroke-width="0.8"/>
+<text x="33" y="68.4" text-anchor="end" font-size="10" fill="var(--chu-phu)">10</text>
+<line x1="38" y1="43.4" x2="300" y2="43.4" stroke="var(--vien)" stroke-width="0.8"/>
+<text x="33" y="46.9" text-anchor="end" font-size="10" fill="var(--chu-phu)">12</text>
+<line x1="38" y1="22.0" x2="300" y2="22.0" stroke="var(--vien)" stroke-width="0.8"/>
+<text x="33" y="25.5" text-anchor="end" font-size="10" fill="var(--chu-phu)">14</text>
+<line x1="38.0" y1="172" x2="38.0" y2="176" stroke="var(--chu-phu)" stroke-width="1"/>
+<text x="38.0" y="187" text-anchor="middle" font-size="10" fill="var(--chu-phu)">0</text>
+<line x1="103.5" y1="172" x2="103.5" y2="176" stroke="var(--chu-phu)" stroke-width="1"/>
+<text x="103.5" y="187" text-anchor="middle" font-size="10" fill="var(--chu-phu)">50</text>
+<line x1="169.0" y1="172" x2="169.0" y2="176" stroke="var(--chu-phu)" stroke-width="1"/>
+<text x="169.0" y="187" text-anchor="middle" font-size="10" fill="var(--chu-phu)">100</text>
+<line x1="234.5" y1="172" x2="234.5" y2="176" stroke="var(--chu-phu)" stroke-width="1"/>
+<text x="234.5" y="187" text-anchor="middle" font-size="10" fill="var(--chu-phu)">150</text>
+<line x1="300.0" y1="172" x2="300.0" y2="176" stroke="var(--chu-phu)" stroke-width="1"/>
+<text x="300.0" y="187" text-anchor="middle" font-size="10" fill="var(--chu-phu)">200</text>
+<line x1="38" y1="172" x2="300" y2="172" stroke="var(--chu-phu)" stroke-width="1.2"/>
+<line x1="38" y1="172" x2="38" y2="18" stroke="var(--chu-phu)" stroke-width="1.2"/>
+<text x="169" y="200" text-anchor="middle" font-size="10" fill="var(--chu-phu)">% NaOH đã thêm (100 % = điểm tương đương)</text>
+<text x="10" y="97" text-anchor="middle" font-size="10" fill="var(--chu-phu)" transform="rotate(-90 10 97)">pH</text>
+<line x1="169.0" y1="22" x2="169.0" y2="172" stroke="var(--chu-phu)" stroke-width="1" stroke-dasharray="3 3"/>
+<path d="M38.0,161.3 L39.3,161.2 L40.6,161.1 L41.9,161.0 L43.2,160.9 L44.5,160.8 L45.9,160.7 L47.2,160.6 L48.5,160.5 L49.8,160.4 L51.1,160.4 L52.4,160.3 L53.7,160.2 L55.0,160.1 L56.3,160.0 L57.6,159.9 L59.0,159.8 L60.3,159.7 L61.6,159.6 L62.9,159.5 L64.2,159.4 L65.5,159.3 L66.8,159.2 L68.1,159.1 L69.4,159.0 L70.8,158.9 L72.1,158.8 L73.4,158.7 L74.7,158.6 L76.0,158.5 L77.3,158.4 L78.6,158.3 L79.9,158.2 L81.2,158.1 L82.5,158.0 L83.8,157.9 L85.2,157.8 L86.5,157.7 L87.8,157.6 L89.1,157.5 L90.4,157.3 L91.7,157.2 L93.0,157.1 L94.3,157.0 L95.6,156.9 L97.0,156.8 L98.3,156.7 L99.6,156.5 L100.9,156.4 L102.2,156.3 L103.5,156.2 L104.8,156.0 L106.1,155.9 L107.4,155.8 L108.7,155.7 L110.1,155.5 L111.4,155.4 L112.7,155.3 L114.0,155.1 L115.3,155.0 L116.6,154.8 L117.9,154.7 L119.2,154.5 L120.5,154.4 L121.8,154.2 L123.2,154.1 L124.5,153.9 L125.8,153.7 L127.1,153.6 L128.4,153.4 L129.7,153.2 L131.0,153.0 L132.3,152.8 L133.6,152.6 L134.9,152.4 L136.2,152.2 L137.6,152.0 L138.9,151.8 L140.2,151.6 L141.5,151.3 L142.8,151.1 L144.1,150.8 L145.4,150.5 L146.7,150.2 L148.0,149.9 L149.3,149.6 L150.7,149.2 L152.0,148.9 L153.3,148.5 L154.6,148.1 L155.9,147.6 L157.2,147.1 L158.5,146.5 L159.8,145.9 L161.1,145.1 L162.4,144.2 L163.8,143.2 L165.1,141.8 L166.4,139.9 L167.7,136.7 L168.3,133.4 L168.9,125.9 L169.0,97.0 L169.1,68.1 L169.7,60.6 L170.3,57.4 L171.6,54.2 L172.9,52.3 L174.2,51.0 L175.6,50.0 L176.9,49.2 L178.2,48.5 L179.5,47.9 L180.8,47.3 L182.1,46.9 L183.4,46.5 L184.7,46.1 L186.0,45.7 L187.3,45.4 L188.6,45.1 L190.0,44.8 L191.3,44.6 L192.6,44.3 L193.9,44.1 L195.2,43.9 L196.5,43.7 L197.8,43.5 L199.1,43.3 L200.4,43.1 L201.8,42.9 L203.1,42.8 L204.4,42.6 L205.7,42.5 L207.0,42.3 L208.3,42.2 L209.6,42.1 L210.9,41.9 L212.2,41.8 L213.5,41.7 L214.8,41.6 L216.2,41.5 L217.5,41.4 L218.8,41.3 L220.1,41.1 L221.4,41.1 L222.7,41.0 L224.0,40.9 L225.3,40.8 L226.6,40.7 L227.9,40.6 L229.3,40.5 L230.6,40.4 L231.9,40.4 L233.2,40.3 L234.5,40.2 L235.8,40.1 L237.1,40.1 L238.4,40.0 L239.7,39.9 L241.1,39.9 L242.4,39.8 L243.7,39.7 L245.0,39.7 L246.3,39.6 L247.6,39.5 L248.9,39.5 L250.2,39.4 L251.5,39.4 L252.8,39.3 L254.2,39.3 L255.5,39.2 L256.8,39.1 L258.1,39.1 L259.4,39.0 L260.7,39.0 L262.0,38.9 L263.3,38.9 L264.6,38.9 L265.9,38.8 L267.2,38.8 L268.6,38.7 L269.9,38.7 L271.2,38.6 L272.5,38.6 L273.8,38.5 L275.1,38.5 L276.4,38.5 L277.7,38.4 L279.0,38.4 L280.4,38.3 L281.7,38.3 L283.0,38.3 L284.3,38.2 L285.6,38.2 L286.9,38.2 L288.2,38.1 L289.5,38.1 L290.8,38.1 L292.1,38.0 L293.4,38.0 L294.8,38.0 L296.1,37.9 L297.4,37.9 L298.7,37.9 L300.0,37.8" fill="none" stroke="var(--xanh)" stroke-width="2"/>
+<path d="M38.0,141.1 L39.3,139.4 L40.6,137.9 L41.9,136.5 L43.2,135.4 L44.5,134.5 L45.9,133.7 L47.2,133.0 L48.5,132.3 L49.8,131.8 L51.1,131.2 L52.4,130.8 L53.7,130.3 L55.0,129.9 L56.3,129.5 L57.6,129.1 L59.0,128.8 L60.3,128.5 L61.6,128.1 L62.9,127.8 L64.2,127.5 L65.5,127.2 L66.8,127.0 L68.1,126.7 L69.4,126.5 L70.8,126.2 L72.1,126.0 L73.4,125.7 L74.7,125.5 L76.0,125.3 L77.3,125.0 L78.6,124.8 L79.9,124.6 L81.2,124.4 L82.5,124.2 L83.8,124.0 L85.2,123.8 L86.5,123.6 L87.8,123.4 L89.1,123.2 L90.4,123.0 L91.7,122.8 L93.0,122.6 L94.3,122.4 L95.6,122.2 L97.0,122.0 L98.3,121.8 L99.6,121.7 L100.9,121.5 L102.2,121.3 L103.5,121.1 L104.8,120.9 L106.1,120.7 L107.4,120.5 L108.7,120.4 L110.1,120.2 L111.4,120.0 L112.7,119.8 L114.0,119.6 L115.3,119.4 L116.6,119.2 L117.9,119.0 L119.2,118.8 L120.5,118.6 L121.8,118.4 L123.2,118.2 L124.5,118.0 L125.8,117.8 L127.1,117.6 L128.4,117.4 L129.7,117.2 L131.0,116.9 L132.3,116.7 L133.6,116.5 L134.9,116.2 L136.2,116.0 L137.6,115.7 L138.9,115.5 L140.2,115.2 L141.5,114.9 L142.8,114.7 L144.1,114.4 L145.4,114.0 L146.7,113.7 L148.0,113.4 L149.3,113.0 L150.7,112.7 L152.0,112.3 L153.3,111.8 L154.6,111.4 L155.9,110.9 L157.2,110.3 L158.5,109.7 L159.8,109.1 L161.1,108.3 L162.4,107.4 L163.8,106.3 L165.1,104.9 L166.4,103.0 L167.7,99.7 L168.3,96.5 L168.9,89.0 L169.0,78.5 L169.1,68.0 L169.7,60.6 L170.3,57.4 L171.6,54.2 L172.9,52.3 L174.2,51.0 L175.6,50.0 L176.9,49.2 L178.2,48.5 L179.5,47.9 L180.8,47.3 L182.1,46.9 L183.4,46.5 L184.7,46.1 L186.0,45.7 L187.3,45.4 L188.6,45.1 L190.0,44.8 L191.3,44.6 L192.6,44.3 L193.9,44.1 L195.2,43.9 L196.5,43.7 L197.8,43.5 L199.1,43.3 L200.4,43.1 L201.8,42.9 L203.1,42.8 L204.4,42.6 L205.7,42.5 L207.0,42.3 L208.3,42.2 L209.6,42.1 L210.9,41.9 L212.2,41.8 L213.5,41.7 L214.8,41.6 L216.2,41.5 L217.5,41.4 L218.8,41.3 L220.1,41.1 L221.4,41.1 L222.7,41.0 L224.0,40.9 L225.3,40.8 L226.6,40.7 L227.9,40.6 L229.3,40.5 L230.6,40.4 L231.9,40.4 L233.2,40.3 L234.5,40.2 L235.8,40.1 L237.1,40.1 L238.4,40.0 L239.7,39.9 L241.1,39.9 L242.4,39.8 L243.7,39.7 L245.0,39.7 L246.3,39.6 L247.6,39.5 L248.9,39.5 L250.2,39.4 L251.5,39.4 L252.8,39.3 L254.2,39.3 L255.5,39.2 L256.8,39.1 L258.1,39.1 L259.4,39.0 L260.7,39.0 L262.0,38.9 L263.3,38.9 L264.6,38.9 L265.9,38.8 L267.2,38.8 L268.6,38.7 L269.9,38.7 L271.2,38.6 L272.5,38.6 L273.8,38.5 L275.1,38.5 L276.4,38.5 L277.7,38.4 L279.0,38.4 L280.4,38.3 L281.7,38.3 L283.0,38.3 L284.3,38.2 L285.6,38.2 L286.9,38.2 L288.2,38.1 L289.5,38.1 L290.8,38.1 L292.1,38.0 L293.4,38.0 L294.8,38.0 L296.1,37.9 L297.4,37.9 L298.7,37.9 L300.0,37.8" fill="none" stroke="var(--mau-chinh)" stroke-width="2"/>
+<path d="M38.0,116.2 L39.3,97.0 L40.6,93.7 L41.9,91.7 L43.2,90.4 L44.5,89.3 L45.9,88.4 L47.2,87.6 L48.5,86.9 L49.8,86.3 L51.1,85.8 L52.4,85.3 L53.7,84.8 L55.0,84.4 L56.3,84.0 L57.6,83.6 L59.0,83.3 L60.3,83.0 L61.6,82.6 L62.9,82.3 L64.2,82.0 L65.5,81.7 L66.8,81.5 L68.1,81.2 L69.4,80.9 L70.8,80.7 L72.1,80.4 L73.4,80.2 L74.7,80.0 L76.0,79.7 L77.3,79.5 L78.6,79.3 L79.9,79.1 L81.2,78.9 L82.5,78.7 L83.8,78.5 L85.2,78.3 L86.5,78.0 L87.8,77.9 L89.1,77.7 L90.4,77.5 L91.7,77.3 L93.0,77.1 L94.3,76.9 L95.6,76.7 L97.0,76.5 L98.3,76.3 L99.6,76.1 L100.9,75.9 L102.2,75.8 L103.5,75.6 L104.8,75.4 L106.1,75.2 L107.4,75.0 L108.7,74.8 L110.1,74.6 L111.4,74.5 L112.7,74.3 L114.0,74.1 L115.3,73.9 L116.6,73.7 L117.9,73.5 L119.2,73.3 L120.5,73.1 L121.8,72.9 L123.2,72.7 L124.5,72.5 L125.8,72.3 L127.1,72.1 L128.4,71.9 L129.7,71.6 L131.0,71.4 L132.3,71.2 L133.6,71.0 L134.9,70.7 L136.2,70.5 L137.6,70.2 L138.9,70.0 L140.2,69.7 L141.5,69.4 L142.8,69.1 L144.1,68.8 L145.4,68.5 L146.7,68.2 L148.0,67.9 L149.3,67.5 L150.7,67.2 L152.0,66.8 L153.3,66.4 L154.6,65.9 L155.9,65.4 L157.2,64.9 L158.5,64.3 L159.8,63.7 L161.1,63.0 L162.4,62.2 L163.8,61.3 L165.1,60.2 L166.4,58.9 L167.7,57.4 L168.3,56.6 L168.9,56.0 L169.0,55.8 L169.1,55.6 L169.7,55.0 L170.3,54.2 L171.6,52.7 L172.9,51.5 L174.2,50.5 L175.6,49.7 L176.9,48.9 L178.2,48.3 L179.5,47.7 L180.8,47.2 L182.1,46.8 L183.4,46.4 L184.7,46.0 L186.0,45.7 L187.3,45.4 L188.6,45.1 L190.0,44.8 L191.3,44.5 L192.6,44.3 L193.9,44.1 L195.2,43.8 L196.5,43.6 L197.8,43.4 L199.1,43.3 L200.4,43.1 L201.8,42.9 L203.1,42.8 L204.4,42.6 L205.7,42.5 L207.0,42.3 L208.3,42.2 L209.6,42.0 L210.9,41.9 L212.2,41.8 L213.5,41.7 L214.8,41.6 L216.2,41.5 L217.5,41.3 L218.8,41.2 L220.1,41.1 L221.4,41.0 L222.7,40.9 L224.0,40.9 L225.3,40.8 L226.6,40.7 L227.9,40.6 L229.3,40.5 L230.6,40.4 L231.9,40.4 L233.2,40.3 L234.5,40.2 L235.8,40.1 L237.1,40.1 L238.4,40.0 L239.7,39.9 L241.1,39.8 L242.4,39.8 L243.7,39.7 L245.0,39.7 L246.3,39.6 L247.6,39.5 L248.9,39.5 L250.2,39.4 L251.5,39.4 L252.8,39.3 L254.2,39.3 L255.5,39.2 L256.8,39.1 L258.1,39.1 L259.4,39.0 L260.7,39.0 L262.0,38.9 L263.3,38.9 L264.6,38.8 L265.9,38.8 L267.2,38.8 L268.6,38.7 L269.9,38.7 L271.2,38.6 L272.5,38.6 L273.8,38.5 L275.1,38.5 L276.4,38.5 L277.7,38.4 L279.0,38.4 L280.4,38.3 L281.7,38.3 L283.0,38.3 L284.3,38.2 L285.6,38.2 L286.9,38.2 L288.2,38.1 L289.5,38.1 L290.8,38.1 L292.1,38.0 L293.4,38.0 L294.8,38.0 L296.1,37.9 L297.4,37.9 L298.7,37.9 L300.0,37.8" fill="none" stroke="var(--vang)" stroke-width="2"/>
+<text x="297" y="118.7" text-anchor="end" font-size="10" fill="var(--chu)">metyl đỏ</text>
+<text x="297" y="78.0" text-anchor="end" font-size="10" fill="var(--chu)">phenolphtalein</text>
+<line x1="176.0" y1="68.1" x2="176.0" y2="89.0" stroke="var(--mau-chinh)" stroke-width="1.6"/>
+<line x1="173.0" y1="68.1" x2="179.0" y2="68.1" stroke="var(--mau-chinh)" stroke-width="1.6"/>
+<line x1="173.0" y1="89.0" x2="179.0" y2="89.0" stroke="var(--mau-chinh)" stroke-width="1.6"/>
+<text x="182.0" y="103.0" font-size="10" fill="var(--mau-chinh)">7,75 → 9,70</text>
+<text x="182.0" y="115.0" font-size="10" fill="var(--mau-chinh)">(±0,1 %)</text>
+<line x1="40" y1="216" x2="58" y2="216" stroke="var(--xanh)" stroke-width="2.4"/>
+<text x="62" y="219.5" font-size="10" fill="var(--chu)">HCl (mạnh)</text>
+<line x1="135" y1="216" x2="153" y2="216" stroke="var(--mau-chinh)" stroke-width="2.4"/>
+<text x="157" y="219.5" font-size="10" fill="var(--chu)">pKa = 4,75</text>
+<line x1="228" y1="216" x2="246" y2="216" stroke="var(--vang)" stroke-width="2.4"/>
+<text x="250" y="219.5" font-size="10" fill="var(--chu)">pKa = 9</text>
+</svg>
+        <p class="chu-thich">Ba đường chuẩn độ 20,0 mL acid 0,1 M bằng NaOH 0,1 M. Acid yếu bắt đầu ở pH cao hơn và bước nhảy ngắn lại; acid có pK<sub>a</sub> = 9 gần như không còn bước nhảy. Vùng màu là khoảng đổi màu của metyl đỏ và phenolphtalein.</p>
+      </div>
+
+      <p><b>Bước nhảy phụ thuộc thế nào vào C và K<sub>a</sub>?</b> (chuẩn độ acid nồng độ C bằng NaOH cùng nồng độ C, sai số ±0,1 %)</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Acid</th><th>C (M)</th><th>pH 99,9 %</th><th>pH 100,1 %</th><th>Nhận xét</th></tr></thead>
+          <tbody>
+            <tr><td>HCl (mạnh)</td><td>0,1</td><td>4,30</td><td>9,70</td><td>Rộng nhất</td></tr>
+            <tr><td>HCl (mạnh)</td><td>0,01</td><td>5,30</td><td>8,70</td><td>Ngắn đi 2 đơn vị</td></tr>
+            <tr><td>HCl (mạnh)</td><td>0,001</td><td>6,30</td><td>7,70</td><td>Chỉ còn 1,4 đơn vị</td></tr>
+            <tr><td>pK<sub>a</sub> = 3,85</td><td>0,1</td><td>6,85</td><td>9,70</td><td>Bắt đầu từ pK<sub>a</sub> + 3</td></tr>
+            <tr><td>pK<sub>a</sub> = 4,75</td><td>0,1</td><td>7,75</td><td>9,70</td><td>Còn 1,95 đơn vị</td></tr>
+            <tr><td>pK<sub>a</sub> = 4,75</td><td>0,01</td><td>7,75</td><td>8,70</td><td>Còn 0,95 đơn vị</td></tr>
+            <tr><td>pK<sub>a</sub> = 6,5</td><td>0,1</td><td>9,50</td><td>9,70</td><td>Gần như không dùng được</td></tr>
+            <tr><td>pK<sub>a</sub> = 7,0</td><td>0,1</td><td>10,00</td><td>9,70</td><td>Không còn bước nhảy</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul>
+        <li><b>Đầu dưới</b> của bước nhảy phụ thuộc <b>K<sub>a</sub></b> (pK<sub>a</sub> + 3), không phụ thuộc C. Acid mạnh thì đầu dưới do H<sup>+</sup> dư: −lg(5·10<sup>−4</sup>C).</li>
+        <li><b>Đầu trên</b> phụ thuộc <b>C</b>: 14 + lg(5·10<sup>−4</sup>C), không phụ thuộc K<sub>a</sub>. Đó là lí do bảng có cùng "9,70" ở C = 0,1 M.</li>
+        <li>Bước nhảy tồn tại khi pK<sub>a</sub> + 3 &lt; 14 + lg(5·10<sup>−4</sup>C). Với C = 0,1 M thì pK<sub>a</sub> &lt; 6,7, tương ứng gần đúng tiêu chí C·K<sub>a</sub> ≥ 10<sup>−8</sup> ở mục 5.</li>
+      </ul>
+
+      <h3>12. Base yếu khác NH<sub>3</sub>: methylamine</h3>
+      <p>Mọi amin đều chuẩn độ bằng HCl giống NH<sub>3</sub>. Chỉ cần đổi hằng số: pK<sub>a</sub> của acid liên hợp BH<sup>+</sup> bằng 14 − pK<sub>b</sub>. Base càng mạnh (pK<sub>b</sub> nhỏ) thì BH<sup>+</sup> càng yếu, pH tương đương càng cao và bước nhảy bắt đầu ở pH cao hơn.</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Base</th><th>pK<sub>b</sub></th><th>pK<sub>a</sub> (BH<sup>+</sup>)</th><th>Chỉ thị thường dùng</th></tr></thead>
+          <tbody>
+            <tr><td>NH<sub>3</sub></td><td>4,75</td><td>9,25</td><td>metyl đỏ</td></tr>
+            <tr><td>CH<sub>3</sub>NH<sub>2</sub> (methylamine)</td><td>3,35</td><td>10,65</td><td>metyl đỏ, bromocresol lục</td></tr>
+            <tr><td>(CH<sub>3</sub>)<sub>2</sub>NH (dimethylamine)</td><td>3,23</td><td>10,77</td><td>metyl đỏ</td></tr>
+            <tr><td>Tris</td><td>5,93</td><td>8,07</td><td>bromocresol lục, metyl da cam</td></tr>
+            <tr><td>Pyridine</td><td>8,80</td><td>5,20</td><td>không chuẩn độ được trong nước (C·K<sub>b</sub> &lt; 10<sup>−8</sup>)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="luu-y">Khi C/K<sub>b</sub> &lt; 400 (base không quá yếu, dung dịch không quá đặc) thì không dùng được công thức gần đúng \( \OH \approx \sqrt{K_\mathrm{b}C} \). Giải phương trình bậc hai: \( \OH = \tfrac{1}{2}\left(-K_\mathrm{b} + \sqrt{K_\mathrm{b}^2 + 4K_\mathrm{b}C}\right) \).</p>
+      <div class="vi-du"><b>Ví dụ 10.</b> Chuẩn độ 20,00 mL dung dịch CH<sub>3</sub>NH<sub>2</sub> (pK<sub>b</sub> = 3,35) bằng HCl 0,05200 M, hết 16,55 mL. (a) Tính nồng độ CH<sub>3</sub>NH<sub>2</sub>. (b) pH ban đầu. (c) pH tại 99,9 %, tại điểm tương đương và tại 100,1 %. (d) Chọn chỉ thị; nếu dùng phenolphtalein (pT 9) thì sai số bao nhiêu?
+        <details><summary>Xem lời giải</summary>
+          <b>(a)</b> Tỉ lệ 1 : 1:
+          \[ C = \frac{0,05200\cdot16,55}{20,00} = \mathbf{0,04303\ M} \]
+          <b>(b)</b> K<sub>b</sub> = 10<sup>−3,35</sup> = 4,47·10<sup>−4</sup>; C/K<sub>b</sub> = 96 &lt; 400 nên giải bậc hai:
+          \[ \begin{aligned} \OH &= \tfrac{1}{2}\left(-K_\mathrm{b} + \sqrt{K_\mathrm{b}^2 + 4K_\mathrm{b}C}\right) \\ &= 4,17\cdot10^{-3}\ \mathrm{M} \;\Rightarrow\; \mathrm{pOH} = 2,38 \\ \mathrm{pH} &= \mathbf{11,62} \end{aligned} \]
+          Công thức gần đúng cho [OH<sup>−</sup>] = 4,38·10<sup>−3</sup> M, lệch hơn 5 % (pH 11,64).<br>
+          <b>(c)</b> pK<sub>a</sub>(CH<sub>3</sub>NH<sub>3</sub><sup>+</sup>) = 14 − 3,35 = 10,65.<br>
+          <b>99,9 %</b>: đệm B/BH<sup>+</sup> = 0,1/99,9 → \( \mathrm{pH} = 10,65 - 3 = \mathbf{7,65} \)<br>
+          <b>100 %</b>: n = 0,05200·16,55 = 0,8606 mmol trong 36,55 mL → C<sub>BH⁺</sub> = 0,02355 M:
+          \[ \mathrm{pH} = \tfrac{1}{2}(10,65 - \lg 0,02355) = \mathbf{6,14} \]
+          <b>100,1 %</b>: H<sup>+</sup> dư = 0,001·0,8606 = 8,61·10<sup>−4</sup> mmol trong 36,57 mL → [H<sup>+</sup>] = 2,35·10<sup>−5</sup> M → <b>pH = 4,63</b>.<br>
+          <b>(d)</b> Bước nhảy pH 7,65 → 4,63, nằm ở vùng acid: dùng <b>metyl đỏ</b> (pT 5) hoặc bromocresol lục (pT 4,6). Nếu dùng phenolphtalein, dừng ở pH 9:
+          \[ \begin{aligned} \frac{n_\mathrm{B}}{n_\mathrm{BH^+}} &= 10^{9 - 10,65} = 0,0224 \\ \text{sai số} &\approx \frac{1}{1,0224} - 1 = \mathbf{-2,2\ \%} \end{aligned} \]
+          (dừng quá sớm: khi chuẩn độ bằng acid, dung dịch chuyển từ hồng sang không màu).
+        </details></div>
+
+      <h3>13. Đa acid: citric và H<sub>3</sub>PO<sub>4</sub></h3>
+      <p>Với acid nhiều nấc, tự hỏi hai câu: (1) nấc nào đủ mạnh để chuẩn độ (pK<sub>a</sub> &lt; khoảng 7 với C ≈ 0,1 M); (2) các nấc có cách nhau đủ xa để tách bước nhảy không (ΔpK<sub>a</sub> ≥ 4)? Nếu không tách thì các nấc bị chuẩn độ cùng lúc, chỉ có một bước nhảy ứng với tất cả số H<sup>+</sup> đủ mạnh.</p>
+      <p><b>Acid citric H<sub>3</sub>Cit</b> (pK<sub>a</sub> = 3,13; 4,76; 6,40): các nấc cách nhau chỉ 1,6 đơn vị nên <b>ba H<sup>+</sup> bị chuẩn độ cùng lúc</b>, chỉ có một bước nhảy tại V<sub>e</sub>. Phản ứng: H<sub>3</sub>Cit + 3OH<sup>−</sup> → Cit<sup>3−</sup> + 3H<sub>2</sub>O, tỉ lượng <b>1 : 3</b>, chỉ thị phenolphtalein.</p>
+      <div class="vi-du"><b>Ví dụ 11.</b> Lấy 25,00 mL nước quả, chuẩn độ bằng NaOH 0,1052 M (phenolphtalein) hết 11,32 mL. Tính nồng độ acid citric theo g/L (M = 192,124). Tính pH tại điểm tương đương và bước nhảy ±0,1 %, rồi cho biết phenolphtalein (pT 9) có phù hợp không.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} n_\mathrm{NaOH} &= 0,1052\cdot11,32 = 1,191\ \mathrm{mmol} \\ n_\mathrm{H_3Cit} &= \frac{1,191}{3} = 0,3970\ \mathrm{mmol} \\ C &= \frac{0,3970}{25,00} = 0,01588\ \mathrm{M} \\ \rho &= 0,01588\cdot192,124 = \mathbf{3,05\ g/L} \end{aligned} \]
+          <b>Tại V<sub>e</sub></b>: dung dịch chỉ có Cit<sup>3−</sup> (base yếu, K<sub>b</sub> = K<sub>w</sub>/K<sub>a3</sub>, pK<sub>b</sub> = 7,60), C = 0,3970/36,32 = 0,01093 M:
+          \[ \begin{aligned} \mathrm{pOH} &= \tfrac{1}{2}(7,60 - \lg 0,01093) = 4,78 \\ \mathrm{pH} &= \mathbf{9,22} \end{aligned} \]
+          <b>Bước nhảy ±0,1 %</b> (tính bằng cân bằng điện tích; gần đúng bằng đệm HCit<sup>2−</sup>/Cit<sup>3−</sup> cho khoảng 8,9): pH <b>8,84 → 9,60</b>. Bước nhảy hẹp vì pK<sub>a3</sub> = 6,40 khá cao (gần giới hạn chuẩn độ được) và dung dịch loãng (khoảng 0,011 M). Phenolphtalein (pT 9) nằm trong bước nhảy nên phù hợp; thymolphtalein (pT 10) sẽ dừng quá muộn.
+        </details></div>
+      <p><b>Acid phosphoric H<sub>3</sub>PO<sub>4</sub></b> (pK<sub>a</sub> = 2,12; 7,21; 12,32): ΔpK<sub>a</sub> &gt; 4 nên <b>hai bước nhảy rõ</b>; nấc 3 (pK<sub>a</sub> = 12,32) quá yếu, không chuẩn độ được bằng NaOH trong nước.</p>
+      <ul>
+        <li>Điểm tương đương 1 (H<sub>2</sub>PO<sub>4</sub><sup>−</sup>, lưỡng tính): pH ≈ ½(pK<sub>a1</sub> + pK<sub>a2</sub>) ≈ 4,7 → metyl da cam hoặc bromocresol lục. V<sub>e2</sub> = 2V<sub>e1</sub>.</li>
+        <li>Điểm tương đương 2 (HPO<sub>4</sub><sup>2−</sup>, lưỡng tính): pH ≈ ½(pK<sub>a2</sub> + pK<sub>a3</sub>) ≈ 9,8 → phenolphtalein hoặc thymolphtalein.</li>
+        <li>Muối <b>KH<sub>2</sub>PO<sub>4</sub></b> chuẩn độ bằng NaOH chỉ có một bước nhảy (H<sub>2</sub>PO<sub>4</sub><sup>−</sup> → HPO<sub>4</sub><sup>2−</sup>), tỉ lượng 1 : 1.</li>
+      </ul>
+      <div class="bang-cuon"><table class="bang">
+        <thead><tr><th>V<sub>NaOH</sub> (mL)</th><th>0</th><th>10,0</th><th>20,0</th><th>30,0</th><th>40,0</th><th>50,0</th><th>60,0</th></tr></thead>
+        <tbody><tr><td>pH</td><td>1,62</td><td>2,26</td><td><b>4,70</b></td><td>7,21</td><td><b>9,66</b></td><td>11,85</td><td>12,17</td></tr></tbody>
+      </table></div>
+      <p class="luu-y">Bảng: 20,0 mL H<sub>3</sub>PO<sub>4</sub> 0,100 M bằng NaOH 0,100 M (V<sub>e1</sub> = 20,0 mL, V<sub>e2</sub> = 40,0 mL). Sau V<sub>e2</sub> đường cong không còn bước nhảy thứ ba.</p>
+      <div class="vi-du"><b>Ví dụ 12.</b> Cân 0,4610 g KH<sub>2</sub>PO<sub>4</sub> kĩ thuật (M = 136,09), hòa tan trong nước rồi chuẩn độ bằng NaOH 0,1050 M, hết 29,85 mL. (a) Tính % độ tinh khiết. (b) Đường cong có mấy bước nhảy? Chọn chỉ thị.
+        <details><summary>Xem lời giải</summary>
+          <b>(a)</b> H<sub>2</sub>PO<sub>4</sub><sup>−</sup> + OH<sup>−</sup> → HPO<sub>4</sub><sup>2−</sup> + H<sub>2</sub>O (1 : 1):
+          \[ \begin{aligned} n &= 0,1050\cdot29,85 \\ &= 3,134\ \mathrm{mmol} \\ m &= 3,134\cdot10^{-3}\cdot136,09 \\ &= 0,4265\ \mathrm{g} \\ \text{Độ tinh khiết} &= \frac{0,4265}{0,4610}\cdot100 = \mathbf{92,5\ \%} \end{aligned} \]
+          <b>(b)</b> Chỉ có <b>một</b> bước nhảy: nấc 2 (pK<sub>a2</sub> = 7,21) chuẩn độ được, nấc 3 (pK<sub>a3</sub> = 12,32) không chuẩn độ được. Điểm tương đương ứng với HPO<sub>4</sub><sup>2−</sup> có pH ≈ ½(7,21 + 12,32) ≈ 9,8, nên dùng <b>phenolphtalein</b> (không màu → hồng).
+        </details></div>
+
+      <h3>14. Công thức khung: từ mẫu gốc đến kết quả</h3>
+      <p>Hầu hết bài thi có cùng một chuỗi thao tác: <b>mẫu → định mức → hút → chuẩn độ → quy về mẫu gốc</b>. Chỉ cần đi đúng thứ tự dưới đây:</p>
+      <ol>
+        <li>Chuẩn độ V<sub>h</sub> mL dung dịch (hút từ bình định mức) hết V<sub>ch</sub> mL chất chuẩn nồng độ C<sub>ch</sub>. Số mmol chất phân tích trong V<sub>h</sub>: <b>n = a·C<sub>ch</sub>·V<sub>ch</sub></b>, với a là tỉ lượng (mol chất phân tích/mol chất chuẩn).</li>
+        <li>Nồng độ trong bình định mức: C<sub>đm</sub> = n/V<sub>h</sub>.</li>
+        <li>Quy về mẫu gốc: nhân hệ số pha loãng V<sub>đm</sub>/V<sub>g</sub> (V<sub>g</sub>: thể tích mẫu gốc đem pha).</li>
+        <li>Đổi đơn vị: g/L = C·M; % w/w = (g/L)/(10·d); % độ tinh khiết = (m tính được/m cân)·100.</li>
+      </ol>
+      <div class="cong-thuc">\[ \begin{aligned} C_\text{gốc} &= \frac{a\,C_\mathrm{ch}V_\mathrm{ch}}{V_\mathrm{h}}\cdot\frac{V_\text{đm}}{V_\mathrm{g}} \\[4pt] \rho\ (\mathrm{g/L}) &= C_\text{gốc}\,M \qquad \%\,(w/w) = \frac{\rho}{10\,d} \end{aligned} \]</div>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Chất phân tích</th><th>Phản ứng với chất chuẩn</th><th>Tỉ lượng a (mol chất/mol chuẩn)</th></tr></thead>
+          <tbody>
+            <tr><td>CH<sub>3</sub>COOH, HCl, KHP, KH<sub>2</sub>PO<sub>4</sub></td><td>1 H<sup>+</sup> : 1 OH<sup>−</sup></td><td>1</td></tr>
+            <tr><td>H<sub>2</sub>C<sub>2</sub>O<sub>4</sub>·2H<sub>2</sub>O (chuẩn hóa NaOH)</td><td>2 H<sup>+</sup> : 2 OH<sup>−</sup></td><td>1/2</td></tr>
+            <tr><td>Acid citric</td><td>3 H<sup>+</sup> : 3 OH<sup>−</sup></td><td>1/3</td></tr>
+            <tr><td>H<sub>2</sub>SO<sub>4</sub> (Kjeldahl)</td><td>2 H<sup>+</sup> : 2 OH<sup>−</sup></td><td>1/2 (n<sub>H⁺</sub> = 2n<sub>H₂SO₄</sub>)</td></tr>
+            <tr><td>Na<sub>2</sub>CO<sub>3</sub> (đến metyl da cam)</td><td>CO<sub>3</sub><sup>2−</sup> + 2H<sup>+</sup></td><td>1/2 (chuẩn bằng HCl)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><b>Chuẩn hóa NaOH</b> theo đúng khung trên: cân chính xác chất gốc (KHP hoặc acid oxalic), n<sub>H⁺</sub> = a'·m/M (a' = số H<sup>+</sup> của chất gốc), rồi C<sub>NaOH</sub> = n<sub>H⁺</sub>/V<sub>NaOH</sub>. Dùng luôn nồng độ vừa chuẩn hóa cho các phép chuẩn độ sau.</p>
+      <div class="vi-du"><b>Ví dụ 13.</b> (a) Chuẩn hóa NaOH: cân 0,1582 g H<sub>2</sub>C<sub>2</sub>O<sub>4</sub>·2H<sub>2</sub>O (M = 126,07), chuẩn độ hết 25,05 mL NaOH. (b) Lấy 10,00 mL giấm (d = 1,02 g/mL) pha thành 100,0 mL (dung dịch B). Chuẩn độ 10,00 mL B bằng NaOH trên (phenolphtalein) hết 7,85 mL. Tính nồng độ acid acetic trong B và trong giấm; g/L và % w/w (M = 60,05). (c) Với pK<sub>a</sub> = 4,75, tính pH của B ban đầu, pH khi thêm 7,20 mL, tại điểm tương đương và khi thêm 8,50 mL NaOH.
+        <details><summary>Xem lời giải</summary>
+          <b>(a)</b> Acid oxalic có 2 H<sup>+</sup>:
+          \[ \begin{aligned} n_{\mathrm{H^+}} &= 2\cdot\frac{0,1582}{126,07} = 2,510\cdot10^{-3}\ \mathrm{mol} \\ C_\mathrm{NaOH} &= \frac{2,510\cdot10^{-3}}{0,02505} = \mathbf{0,1002\ M} \end{aligned} \]
+          <b>(b)</b> n(CH<sub>3</sub>COOH) trong 10,00 mL B = 0,1002·7,85 = 0,7866 mmol:
+          \[ \begin{aligned} C_\mathrm{B} &= \frac{0,7866}{10,00} = \mathbf{0,07866\ M} \\ C_\text{giấm} &= 0,07866\cdot\frac{100,0}{10,00} = \mathbf{0,7866\ M} \\ \rho &= 0,7866\cdot60,05 = \mathbf{47,2\ g/L} \\ \%\,(w/w) &= \frac{47,23}{10\cdot1,02} = \mathbf{4,63\ \%} \end{aligned} \]
+          <b>(c)</b> Trong 10,00 mL B: n<sub>HA</sub> = 0,7866 mmol, V<sub>e</sub> = 7,85 mL.<br>
+          <b>Ban đầu</b>: \( \mathrm{pH} = \tfrac{1}{2}(4,75 - \lg 0,07866) = \mathbf{2,93} \)<br>
+          <b>V = 7,20 mL</b>: n<sub>A⁻</sub> = 0,1002·7,20 = 0,7214 mmol; n<sub>HA</sub> còn = 0,7866 − 0,7214 = 0,0652 mmol:
+          \[ \mathrm{pH} = 4,75 + \lg\frac{0,7214}{0,0652} = \mathbf{5,79} \]
+          <b>V = 7,85 mL</b>: C<sub>A⁻</sub> = 0,7866/17,85 = 0,04407 M (đã pha loãng: 10,00 + 7,85 mL):
+          \[ \begin{aligned} \mathrm{pOH} &= \tfrac{1}{2}(9,25 - \lg 0,04407) = 5,30 \\ \mathrm{pH} &= \mathbf{8,70} \end{aligned} \]
+          <b>V = 8,50 mL</b>: OH<sup>−</sup> dư = 0,1002·0,65 = 0,0651 mmol trong 18,50 mL → 3,52·10<sup>−3</sup> M → <b>pH = 11,55</b>.
+        </details></div>
+      <div class="vi-du"><b>Ví dụ 14.</b> 5,00 mL nước mắm được vô cơ hóa, pha thành 100,0 mL (dung dịch A). Hút 10,00 mL A, kiềm hóa bằng NaOH đặc, cất NH<sub>3</sub> vào 25,00 mL H<sub>2</sub>SO<sub>4</sub> 0,0500 M. Chuẩn độ H<sub>2</sub>SO<sub>4</sub> dư bằng NaOH 0,1002 M (metyl đỏ) hết 13,60 mL. Tính độ đạm theo g N/L (N = 14,007).
+        <details><summary>Xem lời giải</summary>
+          H<sub>2</sub>SO<sub>4</sub> cho <b>2 H<sup>+</sup></b>, nên tính theo mmol H<sup>+</sup>:
+          \[ \begin{aligned} n_\text{tổng} &= 2\cdot0,0500\cdot25,00 = 2,500\ \mathrm{mmol} \\ n_\text{dư} &= 0,1002\cdot13,60 = 1,363\ \mathrm{mmol} \\ n_\mathrm{NH_3} &= 2,500 - 1,363 = 1,137\ \mathrm{mmol} \end{aligned} \]
+          Đây là lượng N trong 10,00 mL A. Toàn bộ 100,0 mL A (từ 5,00 mL nước mắm):
+          \[ \begin{aligned} n_\mathrm{N} &= 1,137\cdot\frac{100,0}{10,00} = 11,37\ \mathrm{mmol} \\ \rho_\mathrm{N} &= \frac{11,37\cdot14,007}{5,00} = \mathbf{31,9\ g/L} \end{aligned} \]
+          (mg/mL = g/L). Nếu coi H<sub>2</sub>SO<sub>4</sub> chỉ cho 1 H<sup>+</sup> thì n(H<sup>+</sup>) tổng = 1,250 mmol &lt; 1,363 mmol, ra n(NH<sub>3</sub>) âm: dấu hiệu nhầm tỉ lượng.
+        </details></div>
+
+      <div class="hinh-tinh">
+        <svg viewBox="0 0 320 256" role="img" aria-label="Sơ đồ cất Kjeldahl: bình cất, ống sinh hàn, bình hứng chứa H2SO4 dư">
+<defs><marker id="kj-mt" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="var(--chu-phu)"/></marker></defs>
+<text x="160" y="13" text-anchor="middle" font-size="11" font-weight="700" fill="var(--chu)">Cất NH₃ trong phương pháp Kjeldahl</text>
+<rect x="22" y="150" width="70" height="8" rx="2" fill="var(--chu-phu)"/>
+<path d="M46,146 q3,-9 6,0 q3,-9 6,0 q3,-9 6,0" fill="none" stroke="var(--vang)" stroke-width="2"/>
+<path d="M49,64 L49,88 A32,32 0 1 0 79,88 L79,64" fill="none" stroke="var(--chu)" stroke-width="1.8"/>
+<path d="M34,120 A32,32 0 0 0 94,120 A32,32 0 0 0 91,109 L37,109 A32,32 0 0 0 34,120 Z" fill="var(--vang)" fill-opacity="0.28"/>
+<line x1="47" y1="64" x2="81" y2="64" stroke="var(--chu)" stroke-width="1.8"/>
+<path d="M64,64 L64,44 L132,44" fill="none" stroke="var(--chu)" stroke-width="1.8"/>
+<rect x="132" y="34" width="72" height="20" rx="3" fill="var(--xanh)" fill-opacity="0.16" stroke="var(--chu)" stroke-width="1.6"/>
+<line x1="132" y1="44" x2="204" y2="44" stroke="var(--chu)" stroke-width="1.6"/>
+<line x1="196" y1="66" x2="196" y2="56" stroke="var(--xanh)" stroke-width="1.6" marker-end="url(#kj-mt)"/>
+<line x1="140" y1="32" x2="140" y2="22" stroke="var(--xanh)" stroke-width="1.6" marker-end="url(#kj-mt)"/>
+<text x="204" y="72" font-size="10" fill="var(--xanh)">nước lạnh</text>
+<path d="M204,44 L262,44 L262,142" fill="none" stroke="var(--chu)" stroke-width="1.8"/>
+<path d="M252,96 L252,116 L228,176 L296,176 L272,116 L272,96" fill="none" stroke="var(--chu)" stroke-width="1.8"/>
+<path d="M238,144 L231,168 Q230,174 236,174 L288,174 Q294,174 292,168 L286,144 Z" fill="var(--mau-chinh)" fill-opacity="0.28"/>
+<line x1="250" y1="96" x2="274" y2="96" stroke="var(--chu)" stroke-width="1.8"/>
+<line x1="92" y1="44" x2="122" y2="44" stroke="var(--chu-phu)" stroke-width="1.4" marker-end="url(#kj-mt)"/>
+<line x1="222" y1="44" x2="246" y2="44" stroke="var(--chu-phu)" stroke-width="1.4" marker-end="url(#kj-mt)"/>
+<line x1="262" y1="70" x2="262" y2="88" stroke="var(--chu-phu)" stroke-width="1.4" marker-end="url(#kj-mt)"/>
+<circle cx="20" cy="120" r="8" fill="var(--mau-chinh)"/><text x="20" y="123.5" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">1</text>
+<circle cx="168" cy="74" r="8" fill="var(--mau-chinh)"/><text x="168" y="77.5" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">2</text>
+<circle cx="300" cy="140" r="8" fill="var(--mau-chinh)"/><text x="300" y="143.5" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">3</text>
+<circle cx="16" cy="193" r="6.5" fill="var(--mau-chinh)"/><text x="16" y="196.5" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">1</text>
+<text x="28" y="196" font-size="10" fill="var(--chu)">Bình cất: NH₄⁺ + OH⁻ → NH₃↑ (đun sôi)</text>
+<circle cx="16" cy="207" r="6.5" fill="var(--mau-chinh)"/><text x="16" y="210.5" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">2</text>
+<text x="28" y="210" font-size="10" fill="var(--chu)">Ống sinh hàn: làm lạnh, dẫn NH₃ đi</text>
+<circle cx="16" cy="221" r="6.5" fill="var(--mau-chinh)"/><text x="16" y="224.5" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">3</text>
+<text x="28" y="224" font-size="10" fill="var(--chu)">Bình hứng: H₂SO₄ dư (đã biết) giữ NH₃</text>
+<circle cx="16" cy="235" r="6.5" fill="var(--mau-chinh)"/><text x="16" y="238.5" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">4</text>
+<text x="28" y="238" font-size="10" fill="var(--chu)">Chuẩn ngược H₂SO₄ dư bằng NaOH (metyl đỏ)</text>
+</svg>
+        <p class="chu-thich">Sơ đồ cất trong Kjeldahl. Mẫu đã được vô cơ hóa bằng H<sub>2</sub>SO<sub>4</sub> đặc (N hữu cơ thành NH<sub>4</sub><sup>+</sup>), kiềm hóa rồi đun; NH<sub>3</sub> bay sang bình hứng chứa H<sub>2</sub>SO<sub>4</sub> dư đã biết chính xác.</p>
+      </div>
+
+      <h3>15. Lỗi hay gặp</h3>
+      <ul>
+        <li><b>Dùng nồng độ ban đầu thay cho nồng độ sau pha loãng</b> khi tính pH tại điểm tương đương và sau đó. Phải chia số mmol cho <b>tổng thể tích</b> (V<sub>0</sub> + V thêm). Ví dụ 13: dùng 0,07866 M thay vì 0,04407 M sẽ ra pH 8,82 thay vì 8,70.</li>
+        <li><b>Chọn phenolphtalein cho base yếu</b> (NH<sub>3</sub>, methylamine chuẩn bằng HCl): pH tương đương ở vùng acid (6,14 trong Ví dụ 10), phải dùng metyl đỏ hoặc bromocresol lục.</li>
+        <li><b>Quên tỉ lượng</b>: H<sub>2</sub>SO<sub>4</sub> : NaOH = 1 : 2, acid oxalic : NaOH = 1 : 2, acid citric : NaOH = 1 : 3. Dùng 1 : 1 cho những chất này sai gấp 2 hoặc 3 lần.</li>
+        <li><b>Nhầm pK<sub>a</sub> và pK<sub>b</sub></b>: NH<sub>3</sub> có pK<sub>b</sub> = 4,75 (pK<sub>a</sub> của NH<sub>4</sub><sup>+</sup> = 9,25); methylamine có pK<sub>b</sub> = 3,35 (pK<sub>a</sub> = 10,65). Với acid liên hợp phải dùng pK<sub>a</sub>.</li>
+        <li><b>Dùng pH = 7</b> cho điểm tương đương của acid yếu hay base yếu. Chỉ acid mạnh – base mạnh mới có pH<sub>tđ</sub> = 7,00.</li>
+        <li><b>Dùng công thức gần đúng khi C/K &lt; 400</b> (methylamine 0,043 M: C/K<sub>b</sub> = 96). Phải giải bậc hai.</li>
+        <li><b>Quên hệ số pha loãng</b> (bước "định mức" và "hút"): ví dụ quên nhân 100,0/10,00 = 10 ở Ví dụ 13 và 14 làm kết quả nhỏ đi 10 lần.</li>
+        <li><b>Kjeldahl</b>: quên trừ lượng acid dư chuẩn ngược; dùng phenolphtalein cho chuẩn ngược (NaOH sẽ chuẩn luôn NH<sub>4</sub><sup>+</sup>); quên nhân hệ số pha loãng và đổi mg/mL thành g/L.</li>
+        <li><b>Đa acid</b>: nghĩ H<sub>3</sub>PO<sub>4</sub> chuẩn độ được cả 3 nấc bằng NaOH (nấc 3 không chuẩn độ được); nghĩ citric có 3 bước nhảy (thực tế chỉ 1).</li>
+        <li><b>Bước nhảy</b>: dùng pK<sub>a</sub> − 3 thay cho pK<sub>a</sub> + 3 khi chuẩn độ acid yếu bằng base (ở 99,9 % thì A<sup>−</sup> nhiều gấp 1 000 lần HA, nên pH cao hơn pK<sub>a</sub>); quên rằng 100,1 % tính theo OH<sup>−</sup> dư trong tổng thể tích mới.</li>
+        <li><b>Chữ số có nghĩa</b>: pH giữ 2 chữ số thập phân; nồng độ và khối lượng giữ số chữ số có nghĩa của số liệu đo kém chính xác nhất (thường 4 chữ số ở nồng độ chuẩn, 3 chữ số ở kết quả cuối).</li>
+      </ul>
     `,
     baiTap: [
       {
@@ -1532,7 +1794,7 @@ const CHUONG = [
       </div>
       <p class="luu-y">Tài liệu khác nhau có thể cho α<sub>Y⁴⁻</sub> hơi khác (ví dụ 3,5·10<sup>−7</sup> ở pH 5) do dùng bộ hằng số khác. Khi đề bài cho sẵn α<sub>Y⁴⁻</sub>, dùng số của đề.</p>
       <div class="cong-thuc"><div class="nhan">Hằng số bền điều kiện (ở một pH cố định)</div>\[ K_\mathrm{f}' = \alpha_\mathrm{Y^{4-}}K_\mathrm{f} = \frac{[\mathrm{MY^{n-4}}]}{[\mathrm{M^{n+}}][\mathrm{EDTA}]} \]</div>
-      <p>Để chuẩn độ đạt yêu cầu, phản ứng tạo phức phải gần như hoàn toàn tại điểm tương đương. Quy ước thường dùng: <b>K<sub>f</sub>' ≳ 10<sup>8</sup></b> (với C ≈ 0,01 M, lúc đó khoảng 99,9% ion kim loại đã tạo phức; dạng tổng quát lg(C·K<sub>f</sub>') ≥ 6). Vì vậy mỗi ion có một <b>pH tối thiểu</b> để chuẩn độ: ion tạo phức càng bền (K<sub>f</sub> lớn như Fe<sup>3+</sup>) thì chuẩn độ được ở pH càng thấp. Dựa vào đó có thể <b>chuẩn độ chọn lọc</b> bằng cách chỉnh pH.</p>
+      <p>Để chuẩn độ đạt yêu cầu, phản ứng tạo phức phải gần như hoàn toàn tại điểm tương đương. Quy ước thường dùng: <b>K<sub>f</sub>' ≳ 10<sup>8</sup></b> (với C ≈ 0,01 M, lúc đó khoảng 99,9% ion kim loại đã tạo phức; dạng tổng quát lg(C·K<sub>f</sub>') ≥ 6). Vì vậy mỗi ion có một <b>pH tối thiểu</b> để chuẩn độ: ion tạo phức càng bền (K<sub>f</sub> lớn như Fe<sup>3+</sup>) thì chuẩn độ được ở pH càng thấp. Dựa vào đó có thể <b>chuẩn độ chọn lọc</b> bằng cách chỉnh pH (mục 10). Đề thi thường viết β, β' thay cho K<sub>f</sub>, K<sub>f</sub>' và α<sub>Y(H)</sub> = 1/α<sub>Y⁴⁻</sub>; bảng đối chiếu ở mục 9.</p>
       <div class="vi-du"><b>Ví dụ 1.</b> Có chuẩn độ được Mg<sup>2+</sup> bằng EDTA ở pH 5 không? Ở pH 10 thì sao? (lg K<sub>f</sub>(MgY<sup>2−</sup>) = 8,79; α<sub>Y⁴⁻</sub> = 3,5·10<sup>−7</sup> ở pH 5 và 0,30 ở pH 10.)
         <details><summary>Xem lời giải</summary>
           Ở pH 5: \[ K_\mathrm{f}' = 3,5\cdot10^{-7}\cdot10^{8,79} = 2,2\cdot10^{2} \]
@@ -1587,6 +1849,7 @@ const CHUONG = [
       <ul>
         <li><b>ET-OO</b> (eriocrom đen T), pH 10: đỏ nho → xanh chàm. Xác định Mg<sup>2+</sup>, Zn<sup>2+</sup>, tổng Ca<sup>2+</sup> + Mg<sup>2+</sup>.</li>
         <li><b>Murexit</b>, pH 12 – 13: đỏ → tím. Xác định riêng Ca<sup>2+</sup> (Mg<sup>2+</sup> đã kết tủa thành Mg(OH)<sub>2</sub>).</li>
+        <li>Bảng chỉ thị kim loại kèm màu và pH dùng ở mục 12.</li>
         <li>Chỉ thị kim loại cũng là acid/base yếu, màu phụ thuộc pH, nên mỗi chỉ thị chỉ dùng trong một khoảng pH nhất định.</li>
         <li>Phức M–In quá yếu thì đổi màu trước điểm tương đương. Phức M–In quá bền (bền hơn MY) thì chỉ thị bị <b>khóa</b>: không đổi màu được. Ví dụ Cu<sup>2+</sup>, Ni<sup>2+</sup>, Co<sup>2+</sup>, Fe<sup>3+</sup>, Al<sup>3+</sup> khóa ET-OO; phải che các ion này hoặc dùng chuẩn độ ngược.</li>
         <li>Ca<sup>2+</sup> tạo phức với ET-OO quá yếu, điểm cuối không rõ. Mẹo: thêm một ít MgY<sup>2−</sup> vào mẫu; Ca<sup>2+</sup> đẩy Mg<sup>2+</sup> ra (CaY bền hơn MgY), Mg<sup>2+</sup> cho điểm cuối rõ với ET-OO mà không làm thay đổi tổng lượng EDTA tiêu tốn.</li>
@@ -1619,6 +1882,173 @@ const CHUONG = [
           \[ \begin{aligned} [\mathrm{Ca^{2+}}] &= \frac{0,0150\cdot10,15}{10,00} = \mathbf{0,0152\ M} \\ m_\mathrm{Ca} &= \frac{0,01522\cdot0,2500\cdot40,08}{5} \\ &= 0,0305\ \mathrm{g} = \mathbf{30,5\ mg/viên} \end{aligned} \]
           Màu tại điểm cuối: đỏ (Ca – murexit) → tím (murexit tự do).
         </details></div>
+
+      <h3>9. Kí hiệu trong đề thi và cách tự tính α<sub>Y⁴⁻</sub> từ pK<sub>a</sub></h3>
+      <p>Đề thi và tài liệu khác nhau dùng kí hiệu khác nhau cho cùng một đại lượng. Bảng dưới đối chiếu các kí hiệu để bạn đọc đề không bị lạc:</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Trong app</th><th>Thường ghi trong đề</th><th>Ý nghĩa</th></tr></thead>
+          <tbody>
+            <tr><td>K<sub>f</sub></td><td>β (β<sub>MY</sub>)</td><td>Hằng số bền của phức MY (Y<sup>4−</sup> tự do)</td></tr>
+            <tr><td>K<sub>f</sub>'</td><td>β'</td><td>Hằng số bền điều kiện tại một pH cố định</td></tr>
+            <tr><td>α<sub>Y⁴⁻</sub></td><td>1/α<sub>Y(H)</sub></td><td>Phân số EDTA ở dạng Y<sup>4−</sup> (≤ 1)</td></tr>
+            <tr><td>1/α<sub>Y⁴⁻</sub></td><td>α<sub>Y(H)</sub></td><td>Hệ số phản ứng phụ của EDTA với H<sup>+</sup> (≥ 1)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="cong-thuc"><div class="nhan">Hai kí hiệu, một quan hệ</div>\[ \beta' = \frac{\beta}{\alpha_\mathrm{Y(H)}} \qquad \lg\beta' = \lg\beta - \lg\alpha_\mathrm{Y(H)} \]</div>
+      <p>Khi đề ghi "α<sub>Y(H)</sub> = 10<sup>2</sup> ở pH 8" nghĩa là lg α<sub>Y(H)</sub> = 2, tức α<sub>Y⁴⁻</sub> = 10<sup>−2</sup>. β' luôn <b>nhỏ hơn</b> β; nếu tính ra β' lớn hơn β là bạn đã nhân nhầm chiều.</p>
+      <p>Đề thường cho <b>4 giá trị pK<sub>a</sub> của H<sub>4</sub>Y</b> (2,00; 2,69; 6,13; 10,37) và yêu cầu tự tính α<sub>Y(H)</sub> (hai nấc đầu pK = 0 và 1,5 của H<sub>6</sub>Y<sup>2+</sup> chỉ ảnh hưởng ở pH &lt; 1). Với K<sub>1</sub>…K<sub>4</sub> là các hằng số phân li lần lượt của H<sub>4</sub>Y, H<sub>3</sub>Y<sup>−</sup>, H<sub>2</sub>Y<sup>2−</sup>, HY<sup>3−</sup>:</p>
+      <div class="cong-thuc">\[ \begin{aligned} \alpha_\mathrm{Y(H)} = {} & 1 + \frac{\Hp}{K_4} + \frac{\Hp^2}{K_3K_4} \\ & + \frac{\Hp^3}{K_2K_3K_4} + \frac{\Hp^4}{K_1K_2K_3K_4} \end{aligned} \]</div>
+      <div class="vi-du"><b>Ví dụ 7.</b> Tính α<sub>Y(H)</sub> và α<sub>Y⁴⁻</sub> của EDTA ở pH 5 từ pK<sub>a</sub> = 2,00; 2,69; 6,13; 10,37. Suy ra β' của CuY<sup>2−</sup> (lg β = 18,78) và của CaY<sup>2−</sup> (lg β = 10,70) rồi cho biết ion nào chuẩn độ được ở pH 5. Tính ppm Cu<sup>2+</sup> nếu 25,00 mL nước thải tốn 6,85 mL EDTA 0,01000 M (PAN, pH 5; Cu = 63,55).
+        <details><summary>Xem lời giải</summary>
+          [H<sup>+</sup>] = 10<sup>−5</sup>; K<sub>4</sub> = 10<sup>−10,37</sup>, K<sub>3</sub> = 10<sup>−6,13</sup>, K<sub>2</sub> = 10<sup>−2,69</sup>, K<sub>1</sub> = 10<sup>−2,00</sup>. Từng số hạng:
+          \[ \begin{aligned} \frac{\Hp}{K_4} &= 10^{5,37} = 2,34\cdot10^{5} \\ \frac{\Hp^2}{K_3K_4} &= 10^{6,50} = 3,16\cdot10^{6} \\ \frac{\Hp^3}{K_2K_3K_4} &= 10^{4,19} = 1,55\cdot10^{4} \\ \frac{\Hp^4}{K_1K_2K_3K_4} &= 10^{1,19} = 15 \end{aligned} \]
+          \[ \begin{aligned} \alpha_\mathrm{Y(H)} &= 1 + 2,34\cdot10^{5} + 3,16\cdot10^{6} \\ &\quad + 1,55\cdot10^{4} + 15 \\ &= 3,41\cdot10^{6} \quad (\lg = 6,53) \\ \alpha_\mathrm{Y^{4-}} &= \frac{1}{3,41\cdot10^{6}} = 2,9\cdot10^{-7} \end{aligned} \]
+          Kết quả khớp bảng α<sub>Y⁴⁻</sub> ở mục 3. Hằng số bền điều kiện:
+          \[ \begin{aligned} \lg\beta'_\mathrm{CuY} &= 18,78 - 6,53 = 12,25 \\ \beta'_\mathrm{CuY} &= 1,8\cdot10^{12} \\ \lg\beta'_\mathrm{CaY} &= 10,70 - 6,53 = 4,17 \\ \beta'_\mathrm{CaY} &= 1,5\cdot10^{4} \end{aligned} \]
+          β'<sub>CuY</sub> ≥ 10<sup>8</sup>: Cu<sup>2+</sup> chuẩn độ được ở pH 5. β'<sub>CaY</sub> ≪ 10<sup>8</sup>: Ca<sup>2+</sup> không chuẩn độ được (cũng không cản trở phép đo Cu<sup>2+</sup>).<br>
+          Hàm lượng Cu<sup>2+</sup>: n = 0,01000·6,85 = 0,0685 mmol trong 25,00 mL:
+          \[ \begin{aligned} \rho &= \frac{0,0685\cdot63,55}{25,00}\cdot10^{3} \\ &= \mathbf{174\ mg/L\ (ppm)} \end{aligned} \]
+        </details></div>
+
+      <h3>10. Chuẩn độ chọn lọc theo pH</h3>
+      <p>Với một ion kim loại M, phản ứng chuẩn độ chỉ định lượng khi lg β' ≥ 8. Suy ra <b>pH tối thiểu</b>: lg α<sub>Y⁴⁻</sub> ≥ 8 − lg β, nghĩa là lg α<sub>Y(H)</sub> ≤ lg β − 8. Ví dụ Pb<sup>2+</sup>: lg α<sub>Y(H)</sub> ≤ 18,04 − 8 = 10,04, tương ứng pH ≥ 3,3. Tương tự Bi<sup>3+</sup> ≥ khoảng 0,6 và Zn<sup>2+</sup> ≥ khoảng 4,0 (hình dưới; cột "pH tối thiểu" trong bảng tra cứu hằng số EDTA).</p>
+      <div class="hinh-tinh">
+        <svg viewBox="0 0 320 250" role="img" aria-label="Đồ thị lg K'f theo pH của các phức EDTA với Mg, Ca, Zn, Pb, Fe3+ và Bi3+, kèm đường ngang lg K'f = 8">
+<clipPath id="ed-cl"><rect x="32" y="20" width="244" height="160"/></clipPath>
+<text x="160" y="12" text-anchor="middle" font-size="11" font-weight="700" fill="var(--chu)">lg K'f theo pH (phức M–EDTA)</text>
+<line x1="32" y1="180.0" x2="276" y2="180.0" stroke="var(--vien)" stroke-width="0.8"/>
+<text x="28" y="183.5" text-anchor="end" font-size="10" fill="var(--chu-phu)">0</text>
+<line x1="32" y1="157.4" x2="276" y2="157.4" stroke="var(--vien)" stroke-width="0.8"/>
+<text x="28" y="160.9" text-anchor="end" font-size="10" fill="var(--chu-phu)">4</text>
+<line x1="32" y1="134.9" x2="276" y2="134.9" stroke="var(--vien)" stroke-width="0.8"/>
+<text x="28" y="138.4" text-anchor="end" font-size="10" fill="var(--chu-phu)">8</text>
+<line x1="32" y1="112.3" x2="276" y2="112.3" stroke="var(--vien)" stroke-width="0.8"/>
+<text x="28" y="115.8" text-anchor="end" font-size="10" fill="var(--chu-phu)">12</text>
+<line x1="32" y1="89.7" x2="276" y2="89.7" stroke="var(--vien)" stroke-width="0.8"/>
+<text x="28" y="93.2" text-anchor="end" font-size="10" fill="var(--chu-phu)">16</text>
+<line x1="32" y1="67.1" x2="276" y2="67.1" stroke="var(--vien)" stroke-width="0.8"/>
+<text x="28" y="70.6" text-anchor="end" font-size="10" fill="var(--chu-phu)">20</text>
+<line x1="32" y1="44.6" x2="276" y2="44.6" stroke="var(--vien)" stroke-width="0.8"/>
+<text x="28" y="48.1" text-anchor="end" font-size="10" fill="var(--chu-phu)">24</text>
+<line x1="32" y1="22.0" x2="276" y2="22.0" stroke="var(--vien)" stroke-width="0.8"/>
+<text x="28" y="25.5" text-anchor="end" font-size="10" fill="var(--chu-phu)">28</text>
+<line x1="32.0" y1="180" x2="32.0" y2="184" stroke="var(--chu-phu)" stroke-width="1"/>
+<text x="32.0" y="195" text-anchor="middle" font-size="10" fill="var(--chu-phu)">0</text>
+<line x1="72.7" y1="180" x2="72.7" y2="184" stroke="var(--chu-phu)" stroke-width="1"/>
+<text x="72.7" y="195" text-anchor="middle" font-size="10" fill="var(--chu-phu)">2</text>
+<line x1="113.3" y1="180" x2="113.3" y2="184" stroke="var(--chu-phu)" stroke-width="1"/>
+<text x="113.3" y="195" text-anchor="middle" font-size="10" fill="var(--chu-phu)">4</text>
+<line x1="154.0" y1="180" x2="154.0" y2="184" stroke="var(--chu-phu)" stroke-width="1"/>
+<text x="154.0" y="195" text-anchor="middle" font-size="10" fill="var(--chu-phu)">6</text>
+<line x1="194.7" y1="180" x2="194.7" y2="184" stroke="var(--chu-phu)" stroke-width="1"/>
+<text x="194.7" y="195" text-anchor="middle" font-size="10" fill="var(--chu-phu)">8</text>
+<line x1="235.3" y1="180" x2="235.3" y2="184" stroke="var(--chu-phu)" stroke-width="1"/>
+<text x="235.3" y="195" text-anchor="middle" font-size="10" fill="var(--chu-phu)">10</text>
+<line x1="276.0" y1="180" x2="276.0" y2="184" stroke="var(--chu-phu)" stroke-width="1"/>
+<text x="276.0" y="195" text-anchor="middle" font-size="10" fill="var(--chu-phu)">12</text>
+<line x1="32" y1="180" x2="276" y2="180" stroke="var(--chu-phu)" stroke-width="1.2"/>
+<line x1="32" y1="180" x2="32" y2="18" stroke="var(--chu-phu)" stroke-width="1.2"/>
+<text x="154" y="209" text-anchor="middle" font-size="10" fill="var(--chu-phu)">pH</text>
+<line x1="72.7" y1="22" x2="72.7" y2="180" stroke="var(--chu-phu)" stroke-width="1" stroke-dasharray="2 3"/>
+<line x1="133.7" y1="22" x2="133.7" y2="180" stroke="var(--chu-phu)" stroke-width="1" stroke-dasharray="2 3"/>
+<path d="M32.0,152.9 L33.0,151.4 L34.0,149.8 L35.0,148.3 L36.1,146.8 L37.1,145.3 L38.1,143.8 L39.1,142.3 L40.1,140.8 L41.1,139.4 L42.2,137.9 L43.2,136.5 L44.2,135.0 L45.2,133.6 L46.2,132.2 L47.2,130.8 L48.3,129.4 L49.3,128.0 L50.3,126.6 L51.3,125.2 L52.3,123.9 L53.3,122.5 L54.4,121.2 L55.4,119.8 L56.4,118.5 L57.4,117.2 L58.4,115.9 L59.5,114.7 L60.5,113.4 L61.5,112.2 L62.5,111.0 L63.5,109.8 L64.5,108.6 L65.5,107.4 L66.6,106.3 L67.6,105.1 L68.6,104.0 L69.6,102.9 L70.6,101.9 L71.7,100.8 L72.7,99.8 L73.7,98.8 L74.7,97.9 L75.7,96.9 L76.7,96.0 L77.8,95.1 L78.8,94.2 L79.8,93.3 L80.8,92.4 L81.8,91.6 L82.8,90.8 L83.8,90.0 L84.9,89.2 L85.9,88.4 L86.9,87.7 L87.9,86.9 L88.9,86.2 L89.9,85.5 L91.0,84.8 L92.0,84.1 L93.0,83.4 L94.0,82.8 L95.0,82.1 L96.0,81.5 L97.1,80.8 L98.1,80.2 L99.1,79.6 L100.1,78.9 L101.1,78.3 L102.2,77.7 L103.2,77.1 L104.2,76.5 L105.2,75.9 L106.2,75.3 L107.2,74.7 L108.2,74.1 L109.3,73.5 L110.3,73.0 L111.3,72.4 L112.3,71.8 L113.3,71.2 L114.3,70.7 L115.4,70.1 L116.4,69.5 L117.4,68.9 L118.4,68.4 L119.4,67.8 L120.4,67.2 L121.5,66.7 L122.5,66.1 L123.5,65.5 L124.5,65.0 L125.5,64.4 L126.6,63.9 L127.6,63.3 L128.6,62.7 L129.6,62.2 L130.6,61.6 L131.6,61.1 L132.6,60.5 L133.7,60.0 L134.7,59.4 L135.7,58.9 L136.7,58.4 L137.7,57.8 L138.8,57.3 L139.8,56.8 L140.8,56.2 L141.8,55.7 L142.8,55.2 L143.8,54.7 L144.9,54.2 L145.9,53.7 L146.9,53.2 L147.9,52.7 L148.9,52.2 L149.9,51.7 L150.9,51.2 L152.0,50.8 L153.0,50.3 L154.0,49.9 L155.0,49.4 L156.0,49.0 L157.1,48.6 L158.1,48.2 L159.1,47.8 L160.1,47.4 L161.1,47.0 L162.1,46.6 L163.2,46.2 L164.2,45.8 L165.2,45.5 L166.2,45.1 L167.2,44.8 L168.2,44.4 L169.2,44.1 L170.3,43.7 L171.3,43.4 L172.3,43.1 L173.3,42.8 L174.3,42.5 L175.3,42.1 L176.4,41.8 L177.4,41.5 L178.4,41.2 L179.4,40.9 L180.4,40.6 L181.4,40.3 L182.5,40.0 L183.5,39.7 L184.5,39.4 L185.5,39.1 L186.5,38.8 L187.6,38.6 L188.6,38.3 L189.6,38.0 L190.6,37.7 L191.6,37.4 L192.6,37.1 L193.7,36.8 L194.7,36.5 L195.7,36.3 L196.7,36.0 L197.7,35.7 L198.7,35.4 L199.8,35.1 L200.8,34.8 L201.8,34.6 L202.8,34.3 L203.8,34.0 L204.8,33.7 L205.9,33.4 L206.9,33.2 L207.9,32.9 L208.9,32.6 L209.9,32.3 L210.9,32.1 L212.0,31.8 L213.0,31.5 L214.0,31.2 L215.0,31.0 L216.0,30.7 L217.0,30.4 L218.0,30.2 L219.1,29.9 L220.1,29.6 L221.1,29.4 L222.1,29.1 L223.1,28.9 L224.1,28.6 L225.2,28.3 L226.2,28.1 L227.2,27.9 L228.2,27.6 L229.2,27.4 L230.2,27.2 L231.3,26.9 L232.3,26.7 L233.3,26.5 L234.3,26.3 L235.3,26.1 L236.4,25.9 L237.4,25.7 L238.4,25.5 L239.4,25.4 L240.4,25.2 L241.4,25.0 L242.5,24.9 L243.5,24.7 L244.5,24.6 L245.5,24.5 L246.5,24.4 L247.5,24.3 L248.5,24.2 L249.6,24.1 L250.6,24.0 L251.6,23.9 L252.6,23.8 L253.6,23.8 L254.6,23.7 L255.7,23.6 L256.7,23.6 L257.7,23.5 L258.7,23.5 L259.7,23.5 L260.8,23.4 L261.8,23.4 L262.8,23.4 L263.8,23.3 L264.8,23.3 L265.8,23.3 L266.9,23.3 L267.9,23.3 L268.9,23.3 L269.9,23.2 L270.9,23.2 L271.9,23.2 L273.0,23.2 L274.0,23.2 L275.0,23.2 L276.0,23.2" fill="none" stroke="var(--mau-chinh)" stroke-width="1.9" clip-path="url(#ed-cl)"/>
+<path d="M32.0,168.1 L33.0,166.6 L34.0,165.1 L35.0,163.5 L36.1,162.0 L37.1,160.5 L38.1,159.0 L39.1,157.6 L40.1,156.1 L41.1,154.6 L42.2,153.2 L43.2,151.7 L44.2,150.3 L45.2,148.8 L46.2,147.4 L47.2,146.0 L48.3,144.6 L49.3,143.2 L50.3,141.8 L51.3,140.5 L52.3,139.1 L53.3,137.7 L54.4,136.4 L55.4,135.1 L56.4,133.8 L57.4,132.5 L58.4,131.2 L59.5,129.9 L60.5,128.7 L61.5,127.4 L62.5,126.2 L63.5,125.0 L64.5,123.8 L65.5,122.6 L66.6,121.5 L67.6,120.4 L68.6,119.3 L69.6,118.2 L70.6,117.1 L71.7,116.1 L72.7,115.1 L73.7,114.1 L74.7,113.1 L75.7,112.1 L76.7,111.2 L77.8,110.3 L78.8,109.4 L79.8,108.5 L80.8,107.7 L81.8,106.8 L82.8,106.0 L83.8,105.2 L84.9,104.4 L85.9,103.7 L86.9,102.9 L87.9,102.2 L88.9,101.5 L89.9,100.7 L91.0,100.0 L92.0,99.4 L93.0,98.7 L94.0,98.0 L95.0,97.3 L96.0,96.7 L97.1,96.1 L98.1,95.4 L99.1,94.8 L100.1,94.2 L101.1,93.6 L102.2,92.9 L103.2,92.3 L104.2,91.7 L105.2,91.1 L106.2,90.5 L107.2,90.0 L108.2,89.4 L109.3,88.8 L110.3,88.2 L111.3,87.6 L112.3,87.0 L113.3,86.5 L114.3,85.9 L115.4,85.3 L116.4,84.7 L117.4,84.2 L118.4,83.6 L119.4,83.0 L120.4,82.5 L121.5,81.9 L122.5,81.3 L123.5,80.8 L124.5,80.2 L125.5,79.7 L126.6,79.1 L127.6,78.5 L128.6,78.0 L129.6,77.4 L130.6,76.9 L131.6,76.3 L132.6,75.8 L133.7,75.2 L134.7,74.7 L135.7,74.1 L136.7,73.6 L137.7,73.1 L138.8,72.5 L139.8,72.0 L140.8,71.5 L141.8,71.0 L142.8,70.4 L143.8,69.9 L144.9,69.4 L145.9,68.9 L146.9,68.4 L147.9,67.9 L148.9,67.4 L149.9,67.0 L150.9,66.5 L152.0,66.0 L153.0,65.6 L154.0,65.1 L155.0,64.7 L156.0,64.2 L157.1,63.8 L158.1,63.4 L159.1,63.0 L160.1,62.6 L161.1,62.2 L162.1,61.8 L163.2,61.4 L164.2,61.1 L165.2,60.7 L166.2,60.4 L167.2,60.0 L168.2,59.7 L169.2,59.3 L170.3,59.0 L171.3,58.7 L172.3,58.3 L173.3,58.0 L174.3,57.7 L175.3,57.4 L176.4,57.1 L177.4,56.8 L178.4,56.5 L179.4,56.2 L180.4,55.9 L181.4,55.6 L182.5,55.3 L183.5,55.0 L184.5,54.7 L185.5,54.4 L186.5,54.1 L187.6,53.8 L188.6,53.5 L189.6,53.2 L190.6,52.9 L191.6,52.6 L192.6,52.4 L193.7,52.1 L194.7,51.8 L195.7,51.5 L196.7,51.2 L197.7,50.9 L198.7,50.6 L199.8,50.4 L200.8,50.1 L201.8,49.8 L202.8,49.5 L203.8,49.2 L204.8,49.0 L205.9,48.7 L206.9,48.4 L207.9,48.1 L208.9,47.8 L209.9,47.6 L210.9,47.3 L212.0,47.0 L213.0,46.7 L214.0,46.5 L215.0,46.2 L216.0,45.9 L217.0,45.7 L218.0,45.4 L219.1,45.1 L220.1,44.9 L221.1,44.6 L222.1,44.3 L223.1,44.1 L224.1,43.8 L225.2,43.6 L226.2,43.3 L227.2,43.1 L228.2,42.9 L229.2,42.6 L230.2,42.4 L231.3,42.2 L232.3,41.9 L233.3,41.7 L234.3,41.5 L235.3,41.3 L236.4,41.1 L237.4,40.9 L238.4,40.8 L239.4,40.6 L240.4,40.4 L241.4,40.3 L242.5,40.1 L243.5,40.0 L244.5,39.8 L245.5,39.7 L246.5,39.6 L247.5,39.5 L248.5,39.4 L249.6,39.3 L250.6,39.2 L251.6,39.1 L252.6,39.1 L253.6,39.0 L254.6,38.9 L255.7,38.9 L256.7,38.8 L257.7,38.8 L258.7,38.7 L259.7,38.7 L260.8,38.7 L261.8,38.6 L262.8,38.6 L263.8,38.6 L264.8,38.6 L265.8,38.5 L266.9,38.5 L267.9,38.5 L268.9,38.5 L269.9,38.5 L270.9,38.5 L271.9,38.5 L273.0,38.4 L274.0,38.4 L275.0,38.4 L276.0,38.4" fill="none" stroke="var(--xanh)" stroke-width="1.9" clip-path="url(#ed-cl)"/>
+<path d="M32.0,208.0 L33.0,206.4 L34.0,204.9 L35.0,203.4 L36.1,201.9 L37.1,200.4 L38.1,198.9 L39.1,197.4 L40.1,195.9 L41.1,194.4 L42.2,193.0 L43.2,191.5 L44.2,190.1 L45.2,188.7 L46.2,187.3 L47.2,185.8 L48.3,184.4 L49.3,183.0 L50.3,181.7 L51.3,180.3 L52.3,178.9 L53.3,177.6 L54.4,176.2 L55.4,174.9 L56.4,173.6 L57.4,172.3 L58.4,171.0 L59.5,169.7 L60.5,168.5 L61.5,167.3 L62.5,166.0 L63.5,164.8 L64.5,163.6 L65.5,162.5 L66.6,161.3 L67.6,160.2 L68.6,159.1 L69.6,158.0 L70.6,157.0 L71.7,155.9 L72.7,154.9 L73.7,153.9 L74.7,152.9 L75.7,152.0 L76.7,151.0 L77.8,150.1 L78.8,149.2 L79.8,148.4 L80.8,147.5 L81.8,146.7 L82.8,145.9 L83.8,145.1 L84.9,144.3 L85.9,143.5 L86.9,142.8 L87.9,142.0 L88.9,141.3 L89.9,140.6 L91.0,139.9 L92.0,139.2 L93.0,138.5 L94.0,137.8 L95.0,137.2 L96.0,136.5 L97.1,135.9 L98.1,135.3 L99.1,134.6 L100.1,134.0 L101.1,133.4 L102.2,132.8 L103.2,132.2 L104.2,131.6 L105.2,131.0 L106.2,130.4 L107.2,129.8 L108.2,129.2 L109.3,128.6 L110.3,128.0 L111.3,127.5 L112.3,126.9 L113.3,126.3 L114.3,125.7 L115.4,125.2 L116.4,124.6 L117.4,124.0 L118.4,123.4 L119.4,122.9 L120.4,122.3 L121.5,121.7 L122.5,121.2 L123.5,120.6 L124.5,120.1 L125.5,119.5 L126.6,118.9 L127.6,118.4 L128.6,117.8 L129.6,117.3 L130.6,116.7 L131.6,116.2 L132.6,115.6 L133.7,115.1 L134.7,114.5 L135.7,114.0 L136.7,113.4 L137.7,112.9 L138.8,112.4 L139.8,111.8 L140.8,111.3 L141.8,110.8 L142.8,110.3 L143.8,109.8 L144.9,109.2 L145.9,108.7 L146.9,108.2 L147.9,107.8 L148.9,107.3 L149.9,106.8 L150.9,106.3 L152.0,105.9 L153.0,105.4 L154.0,105.0 L155.0,104.5 L156.0,104.1 L157.1,103.7 L158.1,103.2 L159.1,102.8 L160.1,102.4 L161.1,102.0 L162.1,101.7 L163.2,101.3 L164.2,100.9 L165.2,100.5 L166.2,100.2 L167.2,99.8 L168.2,99.5 L169.2,99.2 L170.3,98.8 L171.3,98.5 L172.3,98.2 L173.3,97.8 L174.3,97.5 L175.3,97.2 L176.4,96.9 L177.4,96.6 L178.4,96.3 L179.4,96.0 L180.4,95.7 L181.4,95.4 L182.5,95.1 L183.5,94.8 L184.5,94.5 L185.5,94.2 L186.5,93.9 L187.6,93.6 L188.6,93.3 L189.6,93.1 L190.6,92.8 L191.6,92.5 L192.6,92.2 L193.7,91.9 L194.7,91.6 L195.7,91.3 L196.7,91.1 L197.7,90.8 L198.7,90.5 L199.8,90.2 L200.8,89.9 L201.8,89.6 L202.8,89.4 L203.8,89.1 L204.8,88.8 L205.9,88.5 L206.9,88.2 L207.9,88.0 L208.9,87.7 L209.9,87.4 L210.9,87.1 L212.0,86.9 L213.0,86.6 L214.0,86.3 L215.0,86.0 L216.0,85.8 L217.0,85.5 L218.0,85.2 L219.1,85.0 L220.1,84.7 L221.1,84.4 L222.1,84.2 L223.1,83.9 L224.1,83.7 L225.2,83.4 L226.2,83.2 L227.2,82.9 L228.2,82.7 L229.2,82.5 L230.2,82.2 L231.3,82.0 L232.3,81.8 L233.3,81.6 L234.3,81.4 L235.3,81.2 L236.4,81.0 L237.4,80.8 L238.4,80.6 L239.4,80.4 L240.4,80.3 L241.4,80.1 L242.5,80.0 L243.5,79.8 L244.5,79.7 L245.5,79.6 L246.5,79.4 L247.5,79.3 L248.5,79.2 L249.6,79.1 L250.6,79.1 L251.6,79.0 L252.6,78.9 L253.6,78.8 L254.6,78.8 L255.7,78.7 L256.7,78.7 L257.7,78.6 L258.7,78.6 L259.7,78.5 L260.8,78.5 L261.8,78.5 L262.8,78.4 L263.8,78.4 L264.8,78.4 L265.8,78.4 L266.9,78.4 L267.9,78.3 L268.9,78.3 L269.9,78.3 L270.9,78.3 L271.9,78.3 L273.0,78.3 L274.0,78.3 L275.0,78.3 L276.0,78.3" fill="none" stroke="var(--vang)" stroke-width="1.9" clip-path="url(#ed-cl)"/>
+<path d="M32.0,216.7 L33.0,215.1 L34.0,213.6 L35.0,212.1 L36.1,210.6 L37.1,209.1 L38.1,207.6 L39.1,206.1 L40.1,204.6 L41.1,203.1 L42.2,201.7 L43.2,200.2 L44.2,198.8 L45.2,197.4 L46.2,195.9 L47.2,194.5 L48.3,193.1 L49.3,191.7 L50.3,190.4 L51.3,189.0 L52.3,187.6 L53.3,186.3 L54.4,184.9 L55.4,183.6 L56.4,182.3 L57.4,181.0 L58.4,179.7 L59.5,178.4 L60.5,177.2 L61.5,175.9 L62.5,174.7 L63.5,173.5 L64.5,172.3 L65.5,171.2 L66.6,170.0 L67.6,168.9 L68.6,167.8 L69.6,166.7 L70.6,165.6 L71.7,164.6 L72.7,163.6 L73.7,162.6 L74.7,161.6 L75.7,160.7 L76.7,159.7 L77.8,158.8 L78.8,157.9 L79.8,157.1 L80.8,156.2 L81.8,155.4 L82.8,154.5 L83.8,153.7 L84.9,153.0 L85.9,152.2 L86.9,151.4 L87.9,150.7 L88.9,150.0 L89.9,149.3 L91.0,148.6 L92.0,147.9 L93.0,147.2 L94.0,146.5 L95.0,145.9 L96.0,145.2 L97.1,144.6 L98.1,144.0 L99.1,143.3 L100.1,142.7 L101.1,142.1 L102.2,141.5 L103.2,140.9 L104.2,140.3 L105.2,139.7 L106.2,139.1 L107.2,138.5 L108.2,137.9 L109.3,137.3 L110.3,136.7 L111.3,136.1 L112.3,135.6 L113.3,135.0 L114.3,134.4 L115.4,133.8 L116.4,133.3 L117.4,132.7 L118.4,132.1 L119.4,131.6 L120.4,131.0 L121.5,130.4 L122.5,129.9 L123.5,129.3 L124.5,128.7 L125.5,128.2 L126.6,127.6 L127.6,127.1 L128.6,126.5 L129.6,126.0 L130.6,125.4 L131.6,124.9 L132.6,124.3 L133.7,123.8 L134.7,123.2 L135.7,122.7 L136.7,122.1 L137.7,121.6 L138.8,121.1 L139.8,120.5 L140.8,120.0 L141.8,119.5 L142.8,119.0 L143.8,118.4 L144.9,117.9 L145.9,117.4 L146.9,116.9 L147.9,116.4 L148.9,116.0 L149.9,115.5 L150.9,115.0 L152.0,114.5 L153.0,114.1 L154.0,113.6 L155.0,113.2 L156.0,112.8 L157.1,112.3 L158.1,111.9 L159.1,111.5 L160.1,111.1 L161.1,110.7 L162.1,110.3 L163.2,110.0 L164.2,109.6 L165.2,109.2 L166.2,108.9 L167.2,108.5 L168.2,108.2 L169.2,107.8 L170.3,107.5 L171.3,107.2 L172.3,106.9 L173.3,106.5 L174.3,106.2 L175.3,105.9 L176.4,105.6 L177.4,105.3 L178.4,105.0 L179.4,104.7 L180.4,104.4 L181.4,104.1 L182.5,103.8 L183.5,103.5 L184.5,103.2 L185.5,102.9 L186.5,102.6 L187.6,102.3 L188.6,102.0 L189.6,101.7 L190.6,101.5 L191.6,101.2 L192.6,100.9 L193.7,100.6 L194.7,100.3 L195.7,100.0 L196.7,99.7 L197.7,99.5 L198.7,99.2 L199.8,98.9 L200.8,98.6 L201.8,98.3 L202.8,98.0 L203.8,97.8 L204.8,97.5 L205.9,97.2 L206.9,96.9 L207.9,96.7 L208.9,96.4 L209.9,96.1 L210.9,95.8 L212.0,95.5 L213.0,95.3 L214.0,95.0 L215.0,94.7 L216.0,94.5 L217.0,94.2 L218.0,93.9 L219.1,93.7 L220.1,93.4 L221.1,93.1 L222.1,92.9 L223.1,92.6 L224.1,92.4 L225.2,92.1 L226.2,91.9 L227.2,91.6 L228.2,91.4 L229.2,91.1 L230.2,90.9 L231.3,90.7 L232.3,90.5 L233.3,90.3 L234.3,90.1 L235.3,89.9 L236.4,89.7 L237.4,89.5 L238.4,89.3 L239.4,89.1 L240.4,89.0 L241.4,88.8 L242.5,88.6 L243.5,88.5 L244.5,88.4 L245.5,88.3 L246.5,88.1 L247.5,88.0 L248.5,87.9 L249.6,87.8 L250.6,87.7 L251.6,87.7 L252.6,87.6 L253.6,87.5 L254.6,87.5 L255.7,87.4 L256.7,87.4 L257.7,87.3 L258.7,87.3 L259.7,87.2 L260.8,87.2 L261.8,87.2 L262.8,87.1 L263.8,87.1 L264.8,87.1 L265.8,87.1 L266.9,87.0 L267.9,87.0 L268.9,87.0 L269.9,87.0 L270.9,87.0 L271.9,87.0 L273.0,87.0 L274.0,87.0 L275.0,87.0 L276.0,86.9" fill="none" stroke="var(--chu)" stroke-width="1.9" clip-path="url(#ed-cl)"/>
+<path d="M32.0,249.4 L33.0,247.9 L34.0,246.3 L35.0,244.8 L36.1,243.3 L37.1,241.8 L38.1,240.3 L39.1,238.8 L40.1,237.3 L41.1,235.9 L42.2,234.4 L43.2,233.0 L44.2,231.5 L45.2,230.1 L46.2,228.7 L47.2,227.3 L48.3,225.9 L49.3,224.5 L50.3,223.1 L51.3,221.7 L52.3,220.4 L53.3,219.0 L54.4,217.7 L55.4,216.3 L56.4,215.0 L57.4,213.7 L58.4,212.4 L59.5,211.2 L60.5,209.9 L61.5,208.7 L62.5,207.4 L63.5,206.2 L64.5,205.1 L65.5,203.9 L66.6,202.7 L67.6,201.6 L68.6,200.5 L69.6,199.4 L70.6,198.4 L71.7,197.3 L72.7,196.3 L73.7,195.3 L74.7,194.3 L75.7,193.4 L76.7,192.5 L77.8,191.5 L78.8,190.7 L79.8,189.8 L80.8,188.9 L81.8,188.1 L82.8,187.3 L83.8,186.5 L84.9,185.7 L85.9,184.9 L86.9,184.2 L87.9,183.4 L88.9,182.7 L89.9,182.0 L91.0,181.3 L92.0,180.6 L93.0,179.9 L94.0,179.3 L95.0,178.6 L96.0,178.0 L97.1,177.3 L98.1,176.7 L99.1,176.1 L100.1,175.4 L101.1,174.8 L102.2,174.2 L103.2,173.6 L104.2,173.0 L105.2,172.4 L106.2,171.8 L107.2,171.2 L108.2,170.6 L109.3,170.0 L110.3,169.5 L111.3,168.9 L112.3,168.3 L113.3,167.7 L114.3,167.1 L115.4,166.6 L116.4,166.0 L117.4,165.4 L118.4,164.9 L119.4,164.3 L120.4,163.7 L121.5,163.2 L122.5,162.6 L123.5,162.0 L124.5,161.5 L125.5,160.9 L126.6,160.4 L127.6,159.8 L128.6,159.2 L129.6,158.7 L130.6,158.1 L131.6,157.6 L132.6,157.0 L133.7,156.5 L134.7,155.9 L135.7,155.4 L136.7,154.9 L137.7,154.3 L138.8,153.8 L139.8,153.3 L140.8,152.7 L141.8,152.2 L142.8,151.7 L143.8,151.2 L144.9,150.7 L145.9,150.2 L146.9,149.7 L147.9,149.2 L148.9,148.7 L149.9,148.2 L150.9,147.7 L152.0,147.3 L153.0,146.8 L154.0,146.4 L155.0,145.9 L156.0,145.5 L157.1,145.1 L158.1,144.7 L159.1,144.3 L160.1,143.9 L161.1,143.5 L162.1,143.1 L163.2,142.7 L164.2,142.3 L165.2,142.0 L166.2,141.6 L167.2,141.3 L168.2,140.9 L169.2,140.6 L170.3,140.2 L171.3,139.9 L172.3,139.6 L173.3,139.3 L174.3,138.9 L175.3,138.6 L176.4,138.3 L177.4,138.0 L178.4,137.7 L179.4,137.4 L180.4,137.1 L181.4,136.8 L182.5,136.5 L183.5,136.2 L184.5,135.9 L185.5,135.6 L186.5,135.3 L187.6,135.0 L188.6,134.8 L189.6,134.5 L190.6,134.2 L191.6,133.9 L192.6,133.6 L193.7,133.3 L194.7,133.0 L195.7,132.8 L196.7,132.5 L197.7,132.2 L198.7,131.9 L199.8,131.6 L200.8,131.3 L201.8,131.1 L202.8,130.8 L203.8,130.5 L204.8,130.2 L205.9,129.9 L206.9,129.7 L207.9,129.4 L208.9,129.1 L209.9,128.8 L210.9,128.6 L212.0,128.3 L213.0,128.0 L214.0,127.7 L215.0,127.5 L216.0,127.2 L217.0,126.9 L218.0,126.7 L219.1,126.4 L220.1,126.1 L221.1,125.9 L222.1,125.6 L223.1,125.3 L224.1,125.1 L225.2,124.8 L226.2,124.6 L227.2,124.4 L228.2,124.1 L229.2,123.9 L230.2,123.6 L231.3,123.4 L232.3,123.2 L233.3,123.0 L234.3,122.8 L235.3,122.6 L236.4,122.4 L237.4,122.2 L238.4,122.0 L239.4,121.8 L240.4,121.7 L241.4,121.5 L242.5,121.4 L243.5,121.2 L244.5,121.1 L245.5,121.0 L246.5,120.9 L247.5,120.8 L248.5,120.7 L249.6,120.6 L250.6,120.5 L251.6,120.4 L252.6,120.3 L253.6,120.3 L254.6,120.2 L255.7,120.1 L256.7,120.1 L257.7,120.0 L258.7,120.0 L259.7,120.0 L260.8,119.9 L261.8,119.9 L262.8,119.9 L263.8,119.8 L264.8,119.8 L265.8,119.8 L266.9,119.8 L267.9,119.8 L268.9,119.7 L269.9,119.7 L270.9,119.7 L271.9,119.7 L273.0,119.7 L274.0,119.7 L275.0,119.7 L276.0,119.7" fill="none" stroke="var(--xanh)" stroke-width="1.9" clip-path="url(#ed-cl)"/>
+<path d="M32.0,260.2 L33.0,258.6 L34.0,257.1 L35.0,255.6 L36.1,254.1 L37.1,252.6 L38.1,251.1 L39.1,249.6 L40.1,248.1 L41.1,246.6 L42.2,245.2 L43.2,243.7 L44.2,242.3 L45.2,240.9 L46.2,239.5 L47.2,238.0 L48.3,236.6 L49.3,235.2 L50.3,233.9 L51.3,232.5 L52.3,231.1 L53.3,229.8 L54.4,228.4 L55.4,227.1 L56.4,225.8 L57.4,224.5 L58.4,223.2 L59.5,221.9 L60.5,220.7 L61.5,219.4 L62.5,218.2 L63.5,217.0 L64.5,215.8 L65.5,214.7 L66.6,213.5 L67.6,212.4 L68.6,211.3 L69.6,210.2 L70.6,209.2 L71.7,208.1 L72.7,207.1 L73.7,206.1 L74.7,205.1 L75.7,204.2 L76.7,203.2 L77.8,202.3 L78.8,201.4 L79.8,200.6 L80.8,199.7 L81.8,198.9 L82.8,198.1 L83.8,197.3 L84.9,196.5 L85.9,195.7 L86.9,195.0 L87.9,194.2 L88.9,193.5 L89.9,192.8 L91.0,192.1 L92.0,191.4 L93.0,190.7 L94.0,190.0 L95.0,189.4 L96.0,188.7 L97.1,188.1 L98.1,187.5 L99.1,186.8 L100.1,186.2 L101.1,185.6 L102.2,185.0 L103.2,184.4 L104.2,183.8 L105.2,183.2 L106.2,182.6 L107.2,182.0 L108.2,181.4 L109.3,180.8 L110.3,180.2 L111.3,179.7 L112.3,179.1 L113.3,178.5 L114.3,177.9 L115.4,177.4 L116.4,176.8 L117.4,176.2 L118.4,175.6 L119.4,175.1 L120.4,174.5 L121.5,173.9 L122.5,173.4 L123.5,172.8 L124.5,172.3 L125.5,171.7 L126.6,171.1 L127.6,170.6 L128.6,170.0 L129.6,169.5 L130.6,168.9 L131.6,168.4 L132.6,167.8 L133.7,167.3 L134.7,166.7 L135.7,166.2 L136.7,165.6 L137.7,165.1 L138.8,164.6 L139.8,164.0 L140.8,163.5 L141.8,163.0 L142.8,162.5 L143.8,162.0 L144.9,161.4 L145.9,160.9 L146.9,160.4 L147.9,160.0 L148.9,159.5 L149.9,159.0 L150.9,158.5 L152.0,158.1 L153.0,157.6 L154.0,157.2 L155.0,156.7 L156.0,156.3 L157.1,155.9 L158.1,155.4 L159.1,155.0 L160.1,154.6 L161.1,154.2 L162.1,153.9 L163.2,153.5 L164.2,153.1 L165.2,152.7 L166.2,152.4 L167.2,152.0 L168.2,151.7 L169.2,151.4 L170.3,151.0 L171.3,150.7 L172.3,150.4 L173.3,150.0 L174.3,149.7 L175.3,149.4 L176.4,149.1 L177.4,148.8 L178.4,148.5 L179.4,148.2 L180.4,147.9 L181.4,147.6 L182.5,147.3 L183.5,147.0 L184.5,146.7 L185.5,146.4 L186.5,146.1 L187.6,145.8 L188.6,145.5 L189.6,145.2 L190.6,145.0 L191.6,144.7 L192.6,144.4 L193.7,144.1 L194.7,143.8 L195.7,143.5 L196.7,143.2 L197.7,143.0 L198.7,142.7 L199.8,142.4 L200.8,142.1 L201.8,141.8 L202.8,141.6 L203.8,141.3 L204.8,141.0 L205.9,140.7 L206.9,140.4 L207.9,140.2 L208.9,139.9 L209.9,139.6 L210.9,139.3 L212.0,139.1 L213.0,138.8 L214.0,138.5 L215.0,138.2 L216.0,138.0 L217.0,137.7 L218.0,137.4 L219.1,137.2 L220.1,136.9 L221.1,136.6 L222.1,136.4 L223.1,136.1 L224.1,135.9 L225.2,135.6 L226.2,135.4 L227.2,135.1 L228.2,134.9 L229.2,134.7 L230.2,134.4 L231.3,134.2 L232.3,134.0 L233.3,133.8 L234.3,133.6 L235.3,133.4 L236.4,133.2 L237.4,133.0 L238.4,132.8 L239.4,132.6 L240.4,132.5 L241.4,132.3 L242.5,132.2 L243.5,132.0 L244.5,131.9 L245.5,131.8 L246.5,131.6 L247.5,131.5 L248.5,131.4 L249.6,131.3 L250.6,131.3 L251.6,131.2 L252.6,131.1 L253.6,131.0 L254.6,131.0 L255.7,130.9 L256.7,130.9 L257.7,130.8 L258.7,130.8 L259.7,130.7 L260.8,130.7 L261.8,130.7 L262.8,130.6 L263.8,130.6 L264.8,130.6 L265.8,130.6 L266.9,130.6 L267.9,130.5 L268.9,130.5 L269.9,130.5 L270.9,130.5 L271.9,130.5 L273.0,130.5 L274.0,130.5 L275.0,130.5 L276.0,130.5" fill="none" stroke="var(--mau-chinh)" stroke-width="1.9" clip-path="url(#ed-cl)"/>
+<line x1="32" y1="134.9" x2="276" y2="134.9" stroke="var(--chu)" stroke-width="1.6" stroke-dasharray="6 3"/>
+<text x="272" y="148.4" text-anchor="end" font-size="10" font-weight="700" fill="var(--chu)">lg K'f = 8</text>
+<circle cx="72.7" cy="99.8" r="3.2" fill="var(--chu)"/>
+<circle cx="72.7" cy="154.9" r="3.2" fill="var(--chu)"/>
+<circle cx="133.7" cy="115.1" r="3.2" fill="var(--chu)"/>
+<text x="280" y="26.7" font-size="10" fill="var(--mau-chinh)" font-weight="700"><tspan>Bi</tspan><tspan dy="-3.5" font-size="8">3+</tspan></text>
+<text x="280" y="41.9" font-size="10" fill="var(--xanh)" font-weight="700"><tspan>Fe</tspan><tspan dy="-3.5" font-size="8">3+</tspan></text>
+<text x="280" y="77.8" font-size="10" fill="var(--vang)" font-weight="700"><tspan>Pb</tspan><tspan dy="-3.5" font-size="8">2+</tspan></text>
+<text x="280" y="96.4" font-size="10" fill="var(--chu)" font-weight="700"><tspan>Zn</tspan><tspan dy="-3.5" font-size="8">2+</tspan></text>
+<text x="280" y="119.2" font-size="10" fill="var(--xanh)" font-weight="700"><tspan>Ca</tspan><tspan dy="-3.5" font-size="8">2+</tspan></text>
+<text x="280" y="141.0" font-size="10" fill="var(--mau-chinh)" font-weight="700"><tspan>Mg</tspan><tspan dy="-3.5" font-size="8">2+</tspan></text>
+<text x="75.7" y="30" font-size="10" fill="var(--chu-phu)">pH 2</text>
+<text x="136.7" y="30" font-size="10" fill="var(--chu-phu)">pH 5</text>
+<text x="160" y="226" text-anchor="middle" font-size="10" fill="var(--chu)">Đường cong nằm trên vạch 8: chuẩn độ được</text>
+<text x="160" y="240" text-anchor="middle" font-size="10" fill="var(--chu)">Nằm dưới vạch: không chuẩn độ được (sai số lớn)</text>
+</svg>
+        <p class="chu-thich">lg K<sub>f</sub>' = lg K<sub>f</sub> + lg α<sub>Y⁴⁻</sub> tăng theo pH. Ion nào có đường cong nằm trên vạch lg K<sub>f</sub>' = 8 (tức K<sub>f</sub>' = 10<sup>8</sup>) thì chuẩn độ được. Ba chấm đen: Bi<sup>3+</sup> và Pb<sup>2+</sup> ở pH 2, Pb<sup>2+</sup> ở pH 5 (Ví dụ 8).</p>
+      </div>
+      <p><b>Điều kiện chuẩn độ chọn lọc</b> ion M<sub>1</sub> khi có ion M<sub>2</sub>: tại pH chọn, β'<sub>1</sub> ≥ 10<sup>8</sup> và β'<sub>2</sub> &lt; 10<sup>8</sup> (M<sub>2</sub> không phản ứng). Thường hai ion cần có lg β cách nhau khoảng 5 đơn vị trở lên. Bi<sup>3+</sup>/Pb<sup>2+</sup> (cách 9,8) và Fe<sup>3+</sup>/Al<sup>3+</sup> (cách 8,7) làm được; Zn<sup>2+</sup>/Pb<sup>2+</sup> (cách 1,5) và Ca<sup>2+</sup>/Mg<sup>2+</sup> (cách 1,9) thì không làm được bằng cách chỉnh pH thông thường.</p>
+      <div class="vi-du"><b>Ví dụ 8.</b> Chứng minh có thể chuẩn độ riêng Bi<sup>3+</sup> (lg β = 27,8) ở pH 2 khi có Pb<sup>2+</sup> (lg β = 18,04), rồi chuẩn độ Pb<sup>2+</sup> ở pH 5. Dùng lg α<sub>Y(H)</sub> = 13,53 ở pH 2 và 6,53 ở pH 5 (tính từ pK<sub>a</sub> như Ví dụ 7).
+        <details><summary>Xem lời giải</summary>
+          <b>Ở pH 2</b> (α<sub>Y⁴⁻</sub> = 10<sup>−13,53</sup> = 2,9·10<sup>−14</sup>):
+          \[ \begin{aligned} \lg\beta'_\mathrm{BiY} &= 27,8 - 13,53 = 14,27 \\ \beta'_\mathrm{BiY} &= 1,9\cdot10^{14} \geq 10^{8} \\ \lg\beta'_\mathrm{PbY} &= 18,04 - 13,53 = 4,51 \\ \beta'_\mathrm{PbY} &= 3,2\cdot10^{4} < 10^{8} \end{aligned} \]
+          Bi<sup>3+</sup> chuẩn độ được, Pb<sup>2+</sup> chưa phản ứng nên không cản trở.<br>
+          <b>Ở pH 5</b> (α<sub>Y⁴⁻</sub> = 2,9·10<sup>−7</sup>):
+          \[ \begin{aligned} \lg\beta'_\mathrm{PbY} &= 18,04 - 6,53 = 11,51 \\ \beta'_\mathrm{PbY} &= 3,2\cdot10^{11} \geq 10^{8} \end{aligned} \]
+          Pb<sup>2+</sup> chuẩn độ được ở pH 5. Bi<sup>3+</sup> phải chuẩn độ trước ở pH 2, vì ở pH cao hơn Bi<sup>3+</sup> dễ thủy phân thành muối bazơ kết tủa.
+        </details></div>
+      <div class="vi-du"><b>Ví dụ 9.</b> Chuẩn độ hai nấc pH trong <b>cùng một dung dịch</b>: lấy 25,00 mL dung dịch chứa Bi<sup>3+</sup> và Pb<sup>2+</sup>. Ở pH 2 (chỉ thị xylenol da cam), chuẩn độ hết 12,35 mL EDTA 0,01000 M. Thêm urotropin để chỉnh lên pH 5 rồi chuẩn độ tiếp, hết thêm 17,80 mL. Tính nồng độ mỗi ion (M và mg/L; Bi = 208,98; Pb = 207,2) và [Bi<sup>3+</sup>] tự do tại điểm tương đương thứ nhất.
+        <details><summary>Xem lời giải</summary>
+          Nấc 1 (pH 2) chỉ có Bi<sup>3+</sup>; nấc 2 (pH 5) chỉ tính <b>thể tích thêm</b> vì Pb<sup>2+</sup>:
+          \[ \begin{aligned} C_\mathrm{Bi} &= \frac{0,01000\cdot12,35}{25,00} = \mathbf{4,940\cdot10^{-3}\ M} \\ &= 1,032\cdot10^{3}\ \mathrm{mg/L} \\ C_\mathrm{Pb} &= \frac{0,01000\cdot17,80}{25,00} = \mathbf{7,120\cdot10^{-3}\ M} \\ &= 1,475\cdot10^{3}\ \mathrm{mg/L} \end{aligned} \]
+          <b>[Bi<sup>3+</sup>] tại điểm tương đương 1</b>: [BiY<sup>−</sup>] = 0,01000·12,35/37,35 = 3,31·10<sup>−3</sup> M; β'<sub>BiY</sub> = 1,9·10<sup>14</sup>:
+          \[ [\mathrm{Bi^{3+}}] = \sqrt{\frac{3,31\cdot10^{-3}}{1,9\cdot10^{14}}} = \mathbf{4,2\cdot10^{-9}\ M} \]
+          <b>Màu</b>: ở pH 2, Bi – xylenol da cam đỏ → vàng (XO tự do). Sau khi chỉnh pH 5, Pb<sup>2+</sup> tạo phức Pb – XO nên dung dịch trở lại đỏ tím; chuẩn tiếp đến khi đỏ tím → vàng.
+        </details></div>
+
+      <h3>11. Chuẩn độ ngược: Al<sup>3+</sup> trong xi măng</h3>
+      <p>Al<sup>3+</sup> không chuẩn độ trực tiếp được: phản ứng với EDTA chậm ở nhiệt độ thường, Al<sup>3+</sup> khóa xylenol da cam và dễ thủy phân ở pH chuẩn độ. Cách làm là <b>chuẩn độ ngược</b>: thêm EDTA dư đã biết chính xác, đun sôi để tạo hết AlY<sup>−</sup>, chỉnh pH 5, rồi chuẩn EDTA dư bằng Pb<sup>2+</sup>. PbY<sup>2−</sup> bền hơn AlY<sup>−</sup> nhưng AlY<sup>−</sup> trơ về động học nên Pb<sup>2+</sup> không lấy Y ra khỏi AlY<sup>−</sup> trong thời gian chuẩn độ.</p>
+      <p>Trình tự tổng quát cho mẫu có Fe<sup>3+</sup> và Al<sup>3+</sup> (Ví dụ 4 dùng cho dung dịch; Ví dụ dưới là mẫu rắn):</p>
+      <ol>
+        <li>pH 1,8 – 2, chỉ thị acid sulfosalicylic: chuẩn độ trực tiếp <b>Fe<sup>3+</sup></b> (lg β' rất lớn, Al<sup>3+</sup> chưa phản ứng).</li>
+        <li>Thêm EDTA dư (V, C biết), đun sôi, chỉnh pH 5 bằng đệm acetate hoặc urotropin: tạo AlY<sup>−</sup>.</li>
+        <li>Chuẩn độ ngược EDTA dư bằng Pb<sup>2+</sup> (xylenol da cam, vàng → đỏ tím): n<sub>Al</sub> = n<sub>EDTA thêm</sub> − n<sub>Pb</sub>.</li>
+      </ol>
+      <div class="vi-du"><b>Ví dụ 10.</b> Hòa tan hết 0,6250 g xi măng rồi định mức thành 250,0 mL. Hút 50,00 mL: ở pH 2 (acid sulfosalicylic) chuẩn độ hết 8,60 mL EDTA 0,01000 M. Thêm tiếp 25,00 mL EDTA 0,01000 M, đun sôi, chỉnh pH 5, chuẩn độ EDTA dư bằng Pb<sup>2+</sup> 0,01020 M (xylenol da cam) hết 15,60 mL. Tính % Fe<sub>2</sub>O<sub>3</sub> và % Al<sub>2</sub>O<sub>3</sub> (M = 159,69 và 101,96).
+        <details><summary>Xem lời giải</summary>
+          <b>Fe<sup>3+</sup></b> (trong 50,00 mL): n = 0,01000·8,60 = 0,0860 mmol. Trong 250,0 mL: 0,0860·5 = 0,4300 mmol Fe → 0,2150 mmol Fe<sub>2</sub>O<sub>3</sub>:
+          \[ \begin{aligned} \%\,\mathrm{Fe_2O_3} &= \frac{0,2150\cdot159,69}{625,0}\cdot100 \\ &= \mathbf{5,49\ \%} \end{aligned} \]
+          <b>Al<sup>3+</sup></b> (trong 50,00 mL):
+          \[ \begin{aligned} n_\text{thêm} &= 0,01000\cdot25,00 = 0,2500\ \mathrm{mmol} \\ n_\mathrm{Pb} &= 0,01020\cdot15,60 = 0,1591\ \mathrm{mmol} \\ n_\mathrm{Al} &= 0,2500 - 0,1591 = 0,0909\ \mathrm{mmol} \end{aligned} \]
+          Trong 250,0 mL: 0,0909·5 = 0,4544 mmol Al → 0,2272 mmol Al<sub>2</sub>O<sub>3</sub> (2 Al : 1 Al<sub>2</sub>O<sub>3</sub>):
+          \[ \begin{aligned} \%\,\mathrm{Al_2O_3} &= \frac{0,2272\cdot101,96}{625,0}\cdot100 \\ &= \mathbf{3,71\ \%} \end{aligned} \]
+          Lượng EDTA ở bước 1 chỉ dùng cho Fe<sup>3+</sup> nên <b>không</b> tính vào n<sub>Al</sub>.
+        </details></div>
+
+      <h3>12. Bảng chỉ thị kim loại</h3>
+      <p>Cột màu ghi theo thứ tự: <b>màu trước điểm tương đương</b> (phức M–In) → <b>màu sau điểm tương đương</b> (In tự do, ở pH của phép chuẩn độ).</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Chỉ thị</th><th>pH dùng</th><th>Màu</th><th>Dùng cho</th><th>Lưu ý</th></tr></thead>
+          <tbody>
+            <tr><td>ET-OO (eriocrom đen T)</td><td>10</td><td>đỏ nho → xanh chàm</td><td>Mg<sup>2+</sup>, Zn<sup>2+</sup>, Pb<sup>2+</sup>, tổng Ca<sup>2+</sup> + Mg<sup>2+</sup></td><td>Bị khóa bởi Cu<sup>2+</sup>, Ni<sup>2+</sup>, Fe<sup>3+</sup>, Al<sup>3+</sup></td></tr>
+            <tr><td>Calmagit</td><td>10</td><td>đỏ → xanh lam</td><td>Ca<sup>2+</sup> + Mg<sup>2+</sup></td><td>Bền hơn ET-OO</td></tr>
+            <tr><td>Murexit</td><td>12 – 13</td><td>đỏ → tím</td><td>Ca<sup>2+</sup> riêng</td><td>Mg<sup>2+</sup> kết tủa Mg(OH)<sub>2</sub> nên không cản</td></tr>
+            <tr><td>Acid calconcarboxylic</td><td>12 – 13</td><td>đỏ → xanh lam</td><td>Ca<sup>2+</sup> riêng</td><td>Điểm cuối rõ hơn murexit</td></tr>
+            <tr><td>Xylenol da cam</td><td>1 – 3 (Bi<sup>3+</sup>); 5 – 6 (Zn<sup>2+</sup>, Pb<sup>2+</sup>)</td><td>đỏ tím → vàng</td><td>Bi<sup>3+</sup>, Pb<sup>2+</sup>, Zn<sup>2+</sup></td><td>Chỉ dùng ở pH &lt; 6,4; pH 5 – 6 dùng đệm urotropin; bị Al<sup>3+</sup> khóa</td></tr>
+            <tr><td>Acid sulfosalicylic</td><td>2 – 3</td><td>tím đỏ → vàng nhạt</td><td>Fe<sup>3+</sup></td><td>Chuẩn độ ở 40 – 60 °C, gần điểm cuối thêm EDTA chậm</td></tr>
+            <tr><td>PAN</td><td>2 – 11 (thường pH 5 – 6)</td><td>đỏ tím → vàng lục</td><td>Cu<sup>2+</sup></td><td>Tan kém trong nước, dùng dung dịch ethanol</td></tr>
+            <tr><td>Pyrocatechol tím</td><td>2 – 3</td><td>xanh lam → vàng</td><td>Bi<sup>3+</sup></td><td>Dùng ở pH thấp</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="luu-y">Một số tài liệu ghi PAN "đỏ → vàng", đề thi có thể ghi "tím → vàng lục". Đây là cùng chuyển màu, khác cách mô tả. Khi thi, dùng mô tả của đề.</p>
+
+      <h3>13. Lỗi hay gặp</h3>
+      <ul>
+        <li><b>Nhầm chiều giữa α<sub>Y(H)</sub> và α<sub>Y⁴⁻</sub></b>: β' = β·α<sub>Y⁴⁻</sub> = β/α<sub>Y(H)</sub>. Nhân β với α<sub>Y(H)</sub> (≥ 1) làm β' lớn hơn β, vô lí.</li>
+        <li><b>Quên dấu trừ khi đổi lg</b>: lg α<sub>Y(H)</sub> = 13,53 thì α<sub>Y⁴⁻</sub> = 10<sup>−13,53</sup>, không phải 10<sup>13,53</sup>.</li>
+        <li><b>Dùng K<sub>f</sub> thay cho K<sub>f</sub>'</b> để kết luận chuẩn độ được: K<sub>f</sub> của Pb<sup>2+</sup> = 10<sup>18,04</sup> nhưng ở pH 2 chỉ còn 10<sup>4,51</sup>.</li>
+        <li><b>Chỉ kiểm tra ion cần chuẩn độ</b>, quên kiểm tra ion cản có β' &lt; 10<sup>8</sup> ở <b>cùng pH</b> hay không (Ví dụ 8).</li>
+        <li><b>Quên tổng thể tích</b> khi tính [MY] tại điểm tương đương và [M] tự do (Ví dụ 9: 25,00 + 12,35 mL).</li>
+        <li><b>Chuẩn độ hai nấc</b>: dùng tổng thể tích EDTA của cả hai nấc để tính nồng độ ion thứ hai. Nấc 2 chỉ dùng phần thể tích <b>thêm</b>.</li>
+        <li><b>Chuẩn độ ngược</b>: quên trừ lượng chuẩn ngược (n<sub>Al</sub> = n<sub>EDTA thêm</sub> − n<sub>Pb</sub>); cộng cả lượng EDTA đã dùng cho Fe<sup>3+</sup> vào n<sub>Al</sub>.</li>
+        <li><b>Quên hệ số định mức</b> (250,0/50,00 = 5 ở Ví dụ 10) và quên đổi 2 Al → 1 Al<sub>2</sub>O<sub>3</sub>, 2 Fe → 1 Fe<sub>2</sub>O<sub>3</sub> (chia đôi).</li>
+        <li><b>Dùng xylenol da cam ở pH &gt; 6,4</b>: dạng tự do chuyển sang đỏ tím, không thấy đổi màu. <b>Chuẩn độ Bi<sup>3+</sup> ở pH cao</b>: Bi<sup>3+</sup> thủy phân.</li>
+        <li><b>Ca<sup>2+</sup> với ET-OO</b> không thêm MgY<sup>2−</sup>: điểm cuối không rõ. Chuẩn độ Ca<sup>2+</sup> riêng phải dùng pH 12 – 13 (murexit) để Mg<sup>2+</sup> kết tủa.</li>
+        <li><b>Độ cứng</b>: quên đổi mol thành mg CaCO<sub>3</sub> (M = 100,09) hoặc quên chia cho thể tích mẫu (L).</li>
+        <li><b>Nhầm điểm cuối</b>: màu trước điểm tương đương là màu phức M–In, sau điểm tương đương là màu In tự do. Ngược lại với chuẩn độ ngược bằng ion kim loại (vàng → đỏ tím).</li>
+      </ul>
     `,
     baiTap: [
       {
