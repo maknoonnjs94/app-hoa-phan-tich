@@ -48,8 +48,7 @@ const PHAN_DANG = {
     ["Định lượng mẫu thật", "D17"],
     ["Kjeldahl và chuẩn độ ngược", "D18"],
     ["Câu chùm quy trình chuẩn độ", ""],
-    ["Thực hành: chất gốc, pha và chuẩn hóa dung dịch chuẩn (NaOH, HCl)", ""],
-    ["Thực hành: vai trò hóa chất, điều kiện và thao tác trong quy trình", ""],
+    ["Chất gốc, pha và chuẩn hóa dung dịch chuẩn (NaOH, HCl)", ""],
   ],
   "edta": [
     ["Phản ứng tạo phức EDTA, chỉ thị kim loại, chất che", "D01 D13 D14"],
@@ -58,8 +57,7 @@ const PHAN_DANG = {
     ["Định lượng trực tiếp: độ cứng, Ca/Mg, mẫu thuốc, thực phẩm", "D04 D05 D06 D15"],
     ["Chuẩn độ ngược, gián tiếp, thay thế; chọn kĩ thuật", "D07 D08 D16"],
     ["Chuẩn độ hai nấc pH trong cùng dung dịch", ""],
-    ["Thực hành: chất gốc, pha và chuẩn hóa dung dịch EDTA", ""],
-    ["Thực hành: vai trò hóa chất, pH, che và thao tác trong quy trình", ""],
+    ["Chất gốc, pha và chuẩn hóa dung dịch EDTA", ""],
   ],
   "ket-tua": [
     ["Độ tan: Ksp, so sánh, ion chung", "D01 D02 D03 D04"],
@@ -68,8 +66,7 @@ const PHAN_DANG = {
     ["Đường chuẩn độ kết tủa: pAg", "D08 D09 D10"],
     ["Phương pháp Mohr, Volhard, Fajans", "D12 D14 D15 D17"],
     ["Định lượng bằng chuẩn độ bạc", "D11 D13 D16"],
-    ["Thực hành: chất gốc, pha và chuẩn hóa dung dịch AgNO₃, NH₄SCN", ""],
-    ["Thực hành: vai trò hóa chất, điều kiện và thao tác trong quy trình", ""],
+    ["Chất gốc, pha và chuẩn hóa dung dịch AgNO₃, NH₄SCN", ""],
   ],
   "oxi-hoa-khu": [
     ["Thế điện cực, chiều phản ứng, phương trình Nernst", "D01 D02 D03 D04 D05"],
@@ -78,8 +75,7 @@ const PHAN_DANG = {
     ["Đường chuẩn độ và chọn chỉ thị", "D08 D09 D10 D11"],
     ["Phương pháp permanganat, dicromat, iod", "D12 D13 D14 D15"],
     ["Định lượng mẫu thật: trực tiếp, ngược, gián tiếp", ""],
-    ["Thực hành: chất gốc, pha và chuẩn hóa KMnO₄, Na₂S₂O₃, I₂", ""],
-    ["Thực hành: vai trò hóa chất, điều kiện và thao tác trong quy trình", ""],
+    ["Chất gốc, pha và chuẩn hóa KMnO₄, Na₂S₂O₃, I₂", ""],
   ],
   "hieu-chuan": [
     ["Đường chuẩn: hồi quy, R², nội suy, độ lệch chuẩn", "D01 D02 D03 D04 D05 D06"],
