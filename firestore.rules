@@ -66,7 +66,12 @@ service cloud.firestore {
 
     // Đáp án của đề giao: SV trong lớp chỉ đọc được sau giờ đóng đề
     match /dapAnDe/{id} {
-      allow read: if laGV() || (laHS() && resource.data.lop in lopHocToi() && bayGio() > resource.data.dongLuc);
+      allow read: if laGV() || (laHS() && resource.data.lop in lopHocToi()
+        && (bayGio() > resource.data.dongLuc
+            // bài tập "xem đáp án ngay sau khi nộp": SV đã nộp ít nhất 1 lần
+            || (resource.data.get('hienDapAn', 'sau-han') == 'sau-nop'
+                && exists(/databases/$(database)/documents/baiNop/$(id + '_' + request.auth.uid))
+                && get(/databases/$(database)/documents/baiNop/$(id + '_' + request.auth.uid)).data.get('lanNop', 0) > 0)));
       allow write: if laGV();
     }
 
@@ -78,7 +83,12 @@ service cloud.firestore {
         && deGiao(request.resource.data.deGiaoId).lop in lopHocToi()
         && bayGio() >= deGiao(request.resource.data.deGiaoId).moLuc
         && bayGio() <= deGiao(request.resource.data.deGiaoId).dongLuc;
-      allow update: if laGV() || (laHS() && resource.data.uid == request.auth.uid && resource.data.daNop != true
+      allow update: if laGV() || (laHS() && resource.data.uid == request.auth.uid
+        // chưa nộp; hoặc bài tập còn lượt làm lại
+        && (resource.data.daNop != true
+            || (deGiao(resource.data.deGiaoId).get('loai', 'kiem-tra') == 'bai-tap'
+                && (deGiao(resource.data.deGiaoId).get('soLanLam', 1) == 0 || resource.data.get('lanNop', 0) < deGiao(resource.data.deGiaoId).get('soLanLam', 1))))
+        && request.resource.data.get('lanNop', 0) >= resource.data.get('lanNop', 0)
         && request.resource.data.uid == resource.data.uid && request.resource.data.deGiaoId == resource.data.deGiaoId
         && bayGio() <= deGiao(resource.data.deGiaoId).dongLuc + 300000);
       allow delete: if laGV();

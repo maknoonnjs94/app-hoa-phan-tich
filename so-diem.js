@@ -169,11 +169,16 @@ MAN_HINH["/lop"] = {
       v.innerHTML = `<div class="the-trang"><b style="font-size:17px">${hoa(l.ten)}</b>
           <p class="ghi-chu">${ds.length} sinh viên · ${Object.keys(theoNganh).length} ngành · GV: ${gvLop.map(hoa).join(", ") || "chưa có"} · ${de.length} bài đã giao<br>
             Tài khoản: ${ds.length - dem.khoa - dem.chua} đang dùng · ⏳ ${dem.chua} chưa đổi MK · 🔒 ${dem.khoa} đã khóa</p>
-          <div class="nut-hang trai"><a class="btn" href="#/nhap-lop?id=${id}">＋ Thêm SV (link sheet / Excel)</a>
+          <div class="nut-hang trai"><a class="btn" href="#/giao-de?lop=${id}">📤 Giao bài</a><a class="btn" href="#/nhap-lop?id=${id}">＋ Thêm SV (link sheet / Excel)</a>
             <button class="btn phu" onclick="themTheoMa('${id}')">＋ 1 SV theo mã</button>
             <a class="btn phu" href="#/so-diem?lop=${id}">📒 Sổ điểm</a>
             <button class="btn phu" onclick="xuatDsLop()">⬇ Excel</button>
             ${dem.chua ? `<button class="btn phu" onclick="khoaChuaDoi('${id}')">🔒 Khóa ${dem.chua} TK chưa đổi MK</button>` : ""}</div></div>
+        <details class="the-trang nhom-tk" ${de.length ? "open" : ""}><summary><b>Bài đã giao cho lớp</b><span class="dem">${de.length}</span></summary>
+          <div class="ds-gon">${[...de].reverse().map(d => { const nop = ds.filter(x => bai[`${d.id}_${x.u.uid}`]?.daNop).length, bt = d.loai === "bai-tap";
+            return `<a class="dong-lop lien-ket" href="#/bang-diem?id=${d.id}"><span class="ten"><b>${bt ? "📚" : "📝"} ${hoa(d.ten)}</b>
+              <small>${bg < d.moLuc ? `mở ${gioVN(d.moLuc)}` : bg > d.dongLuc ? "đã đóng" : `đang mở · hạn ${gioVN(d.dongLuc)}`} · đã nộp ${nop}/${ds.length}${d.daChot ? " · 🔒 đã chốt" : ""}</small></span><span class="mui">›</span></a>`; }).join("")
+            || `<p class="ghi-chu" style="padding:12px">Chưa giao bài nào. Bấm “📤 Giao bài”.</p>`}</div></details>
         ${ds.length ? `<div class="hang-loc"><input type="search" placeholder="🔍 Tìm tên, mã SV…" value="${hoa(locLopHP.tu)}" oninput="locLopHP.tu=this.value;locLop()">
           <select id="chon-nganh" onchange="locLopHP.nganh=this.value;locLop()" aria-label="Ngành"><option value="">Mọi ngành (${ds.length})</option>
             ${Object.entries(theoNganh).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "vi")).map(([n, k]) => `<option value="${hoa(n)}" ${locLopHP.nganh === n ? "selected" : ""}>${hoa(n)} (${k})</option>`).join("")}</select></div>
