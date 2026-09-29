@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v85";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v86";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -51,12 +51,17 @@ MAN_HINH["/giao-de"] = {
       <label>Mở lúc<input type="datetime-local" id="gd-mo" value="${dinhDangGio(bayGio)}"></label>
       <label>${bt ? "Hạn nộp" : "Đóng đề lúc"}<input type="datetime-local" id="gd-dong" value="${dinhDangGio(bayGio + (bt ? 7 * 24 : 24) * 3600000)}"></label>
       <label>Thời gian mỗi lần làm (phút${bt ? ", 0 = không bấm giờ" : ""})<input type="number" id="gd-phut" min="0" max="240" value="${bt ? 0 : de.phut}"></label>
-      ${bt ? `<div class="hang-2"><label>Số lần được làm<select id="gd-solan"><option value="1">1 lần</option><option value="2">2 lần</option><option value="3" selected>3 lần</option><option value="0">Không giới hạn</option></select></label>
-        <label>Xem đáp án, lời giải<select id="gd-hienda"><option value="sau-nop" selected>Ngay sau khi nộp</option><option value="sau-han">Sau hạn nộp</option></select></label></div>
+      <div class="the-con"><b>Đáp án cho sinh viên</b>
+        <label>Mở đáp số (A/B/C/D)<select id="gd-hienda" onchange="document.getElementById('o-da-luc').hidden=this.value!=='hen-gio'">
+          ${bt ? `<option value="sau-nop" selected>Ngay sau khi nộp</option>` : ""}<option value="sau-han" ${bt ? "" : "selected"}>Sau ${bt ? "hạn nộp" : "khi đóng đề"}</option><option value="hen-gio">Hẹn ngày giờ…</option></select></label>
+        <label id="o-da-luc" hidden>Mở đáp án lúc<input type="datetime-local" id="gd-da-luc" value="${dinhDangGio(bayGio + (bt ? 7 * 24 + 1 : 25) * 3600000)}"></label>
+        <label>Lời giải chi tiết<select id="gd-lg"><option value="khong" selected>Chưa hiện (chỉ đáp số)</option><option value="cung">Hiện cùng đáp án</option></select></label>
+        <p class="ghi-chu">Sau này mở / ẩn lời giải, mở đáp án sớm hơn: vào Bảng điểm của bài.</p></div>
+      ${bt ? `<label>Số lần được làm<select id="gd-solan"><option value="1">1 lần</option><option value="2">2 lần</option><option value="3" selected>3 lần</option><option value="0">Không giới hạn</option></select></label>
         <label class="dong-bat"><input type="checkbox" id="gd-cgl"><span>Bật chống gian lận (toàn màn hình, cảnh báo rời app)</span></label>
         <p class="ghi-chu">Điểm tính theo lần làm cuối. Mỗi lần làm lại, câu và phương án được xáo lại.</p>`
       : `<label>Số lần rời app tối đa (quá số này bài tự nộp)<input type="number" id="gd-roi" min="0" max="20" value="3"></label>
-        <p class="ghi-chu">Mỗi sinh viên nhận thứ tự câu và phương án khác nhau. Đáp án, lời giải mở sau giờ đóng đề.</p>`}
+        <p class="ghi-chu">Mỗi sinh viên nhận thứ tự câu và phương án khác nhau.</p>`}
       <p class="loi-tk" id="tk-loi"></p>
       <button class="btn full" onclick="luuGiaoDe('${de.id}')">📤 Giao ${bt ? "bài tập" : "bài kiểm tra"}</button></div>`;
   },
@@ -82,13 +87,17 @@ async function luuGiaoDe(idDe) {
     const noiDung = cau.map(c => ({ id: c.id, chuong: c.chuong, dang: c.dang || "", mucDo: c.mucDo, de: c.de, phuongAn: c.phuongAn, ...(c.chum ? { chum: c.chum, dan: c.dan || "" } : {}) }));
     const ref = fbDb.collection("deGiao").doc(), lo = fbDb.batch();
     const lopTen = document.getElementById("gd-lop").selectedOptions[0]?.textContent || "";
-    const kieu = bt ? { loai: "bai-tap", soLanLam: Number(g("gd-solan")), hienDapAn: g("gd-hienda"), chongGianLan: document.getElementById("gd-cgl").checked, soLanRoi: 3 }
-      : { loai: "kiem-tra", soLanLam: 1, hienDapAn: "sau-han", chongGianLan: true, soLanRoi: Math.max(0, Number(g("gd-roi")) || 0) };
+    const hienDapAn = g("gd-hienda"), dapAnLuc = hienDapAn === "hen-gio" ? new Date(g("gd-da-luc")).getTime() : dongLuc, hienLoiGiai = g("gd-lg");
+    if (hienDapAn === "hen-gio" && !(dapAnLuc > moLuc)) { loi.textContent = "Giờ mở đáp án phải sau giờ mở bài."; return; }
+    const kieu = { hienDapAn, dapAnLuc, hienLoiGiai, ...(bt ? { loai: "bai-tap", soLanLam: Number(g("gd-solan")), chongGianLan: document.getElementById("gd-cgl").checked, soLanRoi: 3 }
+      : { loai: "kiem-tra", soLanLam: 1, chongGianLan: true, soLanRoi: Math.max(0, Number(g("gd-roi")) || 0) }) };
     lo.set(ref, { ten: g("gd-ten").trim() || de.ten, lop, lopTen, gvUid: tk.user.uid, gvTen: tk.hoSo.hoTen,
       cau: cau.map(c => c.id), noiDung, phut, moLuc, dongLuc, ...kieu, taoLuc: Date.now() });
-    // Đáp án + lời giải để riêng: SV đọc được sau giờ đóng, hoặc ngay sau khi nộp nếu là bài tập "xem đáp án ngay"
-    lo.set(fbDb.collection("dapAnDe").doc(ref.id), { lop, dongLuc, hienDapAn: kieu.hienDapAn, gvUid: tk.user.uid,
-      cau: Object.fromEntries(cau.map(c => [c.id, { dapAn: c.dapAn, loiGiai: c.loiGiai || "" }])) });
+    // Đáp số để riêng (SV đọc sau dapAnLuc, hoặc ngay sau khi nộp nếu "sau-nop"); lời giải để riêng nữa, GV bật / tắt
+    lo.set(fbDb.collection("dapAnDe").doc(ref.id), { lop, dongLuc, dapAnLuc, hienDapAn, gvUid: tk.user.uid,
+      cau: Object.fromEntries(cau.map(c => [c.id, { dapAn: c.dapAn }])) });
+    lo.set(fbDb.collection("loiGiaiDe").doc(ref.id), { lop, mo: hienLoiGiai === "cung", gvUid: tk.user.uid,
+      cau: Object.fromEntries(cau.map(c => [c.id, c.loiGiai || ""])) });
     await lo.commit();
     sessionStorage.removeItem("giao-cho-lop");
     alert(`Đã giao ${bt ? "bài tập" : "bài kiểm tra"} cho lớp ${lopTen}.`); location.hash = `#/lop?id=${lop}`;
@@ -144,7 +153,10 @@ MAN_HINH["/bang-diem"] = {
       const quaHan = Date.now() > d.dongLuc;
       v.innerHTML = `<div class="the-trang"><b>${hoa(d.ten)}</b><small class="ghi-chu"> · Lớp ${hoa(d.lopTen || d.lop)}</small>
         <p class="ghi-chu">${gioVN(d.moLuc)} → ${gioVN(d.dongLuc)} · ${d.phut} phút · tối đa ${d.soLanRoi} lần rời app<br>Đã nộp ${daNop}/${dong.length}${d.daChot ? ` · <b>đã chốt điểm ${gioVN(d.chotLuc)}</b>` : " · chưa chốt điểm"}</p>
-        <p class="ghi-chu">Bấm tên học sinh để xem bài làm, sửa điểm.</p>
+        <p class="ghi-chu">Đáp án cho SV: ${d.hienDapAn === "sau-nop" ? "ngay sau khi nộp" : Date.now() > lucDapAn(d) ? "<b>đã mở</b>" : "mở lúc " + gioVN(lucDapAn(d))} · Lời giải chi tiết: <b>${d.hienLoiGiai === "cung" ? "đang hiện" : "đang ẩn"}</b></p>
+        <div class="nut-hang trai">${d.hienDapAn !== "sau-nop" && Date.now() <= lucDapAn(d) ? `<button class="btn phu" onclick="moDapAnNgay('${id}')">🔓 Mở đáp án ngay</button>` : ""}
+          <button class="btn phu" onclick="batLoiGiai('${id}', ${d.hienLoiGiai !== "cung"})">${d.hienLoiGiai === "cung" ? "🙈 Ẩn lời giải" : "📖 Mở lời giải chi tiết"}</button></div>
+        <p class="ghi-chu">Bấm tên sinh viên để xem bài làm, sửa điểm.</p>
         <div class="nut-hang">${quaHan ? "" : `<a class="btn" href="#/theo-doi?id=${id}">👁 Theo dõi trực tiếp</a>`}<button class="btn" onclick="chotDiem('${id}')">🔒 ${d.daChot ? "Chốt lại điểm" : "Chốt điểm"}</button><button class="btn phu" onclick="xuatBangDiem()">⬇ Tải Excel</button><a class="btn phu" href="#/so-diem?lop=${encodeURIComponent(d.lop)}">📒 Sổ điểm lớp</a>
           <button class="btn phu" onclick="xoaGiaoDe('${id}')">🗑 Xóa bài giao</button></div></div>
         <div class="the-trang bang-cuon"><table class="bang"><thead><tr><th>Học sinh</th><th>Điểm</th><th>Rời app</th><th>Trạng thái</th></tr></thead><tbody>
@@ -168,9 +180,21 @@ function xuatBangDiem() {
   const blob = new Blob(["﻿" + hang.map(h => h.map(o).join(";")).join("\r\n")], { type: "text/csv;charset=utf-8" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `Bang diem - ${d.ten} - ${d.lopTen || d.lop}.csv`; a.click();
 }
+async function moDapAnNgay(id) {
+  if (!confirm("Mở đáp số cho sinh viên ngay bây giờ?")) return;
+  const luc = Date.now() - 1000, lo = fbDb.batch();
+  lo.update(fbDb.collection("deGiao").doc(id), { dapAnLuc: luc }); lo.update(fbDb.collection("dapAnDe").doc(id), { dapAnLuc: luc });
+  try { await lo.commit(); hienManHinh(); } catch (e) { alert(loiTk(e)); }
+}
+async function batLoiGiai(id, mo) {
+  if (!confirm(mo ? "Mở lời giải chi tiết cho sinh viên? (Sinh viên thấy lời giải khi đã được xem đáp án.)" : "Ẩn lời giải chi tiết?")) return;
+  const lo = fbDb.batch();
+  lo.update(fbDb.collection("deGiao").doc(id), { hienLoiGiai: mo ? "cung" : "khong" }); lo.update(fbDb.collection("loiGiaiDe").doc(id), { mo });
+  try { await lo.commit(); hienManHinh(); } catch (e) { alert(loiTk(e)); }
+}
 async function xoaGiaoDe(id) {
   if (!confirm("Xóa bài giao này? Học sinh sẽ không thấy bài nữa (bài đã nộp vẫn còn trong máy chủ).")) return;
-  try { await fbDb.collection("deGiao").doc(id).delete(); await fbDb.collection("dapAnDe").doc(id).delete().catch(() => {}); location.hash = "#/da-giao"; } catch (e) { alert(loiTk(e)); }
+  try { await fbDb.collection("deGiao").doc(id).delete(); await fbDb.collection("dapAnDe").doc(id).delete().catch(() => {}); await fbDb.collection("loiGiaiDe").doc(id).delete().catch(() => {}); location.hash = "#/da-giao"; } catch (e) { alert(loiTk(e)); }
 }
 
 /* ================= HỌC SINH ================= */
@@ -192,16 +216,16 @@ MAN_HINH["/bai-duoc-giao"] = {
     const v = document.getElementById("vung-bg"); if (!v) return;
     try {
       const ds = await taiBaiGiaoHS(), bg = Date.now();
-      await Promise.all(ds.filter(d => d.bai && (bg > d.dongLuc || (d.hienDapAn === "sau-nop" && d.bai.lanNop > 0))).map(d => taiDapAn(d, d.id).catch(() => {})));
+      await Promise.all(ds.filter(d => moDapAn(d, d.bai)).map(d => taiDapAn(d, d.id).catch(() => {})));
       v.innerHTML = ds.map(d => {
         const b = d.bai, mo = bg >= d.moLuc && bg <= d.dongLuc, bt = d.loai === "bai-tap";
-        const coDA = b && (bg > d.dongLuc || (d.hienDapAn === "sau-nop" && b.lanNop > 0));
+        const coDA = moDapAn(d, b);
         const conLan = bt && b?.daNop && mo && (!d.soLanLam || (b.lanNop || 0) < d.soLanLam);
         const xem = coDA ? ` <a class="btn phu" href="#/xem-dap-an?id=${d.id}">📄 Đáp án</a>` : "";
         const lamLai = conLan ? ` <button class="btn" onclick="batDauBaiGiao('${d.id}')">↻ Làm lại${d.soLanLam ? ` (còn ${d.soLanLam - (b.lanNop || 0)})` : ""}</button>` : "";
         const tt = b && (coDA || d.daChot) && (b.daNop || bg > d.dongLuc)
             ? `<span class="nhan-vt vt-hs">${d.daChot ? "Điểm chính thức" : b.daNop ? (bt ? `Lần ${b.lanNop || 1}` : "Đã nộp") : "Hết hạn"} · ${diemVN(diemCuoi(b))} điểm</span>${b.ghiChuDiem ? `<small class="ghi-chu">GV ghi: ${hoa(b.ghiChuDiem)}</small>` : ""}${xem}${lamLai}`
-          : b?.daNop ? `<span class="nhan-vt vt-hs">Đã nộp · điểm có sau ${gioVN(d.dongLuc)}</span>${lamLai}`
+          : b?.daNop ? `<span class="nhan-vt vt-hs">Đã nộp · điểm, đáp án có lúc ${gioVN(lucDapAn(d))}</span>${lamLai}`
           : bg < d.moLuc ? `<span class="nhan-vt">Mở lúc ${gioVN(d.moLuc)}</span>` : bg > d.dongLuc ? `<span class="nhan-vt">Đã hết hạn</span>`
           : `<button class="btn" onclick="batDauBaiGiao('${d.id}')">${b ? "Làm tiếp" : "Làm bài"}</button>`;
         return `<div class="the-trang dong-tk"><div><span class="nhan-loai ${bt ? "bt" : "kt"}">${bt ? "📚 Bài tập" : "📝 Kiểm tra"}</span> <b>${hoa(d.ten)}</b>
@@ -213,12 +237,16 @@ MAN_HINH["/bai-duoc-giao"] = {
 };
 
 const refBai = id => fbDb.collection("baiNop").doc(`${id}_${tk.user.uid}`);
+const lucDapAn = d => d.dapAnLuc ?? d.dongLuc;
+const moDapAn = (d, b) => !!b && (Date.now() > lucDapAn(d) || (d.hienDapAn === "sau-nop" && b.lanNop > 0));
 const napNoiDung = nd => (nd || []).forEach(c => { if (!CAU_THEO_ID[c.id]) CAU_THEO_ID[c.id] = { ...c }; });
 // Tải đáp án của một đề giao (GV: luôn được; HS: sau giờ đóng) và gắn vào câu để chấm, xem lời giải
 async function taiDapAn(d, id) {
   napNoiDung(d.noiDung);
   const s = await fbDb.collection("dapAnDe").doc(id).get();
   if (s.exists) Object.entries(s.data().cau).forEach(([k, v]) => { if (CAU_THEO_ID[k]) Object.assign(CAU_THEO_ID[k], v); });
+  // lời giải: chỉ đọc được khi GV đã mở (luật Firestore); không được thì bỏ qua
+  try { const lg = await fbDb.collection("loiGiaiDe").doc(id).get(); if (lg.exists) Object.entries(lg.data().cau).forEach(([k, v]) => { if (CAU_THEO_ID[k]) CAU_THEO_ID[k].loiGiaiGiao = v; }); } catch {}
   return s.exists;
 }
 if (baiLam?.giao?.noiDung) napNoiDung(baiLam.giao.noiDung);
@@ -246,7 +274,7 @@ async function batDauBaiGiao(id) {
     baiLam = { cau, chon: bai.chon, cheDo: "thi", viTri: 0, batDau, ketThuc: null,
       hanGio: Math.max(1000, Math.min(d.phut ? d.phut * 60000 : Infinity, d.dongLuc - batDau)),
       giao: { id, ten: d.ten, soLanRoi: d.soLanRoi, dongLuc: d.dongLuc, noiDung: d.noiDung, phien, roi, daGui: false,
-        loai: d.loai || "kiem-tra", chongGianLan: cgl, hienDapAn: d.hienDapAn || "sau-han", soLanLam: d.soLanLam || 1, lanNop: bai.lanNop } };
+        loai: d.loai || "kiem-tra", chongGianLan: cgl, hienDapAn: d.hienDapAn || "sau-han", dapAnLuc: lucDapAn(d), soLanLam: d.soLanLam || 1, lanNop: bai.lanNop } };
     luuBaiLam(); location.hash = "#/lam-bai";
   } catch (e) { alert(loiTk(e)); }
 }
@@ -290,8 +318,8 @@ MAN_HINH["/ket-qua"].ve = () => {
     <p>${g.daGui ? "✅ Đã nộp bài lên máy chủ." : "⏳ Đang gửi bài… Giữ kết nối mạng, đừng đóng app."}</p>
     ${g.lyDo === "roi-app" ? `<p class="loi-tk">Bài tự nộp vì rời app quá ${g.soLanRoi} lần.</p>` : g.lyDo === "gv-thu" ? `<p class="loi-tk">Giáo viên đã thu bài.</p>` : ""}
     <p>Đã làm ${baiLam.chon.filter(x => x !== null).length}/${baiLam.cau.length} câu${g.chongGianLan !== false ? ` · rời app ${g.roi.length} lần` : ""}${g.loai === "bai-tap" ? ` · lần làm thứ ${g.lanNop || 1}` : ""}</p>
-    ${g.hienDapAn === "sau-nop" && g.daGui ? `<a class="btn full" href="#/xem-dap-an?id=${g.id}">📄 Xem điểm, đáp án và lời giải</a>`
-      : `<p class="ghi-chu"><b>Điểm, đáp án và lời giải</b> mở trong mục Bài được giao sau ${g.loai === "bai-tap" ? "hạn nộp" : "khi đề đóng"}${g.dongLuc ? ` (${gioVN(g.dongLuc)})` : ""}.</p>`}
+    ${g.hienDapAn === "sau-nop" && g.daGui ? `<a class="btn full" href="#/xem-dap-an?id=${g.id}">📄 Xem điểm và đáp án</a>`
+      : `<p class="ghi-chu"><b>Điểm và đáp án</b> mở trong mục Bài được giao lúc ${gioVN(g.dapAnLuc ?? g.dongLuc)}.</p>`}
     <a class="btn full" href="#/bai-duoc-giao">Về danh sách bài</a></div>`;
 };
 
@@ -306,7 +334,7 @@ MAN_HINH["/xem-dap-an"] = {
       const id = thamSoHash().get("id"), d = (await fbDb.collection("deGiao").doc(id).get()).data();
       const snap = await refBai(id).get();
       if (!snap.exists) { v.innerHTML = `<div class="trong">Em chưa làm bài này.</div>`; return; }
-      if (Date.now() <= d.dongLuc && !(d.hienDapAn === "sau-nop" && snap.data().lanNop > 0)) { v.innerHTML = `<div class="trong">Đáp án mở sau ${gioVN(d.dongLuc)}.</div>`; return; }
+      if (!moDapAn(d, snap.data())) { v.innerHTML = `<div class="trong">Đáp án mở lúc ${gioVN(lucDapAn(d))}.</div>`; return; }
       await taiDapAn(d, id);
       const b = snap.data(), { dung } = chamBai(b), diem = diemCuoi(b);
       v.innerHTML = lamToan(`<div class="the-trang"><b>${hoa(d.ten)}</b><p>${hoa(b.hoTen)} · ${dung}/${b.cau.length} câu đúng · <b>${diemVN(diem)} điểm</b></p>
@@ -317,7 +345,7 @@ MAN_HINH["/xem-dap-an"] = {
           return `<div class="the-trang xem-lai ${tt}"><b>Câu ${i + 1}: ${chon === null ? "bỏ trống" : "chọn " + CHU[chon]} · đáp án ${CHU[dungVT]} ${tt === "dung" ? "✓" : tt === "sai" ? "✗" : ""}</b>
             ${goc.dan ? `<div class="de-dan">${goc.dan}</div>` : ""}<div class="de-cau">${goc.de}</div>
             <div class="phuong-an">${c.thuTu.map((k, j) => `<button disabled class="${j === dungVT ? "dung" : j === chon ? "sai" : "mo"}"><span class="chu">${CHU[j]}</span><span class="nd">${goc.phuongAn[k]}</span></button>`).join("")}</div>
-            <div class="loi-giai"><b>Lời giải</b><div>${goc.loiGiai || ""}</div></div></div>`;
+            ${(goc.loiGiaiGiao ?? (laGVtk() ? goc.loiGiai : "")) ? `<div class="loi-giai"><b>Lời giải</b><div>${goc.loiGiaiGiao ?? goc.loiGiai}</div></div>` : ""}</div>`;
         }).join("")}`);
     } catch (e) { v.innerHTML = `<div class="trong">${loiTk(e)}</div>`; }
   },

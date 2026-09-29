@@ -1055,3 +1055,4 @@ button.the-luyen { width: 100%; border: 0; font: inherit; text-align: left; curs
 a.dong-lop { color: inherit; text-decoration: none; }
 .form-tk label.dong-bat { flex-direction: row; align-items: center; gap: 10px; font-weight: 500; }
 .form-tk .hang-2 select, .form-tk .hang-2 input { min-width: 0; width: 100%; }
+.the-con { display: flex; flex-direction: column; gap: 8px; padding: 10px 12px; border: 1px dashed var(--vien); border-radius: 14px; }
