@@ -174,9 +174,10 @@ MAN_HINH["/lop"] = {
             <a class="btn phu" href="#/so-diem?lop=${id}">📒 Sổ điểm</a>
             <button class="btn phu" onclick="xuatDsLop()">⬇ Excel</button>
             ${dem.chua ? `<button class="btn phu" onclick="khoaChuaDoi('${id}')">🔒 Khóa ${dem.chua} TK chưa đổi MK</button>` : ""}</div></div>
-        ${ds.length ? `<div class="nhom-chip loc-tt"><button class="chip-nhanh ${locLopHP.nganh ? "" : "chon"}" onclick="locLopHP.nganh='';locLop()">Mọi ngành (${ds.length})</button>
-          ${Object.entries(theoNganh).sort((a, b) => b[1] - a[1]).map(([n, k]) => `<button class="chip-nhanh ${locLopHP.nganh === n ? "chon" : ""}" data-nganh="${hoa(n)}" onclick="locLopHP.nganh=this.dataset.nganh;locLop()">${hoa(n)} (${k})</button>`).join("")}</div>
-        <input class="o-tim-lop" type="search" placeholder="🔍 Tìm tên, mã SV…" value="${hoa(locLopHP.tu)}" oninput="locLopHP.tu=this.value;locLop()">` : ""}
+        ${ds.length ? `<div class="hang-loc"><input type="search" placeholder="🔍 Tìm tên, mã SV…" value="${hoa(locLopHP.tu)}" oninput="locLopHP.tu=this.value;locLop()">
+          <select id="chon-nganh" onchange="locLopHP.nganh=this.value;locLop()" aria-label="Ngành"><option value="">Mọi ngành (${ds.length})</option>
+            ${Object.entries(theoNganh).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "vi")).map(([n, k]) => `<option value="${hoa(n)}" ${locLopHP.nganh === n ? "selected" : ""}>${hoa(n)} (${k})</option>`).join("")}</select></div>
+          <p class="ghi-chu" id="dem-loc"></p>` : ""}
         <div class="the-trang ds-gon" id="ds-lop">${ds.map(({ u, kq, lam, tb, vp }) => `<div class="dong-gon dong-sv" data-tim="${hoa(boDau(`${u.hoTen} ${u.maHS || ""} ${u.email}`))}" data-nganh="${hoa(u.nganh || "Chưa ghi ngành")}">
             ${anhDaiDien(u, 30)}
             <div class="giua"><b>${hoa(u.hoTen)}</b><small>${hoa(u.maHS || u.email)}${u.nganh ? " · " + hoa(u.nganh) : ""}</small></div>
@@ -196,10 +197,9 @@ MAN_HINH["/lop"] = {
   },
 };
 function locLop() {
-  const tu = boDau((locLopHP.tu || "").trim());
-  document.querySelectorAll("#ds-lop .dong-sv").forEach(x => x.hidden = (tu && !x.dataset.tim.includes(tu)) || (locLopHP.nganh && x.dataset.nganh !== locLopHP.nganh));
-  document.querySelectorAll(".loc-tt [data-nganh]").forEach(b => b.classList.toggle("chon", b.dataset.nganh === locLopHP.nganh));
-  document.querySelector(".loc-tt .chip-nhanh")?.classList.toggle("chon", !locLopHP.nganh);
+  const tu = boDau((locLopHP.tu || "").trim()); let n = 0;
+  document.querySelectorAll("#ds-lop .dong-sv").forEach(x => { x.hidden = (tu && !x.dataset.tim.includes(tu)) || (locLopHP.nganh && x.dataset.nganh !== locLopHP.nganh); if (!x.hidden) n++; });
+  const d = document.getElementById("dem-loc"); if (d) d.textContent = tu || locLopHP.nganh ? `Đang hiện ${n} sinh viên${locLopHP.nganh ? " · " + locLopHP.nganh : ""}` : "";
 }
 function xuatDsLop() {
   const { ten, ds, de } = lopHienTai, o = s => `"${String(s ?? "").replace(/"/g, '""')}"`;
