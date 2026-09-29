@@ -36,7 +36,7 @@ service cloud.firestore {
 
     // Bài làm của học sinh: mã = <mã đề giao>_<uid>; chỉ làm trong giờ mở đề, nộp rồi không sửa
     match /baiNop/{id} {
-      allow read: if laGV() || (dn() && resource.data.uid == request.auth.uid);
+      allow read: if laGV() || (dn() && (resource == null || resource.data.uid == request.auth.uid));
       allow create: if laHS() && request.resource.data.uid == request.auth.uid
         && id == request.resource.data.deGiaoId + '_' + request.auth.uid
         && get(/databases/$(database)/documents/deGiao/$(request.resource.data.deGiaoId)).data.lop == toi().lop
