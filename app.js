@@ -878,6 +878,7 @@ function hienManHinh() {
   ganNhanBang(noiDung);
   nutQuayLai.hidden = !mh.manHinhCon;
   document.body.classList.toggle("man-con", !!mh.manHinhCon);
+  document.body.classList.toggle("trang-chu", mh === MAN_HINH["/"]);
   document.querySelectorAll(".tabbar a").forEach(a =>
     a.classList.toggle("active", a.dataset.tab === duong ||
       (a.dataset.tab !== "/" && duong.startsWith(a.dataset.tab + "/"))));
