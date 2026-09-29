@@ -157,13 +157,6 @@ function traCuu(q) {
   ].join("") : `<div class="trong">Không tìm thấy “${q.replace(/</g, "&lt;")}”. Thử từ khác, không cần gõ dấu.</div>`;
 }
 
-const CONG_THUC_TRANG_CHU = String.raw`
-        <div class="cong-thuc"><div class="nhan">Định nghĩa pH</div>\[ \mathrm{pH} = -\lg\Hp \qquad \mathrm{pH} + \mathrm{pOH} = 14 \]</div>
-        <div class="cong-thuc"><div class="nhan">Pha loãng</div>\[ C_1V_1 = C_2V_2 \]</div>
-        <div class="cong-thuc"><div class="nhan">Dung dịch đệm</div>\[ \mathrm{pH} = \pKa + \lg\frac{C_\mathrm{A^-}}{C_\mathrm{HA}} \]</div>
-        <div class="cong-thuc"><div class="nhan">Phương trình Nernst (25 °C)</div>\[ E = E^\circ + \frac{0,0592}{n}\lg\frac{[\mathrm{Ox}]}{[\mathrm{Kh}]} \]</div>
-`;
-
 const MAN_HINH = {
   "/": {
     tieuDe: "Hóa phân tích",
@@ -173,7 +166,6 @@ const MAN_HINH = {
       <section class="canh-lab">
         <div class="canh-dau">
           <div class="hero-nho">Ôn tập đại học</div>
-          <h3>Hóa phân tích</h3>
           <div class="hero-tien-do"><span class="thanh-nho sang"><i style="width:${daDoc / CHUONG.length * 100}%"></i></span>
             Đã đọc ${daDoc}/${CHUONG.length} chương</div>
         </div>
@@ -183,12 +175,7 @@ const MAN_HINH = {
           <a href="#/tao-de"><span>📝</span><b>Tạo đề</b></a>
           <a href="#/tra-cuu"><span>📋</span><b>Tra cứu</b></a>
         </nav>
-      </section>
-      ${theDocTiep()}
-      <h2>Công thức hay dùng</h2>
-      <div class="the-trang">
-        ${CONG_THUC_TRANG_CHU}
-      </div>`;
+      </section>`;
     },
   },
 

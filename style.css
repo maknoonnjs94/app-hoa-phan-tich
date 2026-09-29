@@ -772,11 +772,12 @@ details[open] > summary .khi-mo { display: inline; }
 @media print { #vung-in .de-dan { background: none; border: 1px solid #000; border-left-width: 3px; break-inside: avoid; } }
 
 /* ===== Trang chủ: cảnh phòng thí nghiệm (ảnh để lộ rõ, chỉ phủ mờ mép trên/dưới) ===== */
+body.trang-chu .content { padding-bottom: 0; }
 body.trang-chu .topbar { background: #141a3c; color: #fff; backdrop-filter: none; }
 .canh-lab {
-  position: relative; margin: -8px -16px 8px; color: #fff;
-  height: min(calc(100svh - 130px - env(safe-area-inset-top) - env(safe-area-inset-bottom)), 150vw, 840px);
-  min-height: 420px; display: flex; flex-direction: column; justify-content: space-between;
+  position: relative; margin: -8px -16px 0; color: #fff;
+  height: calc(100svh - var(--cao-topbar, 56px) - var(--cao-thanh-tab) - env(safe-area-inset-bottom));
+  min-height: 380px; display: flex; flex-direction: column; justify-content: space-between;
   background: linear-gradient(180deg, #141a3c 0%, rgba(20,26,60,0) 22%, rgba(20,26,60,0) 72%, rgba(10,14,40,.75) 100%),
     url(anh/giao-dien/nen-lab-dem.webp) center 35% / cover no-repeat, #1e1b4b;
 }
