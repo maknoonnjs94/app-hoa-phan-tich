@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v87";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v88";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -479,9 +479,9 @@ if (giamSat()) { roiLuc = Date.now() - 1000; roiLoai = "mo-lai"; }
 
 /* ---------- Phân quyền xem: học sinh và khách chỉ xem lí thuyết (+ tra cứu bảng) và bài được giao ----------
    Ngân hàng câu hỏi, bài tập, luyện tập, tạo đề chỉ dành cho giáo viên / QTV. */
-const LA_MUC_GV = d => /^\/(bai-tap|luyen-tap|kho|tao-de|chon-cau|de|giao-de|da-giao|bang-diem|theo-doi|nhap-lop)(\/|$)/.test(d) || ((d === "/lam-bai" || d === "/ket-qua") && !baiLam?.giao);
+const LA_MUC_GV = d => /^\/(bai-tap|luyen-tap|kho|tao-de|chon-cau|chon-dang|de|giao-de|da-giao|bang-diem|theo-doi|nhap-lop)(\/|$)/.test(d) || ((d === "/lam-bai" || d === "/ket-qua") && !baiLam?.giao);
 // Các mục cần kho câu hỏi đã mở khóa trên máy này
-const CAN_KHO = d => /^\/(bai-tap|luyen-tap|kho|tao-de|chon-cau|de|giao-de)(\/|$)/.test(d) || ((d === "/lam-bai" || d === "/ket-qua") && !baiLam?.giao);
+const CAN_KHO = d => /^\/(bai-tap|luyen-tap|kho|tao-de|chon-cau|chon-dang|de|giao-de)(\/|$)/.test(d) || ((d === "/lam-bai" || d === "/ket-qua") && !baiLam?.giao);
 const duocVao = d => (!LA_MUC_GV(d) || laGVtk()) && (!CAN_KHO(d) || KHO_KHOA.mo);
 Object.keys(MAN_HINH).forEach(d => {
   if (!LA_MUC_GV(d) && d !== "/lam-bai" && d !== "/ket-qua") return;
