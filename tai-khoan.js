@@ -279,6 +279,7 @@ async function veQuanTri() {
     vung.innerHTML = `
       <div class="hang-loc"><input type="search" placeholder="Tìm tên, email, mã HS…" value="${hoa(qt.loc)}" oninput="qt.loc=this.value;clearTimeout(qt.t);qt.t=setTimeout(veQuanTri,300)">
         ${chonLop("loc-lop", "Mọi lớp").replace("<select", `<select onchange="qt.locLop=this.value;veQuanTri()"`)}</div>
+      ${laGvThuong() ? `<div class="nhom-chip">${lopDay().map(l => `<a class="chip-nhanh" href="#/lop?ten=${encodeURIComponent(l)}">📋 Lớp ${hoa(l)} ›</a>`).join("")}</div>` : ""}
       <p class="ghi-chu">${laGvThuong() ? `${ds.filter(u => u.vaiTro === "hs").length} sinh viên · lớp ${lopDay().map(hoa).join(", ")}` : `${ds.length} tài khoản`}</p>
       ${ds.map(u => `<div class="the-trang dong-tk co-anh ${u.khoa ? "da-khoa" : ""}">${anhDaiDien(u, 40)}
         <div><b>${hoa(u.hoTen)}</b> <span class="nhan-vt vt-${u.vaiTro}">${VAI_TRO[u.vaiTro]}</span>${u.khoa ? ' <span class="nhan-vt">Đã khóa</span>' : ""}
@@ -317,7 +318,7 @@ async function veQuanTri() {
     vung.innerHTML = `<div class="the-trang form-tk">
       <label>Tên lớp mới<input id="lop-ten" placeholder="VD: K68 Hóa A"></label>
       <button class="btn full" onclick="qtThemLop()">Thêm lớp</button></div>
-      ${qt.lop.map(l => `<div class="the-trang dong-tk"><div><b>${hoa(l.ten)}</b>
+      ${qt.lop.map(l => `<div class="the-trang dong-tk"><div><a class="lien-ket" href="#/lop?ten=${encodeURIComponent(l.ten)}"><b>${hoa(l.ten)}</b> ›</a>
         <small>${qt.ds.filter(u => u.lop === l.ten && u.vaiTro === "hs").length} học sinh · GV: ${(l.gv || []).map(id => hoa(qt.ds.find(u => u.uid === id)?.hoTen || "?")).join(", ") || "chưa có"}</small></div>
         <div class="nut-hang"><select onchange="qtGanGv('${l.id}', this.value); this.value=''"><option value="">+ Gán / bỏ giáo viên</option>
           ${gv.map(u => `<option value="${u.uid}">${(l.gv || []).includes(u.uid) ? "✓ " : ""}${hoa(u.hoTen)}</option>`).join("")}</select></div></div>`).join("")}`;

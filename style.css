@@ -992,3 +992,15 @@ button.the-luyen { width: 100%; border: 0; font: inherit; text-align: left; curs
 .so-diem td.vang { color: var(--chu-phu); font-style: italic; }
 .o-mau { padding: 1px 6px; border-radius: 6px; font-size: 12px; }
 .ds-bai-sd { margin: 6px 0 0; padding-left: 20px; font-size: 14px; }
+/* Trang chi tiết lớp */
+.o-tim-lop { width: 100%; font: inherit; font-size: 15px; padding: 10px 12px; border: 1px solid var(--vien); border-radius: 12px; background: var(--the); color: var(--chu); margin-bottom: 10px; }
+.dong-sv { padding: 10px 12px; }
+.dau-sv { display: flex; gap: 10px; align-items: center; cursor: pointer; }
+.dau-sv .giua { flex: 1; min-width: 0; } .dau-sv small { display: block; font-size: 12.5px; color: var(--chu-phu); }
+.dau-sv .mui { color: var(--chu-phu); transition: transform .2s; }
+.dong-sv.mo .mui { transform: rotate(180deg); }
+.chi-tiet-sv { display: none; margin-top: 10px; border-top: 1px solid var(--vien); padding-top: 8px; }
+.dong-sv.mo .chi-tiet-sv { display: block; }
+.chi-tiet-sv td small { display: block; font-size: 11.5px; color: var(--chu-phu); }
+.chi-tiet-sv td:last-child { text-align: right; white-space: nowrap; }
+.chu-yeu { color: #dc2626; } .chu-gioi { color: #15803d; }
