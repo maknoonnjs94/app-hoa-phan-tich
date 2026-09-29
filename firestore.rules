@@ -23,6 +23,12 @@ service cloud.firestore {
       allow delete: if laQTV();
     }
 
+    // Cài đặt: "chung" (tên miền email) ai cũng đọc để đăng nhập bằng mã SV; "rieng" (mật khẩu khởi tạo) cần đăng nhập
+    match /cauHinh/{id} {
+      allow read: if id == 'chung' || laHS();
+      allow write: if laQTV();
+    }
+
     // Lớp học
     match /lop/{id} {
       allow read: if laHS();

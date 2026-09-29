@@ -39,6 +39,19 @@ const loiTk = e => ({
 }[e && e.code] || (e && e.message) || "Có lỗi xảy ra.");
 const hoa = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
+/* ---------- Cài đặt chung (lưu Firestore cauHinh/chung, ai cũng đọc được): tên miền email, mật khẩu khởi tạo ----------
+   Sinh viên đăng nhập bằng mã SV → app ghép thành <mã>@<tên miền>. Tên trường không nằm trong mã nguồn. */
+let cauHinhTk = null;
+async function layCauHinhTk(moi) {
+  if (!cauHinhTk || moi || (tk.user && !cauHinhTk.daDocRieng)) {
+    try { const s = await fbDb.collection("cauHinh").doc("chung").get(); cauHinhTk = s.exists ? s.data() : {}; } catch { cauHinhTk = cauHinhTk || {}; }
+    // Mật khẩu khởi tạo để riêng, chỉ người đã đăng nhập đọc được
+    if (tk.user) try { const r = await fbDb.collection("cauHinh").doc("rieng").get(); if (r.exists) Object.assign(cauHinhTk, r.data()); cauHinhTk.daDocRieng = true; } catch {}
+  }
+  return { tenMien: "", matKhauDau: "123456", ...cauHinhTk };
+}
+const ghepEmail = (ma, tenMien) => { ma = String(ma || "").trim(); return ma.includes("@") || !tenMien ? ma.toLowerCase() : `${ma}@${tenMien}`.toLowerCase(); };
+
 /* ---------- Theo dõi đăng nhập ---------- */
 async function taiHoSo(user) {
   const ref = fbDb.collection("nguoiDung").doc(user.uid);
@@ -96,8 +109,8 @@ MAN_HINH["/tai-khoan"] = {
     if (!tk.user) return `
       <div class="the-trang form-tk">
         <h3>Đăng nhập</h3>
-        <p class="ghi-chu">Dùng tài khoản do nhà trường cấp. Học sinh: email của em, mật khẩu lần đầu là mã học sinh.</p>
-        <label>Email<input type="email" id="tk-email" autocomplete="username" inputmode="email"></label>
+        <p class="ghi-chu">Sinh viên: gõ <b>mã sinh viên</b> (hoặc email đầy đủ). Mật khẩu lần đầu do thầy cô thông báo; đăng nhập xong app sẽ yêu cầu đổi mật khẩu.</p>
+        <label>Mã sinh viên hoặc email<input id="tk-email" autocomplete="username" autocapitalize="off" spellcheck="false"></label>
         <label>Mật khẩu<input type="password" id="tk-mk" autocomplete="current-password"></label>
         <p class="loi-tk" id="tk-loi"></p>
         <button class="btn full" onclick="dangNhap()">Đăng nhập</button>
@@ -121,16 +134,18 @@ MAN_HINH["/tai-khoan"] = {
   },
 };
 async function dangNhap() {
-  const email = document.getElementById("tk-email").value.trim(), mk = document.getElementById("tk-mk").value;
+  const vao = document.getElementById("tk-email").value.trim(), mk = document.getElementById("tk-mk").value;
   const loi = document.getElementById("tk-loi");
-  if (!email || !mk) { loi.textContent = "Nhập email và mật khẩu."; return; }
+  if (!vao || !mk) { loi.textContent = "Nhập mã sinh viên (hoặc email) và mật khẩu."; return; }
   loi.textContent = "Đang đăng nhập…";
+  const email = ghepEmail(vao, (await layCauHinhTk()).tenMien);
   try { await fbAuth.signInWithEmailAndPassword(email, mk); }
   catch (e) { loi.textContent = loiTk(e); }
 }
 async function quenMk() {
-  const email = document.getElementById("tk-email").value.trim() || prompt("Nhập email tài khoản:");
-  if (!email) return;
+  const vao = document.getElementById("tk-email").value.trim() || prompt("Nhập mã sinh viên hoặc email:");
+  if (!vao) return;
+  const email = ghepEmail(vao, (await layCauHinhTk()).tenMien);
   try { await fbAuth.sendPasswordResetEmail(email); alert("Nếu email có tài khoản, thư đặt lại mật khẩu đã được gửi. Kiểm tra cả mục Thư rác."); }
   catch (e) { alert(loiTk(e)); }
 }
@@ -203,7 +218,8 @@ async function doiMk() {
   const a = document.getElementById("mk-moi").value, b = document.getElementById("mk-lai").value, loi = document.getElementById("tk-loi");
   if (a.length < 6) { loi.textContent = "Mật khẩu phải từ 6 kí tự."; return; }
   if (a !== b) { loi.textContent = "Hai lần nhập không khớp."; return; }
-  if (tk.hoSo?.maHS && a === tk.hoSo.maHS) { loi.textContent = "Mật khẩu mới phải khác mã học sinh."; return; }
+  if (tk.hoSo?.maHS && a === tk.hoSo.maHS) { loi.textContent = "Mật khẩu mới phải khác mã sinh viên."; return; }
+  if (a === (await layCauHinhTk()).matKhauDau) { loi.textContent = "Mật khẩu mới phải khác mật khẩu khởi tạo."; return; }
   loi.textContent = "Đang lưu…";
   try {
     await tk.user.updatePassword(a);
@@ -219,13 +235,14 @@ MAN_HINH["/quan-tri"] = {
   manHinhCon: true,
   ve: () => {
     if (tk.hoSo?.vaiTro !== "qtv") return `<div class="trong">Chỉ quản trị viên mới vào được mục này.</div>`;
-    const TAB = { nguoi: "Tài khoản", them: "Thêm 1 người", nhap: "Nhập danh sách", lop: "Lớp" };
+    const TAB = { nguoi: "Tài khoản", them: "Thêm 1 người", nhap: "Nhập danh sách", lop: "Lớp", caiDat: "Cài đặt" };
     return `<div class="chip-hang">${Object.entries(TAB).map(([k, v]) => `<button class="chip-nhanh ${qt.tab === k ? "chon" : ""}" onclick="qt.tab='${k}';hienManHinh()">${v}</button>`).join("")}</div>
       <div id="vung-qt"><div class="trong">Đang tải…</div></div>`;
   },
   sauKhiVe: () => veQuanTri(),
 };
 async function taiQt(ep) {
+  qt.cfg = await layCauHinhTk(ep);
   if (ep || !qt.ds) qt.ds = (await fbDb.collection("nguoiDung").get()).docs.map(d => ({ uid: d.id, ...d.data() }));
   if (ep || !qt.lop) qt.lop = (await fbDb.collection("lop").get()).docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => a.ten.localeCompare(b.ten, "vi"));
 }
@@ -255,13 +272,24 @@ async function veQuanTri() {
         <option value="hs">Học sinh</option><option value="gv">Giáo viên</option><option value="qtv">Quản trị viên</option></select></label>
       <label>Họ và tên<input id="them-ten"></label>
       <label>Email<input type="email" id="them-email" inputmode="email"></label>
-      <div id="o-ma"><label>Mã học sinh (mật khẩu đầu)<input id="them-ma"></label>
+      <div id="o-ma"><label>Mã sinh viên (email để trống sẽ là mã@${hoa(qt.cfg?.tenMien || "tên miền")})<input id="them-ma"></label>
         <label>Lớp${chonLop("them-lop", "— Chưa xếp lớp —")}</label></div>
-      <label>Mật khẩu đầu (giáo viên / QTV; bỏ trống với học sinh)<input id="them-mk"></label>
+      <label>Mật khẩu đầu (bỏ trống = ${hoa(qt.cfg?.matKhauDau || "123456")})<input id="them-mk"></label>
       <p class="loi-tk" id="tk-loi"></p>
       <button class="btn full" onclick="qtThemMot()">Tạo tài khoản</button></div>`;
   } else if (qt.tab === "nhap") {
     veNhapDs(vung);
+  } else if (qt.tab === "caiDat") {
+    const chuaDoi = qt.ds.filter(u => u.vaiTro === "hs" && u.doiMatKhau && !u.khoa && (!qt.locLop || u.lop === qt.locLop));
+    vung.innerHTML = `<div class="the-trang form-tk"><b>Tài khoản sinh viên</b>
+      <label>Tên miền email (sinh viên đăng nhập bằng mã SV, app ghép thành mã@tên miền)<input id="cd-mien" value="${hoa(qt.cfg.tenMien)}" placeholder="vd: truong.edu.vn" autocapitalize="off"></label>
+      <label>Mật khẩu khởi tạo (từ 6 kí tự; sinh viên phải đổi ở lần đăng nhập đầu)<input id="cd-mk" value="${hoa(qt.cfg.matKhauDau)}"></label>
+      <p class="loi-tk" id="tk-loi"></p>
+      <button class="btn full" onclick="luuCaiDat()">Lưu cài đặt</button></div>
+    <div class="the-trang form-tk"><b>🔒 Khóa tài khoản chưa đổi mật khẩu</b>
+      <p class="ghi-chu">Mật khẩu khởi tạo giống nhau nên dễ bị người khác đăng nhập thay. Sau buổi hướng dẫn đầu tiên, khóa các tài khoản chưa đổi mật khẩu; em nào cần thì mở khóa lại ở tab Tài khoản.</p>
+      <label>Lớp${chonLop("cd-lop", "Mọi lớp").replace("<select", `<select onchange="qt.locLop=this.value;veQuanTri()"`)}</label>
+      <button class="btn full phu" onclick="khoaChuaDoi()" ${chuaDoi.length ? "" : "disabled"}>Khóa ${chuaDoi.length} tài khoản chưa đổi mật khẩu</button></div>`;
   } else {
     const gv = qt.ds.filter(u => u.vaiTro !== "hs");
     vung.innerHTML = `<div class="the-trang form-tk">
@@ -286,10 +314,11 @@ async function taoTaiKhoan({ hoTen, email, vaiTro, maHS = "", lop = "", mk }) {
 }
 async function qtThemMot() {
   const g = id => document.getElementById(id).value.trim(), loi = document.getElementById("tk-loi");
-  const vaiTro = g("them-vt"), hoTen = g("them-ten"), email = g("them-email"), maHS = vaiTro === "hs" ? g("them-ma") : "";
-  const mk = vaiTro === "hs" ? maHS : g("them-mk");
-  if (!hoTen || !email) { loi.textContent = "Nhập họ tên và email."; return; }
-  if (mk.length < 6) { loi.textContent = vaiTro === "hs" ? "Mã HS phải từ 6 kí tự (dùng làm mật khẩu đầu)." : "Mật khẩu đầu phải từ 6 kí tự."; return; }
+  const cfg = await layCauHinhTk(), vaiTro = g("them-vt"), hoTen = g("them-ten"), maHS = vaiTro === "hs" ? g("them-ma") : "";
+  const email = g("them-email") ? g("them-email").toLowerCase() : maHS ? ghepEmail(maHS, cfg.tenMien) : "";
+  const mk = g("them-mk") || cfg.matKhauDau;
+  if (!hoTen || !email.includes("@")) { loi.textContent = maHS && !cfg.tenMien ? "Chưa đặt tên miền email (tab Cài đặt) — nhập email đầy đủ." : "Nhập họ tên và email (hoặc mã sinh viên)."; return; }
+  if (mk.length < 6) { loi.textContent = "Mật khẩu đầu phải từ 6 kí tự."; return; }
   loi.textContent = "Đang tạo…";
   try { await taoTaiKhoan({ hoTen, email, vaiTro, maHS, lop: vaiTro === "hs" ? g("them-lop") : "", mk }); loi.textContent = `Đã tạo tài khoản cho ${hoTen}.`; document.getElementById("them-ten").value = document.getElementById("them-email").value = document.getElementById("them-ma").value = ""; }
   catch (e) { loi.textContent = loiTk(e); }
@@ -351,10 +380,11 @@ function hangNhap() {
   const daCo = new Set(qt.ds.map(u => u.email.toLowerCase())), trongTep = {};
   return nhap.dong.map((r, i) => {
     const hoTen = g(r, "hoTen") || [g(r, "ho"), g(r, "ten")].filter(Boolean).join(" ");
-    const email = g(r, "email").toLowerCase(), maHS = g(r, "maHS").replace(/\s+/g, ""), lop = g(r, "lop") || nhap.lopChung;
+    const maHS = g(r, "maHS").replace(/\s+/g, ""), lop = g(r, "lop") || nhap.lopChung;
+    const email = (g(r, "email") || (maHS && qt.cfg?.tenMien ? ghepEmail(maHS, qt.cfg.tenMien) : "")).toLowerCase();
     let loi = "";
-    if (!hoTen) loi = "thiếu họ tên"; else if (!email) loi = "thiếu email"; else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) loi = "email sai";
-    else if (!maHS) loi = "thiếu mã"; else if (maHS.length < 6) loi = "mã dưới 6 kí tự (không làm mật khẩu được)";
+    if (!hoTen) loi = "thiếu họ tên"; else if (!email) loi = qt.cfg?.tenMien ? "thiếu mã SV" : "thiếu email (chưa đặt tên miền ở tab Cài đặt)"; else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) loi = "email sai";
+    else if (!maHS) loi = "thiếu mã SV";
     else if (trongTep[email] !== undefined) loi = `trùng email với dòng ${trongTep[email] + 1}`;
     else if (daCo.has(email)) loi = "đã có tài khoản";
     if (email && trongTep[email] === undefined) trongTep[email] = i;
@@ -369,7 +399,7 @@ function veNhapDs(vung) {
   if (!nhap.dong) {
     vung.innerHTML = `<div class="the-trang form-tk">
       <p><b>Nhập danh sách lớp</b></p>
-      <p class="ghi-chu">Chọn file <b>Excel (.xlsx, .xls)</b> hoặc <b>CSV</b>. Google Sheets: Tệp → Tải xuống → Microsoft Excel (.xlsx). File cần có các cột <b>Họ tên</b> (hoặc Họ đệm + Tên), <b>Email</b>, <b>Mã SV</b>; cột <b>Lớp</b> nếu có. Mật khẩu đầu của mỗi em = mã SV.</p>
+      <p class="ghi-chu">Chọn file <b>Excel (.xlsx, .xls)</b> hoặc <b>CSV</b>. Google Sheets: Tệp → Tải xuống → Microsoft Excel (.xlsx). File chỉ cần cột <b>Họ tên</b> (hoặc Họ đệm + Tên) và <b>Mã SV</b>; cột <b>Lớp</b>, <b>Email</b> nếu có. Tài khoản = <b>mã SV@${hoa(qt.cfg?.tenMien || "(chưa đặt tên miền)")}</b>, mật khẩu đầu = <b>${hoa(qt.cfg?.matKhauDau || "123456")}</b>.</p>
       <label class="btn full">📂 Chọn file danh sách<input type="file" accept=".xlsx,.xls,.csv,.ods" hidden onchange="docTepDs(this.files[0])"></label>
       <details><summary>Hoặc dán từ Excel</summary>
         <textarea id="nhap-dan" rows="6" placeholder="Bôi đen bảng trong Excel (kể cả dòng tiêu đề), chép rồi dán vào đây"></textarea>
@@ -394,7 +424,8 @@ function veNhapDs(vung) {
 }
 async function taoTuDs() {
   const tot = hangNhap().filter(x => !x.loi), ki = document.getElementById("nhat-ki");
-  if (!confirm(`Tạo ${tot.length} tài khoản học sinh? Mật khẩu đầu = mã SV.`)) return;
+  const cfg = await layCauHinhTk();
+  if (!confirm(`Tạo ${tot.length} tài khoản sinh viên? Mật khẩu đầu = ${cfg.matKhauDau}.`)) return;
   ki.hidden = false; ki.textContent = "";
   const ghi = s => { ki.textContent += s + "\n"; ki.scrollTop = ki.scrollHeight; };
   for (const ten of [...new Set(tot.map(x => x.lop).filter(l => l && !qt.lop.some(y => y.ten === l)))]) {
@@ -403,13 +434,32 @@ async function taoTuDs() {
   await taiQt(true);
   let ok = 0;
   for (const x of tot) {
-    try { await taoTaiKhoan({ hoTen: x.hoTen, email: x.email, vaiTro: "hs", maHS: x.maHS, lop: x.lop, mk: x.maHS }); ok++; ghi(`✓ ${x.hoTen}`); }
+    try { await taoTaiKhoan({ hoTen: x.hoTen, email: x.email, vaiTro: "hs", maHS: x.maHS, lop: x.lop, mk: cfg.matKhauDau }); ok++; ghi(`✓ ${x.hoTen}`); }
     catch (e) {
       ghi(`✗ ${x.hoTen}: ${loiTk(e)}`);
       if (e.code === "auth/too-many-requests") { ghi("\n⏸ Firebase tạm chặn vì tạo quá nhiều tài khoản trong thời gian ngắn. Khoảng 1 giờ sau mở lại file này và bấm Tạo tiếp — các em đã có tài khoản sẽ tự được bỏ qua."); break; }
     }
   }
   ghi(`\nXong: tạo được ${ok}/${tot.length} tài khoản.`);
+}
+async function luuCaiDat() {
+  const tenMien = document.getElementById("cd-mien").value.trim().replace(/^@/, "").toLowerCase(), matKhauDau = document.getElementById("cd-mk").value.trim();
+  const loi = document.getElementById("tk-loi");
+  if (tenMien && !/^[a-z0-9.-]+\.[a-z]{2,}$/.test(tenMien)) { loi.textContent = "Tên miền không hợp lệ (vd: truong.edu.vn)."; return; }
+  if (matKhauDau.length < 6) { loi.textContent = "Mật khẩu khởi tạo phải từ 6 kí tự."; return; }
+  try {
+    await fbDb.collection("cauHinh").doc("chung").set({ tenMien }, { merge: true });
+    await fbDb.collection("cauHinh").doc("rieng").set({ matKhauDau }, { merge: true });
+    await taiQt(true); loi.textContent = "Đã lưu.";
+  } catch (e) { loi.textContent = loiTk(e); }
+}
+async function khoaChuaDoi() {
+  const ds = qt.ds.filter(u => u.vaiTro === "hs" && u.doiMatKhau && !u.khoa && (!qt.locLop || u.lop === qt.locLop));
+  if (!confirm(`Khóa ${ds.length} tài khoản chưa đổi mật khẩu${qt.locLop ? " của lớp " + qt.locLop : ""}?`)) return;
+  try {
+    for (let i = 0; i < ds.length; i += 400) { const lo = fbDb.batch(); ds.slice(i, i + 400).forEach(u => lo.update(fbDb.collection("nguoiDung").doc(u.uid), { khoa: true })); await lo.commit(); }
+    ds.forEach(u => u.khoa = true); alert(`Đã khóa ${ds.length} tài khoản.`); veQuanTri();
+  } catch (e) { alert(loiTk(e)); }
 }
 async function qtDatLaiMk(uid) {
   const u = qt.ds.find(x => x.uid === uid);
