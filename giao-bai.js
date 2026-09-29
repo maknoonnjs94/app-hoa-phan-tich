@@ -422,10 +422,16 @@ Object.keys(MAN_HINH).forEach(d => {
   if (m.lamBai) Object.defineProperty(m, "lamBai", { get: () => duocVao(d) });
   if (m.khoChuong) { const kc = m.khoChuong; Object.defineProperty(m, "khoChuong", { get: () => duocVao(d) ? kc : null }); }
 });
-MAN_HINH["/kho-cau-hoi"] = { tieuDe: "Kho câu hỏi", manHinhCon: true, ve: () => !laGVtk() ? `<div class="trong">Chỉ giáo viên mới mở được kho.</div>` : KHO_KHOA.mo ? `<div class="trong">Kho đã mở trên máy này (${NGAN_HANG.length} câu).</div>` : oMoKho() };
+MAN_HINH["/kho-cau-hoi"] = { tieuDe: "Kho câu hỏi", manHinhCon: true, ve: () => !laGVtk() ? `<div class="trong">Chỉ giáo viên mới mở được kho.</div>` : !KHO_KHOA.mo ? oMoKho() : `
+  <div class="the-trang"><b>🔓 Kho đã mở trên máy này</b><p class="ghi-chu">${NGAN_HANG.length} câu trắc nghiệm · ${CHUONG.reduce((t, c) => t + c.baiTap.length, 0)} bài tự luận</p></div>
+  <a class="the-luyen" href="#/kho"><span class="o-icon">📚</span><span class="text"><b>Ngân hàng câu hỏi</b><small>Xem theo chương, lọc mức độ, dạng; xem đáp án và lời giải</small></span><span class="chevron">›</span></a>
+  <a class="the-luyen the-kho" href="#/tao-de"><span class="o-icon">📝</span><span class="text"><b>Tạo đề kiểm tra</b><small>Chọn câu, tạo mã đề, in, giao cho lớp</small></span><span class="chevron">›</span></a>
+  <a class="the-luyen the-kho" href="#/bai-tap"><span class="o-icon">✏️</span><span class="text"><b>Bài tập và luyện tập</b><small>Bài tự luận theo chương, luyện trắc nghiệm</small></span><span class="chevron">›</span></a>
+  <button class="btn full phu" onclick="khoaKhoTrenMay()">🔒 Khóa kho trên máy này (khi dùng máy chung)</button>` };
 // Trang chủ: học sinh / khách thấy ô Tra cứu và Bài được giao thay cho Tạo đề, Luyện tập
 const veTrangChuGoc = MAN_HINH["/"].ve;
-MAN_HINH["/"].ve = () => laGVtk() ? veTrangChuGoc() : veTrangChuGoc()
+MAN_HINH["/"].ve = () => laGVtk() ? veTrangChuGoc().replace(/<a href="#\/luyen-tap" class="o-3">[\s\S]*?<\/a>/,
+    `<a href="${KHO_KHOA.mo ? "#/kho" : "#/kho-cau-hoi"}" class="o-3"><img src="anh/giao-dien/o-luyen-tap.webp" alt=""><b>Ngân hàng</b></a>`) : veTrangChuGoc()
   .replace(/<a href="#\/tao-de" class="o-2">[\s\S]*?<\/a>/, `<a href="#/tra-cuu" class="o-2"><img src="anh/giao-dien/o-doc-tiep.webp" alt=""><b>Tra cứu</b></a>`)
   .replace(/<a href="#\/luyen-tap" class="o-3">[\s\S]*?<\/a>/, `<a href="${tk.user ? "#/bai-duoc-giao" : "#/tai-khoan"}" class="o-3"><img src="anh/giao-dien/o-tao-de.webp" alt=""><b>${tk.user ? "Bài được giao" : "Đăng nhập"}</b></a>`);
 const capNhatQuyen = () => document.body.classList.toggle("la-gv", laGVtk());
@@ -439,8 +445,8 @@ MAN_HINH["/tai-khoan"].ve = () => {
   const the = (href, icon, ten, mo) => `<a class="the-luyen" href="${href}"><span class="o-icon">${icon}</span><span class="text"><b>${ten}</b><small>${mo}</small></span><span class="chevron">›</span></a>`;
   if (laHStk()) h = h.replace(`<a class="the-luyen the-kho" href="#/doi-mat-khau">`, the("#/bai-duoc-giao", "📝", "Bài được giao", "Bài kiểm tra giáo viên giao cho lớp") + `<a class="the-luyen the-kho" href="#/doi-mat-khau">`);
   if (laGVtk()) h = h.replace(`<a class="the-luyen the-kho" href="#/doi-mat-khau">`, the("#/da-giao", "📤", "Bài đã giao và bảng điểm", "Theo dõi học sinh làm bài, tải bảng điểm")
-    + (KHO_KHOA.mo ? `<button class="the-luyen the-kho nut-the" onclick="khoaKhoTrenMay()"><span class="o-icon">🔓</span><span class="text"><b>Kho câu hỏi đã mở trên máy này</b><small>${NGAN_HANG.length} câu · bấm để khóa lại (khi dùng máy chung)</small></span></button>`
-      : the("#/kho-cau-hoi", "🔐", "Mở kho câu hỏi", "Nhập mật khẩu kho để dùng Tạo đề, Kho câu hỏi, Bài tập"))
+    + (KHO_KHOA.mo ? the("#/kho", "📚", "Ngân hàng câu hỏi", `${NGAN_HANG.length} câu theo 15 chương · xem đề, đáp án, lời giải`)
+      : the("#/kho-cau-hoi", "🔐", "Mở kho câu hỏi", "Nhập mật khẩu kho để xem ngân hàng câu hỏi, tạo đề, bài tập"))
     + `<a class="the-luyen the-kho" href="#/doi-mat-khau">`);
   return h;
 };
