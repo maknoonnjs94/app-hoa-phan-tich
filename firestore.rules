@@ -1,0 +1,57 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function dn() { return request.auth != null; }
+    function coHoSo() { return dn() && exists(/databases/$(database)/documents/nguoiDung/$(request.auth.uid)); }
+    function toi() { return get(/databases/$(database)/documents/nguoiDung/$(request.auth.uid)).data; }
+    function laQTV() { return coHoSo() && toi().vaiTro == 'qtv' && toi().khoa != true; }
+    function laGV() { return coHoSo() && toi().vaiTro in ['gv', 'qtv'] && toi().khoa != true; }
+    function laHS() { return coHoSo() && toi().khoa != true; }
+    function bayGio() { return request.time.toMillis(); }
+
+    // Hồ sơ người dùng: vai trò, lớp, mã HS
+    match /nguoiDung/{uid} {
+      allow read: if dn() && (request.auth.uid == uid || laGV());
+      allow create: if laQTV()
+        || (dn() && request.auth.uid == uid && uid == 'EyKqi3Iyn1OsfVHmbe3ATpmGfJl2' && request.resource.data.vaiTro == 'qtv');
+      allow update: if laQTV()
+        || (dn() && request.auth.uid == uid
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['doiMatKhau'])
+            && request.resource.data.doiMatKhau == false);
+      allow delete: if laQTV();
+    }
+
+    // Lớp học
+    match /lop/{id} {
+      allow read: if laHS();
+      allow write: if laQTV();
+    }
+
+    // Đề giao cho lớp (giáo viên tạo)
+    match /deGiao/{id} {
+      allow read: if laGV() || (laHS() && resource.data.lop == toi().lop);
+      allow create: if laGV() && request.resource.data.gvUid == request.auth.uid;
+      allow update, delete: if laQTV() || (laGV() && resource.data.gvUid == request.auth.uid);
+    }
+
+    // Bài làm của học sinh: mã = <mã đề giao>_<uid>; chỉ làm trong giờ mở đề, nộp rồi không sửa
+    match /baiNop/{id} {
+      allow read: if laGV() || (dn() && resource.data.uid == request.auth.uid);
+      allow create: if laHS() && request.resource.data.uid == request.auth.uid
+        && id == request.resource.data.deGiaoId + '_' + request.auth.uid
+        && get(/databases/$(database)/documents/deGiao/$(request.resource.data.deGiaoId)).data.lop == toi().lop
+        && bayGio() >= get(/databases/$(database)/documents/deGiao/$(request.resource.data.deGiaoId)).data.moLuc
+        && bayGio() <= get(/databases/$(database)/documents/deGiao/$(request.resource.data.deGiaoId)).data.dongLuc;
+      allow update: if laHS() && resource.data.uid == request.auth.uid && resource.data.daNop != true
+        && request.resource.data.uid == resource.data.uid && request.resource.data.deGiaoId == resource.data.deGiaoId
+        && bayGio() <= get(/databases/$(database)/documents/deGiao/$(resource.data.deGiaoId)).data.dongLuc + 300000;
+      allow delete: if laGV();
+    }
+
+    // Báo lỗi nội dung
+    match /baoLoi/{id} {
+      allow create: if dn();
+      allow read, update, delete: if laGV();
+    }
+  }
+}
