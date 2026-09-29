@@ -46,13 +46,13 @@ async function taiHoSo(user) {
   if (!snap.exists) {
     // Quản trị viên đầu tiên: luật Firestore chỉ cho đúng UID đã khai báo tự tạo hồ sơ QTV
     try { await ref.set({ hoTen: "Quản trị viên", email: user.email, vaiTro: "qtv", doiMatKhau: false, khoa: false, taoLuc: Date.now() }); snap = await ref.get(); }
-    catch { return null; }
+    catch (e) { if (e.code !== "permission-denied") throw e; return null; }
   }
   return snap.data();
 }
 if (fbAuth) fbAuth.onAuthStateChanged(async user => {
-  tk.user = user; tk.hoSo = null;
-  if (user) { try { tk.hoSo = await taiHoSo(user); } catch (e) { console.warn(e); } }
+  tk.user = user; tk.hoSo = null; tk.loi = "";
+  if (user) { try { tk.hoSo = await taiHoSo(user); } catch (e) { console.warn(e); tk.loi = `${e.code || ""} ${e.message || ""}`.trim(); } }
   tk.san = true;
   capNhatNutTk();
   if (tk.hoSo?.khoa) { alert("Tài khoản đã bị khóa. Liên hệ quản trị viên."); fbAuth.signOut(); return; }
@@ -93,7 +93,10 @@ MAN_HINH["/tai-khoan"] = {
         <button class="btn full phu" onclick="quenMk()">Quên mật khẩu</button>
       </div>`;
     const h = tk.hoSo;
-    if (!h) return `<div class="the-trang"><p>Tài khoản <b>${hoa(tk.user.email)}</b> chưa được cấp quyền trong app. Liên hệ quản trị viên.</p>
+    if (!h) return `<div class="the-trang form-tk"><p>Tài khoản <b>${hoa(tk.user.email)}</b> chưa được cấp quyền trong app. Liên hệ quản trị viên.</p>
+      ${tk.loi ? `<p class="loi-tk">Chi tiết lỗi: ${hoa(tk.loi)}</p>` : ""}
+      <p class="ghi-chu">UID: ${hoa(tk.user.uid)}</p>
+      <button class="btn full" onclick="thuLaiHoSo()">Thử lại</button>
       <button class="btn full phu" onclick="dangXuat()">Đăng xuất</button></div>`;
     return `
       <div class="the-trang the-tk">
@@ -119,6 +122,11 @@ async function quenMk() {
   if (!email) return;
   try { await fbAuth.sendPasswordResetEmail(email); alert("Nếu email có tài khoản, thư đặt lại mật khẩu đã được gửi. Kiểm tra cả mục Thư rác."); }
   catch (e) { alert(loiTk(e)); }
+}
+async function thuLaiHoSo() {
+  tk.loi = "";
+  try { tk.hoSo = await taiHoSo(tk.user); } catch (e) { tk.loi = `${e.code || ""} ${e.message || ""}`.trim(); }
+  capNhatNutTk(); if (canDoiMk()) location.hash = "#/doi-mat-khau"; else hienManHinh();
 }
 function dangXuat() { fbAuth.signOut(); location.hash = "#/tai-khoan"; }
 
