@@ -1004,3 +1004,37 @@ button.the-luyen { width: 100%; border: 0; font: inherit; text-align: left; curs
 .chi-tiet-sv td small { display: block; font-size: 11.5px; color: var(--chu-phu); }
 .chi-tiet-sv td:last-child { text-align: right; white-space: nowrap; }
 .chu-yeu { color: #dc2626; } .chu-gioi { color: #15803d; }
+
+/* ===== Danh sách tài khoản / lớp gọn ===== */
+.ds-gon { padding: 4px 0; }
+.dong-gon { display: grid; grid-template-columns: 30px 1fr auto 32px; gap: 8px; align-items: center; padding: 7px 12px; border-bottom: 1px solid var(--vien); }
+.ds-gon > :last-child { border-bottom: 0; }
+.dong-gon .giua { min-width: 0; line-height: 1.25; }
+.dong-gon .giua b { display: block; font-size: 14.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dong-gon .giua small { display: block; font-size: 12px; color: var(--chu-phu); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dong-gon .tt { font-size: 14px; }
+.dong-gon.da-khoa .giua { opacity: .55; }
+.nut-ba-cham { width: 32px; height: 32px; border-radius: 50%; border: 0; background: none; color: var(--chu-phu); font-size: 20px; line-height: 1; cursor: pointer; }
+.dong-gon.mo .nut-ba-cham { background: var(--nen); color: var(--mau-chinh); }
+.thao-tac { display: none; grid-column: 1 / -1; gap: 6px; flex-wrap: wrap; align-items: center; padding: 4px 0 2px 38px; }
+.thao-tac small { width: 100%; color: var(--chu-phu); font-size: 12px; overflow-wrap: anywhere; }
+.thao-tac .btn { padding: 6px 10px; font-size: 13px; }
+.dong-gon.mo .thao-tac { display: flex; }
+.nhom-tk { padding: 0; overflow: hidden; }
+.nhom-tk > summary { display: flex; align-items: center; gap: 8px; padding: 12px 14px; cursor: pointer; list-style: none; }
+.nhom-tk > summary::-webkit-details-marker { display: none; }
+.nhom-tk > summary::before { content: "▸"; color: var(--chu-phu); transition: transform .2s; }
+.nhom-tk[open] > summary::before { transform: rotate(90deg); }
+.nhom-tk > summary b { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nhom-tk .dem { font-size: 12.5px; color: var(--chu-phu); white-space: nowrap; }
+.nhom-tk[open] > summary { border-bottom: 1px solid var(--vien); }
+.lien-ket.nho { font-size: 12px; color: var(--mau-chinh); white-space: nowrap; }
+.loc-tt { margin: 8px 0 4px; flex-wrap: wrap; }
+.dong-lop { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-bottom: 1px solid var(--vien); }
+.dong-lop .ten { flex: 1; min-width: 0; }
+.dong-lop .ten b { display: block; font-size: 14.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dong-lop .ten small { display: block; font-size: 12px; color: var(--chu-phu); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gan-gv { width: 56px; flex: none; font: inherit; font-size: 13px; padding: 6px 2px; border: 1px solid var(--vien); border-radius: 10px; background: var(--nen); color: var(--chu); }
+.btn.nho { padding: 8px 12px; font-size: 14px; flex: none; }
+.hang-loc select { flex: 0 1 42%; min-width: 0; max-width: 42%; text-overflow: ellipsis; }
+.hang-loc input { flex: 1 1 58%; }

@@ -273,22 +273,13 @@ async function veQuanTri() {
   const vung = document.getElementById("vung-qt"); if (!vung) return;
   try { await taiQt(); } catch (e) { vung.innerHTML = `<div class="trong">${loiTk(e)}</div>`; return; }
   if (qt.tab === "nguoi") {
-    const tu = boDau(qt.loc);
-    const ds = qt.ds.filter(u => (!qt.locLop || u.lop === qt.locLop) && (!tu || boDau(`${u.hoTen} ${u.email} ${u.maHS || ""}`).includes(tu)))
-      .sort((a, b) => (a.vaiTro + a.hoTen).localeCompare(b.vaiTro + b.hoTen, "vi"));
     vung.innerHTML = `
-      <div class="hang-loc"><input type="search" placeholder="Tìm tên, email, mã HS…" value="${hoa(qt.loc)}" oninput="qt.loc=this.value;clearTimeout(qt.t);qt.t=setTimeout(veQuanTri,300)">
-        ${chonLop("loc-lop", "Mọi lớp").replace("<select", `<select onchange="qt.locLop=this.value;veQuanTri()"`)}</div>
-      ${laGvThuong() ? `<div class="nhom-chip">${lopDay().map(l => `<a class="chip-nhanh" href="#/lop?ten=${encodeURIComponent(l)}">📋 Lớp ${hoa(l)} ›</a>`).join("")}</div>` : ""}
-      <p class="ghi-chu">${laGvThuong() ? `${ds.filter(u => u.vaiTro === "hs").length} sinh viên · lớp ${lopDay().map(hoa).join(", ")}` : `${ds.length} tài khoản`}</p>
-      ${ds.map(u => `<div class="the-trang dong-tk co-anh ${u.khoa ? "da-khoa" : ""}">${anhDaiDien(u, 40)}
-        <div><b>${hoa(u.hoTen)}</b> <span class="nhan-vt vt-${u.vaiTro}">${VAI_TRO[u.vaiTro]}</span>${u.khoa ? ' <span class="nhan-vt">Đã khóa</span>' : ""}
-          <small>${hoa(u.email)}${u.maHS ? " · " + hoa(u.maHS) : ""}${u.lop ? " · " + hoa(u.lop) : ""}${u.doiMatKhau ? " · chưa đổi MK lần đầu" : ""}</small></div>
-        ${u.uid === tk.user.uid ? "" : `<div class="nut-hang">
-          <button class="btn phu" onclick="qtDatLaiMk('${u.uid}')">Gửi email đặt lại MK</button>
-          <button class="btn phu" onclick="qtSuaNguoi('${u.uid}')">Sửa</button>
-          <button class="btn phu" onclick="qtKhoa('${u.uid}')">${u.khoa ? "Mở khóa" : "Khóa"}</button></div>`}
-      </div>`).join("") || `<div class="trong">Chưa có tài khoản nào.</div>`}`;
+      <div class="hang-loc"><input type="search" placeholder="🔍 Tìm tên, email, mã SV…" value="${hoa(qt.loc)}" oninput="qt.loc=this.value;clearTimeout(qt.t);qt.t=setTimeout(veDsTk,250)">
+        ${chonLop("loc-lop", "Mọi lớp").replace("<select", `<select onchange="qt.locLop=this.value;veDsTk()"`)}</div>
+      <div class="nhom-chip loc-tt">${[["", "Tất cả"], ["chua", "⏳ Chưa đổi MK"], ["khoa", "🔒 Đã khóa"]].map(([k, v]) => `<button class="chip-nhanh ${(qt.tt || "") === k ? "chon" : ""}" onclick="qt.tt='${k}';veQuanTri()">${v}</button>`).join("")}
+        ${laGvThuong() ? lopDay().map(l => `<a class="chip-nhanh" href="#/lop?ten=${encodeURIComponent(l)}">📋 ${hoa(l)} ›</a>`).join("") : ""}</div>
+      <div id="ds-tk"></div>`;
+    veDsTk();
   } else if (qt.tab === "them") {
     vung.innerHTML = `<div class="the-trang form-tk">
       <label ${laQtvTk() ? "" : "hidden"}>Vai trò<select id="them-vt" onchange="document.getElementById('o-ma').hidden=this.value!=='hs'">
@@ -314,17 +305,57 @@ async function veQuanTri() {
       <label>Lớp${chonLop("cd-lop", "Mọi lớp").replace("<select", `<select onchange="qt.locLop=this.value;veQuanTri()"`)}</label>
       <button class="btn full phu" onclick="khoaChuaDoi()" ${chuaDoi.length ? "" : "disabled"}>Khóa ${chuaDoi.length} tài khoản chưa đổi mật khẩu</button></div>`;
   } else {
-    const gv = qt.ds.filter(u => u.vaiTro !== "hs");
-    vung.innerHTML = `<div class="the-trang form-tk">
-      <label>Tên lớp mới<input id="lop-ten" placeholder="VD: K68 Hóa A"></label>
-      <button class="btn full" onclick="qtThemLop()">Thêm lớp</button></div>
-      ${qt.lop.map(l => `<div class="the-trang dong-tk"><div><a class="lien-ket" href="#/lop?ten=${encodeURIComponent(l.ten)}"><b>${hoa(l.ten)}</b> ›</a>
-        <small>${qt.ds.filter(u => u.lop === l.ten && u.vaiTro === "hs").length} học sinh · GV: ${(l.gv || []).map(id => hoa(qt.ds.find(u => u.uid === id)?.hoTen || "?")).join(", ") || "chưa có"}</small></div>
-        <div class="nut-hang"><select onchange="qtGanGv('${l.id}', this.value); this.value=''"><option value="">+ Gán / bỏ giáo viên</option>
-          ${gv.map(u => `<option value="${u.uid}">${(l.gv || []).includes(u.uid) ? "✓ " : ""}${hoa(u.hoTen)}</option>`).join("")}</select></div></div>`).join("")}`;
+    const gv = qt.ds.filter(u => u.vaiTro !== "hs"), tu = boDau(qt.locTenLop || "");
+    const dsLop = qt.lop.filter(l => !tu || boDau(l.ten).includes(tu));
+    vung.innerHTML = `<div class="hang-loc"><input type="search" placeholder="🔍 Tìm lớp…" value="${hoa(qt.locTenLop || "")}" oninput="qt.locTenLop=this.value;clearTimeout(qt.t);qt.t=setTimeout(veQuanTri,250)">
+        <button class="btn nho" onclick="qtThemLop()">＋ Lớp</button></div>
+      <p class="ghi-chu">${qt.lop.length} lớp · bấm tên lớp để xem danh sách, điểm</p>
+      <div class="the-trang ds-gon">${dsLop.map(l => { const n = qt.ds.filter(u => u.lop === l.ten && u.vaiTro === "hs");
+        return `<div class="dong-lop"><a class="lien-ket ten" href="#/lop?ten=${encodeURIComponent(l.ten)}"><b>${hoa(l.ten)}</b>
+          <small>${n.length} SV${n.some(u => u.doiMatKhau && !u.khoa) ? ` · ⏳${n.filter(u => u.doiMatKhau && !u.khoa).length}` : ""} · GV: ${(l.gv || []).map(id => hoa(qt.ds.find(u => u.uid === id)?.hoTen?.split(" ").slice(-2).join(" ") || "?")).join(", ") || "chưa có"}</small></a>
+          <select class="gan-gv" onchange="qtGanGv('${l.id}', this.value); this.value=''" aria-label="Gán giáo viên"><option value="">👤＋</option>
+            ${gv.map(u => `<option value="${u.uid}">${(l.gv || []).includes(u.uid) ? "✓ " : ""}${hoa(u.hoTen)}</option>`).join("")}</select></div>`; }).join("") || `<p class="ghi-chu">Không có lớp nào.</p>`}</div>`;
   }
 }
 
+// Danh sách tài khoản gọn: mỗi người một dòng, nhóm theo lớp (thu gọn được); tìm kiếm thì hiện danh sách phẳng
+const moNhomTk = {};
+function dongTkGon(u) {
+  const tt = u.khoa ? "🔒" : u.doiMatKhau && u.vaiTro === "hs" ? "⏳" : "";
+  return `<div class="dong-gon ${u.khoa ? "da-khoa" : ""}" id="tk-${u.uid}">${anhDaiDien(u, 30)}
+    <div class="giua"><b>${hoa(u.hoTen)}</b><small>${hoa(u.maHS || u.email)}${u.vaiTro !== "hs" ? ` · <span class="vt-${u.vaiTro} nhan-vt">${VAI_TRO[u.vaiTro]}</span>` : ""}</small></div>
+    <span class="tt" title="${u.khoa ? "Đã khóa" : tt ? "Chưa đổi mật khẩu lần đầu" : ""}">${tt}</span>
+    ${u.uid === tk.user.uid ? "<span></span>" : `<button class="nut-ba-cham" onclick="this.parentNode.classList.toggle('mo')" aria-label="Thao tác">⋯</button>`}
+    <div class="thao-tac"><small>${hoa(u.email)}${u.lop ? " · lớp " + hoa(u.lop) : ""}</small>
+      <button class="btn phu" onclick="qtDatLaiMk('${u.uid}')">📧 Đặt lại MK</button>
+      <button class="btn phu" onclick="qtSuaNguoi('${u.uid}')">✎ Sửa</button>
+      <button class="btn phu" onclick="qtKhoa('${u.uid}')">${u.khoa ? "🔓 Mở khóa" : "🔒 Khóa"}</button></div></div>`;
+}
+function veDsTk() {
+  const v = document.getElementById("ds-tk"); if (!v) return;
+  const tu = boDau(qt.loc || "");
+  const ds = qt.ds.filter(u => (!qt.locLop || u.lop === qt.locLop)
+    && (!qt.tt || (qt.tt === "khoa" ? u.khoa : qt.tt === "chua" ? u.vaiTro === "hs" && u.doiMatKhau && !u.khoa : true))
+    && (!tu || boDau(`${u.hoTen} ${u.email} ${u.maHS || ""}`).includes(tu)))
+    .sort((a, b) => a.hoTen.split(" ").pop().localeCompare(b.hoTen.split(" ").pop(), "vi") || a.hoTen.localeCompare(b.hoTen, "vi"));
+  if (!ds.length) { v.innerHTML = `<div class="trong">Không có tài khoản phù hợp.</div>`; return; }
+  if (tu || qt.locLop) {   // đang tìm / lọc 1 lớp: danh sách phẳng
+    v.innerHTML = `<p class="ghi-chu">${ds.length} tài khoản</p><div class="the-trang ds-gon">${ds.slice(0, 200).map(dongTkGon).join("")}</div>${ds.length > 200 ? `<p class="ghi-chu">Hiện 200/${ds.length}, gõ thêm để thu hẹp.</p>` : ""}`;
+    return;
+  }
+  const nhom = [];
+  const canBo = ds.filter(u => u.vaiTro !== "hs");
+  if (canBo.length) nhom.push(["Quản trị viên, giáo viên", canBo, ""]);
+  const theoLop = {}; ds.filter(u => u.vaiTro === "hs").forEach(u => (theoLop[u.lop || ""] ||= []).push(u));
+  Object.keys(theoLop).sort((a, b) => (a ? 0 : 1) - (b ? 0 : 1) || a.localeCompare(b, "vi")).forEach(l => nhom.push([l ? `Lớp ${l}` : "Chưa xếp lớp", theoLop[l], l]));
+  v.innerHTML = `<p class="ghi-chu">${ds.length} tài khoản · ${nhom.length} nhóm · ⏳ chưa đổi MK · 🔒 đã khóa · bấm ⋯ để thao tác</p>` + nhom.map(([ten, dsu, lop], k) => {
+    const chua = dsu.filter(u => u.vaiTro === "hs" && u.doiMatKhau && !u.khoa).length, khoa = dsu.filter(u => u.khoa).length;
+    return `<details class="the-trang nhom-tk" ${moNhomTk[ten] ?? (nhom.length <= 2) ? "open" : ""} ontoggle="moNhomTk[${JSON.stringify(ten).replace(/"/g, "&quot;")}]=this.open">
+      <summary><b>${hoa(ten)}</b><span class="dem">${dsu.length}${chua ? ` · ⏳${chua}` : ""}${khoa ? ` · 🔒${khoa}` : ""}</span>
+        ${lop ? `<a class="lien-ket nho" href="#/lop?ten=${encodeURIComponent(lop)}" onclick="event.stopPropagation()">trang lớp ›</a>` : ""}</summary>
+      <div class="ds-gon">${dsu.map(dongTkGon).join("")}</div></details>`;
+  }).join("");
+}
 // Tạo tài khoản bằng một bản Firebase phụ để QTV không bị đăng xuất
 let fbPhu = null;
 async function taoTaiKhoan({ hoTen, email, vaiTro, maHS = "", lop = "", mk }) {
@@ -494,7 +525,7 @@ async function qtDatLaiMk(uid) {
 async function qtKhoa(uid) {
   const u = qt.ds.find(x => x.uid === uid);
   if (!confirm(`${u.khoa ? "Mở khóa" : "Khóa"} tài khoản ${u.hoTen}?`)) return;
-  try { await fbDb.collection("nguoiDung").doc(uid).update({ khoa: !u.khoa }); u.khoa = !u.khoa; veQuanTri(); }
+  try { await fbDb.collection("nguoiDung").doc(uid).update({ khoa: !u.khoa }); u.khoa = !u.khoa; document.getElementById("ds-tk") ? veDsTk() : veQuanTri(); }
   catch (e) { alert(loiTk(e)); }
 }
 async function qtSuaNguoi(uid) {
@@ -510,7 +541,7 @@ async function qtSuaNguoi(uid) {
   catch (e) { alert(loiTk(e)); }
 }
 async function qtThemLop() {
-  const ten = document.getElementById("lop-ten").value.trim();
+  const ten = (prompt("Tên lớp mới (VD: K68 Hóa A):") || "").trim();
   if (!ten) return;
   if (qt.lop.some(l => l.ten === ten)) return alert("Đã có lớp này.");
   try { await fbDb.collection("lop").add({ ten, gv: [], taoLuc: Date.now() }); await taiQt(true); veQuanTri(); }
