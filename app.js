@@ -203,7 +203,7 @@ function traCuu(q) {
   // 3) Ảnh thiết bị, dụng cụ
   const anh = typeof ANH_THAT === "undefined" ? [] : Object.keys(ANH_THAT).filter(k => khop(boDau(`${ANH_THAT[k].ten} ${k}`)));
   // 4) Câu hỏi trong kho, đếm theo chương
-  const cau = demTheo(KHO.filter(c => khop(khoaTimCau(c))), c => c.chuong);
+  const cau = typeof laGVtk === "function" && laGVtk() ? demTheo(KHO.filter(c => khop(khoaTimCau(c))), c => c.chuong) : {};   // chỉ GV thấy câu hỏi
   const phanCau = CHUONG.filter(c => cau[c.id]).map(c =>
     `<a href="#/kho/${c.id}" onclick="Object.assign(locKho,{chuong:'${c.id}',dang:'',tu:${JSON.stringify(q.trim()).replace(/"/g, "&quot;")}})">
       <span class="icon">${c.icon}</span><span class="text">${c.ten}<small>${cau[c.id]} câu hỏi có “${q.trim().replace(/</g, "&lt;")}”</small></span><span class="chevron">›</span></a>`).join("");
@@ -506,7 +506,7 @@ CHUONG.forEach((c, i) => {
           ${m.than}
           <div class="bao-loi-dong">${nutBaoLoi("ly-thuyet", `${c.id}/muc-${k + 1}`, `${c.ten} · Mục ${k + 1}. ${m.tieuDe}`, `#/ly-thuyet/${c.id}?muc=${k}`)}</div>
         </section>`).join("")}
-      ${c.baiTap.length ? `<a class="btn full" href="#/bai-tap/${c.id}">Làm bài tập chương này ✏️</a>` : ""}
+      ${c.baiTap.length && typeof laGVtk === "function" && laGVtk() ? `<a class="btn full" href="#/bai-tap/${c.id}">Làm bài tập chương này ✏️</a>` : ""}
       <nav class="chuyen-chuong">
         ${truoc ? `<a href="#/ly-thuyet/${truoc.id}"><small>‹ Chương trước</small>${truoc.ten}</a>` : "<span></span>"}
         ${sau ? `<a class="sau" href="#/ly-thuyet/${sau.id}"><small>Chương sau ›</small>${sau.ten}</a>` : "<span></span>"}

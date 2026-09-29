@@ -886,3 +886,5 @@ body.dang-thi .tabbar, body.dang-thi #nut-quay-lai, body.dang-thi .nut-tk { disp
 .bang-cuon { overflow-x: auto; padding: 0; }
 .bang-cuon td small { display: block; color: var(--chu-phu); font-size: 12px; }
 .bang-cuon tr.co-roi td:nth-child(3) { color: #dc2626; font-weight: 600; }
+/* Học sinh / khách: ẩn tab Bài tập, Tạo đề */
+body:not(.la-gv) .tabbar a[data-tab="/bai-tap"], body:not(.la-gv) .tabbar a[data-tab="/tao-de"] { display: none; }

@@ -288,6 +288,27 @@ window.addEventListener("hashchange", kiemTraGiao);
 // Mở lại app giữa chừng bài được giao: tính là một lần rời app
 if (dangGiao()) { roiLuc = Date.now() - 1000; }
 
+/* ---------- Phân quyền xem: học sinh và khách chỉ xem lí thuyết (+ tra cứu bảng) và bài được giao ----------
+   Ngân hàng câu hỏi, bài tập, luyện tập, tạo đề chỉ dành cho giáo viên / QTV. */
+const LA_MUC_GV = d => /^\/(bai-tap|luyen-tap|kho|tao-de|de|giao-de|da-giao|bang-diem)(\/|$)/.test(d) || ((d === "/lam-bai" || d === "/ket-qua") && !baiLam?.giao);
+Object.keys(MAN_HINH).forEach(d => {
+  if (!LA_MUC_GV(d) && d !== "/lam-bai" && d !== "/ket-qua") return;
+  const m = MAN_HINH[d], veGoc = m.ve, sauGoc = m.sauKhiVe;
+  m.ve = () => !LA_MUC_GV(d) || laGVtk() ? veGoc() : `<div class="trong">🔒 Mục này dành cho giáo viên.<br>Học sinh xem Lí thuyết và làm bài được giao.<br><br>
+    <a class="btn" href="#/ly-thuyet">Xem lí thuyết</a> ${tk.user ? "" : `<a class="btn phu" href="#/tai-khoan">Đăng nhập</a>`}</div>`;
+  if (sauGoc) m.sauKhiVe = () => { if (!LA_MUC_GV(d) || laGVtk()) return sauGoc(); };
+  if (m.lamBai) Object.defineProperty(m, "lamBai", { get: () => !LA_MUC_GV(d) || laGVtk() });
+  if (m.khoChuong) { const kc = m.khoChuong; Object.defineProperty(m, "khoChuong", { get: () => laGVtk() ? kc : null }); }
+});
+// Trang chủ: học sinh / khách thấy ô Tra cứu và Bài được giao thay cho Tạo đề, Luyện tập
+const veTrangChuGoc = MAN_HINH["/"].ve;
+MAN_HINH["/"].ve = () => laGVtk() ? veTrangChuGoc() : veTrangChuGoc()
+  .replace(/<a href="#\/tao-de" class="o-2">[\s\S]*?<\/a>/, `<a href="#/tra-cuu" class="o-2"><img src="anh/giao-dien/o-doc-tiep.webp" alt=""><b>Tra cứu</b></a>`)
+  .replace(/<a href="#\/luyen-tap" class="o-3">[\s\S]*?<\/a>/, `<a href="${tk.user ? "#/bai-duoc-giao" : "#/tai-khoan"}" class="o-3"><img src="anh/giao-dien/o-tao-de.webp" alt=""><b>${tk.user ? "Bài được giao" : "Đăng nhập"}</b></a>`);
+const capNhatQuyen = () => document.body.classList.toggle("la-gv", laGVtk());
+if (fbAuth) fbAuth.onAuthStateChanged(() => { capNhatQuyen(); hienManHinh(); });
+capNhatQuyen();
+
 /* ---------- Lối vào: thẻ trong Tài khoản, huy hiệu ở trang chủ ---------- */
 const veTkGoc = MAN_HINH["/tai-khoan"].ve;
 MAN_HINH["/tai-khoan"].ve = () => {
