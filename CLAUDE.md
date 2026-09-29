@@ -13,7 +13,8 @@ PWA tĩnh (HTML/CSS/JS), chạy trên GitHub Pages từ nhánh `main`: https://m
 
 ## Cấu trúc
 - `noi-dung.js`: lí thuyết 15 chương (`CHUONG`, trường `lyThuyet` là HTML + KaTeX) và `TRA_CUU` (36 bảng hằng số, có nguồn).
-- `ngan-hang.js` (khai báo `NGAN_HANG`) + `ngan-hang-1…13.js` (chỉ `NGAN_HANG.push(...)`): câu đã duyệt. `ngan-hang-cho-duyet.js`: khai báo `NGAN_HANG_CHO_DUYET = []` cho câu mới; file chờ duyệt mới chỉ dùng `NGAN_HANG_CHO_DUYET.push(...)`, KHÔNG khai báo biến.
+- **Kho câu hỏi có khóa**: toàn bộ câu trắc nghiệm (`nganHang`, `choDuyet`) và bài tự luận (`baiTap` theo id chương) nằm trong `kho.bin` (gzip + AES-GCM, PBKDF2 250 000 vòng). Không còn file `ngan-hang*.js`; `noi-dung.js` để `baiTap: []`. `kho-khoa.js` khai báo `MUC_DO`, `NGAN_HANG`, `NGAN_HANG_CHO_DUYET`, giải kho nếu máy có khóa đã lưu (localStorage `khoa-kho`) rồi mới nạp phan-dang.js, app.js, tao-de.js, Firebase, tai-khoan.js, giao-bai.js.
+- Sửa/thêm câu: xin người dùng **mật khẩu kho** → `node cong-cu/kho.mjs mo <mk> <thư mục scratchpad>` → sửa `kho.json` (câu mới đưa vào `choDuyet`) → `node cong-cu/kho.mjs dong <kho.json> <mk>` → commit `kho.bin`. TUYỆT ĐỐI không commit `kho.json` hay mật khẩu.
 - `phan-dang.js`: bảng dạng đã duyệt cho từng chương; câu cũ tự đổi nhãn dạng theo mã Dxx; câu mới có `dangMoi: true`.
 - Câu chùm: các câu cùng trường `chum` và `dan` (đề dẫn chung).
 - `app.js`: màn hình, kho câu hỏi, luyện tập, tra cứu kiểu thư viện. `tao-de.js`: tạo đề nhiều mã, làm bài có hạn giờ, in PDF, chia sẻ link.

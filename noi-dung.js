@@ -566,20 +566,7 @@ const CHUONG = [
         </table>
       </div>
 `,
-    baiTap: [
-      {
-        de: "Hòa tan 4,00 g NaOH (M = 40,0 g/mol) thành 250,0 mL dung dịch. Tính nồng độ mol của dung dịch.",
-        dapAn: "n = 4,00 / 40,0 = 0,100 mol<br>C = 0,100 / 0,2500 = <b>0,400 M</b>",
-      },
-      {
-        de: "Cần lấy bao nhiêu mL dung dịch HCl 2,00 M để pha thành 500,0 mL dung dịch HCl 0,100 M?",
-        dapAn: "V<sub>1</sub> = C<sub>2</sub>V<sub>2</sub> / C<sub>1</sub> = 0,100 × 500,0 / 2,00 = <b>25,0 mL</b>",
-      },
-      {
-        de: "Phân tích 0,5000 g mẫu thu được 0,4660 g BaSO<sub>4</sub> (M = 233,39). Tính % lưu huỳnh (S = 32,06) trong mẫu.",
-        dapAn: "F = 32,06 / 233,39 = 0,13737<br>%S = 0,4660 × 0,13737 / 0,5000 × 100% = <b>12,80%</b>",
-      },
-    ],
+    baiTap: [],   // bài tự luận nằm trong kho có khóa (kho.bin)
   },
   {
     id: "thong-ke",
@@ -1146,24 +1133,7 @@ const CHUONG = [
           Lỗi hay gặp: quên nhân 2 cho CO<sub>3</sub><sup>2−</sup>, hoặc đưa hệ số 2 vào [Na<sup>+</sup>] vì công thức Na<sub>2</sub>CO<sub>3</sub>.
         </details></div>
     `,
-    baiTap: [
-      {
-        de: "Trộn các dung dịch sao cho sau khi trộn [Ag<sup>+</sup>] = [Cl<sup>−</sup>] = 1,0·10<sup>−4</sup> M. Có kết tủa AgCl (K<sub>sp</sub> = 1,8·10<sup>−10</sup>) không?",
-        dapAn: "Q = (1,0·10<sup>−4</sup>)<sup>2</sup> = 1,0·10<sup>−8</sup> &gt; K<sub>sp</sub> → <b>có kết tủa</b>.",
-      },
-      {
-        de: "HCN có K<sub>a</sub> = 4,9·10<sup>−10</sup>. Tính K<sub>b</sub> của CN<sup>−</sup>.",
-        dapAn: "K<sub>b</sub> = K<sub>w</sub>/K<sub>a</sub> = 1,0·10<sup>−14</sup>/4,9·10<sup>−10</sup> = <b>2,0·10<sup>−5</sup></b>",
-      },
-      {
-        de: "Tính độ tan của Hg<sub>2</sub>Br<sub>2</sub> (K<sub>sp</sub> = 6,4·10<sup>−23</sup>) trong nước. Biết Hg<sub>2</sub>Br<sub>2</sub> ⇌ Hg<sub>2</sub><sup>2+</sup> + 2Br<sup>−</sup>.",
-        dapAn: "K<sub>sp</sub> = S(2S)<sup>2</sup> = 4S<sup>3</sup> → S = ∛(6,4·10<sup>−23</sup>/4) = <b>2,5·10<sup>−8</sup> M</b>",
-      },
-      {
-        de: "Tính lực ion của dung dịch MgCl<sub>2</sub> 0,020 M.",
-        dapAn: "[Mg<sup>2+</sup>] = 0,020 M; [Cl<sup>−</sup>] = 0,040 M → μ = ½(0,020·2<sup>2</sup> + 0,040·1<sup>2</sup>) = <b>0,060 M</b>",
-      },
-    ],
+    baiTap: [],   // bài tự luận nằm trong kho có khóa (kho.bin)
   },
   {
     id: "axit-bazo",
@@ -1429,20 +1399,7 @@ const CHUONG = [
       </div>
       <p class="luu-y"><b>Lỗi hay gặp:</b> quên kiểm tra điều kiện C/K ≥ 400; dùng nhầm K<sub>a</sub> thay cho K<sub>b</sub> khi tính muối; với chất lưỡng tính lấy sai cặp pK<sub>a</sub> không kề nhau; làm tròn pH quá sớm (pH lấy 2 chữ số thập phân ở kết quả cuối).</p>
     `,
-    baiTap: [
-      {
-        de: "Tính pH của dung dịch CH<sub>3</sub>COOH 0,15 M (pK<sub>a</sub> = 4,75).",
-        dapAn: "K<sub>a</sub> = 10<sup>−4,75</sup> = 1,78·10<sup>−5</sup>; C/K<sub>a</sub> ≈ 8 440 ≥ 400<br>[H<sup>+</sup>] = √(1,78·10<sup>−5</sup> × 0,15) = 1,63·10<sup>−3</sup> M<br>pH = <b>2,79</b>",
-      },
-      {
-        de: "Tính pH của dung dịch NH<sub>3</sub> 0,030 M (pK<sub>a</sub> của NH<sub>4</sub><sup>+</sup> = 9,25).",
-        dapAn: "pK<sub>b</sub> = 14 − 9,25 = 4,75 → K<sub>b</sub> = 1,78·10<sup>−5</sup>; C/K<sub>b</sub> ≈ 1 690 ≥ 400<br>[OH<sup>−</sup>] = √(1,78·10<sup>−5</sup> × 0,030) = 7,30·10<sup>−4</sup> M → pOH = 3,14<br>pH = <b>10,86</b>",
-      },
-      {
-        de: "Tính pH của dung dịch đệm gồm CH<sub>3</sub>COOH 0,10 M và CH<sub>3</sub>COONa 0,20 M (pK<sub>a</sub> = 4,75).",
-        dapAn: "pH = 4,75 + lg(0,20 / 0,10) = 4,75 + 0,30 = <b>5,05</b>",
-      },
-    ],
+    baiTap: [],   // bài tự luận nằm trong kho có khóa (kho.bin)
   },
   {
     id: "chuan-do-axit-bazo",
@@ -1901,16 +1858,7 @@ const CHUONG = [
         <li><b>Chữ số có nghĩa</b>: pH giữ 2 chữ số thập phân; nồng độ và khối lượng giữ số chữ số có nghĩa của số liệu đo kém chính xác nhất (thường 4 chữ số ở nồng độ chuẩn, 3 chữ số ở kết quả cuối).</li>
       </ul>
     `,
-    baiTap: [
-      {
-        de: "Chuẩn độ 15,00 mL dung dịch HCl bằng NaOH 0,0500 M thì hết 20,70 mL. Tính nồng độ HCl.",
-        dapAn: "C<sub>HCl</sub> = 0,0500 × 20,70 / 15,00 = <b>0,0690 M</b>",
-      },
-      {
-        de: "Chuẩn độ 25,00 mL CH<sub>3</sub>COOH 0,1000 M bằng NaOH 0,1000 M (pK<sub>a</sub> = 4,75). Tính pH tại điểm tương đương và chọn chỉ thị.",
-        dapAn: "V<sub>e</sub> = 25,00 mL → C<sub>CH₃COO⁻</sub> = 2,500/50,00 = 0,05000 M<br>pOH = ½(9,25 − lg 0,05000) = 5,28 → <b>pH = 8,72</b> → chọn phenolphtalein.",
-      },
-    ],
+    baiTap: [],   // bài tự luận nằm trong kho có khóa (kho.bin)
   },
   {
     id: "edta",
@@ -2222,16 +2170,7 @@ const CHUONG = [
         <li><b>Nhầm điểm cuối</b>: màu trước điểm tương đương là màu phức M–In, sau điểm tương đương là màu In tự do. Ngược lại với chuẩn độ ngược bằng ion kim loại (vàng → đỏ tím).</li>
       </ul>
     `,
-    baiTap: [
-      {
-        de: "Chuẩn độ 40,0 mL Ca<sup>2+</sup> 0,0120 M bằng EDTA 0,0120 M ở pH 13 (α<sub>Y⁴⁻</sub> = 0,998; lg K<sub>f</sub> = 10,70). Tính pCa khi thêm 20,0 mL; 40,0 mL và 60,0 mL EDTA.",
-        dapAn: "K<sub>f</sub>' = 0,998·10<sup>10,70</sup> = 5,00·10<sup>10</sup>; V<sub>e</sub> = 40,0 mL<br>20,0 mL: [Ca<sup>2+</sup>] = 0,240 mmol/60,0 mL = 4,00·10<sup>−3</sup> M → <b>pCa = 2,40</b><br>40,0 mL: [CaY] = 0,00600 M → [Ca<sup>2+</sup>] = √(0,00600/5,00·10<sup>10</sup>) = 3,46·10<sup>−7</sup> M → <b>pCa = 6,46</b><br>60,0 mL: [EDTA]<sub>dư</sub> = 2,40·10<sup>−3</sup> M; [CaY] = 4,80·10<sup>−3</sup> M → [Ca<sup>2+</sup>] = 4,00·10<sup>−11</sup> M → <b>pCa = 10,40</b>",
-      },
-      {
-        de: "Chuẩn độ 25,00 mL dung dịch Ca<sup>2+</sup> bằng EDTA 0,01000 M thì hết 12,50 mL. Tính nồng độ Ca<sup>2+</sup>.",
-        dapAn: "Tỉ lệ 1 : 1 → C = 0,01000 × 12,50 / 25,00 = <b>5,000·10<sup>−3</sup> M</b>",
-      },
-    ],
+    baiTap: [],   // bài tự luận nằm trong kho có khóa (kho.bin)
   },
   {
     id: "ket-tua",
@@ -2533,16 +2472,7 @@ const CHUONG = [
       </ul>
 
     `,
-    baiTap: [
-      {
-        de: "Tính độ tan của AgCl (K<sub>sp</sub> = 1,8·10<sup>−10</sup>) trong nước và trong dung dịch NaCl 0,010 M.",
-        dapAn: "Trong nước: S = √(1,8·10<sup>−10</sup>) = <b>1,3·10<sup>−5</sup> M</b><br>Trong NaCl 0,010 M: S = 1,8·10<sup>−10</sup>/0,010 = <b>1,8·10<sup>−8</sup> M</b> (giảm khoảng 750 lần do ion chung)",
-      },
-      {
-        de: "Xác định Br<sup>−</sup> theo Volhard: thêm 40,00 mL AgNO<sub>3</sub> 0,1000 M vào 25,00 mL mẫu, chuẩn Ag<sup>+</sup> dư hết 12,20 mL KSCN 0,1000 M. Tính [Br<sup>−</sup>]. Có cần lọc AgBr trước khi chuẩn ngược không?",
-        dapAn: "n<sub>Br⁻</sub> = 0,1000 × 40,00 − 0,1000 × 12,20 = 2,780 mmol → [Br<sup>−</sup>] = 2,780/25,00 = <b>0,1112 M</b><br>Không cần lọc: AgBr ít tan hơn AgSCN nên không chuyển thành AgSCN.",
-      },
-    ],
+    baiTap: [],   // bài tự luận nằm trong kho có khóa (kho.bin)
   },
   {
     id: "oxi-hoa-khu",
@@ -2721,16 +2651,7 @@ const CHUONG = [
           Thực tế: thêm SCN<sup>−</sup> gần điểm cuối để giải phóng I<sub>2</sub> bị CuI hấp phụ; nếu mẫu có Fe<sup>3+</sup> thì thêm F<sup>−</sup> (NH<sub>4</sub>HF<sub>2</sub>) để che (Ví dụ 6b).
         </details></div>
     `,
-    baiTap: [
-      {
-        de: "Tính thế của cặp Fe<sup>3+</sup>/Fe<sup>2+</sup> khi [Fe<sup>3+</sup>] = 0,010 M; [Fe<sup>2+</sup>] = 0,10 M (E<sup>0</sup> = 0,77 V).",
-        dapAn: "E = 0,77 + 0,059 × lg(0,010/0,10) = 0,77 − 0,059 = <b>0,71 V</b>",
-      },
-      {
-        de: "Chuẩn độ 20,00 mL dung dịch Fe<sup>2+</sup> bằng KMnO<sub>4</sub> 0,02000 M trong môi trường acid thì hết 15,00 mL. Tính nồng độ Fe<sup>2+</sup>.",
-        dapAn: "n<sub>MnO₄⁻</sub> = 0,02000 × 0,01500 = 3,000·10<sup>−4</sup> mol<br>n<sub>Fe²⁺</sub> = 5 × 3,000·10<sup>−4</sup> = 1,500·10<sup>−3</sup> mol<br>C = 1,500·10<sup>−3</sup> / 0,02000 = <b>0,07500 M</b>",
-      },
-    ],
+    baiTap: [],   // bài tự luận nằm trong kho có khóa (kho.bin)
   },
   {
     id: "hieu-chuan",
@@ -2873,16 +2794,7 @@ const CHUONG = [
         </table>
       </div>
     `,
-    baiTap: [
-      {
-        de: "Đường chuẩn A = 0,0525x + 0,0021 (x: ppm). Mẫu pha loãng 10 lần có A = 0,367. Tính nồng độ trong mẫu ban đầu.",
-        dapAn: "x = (0,367 − 0,0021)/0,0525 = 6,95 ppm → mẫu ban đầu: 6,95 × 10 = <b>69,5 ppm</b>",
-      },
-      {
-        de: "Mẫu có tín hiệu 0,180. Thêm chuẩn một lần (thể tích thêm không đáng kể) làm nồng độ tăng 2,00 ppm thì tín hiệu là 0,300. Tính nồng độ mẫu.",
-        dapAn: "C<sub>x</sub>/(C<sub>x</sub> + 2,00) = 0,180/0,300 → C<sub>x</sub> = <b>3,00 ppm</b>",
-      },
-    ],
+    baiTap: [],   // bài tự luận nằm trong kho có khóa (kho.bin)
   },
   {
     id: "uv-vis",
@@ -3224,16 +3136,7 @@ const CHUONG = [
 
       <p><b>Ứng dụng</b>: xác định Se trong hạt ngũ cốc. Mẫu được phá bằng HNO<sub>3</sub> trong lò vi sóng; Se(VI) được khử về Se(IV) bằng NH<sub>2</sub>OH; Se(IV) phản ứng với thuốc thử tạo dẫn xuất huỳnh quang; kích thích ở 378 nm, đo phát xạ ở 518 nm; đường chuẩn tuyến tính đến khoảng 0,1 µg/mL.</p>
 `,
-    baiTap: [
-      {
-        de: "Dung dịch có %T = 25,0% trong cuvet 1,00 cm. Tính A. Nếu ε = 8,20·10<sup>3</sup> M<sup>−1</sup>cm<sup>−1</sup>, tính nồng độ.",
-        dapAn: "A = 2 − lg 25,0 = 0,602<br>C = 0,602/(8,20·10<sup>3</sup> × 1,00) = <b>7,34·10<sup>−5</sup> M</b>",
-      },
-      {
-        de: "Pha loãng dung dịch ở bài trên 2 lần rồi đo trong cuvet 1,00 cm. Tính A và %T mới.",
-        dapAn: "A tỉ lệ thuận với C: A = 0,602/2 = <b>0,301</b> → %T = 100·10<sup>−0,301</sup> = <b>50,0%</b>.<br>%T không tăng gấp đôi theo kiểu tuyến tính: T mới = √(T cũ) = √0,250 = 0,500.",
-      },
-    ],
+    baiTap: [],   // bài tự luận nằm trong kho có khóa (kho.bin)
   },
   {
     id: "quang-nguyen-tu",
@@ -3474,16 +3377,7 @@ const CHUONG = [
           (c) Rất nhiều nguyên tố, mức ppb, cần tỉ lệ đồng vị → <b>ICP-MS</b> (không kĩ thuật nào khác trong bảng cho đồng thời cả độ nhạy ppb–ppt lẫn thông tin đồng vị).
         </details></div>
 `,
-    baiTap: [
-      {
-        de: "Vì sao khi xác định Ca bằng F-AAS trong mẫu có nhiều phosphate, người ta thêm LaCl<sub>3</sub> vào cả mẫu và chuẩn?",
-        dapAn: "PO<sub>4</sub><sup>3−</sup> tạo với Ca hợp chất bền, khó nguyên tử hóa, làm tín hiệu Ca giảm (cản trở hóa học). La<sup>3+</sup> là <b>chất giải phóng</b>: nó kết hợp với phosphate mạnh hơn, trả Ca về dạng dễ nguyên tử hóa. Thêm vào cả chuẩn để nền của chuẩn và mẫu giống nhau.",
-      },
-      {
-        de: "Tín hiệu của phương pháp nào (AAS hay AES) nhạy hơn với dao động nhiệt độ của ngọn lửa? Giải thích ngắn.",
-        dapAn: "<b>AES</b>. Số nguyên tử kích thích tăng theo hàm mũ với nhiệt độ (phân bố Boltzmann), tăng 10 K có thể làm tín hiệu thay đổi vài %. AAS đo nguyên tử ở trạng thái cơ bản, chiếm gần 100% nên hầu như không đổi.",
-      },
-    ],
+    baiTap: [],   // bài tự luận nằm trong kho có khóa (kho.bin)
   },
   {
     id: "dien-hoa",
@@ -3718,16 +3612,7 @@ const CHUONG = [
 
       <p class="luu-y"><b>Lỗi hay gặp:</b> quên đổi dấu số hạng logarit khi tính cho anion (thế <i>giảm</i> khi nồng độ anion <i>tăng</i>, ngược chiều với cation); dùng thẳng độ dốc lí thuyết 59,16 mV thay vì độ dốc thực vừa hiệu chuẩn bằng 2 đệm; quên thêm TISAB, hoặc thêm không cùng lượng vào mẫu và chuẩn khi đo ISE; đổi thế giữa các điện cực so sánh sai dấu (cộng thay vì trừ, hoặc nhầm chiều SHE → SCE); nhầm anot luôn là cực âm — thực ra anot là nơi xảy ra oxi hóa, dấu điện cực còn tùy pin Galvani hay bình điện phân; trong chuẩn độ điện thế bằng đạo hàm bậc 2, tưởng điểm tương đương là nơi Δ²E/ΔV² <i>lớn nhất</i> (thực ra là nơi nó <i>đổi dấu</i>, tức bằng 0 — thường phải nội suy giữa hai điểm đo có Δ²E/ΔV² trái dấu).</p>
 `,
-    baiTap: [
-      {
-        de: "Điện cực Ca<sup>2+</sup> (ISE) cho E = 0,215 V trong chuẩn Ca<sup>2+</sup> 1,00·10<sup>−3</sup> M. Mẫu (cùng lực ion) cho E = 0,186 V. Tính [Ca<sup>2+</sup>].",
-        dapAn: "z = +2: E = K + (0,059/2) lg[Ca<sup>2+</sup>]<br>lg[Ca<sup>2+</sup>] = −3,00 + (0,186 − 0,215)/0,0295 = −3,98 → [Ca<sup>2+</sup>] = <b>1,0·10<sup>−4</sup> M</b>",
-      },
-      {
-        de: "Máy đo pH được hiệu chuẩn bằng đệm pH 7,00 (E = −0,012 V). Mẫu cho E = 0,165 V. Tính pH mẫu.",
-        dapAn: "pH = 7,00 + (−0,012 − 0,165)/0,059 = 7,00 − 3,00 = <b>4,00</b>",
-      },
-    ],
+    baiTap: [],   // bài tự luận nằm trong kho có khóa (kho.bin)
   },
   {
     id: "sac-ki",
@@ -4008,16 +3893,7 @@ const CHUONG = [
         <li><b>Kết luận từ t<sub>R</sub> đơn độc</b>: hai chất khác nhau có thể cùng t<sub>R</sub>; định tính chắc chắn cần thêm chuẩn vào mẫu hoặc đầu dò cho thông tin cấu trúc.</li>
       </ul>
     `,
-    baiTap: [
-      {
-        de: "Trên một cột, t<sub>m</sub> = 1,20 min; chất X có t<sub>R</sub> = 6,00 min; chất Y có t<sub>R</sub> = 6,72 min. Tính k của X, k của Y và α.",
-        dapAn: "k<sub>X</sub> = (6,00 − 1,20)/1,20 = <b>4,00</b>; k<sub>Y</sub> = (6,72 − 1,20)/1,20 = <b>4,60</b>; α = 4,60/4,00 = <b>1,15</b>",
-      },
-      {
-        de: "Một pic có t<sub>R</sub> = 8,40 min và độ rộng nửa chiều cao 0,21 min trên cột dài 15 cm. Tính N và H.",
-        dapAn: "N = 5,55 × (8,40/0,21)<sup>2</sup> = <b>8,9·10<sup>3</sup></b>; H = 150 mm/8 880 = <b>0,017 mm</b>",
-      },
-    ],
+    baiTap: [],   // bài tự luận nằm trong kho có khóa (kho.bin)
   },
   {
     id: "gc-hplc",
@@ -4275,16 +4151,7 @@ const CHUONG = [
 
       <p class="luu-y"><b>Lỗi hay gặp:</b> nhầm C18 là pha tĩnh phân cực; nhầm detector UV là đo phát xạ; chọn splitless cho mẫu đậm đặc (quá tải cột, pic doãng) hoặc chọn split cho phân tích vết (mất độ nhạy); quên hệ số pha loãng hoặc thể tích định mức khi đổi nồng độ đo được trên đường chuẩn sang % khối lượng trong mẫu ban đầu; dự đoán thứ tự rửa giải GC chỉ dựa vào nhiệt độ sôi mà quên xét độ phân cực khi pha tĩnh phân cực mạnh (Carbowax, cyanopropyl); nhầm SEC — phân tử <i>lớn</i> ra trước chứ không phải phân tử nhỏ.</p>
 `,
-    baiTap: [
-      {
-        de: "Cần xác định dư lượng thuốc trừ sâu clo hữu cơ ở mức vết trong rau. Chọn kĩ thuật sắc kí, chế độ tiêm và detector phù hợp.",
-        dapAn: "<b>GC</b> (thuốc trừ sâu clo hữu cơ bay hơi được, bền nhiệt), tiêm <b>không chia dòng</b> (phân tích vết), detector <b>ECD</b> (rất nhạy với hợp chất halogen) hoặc GC-MS để khẳng định.",
-      },
-      {
-        de: "Trên cột C18, pha động nước – methanol 50 : 50, thứ tự rửa giải của phenol, toluen và acid benzoic (ở pH 2,5) là gì? Nếu tăng methanol lên 70% thì thời gian lưu thay đổi thế nào?",
-        dapAn: "Pha đảo: chất phân cực (log P nhỏ) ra trước: phenol (log P = 1,46) &lt; acid benzoic (1,87) &lt; toluen (2,73). Ở pH 2,5 (pK<sub>a</sub> = 4,19) acid benzoic khoảng 98% ở dạng phân tử. Thứ tự: <b>phenol → acid benzoic → toluen</b>. Tăng methanol làm pha động mạnh hơn: <b>mọi thời gian lưu đều giảm</b>.",
-      },
-    ],
+    baiTap: [],   // bài tự luận nằm trong kho có khóa (kho.bin)
   },
 ];
 

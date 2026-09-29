@@ -48,6 +48,12 @@ service cloud.firestore {
       allow delete: if laGV();
     }
 
+    // Đáp án của đề giao: học sinh trong lớp chỉ đọc được sau giờ đóng đề
+    match /dapAnDe/{id} {
+      allow read: if laGV() || (laHS() && resource.data.lop == toi().lop && bayGio() > resource.data.dongLuc);
+      allow write: if laGV();
+    }
+
     // Báo lỗi nội dung
     match /baoLoi/{id} {
       allow create: if dn();

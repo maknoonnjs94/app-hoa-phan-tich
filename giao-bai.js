@@ -62,8 +62,15 @@ async function luuGiaoDe(idDe) {
   if (!(phut >= 5)) { loi.textContent = "Thời gian làm bài tối thiểu 5 phút."; return; }
   loi.textContent = "Đang giao…";
   try {
-    await fbDb.collection("deGiao").add({ ten: g("gd-ten").trim() || de.ten, lop, gvUid: tk.user.uid, gvTen: tk.hoSo.hoTen,
-      cau: de.cau, phut, moLuc, dongLuc, soLanRoi: Math.max(0, Number(g("gd-roi")) || 0), taoLuc: Date.now() });
+    const cau = de.cau.map(id => CAU_THEO_ID[id]).filter(Boolean);
+    const noiDung = cau.map(c => ({ id: c.id, chuong: c.chuong, dang: c.dang || "", mucDo: c.mucDo, de: c.de, phuongAn: c.phuongAn, ...(c.chum ? { chum: c.chum, dan: c.dan || "" } : {}) }));
+    const ref = fbDb.collection("deGiao").doc(), lo = fbDb.batch();
+    lo.set(ref, { ten: g("gd-ten").trim() || de.ten, lop, gvUid: tk.user.uid, gvTen: tk.hoSo.hoTen,
+      cau: cau.map(c => c.id), noiDung, phut, moLuc, dongLuc, soLanRoi: Math.max(0, Number(g("gd-roi")) || 0), taoLuc: Date.now() });
+    // Đáp án + lời giải để riêng: học sinh chỉ đọc được sau giờ đóng đề (luật Firestore kiểm tra)
+    lo.set(fbDb.collection("dapAnDe").doc(ref.id), { lop, dongLuc, gvUid: tk.user.uid,
+      cau: Object.fromEntries(cau.map(c => [c.id, { dapAn: c.dapAn, loiGiai: c.loiGiai || "" }])) });
+    await lo.commit();
     alert(`Đã giao đề cho lớp ${lop}.`); location.hash = "#/da-giao";
   } catch (e) { loi.textContent = loiTk(e); }
 }
@@ -102,6 +109,7 @@ MAN_HINH["/bang-diem"] = {
     try {
       const id = thamSoHash().get("id");
       const d = (await fbDb.collection("deGiao").doc(id).get()).data();
+      await taiDapAn(d, id);
       const [hs, nop] = await Promise.all([
         fbDb.collection("nguoiDung").where("lop", "==", d.lop).where("vaiTro", "==", "hs").get(),
         fbDb.collection("baiNop").where("deGiaoId", "==", id).get()]);
@@ -139,7 +147,7 @@ function xuatBangDiem() {
 }
 async function xoaGiaoDe(id) {
   if (!confirm("Xóa bài giao này? Học sinh sẽ không thấy bài nữa (bài đã nộp vẫn còn trong máy chủ).")) return;
-  try { await fbDb.collection("deGiao").doc(id).delete(); location.hash = "#/da-giao"; } catch (e) { alert(loiTk(e)); }
+  try { await fbDb.collection("deGiao").doc(id).delete(); await fbDb.collection("dapAnDe").doc(id).delete().catch(() => {}); location.hash = "#/da-giao"; } catch (e) { alert(loiTk(e)); }
 }
 
 /* ================= HỌC SINH ================= */
@@ -160,10 +168,12 @@ MAN_HINH["/bai-duoc-giao"] = {
     const v = document.getElementById("vung-bg"); if (!v) return;
     try {
       const ds = await taiBaiGiaoHS(), bg = Date.now();
+      await Promise.all(ds.filter(d => d.bai && bg > d.dongLuc).map(d => taiDapAn(d, d.id).catch(() => {})));
       v.innerHTML = ds.map(d => {
         const b = d.bai, mo = bg >= d.moLuc && bg <= d.dongLuc;
         const xem = b && bg > d.dongLuc ? ` <a class="btn phu" href="#/xem-dap-an?id=${d.id}">📄 Xem đáp án</a>` : "";
-        const tt = b?.daNop || (b && bg > d.dongLuc) ? `<span class="nhan-vt vt-hs">${b.daNop ? "Đã nộp" : "Hết hạn"} · ${diemVN(chamBai(b).diem)} điểm</span>${xem}`
+        const tt = b && bg > d.dongLuc ? `<span class="nhan-vt vt-hs">${b.daNop ? "Đã nộp" : "Hết hạn"} · ${diemVN(chamBai(b).diem)} điểm</span>${xem}`
+          : b?.daNop ? `<span class="nhan-vt vt-hs">Đã nộp · điểm có sau ${gioVN(d.dongLuc)}</span>`
           : bg < d.moLuc ? `<span class="nhan-vt">Mở lúc ${gioVN(d.moLuc)}</span>` : bg > d.dongLuc ? `<span class="nhan-vt">Đã hết hạn</span>`
           : `<button class="btn" onclick="batDauBaiGiao('${d.id}')">${b ? "Làm tiếp" : "Làm bài"}</button>`;
         return `<div class="the-trang dong-tk"><div><b>${hoa(d.ten)}</b><small>${d.cau.length} câu · ${d.phut} phút · GV ${hoa(d.gvTen)}</small>
@@ -174,6 +184,15 @@ MAN_HINH["/bai-duoc-giao"] = {
 };
 
 const refBai = id => fbDb.collection("baiNop").doc(`${id}_${tk.user.uid}`);
+const napNoiDung = nd => (nd || []).forEach(c => { if (!CAU_THEO_ID[c.id]) CAU_THEO_ID[c.id] = { ...c }; });
+// Tải đáp án của một đề giao (GV: luôn được; HS: sau giờ đóng) và gắn vào câu để chấm, xem lời giải
+async function taiDapAn(d, id) {
+  napNoiDung(d.noiDung);
+  const s = await fbDb.collection("dapAnDe").doc(id).get();
+  if (s.exists) Object.entries(s.data().cau).forEach(([k, v]) => { if (CAU_THEO_ID[k]) Object.assign(CAU_THEO_ID[k], v); });
+  return s.exists;
+}
+if (baiLam?.giao?.noiDung) napNoiDung(baiLam.giao.noiDung);
 async function batDauBaiGiao(id) {
   const d = (dsGiaoHS || []).find(x => x.id === id); if (!d) return;
   if (!confirm(`Bắt đầu "${d.ten}"?\n\n• Thời gian: ${d.phut} phút, tính từ lúc bắt đầu.\n• Bài làm toàn màn hình. Rời app (chuyển app, về màn hình chính, khóa máy) sẽ bị ghi lại; quá ${d.soLanRoi} lần bài tự nộp.\n• Mỗi lúc chỉ làm trên một máy.`)) return;
@@ -184,6 +203,8 @@ async function batDauBaiGiao(id) {
     const phien = baiLam?.giao?.id === id ? baiLam.giao.phien : Math.random().toString(36).slice(2);
     if (cu && cu.phien !== phien && Date.now() - (cu.capNhat || 0) < 60000)
       return alert("Bài này đang được làm trên một máy khác. Chỉ được làm trên một máy. Nếu đó là máy của em, hãy đóng app ở máy kia, đợi 1 phút rồi thử lại.");
+    if (!d.noiDung && !d.cau.every(x => CAU_THEO_ID[x])) return alert("Đề này được giao theo cách cũ. Nhờ giáo viên giao lại.");
+    napNoiDung(d.noiDung);
     let cau = cu?.cau;
     if (!cau) { const m = taoMaDe(d.cau, 1, true, true, hatTu(tk.user.uid + id))[0]; cau = m.thuTu.map(i => ({ id: d.cau[i], thuTu: m.pa[i] })); }
     const batDau = cu?.batDau || Date.now(), roi = cu?.roi || [];
@@ -192,7 +213,7 @@ async function batDauBaiGiao(id) {
     await refBai(id).set(bai);
     baiLam = { cau, chon: bai.chon, cheDo: "thi", viTri: 0, batDau, ketThuc: null,
       hanGio: Math.max(1000, Math.min(d.phut * 60000, d.dongLuc - batDau)),
-      giao: { id, ten: d.ten, soLanRoi: d.soLanRoi, phien, roi, daGui: false } };
+      giao: { id, ten: d.ten, soLanRoi: d.soLanRoi, dongLuc: d.dongLuc, noiDung: d.noiDung, phien, roi, daGui: false } };
     luuBaiLam(); location.hash = "#/lam-bai";
   } catch (e) { alert(loiTk(e)); }
 }
@@ -219,9 +240,8 @@ chonPhuongAn = function (j) { chonGoc(j); if (dangGiao()) { clearTimeout(henDong
 async function guiBaiGiao() {
   if (!baiLam?.giao || !baiLam.ketThuc || baiLam.giao.daGui) return;
   const lyDo = baiLam.giao.lyDo || (baiLam.ketThuc - baiLam.batDau >= baiLam.hanGio - 1500 ? "het-gio" : "");
-  const { dung, diem } = chamBai(baiLam);
   try {
-    await refBai(baiLam.giao.id).update({ chon: baiLam.chon, roi: baiLam.giao.roi, daNop: true, nopLuc: baiLam.ketThuc, lyDo, dung, diem, capNhat: Date.now() });
+    await refBai(baiLam.giao.id).update({ chon: baiLam.chon, roi: baiLam.giao.roi, daNop: true, nopLuc: baiLam.ketThuc, lyDo, capNhat: Date.now() });
     baiLam.giao.daGui = true; luuBaiLam(); if (location.hash.startsWith("#/ket-qua")) hienManHinh();
   } catch (e) { console.warn("nộp", e); setTimeout(guiBaiGiao, 15000); }
 }
@@ -230,13 +250,13 @@ async function guiBaiGiao() {
 const veKetQuaGoc = MAN_HINH["/ket-qua"].ve;
 MAN_HINH["/ket-qua"].ve = () => {
   if (!baiLam?.giao || !baiLam.ketThuc) return veKetQuaGoc();
-  const { dung, diem } = chamBai(baiLam), g = baiLam.giao;
+  const g = baiLam.giao;
   return `<div class="the-trang form-tk" style="text-align:center">
     <h3>${hoa(g.ten)}</h3>
     <p>${g.daGui ? "✅ Đã nộp bài lên máy chủ." : "⏳ Đang gửi bài… Giữ kết nối mạng, đừng đóng app."}</p>
     ${g.lyDo === "roi-app" ? `<p class="loi-tk">Bài tự nộp vì rời app quá ${g.soLanRoi} lần.</p>` : g.lyDo === "gv-thu" ? `<p class="loi-tk">Giáo viên đã thu bài.</p>` : ""}
-    <p class="ghi-chu">Đáp án và lời giải sẽ mở trong mục Bài được giao sau khi đề đóng.</p>
-    <p style="font-size:34px;margin:4px 0"><b>${diemVN(diem)}</b> điểm</p><p>${dung}/${baiLam.cau.length} câu đúng · rời app ${g.roi.length} lần</p>
+    <p>Đã làm ${baiLam.chon.filter(x => x !== null).length}/${baiLam.cau.length} câu · rời app ${g.roi.length} lần</p>
+    <p class="ghi-chu"><b>Điểm, đáp án và lời giải</b> mở trong mục Bài được giao sau khi đề đóng${g.dongLuc ? ` (${gioVN(g.dongLuc)})` : ""}.</p>
     <a class="btn full" href="#/bai-duoc-giao">Về danh sách bài</a></div>`;
 };
 
@@ -250,6 +270,7 @@ MAN_HINH["/xem-dap-an"] = {
     try {
       const id = thamSoHash().get("id"), d = (await fbDb.collection("deGiao").doc(id).get()).data();
       if (Date.now() <= d.dongLuc) { v.innerHTML = `<div class="trong">Đáp án mở sau ${gioVN(d.dongLuc)}.</div>`; return; }
+      await taiDapAn(d, id);
       const snap = await refBai(id).get();
       if (!snap.exists) { v.innerHTML = `<div class="trong">Em chưa làm bài này.</div>`; return; }
       const b = snap.data(), { dung, diem } = chamBai(b);
@@ -286,6 +307,7 @@ MAN_HINH["/theo-doi"] = {
     huyTheoDoi?.();
     try {
       const id = thamSoHash().get("id"), d = (await fbDb.collection("deGiao").doc(id).get()).data();
+      await taiDapAn(d, id);
       const hs = (await fbDb.collection("nguoiDung").where("lop", "==", d.lop).where("vaiTro", "==", "hs").get()).docs
         .map(x => ({ uid: x.id, ...x.data() })).sort((a, b) => a.hoTen.split(" ").pop().localeCompare(b.hoTen.split(" ").pop(), "vi"));
       let lanDau = true;
@@ -388,15 +410,19 @@ if (dangGiao()) { roiLuc = Date.now() - 1000; roiLoai = "mo-lai"; }
 /* ---------- Phân quyền xem: học sinh và khách chỉ xem lí thuyết (+ tra cứu bảng) và bài được giao ----------
    Ngân hàng câu hỏi, bài tập, luyện tập, tạo đề chỉ dành cho giáo viên / QTV. */
 const LA_MUC_GV = d => /^\/(bai-tap|luyen-tap|kho|tao-de|de|giao-de|da-giao|bang-diem|theo-doi)(\/|$)/.test(d) || ((d === "/lam-bai" || d === "/ket-qua") && !baiLam?.giao);
+// Các mục cần kho câu hỏi đã mở khóa trên máy này
+const CAN_KHO = d => /^\/(bai-tap|luyen-tap|kho|tao-de|de|giao-de)(\/|$)/.test(d) || ((d === "/lam-bai" || d === "/ket-qua") && !baiLam?.giao);
+const duocVao = d => (!LA_MUC_GV(d) || laGVtk()) && (!CAN_KHO(d) || KHO_KHOA.mo);
 Object.keys(MAN_HINH).forEach(d => {
   if (!LA_MUC_GV(d) && d !== "/lam-bai" && d !== "/ket-qua") return;
   const m = MAN_HINH[d], veGoc = m.ve, sauGoc = m.sauKhiVe;
-  m.ve = () => !LA_MUC_GV(d) || laGVtk() ? veGoc() : `<div class="trong">🔒 Mục này dành cho giáo viên.<br>Học sinh xem Lí thuyết và làm bài được giao.<br><br>
-    <a class="btn" href="#/ly-thuyet">Xem lí thuyết</a> ${tk.user ? "" : `<a class="btn phu" href="#/tai-khoan">Đăng nhập</a>`}</div>`;
-  if (sauGoc) m.sauKhiVe = () => { if (!LA_MUC_GV(d) || laGVtk()) return sauGoc(); };
-  if (m.lamBai) Object.defineProperty(m, "lamBai", { get: () => !LA_MUC_GV(d) || laGVtk() });
-  if (m.khoChuong) { const kc = m.khoChuong; Object.defineProperty(m, "khoChuong", { get: () => laGVtk() ? kc : null }); }
+  m.ve = () => duocVao(d) ? veGoc() : LA_MUC_GV(d) && !laGVtk() ? `<div class="trong">🔒 Mục này dành cho giáo viên.<br>Học sinh xem Lí thuyết và làm bài được giao.<br><br>
+    <a class="btn" href="#/ly-thuyet">Xem lí thuyết</a> ${tk.user ? "" : `<a class="btn phu" href="#/tai-khoan">Đăng nhập</a>`}</div>` : oMoKho();
+  if (sauGoc) m.sauKhiVe = () => { if (duocVao(d)) return sauGoc(); };
+  if (m.lamBai) Object.defineProperty(m, "lamBai", { get: () => duocVao(d) });
+  if (m.khoChuong) { const kc = m.khoChuong; Object.defineProperty(m, "khoChuong", { get: () => duocVao(d) ? kc : null }); }
 });
+MAN_HINH["/kho-cau-hoi"] = { tieuDe: "Kho câu hỏi", manHinhCon: true, ve: () => !laGVtk() ? `<div class="trong">Chỉ giáo viên mới mở được kho.</div>` : KHO_KHOA.mo ? `<div class="trong">Kho đã mở trên máy này (${NGAN_HANG.length} câu).</div>` : oMoKho() };
 // Trang chủ: học sinh / khách thấy ô Tra cứu và Bài được giao thay cho Tạo đề, Luyện tập
 const veTrangChuGoc = MAN_HINH["/"].ve;
 MAN_HINH["/"].ve = () => laGVtk() ? veTrangChuGoc() : veTrangChuGoc()
@@ -412,7 +438,10 @@ MAN_HINH["/tai-khoan"].ve = () => {
   let h = veTkGoc();
   const the = (href, icon, ten, mo) => `<a class="the-luyen" href="${href}"><span class="o-icon">${icon}</span><span class="text"><b>${ten}</b><small>${mo}</small></span><span class="chevron">›</span></a>`;
   if (laHStk()) h = h.replace(`<a class="the-luyen the-kho" href="#/doi-mat-khau">`, the("#/bai-duoc-giao", "📝", "Bài được giao", "Bài kiểm tra giáo viên giao cho lớp") + `<a class="the-luyen the-kho" href="#/doi-mat-khau">`);
-  if (laGVtk()) h = h.replace(`<a class="the-luyen the-kho" href="#/doi-mat-khau">`, the("#/da-giao", "📤", "Bài đã giao và bảng điểm", "Theo dõi học sinh làm bài, tải bảng điểm") + `<a class="the-luyen the-kho" href="#/doi-mat-khau">`);
+  if (laGVtk()) h = h.replace(`<a class="the-luyen the-kho" href="#/doi-mat-khau">`, the("#/da-giao", "📤", "Bài đã giao và bảng điểm", "Theo dõi học sinh làm bài, tải bảng điểm")
+    + (KHO_KHOA.mo ? `<button class="the-luyen the-kho nut-the" onclick="khoaKhoTrenMay()"><span class="o-icon">🔓</span><span class="text"><b>Kho câu hỏi đã mở trên máy này</b><small>${NGAN_HANG.length} câu · bấm để khóa lại (khi dùng máy chung)</small></span></button>`
+      : the("#/kho-cau-hoi", "🔐", "Mở kho câu hỏi", "Nhập mật khẩu kho để dùng Tạo đề, Kho câu hỏi, Bài tập"))
+    + `<a class="the-luyen the-kho" href="#/doi-mat-khau">`);
   return h;
 };
 async function ganHuyHieuTrangChu() {

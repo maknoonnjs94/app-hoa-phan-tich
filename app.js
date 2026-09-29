@@ -1071,7 +1071,8 @@ function dangChayNhuApp() {
 
 // Service worker: lưu sẵn giao diện để mở được cả khi mất mạng
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js"));
+  const dangKiSW = () => navigator.serviceWorker.register("sw.js");
+  document.readyState === "complete" ? dangKiSW() : window.addEventListener("load", dangKiSW);
 }
 
 /* ================= Gợi ý "Cài app" ================= */

@@ -897,3 +897,4 @@ body:not(.la-gv) .tabbar a[data-tab="/bai-tap"], body:not(.la-gv) .tabbar a[data
 @keyframes nhay-do { 50% { background: #fecaca; } }
 .nhat-ki-roi td { font-size: 12px; color: #dc2626; padding-top: 0 !important; }
 @media print { .tabbar, .topbar, .nut-bao-loi, .nut-tk { display: none !important; } }
+button.the-luyen { width: 100%; border: 0; font: inherit; text-align: left; cursor: pointer; }
