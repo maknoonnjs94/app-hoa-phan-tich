@@ -1,7 +1,7 @@
 /* Service worker: lưu sẵn các file giao diện để app mở được khi mất mạng.
    MỖI LẦN SỬA CODE: tăng số phiên bản bên dưới (v1 → v2 → v3...)
    để điện thoại đã cài app nhận bản mới. */
-const PHIEN_BAN = "app-dien-thoai-v65";
+const PHIEN_BAN = "app-dien-thoai-v66";
 
 const FILE_GIAO_DIEN = [
   "./",
@@ -93,6 +93,10 @@ const FILE_GIAO_DIEN = [
   "vendor/katex/fonts/KaTeX_Typewriter-Regular.woff2",
   "app.js",
   "tao-de.js",
+  "tai-khoan.js",
+  "vendor/firebase/firebase-app-compat.js",
+  "vendor/firebase/firebase-auth-compat.js",
+  "vendor/firebase/firebase-firestore-compat.js",
   "manifest.webmanifest",
   "icons/icon-192.png",
   "icons/icon-512.png",
