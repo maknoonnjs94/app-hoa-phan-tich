@@ -261,12 +261,7 @@ async function veQuanTri() {
       <p class="loi-tk" id="tk-loi"></p>
       <button class="btn full" onclick="qtThemMot()">Tạo tài khoản</button></div>`;
   } else if (qt.tab === "nhap") {
-    vung.innerHTML = `<div class="the-trang form-tk">
-      <p class="ghi-chu">Mở file Excel danh sách lớp, bôi đen 3 cột theo đúng thứ tự <b>Họ tên · Email · Mã HS</b> (không lấy dòng tiêu đề), chép rồi dán vào ô dưới. Mật khẩu đầu của mỗi em = mã HS (từ 6 kí tự).</p>
-      <label>Lớp${chonLop("nhap-lop", "— Chưa xếp lớp —")}</label>
-      <textarea id="nhap-ds" rows="8" placeholder="Nguyễn Văn An&#9;an.nguyen@truong.edu.vn&#9;2251001"></textarea>
-      <button class="btn full" onclick="qtNhapDs()">Tạo tài khoản cho cả danh sách</button>
-      <pre class="nhat-ki" id="nhat-ki" hidden></pre></div>`;
+    veNhapDs(vung);
   } else {
     const gv = qt.ds.filter(u => u.vaiTro !== "hs");
     vung.innerHTML = `<div class="the-trang form-tk">
@@ -299,20 +294,122 @@ async function qtThemMot() {
   try { await taoTaiKhoan({ hoTen, email, vaiTro, maHS, lop: vaiTro === "hs" ? g("them-lop") : "", mk }); loi.textContent = `Đã tạo tài khoản cho ${hoTen}.`; document.getElementById("them-ten").value = document.getElementById("them-email").value = document.getElementById("them-ma").value = ""; }
   catch (e) { loi.textContent = loiTk(e); }
 }
-async function qtNhapDs() {
-  const lop = document.getElementById("nhap-lop").value, ki = document.getElementById("nhat-ki");
-  const dong = document.getElementById("nhap-ds").value.split(/\r?\n/).map(d => d.split(/\t|;|,(?=\s*\S+@)|,(?=\s*\w+\s*$)/).map(x => x.trim())).filter(d => d.join("").length);
-  if (!dong.length) return alert("Chưa dán danh sách.");
-  if (!confirm(`Tạo ${dong.length} tài khoản học sinh${lop ? " cho lớp " + lop : ""}?`)) return;
-  ki.hidden = false; ki.textContent = ""; let ok = 0;
-  for (const [hoTen, email, maHS] of dong) {
-    const ghi = s => { ki.textContent += s + "\n"; ki.scrollTop = ki.scrollHeight; };
-    if (!hoTen || !email || !/@/.test(email) || !maHS) { ghi(`✗ ${hoTen || "?"}: thiếu cột (cần Họ tên · Email · Mã HS)`); continue; }
-    if (maHS.length < 6) { ghi(`✗ ${hoTen}: mã HS dưới 6 kí tự`); continue; }
-    try { await taoTaiKhoan({ hoTen, email, vaiTro: "hs", maHS, lop, mk: maHS }); ok++; ghi(`✓ ${hoTen}`); }
-    catch (e) { ghi(`✗ ${hoTen}: ${loiTk(e)}`); }
+/* ---------- Nhập danh sách lớp từ file Excel / CSV (hoặc dán từ Excel) ----------
+   Tự nhận cột theo tiêu đề (Họ tên | Họ đệm + Tên, Email, Mã SV/MSSV, Lớp), xem trước, báo lỗi từng dòng. */
+const nhap = { dong: null, cot: {}, tenTep: "", lopChung: "" };
+const COT_NHAP = { hoTen: "Họ và tên", ho: "Họ đệm", ten: "Tên", email: "Email", maHS: "Mã SV / MSSV", lop: "Lớp" };
+function napThuVienXlsx() {
+  if (window.XLSX) return Promise.resolve();
+  return new Promise((ok, loi) => { const s = document.createElement("script"); s.src = "vendor/xlsx/xlsx.core.min.js"; s.onload = ok; s.onerror = () => loi(new Error("Không tải được thư viện đọc Excel")); document.head.append(s); });
+}
+async function docTepDs(tep) {
+  if (!tep) return;
+  try {
+    await napThuVienXlsx();
+    const wb = XLSX.read(await tep.arrayBuffer(), { type: "array" });
+    const ws = wb.Sheets[wb.SheetNames[0]];
+    nhan(XLSX.utils.sheet_to_json(ws, { header: 1, raw: false, defval: "" }), tep.name + (wb.SheetNames.length > 1 ? ` (trang "${wb.SheetNames[0]}")` : ""));
+  } catch (e) { alert("Không đọc được file: " + (e.message || e)); }
+}
+function docDanDs() {
+  const chu = document.getElementById("nhap-dan").value;
+  nhan(chu.split(/\r?\n/).map(d => d.split("\t")), "Dán từ Excel");
+}
+// Nhận bảng thô → tìm dòng tiêu đề, đoán cột
+function nhan(bang, ten) {
+  bang = bang.map(r => r.map(x => String(x ?? "").trim())).filter(r => r.some(Boolean));
+  if (!bang.length) return alert("File không có dữ liệu.");
+  const chuan = s => boDau(s).replace(/[^a-z0-9@ ]/g, " ").replace(/\s+/g, " ").trim();
+  const doan = h => { const x = chuan(h);
+    if (/e ?mail/.test(x)) return "email";
+    if (/^(mssv|msv|mshs|ma ?sv|ma sinh vien|ma hs|ma hoc sinh|ma so( sinh vien| hoc sinh)?|student id|id)$/.test(x) || /^ma (sv|hs|so)/.test(x)) return "maHS";
+    if (/^(ho (va |&)?ten|hoten|full ?name|ten sinh vien|ten hoc sinh|sinh vien|hoc sinh)$/.test(x)) return "hoTen";
+    if (/^(ho|ho dem|ho lot|ho va ten dem)$/.test(x)) return "ho";
+    if (/^(ten|first ?name)$/.test(x)) return "ten";
+    if (/^(lop|ma lop|lop hoc|class|lop sinh hoat)$/.test(x)) return "lop";
+    return null; };
+  let iTieuDe = -1, cot = {};
+  for (let i = 0; i < Math.min(10, bang.length); i++) {
+    const c = {}; bang[i].forEach((h, j) => { const k = doan(h); if (k && c[k] === undefined) c[k] = j; });
+    if (Object.keys(c).length >= 2) { iTieuDe = i; cot = c; break; }
   }
-  ki.textContent += `\nXong: tạo được ${ok}/${dong.length} tài khoản.`;
+  let du = bang.slice(iTieuDe + 1);
+  if (iTieuDe < 0) {   // không có tiêu đề: đoán theo nội dung
+    const soCot = Math.max(...bang.map(r => r.length)), tl = (j, f) => bang.filter(r => f(r[j] || "")).length / bang.length;
+    for (let j = 0; j < soCot; j++) {
+      if (cot.email === undefined && tl(j, v => /@/.test(v)) > .6) cot.email = j;
+      else if (cot.maHS === undefined && tl(j, v => /^[A-Za-z]{0,4}\d{5,}$/.test(v)) > .6) cot.maHS = j;
+      else if (cot.hoTen === undefined && tl(j, v => /\S+\s+\S+/.test(v) && !/@/.test(v)) > .6) cot.hoTen = j;
+    }
+    du = bang;
+  }
+  Object.assign(nhap, { dong: du, cot, tenTep: ten, tieuDe: iTieuDe >= 0 ? bang[iTieuDe] : null });
+  veNhapDs(document.getElementById("vung-qt"));
+}
+function hangNhap() {
+  const c = nhap.cot, g = (r, k) => c[k] === undefined ? "" : (r[c[k]] || "").trim();
+  const daCo = new Set(qt.ds.map(u => u.email.toLowerCase())), trongTep = {};
+  return nhap.dong.map((r, i) => {
+    const hoTen = g(r, "hoTen") || [g(r, "ho"), g(r, "ten")].filter(Boolean).join(" ");
+    const email = g(r, "email").toLowerCase(), maHS = g(r, "maHS").replace(/\s+/g, ""), lop = g(r, "lop") || nhap.lopChung;
+    let loi = "";
+    if (!hoTen) loi = "thiếu họ tên"; else if (!email) loi = "thiếu email"; else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) loi = "email sai";
+    else if (!maHS) loi = "thiếu mã"; else if (maHS.length < 6) loi = "mã dưới 6 kí tự (không làm mật khẩu được)";
+    else if (trongTep[email] !== undefined) loi = `trùng email với dòng ${trongTep[email] + 1}`;
+    else if (daCo.has(email)) loi = "đã có tài khoản";
+    if (email && trongTep[email] === undefined) trongTep[email] = i;
+    return { hoTen, email, maHS, lop, loi };
+  });
+}
+function veNhapDs(vung) {
+  if (!vung) return;
+  const cotChon = k => { const n = Math.max(...nhap.dong.map(r => r.length), nhap.tieuDe?.length || 0);
+    return `<label>${COT_NHAP[k]}<select onchange="nhap.cot['${k}']=this.value===''?undefined:Number(this.value);veNhapDs(document.getElementById('vung-qt'))">
+      <option value="">— không có —</option>${[...Array(n)].map((_, j) => `<option value="${j}" ${nhap.cot[k] === j ? "selected" : ""}>Cột ${String.fromCharCode(65 + j)}${nhap.tieuDe?.[j] ? " · " + hoa(nhap.tieuDe[j]) : ` · ${hoa((nhap.dong[0]?.[j] || "").slice(0, 18))}`}</option>`).join("")}</select></label>`; };
+  if (!nhap.dong) {
+    vung.innerHTML = `<div class="the-trang form-tk">
+      <p><b>Nhập danh sách lớp</b></p>
+      <p class="ghi-chu">Chọn file <b>Excel (.xlsx, .xls)</b> hoặc <b>CSV</b>. Google Sheets: Tệp → Tải xuống → Microsoft Excel (.xlsx). File cần có các cột <b>Họ tên</b> (hoặc Họ đệm + Tên), <b>Email</b>, <b>Mã SV</b>; cột <b>Lớp</b> nếu có. Mật khẩu đầu của mỗi em = mã SV.</p>
+      <label class="btn full">📂 Chọn file danh sách<input type="file" accept=".xlsx,.xls,.csv,.ods" hidden onchange="docTepDs(this.files[0])"></label>
+      <details><summary>Hoặc dán từ Excel</summary>
+        <textarea id="nhap-dan" rows="6" placeholder="Bôi đen bảng trong Excel (kể cả dòng tiêu đề), chép rồi dán vào đây"></textarea>
+        <button class="btn full phu" onclick="docDanDs()">Đọc bảng đã dán</button></details></div>`;
+    return;
+  }
+  const ds = hangNhap(), tot = ds.filter(x => !x.loi), coCotLop = nhap.cot.lop !== undefined;
+  const lopMoi = [...new Set(tot.map(x => x.lop).filter(l => l && !qt.lop.some(y => y.ten === l)))];
+  vung.innerHTML = `<div class="the-trang form-tk">
+      <p><b>${hoa(nhap.tenTep)}</b> · ${ds.length} dòng · <span class="vt-hs nhan-vt">${tot.length} hợp lệ</span> ${ds.length - tot.length ? `<span class="nhan-vt vt-qtv">${ds.length - tot.length} lỗi / bỏ qua</span>` : ""}</p>
+      <details ${Object.keys(nhap.cot).length < 3 ? "open" : ""}><summary>Cột đã nhận (bấm để sửa nếu sai)</summary>
+        <div class="luoi-cot">${Object.keys(COT_NHAP).map(cotChon).join("")}</div></details>
+      ${coCotLop ? `<p class="ghi-chu">Lớp lấy theo cột Lớp trong file${lopMoi.length ? `; sẽ tạo lớp mới: <b>${lopMoi.map(hoa).join(", ")}</b>` : ""}.</p>`
+        : `<label>Lớp cho cả danh sách<input list="ds-lop" value="${hoa(nhap.lopChung)}" placeholder="Chọn hoặc gõ tên lớp mới" onchange="nhap.lopChung=this.value.trim();veNhapDs(document.getElementById('vung-qt'))">
+          <datalist id="ds-lop">${qt.lop.map(l => `<option value="${hoa(l.ten)}">`).join("")}</datalist></label>`}
+      <div class="bang-cuon"><table class="bang bang-nhap"><thead><tr><th>#</th><th></th><th>Họ tên</th><th>Email</th><th>Mã</th><th>Lớp</th></tr></thead><tbody>
+        ${ds.map((x, i) => `<tr class="${x.loi ? "loi" : ""}"><td>${i + 1}</td><td>${x.loi ? "✗ " + x.loi : "✓"}</td><td>${hoa(x.hoTen)}</td><td>${hoa(x.email)}</td><td>${hoa(x.maHS)}</td><td>${hoa(x.lop)}</td></tr>`).join("")}
+      </tbody></table></div>
+      <div class="nut-hang"><button class="btn phu" onclick="nhap.dong=null;veNhapDs(document.getElementById('vung-qt'))">Chọn file khác</button>
+        <button class="btn" onclick="taoTuDs()" ${tot.length ? "" : "disabled"}>Tạo ${tot.length} tài khoản</button></div>
+      <pre class="nhat-ki" id="nhat-ki" hidden></pre></div>`;
+}
+async function taoTuDs() {
+  const tot = hangNhap().filter(x => !x.loi), ki = document.getElementById("nhat-ki");
+  if (!confirm(`Tạo ${tot.length} tài khoản học sinh? Mật khẩu đầu = mã SV.`)) return;
+  ki.hidden = false; ki.textContent = "";
+  const ghi = s => { ki.textContent += s + "\n"; ki.scrollTop = ki.scrollHeight; };
+  for (const ten of [...new Set(tot.map(x => x.lop).filter(l => l && !qt.lop.some(y => y.ten === l)))]) {
+    try { await fbDb.collection("lop").add({ ten, gv: [], taoLuc: Date.now() }); ghi(`+ Tạo lớp ${ten}`); } catch (e) { ghi(`✗ Lớp ${ten}: ${loiTk(e)}`); }
+  }
+  await taiQt(true);
+  let ok = 0;
+  for (const x of tot) {
+    try { await taoTaiKhoan({ hoTen: x.hoTen, email: x.email, vaiTro: "hs", maHS: x.maHS, lop: x.lop, mk: x.maHS }); ok++; ghi(`✓ ${x.hoTen}`); }
+    catch (e) {
+      ghi(`✗ ${x.hoTen}: ${loiTk(e)}`);
+      if (e.code === "auth/too-many-requests") { ghi("\n⏸ Firebase tạm chặn vì tạo quá nhiều tài khoản trong thời gian ngắn. Khoảng 1 giờ sau mở lại file này và bấm Tạo tiếp — các em đã có tài khoản sẽ tự được bỏ qua."); break; }
+    }
+  }
+  ghi(`\nXong: tạo được ${ok}/${tot.length} tài khoản.`);
 }
 async function qtDatLaiMk(uid) {
   const u = qt.ds.find(x => x.uid === uid);

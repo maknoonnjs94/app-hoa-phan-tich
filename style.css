@@ -973,3 +973,22 @@ button.the-luyen { width: 100%; border: 0; font: inherit; text-align: left; curs
 .dong-tk.co-anh > div:nth-child(2), .dong-td .giua { flex: 1; min-width: 0; }
 .dong-tk.co-anh { flex-wrap: wrap; } .dong-tk.co-anh .nut-hang { width: 100%; }
 .ten-anh { display: flex; gap: 8px; align-items: center; }
+
+/* ===== Nhập danh sách, bài làm, sổ điểm ===== */
+.luoi-cot { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+.luoi-cot label { font-size: 13px; } .luoi-cot select { font-size: 13px !important; padding: 7px 8px !important; }
+.bang-nhap { font-size: 13px; } .bang-nhap td { white-space: nowrap; }
+.bang-nhap tr.loi td { color: #b91c1c; background: color-mix(in srgb, #ef4444 8%, transparent); }
+.hang-diem { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: center; }
+.hang-diem > div { border: 1px solid var(--vien); border-radius: 12px; padding: 8px 4px; display: flex; flex-direction: column; }
+.hang-diem small { font-size: 12px; color: var(--chu-phu); } .hang-diem b { font-size: 22px; }
+.hang-diem .noi { border-color: var(--mau-chinh); background: color-mix(in srgb, var(--mau-chinh) 10%, transparent); }
+.vp-ds { color: #dc2626; }
+.so-diem table { font-size: 13px; } .so-diem th, .so-diem td { text-align: center; white-space: nowrap; }
+.so-diem th:first-child, .so-diem td:first-child { position: sticky; left: 0; background: var(--the); text-align: left; z-index: 1; }
+.so-diem th small { display: block; font-weight: 400; }
+.so-diem td.yeu, .o-mau.yeu { color: #b91c1c; background: color-mix(in srgb, #ef4444 10%, transparent); }
+.so-diem td.gioi, .o-mau.gioi { color: #15803d; background: color-mix(in srgb, #22c55e 12%, transparent); }
+.so-diem td.vang { color: var(--chu-phu); font-style: italic; }
+.o-mau { padding: 1px 6px; border-radius: 6px; font-size: 12px; }
+.ds-bai-sd { margin: 6px 0 0; padding-left: 20px; font-size: 14px; }

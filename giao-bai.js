@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v77";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v78";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -100,6 +100,8 @@ const chamBai = b => {
   const dung = (b.cau || []).filter((c, i) => CAU_THEO_ID[c.id] && b.chon[i] === dapAnHienThi(c)).length;
   return { dung, diem: b.cau?.length ? Math.round(dung / b.cau.length * 100) / 10 : 0 };
 };
+// Điểm cuối cùng: điểm GV sửa > điểm đã chốt > điểm tính từ bài làm
+const diemCuoi = b => b.diemSua ?? b.diemChot ?? chamBai(b).diem;
 let bangDiemHienTai = null;
 MAN_HINH["/bang-diem"] = {
   tieuDe: "Bảng điểm",
@@ -116,19 +118,20 @@ MAN_HINH["/bang-diem"] = {
         fbDb.collection("baiNop").where("deGiaoId", "==", id).get()]);
       const theoUid = Object.fromEntries(nop.docs.map(x => [x.data().uid, x.data()]));
       const dong = hs.docs.map(x => ({ uid: x.id, ...x.data() })).sort((a, b) => a.hoTen.split(" ").pop().localeCompare(b.hoTen.split(" ").pop(), "vi"))
-        .map(u => { const b = theoUid[u.uid]; return { u, b, ...(b ? chamBai(b) : {}) }; });
-      bangDiemHienTai = { d, dong };
+        .map(u => { const b = theoUid[u.uid]; return { u, b, ...(b ? { ...chamBai(b), diem: diemCuoi(b) } : {}) }; });
+      bangDiemHienTai = { d, dong, id };
       const daNop = dong.filter(x => x.b?.daNop).length;
       const LY_DO = { "roi-app": "tự nộp: rời app quá số lần", "het-gio": "hết giờ", "gv-thu": "giáo viên thu bài" };
       const quaHan = Date.now() > d.dongLuc;
       v.innerHTML = `<div class="the-trang"><b>${hoa(d.ten)}</b><small class="ghi-chu"> · Lớp ${hoa(d.lop)}</small>
-        <p class="ghi-chu">${gioVN(d.moLuc)} → ${gioVN(d.dongLuc)} · ${d.phut} phút · tối đa ${d.soLanRoi} lần rời app<br>Đã nộp ${daNop}/${dong.length}</p>
-        <div class="nut-hang">${quaHan ? "" : `<a class="btn" href="#/theo-doi?id=${id}">👁 Theo dõi trực tiếp</a>`}<button class="btn" onclick="xuatBangDiem()">⬇ Tải Excel</button>
+        <p class="ghi-chu">${gioVN(d.moLuc)} → ${gioVN(d.dongLuc)} · ${d.phut} phút · tối đa ${d.soLanRoi} lần rời app<br>Đã nộp ${daNop}/${dong.length}${d.daChot ? ` · <b>đã chốt điểm ${gioVN(d.chotLuc)}</b>` : " · chưa chốt điểm"}</p>
+        <p class="ghi-chu">Bấm tên học sinh để xem bài làm, sửa điểm.</p>
+        <div class="nut-hang">${quaHan ? "" : `<a class="btn" href="#/theo-doi?id=${id}">👁 Theo dõi trực tiếp</a>`}<button class="btn" onclick="chotDiem('${id}')">🔒 ${d.daChot ? "Chốt lại điểm" : "Chốt điểm"}</button><button class="btn phu" onclick="xuatBangDiem()">⬇ Tải Excel</button><a class="btn phu" href="#/so-diem?lop=${encodeURIComponent(d.lop)}">📒 Sổ điểm lớp</a>
           <button class="btn phu" onclick="xoaGiaoDe('${id}')">🗑 Xóa bài giao</button></div></div>
         <div class="the-trang bang-cuon"><table class="bang"><thead><tr><th>Học sinh</th><th>Điểm</th><th>Rời app</th><th>Trạng thái</th></tr></thead><tbody>
         ${dong.map(({ u, b, dung, diem }) => `<tr class="${b?.roi?.length ? "co-roi" : ""}">
-          <td><span class="ten-anh">${anhDaiDien(u, 28)}<span>${hoa(u.hoTen)}<small>${hoa(u.maHS || "")}</small></span></span></td>
-          <td>${b?.daNop || (b && quaHan) ? `<b>${diemVN(diem)}</b><small>${dung}/${b.cau.length}</small>` : "–"}</td>
+          <td>${b ? `<a class="ten-anh lien-ket" href="#/bai-lam?de=${id}&uid=${u.uid}">` : `<span class="ten-anh">`}${anhDaiDien(u, 28)}<span>${hoa(u.hoTen)}<small>${hoa(u.maHS || "")}</small></span>${b ? "</a>" : "</span>"}</td>
+          <td>${b?.daNop || (b && quaHan) ? `<b>${diemVN(diem)}</b><small>${dung}/${b.cau.length}${b.diemSua != null ? " · đã sửa" : ""}</small>` : "–"}</td>
           <td>${b ? `${b.roi?.length || 0} lần<small>${b.roi?.length ? b.roi.reduce((t, r) => t + r.giay, 0) + " giây" : ""}</small>` : "–"}</td>
           <td>${!b ? "Chưa làm" : b.daNop ? `Nộp ${gioVN(b.nopLuc)}${LY_DO[b.lyDo] ? `<small>${LY_DO[b.lyDo]}</small>` : ""}` : quaHan ? "Hết hạn, chưa bấm nộp<small>chấm theo bài đã làm</small>" : "Đang làm"}</td></tr>
           ${b?.roi?.length ? `<tr class="nhat-ki-roi"><td colspan="4">${b.roi.map(moTaRoi).join("<br>")}</td></tr>` : ""}`).join("")}
@@ -138,11 +141,11 @@ MAN_HINH["/bang-diem"] = {
 };
 function xuatBangDiem() {
   const { d, dong } = bangDiemHienTai, o = s => `"${String(s ?? "").replace(/"/g, '""')}"`;
-  const hang = [["STT", "Họ tên", "Mã HS", "Email", "Số câu đúng", "Tổng số câu", "Điểm", "Số lần rời app", "Tổng giây rời app", "Nộp lúc", "Ghi chú", "Chi tiết vi phạm"],
+  const hang = [["STT", "Họ tên", "Mã HS", "Email", "Số câu đúng", "Tổng số câu", "Điểm", "Số lần rời app", "Tổng giây rời app", "Nộp lúc", "Ghi chú", "Chi tiết vi phạm", "Ghi chú điểm của GV"],
     ...dong.map(({ u, b, dung, diem }, i) => [i + 1, u.hoTen, u.maHS, u.email, b?.daNop || (b && Date.now() > d.dongLuc) ? dung : "", b?.cau?.length || "", b?.daNop || (b && Date.now() > d.dongLuc) ? diemVN(diem) : "",
       b ? b.roi?.length || 0 : "", b ? (b.roi || []).reduce((t, r) => t + r.giay, 0) : "", b?.nopLuc ? new Date(b.nopLuc).toLocaleString("vi-VN") : "",
       !b ? "Chưa làm" : !b.daNop ? "Chưa nộp" : b.lyDo === "roi-app" ? "Tự nộp do rời app" : b.lyDo === "het-gio" ? "Hết giờ" : b.lyDo === "gv-thu" ? "GV thu bài" : "",
-      (b?.roi || []).map(moTaRoi).join(" | ")])];
+      (b?.roi || []).map(moTaRoi).join(" | "), b?.ghiChuDiem || ""])];
   const blob = new Blob(["﻿" + hang.map(h => h.map(o).join(";")).join("\r\n")], { type: "text/csv;charset=utf-8" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `Bang diem - ${d.ten} - ${d.lop}.csv`; a.click();
 }
@@ -173,7 +176,7 @@ MAN_HINH["/bai-duoc-giao"] = {
       v.innerHTML = ds.map(d => {
         const b = d.bai, mo = bg >= d.moLuc && bg <= d.dongLuc;
         const xem = b && bg > d.dongLuc ? ` <a class="btn phu" href="#/xem-dap-an?id=${d.id}">📄 Xem đáp án</a>` : "";
-        const tt = b && bg > d.dongLuc ? `<span class="nhan-vt vt-hs">${b.daNop ? "Đã nộp" : "Hết hạn"} · ${diemVN(chamBai(b).diem)} điểm</span>${xem}`
+        const tt = b && (bg > d.dongLuc || d.daChot) ? `<span class="nhan-vt vt-hs">${d.daChot ? "Điểm chính thức" : b.daNop ? "Đã nộp" : "Hết hạn"} · ${diemVN(diemCuoi(b))} điểm</span>${b.ghiChuDiem ? `<small class="ghi-chu">GV ghi: ${hoa(b.ghiChuDiem)}</small>` : ""}${xem}`
           : b?.daNop ? `<span class="nhan-vt vt-hs">Đã nộp · điểm có sau ${gioVN(d.dongLuc)}</span>`
           : bg < d.moLuc ? `<span class="nhan-vt">Mở lúc ${gioVN(d.moLuc)}</span>` : bg > d.dongLuc ? `<span class="nhan-vt">Đã hết hạn</span>`
           : `<button class="btn" onclick="batDauBaiGiao('${d.id}')">${b ? "Làm tiếp" : "Làm bài"}</button>`;
@@ -274,7 +277,7 @@ MAN_HINH["/xem-dap-an"] = {
       await taiDapAn(d, id);
       const snap = await refBai(id).get();
       if (!snap.exists) { v.innerHTML = `<div class="trong">Em chưa làm bài này.</div>`; return; }
-      const b = snap.data(), { dung, diem } = chamBai(b);
+      const b = snap.data(), { dung } = chamBai(b), diem = diemCuoi(b);
       v.innerHTML = lamToan(`<div class="the-trang"><b>${hoa(d.ten)}</b><p>${hoa(b.hoTen)} · ${dung}/${b.cau.length} câu đúng · <b>${diemVN(diem)} điểm</b></p>
         <button class="btn phu" onclick="window.print()">🖨 In / lưu PDF</button></div>
         ${b.cau.map((c, i) => {

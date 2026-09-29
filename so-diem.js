@@ -1,0 +1,132 @@
+/* =========================================================
+   KẾT QUẢ CHẤM BÀI CỦA GIÁO VIÊN
+   - Chốt điểm: lưu điểm cố định vào baiNop (diemChot, dung), đánh dấu deGiao.daChot.
+   - Sửa điểm từng em: baiNop.diemSua + ghiChuDiem (điểm cuối = diemSua ?? diemChot ?? điểm tính).
+   - Xem bài làm từng em: câu chọn, đáp án, lời giải, nhật kí vi phạm.
+   - Sổ điểm lớp: học sinh × các bài đã giao, điểm trung bình, tải Excel.
+   ========================================================= */
+
+async function chotDiem(id) {
+  const { d, dong } = bangDiemHienTai;
+  const coBai = dong.filter(x => x.b);
+  if (!confirm(`${d.daChot ? "Chốt lại" : "Chốt"} điểm cho ${coBai.length} bài làm?\n\n• Điểm được lưu cố định trên máy chủ; học sinh thấy "điểm chính thức".\n• Điểm đã sửa tay vẫn giữ nguyên.\n• Em chưa làm bài không có điểm (ghi "vắng").`)) return;
+  try {
+    const lo = fbDb.batch();
+    coBai.forEach(({ u, b }) => { const { dung, diem } = chamBai(b); lo.update(fbDb.collection("baiNop").doc(`${id}_${u.uid}`), { diemChot: diem, dung }); });
+    lo.update(fbDb.collection("deGiao").doc(id), { daChot: true, chotLuc: Date.now() });
+    await lo.commit();
+    alert("Đã chốt điểm."); hienManHinh();
+  } catch (e) { alert(loiTk(e)); }
+}
+
+/* ---------- Xem bài làm một học sinh + sửa điểm ---------- */
+MAN_HINH["/bai-lam"] = {
+  tieuDe: "Bài làm",
+  manHinhCon: true,
+  ve: () => laGVtk() ? `<div id="vung-bl"><div class="trong">Đang tải…</div></div>` : `<div class="trong">Chỉ giáo viên mới xem được mục này.</div>`,
+  sauKhiVe: async () => {
+    const v = document.getElementById("vung-bl"); if (!v || !laGVtk()) return;
+    try {
+      const ts = thamSoHash(), id = ts.get("de"), uid = ts.get("uid");
+      const [sd, sb, su] = await Promise.all([fbDb.collection("deGiao").doc(id).get(), fbDb.collection("baiNop").doc(`${id}_${uid}`).get(), fbDb.collection("nguoiDung").doc(uid).get()]);
+      const d = sd.data(), b = sb.data(), u = su.exists ? su.data() : { hoTen: b?.hoTen || "?" };
+      if (!b) { v.innerHTML = `<div class="trong">Học sinh này chưa làm bài.</div>`; return; }
+      await taiDapAn(d, id);
+      const { dung, diem } = chamBai(b);
+      v.innerHTML = lamToan(`
+        <div class="the-trang the-tk">${anhDaiDien(u, 52)}<div><b>${hoa(u.hoTen)}</b><small>${hoa(u.maHS || "")} · Lớp ${hoa(d.lop)}</small>
+          <small>${hoa(d.ten)} · ${b.daNop ? "nộp " + gioVN(b.nopLuc) : "chưa nộp"}</small></div></div>
+        <div class="the-trang form-tk">
+          <div class="hang-diem"><div><small>Điểm tính</small><b>${diemVN(diem)}</b><small>${dung}/${b.cau.length} câu</small></div>
+            <div><small>Điểm chốt</small><b>${b.diemChot != null ? diemVN(b.diemChot) : "–"}</b></div>
+            <div class="noi"><small>Điểm cuối</small><b>${diemVN(diemCuoi(b))}</b></div></div>
+          <label>Sửa điểm (bỏ trống = dùng điểm tính / điểm chốt)<input id="sua-diem" inputmode="decimal" value="${b.diemSua != null ? diemVN(b.diemSua) : ""}" placeholder="VD: 7,5"></label>
+          <label>Ghi chú cho học sinh<input id="ghi-diem" value="${hoa(b.ghiChuDiem || "")}" placeholder="VD: −1 điểm do rời app 3 lần"></label>
+          <p class="loi-tk" id="tk-loi"></p>
+          <button class="btn full" onclick="luuSuaDiem('${id}','${uid}')">Lưu điểm</button></div>
+        ${b.roi?.length ? `<div class="the-trang"><b>⚠️ ${b.roi.length} lần vi phạm</b><p class="ghi-chu vp-ds">${b.roi.map(moTaRoi).join("<br>")}</p></div>` : ""}
+        ${b.cau.map((c, i) => {
+          const goc = CAU_THEO_ID[c.id]; if (!goc) return "";
+          const chon = b.chon[i], dungVT = dapAnHienThi(c), tt = chon === null ? "bo" : chon === dungVT ? "dung" : "sai";
+          return `<details class="the-trang xem-lai ${tt}"><summary><span class="dau">${tt === "dung" ? "✓" : tt === "sai" ? "✗" : "–"}</span>
+              <span>Câu ${i + 1}: ${chon === null ? "bỏ trống" : "chọn " + CHU[chon]} · đáp án ${CHU[dungVT]}</span></summary>
+            ${goc.dan ? `<div class="de-dan">${goc.dan}</div>` : ""}<div class="de-cau">${goc.de}</div>
+            <div class="phuong-an">${c.thuTu.map((k, j) => `<button disabled class="${j === dungVT ? "dung" : j === chon ? "sai" : "mo"}"><span class="chu">${CHU[j]}</span><span class="nd">${goc.phuongAn[k]}</span></button>`).join("")}</div>
+            <div class="loi-giai"><b>Lời giải</b><div>${goc.loiGiai || ""}</div></div></details>`;
+        }).join("")}`);
+    } catch (e) { v.innerHTML = `<div class="trong">${loiTk(e)}</div>`; }
+  },
+};
+async function luuSuaDiem(id, uid) {
+  const chu = document.getElementById("sua-diem").value.trim().replace(",", "."), loi = document.getElementById("tk-loi");
+  const so = chu === "" ? null : Number(chu);
+  if (so !== null && !(so >= 0 && so <= 10)) { loi.textContent = "Điểm phải từ 0 đến 10."; return; }
+  loi.textContent = "Đang lưu…";
+  try {
+    await fbDb.collection("baiNop").doc(`${id}_${uid}`).update({ diemSua: so === null ? firebase.firestore.FieldValue.delete() : Math.round(so * 100) / 100,
+      ghiChuDiem: document.getElementById("ghi-diem").value.trim() });
+    loi.textContent = "Đã lưu."; hienManHinh();
+  } catch (e) { loi.textContent = loiTk(e); }
+}
+
+/* ---------- Sổ điểm lớp ---------- */
+let soDiemHienTai = null;
+MAN_HINH["/so-diem"] = {
+  tieuDe: "Sổ điểm lớp",
+  manHinhCon: true,
+  ve: () => laGVtk() ? `<div class="the-trang form-tk"><label>Lớp<select id="sd-lop" onchange="location.hash='#/so-diem?lop='+encodeURIComponent(this.value)"><option>Đang tải…</option></select></label></div>
+    <div id="vung-sd"></div>` : `<div class="trong">Chỉ giáo viên mới xem được mục này.</div>`,
+  sauKhiVe: async () => {
+    const o = document.getElementById("sd-lop"), v = document.getElementById("vung-sd"); if (!o || !laGVtk()) return;
+    try {
+      const dsLop = (await fbDb.collection("lop").get()).docs.map(x => x.data())
+        .filter(l => tk.hoSo.vaiTro === "qtv" || (l.gv || []).includes(tk.user.uid)).map(l => l.ten).sort((a, b) => a.localeCompare(b, "vi"));
+      const lop = thamSoHash().get("lop") || dsLop[0] || "";
+      o.innerHTML = dsLop.length ? dsLop.map(l => `<option ${l === lop ? "selected" : ""}>${hoa(l)}</option>`).join("") : `<option value="">Chưa được gán lớp nào</option>`;
+      if (!lop) return;
+      v.innerHTML = `<div class="trong">Đang tải sổ điểm…</div>`;
+      const [hs, giao, nop] = await Promise.all([
+        fbDb.collection("nguoiDung").where("lop", "==", lop).where("vaiTro", "==", "hs").get(),
+        fbDb.collection("deGiao").where("lop", "==", lop).get(),
+        fbDb.collection("baiNop").where("lop", "==", lop).get()]);
+      const de = giao.docs.map(x => ({ id: x.id, ...x.data() })).sort((a, b) => a.moLuc - b.moLuc);
+      await Promise.all(de.map(d => taiDapAn(d, d.id).catch(() => {})));
+      const bai = {}; nop.docs.forEach(x => { const b = x.data(); bai[`${b.deGiaoId}_${b.uid}`] = b; });
+      const dsHS = hs.docs.map(x => ({ uid: x.id, ...x.data() })).sort((a, b) => a.hoTen.split(" ").pop().localeCompare(b.hoTen.split(" ").pop(), "vi") || a.hoTen.localeCompare(b.hoTen, "vi"));
+      const bg = Date.now();
+      const o1 = (d, u) => { const b = bai[`${d.id}_${u.uid}`]; if (!b) return bg > d.dongLuc ? { chu: "vắng", lop: "vang" } : { chu: "–" };
+        if (!b.daNop && bg <= d.dongLuc) return { chu: "đang làm" };
+        const s = diemCuoi(b); return { so: s, chu: diemVN(s), lop: s < 5 ? "yeu" : s >= 8 ? "gioi" : "", link: `#/bai-lam?de=${d.id}&uid=${u.uid}`, sua: b.diemSua != null, vp: b.roi?.length }; };
+      const hang = dsHS.map(u => { const o = de.map(d => o1(d, u)), co = o.filter(x => x.so != null);
+        return { u, o, tb: co.length ? Math.round(co.reduce((t, x) => t + x.so, 0) / co.length * 100) / 100 : null, vang: o.filter(x => x.lop === "vang").length }; });
+      soDiemHienTai = { lop, de, hang };
+      v.innerHTML = de.length ? `<div class="nut-hang"><button class="btn" onclick="xuatSoDiem()">⬇ Tải sổ điểm Excel</button></div>
+        <p class="ghi-chu">${dsHS.length} học sinh · ${de.length} bài · bấm vào điểm để xem bài làm, sửa điểm. <span class="o-mau yeu">dưới 5</span> <span class="o-mau gioi">từ 8</span> ✎ đã sửa · ⚠ có vi phạm</p>
+        <div class="the-trang bang-cuon so-diem"><table class="bang"><thead><tr><th>Học sinh</th>${de.map((d, k) => `<th title="${hoa(d.ten)}"><a class="lien-ket" href="#/bang-diem?id=${d.id}">Bài ${k + 1}</a><small>${new Date(d.moLuc).toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit" })}${d.daChot ? " 🔒" : ""}</small></th>`).join("")}<th>TB</th></tr></thead><tbody>
+          ${hang.map(h => `<tr><td><span class="ten-anh">${anhDaiDien(h.u, 24)}<span>${hoa(h.u.hoTen)}<small>${hoa(h.u.maHS || "")}</small></span></span></td>
+            ${h.o.map(x => `<td class="${x.lop || ""}">${x.link ? `<a class="lien-ket" href="${x.link}">${x.chu}${x.sua ? "✎" : ""}${x.vp ? "⚠" : ""}</a>` : x.chu}</td>`).join("")}
+            <td><b>${h.tb != null ? diemVN(h.tb) : "–"}</b>${h.vang ? `<small>vắng ${h.vang}</small>` : ""}</td></tr>`).join("")}
+        </tbody></table></div>
+        <div class="the-trang"><b>Các bài</b><ol class="ds-bai-sd">${de.map(d => `<li><a class="lien-ket" href="#/bang-diem?id=${d.id}">${hoa(d.ten)}</a> <small class="ghi-chu">${gioVN(d.moLuc)}${d.daChot ? " · đã chốt" : ""}</small></li>`).join("")}</ol></div>`
+        : `<div class="trong">Lớp ${hoa(lop)} chưa có bài nào được giao.</div>`;
+    } catch (e) { (v || o).innerHTML = `<div class="trong">${loiTk(e)}</div>`; }
+  },
+};
+function xuatSoDiem() {
+  const { lop, de, hang } = soDiemHienTai, o = s => `"${String(s ?? "").replace(/"/g, '""')}"`;
+  const dong = [["STT", "Họ tên", "Mã SV", "Email", ...de.map((d, k) => `Bài ${k + 1}: ${d.ten}`), "Điểm TB", "Số bài vắng"],
+    ...hang.map((h, i) => [i + 1, h.u.hoTen, h.u.maHS, h.u.email, ...h.o.map(x => x.so != null ? diemVN(x.so) : x.chu === "–" ? "" : x.chu), h.tb != null ? diemVN(h.tb) : "", h.vang])];
+  const blob = new Blob(["﻿" + dong.map(r => r.map(o).join(";")).join("\r\n")], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `So diem - ${lop}.csv`; a.click();
+}
+
+/* ---------- Lối vào sổ điểm ---------- */
+const veTkSoDiem = MAN_HINH["/tai-khoan"].ve;
+MAN_HINH["/tai-khoan"].ve = () => {
+  const h = veTkSoDiem();
+  return laGVtk() ? h.replace(`<a class="the-luyen" href="#/da-giao">`, `<a class="the-luyen" href="#/so-diem"><span class="o-icon">📒</span><span class="text"><b>Sổ điểm lớp</b><small>Điểm mọi bài theo lớp, điểm trung bình, tải Excel</small></span><span class="chevron">›</span></a><a class="the-luyen" href="#/da-giao">`) : h;
+};
+const veDaGiaoGoc = MAN_HINH["/da-giao"].ve;
+MAN_HINH["/da-giao"].ve = () => laGVtk() ? `<a class="the-luyen" href="#/so-diem"><span class="o-icon">📒</span><span class="text"><b>Sổ điểm lớp</b><small>Tổng hợp điểm mọi bài theo lớp</small></span><span class="chevron">›</span></a>` + veDaGiaoGoc() : veDaGiaoGoc();
+if (["/bai-lam", "/so-diem"].includes(location.hash.slice(1).split("?")[0])) hienManHinh();
+if (fbAuth) fbAuth.onAuthStateChanged(() => setTimeout(() => { if (["/bai-lam", "/so-diem"].includes(location.hash.slice(1).split("?")[0])) hienManHinh(); }, 900));
