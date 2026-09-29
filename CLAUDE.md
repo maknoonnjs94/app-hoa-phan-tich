@@ -9,7 +9,7 @@ PWA tĩnh (HTML/CSS/JS), chạy trên GitHub Pages từ nhánh `main`: https://m
 - Model agent: soạn/sửa = Sonnet; phản biện = Opus, **một lần**, chỉ trên câu mới. Không dùng Haiku.
 - Không đưa nội dung đề thi gốc hay tên môn/giảng viên/trường vào repo (repo công khai).
 - Commit kết thúc bằng hai dòng: `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>` và dòng `Claude-Session:` của phiên.
-- Mỗi thay đổi file app: tăng `PHIEN_BAN` trong `sw.js`; file mới phải thêm vào danh sách precache của `sw.js` và thẻ `<script>` trong `index.html`.
+- Mỗi thay đổi file app: tăng `PHIEN_BAN` trong `sw.js` (và `BAN_APP` trong `giao-bai.js` cho khớp); file mới phải thêm vào danh sách precache của `sw.js` và thẻ `<script>` trong `index.html`.
 
 ## Cấu trúc
 - `noi-dung.js`: lí thuyết 15 chương (`CHUONG`, trường `lyThuyet` là HTML + KaTeX) và `TRA_CUU` (36 bảng hằng số, có nguồn).

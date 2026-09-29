@@ -1,7 +1,7 @@
 /* Service worker: lưu sẵn các file giao diện để app mở được khi mất mạng.
    MỖI LẦN SỬA CODE: tăng số phiên bản bên dưới (v1 → v2 → v3...)
    để điện thoại đã cài app nhận bản mới. */
-const PHIEN_BAN = "app-dien-thoai-v75";
+const PHIEN_BAN = "app-dien-thoai-v76";
 
 const FILE_GIAO_DIEN = [
   "./",
@@ -108,7 +108,7 @@ self.addEventListener("activate", e => {
 self.addEventListener("fetch", e => {
   if (e.request.method !== "GET" || new URL(e.request.url).origin !== location.origin) return;
   e.respondWith(
-    fetch(e.request)
+    fetch(e.request, { cache: "no-cache" })   // bỏ qua bộ nhớ đệm HTTP để luôn lấy bản mới khi có mạng
       .then(res => {
         const banSao = res.clone();
         caches.open(PHIEN_BAN).then(c => c.put(e.request, banSao));

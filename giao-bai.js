@@ -8,6 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
+const BAN_APP = "v76";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -448,7 +449,7 @@ MAN_HINH["/tai-khoan"].ve = () => {
     + (KHO_KHOA.mo ? the("#/kho", "📚", "Ngân hàng câu hỏi", `${NGAN_HANG.length} câu theo 15 chương · xem đề, đáp án, lời giải`)
       : the("#/kho-cau-hoi", "🔐", "Mở kho câu hỏi", "Nhập mật khẩu kho để xem ngân hàng câu hỏi, tạo đề, bài tập"))
     + `<a class="the-luyen the-kho" href="#/doi-mat-khau">`);
-  return h;
+  return h + `<p class="ghi-chu" style="text-align:center">Phiên bản app: ${BAN_APP}${tk.hoSo ? ` · vai trò: ${VAI_TRO[tk.hoSo.vaiTro] || "?"}` : ""} · kho: ${KHO_KHOA.mo ? "đã mở" : "khóa"}</p>`;
 };
 async function ganHuyHieuTrangChu() {
   const canh = document.querySelector(".tc-canh"); if (!canh || !tk.user) return;
