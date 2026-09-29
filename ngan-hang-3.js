@@ -1,5 +1,5 @@
 /* Câu hỏi chờ duyệt: Chương 7 và Chương 8 */
-NGAN_HANG_CHO_DUYET.push(
+NGAN_HANG.push(
   { id: "ED-0101", chuong: "edta", dang: "D01 · Đặc điểm phản ứng giữa ion kim loại và EDTA", mucDo: 1,
     de: "Ở pH thích hợp, phản ứng chuẩn độ tạo phức giữa Mg<sup>2+</sup> và EDTA (chỉ dạng Y⁴⁻ phản ứng trực tiếp với ion kim loại) được viết đúng là",
     phuongAn: [String.raw`\( \mathrm{Mg^{2+}} + 2\,\mathrm{Y^{4-}} \rightleftharpoons \mathrm{MgY_2} \)`, String.raw`\( \mathrm{Mg^{2+}} + \mathrm{Y^{4-}} \rightleftharpoons \mathrm{MgY^{2-}} \)`, String.raw`\( 2\,\mathrm{Mg^{2+}} + \mathrm{Y^{4-}} \rightleftharpoons \mathrm{Mg_2Y} \)`, String.raw`\( \mathrm{Mg^{2+}} + \mathrm{Y^{4-}} \rightleftharpoons \mathrm{MgY^{2+}} \)`],

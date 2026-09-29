@@ -13,7 +13,7 @@ PWA tĩnh (HTML/CSS/JS), chạy trên GitHub Pages từ nhánh `main`: https://m
 
 ## Cấu trúc
 - `noi-dung.js`: lí thuyết 15 chương (`CHUONG`, trường `lyThuyet` là HTML + KaTeX) và `TRA_CUU` (36 bảng hằng số, có nguồn).
-- `ngan-hang.js`: câu đã duyệt. `ngan-hang-cho-duyet*.js`: câu chờ duyệt (chỉ dùng lệnh `NGAN_HANG_CHO_DUYET.push(...)`, KHÔNG khai báo biến).
+- `ngan-hang.js` (khai báo `NGAN_HANG`) + `ngan-hang-1…13.js` (chỉ `NGAN_HANG.push(...)`): câu đã duyệt. `ngan-hang-cho-duyet.js`: khai báo `NGAN_HANG_CHO_DUYET = []` cho câu mới; file chờ duyệt mới chỉ dùng `NGAN_HANG_CHO_DUYET.push(...)`, KHÔNG khai báo biến.
 - `phan-dang.js`: bảng dạng đã duyệt cho từng chương; câu cũ tự đổi nhãn dạng theo mã Dxx; câu mới có `dangMoi: true`.
 - Câu chùm: các câu cùng trường `chum` và `dan` (đề dẫn chung).
 - `app.js`: màn hình, kho câu hỏi, luyện tập, tra cứu kiểu thư viện. `tao-de.js`: tạo đề nhiều mã, làm bài có hạn giờ, in PDF, chia sẻ link.
@@ -31,7 +31,8 @@ PWA tĩnh (HTML/CSS/JS), chạy trên GitHub Pages từ nhánh `main`: https://m
 - Mọi hằng số/M dùng tới phải có trong đề câu đó. Lời giải không gọi "phương án 1/2/A/B" (app xáo thứ tự).
 - Vị trí đáp án xáo ngẫu nhiên cân bằng trong từng dạng; hạng đáp án không lặp một phía; câu định tính cân độ dài.
 
-## Trạng thái (cuối phiên trước)
-- Lí thuyết 15 chương đủ, đã phản biện; 11 chương đã làm dày (hình, ví dụ dạng đề, "Lỗi hay gặp"). Tất cả đang "Chờ duyệt".
-- Câu chờ duyệt trong app: đủ 15 chương, khoảng 1 950 câu (bộ gốc đã phản biện + bổ sung theo đề thi, có câu chùm), file `ngan-hang-cho-duyet*.js`. Người dùng chưa duyệt; khi duyệt thì chuyển câu sang `ngan-hang.js`.
+## Trạng thái
+- Người dùng đã duyệt toàn bộ: 15 chương lí thuyết (bỏ cờ `choDuyet`) và 1 981 câu trắc nghiệm (đã chuyển sang `NGAN_HANG`).
+- Giao diện: trang chủ nền tối kiểu phòng lab (ảnh trong `anh/giao-dien/`, cắt từ ảnh mẫu người dùng gửi), logo robot linh vật; hướng dẫn đặt ảnh ChatGPT ở `thiet-ke/dat-anh-chatgpt.md`.
+- Báo lỗi: nút "⚑ Báo lỗi" ở cuối mỗi mục lí thuyết, câu hỏi (kho, làm bài, xem lại), bài tự luận; lưu localStorage "bao-loi", màn `#/bao-loi` (gửi qua Chia sẻ). Mã: `chuong/muc-N`, mã câu, `chuong/bai-N`. Khi có Firebase thì đẩy báo lỗi lên chung.
 - Chưa làm: tài khoản học sinh (Firebase, gói Spark; tài khoản = email học sinh, mật khẩu khởi tạo = mã học sinh, bắt đổi lần đầu; vai trò quản trị viên / giáo viên / học sinh). Đang chờ người dùng tạo dự án Firebase và gửi `firebaseConfig`.

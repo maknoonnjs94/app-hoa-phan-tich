@@ -1,5 +1,5 @@
 /* Câu hỏi chờ duyệt: Chương 4 và Chương 6 */
-NGAN_HANG_CHO_DUYET.push(
+NGAN_HANG.push(
   { id: "CB-0101", chuong: "can-bang", dang: "D01 · Biểu thức hằng số cân bằng (bỏ qua chất rắn, dung môi)", mucDo: 1,
     de: "Cho cân bằng: CaCO<sub>3</sub>(r) ⇌ Ca<sup>2+</sup> + CO<sub>3</sub><sup>2−</sup>. Biểu thức K đúng là",
     phuongAn: [String.raw`\( K = [\mathrm{Ca^{2+}}] + [\mathrm{CO_3^{2-}}] \)`, String.raw`\( K = [\mathrm{CaCO_3}][\mathrm{Ca^{2+}}][\mathrm{CO_3^{2-}}] \)`, String.raw`\( K = [\mathrm{Ca^{2+}}][\mathrm{CO_3^{2-}}] \)`, String.raw`\( K = \dfrac{[\mathrm{Ca^{2+}}][\mathrm{CO_3^{2-}}]}{[\mathrm{CaCO_3}]} \)`],

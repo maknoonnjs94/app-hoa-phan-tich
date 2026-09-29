@@ -1,5 +1,5 @@
 /* Câu hỏi chờ duyệt: Chương 9, 10 */
-NGAN_HANG_CHO_DUYET.push(
+NGAN_HANG.push(
   { id: "OK-0101", chuong: "oxi-hoa-khu", dang: "D01 · So sánh tính oxi hóa – khử qua thế điện cực chuẩn", mucDo: 1,
     de: "Cho các cặp oxi hóa – khử chuẩn sau: IO<sub>3</sub><sup>−</sup>/I<sub>2</sub> (E° = 1,20 V), Br<sub>2</sub>/Br<sup>−</sup> (E° = 1,07 V), Fe<sup>3+</sup>/Fe<sup>2+</sup> (E° = 0,77 V), Fe<sup>2+</sup>/Fe (E° = −0,44 V). Ở điều kiện chuẩn, dạng oxi hóa có tính oxi hóa <b>mạnh nhất</b> là",
     phuongAn: ["IO<sub>3</sub><sup>−</sup>", "Br<sub>2</sub>", "Fe<sup>3+</sup>", "Fe<sup>2+</sup>"],

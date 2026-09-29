@@ -1,7 +1,7 @@
 /* Service worker: lưu sẵn các file giao diện để app mở được khi mất mạng.
    MỖI LẦN SỬA CODE: tăng số phiên bản bên dưới (v1 → v2 → v3...)
    để điện thoại đã cài app nhận bản mới. */
-const PHIEN_BAN = "app-dien-thoai-v64";
+const PHIEN_BAN = "app-dien-thoai-v65";
 
 const FILE_GIAO_DIEN = [
   "./",
@@ -10,18 +10,19 @@ const FILE_GIAO_DIEN = [
   "noi-dung.js",
   "ngan-hang.js",
   "ngan-hang-cho-duyet.js",
-  "ngan-hang-cho-duyet-2.js",
-  "ngan-hang-cho-duyet-3.js",
-  "ngan-hang-cho-duyet-7.js",
-  "ngan-hang-cho-duyet-8.js",
-  "ngan-hang-cho-duyet-9.js",
-  "ngan-hang-cho-duyet-10.js",
-  "ngan-hang-cho-duyet-11.js",
-  "ngan-hang-cho-duyet-12.js",
-  "ngan-hang-cho-duyet-13.js",
-  "ngan-hang-cho-duyet-6.js",
-  "ngan-hang-cho-duyet-5.js",
-  "ngan-hang-cho-duyet-4.js",
+  "ngan-hang-1.js",
+  "ngan-hang-2.js",
+  "ngan-hang-3.js",
+  "ngan-hang-7.js",
+  "ngan-hang-8.js",
+  "ngan-hang-9.js",
+  "ngan-hang-10.js",
+  "ngan-hang-11.js",
+  "ngan-hang-12.js",
+  "ngan-hang-13.js",
+  "ngan-hang-6.js",
+  "ngan-hang-5.js",
+  "ngan-hang-4.js",
   "mo-phong.js",
   "phan-dang.js",
   "anh/nguon.js",

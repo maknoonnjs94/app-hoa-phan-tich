@@ -1,5 +1,5 @@
 /* Câu hỏi chờ duyệt: Chương 11, 12, 13 */
-NGAN_HANG_CHO_DUYET.push(
+NGAN_HANG.push(
   { id: "UV-0101", chuong: "uv-vis", dang: "D01 · Vùng phổ điện từ và quá trình gây hấp thụ", mucDo: 1,
     de: "Bức xạ có bước sóng 220 nm thuộc",
     phuongAn: ["vùng tử ngoại (UV)", "vùng khả kiến (Vis)", "vùng hồng ngoại (IR)", "vùng tia X (bước sóng cỡ 0,01 – 10 nm)"],

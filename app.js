@@ -14,6 +14,48 @@ const docGanNhat = () => boNho.doc("doc-gan-nhat", null);         // { id, muc }
 
 /* ---------- Tách bài lý thuyết thành các mục theo <h3> ---------- */
 const boThe = html => html.replace(/<[^>]+>/g, "");
+
+/* ---------- Báo lỗi: gắn ở từng mục lí thuyết, câu trắc nghiệm, bài tự luận ----------
+   Lưu trên máy (localStorage "bao-loi"); gửi đi bằng nút Chia sẻ (Zalo, Messenger, email…).
+   Mỗi báo lỗi ghi rõ MÃ (id chương + số mục, mã câu, số bài) để biết cần sửa chỗ nào. */
+const VAN_DE_LOI = ["Sai đáp án", "Sai lời giải / số liệu", "Lỗi chữ, công thức, hình", "Thiếu / cần bổ sung", "Khác"];
+const CHO_BAO_LOI = {};   // mã → { loai, tieuDe, link }
+const docBaoLoi = () => { try { return JSON.parse(localStorage.getItem("bao-loi")) || []; } catch { return []; } };
+const ghiBaoLoi = ds => { try { localStorage.setItem("bao-loi", JSON.stringify(ds)); } catch {} };
+const nutBaoLoi = (loai, ma, tieuDe, link) => {
+  CHO_BAO_LOI[ma] = { loai, tieuDe: boThe(tieuDe).replace(/\\[\[\(]|\\[\]\)]/g, "").trim(), link };
+  return `<button class="nut-bao-loi" data-ma="${ma}" onclick="moBaoLoi(this.dataset.ma)">⚑ Báo lỗi</button>`;
+};
+function moBaoLoi(ma) {
+  const t = CHO_BAO_LOI[ma]; if (!t) return;
+  let hop = document.getElementById("hop-bao-loi");
+  if (!hop) { hop = document.createElement("dialog"); hop.id = "hop-bao-loi"; document.body.append(hop); }
+  hop.innerHTML = `<form method="dialog" class="bao-loi-form">
+    <h3>Báo lỗi</h3>
+    <p class="ghi-chu"><b>${ma}</b> · ${t.tieuDe}</p>
+    <div class="chon-loi">${VAN_DE_LOI.map((v, k) => `<label><input type="radio" name="van-de" value="${v}" ${k ? "" : "checked"}><span>${v}</span></label>`).join("")}</div>
+    <textarea name="ghi-chu" rows="3" placeholder="Mô tả lỗi, cách sửa đề xuất (không bắt buộc)"></textarea>
+    <div class="nut-hang"><button value="huy" class="btn phu">Hủy</button><button value="luu" class="btn phu">Lưu</button><button value="gui" class="btn">Lưu và gửi</button></div>
+  </form>`;
+  hop.onclose = () => {
+    if (hop.returnValue !== "luu" && hop.returnValue !== "gui") return;
+    const f = hop.querySelector("form");
+    const muc = { ma, loai: t.loai, tieuDe: t.tieuDe, link: t.link, vanDe: f["van-de"].value, ghiChu: f["ghi-chu"].value.trim(), luc: Date.now(), daSua: false };
+    ghiBaoLoi([muc, ...docBaoLoi()]);
+    if (hop.returnValue === "gui") guiBaoLoi([muc]); else alert("Đã lưu báo lỗi. Xem trong mục Báo lỗi (trang Bài tập).");
+  };
+  hop.returnValue = ""; hop.showModal();
+}
+const chuBaoLoi = ds => ds.map(m => `[${m.ma}] ${m.tieuDe}\n- Lỗi: ${m.vanDe}${m.ghiChu ? "\n- Ghi chú: " + m.ghiChu : ""}\n- Lúc: ${new Date(m.luc).toLocaleString("vi-VN")}`).join("\n\n");
+async function guiBaoLoi(ds) {
+  if (!ds.length) return alert("Chưa có báo lỗi nào cần gửi.");
+  const text = "BÁO LỖI APP HÓA PHÂN TÍCH\n\n" + chuBaoLoi(ds);
+  try { if (navigator.share) return await navigator.share({ title: "Báo lỗi Hóa phân tích", text }); } catch (e) { if (e.name === "AbortError") return; }
+  try { await navigator.clipboard.writeText(text); alert("Đã chép nội dung báo lỗi. Dán vào Zalo/Messenger/email để gửi."); }
+  catch { prompt("Chép nội dung dưới đây để gửi:", text); }
+}
+function doiDaSua(k) { const ds = docBaoLoi(); ds[k].daSua = !ds[k].daSua; ghiBaoLoi(ds); hienManHinh(); }
+function xoaBaoLoi(k) { if (!confirm("Xóa báo lỗi này?")) return; const ds = docBaoLoi(); ds.splice(k, 1); ghiBaoLoi(ds); hienManHinh(); }
 function tachMuc(html) {
   const phan = html.split(/(?=<h3>)/);
   const dau = phan[0].startsWith("<h3>") ? "" : phan.shift();
@@ -232,6 +274,11 @@ const MAN_HINH = {
         <span class="text"><b>Kho câu hỏi theo chương</b><small>${NGAN_HANG.length} câu đã duyệt · ${NGAN_HANG_CHO_DUYET.length} câu chờ duyệt</small></span>
         <span class="chevron">›</span>
       </a>
+      <a class="the-luyen the-kho" href="#/bao-loi">
+        <span class="o-icon">⚑</span>
+        <span class="text"><b>Báo lỗi đã ghi</b><small>${docBaoLoi().filter(m => !m.daSua).length} lỗi chưa sửa · gửi cho người soạn</small></span>
+        <span class="chevron">›</span>
+      </a>
       <h2>Bài tập tự luận theo chương</h2>
       ${theoNhom(ds => `
         <div class="list">
@@ -376,8 +423,32 @@ const MAN_HINH = {
           <div class="phuong-an">${cau.thuTu.map((k, j) =>
             `<button disabled class="${j === dung ? "dung" : j === chon ? "sai" : "mo"}"><span class="chu">${CHU[j]}</span><span class="nd">${goc.phuongAn[k]}</span></button>`).join("")}</div>
           <div class="loi-giai"><b>Lời giải</b><div>${goc.loiGiai || ""}</div></div>
+          <div class="bao-loi-dong">${nutBaoLoi("cau-hoi", goc.id, `${tenChuong(goc.chuong)} · ${tenDang(goc.dang)}`, `#/kho/${goc.chuong}`)}</div>
         </details>`;
       }).join("")}`;
+    },
+  },
+
+  "/bao-loi": {
+    tieuDe: "Báo lỗi",
+    manHinhCon: true,
+    ve: () => {
+      const ds = docBaoLoi(), chua = ds.filter(m => !m.daSua);
+      const LOAI = { "ly-thuyet": "Lí thuyết", "cau-hoi": "Câu trắc nghiệm", "bai-tap": "Bài tự luận" };
+      return `
+      <p class="ghi-chu">Bấm "⚑ Báo lỗi" ở cuối mỗi mục lí thuyết, mỗi câu hỏi hoặc bài tập để ghi lại. Các báo lỗi lưu trên máy này; bấm Gửi để chuyển cho người soạn qua Zalo, Messenger, email…</p>
+      <button class="btn full" onclick="guiBaoLoi(docBaoLoi().filter(m => !m.daSua))">Gửi ${chua.length} lỗi chưa sửa</button>
+      ${ds.length ? ds.map((m, k) => `
+        <div class="the-trang bao-loi-muc ${m.daSua ? "da-sua" : ""}">
+          <div class="nhan-cau"><span>${m.ma}</span><span>${LOAI[m.loai] || ""}</span><span>${new Date(m.luc).toLocaleDateString("vi-VN")}</span></div>
+          <b>${m.vanDe}</b> — ${m.tieuDe}
+          ${m.ghiChu ? `<p>${m.ghiChu.replace(/</g, "&lt;")}</p>` : ""}
+          <div class="nut-hang">
+            ${m.link ? `<a class="btn phu" href="${m.link}" ${m.loai === "cau-hoi" ? `onclick="Object.assign(locKho,{chuong:'${m.link.split("/").pop()}',dang:'',tu:'${m.ma}'})"` : ""}>Mở</a>` : ""}
+            <button class="btn phu" onclick="doiDaSua(${k})">${m.daSua ? "↺ Chưa sửa" : "✓ Đã sửa"}</button>
+            <button class="btn phu" onclick="xoaBaoLoi(${k})">Xóa</button>
+          </div>
+        </div>`).join("") : `<div class="trong">Chưa có báo lỗi nào.</div>`}`;
     },
   },
 
@@ -433,6 +504,7 @@ CHUONG.forEach((c, i) => {
         <section class="the-trang bai-hoc muc" id="muc-${k}">
           <h3><span class="so">${k + 1}</span><span>${m.tieuDe}</span></h3>
           ${m.than}
+          <div class="bao-loi-dong">${nutBaoLoi("ly-thuyet", `${c.id}/muc-${k + 1}`, `${c.ten} · Mục ${k + 1}. ${m.tieuDe}`, `#/ly-thuyet/${c.id}?muc=${k}`)}</div>
         </section>`).join("")}
       ${c.baiTap.length ? `<a class="btn full" href="#/bai-tap/${c.id}">Làm bài tập chương này ✏️</a>` : ""}
       <nav class="chuyen-chuong">
@@ -477,6 +549,7 @@ CHUONG.forEach((c, i) => {
             <summary>Xem đáp án</summary>
             <div class="dap-an">${b.dapAn}</div>
           </details>
+          <div class="bao-loi-dong">${nutBaoLoi("bai-tap", `${c.id}/bai-${j + 1}`, `Bài tập ${c.ten} · Bài ${j + 1}`, `#/bai-tap/${c.id}`)}</div>
         </div>`).join("")}
       <a class="btn full phu" href="#/ly-thuyet/${c.id}">Xem lại lý thuyết 📘</a>
     `,
@@ -558,6 +631,7 @@ function veThemKho() {
         `<button disabled class="${locKho.hienDapAn && CHU[j] === c.dapAn ? "dung" : ""}"><span class="chu">${CHU[j]}</span><span class="nd">${p}</span></button>`).join("")}</div>
       <details ${locKho.hienDapAn ? "open" : ""}><summary><span class="khi-dong">Xem đáp án và lời giải</span><span class="khi-mo">Ẩn lời giải</span></summary>
         <div class="loi-giai dung"><b>Đáp án ${c.dapAn}</b><div>${c.loiGiai}</div></div></details>
+      <div class="bao-loi-dong">${nutBaoLoi("cau-hoi", c.id, `${tenChuong(c.chuong)} · ${tenDang(c.dang)}`, `#/kho/${c.chuong}`)}</div>
     </div>`).join("")));
   daVeKho += phan.length;
   if (daVeKho < dsKhoHien.length) {
@@ -675,6 +749,7 @@ function veCau() {
       ${hienDapAn ? `<div class="loi-giai ${daChon === dung ? "dung" : "sai"}">
         <b>${daChon === dung ? "✓ Chính xác!" : `✗ Chưa đúng. Đáp án: ${CHU[dung]}`}</b>
         <div>${goc.loiGiai || ""}</div></div>` : ""}
+      <div class="bao-loi-dong">${nutBaoLoi("cau-hoi", goc.id, `${tenChuong(goc.chuong)} · ${tenDang(goc.dang)}`, `#/kho/${goc.chuong}`)}</div>
     </div>
     <div class="dieu-huong">
       <button class="btn phu" ${i === 0 ? "disabled" : ""} onclick="denCau(${i - 1})">‹ Trước</button>

@@ -1,5 +1,5 @@
 /* Câu hỏi chờ duyệt: Chương 14, 15 */
-NGAN_HANG_CHO_DUYET.push(
+NGAN_HANG.push(
   { id: "SK-0101", chuong: "sac-ki", dang: "D01 · Hệ số dung lượng (lưu) k từ t<sub>R</sub>, t<sub>m</sub>", mucDo: 1,
     de: "Trên một cột sắc kí, chất metanol có thời gian lưu t<sub>R</sub> = 3,60 min; thời gian chết t<sub>m</sub> = 0,60 min. Hệ số dung lượng (lưu) k của metanol là",
     phuongAn: ["6,00", "5,00", "0,83", "50,0"],

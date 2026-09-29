@@ -1,5 +1,5 @@
 /* Câu hỏi chờ duyệt: Chương 1, 2, 3 */
-NGAN_HANG_CHO_DUYET.push(
+NGAN_HANG.push(
   { id: "MD-0101", chuong: "mo-dau", dang: "D01 · Phân biệt chất phân tích – mẫu – nền mẫu", mucDo: 1,
     de: "Khi xác định hàm lượng vitamin C trong một viên sủi bọt vị cam, đâu là <b>chất phân tích</b> (analyte)?",
     phuongAn: ["Viên sủi bọt vị cam", "Đường và hương cam có trong viên sủi", "Khí CO<sub>2</sub> sinh ra khi viên sủi tan trong nước", "Vitamin C (acid ascorbic)"],

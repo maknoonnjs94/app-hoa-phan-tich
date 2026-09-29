@@ -833,3 +833,21 @@ body.trang-chu .tabbar a.active { color: #2dd4bf; }
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 45%); mask-image: linear-gradient(90deg, transparent, #000 45%);
 }
 .the-chuong.co-bia .text { padding-right: 26%; }
+
+/* ===== Báo lỗi ===== */
+.bao-loi-dong { display: flex; justify-content: flex-end; margin-top: 10px; }
+.nut-bao-loi { font: inherit; font-size: 12px; color: var(--chu-phu); background: none; border: 1px solid var(--vien); border-radius: 99px; padding: 3px 10px; cursor: pointer; }
+.nut-bao-loi:active { background: var(--nen); }
+#hop-bao-loi { border: 0; border-radius: 20px; padding: 0; width: min(92vw, 440px); background: var(--the); color: var(--chu); }
+#hop-bao-loi::backdrop { background: rgba(0,0,0,.45); }
+.bao-loi-form { padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+.bao-loi-form h3 { margin: 0; }
+.bao-loi-form .ghi-chu { margin: 0; font-size: 13px; }
+.chon-loi { display: flex; flex-wrap: wrap; gap: 6px; }
+.chon-loi input { display: none; }
+.chon-loi span { display: inline-block; font-size: 13px; padding: 6px 11px; border-radius: 99px; border: 1px solid var(--vien); }
+.chon-loi input:checked + span { background: var(--mau-chinh); border-color: var(--mau-chinh); color: #fff; }
+.bao-loi-form textarea { font: inherit; font-size: 15px; padding: 10px; border-radius: 12px; border: 1px solid var(--vien); background: var(--nen); color: var(--chu); resize: vertical; }
+.nut-hang { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; margin-top: 8px; }
+.nut-hang .btn { padding: 8px 14px; font-size: 14px; }
+.bao-loi-muc.da-sua { opacity: .55; }

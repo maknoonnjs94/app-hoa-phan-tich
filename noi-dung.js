@@ -10,7 +10,6 @@
 const CHUONG = [
   {
     id: "mo-dau",
-    choDuyet: true,
     nhom: "Cơ sở",
     icon: "🔬",
     ten: "Mở đầu",
@@ -257,7 +256,6 @@ const CHUONG = [
   },
   {
     id: "do-luong",
-    choDuyet: true,
     nhom: "Cơ sở",
     icon: "📏",
     ten: "Đo lường hóa học",
@@ -585,7 +583,6 @@ const CHUONG = [
   },
   {
     id: "thong-ke",
-    choDuyet: true,
     nhom: "Cơ sở",
     icon: "📊",
     ten: "Sai số và thống kê",
@@ -937,7 +934,6 @@ const CHUONG = [
     ten: "Cân bằng hóa học",
     moTa: "Hằng số K, Le Chatelier, tạo phức, tích số tan, hoạt độ, bảo toàn",
     dayDu: true,
-    choDuyet: true,
     lyThuyet: String.raw`
       <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
         <ul>
@@ -1171,7 +1167,6 @@ const CHUONG = [
   },
   {
     id: "axit-bazo",
-    choDuyet: true,
     nhom: "Cân bằng và chuẩn độ",
     icon: "⚗️",
     ten: "Cân bằng acid – base",
@@ -1456,7 +1451,6 @@ const CHUONG = [
     ten: "Chuẩn độ acid – base",
     moTa: "Đường chuẩn độ, bước nhảy, chỉ thị, Gran, chất gốc, Kjeldahl",
     dayDu: true,
-    choDuyet: true,
     lyThuyet: String.raw`
       <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
         <ul>
@@ -1925,7 +1919,6 @@ const CHUONG = [
     ten: "Tạo phức và chuẩn độ EDTA",
     moTa: "EDTA, α_Y4−, hằng số bền điều kiện, đường chuẩn độ, chỉ thị kim loại",
     dayDu: true,
-    choDuyet: true,
     lyThuyet: String.raw`
       <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
         <ul>
@@ -2247,7 +2240,6 @@ const CHUONG = [
     ten: "Kết tủa và chuẩn độ kết tủa",
     moTa: "Độ tan theo pH và tạo phức, đường chuẩn độ bạc, Mohr, Volhard, Fajans",
     dayDu: true,
-    choDuyet: true,
     lyThuyet: String.raw`
       <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
         <ul>
@@ -2559,7 +2551,6 @@ const CHUONG = [
     ten: "Oxi hóa – khử và chuẩn độ",
     moTa: "Thế khử chuẩn, Nernst, thế điều kiện, đường chuẩn độ, chỉ thị, KMnO₄ – Cr₂O₇²⁻ – iod",
     dayDu: true,
-    choDuyet: true,
     lyThuyet: String.raw`
       <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
         <ul>
@@ -2748,7 +2739,6 @@ const CHUONG = [
     ten: "Các phương pháp hiệu chuẩn",
     moTa: "Đường chuẩn, bình phương tối thiểu, độ không đảm bảo, thêm chuẩn, nội chuẩn, QA/QC",
     dayDu: true,
-    choDuyet: true,
     lyThuyet: String.raw`
       <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
         <ul>
@@ -2901,7 +2891,6 @@ const CHUONG = [
     ten: "Quang phổ UV-Vis và huỳnh quang",
     moTa: "Bức xạ điện từ, định luật Beer, sai lệch, cách đo, hỗn hợp, huỳnh quang",
     dayDu: true,
-    choDuyet: true,
     lyThuyet: String.raw`
       <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
         <ul>
@@ -3253,7 +3242,6 @@ const CHUONG = [
     ten: "Quang phổ nguyên tử",
     moTa: "Nguyên tử hóa (ngọn lửa, lò graphit, ICP), AAS, AES, cản trở, ICP-MS",
     dayDu: true,
-    choDuyet: true,
     lyThuyet: String.raw`
       <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
         <ul>
@@ -3504,7 +3492,6 @@ const CHUONG = [
     ten: "Điện hóa: điện cực và đo thế",
     moTa: "Pin điện hóa, điện cực so sánh và chỉ thị, ISE, đo pH, chuẩn độ điện thế, điện lượng",
     dayDu: true,
-    choDuyet: true,
     lyThuyet: String.raw`
       <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
         <ul>
@@ -3749,7 +3736,6 @@ const CHUONG = [
     ten: "Sắc kí đại cương",
     moTa: "Pha tĩnh – pha động, cơ chế, t_R, k, N, H, Rs, α, Van Deemter, định lượng",
     dayDu: true,
-    choDuyet: true,
     lyThuyet: String.raw`
       <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
         <ul>
@@ -4040,7 +4026,6 @@ const CHUONG = [
     ten: "Sắc kí khí và sắc kí lỏng",
     moTa: "Sắc kí khí, HPLC pha thường – pha đảo, thiết bị, detector, thứ tự rửa giải",
     dayDu: true,
-    choDuyet: true,
     lyThuyet: String.raw`
       <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
         <ul>
