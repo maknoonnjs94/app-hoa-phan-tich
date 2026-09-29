@@ -42,9 +42,9 @@ service cloud.firestore {
         && get(/databases/$(database)/documents/deGiao/$(request.resource.data.deGiaoId)).data.lop == toi().lop
         && bayGio() >= get(/databases/$(database)/documents/deGiao/$(request.resource.data.deGiaoId)).data.moLuc
         && bayGio() <= get(/databases/$(database)/documents/deGiao/$(request.resource.data.deGiaoId)).data.dongLuc;
-      allow update: if laHS() && resource.data.uid == request.auth.uid && resource.data.daNop != true
+      allow update: if laGV() || (laHS() && resource.data.uid == request.auth.uid && resource.data.daNop != true
         && request.resource.data.uid == resource.data.uid && request.resource.data.deGiaoId == resource.data.deGiaoId
-        && bayGio() <= get(/databases/$(database)/documents/deGiao/$(resource.data.deGiaoId)).data.dongLuc + 300000;
+        && bayGio() <= get(/databases/$(database)/documents/deGiao/$(resource.data.deGiaoId)).data.dongLuc + 300000);
       allow delete: if laGV();
     }
 

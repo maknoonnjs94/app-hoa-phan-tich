@@ -888,3 +888,12 @@ body.dang-thi .tabbar, body.dang-thi #nut-quay-lai, body.dang-thi .nut-tk { disp
 .bang-cuon tr.co-roi td:nth-child(3) { color: #dc2626; font-weight: 600; }
 /* Học sinh / khách: ẩn tab Bài tập, Tạo đề */
 body:not(.la-gv) .tabbar a[data-tab="/bai-tap"], body:not(.la-gv) .tabbar a[data-tab="/tao-de"] { display: none; }
+/* Theo dõi trực tiếp, nhật kí vi phạm */
+.dong-td { display: flex; gap: 10px; align-items: center; justify-content: space-between; }
+.dong-td small { display: block; font-size: 13px; color: var(--chu-phu); }
+.dong-td small.vp { color: #dc2626; font-weight: 600; }
+.dong-td.co-vp { border-left: 4px solid #dc2626; }
+.dong-td.vp-moi { animation: nhay-do 1s ease-in-out 6; }
+@keyframes nhay-do { 50% { background: #fecaca; } }
+.nhat-ki-roi td { font-size: 12px; color: #dc2626; padding-top: 0 !important; }
+@media print { .tabbar, .topbar, .nut-bao-loi, .nut-tk { display: none !important; } }
