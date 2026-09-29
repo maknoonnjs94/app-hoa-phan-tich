@@ -951,7 +951,7 @@ button.the-luyen { width: 100%; border: 0; font: inherit; text-align: left; curs
 .o-ch { font: inherit; font-size: 13px; padding: 8px 4px; border-radius: 10px; border: 1px solid var(--vien); background: var(--the); color: var(--chu);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .o-ch.chon { background: color-mix(in srgb, var(--mau-chinh) 14%, var(--the)); border-color: var(--mau-chinh); color: var(--mau-chinh); font-weight: 600; }
-.hang-loc-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.hang-loc-3 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
 .hang-loc-3 select { font-size: 13px !important; padding: 8px 6px !important; min-width: 0; }
 .loc-chon .nhom-chip { flex-wrap: nowrap; }
 .buoc-md { display: flex; align-items: center; gap: 2px; }

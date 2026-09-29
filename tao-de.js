@@ -201,7 +201,7 @@ MAN_HINH["/tao-de"] = {
 };
 
 /* ---------- Bước 2: chọn câu, xem nguyên đề ---------- */
-const locChon = { tab: "de", chuong: "", muc: 0, dang: "", tu: "", anDaChon: true, dapAn: false, so: 15, thay: "", addCh: "", addDang: "", addN: 1 };
+const locChon = { tab: "de", chuong: "", loai: "", muc: 0, dang: "", tu: "", anDaChon: true, dapAn: false, so: 15, thay: "", addCh: "", addDang: "", addN: 1 };
 const soCauDang = (chuong, dang, muc = 0) => KHO_DE_CAU.filter(q => q.chuong === chuong && q.dang === dang && !q.chum && (!muc || q.mucDo === muc) && (cauHinhDe.choDuyet || !q.choDuyet)).length;
 const dangCuaChuong = chuong => [...new Set(cauNguon().filter(c => c.chuong === chuong && !c.chum).map(c => c.dang))]
   .sort((a, b) => (tenDang(a) || "").localeCompare(tenDang(b) || "", "vi"));
@@ -334,7 +334,7 @@ function veChonCau() {
   }
   const tu = boDau(locChon.tu).split(/\s+/).filter(Boolean);
   const banner = locChon.thay ? `<div class="the-trang canh-bao-cu">✋ Đang chọn câu thay cho <b>${locChon.thay}</b> (${coDau(tenDang(CAU_THEO_ID[locChon.thay]?.dang || ""))}). <button class="btn nho phu" onclick="locChon.thay='';locChon.tab='de';veChonCau()">Hủy</button></div>` : "";
-  const nguon = cauNguon().filter(c => (!locChon.chuong || c.chuong === locChon.chuong) && (!locChon.muc || c.mucDo === locChon.muc)
+  const nguon = cauNguon().filter(c => (!locChon.chuong || c.chuong === locChon.chuong) && (!locChon.muc || c.mucDo === locChon.muc) && (!locChon.loai || c.loai === locChon.loai)
     && (!locChon.dang || c.dang === locChon.dang) && (!locChon.anDaChon || !soan.chon.includes(c.id))
     && (!tu.length || tu.every(t => khoaTimCau(c).includes(t))));
   const dsDang = [...new Set(cauNguon().filter(c => !locChon.chuong || c.chuong === locChon.chuong).map(c => c.dang))];
@@ -343,6 +343,7 @@ function veChonCau() {
       <div class="hang-loc-3">
         <select onchange="locChon.dang='';datLocChon('chuong',this.value)" aria-label="Chương"><option value="">Mọi chương</option>${CHUONG.filter(c => cauNguon().some(q => q.chuong === c.id)).map(c => `<option value="${c.id}" ${locChon.chuong === c.id ? "selected" : ""}>${TEN_NGAN[c.id] || c.ten}</option>`).join("")}</select>
         <select onchange="datLocChon('muc',Number(this.value))" aria-label="Mức độ">${[0, 1, 2, 3, 4].map(m => `<option value="${m}" ${locChon.muc === m ? "selected" : ""}>${m ? MUC_DO[m] : "Mọi mức"}</option>`).join("")}</select>
+        <select onchange="datLocChon('loai',this.value)" aria-label="Loại câu"><option value="">Mọi loại</option><option value="lt" ${locChon.loai === "lt" ? "selected" : ""}>Lí thuyết</option><option value="tt" ${locChon.loai === "tt" ? "selected" : ""}>Tính toán</option></select>
         <select onchange="datLocChon('dang',this.value)" aria-label="Dạng"><option value="">Mọi dạng</option>${dsDang.map(d => `<option value="${coDau(d)}" ${locChon.dang === d ? "selected" : ""}>${coDau(tenDang(d))}</option>`).join("")}</select>
       </div>
       <div class="nhom-chip">

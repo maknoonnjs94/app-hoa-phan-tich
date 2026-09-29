@@ -575,7 +575,7 @@ TRA_CUU.forEach(b => {
    Xem toàn bộ câu hỏi theo chương: đã duyệt (NGAN_HANG) và chờ duyệt (NGAN_HANG_CHO_DUYET).
    Câu chờ duyệt KHÔNG dùng trong luyện tập / kiểm tra. */
 const KHO = [...NGAN_HANG.map(c => ({ ...c, choDuyet: false })), ...NGAN_HANG_CHO_DUYET.map(c => ({ ...c, choDuyet: true }))];
-const locKho = { trangThai: "tat-ca", muc: 0, dang: "", tu: "", hienDapAn: false, chuong: null };
+const locKho = { trangThai: "tat-ca", loai: "", muc: 0, dang: "", tu: "", hienDapAn: false, chuong: null };
 const MOI_LAN = 15;   // số câu vẽ mỗi lần; cuộn tới cuối tự vẽ thêm (KaTeX nặng, vẽ hết sẽ chậm)
 let dsKhoHien = [], daVeKho = 0, quanSatKho = null;
 const maDang = d => (d.match(/^(D\d+)\s·\s/) || [])[1] || "";
@@ -589,6 +589,7 @@ function locCauKho(bo) {
   const tu = boDau(locKho.tu).split(/\s+/).filter(Boolean);
   return KHO.filter(c => c.chuong === locKho.chuong
     && (bo === "trangThai" || locKho.trangThai === "tat-ca" || (locKho.trangThai === "cho" ? c.choDuyet : !c.choDuyet))
+    && (bo === "loai" || !locKho.loai || c.loai === locKho.loai)
     && (bo === "muc" || !locKho.muc || c.mucDo === locKho.muc)
     && (bo === "dang" || !locKho.dang || c.dang === locKho.dang)
     && (!tu.length || tu.every(t => khoaTimCau(c).includes(t))));
@@ -600,11 +601,14 @@ function veKho() {
   const theoTT = locCauKho("trangThai"), soCho = theoTT.filter(c => c.choDuyet).length;
   const chipTT = [["tat-ca", "Tất cả", theoTT.length], ["cho", "Chờ duyệt", soCho], ["da", "Đã duyệt", theoTT.length - soCho]]
     .map(([v, t, n]) => `<button class="chip-nhanh ${locKho.trangThai === v ? "chon" : ""}" onclick="datLocKho('trangThai','${v}')">${t} <small>${n}</small></button>`).join("");
+  const theoLoai = locCauKho("loai"), soTT = theoLoai.filter(c => c.loai === "tt").length;
+  const chipLoai = [["", "Mọi loại", theoLoai.length], ["lt", "Lí thuyết", theoLoai.length - soTT], ["tt", "Tính toán", soTT]]
+    .map(([v, t, n]) => `<button class="chip-nhanh ${locKho.loai === v ? "chon" : ""}" onclick="datLocKho('loai','${v}')">${t} <small>${n}</small></button>`).join("");
   const dangBat = [
     locKho.muc && `<button class="chip-nhanh bat" onclick="datLocKho('muc',0)">${MUC_DO[locKho.muc]} <span>✕</span></button>`,
     locKho.dang && `<button class="chip-nhanh bat" onclick="datLocKho('dang','')">${maDang(locKho.dang) || tenDang(locKho.dang)} <span>✕</span></button>`,
   ].filter(Boolean);
-  document.getElementById("hang-chip-kho").innerHTML = (dangBat.length ? `${dangBat.join("")}<span class="vach"></span>` : "") + chipTT;
+  document.getElementById("hang-chip-kho").innerHTML = (dangBat.length ? `${dangBat.join("")}<span class="vach"></span>` : "") + chipLoai + '<span class="vach"></span>' + chipTT;
   const soLoc = document.getElementById("so-loc");
   soLoc.hidden = !dangBat.length; soLoc.textContent = dangBat.length;
   document.getElementById("nut-dap-an").setAttribute("aria-pressed", locKho.hienDapAn);
@@ -651,7 +655,7 @@ function datLocKho(khoa, giaTri) {
   else scrollTo({ top: 0 });
   if (!bangMucLuc.hidden && bangMucLuc.classList.contains("bang-loc")) moLocKho();
 }
-function datLaiLocKho() { Object.assign(locKho, { trangThai: "tat-ca", muc: 0, dang: "", tu: "" }); const o = document.getElementById("tim-kho"); if (o) o.value = ""; datLocKho("muc", 0); }
+function datLaiLocKho() { Object.assign(locKho, { trangThai: "tat-ca", loai: "", muc: 0, dang: "", tu: "" }); const o = document.getElementById("tim-kho"); if (o) o.value = ""; datLocKho("muc", 0); }
 let henTimKho;
 function timKho(tu) { clearTimeout(henTimKho); henTimKho = setTimeout(() => datLocKho("tu", tu.trim()), 250); }
 // Bảng lọc trượt từ dưới lên: mức độ + dạng bài, mỗi lựa chọn kèm số câu
