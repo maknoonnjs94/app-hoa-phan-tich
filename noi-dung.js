@@ -598,7 +598,10 @@ const CHUONG = [
           <li>Phân biệt sai số hệ thống, ngẫu nhiên; tính lan truyền sai số.</li>
           <li>Kiểm tra số liệu ngờ (chuẩn Q) <b>trước</b>, rồi mới tính x̄, s, RSD và khoảng tin cậy.</li>
           <li>So sánh kết quả với giá trị thật, so sánh hai phương pháp (chuẩn t, chuẩn F).</li>
-        </ul>
+                  <li>Hiểu phân bố Gauss, phân biệt s và σ, diễn giải đúng khoảng tin cậy.</li>
+                  <li>Tra đúng bảng t, Q, G, F theo bậc tự do hoặc n; kiểm tra số liệu ngờ bằng Q hoặc Grubbs.</li>
+                  <li>So sánh hai phương pháp đúng thứ tự (F rồi t; t cặp) và tính sai số của kết quả chuẩn độ.</li>
+</ul>
       </div>
 <h3>1. Chữ số có nghĩa và làm tròn</h3>
       <ul>
@@ -669,7 +672,7 @@ const CHUONG = [
       <div class="bang-cuon">
         <table class="bang bang-hep">
           <thead><tr><th>f = n − 1</th><th>t (95%)</th></tr></thead>
-          <tbody><tr><td>1</td><td>12,71</td></tr><tr><td>2</td><td>4,30</td></tr><tr><td>3</td><td>3,18</td></tr><tr><td>4</td><td>2,78</td></tr><tr><td>5</td><td>2,57</td></tr><tr><td>6</td><td>2,45</td></tr><tr><td>8</td><td>2,31</td></tr><tr><td>10</td><td>2,23</td></tr></tbody>
+          <tbody><tr><td>1</td><td>12,71</td></tr><tr><td>2</td><td>4,30</td></tr><tr><td>3</td><td>3,18</td></tr><tr><td>4</td><td>2,78</td></tr><tr><td>5</td><td>2,57</td></tr><tr><td>6</td><td>2,45</td></tr><tr><td>7</td><td>2,36</td></tr><tr><td>8</td><td>2,31</td></tr><tr><td>9</td><td>2,26</td></tr><tr><td>10</td><td>2,23</td></tr></tbody>
         </table>
       </div>
       <div class="vi-du"><b>Ví dụ 3.</b> Bốn lần xác định hàm lượng một chất cho kết quả (%): 10,12 ; 10,15 ; 10,10 ; 10,14. Tính x̄, s, RSD và khoảng tin cậy 95%.
@@ -732,7 +735,168 @@ const CHUONG = [
           \[ \begin{aligned} s_\text{gộp} &= \sqrt{\frac{0,12^2\cdot4 + 0,10^2\cdot4}{8}} = 0,110 \\ t_\text{tính} &= \frac{\left|10,24 - 10,41\right|}{0,1105}\sqrt{\frac{5\cdot5}{5 + 5}} = 2,43 \end{aligned} \]
           t<sub>tính</sub> = 2,43 &gt; 2,31 → <b>hai kết quả khác nhau có ý nghĩa</b> (ít nhất một phương pháp có sai số hệ thống).
         </details></div>
-<h3>7. Tóm tắt công thức</h3>
+      <h3>7. Phân bố Gauss: s, σ và ý nghĩa của khoảng tin cậy</h3>
+      <p>Sai số ngẫu nhiên của nhiều phép đo lặp thường theo <b>phân bố chuẩn (Gauss)</b>: kết quả tập trung quanh giá trị trung bình, càng xa càng hiếm, hai phía đối xứng. Hai đại lượng mô tả đường cong:</p>
+      <ul>
+        <li><b>μ</b> (trung bình tổng thể) và <b>σ</b> (độ lệch chuẩn tổng thể): giá trị lí thuyết khi làm vô số lần đo. Chia cho <b>n</b>.</li>
+        <li><b>x̄</b> và <b>s</b>: ước lượng từ n lần đo thật. s chia cho <b>n − 1</b>, vì x̄ đã dùng mất một bậc tự do (các độ lệch x<sub>i</sub> − x̄ luôn có tổng bằng 0), và nếu chia cho n thì s sẽ nhỏ hơn thực tế.</li>
+      </ul>
+      <div class="hinh-tinh">
+        <svg viewBox="0 0 320 240" role="img" aria-label="Đường cong phân bố Gauss với các khoảng ±1σ, ±2σ, ±3σ">
+<polygon points="55.0,140.0 55.0,138.9 58.5,138.5 62.0,138.0 65.5,137.4 69.0,136.6 72.5,135.6 76.0,134.4 79.5,132.9 83.0,131.1 86.5,129.0 90.0,126.5 93.5,123.6 97.0,120.2 100.5,116.4 104.0,112.2 107.5,107.5 111.0,102.5 114.5,97.0 118.0,91.3 121.5,85.4 125.0,79.3 128.5,73.3 132.0,67.4 135.5,61.7 139.0,56.5 142.5,51.8 146.0,47.7 149.5,44.4 153.0,42.0 156.5,40.5 160.0,40.0 163.5,40.5 167.0,42.0 170.5,44.4 174.0,47.7 177.5,51.8 181.0,56.5 184.5,61.7 188.0,67.4 191.5,73.3 195.0,79.3 198.5,85.4 202.0,91.3 205.5,97.0 209.0,102.5 212.5,107.5 216.0,112.2 219.5,116.4 223.0,120.2 226.5,123.6 230.0,126.5 233.5,129.0 237.0,131.1 240.5,132.9 244.0,134.4 247.5,135.6 251.0,136.6 254.5,137.4 258.0,138.0 261.5,138.5 265.0,138.9 265.0,140.0" fill="var(--mau-chinh)" fill-opacity="0.1" stroke="none"/>
+<polygon points="90.0,140.0 90.0,126.5 92.3,124.6 94.7,122.5 97.0,120.2 99.3,117.7 101.7,115.1 104.0,112.2 106.3,109.1 108.7,105.9 111.0,102.5 113.3,98.9 115.7,95.2 118.0,91.3 120.3,87.4 122.7,83.4 125.0,79.3 127.3,75.3 129.7,71.3 132.0,67.4 134.3,63.6 136.7,59.9 139.0,56.5 141.3,53.3 143.7,50.3 146.0,47.7 148.3,45.4 150.7,43.5 153.0,42.0 155.3,40.9 157.7,40.2 160.0,40.0 162.3,40.2 164.7,40.9 167.0,42.0 169.3,43.5 171.7,45.4 174.0,47.7 176.3,50.3 178.7,53.3 181.0,56.5 183.3,59.9 185.7,63.6 188.0,67.4 190.3,71.3 192.7,75.3 195.0,79.3 197.3,83.4 199.7,87.4 202.0,91.3 204.3,95.2 206.7,98.9 209.0,102.5 211.3,105.9 213.7,109.1 216.0,112.2 218.3,115.1 220.7,117.7 223.0,120.2 225.3,122.5 227.7,124.6 230.0,126.5 230.0,140.0" fill="var(--mau-chinh)" fill-opacity="0.18" stroke="none"/>
+<polygon points="125.0,140.0 125.0,79.3 126.2,77.3 127.3,75.3 128.5,73.3 129.7,71.3 130.8,69.3 132.0,67.4 133.2,65.5 134.3,63.6 135.5,61.7 136.7,59.9 137.8,58.2 139.0,56.5 140.2,54.8 141.3,53.3 142.5,51.8 143.7,50.3 144.8,49.0 146.0,47.7 147.2,46.5 148.3,45.4 149.5,44.4 150.7,43.5 151.8,42.7 153.0,42.0 154.2,41.4 155.3,40.9 156.5,40.5 157.7,40.2 158.8,40.1 160.0,40.0 161.2,40.1 162.3,40.2 163.5,40.5 164.7,40.9 165.8,41.4 167.0,42.0 168.2,42.7 169.3,43.5 170.5,44.4 171.7,45.4 172.8,46.5 174.0,47.7 175.2,49.0 176.3,50.3 177.5,51.8 178.7,53.3 179.8,54.8 181.0,56.5 182.2,58.2 183.3,59.9 184.5,61.7 185.7,63.6 186.8,65.5 188.0,67.4 189.2,69.3 190.3,71.3 191.5,73.3 192.7,75.3 193.8,77.3 195.0,79.3 195.0,140.0" fill="var(--mau-chinh)" fill-opacity="0.3" stroke="none"/>
+<polyline points="20.0,140.0 21.8,140.0 23.5,140.0 25.2,139.9 27.0,139.9 28.8,139.9 30.5,139.9 32.2,139.9 34.0,139.8 35.8,139.8 37.5,139.8 39.2,139.7 41.0,139.7 42.8,139.6 44.5,139.6 46.2,139.5 48.0,139.4 49.8,139.3 51.5,139.2 53.2,139.0 55.0,138.9 56.8,138.7 58.5,138.5 60.2,138.3 62.0,138.0 63.8,137.7 65.5,137.4 67.2,137.0 69.0,136.6 70.8,136.1 72.5,135.6 74.2,135.0 76.0,134.4 77.8,133.7 79.5,132.9 81.2,132.0 83.0,131.1 84.8,130.1 86.5,129.0 88.2,127.8 90.0,126.5 91.8,125.1 93.5,123.6 95.2,121.9 97.0,120.2 98.8,118.4 100.5,116.4 102.2,114.4 104.0,112.2 105.8,109.9 107.5,107.5 109.2,105.0 111.0,102.5 112.8,99.8 114.5,97.0 116.2,94.2 118.0,91.3 119.8,88.4 121.5,85.4 123.2,82.4 125.0,79.3 126.8,76.3 128.5,73.3 130.2,70.3 132.0,67.4 133.8,64.5 135.5,61.7 137.2,59.0 139.0,56.5 140.8,54.0 142.5,51.8 144.2,49.6 146.0,47.7 147.8,45.9 149.5,44.4 151.2,43.1 153.0,42.0 154.8,41.1 156.5,40.5 158.2,40.1 160.0,40.0 161.8,40.1 163.5,40.5 165.2,41.1 167.0,42.0 168.8,43.1 170.5,44.4 172.2,45.9 174.0,47.7 175.8,49.6 177.5,51.8 179.2,54.0 181.0,56.5 182.8,59.0 184.5,61.7 186.2,64.5 188.0,67.4 189.8,70.3 191.5,73.3 193.2,76.3 195.0,79.3 196.8,82.4 198.5,85.4 200.2,88.4 202.0,91.3 203.8,94.2 205.5,97.0 207.2,99.8 209.0,102.5 210.8,105.0 212.5,107.5 214.2,109.9 216.0,112.2 217.8,114.4 219.5,116.4 221.2,118.4 223.0,120.2 224.8,121.9 226.5,123.6 228.2,125.1 230.0,126.5 231.8,127.8 233.5,129.0 235.2,130.1 237.0,131.1 238.8,132.0 240.5,132.9 242.2,133.7 244.0,134.4 245.8,135.0 247.5,135.6 249.2,136.1 251.0,136.6 252.8,137.0 254.5,137.4 256.2,137.7 258.0,138.0 259.8,138.3 261.5,138.5 263.2,138.7 265.0,138.9 266.8,139.0 268.5,139.2 270.2,139.3 272.0,139.4 273.8,139.5 275.5,139.6 277.2,139.6 279.0,139.7 280.8,139.7 282.5,139.8 284.2,139.8 286.0,139.8 287.8,139.9 289.5,139.9 291.2,139.9 293.0,139.9 294.8,139.9 296.5,140.0 298.2,140.0 300.0,140.0" fill="none" stroke="var(--mau-chinh)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="20.0" y1="140.0" x2="300.0" y2="140.0" stroke="var(--chu-phu)" stroke-width="1.2"/>
+<line x1="55.0" y1="140.0" x2="55.0" y2="144.0" stroke="var(--chu-phu)" stroke-width="1.2"/>
+<text x="55.0" y="156.0" text-anchor="middle" font-size="10" fill="var(--chu)">−3σ</text>
+<line x1="90.0" y1="140.0" x2="90.0" y2="144.0" stroke="var(--chu-phu)" stroke-width="1.2"/>
+<text x="90.0" y="156.0" text-anchor="middle" font-size="10" fill="var(--chu)">−2σ</text>
+<line x1="125.0" y1="140.0" x2="125.0" y2="144.0" stroke="var(--chu-phu)" stroke-width="1.2"/>
+<text x="125.0" y="156.0" text-anchor="middle" font-size="10" fill="var(--chu)">−1σ</text>
+<line x1="160.0" y1="140.0" x2="160.0" y2="144.0" stroke="var(--chu-phu)" stroke-width="1.2"/>
+<text x="160.0" y="156.0" text-anchor="middle" font-size="10" fill="var(--chu)">μ</text>
+<line x1="195.0" y1="140.0" x2="195.0" y2="144.0" stroke="var(--chu-phu)" stroke-width="1.2"/>
+<text x="195.0" y="156.0" text-anchor="middle" font-size="10" fill="var(--chu)">+1σ</text>
+<line x1="230.0" y1="140.0" x2="230.0" y2="144.0" stroke="var(--chu-phu)" stroke-width="1.2"/>
+<text x="230.0" y="156.0" text-anchor="middle" font-size="10" fill="var(--chu)">+2σ</text>
+<line x1="265.0" y1="140.0" x2="265.0" y2="144.0" stroke="var(--chu-phu)" stroke-width="1.2"/>
+<text x="265.0" y="156.0" text-anchor="middle" font-size="10" fill="var(--chu)">+3σ</text>
+<text x="160.0" y="34.0" text-anchor="middle" font-size="10" fill="var(--chu-phu)">μ: trung bình tổng thể</text>
+<text x="160.0" y="62.0" text-anchor="middle" font-size="11" fill="var(--chu)" font-weight="600">68,3 %</text>
+<line x1="125.0" y1="172.0" x2="195.0" y2="172.0" stroke="var(--mau-chinh)" stroke-width="1.6"/>
+<line x1="125.0" y1="168.0" x2="125.0" y2="176.0" stroke="var(--mau-chinh)" stroke-width="1.6"/>
+<line x1="195.0" y1="168.0" x2="195.0" y2="176.0" stroke="var(--mau-chinh)" stroke-width="1.6"/>
+<text x="160.0" y="167.0" text-anchor="middle" font-size="10" fill="var(--chu)">μ ± 1σ: 68,3 %</text>
+<line x1="90.0" y1="192.0" x2="230.0" y2="192.0" stroke="var(--mau-chinh)" stroke-width="1.6"/>
+<line x1="90.0" y1="188.0" x2="90.0" y2="196.0" stroke="var(--mau-chinh)" stroke-width="1.6"/>
+<line x1="230.0" y1="188.0" x2="230.0" y2="196.0" stroke="var(--mau-chinh)" stroke-width="1.6"/>
+<text x="160.0" y="187.0" text-anchor="middle" font-size="10" fill="var(--chu)">μ ± 2σ: 95,5 %</text>
+<line x1="55.0" y1="212.0" x2="265.0" y2="212.0" stroke="var(--mau-chinh)" stroke-width="1.6"/>
+<line x1="55.0" y1="208.0" x2="55.0" y2="216.0" stroke="var(--mau-chinh)" stroke-width="1.6"/>
+<line x1="265.0" y1="208.0" x2="265.0" y2="216.0" stroke="var(--mau-chinh)" stroke-width="1.6"/>
+<text x="160.0" y="207.0" text-anchor="middle" font-size="10" fill="var(--chu)">μ ± 3σ: 99,7 %</text>
+<text x="160.0" y="232.0" text-anchor="middle" font-size="10" fill="var(--chu-phu)">Diện tích dưới đường cong trong khoảng = tỉ lệ kết quả rơi vào đó</text>
+</svg>
+        <p class="chu-thich">Phân bố Gauss: 68,3% kết quả nằm trong μ ± σ; 95,5% trong μ ± 2σ; 99,7% trong μ ± 3σ. Với mức 95% thì cụ thể là μ ± 1,96σ.</p>
+      </div>
+      <div class="cong-thuc"><div class="nhan">Chuẩn hóa: z cho biết kết quả cách μ bao nhiêu độ lệch chuẩn</div>\[ z = \frac{x - \mu}{\sigma} \]</div>
+      <p><b>Khoảng tin cậy nói gì?</b> Khoảng x̄ ± ts/√n <b>không</b> có nghĩa là "95% kết quả đo nằm trong khoảng này" và cũng không nói μ "dao động". Nghĩa đúng: nếu lặp lại cả quá trình làm n thí nghiệm nhiều lần và mỗi lần dựng một khoảng như vậy, thì <b>95% số khoảng chứa μ</b>. Khoảng hẹp theo √n: muốn hẹp đi một nửa phải tăng số lần đo lên khoảng 4 lần. Khi σ đã biết chính xác dùng z (95%: 1,96); khi chỉ có s từ ít lần đo dùng t, và t lớn hơn z nên khoảng rộng hơn.</p>
+      <div class="vi-du"><b>Ví dụ 8.</b> Một phương pháp có σ = 0,25 mg/L (biết chắc từ rất nhiều phép đo); mẫu chuẩn có μ = 50,00 mg/L. (a) Khoảng chứa 95% kết quả đơn lẻ? (b) Một lần đo cho 51,00 mg/L: có đáng ngờ không? (c) Khoảng chứa 95% giá trị trung bình của 5 lần đo? (d) Nếu 0,25 chỉ là s tính từ 5 lần đo thì khoảng tin cậy 95% của μ (x̄ ± ts/√n) rộng bao nhiêu (t = 2,78, f = 4)?
+        <details><summary>Xem lời giải</summary>
+          (a) μ ± 1,96σ = 50,00 ± 0,49 → <b>49,51 đến 50,49 mg/L</b>.<br>
+          (b)
+          \[ z = \frac{51,00 - 50,00}{0,25} = 4,0 \]
+          |z| = 4,0 &gt; 3: xác suất gặp kết quả như vậy chưa tới 0,3%, nên <b>rất đáng ngờ</b> (nhiều khả năng là sai số thô).<br>
+          (c)
+          \[ \begin{aligned} \mu \pm \frac{1,96\,\sigma}{\sqrt{n}} &= 50,00 \pm \frac{1,96\cdot0,25}{\sqrt{5}} \\ &= 50,00 \pm \mathbf{0,22} \end{aligned} \]
+          (d)
+          \[ \pm\frac{2,78\cdot0,25}{\sqrt{5}} = \pm\mathbf{0,31\ mg/L} \]
+          Rộng hơn ở (c), vì chưa biết σ và chỉ có 5 lần đo nên phải "trả giá" bằng t &gt; z.
+        </details></div>
+
+      <h3>8. Cách tra bảng t, Q, G, F</h3>
+      <p>Bốn bảng cho bốn bài toán khác nhau. Sai lầm phổ biến nhất là <b>vào bảng bằng sai đại lượng</b> (n thay cho f, hoặc ngược lại). Các bảng đầy đủ nằm trong mục <b>Tra cứu</b> của app: <i>Bảng t (Student)</i>, <i>Bảng Q</i>, <i>Bảng G (Grubbs)</i>, <i>Bảng F (95%)</i> và <i>Bảng F (97,5%)</i>.</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Bảng</th><th>Vào bảng bằng</th><th>Ghi chú</th></tr></thead>
+          <tbody>
+            <tr><td>t (một mẫu, khoảng tin cậy)</td><td>f = n − 1, cột mức tin cậy</td><td>Hai phía; 95% cho ra t = 2,78 khi n = 5</td></tr>
+            <tr><td>t (hai trung bình, độ chụm gộp)</td><td>f = n<sub>1</sub> + n<sub>2</sub> − 2</td><td>n<sub>1</sub> = 5, n<sub>2</sub> = 6 → f = 9, t = 2,26</td></tr>
+            <tr><td>t (cặp)</td><td>f = n − 1 với n = <b>số cặp</b></td><td>Xem mục 10</td></tr>
+            <tr><td>Q (Dixon)</td><td><b>n</b> (số giá trị), không phải f</td><td>3 ≤ n ≤ 10; cột 95% (hoặc theo đề)</td></tr>
+            <tr><td>G (Grubbs)</td><td><b>n</b>, cột mức tin cậy</td><td>Dùng cho n từ 3 trở lên</td></tr>
+            <tr><td>F</td><td>Cột f<sub>1</sub> = n<sub>tử</sub> − 1, hàng f<sub>2</sub> = n<sub>mẫu</sub> − 1</td><td>Tử số là phương sai <b>lớn hơn</b> (F ≥ 1)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Bảng t rút gọn (giá trị hai phía). Thêm các dòng f khác và cột 98%, 99,9% trong bảng đầy đủ:</p>
+      <div class="bang-cuon">
+        <table class="bang bang-hep">
+          <thead><tr><th>f</th><th>90%</th><th>95%</th><th>99%</th></tr></thead>
+          <tbody><tr><td>1</td><td>6,31</td><td>12,71</td><td>63,66</td></tr><tr><td>2</td><td>2,92</td><td>4,30</td><td>9,92</td></tr><tr><td>3</td><td>2,35</td><td>3,18</td><td>5,84</td></tr><tr><td>4</td><td>2,13</td><td>2,78</td><td>4,60</td></tr><tr><td>5</td><td>2,02</td><td>2,57</td><td>4,03</td></tr><tr><td>6</td><td>1,94</td><td>2,45</td><td>3,71</td></tr><tr><td>7</td><td>1,89</td><td>2,36</td><td>3,50</td></tr><tr><td>8</td><td>1,86</td><td>2,31</td><td>3,36</td></tr><tr><td>9</td><td>1,83</td><td>2,26</td><td>3,25</td></tr><tr><td>10</td><td>1,81</td><td>2,23</td><td>3,17</td></tr><tr><td>20</td><td>1,72</td><td>2,09</td><td>2,85</td></tr><tr><td>∞</td><td>1,64</td><td>1,96</td><td>2,58</td></tr></tbody>
+        </table>
+      </div>
+      <ul>
+        <li>Khi f bạn cần không có trong bảng, lấy dòng có f <b>nhỏ hơn gần nhất</b> (t lớn hơn, an toàn hơn); đề thi thường cho sẵn giá trị cần dùng, khi đó luôn dùng số của đề.</li>
+        <li><b>F một phía và hai phía</b>: bảng F 95% ghi giá trị tới hạn một phía 5% (dùng khi đề hỏi "phương pháp 1 có kém chụm hơn không"). Kiểm định hai phía mức 95% ("hai độ chụm có khác nhau không") dùng bảng F 97,5%. Nếu đề cho sẵn bảng F thì theo bảng đó.</li>
+        <li><b>Q hay G?</b> Cả hai loại một giá trị ngờ nhất mỗi lần. Q tính nhanh bằng tay nhưng chỉ dùng cho n từ 3 đến 10; Grubbs (mục 9) dùng cả x̄ và s nên phản ánh toàn bộ số liệu và được Harris khuyên dùng hơn.</li>
+      </ul>
+      <p><b>Sơ đồ chọn phép kiểm định:</b> (1) có giá trị ngờ → Q hoặc G, loại <b>trước</b>; (2) tính x̄, s, RSD; (3) muốn so hai phương pháp → F trước (độ chụm), rồi t hai trung bình; (4) muốn so với giá trị thật hoặc mẫu chuẩn → t một mẫu hoặc khoảng tin cậy.</p>
+
+      <h3>9. Loại số liệu ngờ bằng chuẩn Grubbs</h3>
+      <div class="cong-thuc"><div class="nhan">x̄ và s tính từ <u>tất cả</u> n giá trị, kể cả giá trị ngờ</div>\[ G_\text{tính} = \frac{\left|x_\text{ngờ} - \bar{x}\right|}{s} \]</div>
+      <p>Nếu G<sub>tính</sub> &gt; G<sub>bảng</sub> (theo n, mức 95%) thì loại giá trị ngờ. Khác Q: Grubbs dùng độ lệch so với <b>trung bình</b>, không chỉ khoảng cách tới giá trị lân cận, nên ít bị ảnh hưởng khi có hai giá trị đều lệch một phía. Sau khi loại phải tính lại x̄ và s cho dãy còn lại, và không lặp lại kiểm tra liên tục để "lọc" đến khi đẹp.</p>
+      <div class="vi-du"><b>Ví dụ 9.</b> Sáu lần xác định hàm lượng (%): 15,33 ; 15,29 ; 15,24 ; 15,66 ; 15,27 ; 15,33. Kiểm tra giá trị ngờ bằng Grubbs (95%; G<sub>bảng</sub> = 1,822 với n = 6), so với chuẩn Q, rồi tính x̄, s và khoảng tin cậy 95% cho dãy còn lại.
+        <details><summary>Xem lời giải</summary>
+          Giá trị ngờ là 15,66. Với cả 6 giá trị: x̄ = 15,353 ; s = 0,1542.
+          \[ G_\text{tính} = \frac{15,66 - 15,353}{0,1542} = 1,99 > 1,822 \]
+          → <b>loại 15,66</b>. Với chuẩn Q: Q = (15,66 − 15,33)/(15,66 − 15,24) = 0,79 &gt; 0,625 (n = 6) cho cùng kết luận.<br>
+          Năm giá trị còn lại (f = 4, t = 2,78):
+          \[ \begin{aligned} \bar{x} &= 15,29 \\ s &= 0,039 \\ \mu &= 15,29 \pm \frac{2,78\cdot0,039}{\sqrt{5}} \\ &= \mathbf{15,29 \pm 0,05\ \%} \end{aligned} \]
+        </details></div>
+
+      <h3>10. So sánh hai phương pháp đầy đủ và t cặp</h3>
+      <p><b>Quy trình bắt buộc theo thứ tự:</b> (1) F để so độ chụm; (2a) nếu F<sub>tính</sub> &lt; F<sub>bảng</sub>: gộp s, dùng t với f = n<sub>1</sub> + n<sub>2</sub> − 2; (2b) nếu F<sub>tính</sub> &gt; F<sub>bảng</sub>: <b>không</b> gộp s (độ chụm khác nhau có ý nghĩa; phải dùng t hiệu chỉnh Welch, bậc tự do tính riêng, thường đề cho sẵn); (3) so t<sub>tính</sub> với t<sub>bảng</sub> ở f tương ứng.</p>
+      <div class="vi-du"><b>Ví dụ 10.</b> Xác định cùng một chỉ tiêu (mg/L) bằng hai phương pháp. Phương pháp A (5 lần): 25,40 ; 25,27 ; 25,25 ; 25,40 ; 25,12. Phương pháp B (6 lần): 25,55 ; 25,71 ; 25,57 ; 25,49 ; 25,58 ; 25,58. Hai phương pháp có cho kết quả khác nhau có ý nghĩa ở mức 95% không? Cho F<sub>bảng</sub>(4; 5) = 5,19 (một phía) hoặc 7,39 (hai phía) ; t<sub>bảng</sub>(f = 9) = 2,26.
+        <details><summary>Xem lời giải</summary>
+          Tính riêng: A: x̄<sub>A</sub> = 25,29 ; s<sub>A</sub> = 0,117 (n = 5). B: x̄<sub>B</sub> = 25,58 ; s<sub>B</sub> = 0,072 (n = 6).<br>
+          <b>Bước 1: F.</b> s<sub>A</sub> lớn hơn nên đặt ở tử: f<sub>1</sub> = 4 (cột), f<sub>2</sub> = 5 (hàng).
+          \[ F_\text{tính} = \frac{0,117^2}{0,072^2} = 2,65 \]
+          F<sub>tính</sub> = 2,65 &lt; 5,19 (và &lt; 7,39) → độ chụm <b>không khác nhau đáng kể</b>, được gộp.<br>
+          <b>Bước 2: t.</b> f = 5 + 6 − 2 = 9.
+          \[ \begin{aligned} s_\text{gộp} &= \sqrt{\frac{0,117^2\cdot4 + 0,072^2\cdot5}{9}} = 0,095 \\ t_\text{tính} &= \frac{\left|25,29 - 25,58\right|}{0,095}\sqrt{\frac{5\cdot6}{5 + 6}} = 5,08 \end{aligned} \]
+          t<sub>tính</sub> = 5,08 &gt; 2,26 → <b>hai phương pháp cho kết quả khác nhau có ý nghĩa</b>.
+        </details></div>
+      <p><b>t cặp (paired)</b>: khi hai phương pháp đo trên <b>cùng các mẫu khác nhau</b> (mỗi mẫu một cặp kết quả), sự khác nhau giữa các mẫu lớn hơn sự khác nhau giữa hai phương pháp, nên không trộn hai dãy mà tính hiệu số d<sub>i</sub> của từng cặp:</p>
+      <div class="cong-thuc"><div class="nhan">n: số cặp; f = n − 1; \( \bar{d} \), \( s_d \): trung bình và độ lệch chuẩn của các hiệu số</div>\[ t_\text{tính} = \frac{\left|\bar{d}\right|}{s_d/\sqrt{n}} \]</div>
+      <div class="vi-du"><b>Ví dụ 11.</b> Đo 6 mẫu nước bằng hai phương pháp, hiệu số (A − B, mg/L) từng mẫu: 0,13 ; 0,14 ; 0,18 ; 0,17 ; 0,05 ; 0,05. Hai phương pháp có sai khác hệ thống không (t<sub>bảng</sub> = 2,57, f = 5)?
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} \bar{d} &= 0,120 \qquad s_d = 0,0573 \\ t_\text{tính} &= \frac{0,120}{0,0573/\sqrt{6}} = 5,13 \end{aligned} \]
+          5,13 &gt; 2,57 → <b>có sai khác hệ thống</b> giữa hai phương pháp.
+        </details></div>
+
+      <h3>11. Lan truyền sai số trong một phép chuẩn độ thực</h3>
+      <p>Quy trình tính s của kết quả cuối:</p>
+      <ol>
+        <li>Viết công thức tính kết quả từ các đại lượng đo.</li>
+        <li>Xác định s của mỗi đại lượng (độc lập nhau). Buret đọc hai lần (đầu và cuối), mỗi lần s = 0,02 mL nên s<sub>V</sub> = √2·0,02 = 0,03 mL. Cân trên cân phân tích cũng là hiệu hai lần cân.</li>
+        <li>Đi từ trong ra ngoài theo thứ tự phép tính. <b>Cộng, trừ</b>: cộng bình phương s <b>tuyệt đối</b>. <b>Nhân, chia</b>: cộng bình phương s <b>tương đối</b>. Kết quả của một bước thành đầu vào của bước sau.</li>
+        <li>Đổi về s tuyệt đối của kết quả cuối, làm tròn s đến 1 chữ số có nghĩa rồi làm tròn kết quả theo s.</li>
+      </ol>
+      <div class="vi-du"><b>Ví dụ 12.</b> Chuẩn hóa NaOH bằng kali hiđro phtalat (KHP, M = 204,22 g/mol; phản ứng 1 : 1): cân 0,5105 g (s = 0,0002 g) hòa tan, chuẩn độ hết 25,40 mL NaOH (s = 0,03 mL). Tính nồng độ NaOH kèm độ lệch chuẩn. Đại lượng nào đóng góp sai số lớn nhất?
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} C &= \frac{m}{M\cdot V} = \frac{0,5105}{204,22\cdot0,02540} \\ &= 0,09842\ \mathrm{M} \end{aligned} \]
+          Chỉ có phép chia nên cộng bình phương s tương đối (M coi như không có sai số):
+          \[ \begin{aligned} \frac{s_C}{C} &= \sqrt{\left(\frac{0,0002}{0,5105}\right)^2 + \left(\frac{0,03}{25,40}\right)^2} \\ &= \sqrt{(3,9\cdot10^{-4})^2 + (1,18\cdot10^{-3})^2} \\ &= 1,24\cdot10^{-3} \end{aligned} \]
+          \[ \begin{aligned} s_C &= 0,09842\cdot1,24\cdot10^{-3} = 1,2\cdot10^{-4} \\ C &= \mathbf{0,0984 \pm 0,0001\ M} \end{aligned} \]
+          Thể tích buret góp 0,118% so với 0,039% của khối lượng: chiếm khoảng 90% phương sai. Muốn giảm sai số, cân nhiều KHP hơn để chuẩn độ hết thể tích buret lớn hơn (sai số tuyệt đối 0,03 mL không đổi nên sai số tương đối giảm).
+        </details></div>
+      <div class="vi-du"><b>Ví dụ 13.</b> (Phép tính hỗn hợp cộng, trừ và nhân, chia.) Xác định Cl<sup>−</sup> theo Volhard: 25,00 mL mẫu (s = 0,03) + 40,00 mL AgNO<sub>3</sub> 0,1000 M (s = 0,03 mL ; s<sub>C</sub> = 0,0002 M), chuẩn Ag<sup>+</sup> dư hết 33,20 mL KSCN 0,0500 M (s<sub>V</sub> = 0,03 mL ; s<sub>C</sub> = 0,0001 M). Tính [Cl<sup>−</sup>] kèm s.
+        <details><summary>Xem lời giải</summary>
+          Công thức: \( C = \dfrac{C_\mathrm{Ag}V_\mathrm{Ag} - C_\mathrm{SCN}V_\mathrm{SCN}}{V_\text{mẫu}} \). Đi theo thứ tự: hai tích (nhân), hiệu (trừ), thương (chia).<br>
+          <b>Tích 1</b>: n<sub>Ag</sub> = 0,1000·40,00 = 4,000 mmol.
+          \[ \begin{aligned} \frac{s_1}{n_1} &= \sqrt{\left(\tfrac{0,0002}{0,1000}\right)^2 + \left(\tfrac{0,03}{40,00}\right)^2} \\ &= 2,14\cdot10^{-3} \\ s_1 &= 4,000\cdot2,14\cdot10^{-3} = 0,00854 \end{aligned} \]
+          <b>Tích 2</b>: n<sub>SCN</sub> = 0,0500·33,20 = 1,660 mmol.
+          \[ \begin{aligned} \frac{s_2}{n_2} &= \sqrt{\left(\tfrac{0,0001}{0,0500}\right)^2 + \left(\tfrac{0,03}{33,20}\right)^2} \\ &= 2,19\cdot10^{-3} \\ s_2 &= 1,660\cdot2,19\cdot10^{-3} = 0,00364 \end{aligned} \]
+          <b>Hiệu</b> (cộng bình phương s <b>tuyệt đối</b>):
+          \[ \begin{aligned} n_\mathrm{Cl} &= 4,000 - 1,660 = 2,340\ \mathrm{mmol} \\ s_n &= \sqrt{0,00854^2 + 0,00364^2} \\ &= 0,0093 \end{aligned} \]
+          <b>Thương</b> (cộng bình phương s <b>tương đối</b>):
+          \[ \begin{aligned} C &= \frac{2,340}{25,00} = 0,09360\ \mathrm{M} \\ \frac{s_C}{C} &= \sqrt{\left(\tfrac{0,0093}{2,340}\right)^2 + \left(\tfrac{0,03}{25,00}\right)^2} \\ &= 4,1\cdot10^{-3} \\ s_C &= 0,09360\cdot4,1\cdot10^{-3} \\ &= 3,9\cdot10^{-4} \end{aligned} \]
+          \[ [\mathrm{Cl^-}] = \mathbf{0,0936 \pm 0,0004\ M} \]
+          Chú ý: hai tích liên quan đến các đại lượng khác nhau nên được xem độc lập, và phép trừ dùng s tuyệt đối 0,00854 và 0,00364 (đơn vị mmol), không dùng s tương đối.
+        </details></div>
+
+      <h3>12. Tính x̄ và s bằng máy tính cầm tay</h3>
+      <p>Máy tính cầm tay có chức năng thống kê (các đời máy khác nhau thì tên phím và đường vào menu khác nhau, xem hướng dẫn của máy mình dùng):</p>
+      <ol>
+        <li>Vào chế độ <b>thống kê một biến</b>.</li>
+        <li>Nhập lần lượt từng số liệu vào cột dữ liệu.</li>
+        <li>Mở phần kết quả thống kê, đọc <b>x̄</b> (trung bình) và độ lệch chuẩn <b>s<sub>x</sub></b> (thường kí hiệu xσ<sub>n−1</sub> hoặc sx, chia cho n − 1).</li>
+      </ol>
+      <p class="luu-y"><b>Chú ý:</b> máy có hai độ lệch chuẩn. Dùng <b>s<sub>x</sub> (xσ<sub>n−1</sub>)</b> cho số liệu thực nghiệm; <b>σ<sub>x</sub> (xσ<sub>n</sub>)</b> chỉ dùng khi có toàn bộ tổng thể. Kiểm tra lại số lượng dữ liệu n trên máy trước khi đọc kết quả; giữ nguyên đủ chữ số khi nhập và chỉ làm tròn ở kết quả cuối.</p>
+
+      <h3>13. Tóm tắt công thức</h3>
       <div class="bang-cuon">
         <table class="bang bang-the">
           <thead><tr><th>Nội dung</th><th>Công thức</th><th>Ghi chú</th></tr></thead>
@@ -745,9 +909,24 @@ const CHUONG = [
             <tr><td>Khoảng tin cậy</td><td>\( \mu = \bar{x} \pm \dfrac{ts}{\sqrt{n}} \)</td><td>t tra theo f = n − 1</td></tr>
             <tr><td>Chuẩn Q</td><td>\( Q = \dfrac{|x_1 - x_2|}{x_\text{max} - x_\text{min}} \)</td><td>Q<sub>tính</sub> &gt; Q<sub>bảng</sub> → loại</td></tr>
             <tr><td>Chuẩn t</td><td>\( t = \dfrac{|\bar{x} - \mu|\sqrt{n}}{s} \)</td><td>t<sub>tính</sub> &gt; t<sub>bảng</sub> → có sai số hệ thống</td></tr>
+            <tr><td>Grubbs</td><td>\( G = \dfrac{|x_\text{ngờ} - \bar{x}|}{s} \)</td><td>x̄, s tính cả giá trị ngờ; G<sub>tính</sub> &gt; G<sub>bảng</sub> (theo n) → loại</td></tr>
+            <tr><td>Chuẩn hóa Gauss</td><td>\( z = \dfrac{x - \mu}{\sigma} \)</td><td>μ ± 1,96σ chứa 95% kết quả</td></tr>
+            <tr><td>t cặp</td><td>\( t = \dfrac{|\bar{d}|}{s_d/\sqrt{n}} \)</td><td>f = n − 1, n: số cặp</td></tr>
           </tbody>
         </table>
       </div>
+      <h3>14. Lỗi hay gặp</h3>
+      <ul>
+        <li><b>Vào bảng sai đại lượng</b>: dùng n thay cho f = n − 1 với bảng t; dùng f thay cho n với bảng Q và G; với hai trung bình quên rằng f = n<sub>1</sub> + n<sub>2</sub> − 2.</li>
+        <li><b>Thứ tự</b>: tính x̄, s rồi mới kiểm tra số liệu ngờ (phải Q hoặc G <b>trước</b>); loại xong nhưng không tính lại x̄, s; dùng Q khi n &gt; 10 hoặc loại hai giá trị cùng một lúc.</li>
+        <li><b>Grubbs</b>: tính x̄ và s của dãy đã <b>bỏ</b> giá trị ngờ (đúng là tính trên cả dãy).</li>
+        <li><b>Bỏ bước F</b> khi so hai trung bình; đặt phương sai <b>nhỏ</b> ở tử làm F &lt; 1; vẫn gộp s dù F có ý nghĩa.</li>
+        <li><b>Nhầm s với σ</b> trên máy tính (dùng σ<sub>x</sub> chia n thay cho s<sub>x</sub> chia n − 1).</li>
+        <li><b>Diễn giải khoảng tin cậy sai</b>: "95% kết quả đo nằm trong khoảng" hoặc "xác suất 95% μ nằm trong khoảng vừa tính". Đúng: 95% các khoảng dựng theo cách này chứa μ.</li>
+        <li><b>Lan truyền</b>: dùng s tương đối cho cộng, trừ (hoặc s tuyệt đối cho nhân, chia); quên bình phương và căn; cộng thẳng s của các phép đo độc lập; dùng cộng bình phương cho sai số hệ thống của cùng một pipet chưa hiệu chuẩn (phải cộng thẳng).</li>
+        <li><b>Dùng t hai trung bình cho số liệu ghép cặp</b> (các mẫu khác nhau nhiều): sai khác giữa mẫu che mất sai khác giữa phương pháp; dùng t cặp.</li>
+        <li><b>Chữ số có nghĩa</b>: làm tròn ở bước trung gian; ghi s với 3 – 4 chữ số rồi ghi x̄ nhiều chữ số hơn s cho phép (đúng: s làm tròn đến 1 – 2 chữ số, x̄ cùng chữ số thập phân với s).</li>
+      </ul>
     `,
     baiTap: [],
   },
@@ -2075,7 +2254,10 @@ const CHUONG = [
           <li>Tính độ tan khi có ion chung, khi pH thay đổi; xét thứ tự kết tủa phân đoạn.</li>
           <li>Tính pAg trên đường chuẩn độ kết tủa.</li>
           <li>Nắm nguyên tắc, điều kiện và cách tính của ba phương pháp Mohr, Volhard, Fajans.</li>
-        </ul>
+                  <li>Tính độ tan khi anion nhiều nấc (PO<sub>4</sub><sup>3−</sup>, AsO<sub>4</sub><sup>3−</sup>, S<sup>2−</sup>) bị proton hóa và khi Ag<sup>+</sup> tạo phức với NH<sub>3</sub>; tính [Ag<sup>+</sup>] tự do.</li>
+                  <li>Tính [Ag<sup>+</sup>] và [X<sup>−</sup>] (pAg, pX) ở mọi điểm của đường chuẩn độ; xét hỗn hợp halogenua.</li>
+                  <li>Làm bài Volhard chuẩn ngược (I<sup>−</sup>, Cl<sup>−</sup>, tỉ lượng 3 : 1 của Ag<sub>3</sub>AsO<sub>4</sub>), biết khi nào phải lọc; làm bài Mohr qua bình định mức có mẫu trắng.</li>
+</ul>
       </div>
       <h3>1. Nhắc lại: tích số tan và độ tan</h3>
       <p>Biểu thức K<sub>sp</sub>, cách tính độ tan S và điều kiện kết tủa Q &gt; K<sub>sp</sub> đã học ở Chương 4, mục 6. Tổng quát cho M<sub>m</sub>A<sub>n</sub>:</p>
@@ -2190,6 +2372,173 @@ const CHUONG = [
           </tbody>
         </table>
       </div>
+
+      <h3>8. Độ tan khi anion nhiều nấc bị proton hóa (theo pH)</h3>
+      <p><b>Vì sao phải tính α?</b> Trong dung dịch acid, một phần anion A<sup>n−</sup> do kết tủa tan ra bị H<sup>+</sup> giữ lại thành HA, H<sub>2</sub>A… Tích số tan chỉ chứa phần A<sup>n−</sup> <b>tự do</b>, còn lượng chất tan ra được tính theo <b>tổng</b> các dạng của anion. Gọi C<sub>A</sub> là tổng nồng độ các dạng của anion, thì [A<sup>n−</sup>] = α·C<sub>A</sub>.</p>
+      <div class="cong-thuc"><div class="nhan">Kết tủa M<sub>m</sub>A<sub>n</sub> (S: độ tan; α: phân số của dạng A<sup>n−</sup> tự do ở pH đã cho)</div>\[ \begin{gathered} [\mathrm{M}] = mS \qquad C_\mathrm{A} = nS \qquad [\mathrm{A}] = \alpha\, nS \\ K_\mathrm{sp} = (mS)^m(\alpha\, nS)^n \\ S = \sqrt[m+n]{\frac{K_\mathrm{sp}}{m^m n^n \alpha^n}} \end{gathered} \]</div>
+      <p>Phân số α của dạng anion cuối cùng, tính từ các hằng số K<sub>a</sub> của acid liên hợp (h = [H<sup>+</sup>], Chương 5, mục 4):</p>
+      <div class="cong-thuc"><div class="nhan">A<sup>2−</sup> (S<sup>2−</sup>, C<sub>2</sub>O<sub>4</sub><sup>2−</sup>) và A<sup>3−</sup> (PO<sub>4</sub><sup>3−</sup>, AsO<sub>4</sub><sup>3−</sup>)</div>\[ \begin{aligned} D_2 &= h^2 + K_\mathrm{a1}h + K_\mathrm{a1}K_\mathrm{a2} \\ \alpha_{\mathrm{A^{2-}}} &= \frac{K_\mathrm{a1}K_\mathrm{a2}}{D_2} \\ D_3 &= h^3 + K_\mathrm{a1}h^2 \\ &\quad + K_\mathrm{a1}K_\mathrm{a2}h + K_\mathrm{a1}K_\mathrm{a2}K_\mathrm{a3} \\ \alpha_{\mathrm{A^{3-}}} &= \frac{K_\mathrm{a1}K_\mathrm{a2}K_\mathrm{a3}}{D_3} \end{aligned} \]</div>
+      <p>Cách nhớ mẫu số: số hạng đầu chỉ có h<sup>n</sup>, mỗi số hạng sau thay bớt một h bằng một K<sub>a</sub> theo thứ tự K<sub>a1</sub>, K<sub>a2</sub>… Ở pH đã cho thường chỉ một, hai số hạng lớn hơn hẳn: bỏ các số hạng nhỏ hơn 1% số hạng lớn nhất cũng được, nhưng nên viết đủ để không sót.</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Kết tủa</th><th>K<sub>sp</sub></th><th>Acid liên hợp của anion (pK<sub>a</sub>)</th><th>Biểu thức K<sub>sp</sub> theo S</th></tr></thead>
+          <tbody>
+            <tr><td>MgNH<sub>4</sub>PO<sub>4</sub></td><td>3·10<sup>−13</sup></td><td>H<sub>3</sub>PO<sub>4</sub>: 2,12; 7,21; 12,32 (và NH<sub>4</sub><sup>+</sup>: 9,25)</td><td>\( S\cdot\alpha_\mathrm{NH_4}S\cdot\alpha_\mathrm{PO_4}S \)</td></tr>
+            <tr><td>Ag<sub>3</sub>AsO<sub>4</sub></td><td>6·10<sup>−23</sup></td><td>H<sub>3</sub>AsO<sub>4</sub>: 2,24; 6,96; 11,50</td><td>\( (3S)^3\cdot\alpha_\mathrm{AsO_4}S = 27\,\alpha S^4 \)</td></tr>
+            <tr><td>ZnS</td><td>2·10<sup>−25</sup></td><td>H<sub>2</sub>S: 7,02; ≈ 14</td><td>\( S\cdot\alpha_\mathrm{S}S \)</td></tr>
+            <tr><td>MgC<sub>2</sub>O<sub>4</sub></td><td>4,8·10<sup>−6</sup></td><td>H<sub>2</sub>C<sub>2</sub>O<sub>4</sub>: K<sub>a1</sub> = 6,5·10<sup>−2</sup>; K<sub>a2</sub> = 6,46·10<sup>−5</sup></td><td>\( S\cdot\alpha S \)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="luu-y">pK<sub>a2</sub> của H<sub>2</sub>S rất không chắc chắn (14 hoặc lớn hơn), nên độ tan sulfide chỉ đáng tin về bậc độ lớn. Khi đề bài cho hằng số hoặc giá trị α, luôn dùng số của đề.</p>
+      <div class="vi-du"><b>Ví dụ 7.</b> Tính độ tan của MgNH<sub>4</sub>PO<sub>4</sub> (K<sub>sp</sub> = 3·10<sup>−13</sup>) trong dung dịch đệm pH = 7,50. Cho H<sub>3</sub>PO<sub>4</sub>: pK<sub>a1</sub> = 2,12; pK<sub>a2</sub> = 7,21; pK<sub>a3</sub> = 12,32; NH<sub>4</sub><sup>+</sup>: pK<sub>a</sub> = 9,25. So sánh với độ tan trong nước tinh khiết khi bỏ qua phản ứng phụ.
+        <details><summary>Xem lời giải</summary>
+          Cân bằng: MgNH<sub>4</sub>PO<sub>4</sub> ⇌ Mg<sup>2+</sup> + NH<sub>4</sub><sup>+</sup> + PO<sub>4</sub><sup>3−</sup>. Cả phosphate và amoni đều bị proton hóa (amoni tạo NH<sub>3</sub> ít, phosphate tạo HPO<sub>4</sub><sup>2−</sup>, H<sub>2</sub>PO<sub>4</sub><sup>−</sup>). h = 10<sup>−7,50</sup> = 3,16·10<sup>−8</sup> M; K<sub>a1</sub> = 7,59·10<sup>−3</sup>; K<sub>a2</sub> = 6,17·10<sup>−8</sup>; K<sub>a3</sub> = 4,79·10<sup>−13</sup>.
+          \[ \begin{aligned} D &= h^3 + K_\mathrm{a1}h^2 + K_\mathrm{a1}K_\mathrm{a2}h \\ &\quad + K_\mathrm{a1}K_\mathrm{a2}K_\mathrm{a3} \\ &= 3\cdot10^{-23} + 7,59\cdot10^{-18} \\ &\quad + 1,48\cdot10^{-17} + 2,2\cdot10^{-22} \\ &= 2,24\cdot10^{-17} \end{aligned} \]
+          \[ \begin{aligned} \alpha_\mathrm{PO_4} &= \frac{2,24\cdot10^{-22}}{2,24\cdot10^{-17}} = 1,0\cdot10^{-5} \\ \alpha_\mathrm{NH_4} &= \frac{h}{h + K_\mathrm{a}} = 0,98 \end{aligned} \]
+          Với [Mg<sup>2+</sup>] = C<sub>NH₄</sub> = C<sub>PO₄</sub> = S:
+          \[ \begin{aligned} K_\mathrm{sp} &= S\cdot(0,98\,S)\cdot(1,0\cdot10^{-5}\,S) \\ S &= \sqrt[3]{\frac{3\cdot10^{-13}}{0,98\cdot1,0\cdot10^{-5}}} = \mathbf{3,1\cdot10^{-3}\ M} \end{aligned} \]
+          Trong nước tinh khiết (bỏ qua phản ứng phụ): \( S = \sqrt[3]{3\cdot10^{-13}} = 6,7\cdot10^{-5} \) M. Ở pH 7,50 độ tan lớn hơn khoảng <b>47 lần</b>, vì gần như toàn bộ phosphate nằm ở dạng HPO<sub>4</sub><sup>2−</sup> và H<sub>2</sub>PO<sub>4</sub><sup>−</sup>.
+        </details></div>
+      <p>Tương tự, ZnS ở pH 5,00: với K<sub>a1</sub> = 9,5·10<sup>−8</sup>, K<sub>a2</sub> ≈ 10<sup>−14</sup> thì α<sub>S²⁻</sub> = 9,4·10<sup>−12</sup> và S = \( \sqrt{2\cdot10^{-25}/9,4\cdot10^{-12}} \) = 1,5·10<sup>−7</sup> M (gấp hơn 10<sup>5</sup> lần giá trị 4,5·10<sup>−13</sup> M khi bỏ qua pH). Vì vậy sulfide dễ tan trong acid mạnh hơn được dùng để tách nhóm cation: CuS, CdS, PbS kết tủa cả ở pH thấp, còn ZnS, MnS chỉ kết tủa khi pH cao.</p>
+
+      <h3>9. Độ tan khi tạo phức</h3>
+      <p>Phối tử L (NH<sub>3</sub>, CN<sup>−</sup>, S<sub>2</sub>O<sub>3</sub><sup>2−</sup>…) giữ cation M<sup>+</sup> thành phức nên [M<sup>+</sup>] tự do nhỏ hơn tổng nồng độ M trong dung dịch. Với Ag<sup>+</sup> và NH<sub>3</sub> (lg β<sub>1</sub> = 3,31; lg β<sub>2</sub> = 7,22), hệ số phản ứng phụ:</p>
+      <div class="cong-thuc"><div class="nhan">C<sub>Ag</sub>: tổng nồng độ mọi dạng của bạc; [NH<sub>3</sub>]: nồng độ NH<sub>3</sub> <u>tự do</u></div>\[ \begin{gathered} \alpha_\mathrm{Ag(NH_3)} = 1 + \beta_1[\mathrm{NH_3}] + \beta_2[\mathrm{NH_3}]^2 \\ [\mathrm{Ag^+}] = \frac{C_\mathrm{Ag}}{\alpha_\mathrm{Ag(NH_3)}} \end{gathered} \]</div>
+      <div class="cong-thuc"><div class="nhan">Độ tan của AgX trong NH<sub>3</sub> (S = [X<sup>−</sup>] = C<sub>Ag</sub>)</div>\[ \begin{aligned} K_\mathrm{sp} &= [\mathrm{Ag^+}][\mathrm{X^-}] = \frac{S}{\alpha}\cdot S \\ S &= \sqrt{K_\mathrm{sp}\,\alpha_\mathrm{Ag(NH_3)}} \end{aligned} \]</div>
+      <p>Cách làm: (1) tính [NH<sub>3</sub>] tự do (thường coi bằng nồng độ NH<sub>3</sub> ban đầu nếu lượng Ag nhỏ so với NH<sub>3</sub>); (2) tính α; (3) tính [Ag<sup>+</sup>] tự do hoặc S; (4) so tích [Ag<sup>+</sup>][X<sup>−</sup>] với K<sub>sp</sub> để xem có kết tủa không.</p>
+      <div class="vi-du"><b>Ví dụ 8.</b> (a) Tính độ tan của AgI (K<sub>sp</sub> = 8,3·10<sup>−17</sup>) và AgCl (K<sub>sp</sub> = 1,8·10<sup>−10</sup>) trong NH<sub>3</sub> 0,10 M. (b) Dung dịch chứa Ag(NH<sub>3</sub>)<sub>2</sub><sup>+</sup> có tổng nồng độ bạc 0,0100 M và NH<sub>3</sub> tự do 0,50 M. Tính [Ag<sup>+</sup>] tự do. Thêm Cl<sup>−</sup> 0,010 M hoặc I<sup>−</sup> 1,0·10<sup>−3</sup> M vào dung dịch đó thì có kết tủa không?
+        <details><summary>Xem lời giải</summary>
+          <b>(a)</b> [NH<sub>3</sub>] = 0,10 M:
+          \[ \begin{aligned} \alpha &= 1 + 10^{3,31}\cdot0,10 \\ &\quad + 10^{7,22}\cdot0,10^2 \\ &= 1 + 205 + 1,66\cdot10^{5} \\ &= 1,66\cdot10^{5} \\ S_\mathrm{AgI} &= \sqrt{8,3\cdot10^{-17}\cdot1,66\cdot10^{5}} \\ &= \mathbf{3,7\cdot10^{-6}\ M} \\ S_\mathrm{AgCl} &= \sqrt{1,8\cdot10^{-10}\cdot1,66\cdot10^{5}} \\ &= \mathbf{5,5\cdot10^{-3}\ M} \end{aligned} \]
+          AgCl tan trong NH<sub>3</sub> nhiều hơn AgI khoảng 1 500 lần. Với AgCl, lượng NH<sub>3</sub> bị dùng (2S ≈ 0,011 M) đã đáng kể so với 0,10 M; tính lặp với [NH<sub>3</sub>] = 0,089 M cho S ≈ 4,9·10<sup>−3</sup> M. Với AgI thì S nhỏ, coi [NH<sub>3</sub>] = 0,10 M là đúng.<br>
+          <b>(b)</b> \( \alpha = 1 + 10^{3,31}\cdot0,50 + 10^{7,22}\cdot0,50^2 = 4,1\cdot10^{6} \):
+          \[ [\mathrm{Ag^+}] = \frac{0,0100}{4,1\cdot10^{6}} = \mathbf{2,4\cdot10^{-9}\ M} \]
+          Gần như toàn bộ bạc (99,98%) ở dạng Ag(NH<sub>3</sub>)<sub>2</sub><sup>+</sup>.<br>
+          Với Cl<sup>−</sup>: 2,4·10<sup>−9</sup>·0,010 = 2,4·10<sup>−11</sup> &lt; 1,8·10<sup>−10</sup> → <b>không kết tủa</b> AgCl.<br>
+          Với I<sup>−</sup>: 2,4·10<sup>−9</sup>·1,0·10<sup>−3</sup> = 2,4·10<sup>−12</sup> ≫ 8,3·10<sup>−17</sup> → <b>kết tủa AgI</b> (vàng).<br>
+          Đây là cách phân biệt AgCl với AgI: AgCl tan trong NH<sub>3</sub> loãng, AgI không tan.
+        </details></div>
+      <p class="luu-y">Khi dùng CN<sup>−</sup> hoặc EDTA làm chất tạo phức cho sulfide (ví dụ CuS trong KCN), độ tan có <b>hai</b> phản ứng phụ: α của cation (tạo phức) và α của S<sup>2−</sup> (proton hóa). Khi đó K<sub>sp</sub> = S·α<sub>S²⁻</sub>·S/α<sub>M</sub>, tức S = \( \sqrt{K_\mathrm{sp}\,\alpha_\mathrm{M}/\alpha_\mathrm{S}} \).</p>
+
+      <h3>10. Đường chuẩn độ bạc: [Ag<sup>+</sup>] và [X<sup>−</sup>] ở mọi điểm</h3>
+      <p>Đề thi thường hỏi <b>cả hai</b> đại lượng, pAg và pX (pCl, pBr, pI). Hai đại lượng luôn liên hệ bởi K<sub>sp</sub> nên chỉ cần tính một, rồi suy ra cái còn lại:</p>
+      <div class="cong-thuc">\[ \begin{gathered} [\mathrm{Ag^+}][\mathrm{X^-}] = K_\mathrm{sp} \\ \mathrm{pAg} + \mathrm{pX} = \mathrm{p}K_\mathrm{sp} \end{gathered} \]</div>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Vùng</th><th>Tính đại lượng nào trước</th><th>Suy ra đại lượng còn lại</th></tr></thead>
+          <tbody>
+            <tr><td>V &lt; V<sub>e</sub></td><td>\( [\mathrm{X^-}] = \dfrac{n_\mathrm{X} - n_\mathrm{Ag}}{V_\text{tổng}} \)</td><td>[Ag<sup>+</sup>] = K<sub>sp</sub>/[X<sup>−</sup>]</td></tr>
+            <tr><td>V = V<sub>e</sub></td><td>[Ag<sup>+</sup>] = [X<sup>−</sup>] = √K<sub>sp</sub></td><td>pAg = pX = ½pK<sub>sp</sub></td></tr>
+            <tr><td>V &gt; V<sub>e</sub></td><td>\( [\mathrm{Ag^+}] = \dfrac{n_\mathrm{Ag} - n_\mathrm{X}}{V_\text{tổng}} \)</td><td>[X<sup>−</sup>] = K<sub>sp</sub>/[Ag<sup>+</sup>]</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Công thức trên chỉ đúng khi cách V<sub>e</sub> đủ xa (lượng chất dư lớn hơn nhiều so với lượng tan ra từ kết tủa). Rất gần V<sub>e</sub> (trong khoảng ±0,1%) phải giải đủ: [Ag<sup>+</sup>] − [X<sup>−</sup>] = (n<sub>Ag</sub> − n<sub>X</sub>)/V<sub>tổng</sub>.</p>
+      <div class="hinh-tinh">
+        <svg viewBox="0 0 320 236" role="img" aria-label="Đường chuẩn độ pAg của Cl⁻, Br⁻, I⁻ bằng AgNO3">
+<defs><marker id="mt-kt-1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--chu-phu)"/></marker></defs>
+<line x1="42.0" y1="180.0" x2="306.0" y2="180.0" stroke="var(--vien)" stroke-width="1"/>
+<text x="37.0" y="183.5" text-anchor="end" font-size="10" fill="var(--chu-phu)">0</text>
+<line x1="42.0" y1="140.0" x2="306.0" y2="140.0" stroke="var(--vien)" stroke-width="1"/>
+<text x="37.0" y="143.5" text-anchor="end" font-size="10" fill="var(--chu-phu)">4</text>
+<line x1="42.0" y1="100.0" x2="306.0" y2="100.0" stroke="var(--vien)" stroke-width="1"/>
+<text x="37.0" y="103.5" text-anchor="end" font-size="10" fill="var(--chu-phu)">8</text>
+<line x1="42.0" y1="60.0" x2="306.0" y2="60.0" stroke="var(--vien)" stroke-width="1"/>
+<text x="37.0" y="63.5" text-anchor="end" font-size="10" fill="var(--chu-phu)">12</text>
+<line x1="42.0" y1="20.0" x2="306.0" y2="20.0" stroke="var(--vien)" stroke-width="1"/>
+<text x="37.0" y="23.5" text-anchor="end" font-size="10" fill="var(--chu-phu)">16</text>
+<text x="42.0" y="194.0" text-anchor="middle" font-size="10" fill="var(--chu-phu)">0</text>
+<text x="108.0" y="194.0" text-anchor="middle" font-size="10" fill="var(--chu-phu)">25</text>
+<text x="174.0" y="194.0" text-anchor="middle" font-size="10" fill="var(--chu-phu)">50</text>
+<text x="240.0" y="194.0" text-anchor="middle" font-size="10" fill="var(--chu-phu)">75</text>
+<text x="306.0" y="194.0" text-anchor="middle" font-size="10" fill="var(--chu-phu)">100</text>
+<line x1="42.0" y1="180.0" x2="306.0" y2="180.0" stroke="var(--chu-phu)" stroke-width="1.2"/>
+<line x1="42.0" y1="20.0" x2="42.0" y2="180.0" stroke="var(--chu-phu)" stroke-width="1.2"/>
+<text x="174.0" y="209.0" text-anchor="middle" font-size="10" fill="var(--chu-phu)">V(Ag⁺) thêm vào, mL</text>
+<text x="42.0" y="13.0" text-anchor="middle" font-size="10" fill="var(--chu-phu)">pAg</text>
+<line x1="174.0" y1="22.0" x2="174.0" y2="180.0" stroke="var(--chu-phu)" stroke-width="1" stroke-dasharray="3 3"/>
+<text x="174.0" y="13.0" text-anchor="middle" font-size="10" fill="var(--chu-phu)">V<tspan font-size="8" dy="2">e</tspan><tspan dy="-2"> = 50</tspan></text>
+<polyline points="43.3,29.3 44.6,29.4 46.0,29.5 47.3,29.5 48.6,29.6 49.9,29.7 51.2,29.8 52.6,29.9 53.9,30.0 55.2,30.1 56.5,30.1 57.8,30.2 59.2,30.3 60.5,30.4 61.8,30.5 63.1,30.6 64.4,30.7 65.8,30.8 67.1,30.9 68.4,31.0 69.7,31.1 71.0,31.1 72.4,31.2 73.7,31.3 75.0,31.4 76.3,31.5 77.6,31.6 79.0,31.7 80.3,31.8 81.6,31.9 82.9,32.0 84.2,32.1 85.6,32.2 86.9,32.3 88.2,32.4 89.5,32.5 90.8,32.6 92.2,32.7 93.5,32.8 94.8,32.9 96.1,33.0 97.4,33.1 98.8,33.2 100.1,33.3 101.4,33.4 102.7,33.5 104.0,33.6 105.4,33.7 106.7,33.8 108.0,34.0 109.3,34.1 110.6,34.2 112.0,34.3 113.3,34.4 114.6,34.6 115.9,34.7 117.2,34.8 118.6,34.9 119.9,35.1 121.2,35.2 122.5,35.3 123.8,35.5 125.2,35.6 126.5,35.8 127.8,35.9 129.1,36.1 130.4,36.2 131.8,36.4 133.1,36.6 134.4,36.7 135.7,36.9 137.0,37.1 138.4,37.3 139.7,37.4 141.0,37.6 142.3,37.8 143.6,38.1 145.0,38.3 146.3,38.5 147.6,38.7 148.9,39.0 150.2,39.2 151.6,39.5 152.9,39.8 154.2,40.1 155.5,40.4 156.8,40.8 158.2,41.1 159.5,41.5 160.8,42.0 162.1,42.5 163.4,43.0 164.8,43.6 166.1,44.3 167.4,45.1 168.7,46.1 170.0,47.4 171.4,49.1 172.7,52.2 174.0,99.6 175.3,147.0 176.6,150.0 178.0,151.7 179.3,152.9 180.6,153.9 181.9,154.6 183.2,155.3 184.6,155.9 185.9,156.3 187.2,156.8 188.5,157.2 189.8,157.5 191.2,157.9 192.5,158.2 193.8,158.4 195.1,158.7 196.4,158.9 197.8,159.2 199.1,159.4 200.4,159.6 201.7,159.8 203.0,160.0 204.4,160.1 205.7,160.3 207.0,160.5 208.3,160.6 209.6,160.8 211.0,160.9 212.3,161.0 213.6,161.2 214.9,161.3 216.2,161.4 217.6,161.5 218.9,161.6 220.2,161.7 221.5,161.8 222.8,161.9 224.2,162.0 225.5,162.1 226.8,162.2 228.1,162.3 229.4,162.4 230.8,162.5 232.1,162.6 233.4,162.6 234.7,162.7 236.0,162.8 237.4,162.9 238.7,162.9 240.0,163.0 241.3,163.1 242.6,163.1 244.0,163.2 245.3,163.3 246.6,163.3 247.9,163.4 249.2,163.5 250.6,163.5 251.9,163.6 253.2,163.6 254.5,163.7 255.8,163.7 257.2,163.8 258.5,163.8 259.8,163.9 261.1,163.9 262.4,164.0 263.8,164.0 265.1,164.1 266.4,164.1 267.7,164.2 269.0,164.2 270.4,164.3 271.7,164.3 273.0,164.4 274.3,164.4 275.6,164.4 277.0,164.5 278.3,164.5 279.6,164.6 280.9,164.6 282.2,164.6 283.6,164.7 284.9,164.7 286.2,164.7 287.5,164.8 288.8,164.8 290.2,164.9 291.5,164.9 292.8,164.9 294.1,165.0 295.4,165.0 296.8,165.0 298.1,165.0 299.4,165.1 300.7,165.1 302.0,165.1 303.4,165.2 304.7,165.2" fill="none" stroke="var(--mau-chinh)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="43.3,67.4 44.6,67.5 46.0,67.6 47.3,67.7 48.6,67.8 49.9,67.8 51.2,67.9 52.6,68.0 53.9,68.1 55.2,68.2 56.5,68.3 57.8,68.4 59.2,68.5 60.5,68.5 61.8,68.6 63.1,68.7 64.4,68.8 65.8,68.9 67.1,69.0 68.4,69.1 69.7,69.2 71.0,69.3 72.4,69.4 73.7,69.5 75.0,69.5 76.3,69.6 77.6,69.7 79.0,69.8 80.3,69.9 81.6,70.0 82.9,70.1 84.2,70.2 85.6,70.3 86.9,70.4 88.2,70.5 89.5,70.6 90.8,70.7 92.2,70.8 93.5,70.9 94.8,71.0 96.1,71.1 97.4,71.2 98.8,71.3 100.1,71.4 101.4,71.5 102.7,71.6 104.0,71.8 105.4,71.9 106.7,72.0 108.0,72.1 109.3,72.2 110.6,72.3 112.0,72.4 113.3,72.6 114.6,72.7 115.9,72.8 117.2,72.9 118.6,73.1 119.9,73.2 121.2,73.3 122.5,73.5 123.8,73.6 125.2,73.8 126.5,73.9 127.8,74.1 129.1,74.2 130.4,74.4 131.8,74.5 133.1,74.7 134.4,74.9 135.7,75.0 137.0,75.2 138.4,75.4 139.7,75.6 141.0,75.8 142.3,76.0 143.6,76.2 145.0,76.4 146.3,76.6 147.6,76.9 148.9,77.1 150.2,77.4 151.6,77.6 152.9,77.9 154.2,78.2 155.5,78.6 156.8,78.9 158.2,79.3 159.5,79.7 160.8,80.1 162.1,80.6 163.4,81.1 164.8,81.7 166.1,82.4 167.4,83.2 168.7,84.2 170.0,85.5 171.4,87.3 172.7,90.3 174.0,118.7 175.3,147.0 176.6,150.0 178.0,151.7 179.3,152.9 180.6,153.9 181.9,154.6 183.2,155.3 184.6,155.9 185.9,156.3 187.2,156.8 188.5,157.2 189.8,157.5 191.2,157.9 192.5,158.2 193.8,158.4 195.1,158.7 196.4,158.9 197.8,159.2 199.1,159.4 200.4,159.6 201.7,159.8 203.0,160.0 204.4,160.1 205.7,160.3 207.0,160.5 208.3,160.6 209.6,160.8 211.0,160.9 212.3,161.0 213.6,161.2 214.9,161.3 216.2,161.4 217.6,161.5 218.9,161.6 220.2,161.7 221.5,161.8 222.8,161.9 224.2,162.0 225.5,162.1 226.8,162.2 228.1,162.3 229.4,162.4 230.8,162.5 232.1,162.6 233.4,162.6 234.7,162.7 236.0,162.8 237.4,162.9 238.7,162.9 240.0,163.0 241.3,163.1 242.6,163.1 244.0,163.2 245.3,163.3 246.6,163.3 247.9,163.4 249.2,163.5 250.6,163.5 251.9,163.6 253.2,163.6 254.5,163.7 255.8,163.7 257.2,163.8 258.5,163.8 259.8,163.9 261.1,163.9 262.4,164.0 263.8,164.0 265.1,164.1 266.4,164.1 267.7,164.2 269.0,164.2 270.4,164.3 271.7,164.3 273.0,164.4 274.3,164.4 275.6,164.4 277.0,164.5 278.3,164.5 279.6,164.6 280.9,164.6 282.2,164.6 283.6,164.7 284.9,164.7 286.2,164.7 287.5,164.8 288.8,164.8 290.2,164.9 291.5,164.9 292.8,164.9 294.1,165.0 295.4,165.0 296.8,165.0 298.1,165.0 299.4,165.1 300.7,165.1 302.0,165.1 303.4,165.2 304.7,165.2" fill="none" stroke="var(--xanh)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="43.3,92.6 44.6,92.7 46.0,92.8 47.3,92.9 48.6,93.0 49.9,93.1 51.2,93.2 52.6,93.2 53.9,93.3 55.2,93.4 56.5,93.5 57.8,93.6 59.2,93.7 60.5,93.8 61.8,93.9 63.1,94.0 64.4,94.0 65.8,94.1 67.1,94.2 68.4,94.3 69.7,94.4 71.0,94.5 72.4,94.6 73.7,94.7 75.0,94.8 76.3,94.9 77.6,95.0 79.0,95.1 80.3,95.1 81.6,95.2 82.9,95.3 84.2,95.4 85.6,95.5 86.9,95.6 88.2,95.7 89.5,95.8 90.8,95.9 92.2,96.0 93.5,96.1 94.8,96.2 96.1,96.3 97.4,96.4 98.8,96.5 100.1,96.7 101.4,96.8 102.7,96.9 104.0,97.0 105.4,97.1 106.7,97.2 108.0,97.3 109.3,97.4 110.6,97.6 112.0,97.7 113.3,97.8 114.6,97.9 115.9,98.0 117.2,98.2 118.6,98.3 119.9,98.4 121.2,98.6 122.5,98.7 123.8,98.9 125.2,99.0 126.5,99.1 127.8,99.3 129.1,99.4 130.4,99.6 131.8,99.8 133.1,99.9 134.4,100.1 135.7,100.3 137.0,100.4 138.4,100.6 139.7,100.8 141.0,101.0 142.3,101.2 143.6,101.4 145.0,101.6 146.3,101.9 147.6,102.1 148.9,102.3 150.2,102.6 151.6,102.9 152.9,103.2 154.2,103.5 155.5,103.8 156.8,104.1 158.2,104.5 159.5,104.9 160.8,105.3 162.1,105.8 163.4,106.4 164.8,107.0 166.1,107.6 167.4,108.5 168.7,109.5 170.0,110.7 171.4,112.5 172.7,115.5 174.0,131.3 175.3,147.0 176.6,150.0 178.0,151.7 179.3,152.9 180.6,153.9 181.9,154.6 183.2,155.3 184.6,155.9 185.9,156.3 187.2,156.8 188.5,157.2 189.8,157.5 191.2,157.9 192.5,158.2 193.8,158.4 195.1,158.7 196.4,158.9 197.8,159.2 199.1,159.4 200.4,159.6 201.7,159.8 203.0,160.0 204.4,160.1 205.7,160.3 207.0,160.5 208.3,160.6 209.6,160.8 211.0,160.9 212.3,161.0 213.6,161.2 214.9,161.3 216.2,161.4 217.6,161.5 218.9,161.6 220.2,161.7 221.5,161.8 222.8,161.9 224.2,162.0 225.5,162.1 226.8,162.2 228.1,162.3 229.4,162.4 230.8,162.5 232.1,162.6 233.4,162.6 234.7,162.7 236.0,162.8 237.4,162.9 238.7,162.9 240.0,163.0 241.3,163.1 242.6,163.1 244.0,163.2 245.3,163.3 246.6,163.3 247.9,163.4 249.2,163.5 250.6,163.5 251.9,163.6 253.2,163.6 254.5,163.7 255.8,163.7 257.2,163.8 258.5,163.8 259.8,163.9 261.1,163.9 262.4,164.0 263.8,164.0 265.1,164.1 266.4,164.1 267.7,164.2 269.0,164.2 270.4,164.3 271.7,164.3 273.0,164.4 274.3,164.4 275.6,164.4 277.0,164.5 278.3,164.5 279.6,164.6 280.9,164.6 282.2,164.6 283.6,164.7 284.9,164.7 286.2,164.7 287.5,164.8 288.8,164.8 290.2,164.9 291.5,164.9 292.8,164.9 294.1,165.0 295.4,165.0 296.8,165.0 298.1,165.0 299.4,165.1 300.7,165.1 302.0,165.1 303.4,165.2 304.7,165.2" fill="none" stroke="var(--vang)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="65.8" y="22.0" text-anchor="start" font-size="11" fill="var(--mau-chinh)" font-weight="600">I⁻</text>
+<text x="65.8" y="58.0" text-anchor="start" font-size="11" fill="var(--xanh)" font-weight="600">Br⁻</text>
+<text x="65.8" y="108.0" text-anchor="start" font-size="11" fill="var(--vang)" font-weight="600">Cl⁻</text>
+<text x="242.6" y="108.0" text-anchor="middle" font-size="10" fill="var(--chu-phu)">Sau điểm tương đương:</text>
+<text x="242.6" y="120.0" text-anchor="middle" font-size="10" fill="var(--chu-phu)">ba đường trùng nhau</text>
+<line x1="242.6" y1="125.0" x2="242.6" y2="150.0" stroke="var(--chu-phu)" stroke-width="1" marker-end="url(#mt-kt-1)"/>
+</svg>
+        <p class="chu-thich">Chuẩn độ 50,0 mL X<sup>−</sup> 0,100 M bằng Ag<sup>+</sup> 0,100 M. K<sub>sp</sub> càng nhỏ thì đoạn đường trước V<sub>e</sub> càng cao (pAg lớn) và bước nhảy càng dài. Sau V<sub>e</sub> cả ba đường trùng nhau vì chỉ còn Ag<sup>+</sup> dư quyết định.</p>
+      </div>
+      <div class="vi-du"><b>Ví dụ 9.</b> Chuẩn độ 50,00 mL Br<sup>−</sup> 0,0500 M bằng Ag<sup>+</sup> 0,0500 M (K<sub>sp</sub>(AgBr) = 5,4·10<sup>−13</sup>). Tính [Ag<sup>+</sup>], pAg, [Br<sup>−</sup>] và pBr khi thêm 25,00; 50,00 và 55,00 mL Ag<sup>+</sup>.
+        <details><summary>Xem lời giải</summary>
+          n<sub>Br</sub> = 2,500 mmol; V<sub>e</sub> = 50,00 mL; pK<sub>sp</sub> = 12,27.<br>
+          <b>25,00 mL</b> (trước V<sub>e</sub>): Br<sup>−</sup> dư = (2,500 − 1,250)/75,00 = 1,67·10<sup>−2</sup> M:
+          \[ \begin{aligned} \mathrm{pBr} &= 1,78 \\ [\mathrm{Ag^+}] &= \frac{5,4\cdot10^{-13}}{1,67\cdot10^{-2}} = 3,2\cdot10^{-11}\ \mathrm{M} \\ \mathrm{pAg} &= 10,49 \end{aligned} \]
+          <b>50,00 mL</b> (V<sub>e</sub>): [Ag<sup>+</sup>] = [Br<sup>−</sup>] = √(5,4·10<sup>−13</sup>) = 7,3·10<sup>−7</sup> M → pAg = pBr = <b>6,13</b>.<br>
+          <b>55,00 mL</b> (sau V<sub>e</sub>): Ag<sup>+</sup> dư = (2,750 − 2,500)/105,0 = 2,38·10<sup>−3</sup> M:
+          \[ \begin{aligned} \mathrm{pAg} &= 2,62 \\ [\mathrm{Br^-}] &= \frac{5,4\cdot10^{-13}}{2,38\cdot10^{-3}} = 2,3\cdot10^{-10}\ \mathrm{M} \\ \mathrm{pBr} &= 12,27 - 2,62 = 9,64 \end{aligned} \]
+          Kiểm tra: ở mọi điểm pAg + pBr = 12,27.
+        </details></div>
+      <p><b>Hỗn hợp halogenua</b> (ví dụ I<sup>−</sup> và Cl<sup>−</sup>): kết tủa ít tan nhất (AgI) hình thành trước; AgCl chỉ bắt đầu xuất hiện khi [Ag<sup>+</sup>] = K<sub>sp</sub>(AgCl)/[Cl<sup>−</sup>]. Lúc đó lượng I<sup>−</sup> còn lại là</p>
+      <div class="cong-thuc">\[ \begin{aligned} [\mathrm{I^-}] &= [\mathrm{Cl^-}]\cdot\frac{K_\mathrm{sp}(\mathrm{AgI})}{K_\mathrm{sp}(\mathrm{AgCl})} \\ &= [\mathrm{Cl^-}]\cdot4,6\cdot10^{-7} \end{aligned} \]</div>
+      <p>Tỉ số K<sub>sp</sub> rất nhỏ nên I<sup>−</sup> đã kết tủa gần như hoàn toàn: có hai bước nhảy tách biệt, V<sub>e1</sub> ứng với I<sup>−</sup>, V<sub>e2</sub> ứng với tổng I<sup>−</sup> + Cl<sup>−</sup>. Ví dụ 25,00 mL chứa I<sup>−</sup> 0,0400 M và Cl<sup>−</sup> 0,0600 M chuẩn bằng Ag<sup>+</sup> 0,1000 M: V<sub>e1</sub> = 1,000/0,1000 = 10,00 mL; V<sub>e2</sub> = (1,000 + 1,500)/0,1000 = 25,00 mL. Tại V<sub>e1</sub>, [Cl<sup>−</sup>] = 1,500/35,00 = 0,0429 M nên I<sup>−</sup> còn lại chỉ khoảng 2·10<sup>−8</sup> M.</p>
+
+      <h3>11. Volhard nâng cao: chuẩn ngược, tỉ lượng 3 : 1, lọc hay không lọc</h3>
+      <p><b>Vì sao có chỗ phải lọc, có chỗ không?</b> Điều quyết định là kết tủa bạc ban đầu có bị SCN<sup>−</sup> làm tan không. Phản ứng chuyển AgX + SCN<sup>−</sup> ⇌ AgSCN + X<sup>−</sup> có hằng số K = K<sub>sp</sub>(AgX)/K<sub>sp</sub>(AgSCN), với K<sub>sp</sub>(AgSCN) = 1,1·10<sup>−12</sup>:</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Kết tủa</th><th>K<sub>sp</sub></th><th>K = K<sub>sp</sub>/K<sub>sp</sub>(AgSCN)</th><th>Kết luận khi chuẩn ngược</th></tr></thead>
+          <tbody>
+            <tr><td>AgCl</td><td>1,8·10<sup>−10</sup></td><td>≈ 160 (≫ 1)</td><td>AgCl bị SCN<sup>−</sup> lấy Ag<sup>+</sup>: điểm cuối phai, tốn dư SCN<sup>−</sup>. <b>Phải lọc</b> hoặc bọc bằng nitrobenzen.</td></tr>
+            <tr><td>AgBr</td><td>5,4·10<sup>−13</sup></td><td>≈ 0,5</td><td>Chuyển hóa không đáng kể vì [SCN<sup>−</sup>] tại điểm cuối rất nhỏ: không cần lọc.</td></tr>
+            <tr><td>AgI</td><td>8,3·10<sup>−17</sup></td><td>≈ 8·10<sup>−5</sup></td><td>AgI bền hơn AgSCN rất nhiều: <b>không lọc</b>. Chỉ thêm Fe<sup>3+</sup> sau khi Ag<sup>+</sup> đã dư, vì Fe<sup>3+</sup> oxi hóa I<sup>−</sup>.</td></tr>
+            <tr><td>Ag<sub>3</sub>AsO<sub>4</sub></td><td>6·10<sup>−23</sup></td><td>—</td><td>Trong HNO<sub>3</sub> arsenate bị proton hóa nên kết tủa tan, giải phóng thêm Ag<sup>+</sup> làm sai kết quả: <b>phải lọc</b> ở pH trung tính trước rồi mới acid hóa nước lọc.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Với arsenate, ion AsO<sub>4</sub><sup>3−</sup> kết tủa Ag<sup>+</sup> theo tỉ lượng <b>3 : 1</b>: 3Ag<sup>+</sup> + AsO<sub>4</sub><sup>3−</sup> → Ag<sub>3</sub>AsO<sub>4</sub>(r), nên n<sub>As</sub> = n<sub>Ag đã dùng</sub>/3. Một mol As<sub>2</sub>O<sub>3</sub> cho 2 mol As, nên n<sub>As₂O₃</sub> = n<sub>As</sub>/2.</p>
+      <div class="vi-du"><b>Ví dụ 10.</b> Lấy 5,00 mL dung dịch KI, pha thành 100,0 mL. Hút 10,00 mL dung dịch đó, thêm 25,00 mL AgNO<sub>3</sub> 0,1000 M (dư), rồi thêm chỉ thị Fe<sup>3+</sup> và chuẩn Ag<sup>+</sup> dư hết 14,80 mL KSCN 0,0900 M. (a) Tính nồng độ KI trong mẫu ban đầu. (b) Ngay sau khi thêm AgNO<sub>3</sub> (trước khi chuẩn độ ngược), tính pAg và pI của dung dịch (K<sub>sp</sub>(AgI) = 8,3·10<sup>−17</sup>).
+        <details><summary>Xem lời giải</summary>
+          <b>(a)</b>
+          \[ \begin{aligned} n_\mathrm{Ag^+,\,thêm} &= 0,1000\cdot25,00 = 2,500\ \mathrm{mmol} \\ n_\mathrm{Ag^+,\,dư} &= 0,0900\cdot14,80 = 1,332\ \mathrm{mmol} \\ n_\mathrm{I^-} &= 2,500 - 1,332 = 1,168\ \mathrm{mmol} \end{aligned} \]
+          Đây là lượng trong 10,00 mL hút ra. Nhân hệ số pha loãng 100,0/10,00 = 10 rồi chia cho 5,00 mL mẫu:
+          \[ C_\mathrm{KI} = \frac{1,168\cdot10}{5,00} = \mathbf{2,336\ M} \]
+          <b>(b)</b> Sau khi thêm Ag<sup>+</sup> dư, thể tích 10,00 + 25,00 = 35,00 mL và Ag<sup>+</sup> dư là 1,332 mmol:
+          \[ \begin{aligned} [\mathrm{Ag^+}] &= \frac{1,332}{35,00} = 3,81\cdot10^{-2}\ \mathrm{M} \\ \mathrm{pAg} &= \mathbf{1,42} \\ \mathrm{pI} &= 16,08 - 1,42 = \mathbf{14,66} \end{aligned} \]
+          Không cần lọc AgI. Lỗi thường gặp: quên hệ số 10 (pha loãng) hoặc dùng 5,00 mL thay cho 10,00 mL.
+        </details></div>
+      <div class="vi-du"><b>Ví dụ 11.</b> Hòa tan 2,000 g mẫu quặng, chuyển toàn bộ arsenic thành AsO<sub>4</sub><sup>3−</sup> rồi thêm 25,00 mL AgNO<sub>3</sub> 0,1000 M ở pH trung tính để kết tủa Ag<sub>3</sub>AsO<sub>4</sub>. Lọc bỏ kết tủa, acid hóa nước lọc bằng HNO<sub>3</sub>, chuẩn Ag<sup>+</sup> dư hết 9,35 mL KSCN 0,1000 M. Tính % As<sub>2</sub>O<sub>3</sub> trong mẫu (M = 197,84 g/mol).
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} n_\mathrm{Ag}^{\text{dùng}} &= 2,500 - 0,935 = 1,565\ \mathrm{mmol} \\ n_\mathrm{As} &= \frac{1,565}{3} = 0,5217\ \mathrm{mmol} \\ n_\mathrm{As_2O_3} &= \frac{0,5217}{2} = 0,2608\ \mathrm{mmol} \\ m_\mathrm{As_2O_3} &= 0,2608\cdot197,84 = 51,60\ \mathrm{mg} \end{aligned} \]
+          \[ \%\mathrm{As_2O_3} = \frac{0,05160}{2,000}\cdot100\% = \mathbf{2,58\ \%} \]
+          Nếu dùng nhầm tỉ lượng 1 : 1 (n<sub>As</sub> = n<sub>Ag</sub>) sẽ ra 7,74%, gấp 3 lần.
+        </details></div>
+
+      <h3>12. Mohr nâng cao: qua bình định mức, mẫu trắng, sai số chỉ thị</h3>
+      <p>Với mẫu đặc như nước mắm, ta pha loãng trong bình định mức rồi mới hút một phần (aliquot) để chuẩn độ. Các bước tính luôn theo thứ tự: (1) trừ mẫu trắng; (2) n<sub>Cl</sub> trong aliquot = C<sub>Ag</sub>·V<sub>thực</sub>; (3) nhân hệ số V<sub>bình</sub>/V<sub>aliquot</sub>; (4) chia cho thể tích mẫu ban đầu; (5) đổi sang g/L hoặc mg/100 mL.</p>
+      <p><b>Sai số chỉ thị</b>: Ag<sub>2</sub>CrO<sub>4</sub> chỉ bắt đầu kết tủa khi [Ag<sup>+</sup>] = \( \sqrt{K_\mathrm{sp}/[\mathrm{CrO_4^{2-}}]} \). Với [CrO<sub>4</sub><sup>2−</sup>] = 5·10<sup>−3</sup> M: [Ag<sup>+</sup>] = 1,5·10<sup>−5</sup> M, hơi cao hơn [Ag<sup>+</sup>] tại điểm tương đương (√K<sub>sp</sub>(AgCl) = 1,3·10<sup>−5</sup> M), lúc đó [Cl<sup>−</sup>] = 1,2·10<sup>−5</sup> M. Thêm nữa cần một lượng Ag<sub>2</sub>CrO<sub>4</sub> đủ nhiều để mắt thấy: đó là lí do điểm cuối luôn muộn một chút và phải trừ mẫu trắng.</p>
+      <div class="vi-du"><b>Ví dụ 12.</b> Lấy 5,00 mL nước mắm pha thành 250,0 mL. Hút 5,00 mL dung dịch đó, thêm nước và chỉ thị K<sub>2</sub>CrO<sub>4</sub>, chuẩn bằng AgNO<sub>3</sub> 0,02500 M hết 17,40 mL. Mẫu trắng (CaCO<sub>3</sub> + chỉ thị) tốn 0,15 mL. Tính nồng độ NaCl trong nước mắm theo g/L (M = 58,44 g/mol).
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} V_\text{thực} &= 17,40 - 0,15 \\ &= 17,25\ \mathrm{mL} \\ n_\text{aliquot} &= 0,02500\cdot17,25 \\ &= 0,4313\ \mathrm{mmol} \\ n_\text{mẫu} &= 0,4313\cdot\frac{250,0}{5,00} \\ &= 21,56\ \mathrm{mmol} \end{aligned} \]
+          \[ \begin{aligned} C_\mathrm{NaCl} &= \frac{21,56}{5,00} = 4,313\ \mathrm{M} \\ &= 4,313\cdot58,44 = \mathbf{252\ g/L} \end{aligned} \]
+          Kết quả hợp lí: nước mắm thường chứa khoảng 200 – 300 g/L NaCl. Nếu quên trừ mẫu trắng sẽ ra 254 g/L (cao hơn khoảng 0,9%). Nếu quên hệ số pha loãng 250,0/5,00 sẽ ra kết quả nhỏ hơn 50 lần.
+        </details></div>
+
+      <h3>13. Lỗi hay gặp</h3>
+      <ul>
+        <li><b>Nhầm chiều của α</b>: α ≤ 1 nên S = √(K<sub>sp</sub>/α) <b>lớn hơn</b> độ tan bỏ qua pH. Nếu ra nhỏ hơn thì đã nhân thay vì chia.</li>
+        <li><b>Dùng sai số nấc</b>: α của PO<sub>4</sub><sup>3−</sup> cần cả K<sub>a1</sub>K<sub>a2</sub>K<sub>a3</sub> ở tử số; dùng K<sub>a3</sub> một mình hoặc quên K<sub>a1</sub> trong mẫu số làm α sai nhiều bậc.</li>
+        <li><b>Kết tủa M<sub>3</sub>A</b> (Ag<sub>3</sub>AsO<sub>4</sub>): [Ag<sup>+</sup>] = 3S chứ không phải S; K<sub>sp</sub> = 27αS<sup>4</sup>, không phải S<sup>2</sup>.</li>
+        <li><b>Tạo phức</b>: dùng nồng độ NH<sub>3</sub> tổng thay cho NH<sub>3</sub> <b>tự do</b> khi NH<sub>3</sub> bị dùng đáng kể (Ví dụ 8a với AgCl); quên rằng [Ag<sup>+</sup>] tự do = C<sub>Ag</sub>/α, không phải C<sub>Ag</sub>.</li>
+        <li><b>Quên tổng thể tích</b> khi tính pAg, pX trên đường chuẩn độ (Ví dụ 9: 75,00 và 105,0 mL).</li>
+        <li><b>Quên tính cả hai ion</b>: đề hỏi pBr mà chỉ tính pAg (hoặc ngược lại); nhớ pAg + pX = pK<sub>sp</sub>.</li>
+        <li><b>Volhard</b>: không lọc AgCl hoặc Ag<sub>3</sub>AsO<sub>4</sub> trước khi chuẩn ngược; thêm Fe<sup>3+</sup> quá sớm khi có I<sup>−</sup>; quên rằng lượng Ag<sup>+</sup> đã dùng = tổng thêm − lượng SCN<sup>−</sup> chuẩn ngược.</li>
+        <li><b>Tỉ lượng</b>: dùng 1 : 1 cho Ag<sub>3</sub>AsO<sub>4</sub> (đúng là 3 : 1); quên chia 2 khi đổi mol As sang As<sub>2</sub>O<sub>3</sub>.</li>
+        <li><b>Mohr</b>: quên trừ mẫu trắng; quên hệ số pha loãng V<sub>bình</sub>/V<sub>aliquot</sub>; làm ở pH acid (điểm cuối muộn) hoặc có NH<sub>3</sub> mà không hạ pH về 6,5 – 7,2.</li>
+        <li><b>Đơn vị</b>: mmol hay mol; mL hay L; g/L hay mg/100 mL (1 g/L = 100 mg/100 mL).</li>
+      </ul>
 
     `,
     baiTap: [
@@ -3407,7 +3756,10 @@ const CHUONG = [
           <li>Hiểu nguyên tắc tách sắc kí, các cơ chế tương tác và cách phân loại.</li>
           <li>Tính các đại lượng trên sắc đồ: t<sub>R</sub>, t<sub>R</sub>', k, α, N, H, R<sub>s</sub>.</li>
           <li>Giải thích sự giãn rộng pic bằng phương trình Van Deemter và biết cách cải thiện độ phân giải.</li>
-        </ul>
+                  <li>Đọc sắc đồ có chú thích; giải thích hệ số 16 và 5,55; tính N trung bình từ nhiều pic.</li>
+                  <li>Dùng phương trình Purnell để chọn cách cải thiện R<sub>s</sub>; so sánh Van Deemter của GC và HPLC.</li>
+                  <li>Định lượng bằng diện tích pic với đường chuẩn và tính % khối lượng.</li>
+</ul>
       </div>
       <h3>1. Sắc kí là gì?</h3>
       <p>Sắc kí là phương pháp <b>tách</b> các chất dựa trên sự phân bố khác nhau của chúng giữa <b>pha tĩnh</b> (cố định trong cột hoặc trên bản mỏng) và <b>pha động</b> (khí hoặc lỏng chảy qua pha tĩnh). Chất tương tác mạnh với pha tĩnh di chuyển chậm, ra khỏi cột muộn; chất tương tác yếu ra sớm. Detector ở cuối cột ghi tín hiệu theo thời gian, gọi là <b>sắc đồ</b>.</p>
@@ -3492,6 +3844,182 @@ const CHUONG = [
       <ul>
         <li><b>Định tính</b>: so t<sub>R</sub> của pic trong mẫu với chuẩn trong cùng điều kiện; chắc chắn hơn khi thêm chuẩn vào mẫu (pic tăng lên mà không tách đôi), hoặc dùng detector cho thông tin cấu trúc (MS, DAD).</li>
         <li><b>Định lượng</b>: diện tích (hoặc chiều cao) pic tỉ lệ với lượng chất. Dùng đường chuẩn ngoại, thêm chuẩn, hoặc <b>nội chuẩn</b> để bù sai lệch thể tích tiêm (Chương 10, mục 6).</li>
+      </ul>
+
+      <h3>8. Đọc sắc đồ có chú thích</h3>
+      <div class="hinh-tinh">
+        <svg viewBox="0 0 320 254" role="img" aria-label="Sắc đồ có chú thích t_m, t_R, w, w1/2, h">
+<defs><marker id="mt-sk-1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--chu)"/></marker></defs>
+<polyline points="24.0,176.0 25.0,176.0 26.0,176.0 27.0,176.0 28.0,176.0 29.0,176.0 30.0,176.0 31.0,176.0 32.0,176.0 33.0,176.0 34.0,176.0 35.0,176.0 36.0,176.0 37.0,176.0 38.0,176.0 39.0,176.0 40.0,176.0 41.0,176.0 42.0,176.0 43.0,176.0 44.0,176.0 45.0,176.0 46.0,176.0 47.0,176.0 48.0,175.9 49.0,175.8 50.0,175.7 51.0,175.3 52.0,174.7 53.0,173.8 54.0,172.3 55.0,170.0 56.0,166.9 57.0,162.9 58.0,157.9 59.0,152.3 60.0,146.4 61.0,140.8 62.0,136.1 63.0,133.1 64.0,132.0 65.0,133.1 66.0,136.1 67.0,140.8 68.0,146.4 69.0,152.3 70.0,157.9 71.0,162.9 72.0,166.9 73.0,170.0 74.0,172.3 75.0,173.8 76.0,174.7 77.0,175.3 78.0,175.7 79.0,175.8 80.0,175.9 81.0,176.0 82.0,176.0 83.0,176.0 84.0,176.0 85.0,176.0 86.0,176.0 87.0,176.0 88.0,176.0 89.0,176.0 90.0,176.0 91.0,176.0 92.0,176.0 93.0,176.0 94.0,176.0 95.0,176.0 96.0,176.0 97.0,176.0 98.0,176.0 99.0,176.0 100.0,176.0 101.0,176.0 102.0,176.0 103.0,176.0 104.0,176.0 105.0,176.0 106.0,176.0 107.0,176.0 108.0,176.0 109.0,176.0 110.0,176.0 111.0,176.0 112.0,176.0 113.0,176.0 114.0,176.0 115.0,176.0 116.0,176.0 117.0,176.0 118.0,176.0 119.0,176.0 120.0,176.0 121.0,176.0 122.0,176.0 123.0,175.9 124.0,175.9 125.0,175.9 126.0,175.8 127.0,175.7 128.0,175.6 129.0,175.4 130.0,175.2 131.0,174.9 132.0,174.5 133.0,173.9 134.0,173.2 135.0,172.3 136.0,171.1 137.0,169.7 138.0,167.9 139.0,165.7 140.0,163.1 141.0,160.0 142.0,156.4 143.0,152.2 144.0,147.4 145.0,142.1 146.0,136.2 147.0,129.7 148.0,122.9 149.0,115.6 150.0,108.2 151.0,100.7 152.0,93.2 153.0,86.1 154.0,79.3 155.0,73.3 156.0,68.0 157.0,63.7 158.0,60.6 159.0,58.7 160.0,58.0 161.0,58.7 162.0,60.6 163.0,63.7 164.0,68.0 165.0,73.3 166.0,79.3 167.0,86.1 168.0,93.2 169.0,100.7 170.0,108.2 171.0,115.6 172.0,122.9 173.0,129.7 174.0,136.2 175.0,142.1 176.0,147.4 177.0,152.2 178.0,156.4 179.0,160.0 180.0,163.1 181.0,165.7 182.0,167.9 183.0,169.7 184.0,171.1 185.0,172.3 186.0,173.2 187.0,173.9 188.0,174.5 189.0,174.9 190.0,175.2 191.0,175.4 192.0,175.5 193.0,175.6 194.0,175.7 195.0,175.7 196.0,175.7 197.0,175.6 198.0,175.5 199.0,175.3 200.0,175.1 201.0,174.9 202.0,174.5 203.0,174.1 204.0,173.5 205.0,172.8 206.0,171.9 207.0,170.8 208.0,169.5 209.0,168.0 210.0,166.2 211.0,164.1 212.0,161.7 213.0,158.9 214.0,155.8 215.0,152.3 216.0,148.4 217.0,144.3 218.0,139.8 219.0,135.1 220.0,130.2 221.0,125.2 222.0,120.1 223.0,115.1 224.0,110.2 225.0,105.5 226.0,101.3 227.0,97.4 228.0,94.2 229.0,91.5 230.0,89.6 231.0,88.4 232.0,88.0 233.0,88.4 234.0,89.6 235.0,91.5 236.0,94.2 237.0,97.4 238.0,101.3 239.0,105.5 240.0,110.2 241.0,115.1 242.0,120.1 243.0,125.2 244.0,130.2 245.0,135.1 246.0,139.8 247.0,144.3 248.0,148.4 249.0,152.3 250.0,155.8 251.0,158.9 252.0,161.7 253.0,164.1 254.0,166.2 255.0,168.0 256.0,169.5 257.0,170.8 258.0,171.9 259.0,172.8 260.0,173.5 261.0,174.1 262.0,174.5 263.0,174.9 264.0,175.2 265.0,175.4 266.0,175.5 267.0,175.7 268.0,175.8 269.0,175.8 270.0,175.9 271.0,175.9 272.0,175.9 273.0,176.0 274.0,176.0 275.0,176.0 276.0,176.0 277.0,176.0 278.0,176.0 279.0,176.0 280.0,176.0 281.0,176.0 282.0,176.0 283.0,176.0 284.0,176.0 285.0,176.0 286.0,176.0 287.0,176.0 288.0,176.0 289.0,176.0 290.0,176.0 291.0,176.0 292.0,176.0 293.0,176.0 294.0,176.0 295.0,176.0 296.0,176.0 297.0,176.0 298.0,176.0 299.0,176.0 300.0,176.0 301.0,176.0 302.0,176.0 303.0,176.0 304.0,176.0" fill="none" stroke="var(--mau-chinh)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="24.0" y1="176.0" x2="308.0" y2="176.0" stroke="var(--chu-phu)" stroke-width="1.2"/>
+<line x1="24.0" y1="176.0" x2="24.0" y2="14.0" stroke="var(--chu-phu)" stroke-width="1.2"/>
+<text x="26.0" y="11.0" text-anchor="start" font-size="10" fill="var(--chu-phu)">Tín hiệu</text>
+<text x="308.0" y="171.0" text-anchor="end" font-size="10" fill="var(--chu-phu)">t</text>
+<text x="22.0" y="188.0" text-anchor="end" font-size="10" fill="var(--chu-phu)">0</text>
+<text x="64.0" y="126.0" text-anchor="middle" font-size="10" fill="var(--chu-phu)">không lưu giữ</text>
+<text x="150.0" y="52.0" text-anchor="middle" font-size="10" fill="var(--chu)" font-weight="600">chất 1</text>
+<text x="242.0" y="82.0" text-anchor="start" font-size="10" fill="var(--chu)" font-weight="600">chất 2</text>
+<line x1="64.0" y1="133.0" x2="64.0" y2="181.0" stroke="var(--chu-phu)" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="160.0" y1="59.0" x2="160.0" y2="181.0" stroke="var(--chu-phu)" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="232.0" y1="89.0" x2="232.0" y2="181.0" stroke="var(--chu-phu)" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="24.0" y1="176.0" x2="24.0" y2="226.0" stroke="var(--chu-phu)" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="24.0" y1="192.0" x2="64.0" y2="192.0" stroke="var(--chu)" stroke-width="1" marker-end="url(#mt-sk-1)" marker-start="url(#mt-sk-1)"/><text x="44.0" y="189.0" text-anchor="middle" font-size="10" fill="var(--chu)">t<tspan font-size="8" dy="2">m</tspan></text>
+<line x1="64.0" y1="192.0" x2="160.0" y2="192.0" stroke="var(--chu)" stroke-width="1" marker-end="url(#mt-sk-1)" marker-start="url(#mt-sk-1)"/><text x="112.0" y="189.0" text-anchor="middle" font-size="10" fill="var(--chu)">t<tspan font-size="8" dy="2">R1</tspan><tspan dy="-2">' = t</tspan><tspan font-size="8" dy="2">R1</tspan><tspan dy="-2"> − t</tspan><tspan font-size="8" dy="2">m</tspan></text>
+<line x1="24.0" y1="208.0" x2="160.0" y2="208.0" stroke="var(--chu)" stroke-width="1" marker-end="url(#mt-sk-1)" marker-start="url(#mt-sk-1)"/><text x="92.0" y="205.0" text-anchor="middle" font-size="10" fill="var(--chu)">t<tspan font-size="8" dy="2">R1</tspan></text>
+<line x1="24.0" y1="224.0" x2="232.0" y2="224.0" stroke="var(--chu)" stroke-width="1" marker-end="url(#mt-sk-1)" marker-start="url(#mt-sk-1)"/><text x="128.0" y="221.0" text-anchor="middle" font-size="10" fill="var(--chu)">t<tspan font-size="8" dy="2">R2</tspan></text>
+<line x1="221.5" y1="122.6" x2="211.0" y2="176.0" stroke="var(--chu-phu)" stroke-width="1" stroke-dasharray="3 2"/>
+<line x1="242.5" y1="122.6" x2="253.0" y2="176.0" stroke="var(--chu-phu)" stroke-width="1" stroke-dasharray="3 2"/>
+<line x1="211.0" y1="179.0" x2="253.0" y2="179.0" stroke="var(--chu)" stroke-width="1" marker-end="url(#mt-sk-1)" marker-start="url(#mt-sk-1)"/>
+<text x="258.0" y="188.0" text-anchor="start" font-size="10" fill="var(--chu)">w</text>
+<line x1="219.6" y1="132.0" x2="244.4" y2="132.0" stroke="var(--chu)" stroke-width="1.4" marker-end="url(#mt-sk-1)" marker-start="url(#mt-sk-1)"/>
+<text x="258.4" y="135.5" text-anchor="start" font-size="10" fill="var(--chu)">w<tspan font-size="8" dy="2">1/2</tspan></text>
+<line x1="196.0" y1="176.0" x2="196.0" y2="58.0" stroke="var(--chu)" stroke-width="1" marker-end="url(#mt-sk-1)" marker-start="url(#mt-sk-1)"/>
+<line x1="160.0" y1="58.0" x2="196.0" y2="58.0" stroke="var(--chu-phu)" stroke-width="1" stroke-dasharray="3 3"/>
+<text x="200.0" y="118.0" text-anchor="start" font-size="10" fill="var(--chu)">h</text>
+<text x="232.0" y="14.0" text-anchor="middle" font-size="10" fill="var(--chu-phu)">Rs = (t<tspan font-size="8" dy="2">R2</tspan><tspan dy="-2"> − t</tspan><tspan font-size="8" dy="2">R1</tspan><tspan dy="-2">) / w</tspan><tspan font-size="8" dy="2">tb</tspan></text>
+</svg>
+        <p class="chu-thich">Sắc đồ minh họa: pic đầu là chất không lưu giữ (đỉnh tại t<sub>m</sub>); chất 1 và chất 2 có t<sub>R1</sub>, t<sub>R2</sub> đo từ lúc tiêm mẫu (t = 0). w: độ rộng đáy (giữa hai tiếp tuyến ở điểm uốn cắt đường nền); w<sub>1/2</sub>: độ rộng ở nửa chiều cao; h: chiều cao pic.</p>
+      </div>
+      <ul>
+        <li><b>t<sub>m</sub></b> đọc từ pic của chất không lưu giữ (metan trong GC, uracil hoặc thành phần pha động trong HPLC). Nếu đề không cho pic này thì không tính được k và α.</li>
+        <li><b>t<sub>R</sub></b> đo từ lúc tiêm đến <b>đỉnh</b> pic. <b>t<sub>R</sub>'</b> = t<sub>R</sub> − t<sub>m</sub> đo từ t<sub>m</sub>.</li>
+        <li><b>w</b> và <b>w<sub>1/2</sub></b> đo theo trục thời gian và cùng đơn vị với t<sub>R</sub> (phút hoặc giây, không trộn lẫn).</li>
+      </ul>
+      <p><b>Vì sao có hệ số 16 và 5,55?</b> Pic gần như đường Gauss có độ lệch chuẩn σ (đơn vị thời gian). Đường Gauss có độ rộng đáy w = 4σ (giữa hai tiếp tuyến) và độ rộng nửa chiều cao w<sub>1/2</sub> = 2,355σ. Số đĩa được định nghĩa N = (t<sub>R</sub>/σ)<sup>2</sup>:</p>
+      <div class="cong-thuc">\[ \begin{aligned} N &= \left(\frac{t_R}{\sigma}\right)^2 \\ &= \left(\frac{4\,t_R}{w}\right)^2 = 16\left(\frac{t_R}{w}\right)^2 \\ &= (2,355)^2\left(\frac{t_R}{w_{1/2}}\right)^2 \\ &= 5,55\left(\frac{t_R}{w_{1/2}}\right)^2 \end{aligned} \]</div>
+      <p><b>Hình dạng pic.</b> Pic lí tưởng đối xứng. Pic <b>kéo đuôi</b> (đuôi phía sau dài) thường do tương tác phụ với pha tĩnh (ví dụ nhóm silanol tự do với amin) hoặc quá tải cột; pic <b>trán</b> (fronting, mặt trước thoải) thường do quá tải mẫu hoặc mẫu hòa tan trong dung môi mạnh hơn pha động. Đo bằng hệ số bất đối xứng A<sub>s</sub> = b/a (a, b: nửa trước và nửa sau của pic đo tại 10% chiều cao); A<sub>s</sub> gần 1 là tốt, A<sub>s</sub> &gt; 1,2 là kéo đuôi, A<sub>s</sub> &lt; 0,9 là trán. Với pic không đối xứng, N và R<sub>s</sub> tính theo w chỉ là gần đúng.</p>
+      <div class="vi-du"><b>Ví dụ 5.</b> Trên sắc đồ của một cột dài 15,0 cm, đọc được t<sub>m</sub> = 1,10 min; chất 1: t<sub>R1</sub> = 6,30 min, w<sub>1</sub> = 0,50 min; chất 2: t<sub>R2</sub> = 6,90 min, w<sub>2</sub> = 0,50 min, w<sub>1/2</sub> = 0,294 min. Tính k, α, N, H và R<sub>s</sub>. So sánh N của chất 2 tính từ w và từ w<sub>1/2</sub>.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} k_1 &= \frac{6,30 - 1,10}{1,10} = \mathbf{4,73} \\ k_2 &= \frac{6,90 - 1,10}{1,10} = \mathbf{5,27} \\ \alpha &= \frac{5,80}{5,20} = \mathbf{1,12} \end{aligned} \]
+          \[ \begin{aligned} N_1 &= 16\left(\frac{6,30}{0,50}\right)^2 = 2,54\cdot10^{3} \\ N_2 &= 16\left(\frac{6,90}{0,50}\right)^2 = \mathbf{3,05\cdot10^{3}} \\ H &= \frac{150\ \mathrm{mm}}{3\,047} = \mathbf{0,049\ mm} \\ R_s &= \frac{6,90 - 6,30}{(0,50 + 0,50)/2} = \mathbf{1,20} \end{aligned} \]
+          Từ w<sub>1/2</sub>: N<sub>2</sub> = 5,55·(6,90/0,294)<sup>2</sup> = 3,06·10<sup>3</sup>, gần với 3,05·10<sup>3</sup> (lệch do số liệu đọc bằng mắt). R<sub>s</sub> = 1,20 &lt; 1,5: chưa tách hoàn toàn.
+        </details></div>
+      <div class="vi-du"><b>Ví dụ 6.</b> (N trung bình.) Trên cột dài 25,0 cm, bốn pic có t<sub>R</sub> (min) và w (min): (3,05; 0,20), (4,32; 0,27), (6,10; 0,37), (8,47; 0,50). Tính N của từng pic, N trung bình, độ lệch chuẩn của N và H trung bình.
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} N_1 &= 16\left(\tfrac{3,05}{0,20}\right)^2 = 3\,721 \\ N_2 &= 16\left(\tfrac{4,32}{0,27}\right)^2 = 4\,096 \\ N_3 &= 16\left(\tfrac{6,10}{0,37}\right)^2 = 4\,349 \\ N_4 &= 16\left(\tfrac{8,47}{0,50}\right)^2 = 4\,591 \end{aligned} \]
+          \[ \begin{aligned} \bar{N} &= \frac{3\,721 + 4\,096 + 4\,349 + 4\,591}{4} \\ &= \mathbf{4,19\cdot10^{3}} \\ s_N &= \mathbf{3,7\cdot10^{2}} \quad(\mathrm{RSD} = 8,9\%) \\ \bar{H} &= \frac{250\ \mathrm{mm}}{4\,189} = \mathbf{0,060\ mm} \end{aligned} \]
+          N tăng dần theo t<sub>R</sub> là bình thường (pic ra sớm chịu ảnh hưởng nhiều của thể tích tiêm và ống nối ngoài cột), vì vậy báo cáo N trung bình ± s.
+        </details></div>
+
+      <h3>9. Cải thiện độ phân giải theo phương trình Purnell</h3>
+      <p>Trong \( R_s = \frac{\sqrt{N}}{4}\cdot\frac{\alpha - 1}{\alpha}\cdot\frac{k_2}{1 + k_2} \), ba thừa số độc lập nhau nên có thể xét riêng:</p>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Yếu tố</th><th>Cách thay đổi</th><th>Tác dụng lên R<sub>s</sub></th><th>Cái giá phải trả</th></tr></thead>
+          <tbody>
+            <tr><td>N</td><td>Cột dài hơn, hạt nhỏ hơn, tốc độ gần u<sub>opt</sub></td><td>R<sub>s</sub> ∝ √N: gấp đôi R<sub>s</sub> cần N gấp 4</td><td>Thời gian phân tích tăng theo L; áp suất tăng nếu hạt nhỏ</td></tr>
+            <tr><td>α</td><td>Đổi pha tĩnh, thành phần pha động, pH, nhiệt độ</td><td>Mạnh nhất khi α gần 1 (α từ 1,05 lên 1,10 gần gấp đôi thừa số (α − 1)/α)</td><td>Phải thử nhiều điều kiện</td></tr>
+            <tr><td>k</td><td>Pha động yếu hơn (HPLC), nhiệt độ thấp hơn (GC)</td><td>k/(1 + k) tăng nhanh đến k ≈ 2 – 5, sau đó gần như phẳng (tiệm cận 1)</td><td>Pic muộn, rộng, thời gian dài</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="vi-du"><b>Ví dụ 7.</b> Với hai chất trong Ví dụ 5 (R<sub>s</sub> = 1,20; N<sub>2</sub> = 3,05·10<sup>3</sup>; α = 1,115; k<sub>2</sub> = 5,27; L = 15,0 cm; t<sub>R2</sub> = 6,90 min), cần đạt R<sub>s</sub> = 1,5. Tính (a) chiều dài cột và t<sub>R2</sub> mới nếu chỉ tăng N (H giữ nguyên); (b) α cần đạt nếu chỉ đổi α; (c) chỉ tăng k thì có đạt được không?
+        <details><summary>Xem lời giải</summary>
+          (a) R<sub>s</sub> ∝ √N ∝ √L nên L phải nhân với (1,5/1,20)<sup>2</sup> = 1,56:
+          \[ \begin{aligned} L &= 15,0\cdot1,56 = \mathbf{23,4\ cm} \\ t_{R2} &= 6,90\cdot1,56 = \mathbf{10,8\ min} \end{aligned} \]
+          (b) Thừa số (α − 1)/α hiện là 0,1154/1,1154 = 0,1035; cần tăng thêm 1,5/1,20 = 1,25 lần, tức 0,1293:
+          \[ \begin{aligned} \frac{\alpha - 1}{\alpha} &= 0,1293 \\ \alpha &= \frac{1}{1 - 0,1293} = \mathbf{1,15} \end{aligned} \]
+          Chỉ cần tăng α từ 1,12 lên 1,15 mà không tốn thêm thời gian.<br>
+          (c) Thừa số k<sub>2</sub>/(1 + k<sub>2</sub>) hiện là 5,27/6,27 = 0,841 và tối đa chỉ là 1. Khi đó R<sub>s</sub> tối đa = 1,20/0,841 = 1,43 &lt; 1,5: <b>không đạt</b>, dù tăng k bao nhiêu.
+        </details></div>
+
+      <h3>10. Van Deemter nâng cao: GC và HPLC</h3>
+      <div class="hinh-tinh">
+        <svg viewBox="0 0 320 248" role="img" aria-label="Đường cong Van Deemter H theo u với các thành phần A, B/u, C·u">
+<line x1="44.0" y1="178.0" x2="306.0" y2="178.0" stroke="var(--vien)" stroke-width="1"/>
+<text x="39.0" y="181.5" text-anchor="end" font-size="10" fill="var(--chu-phu)">0,00</text>
+<line x1="44.0" y1="139.0" x2="306.0" y2="139.0" stroke="var(--vien)" stroke-width="1"/>
+<text x="39.0" y="142.5" text-anchor="end" font-size="10" fill="var(--chu-phu)">0,25</text>
+<line x1="44.0" y1="100.0" x2="306.0" y2="100.0" stroke="var(--vien)" stroke-width="1"/>
+<text x="39.0" y="103.5" text-anchor="end" font-size="10" fill="var(--chu-phu)">0,50</text>
+<line x1="44.0" y1="61.0" x2="306.0" y2="61.0" stroke="var(--vien)" stroke-width="1"/>
+<text x="39.0" y="64.5" text-anchor="end" font-size="10" fill="var(--chu-phu)">0,75</text>
+<line x1="44.0" y1="22.0" x2="306.0" y2="22.0" stroke="var(--vien)" stroke-width="1"/>
+<text x="39.0" y="25.5" text-anchor="end" font-size="10" fill="var(--chu-phu)">1,00</text>
+<text x="44.0" y="192.0" text-anchor="middle" font-size="10" fill="var(--chu-phu)">0</text>
+<text x="131.3" y="192.0" text-anchor="middle" font-size="10" fill="var(--chu-phu)">10</text>
+<text x="218.7" y="192.0" text-anchor="middle" font-size="10" fill="var(--chu-phu)">20</text>
+<text x="306.0" y="192.0" text-anchor="middle" font-size="10" fill="var(--chu-phu)">30</text>
+<line x1="44.0" y1="178.0" x2="306.0" y2="178.0" stroke="var(--chu-phu)" stroke-width="1.2"/>
+<line x1="44.0" y1="22.0" x2="44.0" y2="178.0" stroke="var(--chu-phu)" stroke-width="1.2"/>
+<text x="175.0" y="220.0" text-anchor="middle" font-size="10" fill="var(--chu-phu)">u, tốc độ pha động (mm/s)</text>
+<text x="44.0" y="14.0" text-anchor="start" font-size="10" fill="var(--chu-phu)">H (mm)</text>
+<polyline points="44.0,162.4 306.0,162.4" fill="none" stroke="var(--chu-phu)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="5 3"/>
+<polyline points="54.5,48.0 56.2,66.6 58.0,80.5 59.7,91.3 61.5,100.0 63.2,107.1 65.0,113.0 66.7,118.0 68.5,122.3 70.2,126.0 71.9,129.2 73.7,132.1 75.4,134.7 77.2,136.9 78.9,139.0 80.7,140.9 82.4,142.5 84.2,144.1 85.9,145.5 87.7,146.8 89.4,148.0 91.2,149.1 92.9,150.1 94.7,151.1 96.4,152.0 98.1,152.8 99.9,153.6 101.6,154.4 103.4,155.1 105.1,155.7 106.9,156.3 108.6,156.9 110.4,157.5 112.1,158.0 113.9,158.5 115.6,159.0 117.4,159.4 119.1,159.9 120.9,160.3 122.6,160.7 124.3,161.0 126.1,161.4 127.8,161.8 129.6,162.1 131.3,162.4 133.1,162.7 134.8,163.0 136.6,163.3 138.3,163.6 140.1,163.8 141.8,164.1 143.6,164.3 145.3,164.6 147.1,164.8 148.8,165.0 150.5,165.2 152.3,165.4 154.0,165.6 155.8,165.8 157.5,166.0 159.3,166.2 161.0,166.4 162.8,166.5 164.5,166.7 166.3,166.9 168.0,167.0 169.8,167.2 171.5,167.3 173.3,167.5 175.0,167.6 176.7,167.7 178.5,167.9 180.2,168.0 182.0,168.1 183.7,168.2 185.5,168.4 187.2,168.5 189.0,168.6 190.7,168.7 192.5,168.8 194.2,168.9 196.0,169.0 197.7,169.1 199.5,169.2 201.2,169.3 202.9,169.4 204.7,169.5 206.4,169.6 208.2,169.7 209.9,169.8 211.7,169.9 213.4,170.0 215.2,170.0 216.9,170.1 218.7,170.2 220.4,170.3 222.2,170.4 223.9,170.4 225.7,170.5 227.4,170.6 229.1,170.6 230.9,170.7 232.6,170.8 234.4,170.8 236.1,170.9 237.9,171.0 239.6,171.0 241.4,171.1 243.1,171.2 244.9,171.2 246.6,171.3 248.4,171.3 250.1,171.4 251.9,171.4 253.6,171.5 255.3,171.6 257.1,171.6 258.8,171.7 260.6,171.7 262.3,171.8 264.1,171.8 265.8,171.9 267.6,171.9 269.3,172.0 271.1,172.0 272.8,172.0 274.6,172.1 276.3,172.1 278.1,172.2 279.8,172.2 281.5,172.3 283.3,172.3 285.0,172.3 286.8,172.4 288.5,172.4 290.3,172.5 292.0,172.5 293.8,172.5 295.5,172.6 297.3,172.6 299.0,172.7 300.8,172.7 302.5,172.7 304.3,172.8 306.0,172.8" fill="none" stroke="var(--xanh)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="5 3"/>
+<polyline points="44.0,178.0 306.0,131.2" fill="none" stroke="var(--vang)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="5 3"/>
+<polyline points="54.5,30.5 56.2,48.8 58.0,62.4 59.7,72.9 61.5,81.3 63.2,88.1 65.0,93.7 66.7,98.3 68.5,102.3 70.2,105.7 71.9,108.7 73.7,111.2 75.4,113.5 77.2,115.4 78.9,117.2 80.7,118.7 82.4,120.1 84.2,121.3 85.9,122.4 87.7,123.4 89.4,124.3 91.2,125.1 92.9,125.8 94.7,126.5 96.4,127.0 98.1,127.6 99.9,128.0 101.6,128.5 103.4,128.9 105.1,129.2 106.9,129.5 108.6,129.8 110.4,130.0 112.1,130.2 113.9,130.4 115.6,130.6 117.4,130.7 119.1,130.8 120.9,130.9 122.6,131.0 124.3,131.1 126.1,131.1 127.8,131.2 129.6,131.2 131.3,131.2 133.1,131.2 134.8,131.2 136.6,131.1 138.3,131.1 140.1,131.1 141.8,131.0 143.6,130.9 145.3,130.9 147.1,130.8 148.8,130.7 150.5,130.6 152.3,130.5 154.0,130.4 155.8,130.2 157.5,130.1 159.3,130.0 161.0,129.9 162.8,129.7 164.5,129.6 166.3,129.4 168.0,129.3 169.8,129.1 171.5,128.9 173.3,128.8 175.0,128.6 176.7,128.4 178.5,128.2 180.2,128.1 182.0,127.9 183.7,127.7 185.5,127.5 187.2,127.3 189.0,127.1 190.7,126.9 192.5,126.7 194.2,126.5 196.0,126.3 197.7,126.1 199.5,125.9 201.2,125.7 202.9,125.4 204.7,125.2 206.4,125.0 208.2,124.8 209.9,124.5 211.7,124.3 213.4,124.1 215.2,123.9 216.9,123.6 218.7,123.4 220.4,123.2 222.2,122.9 223.9,122.7 225.7,122.5 227.4,122.2 229.1,122.0 230.9,121.7 232.6,121.5 234.4,121.2 236.1,121.0 237.9,120.7 239.6,120.5 241.4,120.2 243.1,120.0 244.9,119.7 246.6,119.5 248.4,119.2 250.1,119.0 251.9,118.7 253.6,118.5 255.3,118.2 257.1,117.9 258.8,117.7 260.6,117.4 262.3,117.2 264.1,116.9 265.8,116.6 267.6,116.4 269.3,116.1 271.1,115.8 272.8,115.6 274.6,115.3 276.3,115.0 278.1,114.8 279.8,114.5 281.5,114.2 283.3,114.0 285.0,113.7 286.8,113.4 288.5,113.1 290.3,112.9 292.0,112.6 293.8,112.3 295.5,112.1 297.3,111.8 299.0,111.5 300.8,111.2 302.5,111.0 304.3,110.7 306.0,110.4" fill="none" stroke="var(--mau-chinh)" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="131.3" y1="131.2" x2="131.3" y2="178.0" stroke="var(--chu)" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="44.0" y1="131.2" x2="131.3" y2="131.2" stroke="var(--chu)" stroke-width="1" stroke-dasharray="3 3"/>
+<circle cx="131.3" cy="131.2" r="3.5" fill="var(--mau-chinh)" stroke="var(--nen)" stroke-width="1.2"/>
+<text x="136.3" y="123.2" text-anchor="start" font-size="10" fill="var(--chu)" font-weight="600">H<tspan font-size="8" dy="2">min</tspan><tspan dy="-2"> = 0,30</tspan></text>
+<text x="131.3" y="205.0" text-anchor="middle" font-size="10" fill="var(--chu)" font-weight="600">u<tspan font-size="8" dy="2">opt</tspan></text>
+<line x1="150.0" y1="34.0" x2="172.0" y2="34.0" stroke="var(--mau-chinh)" stroke-width="2.4"/>
+<text x="178.0" y="37.5" text-anchor="start" font-size="10" fill="var(--chu)">H = A + B/u + C·u</text>
+<line x1="150.0" y1="49.0" x2="172.0" y2="49.0" stroke="var(--chu-phu)" stroke-width="1.6" stroke-dasharray="5 3"/>
+<text x="178.0" y="52.5" text-anchor="start" font-size="10" fill="var(--chu)">A: khuếch tán xoáy</text>
+<line x1="150.0" y1="64.0" x2="172.0" y2="64.0" stroke="var(--xanh)" stroke-width="1.6" stroke-dasharray="5 3"/>
+<text x="178.0" y="67.5" text-anchor="start" font-size="10" fill="var(--chu)">B/u: khuếch tán dọc</text>
+<line x1="150.0" y1="79.0" x2="172.0" y2="79.0" stroke="var(--vang)" stroke-width="1.6" stroke-dasharray="5 3"/>
+<text x="178.0" y="82.5" text-anchor="start" font-size="10" fill="var(--chu)">C·u: chuyển khối</text>
+</svg>
+        <p class="chu-thich">Đường cong Van Deemter với A = 0,10 mm; B = 1,0 mm<sup>2</sup>/s; C = 0,010 s (số của Ví dụ 4). Đường liền là tổng H; ba đường nét đứt là ba thành phần. Cực tiểu tại u<sub>opt</sub> = 10 mm/s: bên trái do B/u (khuếch tán dọc), bên phải do C·u (chuyển khối).</p>
+      </div>
+      <div class="bang-cuon">
+        <table class="bang bang-the">
+          <thead><tr><th>Số hạng</th><th>Sắc kí khí (GC)</th><th>HPLC</th></tr></thead>
+          <tbody>
+            <tr><td>A (khuếch tán xoáy)</td><td>Bằng 0 với cột mao quản rỗng</td><td>Giảm khi hạt nhỏ và đồng đều</td></tr>
+            <tr><td>B/u (khuếch tán dọc)</td><td>Lớn: hệ số khuếch tán trong khí lớn hơn trong lỏng nhiều bậc; đường cong có cực tiểu rõ</td><td>Nhỏ, gần như bỏ qua ở tốc độ dùng thường ngày</td></tr>
+            <tr><td>C·u (chuyển khối)</td><td>Nhỏ với khí mang nhẹ (H<sub>2</sub>, He): vẫn chạy nhanh được</td><td>Quan trọng: H tăng theo u; muốn chạy nhanh phải giảm kích thước hạt (UHPLC)</td></tr>
+            <tr><td>Chọn tốc độ</td><td>N<sub>2</sub> cho H<sub>min</sub> nhỏ nhất nhưng đường cong dốc; H<sub>2</sub>, He phẳng hơn ở tốc độ cao</td><td>Thường chạy hơi trên u<sub>opt</sub> để tiết kiệm thời gian, chấp nhận N giảm ít</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="vi-du"><b>Ví dụ 8.</b> Cột HPLC dài 150 mm có A = 0,0100 mm; B = 0,0060 mm<sup>2</sup>/s; C = 0,0040 s. Tính u<sub>opt</sub>, H<sub>min</sub> và N lớn nhất. Nếu chạy ở u = 3,5 mm/s thì H, N và thời gian chết t<sub>m</sub> = L/u thay đổi thế nào?
+        <details><summary>Xem lời giải</summary>
+          \[ \begin{aligned} u_\text{opt} &= \sqrt{\frac{0,0060}{0,0040}} = \mathbf{1,22\ mm/s} \\ H_\text{min} &= 0,0100 + 2\sqrt{0,0060\cdot0,0040} \\ &= \mathbf{0,0198\ mm} \\ N_\text{max} &= \frac{150}{0,0198} = 7,6\cdot10^{3} \end{aligned} \]
+          Ở u<sub>opt</sub>, t<sub>m</sub> = 150/1,22 ≈ 2,0 min. Ở u = 3,5 mm/s:
+          \[ \begin{aligned} H &= 0,0100 + \frac{0,0060}{3,5} + 0,0040\cdot3,5 \\ &= 0,0257\ \mathrm{mm} \\ N &= \frac{150}{0,0257} = 5,8\cdot10^{3} \\ t_m &= \frac{150}{3,5} = 43\ \mathrm{s} \end{aligned} \]
+          Tốc độ tăng gấp 2,9 lần (thời gian giảm từ khoảng 2,0 min còn 43 s), còn N chỉ giảm khoảng 23%: đánh đổi chấp nhận được. Phần lớn H tăng đến từ C·u, đúng với đặc điểm HPLC.
+        </details></div>
+
+      <h3>11. Định lượng bằng diện tích pic</h3>
+      <ul>
+        <li>Diện tích pic tỉ lệ với lượng chất và <b>ít nhạy hơn chiều cao</b> với sự thay đổi độ rộng pic (do nhiệt độ, tốc độ dòng…). Nên dùng diện tích cho định lượng chính xác; chiều cao chỉ dùng cho pic hẹp, cân đối và không chồng nhau.</li>
+        <li><b>Đường chuẩn ngoại</b>: pha dãy chuẩn (thường 5 nồng độ), đo diện tích A theo nồng độ c, hồi quy A = a·c + b. Kiểm tra hệ số tương quan r<sup>2</sup> (thường yêu cầu &gt; 0,999), rồi tính c của mẫu từ diện tích đo được. Nồng độ mẫu phải nằm <b>trong</b> khoảng chuẩn, không ngoại suy.</li>
+        <li>Từ c trong dung dịch tiêm suy ra % (m/m) trong mẫu: nhân các hệ số pha loãng, nhân thể tích định mức, chia khối lượng mẫu, đổi đơn vị.</li>
+        <li><b>Chuẩn ngoại</b> chịu sai số thể tích tiêm; nội chuẩn (Chương 10, mục 6) bù sai số đó.</li>
+      </ul>
+      <div class="bang-cuon">
+        <table class="bang bang-hep">
+          <thead><tr><th>c (µg/mL)</th><th>2,00</th><th>5,00</th><th>10,0</th><th>20,0</th><th>40,0</th></tr></thead>
+          <tbody><tr><td>Diện tích (mAU·s)</td><td>18,7</td><td>47,7</td><td>96,1</td><td>191,8</td><td>385,5</td></tr></tbody>
+        </table>
+      </div>
+      <div class="vi-du"><b>Ví dụ 9.</b> Định lượng một hoạt chất trong bột thực phẩm chức năng bằng HPLC (cột C18, pha động đệm phosphat pH 3/acetonitril, đầu dò UV). Đường chuẩn từ bảng trên cho A = 9,65c − 0,62 (r<sup>2</sup> &gt; 0,9999). Cân 0,5000 g bột, chiết và định mức 100,0 mL, lọc, hút 5,00 mL định mức thành 50,00 mL rồi tiêm; diện tích pic hoạt chất là 208,6 mAU·s. Tính % (m/m) hoạt chất trong bột.
+        <details><summary>Xem lời giải</summary>
+          \[ c = \frac{208,6 + 0,62}{9,65} = 21,7\ \mu\mathrm{g/mL} \]
+          Đây là nồng độ trong dung dịch tiêm (đã pha loãng 50,00/5,00 = 10 lần). Trong dung dịch 100,0 mL chiết từ mẫu:
+          \[ \begin{aligned} c_{100} &= 21,7\cdot10 = 217\ \mu\mathrm{g/mL} \\ m &= 217\cdot100,0 = 21\,700\ \mu\mathrm{g} = 21,7\ \mathrm{mg} \\ \% &= \frac{21,7\ \mathrm{mg}}{500,0\ \mathrm{mg}}\cdot100\% = \mathbf{4,34\ \%} \end{aligned} \]
+          Nồng độ 21,7 µg/mL nằm giữa 10,0 và 40,0 µg/mL của dãy chuẩn nên phép nội suy hợp lệ.
+        </details></div>
+      <p><b>Câu hỏi định tính hay gặp (HPLC C18, pH 3):</b></p>
+      <ul>
+        <li><b>Vì sao dùng pH 3?</b> Chất phân tích là acid yếu hoặc base yếu cần được giữ ở một dạng xác định: acid yếu ở pH 3 chủ yếu dạng phân tử, ít phân cực, bị C18 giữ tốt; pH thấp cũng ức chế sự ion hóa nhóm silanol nên giảm kéo đuôi với hợp chất amin.</li>
+        <li><b>Thứ tự rửa giải pha đảo</b>: chất phân cực ra <b>trước</b>, chất ít phân cực ra sau; tăng tỉ lệ acetonitril làm mọi chất ra sớm hơn.</li>
+        <li><b>Vai trò cột</b> là nơi diễn ra sự tách; <b>đầu dò UV</b> là đầu dò phân tử, đo độ hấp thụ của chất rửa giải ở bước sóng chọn (không tách chất). Pic đến sớm là chất phân cực hoặc chất không lưu giữ; pic phụ khác t<sub>R</sub> so với chuẩn là tạp chất hoặc chất nền.</li>
+      </ul>
+
+      <h3>12. Lỗi hay gặp</h3>
+      <ul>
+        <li><b>Không trừ t<sub>m</sub></b>: dùng t<sub>R</sub> thay cho t<sub>R</sub>' khi tính k và α. α tính từ t<sub>R</sub> thô (6,90/6,30 = 1,10) khác α đúng (1,12).</li>
+        <li><b>Lẫn đơn vị</b> giữa t<sub>R</sub> và w (một bên phút, một bên giây) hoặc giữa L (cm) và H (mm).</li>
+        <li><b>Nhầm w với w<sub>1/2</sub></b>: dùng 16 với w<sub>1/2</sub> hoặc 5,55 với w cho N sai gấp khoảng 3 lần.</li>
+        <li><b>Nhầm R<sub>s</sub></b>: chia cho w của một pic thay vì độ rộng trung bình của hai pic; lấy Δt<sub>R</sub> theo t<sub>R</sub>' rồi cộng thêm t<sub>m</sub>.</li>
+        <li><b>Tăng N khi cần α</b>: R<sub>s</sub> ∝ √N nên muốn R<sub>s</sub> gấp đôi phải tăng N gấp 4 (chứ không phải gấp 2), rất tốn thời gian; đổi α thường hiệu quả hơn.</li>
+        <li><b>Van Deemter</b>: nhầm B/u là chuyển khối (đó là khuếch tán dọc); quên rằng ở tốc độ thấp thì B/u chi phối, ở tốc độ cao thì C·u chi phối; cho rằng u<sub>opt</sub> cho thời gian ngắn nhất (nó chỉ cho H nhỏ nhất).</li>
+        <li><b>Định lượng</b>: ngoại suy ngoài khoảng chuẩn; quên hệ số pha loãng và thể tích định mức (Ví dụ 9: nhân 10 và nhân 100,0 mL); dùng chiều cao thay diện tích với pic không đối xứng.</li>
+        <li><b>Kết luận từ t<sub>R</sub> đơn độc</b>: hai chất khác nhau có thể cùng t<sub>R</sub>; định tính chắc chắn cần thêm chuẩn vào mẫu hoặc đầu dò cho thông tin cấu trúc.</li>
       </ul>
     `,
     baiTap: [
