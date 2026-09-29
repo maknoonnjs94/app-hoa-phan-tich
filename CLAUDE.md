@@ -26,6 +26,10 @@ PWA tĩnh (HTML/CSS/JS), chạy trên GitHub Pages từ nhánh `main`: https://m
 - pH 2 chữ số thập phân; số khác theo chữ số có nghĩa; dấu phẩy thập phân; dấu trừ "−". Công thức chữ đứng thẳng.
 - Mức độ: 1 Nhận biết, 2 Thông hiểu, 3 Vận dụng, 4 Vận dụng cao. Mục tiêu cả chương ≈ 20/30/35/15 %.
 
+## Loại câu và mức độ
+- Mỗi câu có `loai`: `lt` (lí thuyết/khái niệm) hoặc `tt` (phải tính: đáp án số, hoặc tính rồi mới kết luận); phan-dang.js tự gán theo đề/đáp án, có thể ghi đè bằng trường `loai`. Tạo đề thay câu theo cùng dạng + cùng loại + cùng mức.
+- Thang mức cho câu tính: 2 = 1–2 bước; 3 = nhiều bước trên một hệ; 4 (Vận dụng cao) = mẫu thật/quy trình nhiều công đoạn (định mức, hút, chuẩn độ ngược/gián tiếp, công thức dài, câu chùm).
+
 ## Quy tắc soạn câu hỏi (rút từ các vòng phản biện)
 - Nhiễu chỉ là lỗi thật của sinh viên (quên pha loãng, quên cộng thể tích, nhầm pKa↔pKb, sai tỉ lượng thật, quên bình phương/căn/log…). Cấm ×2/÷2 vô căn cứ, "đọc nhầm số", M của chất không liên quan, ghép hai lỗi.
 - Không số nào sát ranh giới làm tròn; tối đa 1 nhiễu sai bậc 10/câu; không nhiễu vô lí (%>100, nồng độ âm…); số liệu mẫu thực tế.

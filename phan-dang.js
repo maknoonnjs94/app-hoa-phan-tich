@@ -1,6 +1,7 @@
 /* Phân dạng câu hỏi theo từng chương (bản gộp đã duyệt).
    Mỗi chương: danh sách dạng mới; mỗi dạng liệt kê các mã dạng cũ (Dxx của ngân hàng) được gộp vào.
    Khi nạp, trường "dang" của câu hỏi được đổi sang "Dxx · tên dạng mới"; mã cũ giữ trong "dangCu". */
+const TEN_LOAI = { lt: "Lí thuyết", tt: "Tính toán" };
 const PHAN_DANG = {
   "mo-dau": [
     ["Khái niệm: chất phân tích, mẫu, nền mẫu; định tính và định lượng", "D01 D02"],
@@ -129,5 +130,14 @@ const PHAN_DANG = {
     const d = (c.dang.match(/^(D\d+)/) || [])[1], moi = ma[c.chuong + "|" + d];
     if (moi) { c.dangCu = c.dang; c.dang = moi; }
   };
-  [typeof NGAN_HANG !== "undefined" ? NGAN_HANG : [], typeof NGAN_HANG_CHO_DUYET !== "undefined" ? NGAN_HANG_CHO_DUYET : []].forEach(ds => ds.forEach(doi));
+  // Loại câu: "tt" = phải tính (đáp án số, hoặc tính rồi mới kết luận); "lt" = lí thuyết/khái niệm. Có thể ghi đè bằng trường loai trong kho.
+  const bo = s => String(s).replace(/<[^>]+>/g, "").replace(/\\\(|\\\)/g, "").replace(/&[a-z]+;/g, " ").trim();
+  const DON_VI = /\d[\d,.]*\s*(?:·\s*10\S*\s*)?(?:mL|L|g|mg|M|mM|mol|mmol|%|V|nm|°C|K|ppm|ppb|μg|µg|kJ)(?![A-Za-zÀ-ỹ])/g;
+  const phanLoai = c => {
+    if (c.loai) return;
+    const so = c.phuongAn.filter(p => /^[−\-+≈~]?\s*\d/.test(bo(p))).length;
+    const luong = (bo((c.dan || "") + " " + c.de).match(DON_VI) || []).length, pt = (bo(c.loiGiai || "").match(/=\s*[−\-]?\d/g) || []).length;
+    c.loai = so >= 3 || (luong >= 3 && pt >= 2) ? "tt" : "lt";
+  };
+  [typeof NGAN_HANG !== "undefined" ? NGAN_HANG : [], typeof NGAN_HANG_CHO_DUYET !== "undefined" ? NGAN_HANG_CHO_DUYET : []].forEach(ds => ds.forEach(c => { doi(c); phanLoai(c); }));
 })();

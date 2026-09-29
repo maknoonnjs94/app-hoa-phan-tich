@@ -48,15 +48,17 @@ function bocCau(pool, n, rng, tranh = new Set()) {
 }
 
 // Chọn 1 câu thay thế CÙNG DẠNG (cùng chương), chưa dùng ở mã nào: ưu tiên cùng mức độ, rồi khác mức, cuối cùng đành dùng lại
+// Câu thay thế: ưu tiên cùng loại (lí thuyết/tính toán) và cùng mức độ để các mã đề khó như nhau.
+const uuTienCungLoai = (pool, g) => [pool.filter(q => q.loai === g.loai && q.mucDo === g.mucDo), pool.filter(q => q.loai === g.loai), pool.filter(q => q.mucDo === g.mucDo), pool].find(p => p.length);
 function chonThayThe(id, dung, rng) {
   const g = CAU_THEO_ID[id];
   if (!g || g.chum) return { id, loai: "" };   // câu chùm giữ nguyên
   const pool = KHO_DE_CAU.filter(q => q.chuong === g.chuong && q.dang === g.dang && !q.chum && !dung.has(q.id) && (cauHinhDe.choDuyet || !q.choDuyet || g.choDuyet));
-  const cungMuc = pool.filter(q => q.mucDo === g.mucDo), chon = cungMuc.length ? cungMuc : pool;
+  const chon = uuTienCungLoai(pool, g) || pool;
   if (!chon.length) return { id, loai: "lap" };
   const moi = chon[Math.floor(rng() * chon.length)];
   dung.add(moi.id);
-  return { id: moi.id, loai: cungMuc.length ? "" : "muc" };
+  return { id: moi.id, loai: moi.mucDo === g.mucDo ? "" : "muc" };
 }
 // Thứ tự câu + thứ tự phương án của một mã (cụm câu chùm luôn đi liền nhau)
 function xepMa(dsId, daoCau, daoPA, rng) {
@@ -250,7 +252,7 @@ function theCauChon(c, trongDe) {
   const nDang = soCauDang(c.chuong, c.dang), thay = locChon.thay && !da;
   const canhBao = trongDe && !c.chum && nDang < (cauHinhDe.soMa || 1) ? `<small class="loi-tk">⚠️ Dạng này chỉ có ${nDang} câu — chỉ đủ ${nDang} mã khác nhau, các mã sau sẽ phải dùng lại câu.</small>` : "";
   return `<div class="the-trang cau-chon ${da ? "da-chon" : ""}">
-    <div class="nhan-cau"><span>${c.id}</span><span class="muc-${c.mucDo}">${MUC_DO[c.mucDo]}</span><span>${tenChuong(c.chuong)}</span>${cum ? `<span>Chùm ${cum.length} câu</span>` : ""}</div>
+    <div class="nhan-cau"><span>${c.id}</span><span class="muc-${c.mucDo}">${MUC_DO[c.mucDo]}</span><span class="loai-${c.loai}">${TEN_LOAI[c.loai]}</span><span>${tenChuong(c.chuong)}</span>${cum ? `<span>Chùm ${cum.length} câu</span>` : ""}</div>
     <div class="ten-dang">${tenDang(c.dang)}${trongDe && !c.chum ? ` <small>· kho có ${nDang} câu dạng này</small>` : ""}</div>${canhBao}
     ${c.dan ? `<div class="de-dan">${c.dan}</div>` : ""}<div class="de-cau">${c.de}</div>
     <ol class="pa-de" type="A">${c.phuongAn.map((p, j) => `<li class="${locChon.dapAn && CHU[j] === c.dapAn ? "dung" : ""}"><span class="chu">${CHU[j]}.</span> ${p}</li>`).join("")}</ol>
@@ -272,7 +274,7 @@ function batChonCau(id) {
 function doiCauSoan(id) {
   const g = CAU_THEO_ID[id], da = new Set(soan.chon);
   const pool = cauNguon().filter(c => !da.has(c.id) && !c.chum && c.chuong === g.chuong && c.dang === g.dang);
-  const chon = [pool.filter(c => c.mucDo === g.mucDo), pool].find(p => p.length);
+  const chon = uuTienCungLoai(pool, g);
   if (!chon) return alert("Dạng này không còn câu nào khác. Dùng “🔁 Đổi dạng…” hoặc “✋ Chọn tay”.");
   soan.chon[soan.chon.indexOf(id)] = chon[Math.floor(Math.random() * chon.length)].id; luuSoan(); veChonCau();
 }
@@ -281,7 +283,7 @@ function doiDangViTri(id, dangMoi) {
   if (!dangMoi) return;
   const g = CAU_THEO_ID[id], da = new Set(soan.chon);
   const pool = cauNguon().filter(c => !da.has(c.id) && !c.chum && c.chuong === g.chuong && c.dang === dangMoi);
-  const chon = [pool.filter(c => c.mucDo === g.mucDo), pool].find(p => p.length);
+  const chon = uuTienCungLoai(pool, g);
   if (!chon) return alert("Dạng đó không còn câu nào chưa dùng.");
   soan.chon[soan.chon.indexOf(id)] = chon[Math.floor(Math.random() * chon.length)].id; luuSoan(); veChonCau();
 }
@@ -562,7 +564,7 @@ function doiCau(id) {
   const idx = m.cau.indexOf(id); if (idx < 0) return;
   const dung = new Set(moiCauDe(de));
   const pool = KHO_DE_CAU.filter(c => (cauHinhDe.choDuyet || !c.choDuyet || g.choDuyet) && c.chuong === g.chuong && !c.chum && !dung.has(c.id));
-  const chon = [pool.filter(c => c.dang === g.dang && c.mucDo === g.mucDo), pool.filter(c => c.dang === g.dang)].find(p => p.length);
+  const chon = uuTienCungLoai(pool.filter(c => c.dang === g.dang), g);
   if (!chon) return alert("Dạng này không còn câu nào chưa dùng trong đề.");
   const moi = chon[Math.floor(Math.random() * chon.length)];
   m.cau[idx] = moi.id; if (maDangXem === 0) de.cau[idx] = moi.id;

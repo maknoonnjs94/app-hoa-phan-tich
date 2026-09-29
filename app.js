@@ -622,7 +622,7 @@ function veThemKho() {
   const phan = dsKhoHien.slice(daVeKho, daVeKho + MOI_LAN);
   vung.insertAdjacentHTML("beforeend", lamToan(phan.map(c => `
     <div class="the-trang cau-kho">
-      <div class="nhan-cau"><span>${c.id}</span><span class="muc-${c.mucDo}">${MUC_DO[c.mucDo]}</span>
+      <div class="nhan-cau"><span>${c.id}</span><span class="muc-${c.mucDo}">${MUC_DO[c.mucDo]}</span><span class="loai-${c.loai}">${TEN_LOAI[c.loai]}</span>
         ${maDang(c.dang) ? `<span class="ma-dang">${maDang(c.dang)}</span>` : ""}
         ${c.choDuyet ? '<span class="cho-duyet">Chờ duyệt</span>' : ""}</div>
       <div class="ten-dang">${tenDang(c.dang)}</div>
