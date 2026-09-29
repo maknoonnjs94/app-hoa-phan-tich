@@ -771,25 +771,65 @@ details[open] > summary .khi-mo { display: inline; }
 .de-dan { margin: 0 0 10px; padding: 10px 12px; border-left: 3px solid var(--mau-chinh); border-radius: 8px; background: color-mix(in srgb, var(--mau-chinh) 7%, var(--the)); font-size: .95em; }
 @media print { #vung-in .de-dan { background: none; border: 1px solid #000; border-left-width: 3px; break-inside: avoid; } }
 
-/* ===== Trang chủ: cảnh phòng thí nghiệm (ảnh để lộ rõ, chỉ phủ mờ mép trên/dưới) ===== */
+/* ===== Trang chủ kiểu phòng thí nghiệm (nền tối, thẻ kính mờ) ===== */
+body.trang-chu, body.trang-chu .app { background: #0b1733; }
 body.trang-chu .content { padding-bottom: 0; }
-body.trang-chu .topbar { background: #141a3c; color: #fff; backdrop-filter: none; }
-.canh-lab {
-  position: relative; margin: -8px -16px 0; color: #fff;
-  height: calc(100svh - var(--cao-topbar, 56px) - var(--cao-thanh-tab) - env(safe-area-inset-bottom));
-  min-height: 380px; display: flex; flex-direction: column; justify-content: space-between;
-  background: linear-gradient(180deg, #141a3c 0%, rgba(20,26,60,0) 22%, rgba(20,26,60,0) 72%, rgba(10,14,40,.75) 100%),
-    url(anh/giao-dien/nen-lab-dem.webp) center 35% / cover no-repeat, #1e1b4b;
+body.trang-chu .topbar { background: #0b1733; color: #fff; backdrop-filter: none; }
+body.trang-chu .tabbar { background: rgba(12,22,48,.94); border-top-color: rgba(255,255,255,.08); }
+body.trang-chu .tabbar a { color: #8fa3c7; }
+body.trang-chu .tabbar a.active { color: #2dd4bf; }
+.tc {
+  display: flex; flex-direction: column; gap: 12px; color: #fff; margin: -8px 0 0;
+  height: calc(100svh - var(--cao-topbar, 56px) - var(--cao-thanh-tab) - env(safe-area-inset-bottom) - 4px);
+  min-height: 520px; padding-bottom: 12px;
 }
-.canh-dau { padding: 4px 20px 0; text-shadow: 0 1px 4px rgba(0,0,0,.6); }
-.canh-dau h3 { margin: 0; font-size: 26px; line-height: 1.25; font-weight: 700; }
-.canh-dau .hero-tien-do { margin-top: 8px; }
-.canh-nut { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; padding: 0 12px 16px; }
-.canh-nut a { display: flex; flex-direction: column; align-items: center; gap: 6px; color: #fff; text-decoration: none; }
-.canh-nut span {
-  width: 58px; height: 58px; border-radius: 18px; display: grid; place-items: center; font-size: 28px;
-  background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.35);
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); box-shadow: 0 4px 14px rgba(0,0,0,.3);
+.tc a { color: #fff; text-decoration: none; }
+.tc-canh {
+  flex: 1; min-height: 140px; margin: 0 -16px -46px;
+  background: linear-gradient(180deg, rgba(11,23,51,0) 60%, #0b1733 100%),
+    url(anh/giao-dien/canh-trang-chu.webp) center 30% / cover no-repeat;
 }
-.canh-nut a:active span { transform: scale(.94); }
-.canh-nut b { font-size: 13px; font-weight: 600; text-shadow: 0 1px 4px rgba(0,0,0,.8); }
+.tc-doc, .tc-o a, .tc-hanh-trinh {
+  position: relative; border-radius: 20px; border: 1px solid rgba(160,220,255,.28);
+  box-shadow: 0 8px 24px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.15);
+}
+.tc-doc {
+  display: flex; align-items: center; gap: 12px; padding: 10px 14px 10px 10px;
+  background: linear-gradient(120deg, rgba(56,140,190,.55), rgba(30,58,120,.7));
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+.tc-doc img { width: 92px; height: 68px; object-fit: cover; border-radius: 14px; }
+.tc-doc .text { flex: 1; min-width: 0; }
+.tc-doc small { display: block; font-size: 12px; opacity: .8; text-transform: uppercase; letter-spacing: .06em; }
+.tc-doc b { display: block; font-size: 16px; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tc-doc .thanh { display: block; height: 8px; margin-top: 8px; border-radius: 99px; background: rgba(0,0,0,.35); overflow: hidden; }
+.tc-doc .thanh i { display: block; height: 100%; min-width: 8px; border-radius: 99px; background: linear-gradient(90deg, #2dd4bf, #34d399); }
+.tc-doc .nut { width: 42px; height: 42px; flex: none; border-radius: 50%; display: grid; place-items: center; font-size: 28px; line-height: 1;
+  background: #14b8a6; box-shadow: 0 0 14px rgba(45,212,191,.6); padding-bottom: 3px; }
+.tc-o { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.tc-o a { overflow: hidden; display: flex; flex-direction: column; }
+.tc-o img { width: 100%; aspect-ratio: 1.1; object-fit: cover; display: block; }
+.tc-o b { font-size: 14px; font-weight: 600; text-align: center; padding: 7px 4px 8px; }
+.tc-o .o-1 { background: #1c5a5a; border-color: rgba(94,234,212,.45); }
+.tc-o .o-2 { background: #1d3f86; border-color: rgba(125,170,255,.45); }
+.tc-o .o-3 { background: #3f2f8f; border-color: rgba(190,160,255,.5); }
+.tc-o a:active, .tc-doc:active, .tc-hanh-trinh:active { transform: scale(.97); }
+.tc-hanh-trinh {
+  display: grid; grid-template-columns: 48px 1fr 48px; align-items: center; gap: 8px; padding: 10px 12px 8px;
+  background: rgba(20,40,70,.6);
+}
+.tc-hanh-trinh img { width: 48px; height: 48px; border-radius: 50%; }
+.tc-hanh-trinh .duong { display: flex; align-items: center; justify-content: space-between; position: relative; }
+.tc-hanh-trinh .duong::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: rgba(255,255,255,.18); }
+.tc-hanh-trinh .duong i { position: relative; width: 11px; height: 11px; border-radius: 50%; background: #1e3354; border: 1px solid rgba(255,255,255,.25); }
+.tc-hanh-trinh .duong i.xong { background: #fbbf24; border-color: #fde68a; box-shadow: 0 0 8px rgba(251,191,36,.7); }
+.tc-hanh-trinh small { grid-column: 1 / -1; text-align: center; font-size: 12px; color: #c7d4ea; }
+
+/* Thẻ chương có ảnh bìa dụng cụ bên phải */
+.the-chuong.co-bia { position: relative; overflow: hidden; }
+.the-chuong.co-bia::after {
+  content: ""; position: absolute; top: 0; right: 0; bottom: 0; width: 30%;
+  background: var(--bia) center / cover no-repeat;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 45%); mask-image: linear-gradient(90deg, transparent, #000 45%);
+}
+.the-chuong.co-bia .text { padding-right: 26%; }

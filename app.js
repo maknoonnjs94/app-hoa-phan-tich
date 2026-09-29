@@ -44,7 +44,7 @@ const dongDanhSach = (link, icon, ten, phu) => `
 const theChuong = (c, so) => {
   const pt = tienDo(c.id);
   return `
-  <a class="the-chuong" href="#/ly-thuyet/${c.id}">
+  <a class="the-chuong co-bia" href="#/ly-thuyet/${c.id}" style="--bia:url(anh/giao-dien/bia-${BIA_CHUONG[c.id] || "buret"}.webp)">
     <span class="icon">${c.icon}</span>
     <span class="text">
       <span class="ten">${so}. ${c.ten}</span>
@@ -70,6 +70,24 @@ const theDocTiep = () => {
     <span class="nut-tron">▶</span>
   </a>`;
 };
+
+// Thẻ "Đọc tiếp" lớn ở trang chủ (chưa đọc gì thì mời bắt đầu chương 1)
+const theDocTiepTrangChu = () => {
+  const g = docGanNhat();
+  const c = (g && CHUONG.find(x => x.id === g.id)) || CHUONG[0];
+  const link = g && g.id === c.id ? `#/ly-thuyet/${c.id}?muc=${g.muc}` : `#/ly-thuyet/${c.id}`;
+  return `
+  <a class="tc-doc" href="${link}">
+    <img src="anh/giao-dien/o-doc-tiep.webp" alt="">
+    <span class="text"><small>${g ? "Đọc tiếp" : "Bắt đầu học"}</small><b>${c.ten}</b>
+      <span class="thanh"><i style="width:${tienDo(c.id)}%"></i></span></span>
+    <span class="nut">›</span>
+  </a>`;
+};
+
+// Ảnh bìa cho thẻ chương (theo nhóm dụng cụ)
+const BIA_CHUONG = { "mo-dau": "can", "do-luong": "can", "thong-ke": "can", "hieu-chuan": "quang-pho", "uv-vis": "quang-pho",
+  "quang-nguyen-tu": "quang-pho", "dien-hoa": "ph", "sac-ki": "sac-ki", "gc-hplc": "sac-ki" };
 
 // Chia các chương theo nhóm (Phân tích hóa học / Phân tích công cụ)
 const theoNhom = veNhom => [...new Set(CHUONG.map(c => c.nhom))]
@@ -163,18 +181,20 @@ const MAN_HINH = {
     ve: () => {
       const daDoc = CHUONG.filter(c => tienDo(c.id) >= 90).length;
       return `
-      <section class="canh-lab">
-        <div class="canh-dau">
-          <div class="hero-nho">Ôn tập đại học</div>
-          <div class="hero-tien-do"><span class="thanh-nho sang"><i style="width:${daDoc / CHUONG.length * 100}%"></i></span>
-            Đã đọc ${daDoc}/${CHUONG.length} chương</div>
+      <section class="tc">
+        <div class="tc-canh"></div>
+        ${theDocTiepTrangChu()}
+        <div class="tc-o">
+          <a href="#/ly-thuyet" class="o-1"><img src="anh/giao-dien/o-ly-thuyet.webp" alt=""><b>Lý thuyết</b></a>
+          <a href="#/tao-de" class="o-2"><img src="anh/giao-dien/o-tao-de.webp" alt=""><b>Tạo đề</b></a>
+          <a href="#/luyen-tap" class="o-3"><img src="anh/giao-dien/o-luyen-tap.webp" alt=""><b>Luyện tập</b></a>
         </div>
-        <nav class="canh-nut">
-          <a href="#/ly-thuyet"><span>📘</span><b>Lý thuyết</b></a>
-          <a href="#/bai-tap"><span>✏️</span><b>Bài tập</b></a>
-          <a href="#/tao-de"><span>📝</span><b>Tạo đề</b></a>
-          <a href="#/tra-cuu"><span>📋</span><b>Tra cứu</b></a>
-        </nav>
+        <a class="tc-hanh-trinh" href="#/ly-thuyet">
+          <img src="anh/giao-dien/moc-mam.webp" alt="">
+          <span class="duong">${CHUONG.map(c => `<i class="${tienDo(c.id) >= 90 ? "xong" : ""}"></i>`).join("")}</span>
+          <img src="anh/giao-dien/moc-tinh-the.webp" alt="">
+          <small>Đã đọc ${daDoc}/${CHUONG.length} chương</small>
+        </a>
       </section>`;
     },
   },
