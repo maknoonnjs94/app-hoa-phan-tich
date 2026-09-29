@@ -116,42 +116,56 @@ function batDauChon(tuDong) {
   location.hash = "#/chon-cau";
 }
 
+// Tên ngắn của chương cho lưới chọn chương
+const TEN_NGAN = { "mo-dau": "Mở đầu", "do-luong": "Đo lường", "thong-ke": "Thống kê", "can-bang": "Cân bằng", "axit-bazo": "Acid – base",
+  "chuan-do-axit-bazo": "Chuẩn độ AB", "edta": "EDTA", "ket-tua": "Kết tủa", "oxi-hoa-khu": "Oxi hóa – khử", "hieu-chuan": "Hiệu chuẩn",
+  "uv-vis": "UV-Vis", "quang-nguyen-tu": "Quang ng. tử", "dien-hoa": "Điện hóa", "sac-ki": "Sắc kí ĐC", "gc-hplc": "GC – HPLC" };
+function doiTong(d) { datTong(soan.tong + d); }
+function doiPhut(d) { cauHinhDe.phut = Math.max(5, Math.min(180, cauHinhDe.phut + d)); luuCauHinh(); hienManHinh(); }
+function batNhom(nhom) {
+  const ids = CHUONG.filter(c => c.nhom === nhom && KHO_DE_CAU.some(q => q.chuong === c.id)).map(c => c.id);
+  const du = ids.every(id => soan.chuong.includes(id));
+  soan.chuong = du ? soan.chuong.filter(id => !ids.includes(id)) : [...new Set([...soan.chuong, ...ids])];
+  luuSoan(); hienManHinh();
+}
 MAN_HINH["/tao-de"] = {
   tieuDe: "Tạo đề",
   ve: () => {
-    const luu = dsDe(), coCau = CHUONG.filter(c => KHO_DE_CAU.some(q => q.chuong === c.id));
-    const goiY = [10, 20, 30, 40].map(n => { const m = chiaMucDo(n, KIEU_DE[soan.kieu].tl); return `<b>${n} câu</b>: ${m[1]}·${m[2]}·${m[3]}·${m[4]}`; }).join(" &nbsp; ");
-    const nguon = cauNguon(), coTheoMuc = m => nguon.filter(c => c.mucDo === m).length;
+    const luu = dsDe(), nguon = cauNguon(), coTheoMuc = m => nguon.filter(c => c.mucDo === m).length;
+    const nhomCh = [...new Set(CHUONG.map(c => c.nhom))].map(n => [n, CHUONG.filter(c => c.nhom === n && KHO_DE_CAU.some(q => q.chuong === c.id))]);
     return `
     <div class="buoc-soan"><span class="dang">1 · Khung đề</span><span>2 · Chọn câu</span><span>3 · Mã đề, in, giao</span></div>
-    <div class="the-trang tao-de">
-      <label class="nhan-o">Tên đề<input id="ten-de" value="${coDau(cauHinhDe.ten)}" onchange="datCauHinh('ten', this.value)"></label>
-      <h3>Số câu</h3>
-      <div class="nhom-chip">${[10, 15, 20, 25, 30, 40, 50].map(n => `<label class="chip-chon"><input type="radio" name="tong" ${soan.tong === n ? "checked" : ""} onchange="datTong(${n})"><span>${n}</span></label>`).join("")}
-        <input class="o-so" inputmode="numeric" value="${soan.tong}" onchange="datTong(this.value)" aria-label="Số câu khác"></div>
-      <h3>Kiểu đề</h3>
-      <div class="nhom-chip">${Object.entries(KIEU_DE).map(([k, v]) => `<label class="chip-chon"><input type="radio" name="kieu" ${soan.kieu === k ? "checked" : ""} onchange="datKieu('${k}')"><span>${v.ten}<small> ${v.tl.join("/")}</small></span></label>`).join("")}</div>
-      <p class="ghi-chu">${KIEU_DE[soan.kieu].mo}. Gợi ý (NB·TH·VD·VDC): ${goiY}</p>
-      <h3>Số câu theo mức độ <small class="ghi-chu">(sửa được)</small></h3>
-      <div class="luoi-muc">${[1, 2, 3, 4].map(m => `<div class="o-muc muc-${MAU_MUC[m]}"><small>${MUC_DO[m]}</small>
-        <span class="buoc"><button onclick="doiMuc(${m},-1)" ${soan.muc[m] ? "" : "disabled"}>−</button><b>${soan.muc[m] || 0}</b><button onclick="doiMuc(${m},1)">+</button></span>
-        <small class="${coTheoMuc(m) < (soan.muc[m] || 0) ? "loi-tk" : ""}">kho có ${coTheoMuc(m)}</small></div>`).join("")}</div>
-      <h3>Thời gian <small class="ghi-chu">(gợi ý ${phutGoiY(soan.tong)} phút cho ${soan.tong} câu)</small></h3>
-      <div class="nhom-chip">${[15, 20, 30, 45, 60, 90].map(p => `<label class="chip-chon"><input type="radio" name="de-phut" ${cauHinhDe.phut === p ? "checked" : ""} onchange="datCauHinh('phut', ${p})"><span>${p} phút</span></label>`).join("")}</div>
-      <h3>Chương <small class="ghi-chu">${soan.chuong.length ? `đã chọn ${soan.chuong.length}` : "(chưa chọn = mọi chương)"}</small></h3>
-      <div class="nhom-chip">${coCau.map(c => `<label class="chip-chon"><input type="checkbox" ${soan.chuong.includes(c.id) ? "checked" : ""} onchange="batChuong('${c.id}')"><span>${c.icon} ${c.ten}</span></label>`).join("")}
+    <div class="the-trang tao-de gon">
+      <input class="o-ten-de" id="ten-de" value="${coDau(cauHinhDe.ten)}" onchange="datCauHinh('ten', this.value)" aria-label="Tên đề" placeholder="Tên đề">
+      <div class="hang-2">
+        <div class="o-dem"><small>Số câu</small><span class="buoc"><button onclick="doiTong(-5)">−</button>
+          <input inputmode="numeric" value="${soan.tong}" onchange="datTong(this.value)" aria-label="Số câu"><button onclick="doiTong(5)">+</button></span></div>
+        <div class="o-dem"><small>Thời gian (phút)</small><span class="buoc"><button onclick="doiPhut(-5)">−</button>
+          <b>${cauHinhDe.phut}</b><button onclick="doiPhut(5)">+</button></span>
+          ${cauHinhDe.phut !== phutGoiY(soan.tong) ? `<button class="goi-y" onclick="datCauHinh('phut', ${phutGoiY(soan.tong)});hienManHinh()">gợi ý ${phutGoiY(soan.tong)}</button>` : ""}</div>
+      </div>
+      <div class="phan-doan">${Object.entries(KIEU_DE).map(([k, v]) => `<button class="${soan.kieu === k ? "chon" : ""}" onclick="datKieu('${k}')"><b>${v.ten}</b><small>${v.tl.join("/")}</small></button>`).join("")}</div>
+      <div class="luoi-md">${[1, 2, 3, 4].map(m => `<div class="o-md muc-${MAU_MUC[m]}"><small>${TAT_MUC[m]}</small>
+        <span class="buoc-md"><button onclick="doiMuc(${m},-1)" ${soan.muc[m] ? "" : "disabled"} aria-label="Bớt">−</button><b>${soan.muc[m] || 0}</b><button onclick="doiMuc(${m},1)" aria-label="Thêm">+</button></span>
+        <small class="${coTheoMuc(m) < (soan.muc[m] || 0) ? "loi-tk" : ""}">/${coTheoMuc(m)}</small></div>`).join("")}</div>
+      <p class="ghi-chu nho">NB Nhận biết · TH Thông hiểu · VD Vận dụng · VDC Vận dụng cao · /số câu kho có</p>
+
+      <div class="dau-muc-ch"><b>Chương</b><small class="ghi-chu">${soan.chuong.length ? `đã chọn ${soan.chuong.length}` : "chưa chọn = mọi chương"}</small>
         ${soan.chuong.length ? `<button class="chip-nhanh" onclick="chonMoiChuong(true)">Bỏ chọn</button>` : ""}</div>
-      <details class="tuy-chon"><summary>Tùy chọn mã đề (${cauHinhDe.soMa} mã${cauHinhDe.daoCau ? ", đảo câu" : ""}${cauHinhDe.daoPA ? ", đảo phương án" : ""})</summary>
-        <div class="nhom-chip">${[1, 2, 4, 6, 8].map(n => `<label class="chip-chon"><input type="radio" name="de-so-ma" ${cauHinhDe.soMa === n ? "checked" : ""} onchange="datCauHinh('soMa', ${n})"><span>${n} mã</span></label>`).join("")}</div>
-        <label class="dong-bat"><input type="checkbox" ${cauHinhDe.daoCau ? "checked" : ""} onchange="datCauHinh('daoCau', this.checked)"><span>Đảo thứ tự câu giữa các mã</span></label>
-        <label class="dong-bat"><input type="checkbox" ${cauHinhDe.daoPA ? "checked" : ""} onchange="datCauHinh('daoPA', this.checked)"><span>Đảo thứ tự phương án A, B, C, D</span></label>
+      ${nhomCh.map(([n, ds]) => `<div class="nhom-ch"><button class="ten-nhom" onclick="batNhom('${n}')">${n} ${ds.every(c => soan.chuong.includes(c.id)) ? "✓" : "＋"}</button>
+        <div class="luoi-ch">${ds.map(c => `<button class="o-ch ${soan.chuong.includes(c.id) ? "chon" : ""}" onclick="batChuong('${c.id}')">${c.icon} ${TEN_NGAN[c.id] || c.ten}</button>`).join("")}</div></div>`).join("")}
+
+      <details class="tuy-chon"><summary>Mã đề: ${cauHinhDe.soMa} mã${cauHinhDe.daoCau ? " · đảo câu" : ""}${cauHinhDe.daoPA ? " · đảo phương án" : ""}</summary>
+        <div class="nhom-chip">${[1, 2, 4, 6, 8].map(n => `<label class="chip-chon"><input type="radio" name="de-so-ma" ${cauHinhDe.soMa === n ? "checked" : ""} onchange="datCauHinh('soMa', ${n});hienManHinh()"><span>${n} mã</span></label>`).join("")}</div>
+        <label class="dong-bat"><input type="checkbox" ${cauHinhDe.daoCau ? "checked" : ""} onchange="datCauHinh('daoCau', this.checked);hienManHinh()"><span>Đảo thứ tự câu giữa các mã</span></label>
+        <label class="dong-bat"><input type="checkbox" ${cauHinhDe.daoPA ? "checked" : ""} onchange="datCauHinh('daoPA', this.checked);hienManHinh()"><span>Đảo thứ tự phương án A, B, C, D</span></label>
         ${NGAN_HANG_CHO_DUYET.length ? `<label class="dong-bat"><input type="checkbox" ${cauHinhDe.choDuyet ? "checked" : ""} onchange="datCauHinh('choDuyet', this.checked)"><span>Dùng cả câu chờ duyệt</span></label>` : ""}
       </details>
-      <div class="nut-hang hai-nut">
-        <button class="btn phu" onclick="batDauChon(false)">✋ Tự chọn từng câu</button>
-        <button class="btn" onclick="batDauChon(true)">✨ Gợi ý sẵn ${soan.tong} câu</button></div>
-      <p class="ghi-chu">"Gợi ý sẵn" chọn trước đủ số câu theo mức độ, rải đều chương và dạng; sang bước 2 anh/chị xem từng câu, bỏ hoặc đổi câu chưa ưng.${soan.chon.length ? ` Đang có bản soạn dở ${soan.chon.length} câu — <a href="#/chon-cau">tiếp tục</a>.` : ""}</p>
+      ${soan.chon.length ? `<p class="ghi-chu">Đang có bản soạn dở ${soan.chon.length} câu — <a href="#/chon-cau">tiếp tục chọn</a>.</p>` : ""}
     </div>
+    <div class="nut-hang hai-nut day-chon">
+      <button class="btn phu" onclick="batDauChon(false)">✋ Tự chọn</button>
+      <button class="btn" onclick="batDauChon(true)">✨ Gợi ý sẵn ${tongMuc()} câu</button></div>
     ${luu.length ? `<h2>Đề đã lưu</h2><div class="list">${luu.map(d =>
       dongDanhSach(`#/de?id=${d.id}`, "📄", coDau(d.ten), `${d.cau.length} câu · ${d.phut} phút · ${d.ma.length} mã · ${new Date(d.ngay).toLocaleDateString("vi-VN")}`)).join("")}</div>` : ""}`;
   },
@@ -204,12 +218,15 @@ function veChonCau() {
     && (!tu.length || tu.every(t => khoaTimCau(c).includes(t))));
   const dsDang = [...new Set(cauNguon().filter(c => !locChon.chuong || c.chuong === locChon.chuong).map(c => c.dang))];
   v.innerHTML = `<div class="loc-chon">
-      <input type="search" placeholder="Tìm chất, từ khóa, mã câu…" value="${coDau(locChon.tu)}" oninput="clearTimeout(locChon.h);locChon.h=setTimeout(()=>datLocChon('tu',this.value),300)">
-      <select onchange="locChon.dang='';datLocChon('chuong',this.value)"><option value="">Mọi chương</option>${CHUONG.filter(c => cauNguon().some(q => q.chuong === c.id)).map(c => `<option value="${c.id}" ${locChon.chuong === c.id ? "selected" : ""}>${c.ten}</option>`).join("")}</select>
-      <select onchange="datLocChon('dang',this.value)"><option value="">Mọi dạng</option>${dsDang.map(d => `<option value="${coDau(d)}" ${locChon.dang === d ? "selected" : ""}>${coDau(tenDang(d))}</option>`).join("")}</select>
-      <div class="nhom-chip">${[0, 1, 2, 3, 4].map(m => `<button class="chip-nhanh ${locChon.muc === m ? "chon" : ""}" onclick="datLocChon('muc',${m})">${m ? MUC_DO[m] : "Mọi mức"}</button>`).join("")}</div>
-      <label class="dong-bat gon"><input type="checkbox" ${locChon.anDaChon ? "checked" : ""} onchange="datLocChon('anDaChon',this.checked)"><span>Ẩn câu đã chọn</span></label>
-      <label class="dong-bat gon"><input type="checkbox" ${locChon.dapAn ? "checked" : ""} onchange="datLocChon('dapAn',this.checked)"><span>Hiện đáp án</span></label>
+      <input type="search" placeholder="🔍 Tìm chất, từ khóa, mã câu…" value="${coDau(locChon.tu)}" oninput="clearTimeout(locChon.h);locChon.h=setTimeout(()=>datLocChon('tu',this.value),300)">
+      <div class="hang-loc-3">
+        <select onchange="locChon.dang='';datLocChon('chuong',this.value)" aria-label="Chương"><option value="">Mọi chương</option>${CHUONG.filter(c => cauNguon().some(q => q.chuong === c.id)).map(c => `<option value="${c.id}" ${locChon.chuong === c.id ? "selected" : ""}>${TEN_NGAN[c.id] || c.ten}</option>`).join("")}</select>
+        <select onchange="datLocChon('muc',Number(this.value))" aria-label="Mức độ">${[0, 1, 2, 3, 4].map(m => `<option value="${m}" ${locChon.muc === m ? "selected" : ""}>${m ? MUC_DO[m] : "Mọi mức"}</option>`).join("")}</select>
+        <select onchange="datLocChon('dang',this.value)" aria-label="Dạng"><option value="">Mọi dạng</option>${dsDang.map(d => `<option value="${coDau(d)}" ${locChon.dang === d ? "selected" : ""}>${coDau(tenDang(d))}</option>`).join("")}</select>
+      </div>
+      <div class="nhom-chip">
+        <label class="chip-chon"><input type="checkbox" ${locChon.anDaChon ? "checked" : ""} onchange="datLocChon('anDaChon',this.checked)"><span>Ẩn câu đã chọn</span></label>
+        <label class="chip-chon"><input type="checkbox" ${locChon.dapAn ? "checked" : ""} onchange="datLocChon('dapAn',this.checked)"><span>Hiện đáp án</span></label></div>
     </div><p class="ghi-chu">${nguon.length} câu phù hợp</p>
     <div id="ds-chon">${lamToan(nguon.slice(0, locChon.so).map(c => theCauChon(c)).join(""))}</div>
     ${nguon.length > locChon.so ? `<button class="btn full phu" onclick="locChon.so+=15;veChonCau()">Xem thêm (${nguon.length - locChon.so} câu)</button>` : ""}`;
