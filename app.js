@@ -786,8 +786,7 @@ function veCau() {
 }
 function chonPhuongAn(j) {
   baiLam.chon[baiLam.viTri] = j; luuBaiLam(); veCau();
-  // Chế độ thi thử: tự sang câu tiếp theo cho nhanh
-  if (baiLam.cheDo === "thi" && baiLam.viTri < baiLam.cau.length - 1) setTimeout(() => denCau(baiLam.viTri + 1), 250);
+  // Không tự sang câu sau: SV có thể xem lại / đổi đáp án rồi bấm "Sau ›"
 }
 function denCau(i) { dongMucLuc(); baiLam.viTri = i; luuBaiLam(); veCau(); window.scrollTo(0, 0); }
 function moBangCau() {
