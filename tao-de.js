@@ -314,12 +314,18 @@ function theCauChon(c, trongDe, stt) {
           <select class="doi-dang" onchange="doiDangViTri('${c.id}', this.value)" aria-label="Đổi dạng"><option value="">🔁 Đổi dạng…</option>
             ${dangCuaChuong(c.chuong).filter(d => d !== c.dang && soCauDang(c.chuong, d, 0, c.loai) > 0).map(d => `<option value="${coDau(d)}">${coDau(tenDang(d))} (${soCauDang(c.chuong, d, 0, c.loai)} câu ${c.loai === "tt" ? "tính toán" : "lí thuyết"})</option>`).join("")}</select>
           <button class="btn phu" onclick="chonTayViTri('${c.id}')">✋ Chọn tay</button>`}
-        <button class="btn phu" onclick="batChonCau('${c.id}')">🗑 Bỏ</button></div>${khoiBienThe(c)}`
-    : `<div class="nut-hang"><button class="btn ${da ? "phu" : ""}" onclick="${thay ? `thayViTri('${c.id}')` : `batChonCau('${c.id}')`}">${da ? "✓ Đã chọn · Bỏ" : thay ? "⇄ Dùng câu này thay" : "＋ Thêm vào đề"}</button></div>`}</div>`;
+        ${cum ? `<button class="btn phu" onclick="batChonCau('${c.id}','le')">🗑 Bỏ câu này</button><button class="btn phu" onclick="batChonCau('${c.id}','chum-')">Bỏ cả chùm</button>` : `<button class="btn phu" onclick="batChonCau('${c.id}')">🗑 Bỏ</button>`}</div>${khoiBienThe(c)}`
+    : `<div class="nut-hang">${thay ? `<button class="btn" onclick="thayViTri('${c.id}')">⇄ Dùng câu này thay</button>`
+      : cum && !da ? `<button class="btn" onclick="batChonCau('${c.id}','chum+')">＋ Cả chùm (${cum.length} câu)</button><button class="btn phu" onclick="batChonCau('${c.id}','le')">＋ Chỉ câu này</button>`
+      : cum && da ? `<button class="btn phu" onclick="batChonCau('${c.id}','le')">✓ Đã chọn · Bỏ câu này</button>${cum.some(x => x.id !== c.id && soan.chon.includes(x.id)) ? `<button class="btn phu" onclick="batChonCau('${c.id}','chum-')">Bỏ cả chùm</button>` : `<button class="btn phu" onclick="batChonCau('${c.id}','chum+')">＋ Thêm cả chùm</button>`}`
+      : `<button class="btn ${da ? "phu" : ""}" onclick="batChonCau('${c.id}')">${da ? "✓ Đã chọn · Bỏ" : "＋ Thêm vào đề"}</button>`}</div>`}</div>`;
 }
-function batChonCau(id) {
-  const c = CAU_THEO_ID[id], nhom = c.chum ? KHO_DE_CAU.filter(x => x.chum === c.chum).map(x => x.id) : [id];
-  if (soan.chon.includes(id)) soan.chon = soan.chon.filter(x => !nhom.includes(x));
+// Câu chùm: kieu "chum+" thêm cả chùm, "chum-" bỏ cả chùm, "le" chỉ thêm / bỏ câu này (câu chùm mang đề dẫn riêng nên dùng lẻ được)
+function batChonCau(id, kieu) {
+  const c = CAU_THEO_ID[id], ca = c.chum ? KHO_DE_CAU.filter(x => x.chum === c.chum).map(x => x.id) : [id];
+  if (!c.chum || kieu === "le") kieu = soan.chon.includes(id) ? "bo" : "them";
+  const nhom = kieu === "chum+" || kieu === "chum-" ? ca : [id];
+  if (kieu === "bo" || kieu === "chum-") soan.chon = soan.chon.filter(x => !nhom.includes(x));
   else soan.chon = [...nhom.filter(x => !soan.chon.includes(x)), ...soan.chon];   // câu mới thêm tay hiện trên cùng
   luuSoan(); veChonCau();
 }
