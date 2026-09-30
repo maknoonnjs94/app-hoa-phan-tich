@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v118";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v119";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -434,10 +434,10 @@ function moAmThanh() {   // tạo / đánh thức bộ phát âm thanh (gọi s�
 function tiengBao() {
   try {
     moAmThanh();
-    [0, .2].forEach(t => { const o = amThanh.createOscillator(), g = amThanh.createGain(), T = amThanh.currentTime + t; o.type = "sine"; o.frequency.value = 1320;
-      g.gain.setValueAtTime(.0001, T); g.gain.exponentialRampToValueAtTime(.5, T + .012); g.gain.exponentialRampToValueAtTime(.0001, T + .4);
-      o.connect(g); g.connect(amThanh.destination); o.start(T); o.stop(T + .45); });
-    navigator.vibrate?.([200, 100, 200]);
+    [0, .17, .34].forEach(t => { const o = amThanh.createOscillator(), g = amThanh.createGain(), T = amThanh.currentTime + t; o.type = "sine"; o.frequency.value = 1320;   // 3 tiếng "ting" ngắn
+      g.gain.setValueAtTime(.0001, T); g.gain.exponentialRampToValueAtTime(.5, T + .008); g.gain.exponentialRampToValueAtTime(.0001, T + .15);
+      o.connect(g); g.connect(amThanh.destination); o.start(T); o.stop(T + .18); });
+    navigator.vibrate?.([120, 60, 120, 60, 120]);
   } catch {}
 }
 // Mở khóa âm thanh của trình duyệt bằng lần chạm đầu tiên của giáo viên
