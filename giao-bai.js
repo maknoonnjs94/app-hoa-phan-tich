@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v122";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v123";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -66,7 +66,7 @@ MAN_HINH["/giao-de"] = {
       ${bt ? `<label>Số lần được làm<select id="gd-solan"><option value="1">1 lần</option><option value="2">2 lần</option><option value="3" selected>3 lần</option><option value="0">Không giới hạn</option></select></label>
         <label class="dong-bat"><input type="checkbox" id="gd-cgl" checked><span>Khóa khi làm bài: sinh viên chỉ thao tác ở màn làm bài (không mở được lí thuyết, tra cứu, kho câu hỏi), toàn màn hình, cảnh báo rời app</span></label>
         <p class="ghi-chu">Điểm tính theo lần làm cuối. Mỗi lần làm lại, câu và phương án được xáo lại.</p>`
-      : `<label>Số lần rời app tối đa (quá số này bài tự nộp)<input type="number" id="gd-roi" min="0" max="20" value="3"></label>
+      : `<label>Số lần rời app làm khóa bài (rời đủ số này thì bài bị khóa và tự nộp; các lần trước chỉ cảnh báo)<input type="number" id="gd-roi" min="0" max="20" value="3"></label>
         <p class="ghi-chu">Mỗi sinh viên nhận thứ tự câu và phương án khác nhau.</p>`}
       <p class="loi-tk" id="tk-loi"></p>
       <button class="btn full" onclick="luuGiaoDe('${de.id}')">📤 Giao ${bt ? "bài tập" : "bài kiểm tra"}</button></div>`;
@@ -175,10 +175,10 @@ MAN_HINH["/bang-diem"] = {
         .map(u => { const b = theoUid[u.uid]; return { u, b, ...(b ? { ...chamBai(b), diem: diemCuoi(b) } : {}) }; });
       bangDiemHienTai = { d, dong, id };
       const daNop = dong.filter(x => x.b?.daNop).length;
-      const LY_DO = { "roi-app": "tự nộp: rời app quá số lần", "het-gio": "hết giờ", "gv-thu": "giáo viên thu bài" };
+      const LY_DO = { "roi-app": "bị khóa: rời app đủ số lần", "het-gio": "hết giờ", "gv-thu": "giáo viên thu bài" };
       const quaHan = Date.now() > d.dongLuc;
       v.innerHTML = `<div class="the-trang"><b>${hoa(d.ten)}</b><small class="ghi-chu"> · Lớp ${hoa(d.lopTen || d.lop)}</small>
-        <p class="ghi-chu">${gioVN(d.moLuc)} → ${gioVN(d.dongLuc)} · ${d.phut} phút · tối đa ${d.soLanRoi} lần rời app<br>Đã nộp ${daNop}/${dong.length}${d.daChot ? ` · <b>đã chốt điểm ${gioVN(d.chotLuc)}</b>` : " · chưa chốt điểm"}</p>
+        <p class="ghi-chu">${gioVN(d.moLuc)} → ${gioVN(d.dongLuc)} · ${d.phut} phút · khóa khi rời app ${d.soLanRoi} lần<br>Đã nộp ${daNop}/${dong.length}${d.daChot ? ` · <b>đã chốt điểm ${gioVN(d.chotLuc)}</b>` : " · chưa chốt điểm"}</p>
         <p class="ghi-chu">Đáp án cho SV: ${d.hienDapAn === "sau-nop" ? "ngay sau khi nộp" : Date.now() > lucDapAn(d) ? "<b>đã mở</b>" : "mở lúc " + gioVN(lucDapAn(d))} · Lời giải chi tiết: <b>${d.hienLoiGiai === "cung" ? "đang hiện" : "đang ẩn"}</b></p>
         <div class="nut-hang trai">${d.hienDapAn !== "sau-nop" && Date.now() <= lucDapAn(d) ? `<button class="btn phu" onclick="moDapAnNgay('${id}')">🔓 Mở đáp án ngay</button>` : ""}
           <button class="btn phu" onclick="batLoiGiai('${id}', ${d.hienLoiGiai !== "cung"})">${d.hienLoiGiai === "cung" ? "🙈 Ẩn lời giải" : "📖 Mở lời giải chi tiết"}</button></div>
@@ -298,7 +298,7 @@ MAN_HINH["/bai-duoc-giao"] = {
           : `<button class="btn" onclick="batDauBaiGiao('${d.id}')">${b ? "Làm tiếp" : "Làm bài"}</button>`;
         return `<div class="the-trang dong-tk"><div><span class="nhan-loai ${bt ? "bt" : "kt"}">${bt ? "📚 Bài tập" : "📝 Kiểm tra"}</span> <b>${hoa(d.ten)}</b>
           <small>${hoa(d.lopTen || "")} · ${d.cau.length} câu${d.phut ? ` · ${d.phut} phút` : ""} · GV ${hoa(d.gvTen)}</small>
-          <small>Hạn: ${gioVN(d.dongLuc)}${bt ? ` · ${d.soLanLam ? `được làm ${d.soLanLam} lần` : "làm lại không giới hạn"}` : mo && !b?.daNop ? ` · rời app tối đa ${d.soLanRoi} lần` : ""}</small></div><div class="nut-hang">${tt}</div></div>`;
+          <small>Hạn: ${gioVN(d.dongLuc)}${bt ? ` · ${d.soLanLam ? `được làm ${d.soLanLam} lần` : "làm lại không giới hạn"}` : mo && !b?.daNop ? ` · rời app ${d.soLanRoi} lần thì bị khóa` : ""}</small></div><div class="nut-hang">${tt}</div></div>`;
       }).join("") || `<div class="trong">Chưa có bài nào được giao.</div>`;
     } catch (e) { v.innerHTML = `<div class="trong">${loiTk(e)}</div>`; }
   },
@@ -326,7 +326,7 @@ async function batDauBaiGiao(id) {
     const snap = await refBai(id).get(), cu = snap.exists ? snap.data() : null;
     const lamLai = cu?.daNop;
     if (lamLai && !(bt && (!d.soLanLam || (cu.lanNop || 0) < d.soLanLam))) return alert("Em đã nộp bài này rồi.");
-    if (!confirm(`${lamLai ? "Làm lại" : "Bắt đầu"} "${d.ten}"?\n\n${d.phut ? `• Thời gian: ${d.phut} phút, đồng hồ chỉ chạy từ lúc em bấm OK.${Math.floor((d.dongLuc - Date.now()) / 60000) < d.phut ? ` Vì bài đóng lúc ${gioVN(d.dongLuc)} nên em chỉ còn ${Math.max(0, Math.floor((d.dongLuc - Date.now()) / 60000))} phút.` : ""} Hệ thống tự đóng bài lúc ${gioVN(d.dongLuc)}.` : `• Không bấm giờ, nộp trước hạn ${gioVN(d.dongLuc)}.`}\n${cgl ? `• Bài làm toàn màn hình. Rời app sẽ bị ghi lại; quá ${d.soLanRoi} lần bài tự nộp.\n• Mỗi lúc chỉ làm trên một máy.` : "• Có thể thoát ra xem lí thuyết rồi quay lại làm tiếp."}${lamLai ? `\n• Điểm tính theo lần làm cuối.` : ""}`)) return;
+    if (!confirm(`${lamLai ? "Làm lại" : "Bắt đầu"} "${d.ten}"?\n\n${d.phut ? `• Thời gian: ${d.phut} phút, đồng hồ chỉ chạy từ lúc em bấm OK.${Math.floor((d.dongLuc - Date.now()) / 60000) < d.phut ? ` Vì bài đóng lúc ${gioVN(d.dongLuc)} nên em chỉ còn ${Math.max(0, Math.floor((d.dongLuc - Date.now()) / 60000))} phút.` : ""} Hệ thống tự đóng bài lúc ${gioVN(d.dongLuc)}.` : `• Không bấm giờ, nộp trước hạn ${gioVN(d.dongLuc)}.`}\n${cgl ? `• Bài làm toàn màn hình. Rời app sẽ bị ghi lại và báo giáo viên; rời đủ ${d.soLanRoi} lần bài bị khóa và tự nộp.\n• Mỗi lúc chỉ làm trên một máy.` : "• Có thể thoát ra xem lí thuyết rồi quay lại làm tiếp."}${lamLai ? `\n• Điểm tính theo lần làm cuối.` : ""}`)) return;
     if (cgl) vaoToanManHinh();
     const phien = baiLam?.giao?.id === id ? baiLam.giao.phien : Math.random().toString(36).slice(2);
     if (cu && !lamLai && cu.phien !== phien && Date.now() - (cu.capNhat || 0) < 60000)
@@ -388,7 +388,7 @@ MAN_HINH["/ket-qua"].ve = () => {
   return `<div class="the-trang form-tk" style="text-align:center">
     <h3>${hoa(g.ten)}</h3>
     <p>${g.daGui ? "✅ Đã nộp bài lên máy chủ." : "⏳ Đang gửi bài… Giữ kết nối mạng, đừng đóng app."}</p>
-    ${g.lyDo === "roi-app" ? `<p class="loi-tk">Bài tự nộp vì rời app quá ${g.soLanRoi} lần.</p>` : g.lyDo === "gv-thu" ? `<p class="loi-tk">Giáo viên đã thu bài.</p>` : ""}
+    ${g.lyDo === "roi-app" ? `<p class="loi-tk">Bài bị khóa và tự nộp vì rời app đủ ${g.soLanRoi} lần.</p>` : g.lyDo === "gv-thu" ? `<p class="loi-tk">Giáo viên đã thu bài.</p>` : ""}
     <p>Đã làm ${baiLam.chon.filter(x => x !== null).length}/${baiLam.cau.length} câu${g.chongGianLan !== false ? ` · rời app ${g.roi.length} lần` : ""}${g.loai === "bai-tap" ? ` · lần làm thứ ${g.lanNop || 1}` : ""}</p>
     ${g.hienDapAn === "sau-nop" && g.daGui ? `<a class="btn full" href="#/xem-dap-an?id=${g.id}">📄 Xem điểm và đáp án</a>`
       : `<p class="ghi-chu"><b>Điểm và đáp án</b> mở trong mục Bài được giao lúc ${gioVN(g.dapAnLuc ?? g.dongLuc)}.</p>`}
@@ -460,7 +460,7 @@ function hienCanhBaoGV(u, b, de, kieu) {
   if (!kho) { kho = document.createElement("div"); kho.id = "canh-bao-gv"; document.body.append(kho); }
   const n = b.roi?.length || 0, phai = de.soLanRoi ?? 3;
   const tre = b.dangRoi?.luc ? Math.max(0, Math.round((Date.now() - b.dangRoi.luc) / 1000)) : 0;
-  const tt = kieu === "tu-nop" ? `bị tự nộp vì rời app quá ${phai} lần` : kieu === "dang" ? `vừa rời app (đang ở ngoài)` : `vừa quay lại · vi phạm lần ${n}/${phai}`;
+  const tt = kieu === "tu-nop" ? `bị khóa vì rời app đủ ${phai} lần` : kieu === "dang" ? `vừa rời app (đang ở ngoài)` : `vừa quay lại · vi phạm lần ${n}/${phai}`;
   const o = document.createElement("div"); o.className = "cb-gv";
   o.innerHTML = `<div><b>⚠️ ${hoa(b.hoTen || "Học sinh")}</b> <small>${hoa(b.maHS || "")}</small><br><span>${tt} · ${hoa(de.ten)} · ${gioVN(Date.now()).split(" ")[0]}${kieu === "dang" && tre > 3 ? ` · tin đến trễ ${tre} giây` : ""}</span></div>
     <a class="btn nho" href="#/theo-doi?id=${b.deGiaoId}">Xem</a>${kieu === "tu-nop" ? `<button class="btn nho phu" data-mk="1">🔓 Mở khóa</button>` : ""}<button class="btn nho phu" data-dong="1" aria-label="Đóng">✕</button>`;
@@ -559,7 +559,7 @@ async function moKhoaBai(idDe, uid) {
     alert(`Đã mở khóa. ${b.hoTen || "Em"} vào mục Bài được giao để ${lamLai ? "làm lại" : "làm tiếp"}.`); if (location.hash.startsWith("#/bang-diem")) hienManHinh();
   } catch (e) { alert(loiTk(e)); }
 }
-const LY_DO_KHOA = { "roi-app": "bị tự nộp vì rời app quá số lần", "gv-thu": "do giáo viên thu", "het-gio": "hết giờ" };
+const LY_DO_KHOA = { "roi-app": "bị khóa vì rời app đủ số lần", "gv-thu": "do giáo viên thu", "het-gio": "hết giờ" };
 async function thuBai(idDe, uid) {
   if (!confirm("Thu bài của học sinh này ngay? Bài được chấm theo những câu em đã làm.")) return;
   try { await fbDb.collection("baiNop").doc(`${idDe}_${uid}`).update({ daNop: true, nopLuc: Date.now(), lyDo: "gv-thu" }); }
@@ -601,9 +601,9 @@ function ketThucRoi() {
   const giay = Math.round((Date.now() - roiLuc) / 1000); roiLuc = 0;
   if (giay < 1) return;
   const g = baiLam.giao; g.roi.push({ luc: Date.now(), giay, loai: roiLoai }); luuBaiLam();
-  if (g.roi.length > g.soLanRoi) {
+  if (g.roi.length >= Math.max(1, g.soLanRoi)) {   // rời đủ số lần (mặc định 3) mới khóa; các lần trước chỉ cảnh báo
     g.lyDo = "roi-app"; baiLam.ketThuc = Date.now(); luuBaiLam();
-    alert(`Em đã rời bài làm ${g.roi.length} lần (tối đa ${g.soLanRoi}). Bài được tự động nộp.`);
+    alert(`Em đã rời bài làm ${g.roi.length} lần. Bài bị khóa và tự động nộp. Nếu có lí do chính đáng, em trao đổi với giáo viên.`);
     location.hash = "#/ket-qua"; return;
   }
   dongBoBai(); canhBaoRoi(g.roi.length, g.soLanRoi, giay);
@@ -611,14 +611,14 @@ function ketThucRoi() {
 function canhBaoRoi(lan, toiDa, giay) {
   document.getElementById("canh-bao-roi")?.remove();
   const o = document.createElement("div"); o.id = "canh-bao-roi";
-  o.innerHTML = `<div><b>⚠️ Em đã rời bài làm</b><p>Lần ${lan}/${toiDa} · ${giay} giây.<br>Giáo viên sẽ thấy số lần rời app. Quá ${toiDa} lần bài tự nộp.</p>
+  o.innerHTML = `<div><b>⚠️ Em đã rời bài làm</b><p>Lần ${lan}/${toiDa} · ${giay} giây.<br>Giáo viên đã được báo ngay. Rời đủ ${toiDa} lần bài sẽ bị khóa và tự nộp (còn ${Math.max(0, toiDa - lan)} lần).</p>
     <button class="btn full" onclick="this.closest('#canh-bao-roi').remove();vaoToanManHinh()">Tiếp tục làm bài</button></div>`;
   document.body.append(o);
 }
 document.addEventListener("visibilitychange", () => document.hidden ? batDauRoi("roi-app") : ketThucRoi());
 /* Chỉ tính vi phạm khi THẬT SỰ rời bài: thoát app (ẩn trang), chia màn hình / nhiều cửa sổ, hoặc mất tiêu điểm kéo dài.
    Cuộc gọi đến, thông báo, kéo thanh trạng thái, bàn phím… làm app mất tiêu điểm chốc lát nhưng em vẫn ở trong bài → KHÔNG báo. */
-const NGUONG_MAT_TIEU_DIEM = 20000;   // ms: mất tiêu điểm liên tục quá ngưỡng này (khi app vẫn hiện) mới coi là đang dùng cửa sổ khác
+const NGUONG_MAT_TIEU_DIEM = 15000;   // ms: mất tiêu điểm liên tục quá ngưỡng này (khi app vẫn hiện) mới coi là đang dùng cửa sổ khác
 let henBlur = 0, nenVP = null;
 window.addEventListener("blur", () => { clearTimeout(henBlur); const luc = Date.now(); henBlur = setTimeout(() => { if (!document.hidden && !document.hasFocus()) batDauRoi("mat-tieu-diem", luc); }, NGUONG_MAT_TIEU_DIEM); });
 window.addEventListener("focus", () => { clearTimeout(henBlur); if (!document.hidden) ketThucRoi(); });
