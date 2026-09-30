@@ -402,7 +402,7 @@ const MAN_HINH = {
       <div class="hero ket-qua-hero">
         <div class="vong-diem" style="--pt:${d / n * 100}%"><b>${String(diem).replace(".", ",")}</b><small>điểm</small></div>
         <div>
-          <div class="hero-nho">${baiLam.maDe ? "Mã đề " + baiLam.maDe : baiLam.cheDo === "thi" ? "Thi thử" : "Luyện tập"}</div>
+          <div class="hero-nho">${baiLam.maDe && !baiLam.giao ? "Mã đề " + baiLam.maDe : baiLam.giao ? (baiLam.giao.loai === "bai-tap" ? "Bài tập" : "Bài kiểm tra") : baiLam.cheDo === "thi" ? "Thi thử" : "Luyện tập"}</div>
           <h3>${d}/${n} câu đúng</h3>
           <p>Thời gian: ${dongHo(baiLam.ketThuc - baiLam.batDau)}</p>
         </div>
