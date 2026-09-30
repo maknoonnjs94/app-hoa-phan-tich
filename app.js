@@ -804,7 +804,8 @@ function nopBai() {
   dongMucLuc();
   const conLai = baiLam.chon.filter(x => x === null).length;
   if (conLai && !confirm(`Còn ${conLai} câu chưa làm. Vẫn nộp bài?`)) return;
-  baiLam.ketThuc = Date.now(); luuBaiLam();
+  baiLam.ketThuc = Date.now(); luuBaiLam(); clearInterval(henGioDongHo);
+  if (typeof thoatDangThi === "function") thoatDangThi();
   location.hash = "#/ket-qua";
 }
 function lamLaiCauSai() {
@@ -1004,8 +1005,9 @@ function hienManHinh() {
   if (mh.lamBai && baiLam && !baiLam.ketThuc) {
     veCau();
     const capNhat = () => {
+      if (!baiLam || baiLam.ketThuc || !location.hash.startsWith("#/lam-bai")) { clearInterval(henGioDongHo); return; }
       const el = document.getElementById("dong-ho"), troi = Date.now() - baiLam.batDau;
-      if (baiLam.hanGio && troi >= baiLam.hanGio) { clearInterval(henGioDongHo); alert("Hết giờ làm bài. App tự nộp bài."); baiLam.ketThuc = Date.now(); luuBaiLam(); location.hash = "#/ket-qua"; return; }
+      if (baiLam.hanGio && troi >= baiLam.hanGio) { clearInterval(henGioDongHo); baiLam.ketThuc = Date.now(); luuBaiLam(); location.hash = "#/ket-qua"; setTimeout(() => alert("Hết giờ làm bài. App đã tự nộp bài."), 50); return; }
       if (el) el.textContent = baiLam.hanGio ? "còn " + dongHo(baiLam.hanGio - troi) : dongHo(troi);
     };
     capNhat(); henGioDongHo = setInterval(capNhat, 1000);

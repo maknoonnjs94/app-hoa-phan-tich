@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v157";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v158";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -360,7 +360,7 @@ async function dongBoBai() {
     const snap = await refBai(baiLam.giao.id).get();
     if (snap.exists && snap.data().daNop) {   // giáo viên đã thu bài
       Object.assign(baiLam.giao, { daGui: true, lyDo: snap.data().lyDo || "gv-thu" }); baiLam.ketThuc = snap.data().nopLuc || Date.now(); luuBaiLam();
-      alert("Giáo viên đã thu bài của em."); location.hash = "#/ket-qua"; return;
+      thoatDangThi(); location.hash = "#/ket-qua"; setTimeout(() => alert("Giáo viên đã thu bài của em."), 50); return;
     }
     if (snap.exists && snap.data().phien !== baiLam.giao.phien) { khoaVaThoat("Bài này vừa được mở trên máy khác. Máy này dừng làm bài."); return; }
     await refBai(baiLam.giao.id).update({ chon: baiLam.chon, capNhat: Date.now(), roi: baiLam.giao.roi, dangRoi: roiLuc ? { luc: roiLuc, loai: roiLoai } : null });
@@ -571,7 +571,7 @@ async function thuBai(idDe, uid) {
 /* ---------- Chống gian lận khi đang làm bài được giao ---------- */
 function vaoToanManHinh() { try { document.documentElement.requestFullscreen?.({ navigationUI: "hide" }).catch(() => {}); } catch {} }
 function thoatDangThi() {
-  document.body.classList.remove("dang-thi"); document.getElementById("hinh-mo")?.remove();
+  document.body.classList.remove("dang-thi"); document.getElementById("hinh-mo")?.remove(); document.getElementById("canh-bao-roi")?.remove();
   if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {});
 }
 function batDangThi() {
@@ -604,9 +604,9 @@ function ketThucRoi() {
   if (giay < 1) return;
   const g = baiLam.giao; g.roi.push({ luc: Date.now(), giay, loai: roiLoai }); luuBaiLam();
   if (g.roi.length >= Math.max(1, g.soLanRoi)) {   // rời đủ số lần (mặc định 3) mới khóa; các lần trước chỉ cảnh báo
-    g.lyDo = "roi-app"; baiLam.ketThuc = Date.now(); luuBaiLam();
-    alert(`Em đã rời bài làm ${g.roi.length} lần. Bài bị khóa và tự động nộp. Nếu có lí do chính đáng, em trao đổi với giáo viên.`);
-    location.hash = "#/ket-qua"; return;
+    g.lyDo = "roi-app"; baiLam.ketThuc = Date.now(); luuBaiLam(); thoatDangThi();
+    location.hash = "#/ket-qua";
+    setTimeout(() => alert(`Em đã rời bài làm ${g.roi.length} lần. Bài bị khóa và tự động nộp. Nếu có lí do chính đáng, em trao đổi với giáo viên.`), 50); return;
   }
   dongBoBai(); canhBaoRoi(g.roi.length, g.soLanRoi, giay);
 }
@@ -615,6 +615,7 @@ function canhBaoRoi(lan, toiDa, giay) {
   const o = document.createElement("div"); o.id = "canh-bao-roi";
   o.innerHTML = `<div><b>⚠️ Em đã rời bài làm</b><p>Lần ${lan}/${toiDa} · ${giay} giây.<br>Giáo viên đã được báo ngay. Rời đủ ${toiDa} lần bài sẽ bị khóa và tự nộp (còn ${Math.max(0, toiDa - lan)} lần).</p>
     <button class="btn full" onclick="this.closest('#canh-bao-roi').remove();vaoToanManHinh()">Tiếp tục làm bài</button></div>`;
+  o.addEventListener("click", e => { if (e.target === o) o.remove(); });
   document.body.append(o);
 }
 document.addEventListener("visibilitychange", () => document.hidden ? batDauRoi("roi-app") : ketThucRoi());
