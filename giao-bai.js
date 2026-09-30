@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v100";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v101";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -49,8 +49,9 @@ MAN_HINH["/giao-de"] = {
       <label>Tên bài giao<input id="gd-ten" value="${coDau((bt ? "Bài tập: " : "") + de.ten)}"></label>
       <label>Lớp học phần<select id="gd-lop" data-chon="${lopChon}"><option>Đang tải…</option></select></label>
       <label>Mở lúc<input type="datetime-local" id="gd-mo" value="${dinhDangGio(bayGio)}"></label>
-      <label>${bt ? "Hạn nộp" : "Đóng đề lúc"}<input type="datetime-local" id="gd-dong" value="${dinhDangGio(bayGio + (bt ? 7 * 24 : 24) * 3600000)}"></label>
-      <label>Thời gian mỗi lần làm (phút${bt ? ", 0 = không bấm giờ" : ""})<input type="number" id="gd-phut" min="0" max="240" value="${bt ? 0 : de.phut}"></label>
+      <label>${bt ? "Hạn nộp" : "Hệ thống tự đóng bài lúc"}<input type="datetime-local" id="gd-dong" value="${dinhDangGio(bayGio + (bt ? 7 * 24 : 24) * 3600000)}" oninput="goiYGioGiao()"></label>
+      <label>Thời gian mỗi lần làm (phút${bt ? ", 0 = không bấm giờ" : ""})<input type="number" id="gd-phut" min="0" max="240" value="${bt ? 0 : de.phut}" oninput="goiYGioGiao()"></label>
+      <p class="ghi-chu" id="gd-goi-y-gio"></p>
       <div class="the-con"><b>Đáp án cho sinh viên</b>
         <label>Mở đáp số (A/B/C/D)<select id="gd-hienda" onchange="document.getElementById('o-da-luc').hidden=this.value!=='hen-gio'">
           ${bt ? `<option value="sau-nop" selected>Ngay sau khi nộp</option>` : ""}<option value="sau-han" ${bt ? "" : "selected"}>Sau ${bt ? "hạn nộp" : "khi đóng đề"}</option><option value="hen-gio">Hẹn ngày giờ…</option></select></label>
@@ -67,6 +68,7 @@ MAN_HINH["/giao-de"] = {
   },
   sauKhiVe: async () => {
     const o = document.getElementById("gd-lop"); if (!o) return;
+    goiYGioGiao();
     try {
       const ds = (await fbDb.collection("lop").get()).docs.map(d => ({ id: d.id, ...d.data() }))
         .filter(l => tk.hoSo.vaiTro === "qtv" || (l.gv || []).includes(tk.user.uid)).sort((a, b) => a.ten.localeCompare(b.ten, "vi"));
@@ -158,6 +160,10 @@ MAN_HINH["/bang-diem"] = {
         <p class="ghi-chu">Đáp án cho SV: ${d.hienDapAn === "sau-nop" ? "ngay sau khi nộp" : Date.now() > lucDapAn(d) ? "<b>đã mở</b>" : "mở lúc " + gioVN(lucDapAn(d))} · Lời giải chi tiết: <b>${d.hienLoiGiai === "cung" ? "đang hiện" : "đang ẩn"}</b></p>
         <div class="nut-hang trai">${d.hienDapAn !== "sau-nop" && Date.now() <= lucDapAn(d) ? `<button class="btn phu" onclick="moDapAnNgay('${id}')">🔓 Mở đáp án ngay</button>` : ""}
           <button class="btn phu" onclick="batLoiGiai('${id}', ${d.hienLoiGiai !== "cung"})">${d.hienLoiGiai === "cung" ? "🙈 Ẩn lời giải" : "📖 Mở lời giải chi tiết"}</button></div>
+        <details class="tuy-chon"><summary>⏰ Giờ đóng bài: ${gioVN(d.dongLuc)}${quaHan ? " (đã đóng)" : ""}</summary>
+          <p class="ghi-chu">Đến giờ đóng, hệ thống đóng bài của mọi sinh viên (đã làm hay chưa). Gia hạn hoặc đóng sớm tại đây.</p>
+          <label>Giờ đóng mới<input type="datetime-local" id="gd-dong-moi" value="${dinhDangGio(Math.max(d.dongLuc, Date.now()))}"></label>
+          <div class="nut-hang"><button class="btn phu" onclick="datGioDong('${id}', false)">Lưu giờ đóng</button>${quaHan ? "" : `<button class="btn phu" onclick="datGioDong('${id}', true)">⛔ Đóng bài ngay</button>`}</div></details>
         <p class="ghi-chu">Bấm tên sinh viên để xem bài làm, sửa điểm.</p>
         <div class="nut-hang">${quaHan ? "" : `<a class="btn" href="#/theo-doi?id=${id}">👁 Theo dõi trực tiếp</a>`}<button class="btn" onclick="chotDiem('${id}')">🔒 ${d.daChot ? "Chốt lại điểm" : "Chốt điểm"}</button><button class="btn phu" onclick="xuatBangDiem()">⬇ Tải Excel</button><a class="btn phu" href="#/so-diem?lop=${encodeURIComponent(d.lop)}">📒 Sổ điểm lớp</a>
           <button class="btn phu" onclick="xoaGiaoDe('${id}')">🗑 Xóa bài giao</button></div></div>
@@ -181,6 +187,26 @@ function xuatBangDiem() {
       (b?.roi || []).map(moTaRoi).join(" | "), b?.ghiChuDiem || ""])];
   const blob = new Blob(["﻿" + hang.map(h => h.map(o).join(";")).join("\r\n")], { type: "text/csv;charset=utf-8" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `Bang diem - ${d.ten} - ${d.lopTen || d.lop}.csv`; a.click();
+}
+// Giải thích luật giờ ngay dưới ô nhập: giờ làm bài chỉ chạy khi SV bấm Làm bài; đến giờ đóng thì hệ thống đóng với mọi SV
+function goiYGioGiao() {
+  const o = document.getElementById("gd-goi-y-gio"); if (!o) return;
+  const bt = giaoTam.loai === "bai-tap", dong = new Date(document.getElementById("gd-dong")?.value).getTime(), phut = Number(document.getElementById("gd-phut")?.value) || 0;
+  o.innerHTML = (phut ? `⏱ Mỗi sinh viên có <b>${phut} phút</b>, đồng hồ chỉ bắt đầu chạy khi em bấm “Làm bài”. ` : `Không bấm giờ. `)
+    + (dong ? `🔒 Đến <b>${gioVN(dong)}</b> hệ thống ${bt ? "ngừng nhận bài" : "tự đóng bài"} của <b>mọi</b> sinh viên, kể cả sinh viên chưa làm hay đang làm dở (bài đang làm được thu theo phần đã làm). Ai bấm vào muộn thì chỉ còn thời gian đến giờ đóng.` : "");
+}
+// GV đổi giờ đóng sau khi giao (gia hạn hoặc đóng sớm); "ngay" = đóng bài ngay lúc này
+async function datGioDong(id, ngay) {
+  const d = bangDiemHienTai?.d; if (!d) return;
+  const moi = ngay ? Date.now() : new Date(document.getElementById("gd-dong-moi")?.value).getTime();
+  if (!moi || isNaN(moi)) return alert("Chọn giờ đóng mới.");
+  if (moi <= d.moLuc) return alert("Giờ đóng phải sau giờ mở bài.");
+  if (!confirm(ngay ? "Đóng bài NGAY bây giờ? Sinh viên chưa làm sẽ không vào làm được nữa; bài đang làm dở được thu theo phần đã làm." : `Đổi giờ đóng bài thành ${gioVN(moi)}?`)) return;
+  const dapCu = d.dapAnLuc ?? d.dongLuc, capDA = d.hienDapAn !== "sau-nop", dapMoi = !capDA ? dapCu : (dapCu === d.dongLuc || dapCu < moi ? moi : dapCu);
+  const lo = fbDb.batch();
+  lo.update(fbDb.collection("deGiao").doc(id), { dongLuc: moi, ...(capDA ? { dapAnLuc: dapMoi } : {}) });
+  lo.update(fbDb.collection("dapAnDe").doc(id), { dongLuc: moi, ...(capDA ? { dapAnLuc: dapMoi } : {}) });
+  try { await lo.commit(); hienManHinh(); } catch (e) { alert(loiTk(e)); }
 }
 async function moDapAnNgay(id) {
   if (!confirm("Mở đáp số cho sinh viên ngay bây giờ?")) return;
@@ -259,7 +285,7 @@ async function batDauBaiGiao(id) {
     const snap = await refBai(id).get(), cu = snap.exists ? snap.data() : null;
     const lamLai = cu?.daNop;
     if (lamLai && !(bt && (!d.soLanLam || (cu.lanNop || 0) < d.soLanLam))) return alert("Em đã nộp bài này rồi.");
-    if (!confirm(`${lamLai ? "Làm lại" : "Bắt đầu"} "${d.ten}"?\n\n${d.phut ? `• Thời gian: ${d.phut} phút, tính từ lúc bắt đầu.` : `• Không bấm giờ, nộp trước hạn ${gioVN(d.dongLuc)}.`}\n${cgl ? `• Bài làm toàn màn hình. Rời app sẽ bị ghi lại; quá ${d.soLanRoi} lần bài tự nộp.\n• Mỗi lúc chỉ làm trên một máy.` : "• Có thể thoát ra xem lí thuyết rồi quay lại làm tiếp."}${lamLai ? `\n• Điểm tính theo lần làm cuối.` : ""}`)) return;
+    if (!confirm(`${lamLai ? "Làm lại" : "Bắt đầu"} "${d.ten}"?\n\n${d.phut ? `• Thời gian: ${d.phut} phút, đồng hồ chỉ chạy từ lúc em bấm OK.${Math.floor((d.dongLuc - Date.now()) / 60000) < d.phut ? ` Vì bài đóng lúc ${gioVN(d.dongLuc)} nên em chỉ còn ${Math.max(0, Math.floor((d.dongLuc - Date.now()) / 60000))} phút.` : ""} Hệ thống tự đóng bài lúc ${gioVN(d.dongLuc)}.` : `• Không bấm giờ, nộp trước hạn ${gioVN(d.dongLuc)}.`}\n${cgl ? `• Bài làm toàn màn hình. Rời app sẽ bị ghi lại; quá ${d.soLanRoi} lần bài tự nộp.\n• Mỗi lúc chỉ làm trên một máy.` : "• Có thể thoát ra xem lí thuyết rồi quay lại làm tiếp."}${lamLai ? `\n• Điểm tính theo lần làm cuối.` : ""}`)) return;
     if (cgl) vaoToanManHinh();
     const phien = baiLam?.giao?.id === id ? baiLam.giao.phien : Math.random().toString(36).slice(2);
     if (cu && !lamLai && cu.phien !== phien && Date.now() - (cu.capNhat || 0) < 60000)
