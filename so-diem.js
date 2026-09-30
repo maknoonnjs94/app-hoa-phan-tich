@@ -15,7 +15,7 @@ async function chotDiem(id) {
     coBai.forEach(({ u, b }) => { const { dung, diem } = chamBai(b); lo.update(fbDb.collection("baiNop").doc(`${id}_${u.uid}`), { diemChot: diem, dung }); });
     lo.update(fbDb.collection("deGiao").doc(id), { daChot: true, chotLuc: Date.now() });
     await lo.commit();
-    alert("Đã chốt điểm."); hienManHinh();
+    ghiNhatKy("chot-diem", `${coBai.length} bài`, d.ten); alert("Đã chốt điểm."); hienManHinh();
   } catch (e) { alert(loiTk(e)); }
 }
 
@@ -65,6 +65,7 @@ async function luuSuaDiem(id, uid) {
   try {
     await fbDb.collection("baiNop").doc(`${id}_${uid}`).update({ diemSua: so === null ? firebase.firestore.FieldValue.delete() : Math.round(so * 100) / 100,
       ghiChuDiem: document.getElementById("ghi-diem").value.trim() });
+    ghiNhatKy("sua-diem", `${so === null ? "bỏ điểm sửa" : "điểm mới " + so}; ghi chú: ${document.getElementById("ghi-diem")?.value.trim() || "(không)"}`, document.querySelector(".the-tk b")?.textContent || `${id}_${uid}`);
     loi.textContent = "Đã lưu."; hienManHinh();
   } catch (e) { loi.textContent = loiTk(e); }
 }

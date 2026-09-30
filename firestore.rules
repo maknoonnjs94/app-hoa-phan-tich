@@ -109,6 +109,17 @@ service cloud.firestore {
       allow delete: if laGV();
     }
 
+    // Nhật ký hoạt động: người đã đăng nhập chỉ ghi được dòng của chính mình; chỉ QTV đọc, xóa dòng cũ; không ai sửa
+    match /nhatKy/{id} {
+      allow create: if dn() && request.resource.data.keys().hasOnly(['luc','uid','ten','vaiTro','hd','ct','doiTuong','ban'])
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.luc is int
+        && request.resource.data.hd is string && request.resource.data.hd.size() <= 30
+        && chu('ten', 80) && chu('vaiTro', 10) && chu('ct', 300) && chu('doiTuong', 120) && chu('ban', 20);
+      allow read, delete: if laQTV();
+      allow update: if false;
+    }
+
     // Báo lỗi nội dung
     match /baoLoi/{id} {
       allow create: if dn() && request.resource.data.keys().hasOnly(['loai','kieu','noiDung','ten','uid','vaiTro','banApp','luc','ma','loaiMuc','ghiChu','tieuDe'])

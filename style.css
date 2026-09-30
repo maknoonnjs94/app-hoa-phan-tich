@@ -1154,3 +1154,6 @@ h2 .lien-ket.nho { font-size: 13px; font-weight: 600; margin-left: 8px; }
 .gop-y-kieu input:checked + span { background: var(--mau-chinh); border-color: var(--mau-chinh); color: #fff; }
 #hop-gy textarea, .form-tk textarea { width: 100%; }
 .gop-y-the p { margin: 6px 0 0; white-space: pre-wrap; }
+
+.dong-nk{padding:9px 12px;border-bottom:1px solid var(--vien)}.dong-nk:last-child{border-bottom:0}
+.dong-nk b{font-size:.92rem}.dong-nk small{display:block;color:var(--chu-phu);line-height:1.35}.dong-nk .nk-gio{display:inline;margin-left:6px}

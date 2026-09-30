@@ -67,6 +67,7 @@ if (fbAuth) fbAuth.onAuthStateChanged(async user => {
   tk.user = user; tk.hoSo = null; tk.loi = ""; tk.dangTai = !!user;   // dangTai: đã đăng nhập nhưng hồ sơ (vai trò) chưa tải xong → các màn theo vai trò phải chờ, không được coi là học sinh
   if (user) { try { tk.hoSo = await taiHoSo(user); } catch (e) { console.warn(e); tk.loi = `${e.code || ""} ${e.message || ""}`.trim(); } }
   tk.san = true; tk.dangTai = false;
+  if (user && tk.hoSo) { try { if (!sessionStorage.getItem("nk-dn")) { sessionStorage.setItem("nk-dn", "1"); ghiNhatKy("dang-nhap", navigator.userAgent.includes("Android") ? "Android" : navigator.userAgent.includes("iPhone") ? "iPhone" : "Máy tính"); } } catch {} }
   capNhatNutTk();
   window.dispatchEvent(new Event("tk-san"));   // báo cho các màn phụ thuộc vai trò vẽ lại
   if (tk.hoSo?.khoa) { alert("Tài khoản đã bị khóa. Liên hệ quản trị viên."); fbAuth.signOut(); return; }
@@ -226,7 +227,7 @@ async function doiMk() {
   try {
     await tk.user.updatePassword(a);
     if (tk.hoSo?.doiMatKhau) { await fbDb.collection("nguoiDung").doc(tk.user.uid).update({ doiMatKhau: false }); tk.hoSo.doiMatKhau = false; }
-    alert("Đã đổi mật khẩu."); location.hash = "#/tai-khoan";
+    ghiNhatKy("doi-mat-khau"); alert("Đã đổi mật khẩu."); location.hash = "#/tai-khoan";
   } catch (e) { loi.textContent = loiTk(e); }
 }
 
@@ -234,6 +235,19 @@ async function doiMk() {
    Mô hình: LỚP HỌC PHẦN do giáo viên tạo (vd "Hóa phân tích khoa ngoài - Kì 1 2026-2027"), gồm SV nhiều ngành.
    lop/{id} = { ten, gv:[uid], taoBoi }; SV: nguoiDung.lopHoc = [id lớp học phần], nguoiDung.nganh = lớp hành chính / ngành.
    GV: nguoiDung.lopDay = [id lớp mình dạy] (luật Firestore dựa vào đây). QTV thấy và làm được mọi thứ. */
+/* ---------- Nhật ký hoạt động (collection nhatKy: mọi người đã đăng nhập ghi được, chỉ QTV đọc) ---------- */
+const HANH_DONG = {
+  "dang-nhap": "Đăng nhập", "doi-mat-khau": "Đổi mật khẩu", "giao-de": "Giao bài", "gia-han": "Đổi giờ đóng bài", "xoa-giao": "Xóa bài giao",
+  "mo-khoa-bai": "Mở khóa bài", "thu-bai": "Thu bài", "chot-diem": "Chốt điểm", "sua-diem": "Sửa điểm", "khoa-tk": "Khóa / mở khóa tài khoản",
+  "khoa-hang-loat": "Khóa hàng loạt", "dat-lai-mk": "Gửi thư đặt lại MK", "sua-nguoi": "Sửa thông tin người dùng", "tao-lop": "Tạo lớp", "xoa-lop": "Xóa lớp",
+  "cai-dat": "Đổi cài đặt", "sao-luu": "Sao lưu", "khoi-phuc": "Khôi phục dữ liệu",
+};
+function ghiNhatKy(hd, ct = "", doiTuong = "") {
+  try {
+    if (!fbDb || !tk.user) return;
+    fbDb.collection("nhatKy").add({ luc: Date.now(), uid: tk.user.uid, ten: String(tk.hoSo?.hoTen || "").slice(0, 80), vaiTro: tk.hoSo?.vaiTro || "", hd, ct: String(ct).slice(0, 300), doiTuong: String(doiTuong).slice(0, 120), ban: typeof BAN_APP === "string" ? BAN_APP : "" }).catch(() => {});
+  } catch {}
+}
 const qt = { tab: "lop", ds: null, tatCa: null, lop: null, loc: "", locLop: "", locNganh: "", tt: "" };
 const laQtvTk = () => tk.hoSo?.vaiTro === "qtv" && !tk.hoSo?.khoa;
 const laGvThuong = () => tk.hoSo?.vaiTro === "gv" && !tk.hoSo?.khoa;
@@ -245,7 +259,7 @@ MAN_HINH["/quan-tri"] = {
   manHinhCon: true,
   ve: () => {
     if (!laQtvTk() && !laGvThuong()) return `<div class="trong">Chỉ quản trị viên, giáo viên mới vào được mục này.</div>`;
-    const TAB = laQtvTk() ? { lop: "Lớp học phần", nguoi: "Tài khoản", them: "Thêm 1 người", caiDat: "Cài đặt" }
+    const TAB = laQtvTk() ? { lop: "Lớp học phần", nguoi: "Tài khoản", them: "Thêm 1 người", caiDat: "Cài đặt", nhatKy: "📜 Nhật ký" }
       : { lop: "Lớp của tôi", nguoi: "Sinh viên của tôi", caiDat: "Khóa chưa đổi MK" };
     if (!TAB[qt.tab]) qt.tab = "lop";
     return `<div class="chip-hang">${Object.entries(TAB).map(([k, v]) => `<button class="chip-nhanh ${qt.tab === k ? "chon" : ""}" onclick="qt.tab='${k}';hienManHinh()">${v}</button>`).join("")}</div>
@@ -325,6 +339,8 @@ async function veQuanTri() {
       <label>Mật khẩu đầu (bỏ trống = ${hoa(qt.cfg?.matKhauDau || "123456")})<input id="them-mk"></label>
       <p class="loi-tk" id="tk-loi"></p>
       <button class="btn full" onclick="qtThemMot()">Tạo tài khoản</button></div>`;
+  } else if (qt.tab === "nhatKy" && laQtvTk()) {
+    veNhatKy();
   } else if (qt.tab === "caiDat") {
     const chuaDoi = qt.ds.filter(u => u.vaiTro === "hs" && u.doiMatKhau && !u.khoa && (!qt.locLop || (u.lopHoc || []).includes(qt.locLop)));
     vung.innerHTML = `${laQtvTk() ? `<div class="the-trang form-tk"><b>Tài khoản sinh viên</b>
@@ -617,7 +633,7 @@ async function luuCaiDat() {
   try {
     await fbDb.collection("cauHinh").doc("chung").set({ tenMien }, { merge: true });
     await fbDb.collection("cauHinh").doc("rieng").set({ matKhauDau }, { merge: true });
-    await taiQt(true); loi.textContent = "Đã lưu.";
+    ghiNhatKy("cai-dat", `tên miền: ${tenMien || "(trống)"}; đã đổi mật khẩu khởi tạo`); await taiQt(true); loi.textContent = "Đã lưu.";
   } catch (e) { loi.textContent = loiTk(e); }
 }
 async function khoaChuaDoi(lopId = qt.locLop) {
@@ -626,20 +642,20 @@ async function khoaChuaDoi(lopId = qt.locLop) {
   if (!confirm(`Khóa ${ds.length} tài khoản chưa đổi mật khẩu${lopId ? ` của lớp "${tenLop(lopId)}"` : ""}?`)) return;
   try {
     for (let i = 0; i < ds.length; i += 400) { const lo = fbDb.batch(); ds.slice(i, i + 400).forEach(u => lo.update(fbDb.collection("nguoiDung").doc(u.uid), { khoa: true })); await lo.commit(); }
-    ds.forEach(u => u.khoa = true); alert(`Đã khóa ${ds.length} tài khoản.`); hienManHinh();
+    ghiNhatKy("khoa-hang-loat", `${ds.length} tài khoản chưa đổi MK`, lopId ? tenLop(lopId) : "mọi lớp"); ds.forEach(u => u.khoa = true); alert(`Đã khóa ${ds.length} tài khoản.`); hienManHinh();
   } catch (e) { alert(loiTk(e)); }
 }
 const timTk = uid => qt.tatCa?.find(x => x.uid === uid);
 async function qtDatLaiMk(uid) {
   const u = timTk(uid);
   if (!confirm(`Gửi email đặt lại mật khẩu tới ${u.email}?`)) return;
-  try { await fbAuth.sendPasswordResetEmail(u.email); alert("Đã gửi. Người dùng mở email và bấm vào đường dẫn để đặt mật khẩu mới."); }
+  try { await fbAuth.sendPasswordResetEmail(u.email); ghiNhatKy("dat-lai-mk", "", u.hoTen); alert("Đã gửi. Người dùng mở email và bấm vào đường dẫn để đặt mật khẩu mới."); }
   catch (e) { alert(loiTk(e)); }
 }
 async function qtKhoa(uid) {
   const u = timTk(uid);
   if (!confirm(`${u.khoa ? "Mở khóa" : "Khóa"} tài khoản ${u.hoTen}?`)) return;
-  try { await fbDb.collection("nguoiDung").doc(uid).update({ khoa: !u.khoa }); u.khoa = !u.khoa; document.getElementById("ds-tk") ? veDsTk() : hienManHinh(); }
+  try { await fbDb.collection("nguoiDung").doc(uid).update({ khoa: !u.khoa }); u.khoa = !u.khoa; ghiNhatKy("khoa-tk", u.khoa ? "Khóa" : "Mở khóa", u.hoTen); document.getElementById("ds-tk") ? veDsTk() : hienManHinh(); }
   catch (e) { alert(loiTk(e)); }
 }
 async function qtSuaNguoi(uid) {
@@ -653,7 +669,7 @@ async function qtSuaNguoi(uid) {
     const nganh = prompt("Ngành / lớp hành chính:", u.nganh || ""); if (nganh === null) return;
     Object.assign(moi, { maHS: maHS.trim(), nganh: nganh.trim() });
   }
-  try { await fbDb.collection("nguoiDung").doc(uid).update(moi); Object.assign(u, moi); document.getElementById("ds-tk") ? veDsTk() : hienManHinh(); }
+  try { await fbDb.collection("nguoiDung").doc(uid).update(moi); ghiNhatKy("sua-nguoi", moi.vaiTro && moi.vaiTro !== u.vaiTro ? `vai trò ${u.vaiTro} → ${moi.vaiTro}` : "", u.hoTen); Object.assign(u, moi); document.getElementById("ds-tk") ? veDsTk() : hienManHinh(); }
   catch (e) { alert(loiTk(e)); }
 }
 async function qtThemLop() {
@@ -667,14 +683,14 @@ async function qtThemLop() {
       await fbDb.collection("nguoiDung").doc(tk.user.uid).update({ lopDay: ld, lopVuaDoi: ref.id });
       tk.hoSo.lopDay = ld;
     }
-    await taiQt(true); location.hash = `#/lop?id=${ref.id}`;
+    ghiNhatKy("tao-lop", "", ten); await taiQt(true); location.hash = `#/lop?id=${ref.id}`;
   } catch (e) { alert(loiTk(e)); }
 }
 async function qtXoaLop(id) {
   const n = qt.tatCa.filter(u => (u.lopHoc || []).includes(id)).length;
   if (!confirm(`Xóa lớp "${tenLop(id)}"${n ? ` (${n} sinh viên)` : ""}? Tài khoản sinh viên vẫn giữ; bài đã giao và điểm của lớp vẫn còn trên máy chủ nhưng không còn hiện theo lớp.`)) return;
   try {
-    await fbDb.collection("lop").doc(id).delete();
+    ghiNhatKy("xoa-lop", "", tenLop(id)); await fbDb.collection("lop").doc(id).delete();
     if (laGvThuong()) { const ld = lopDay().filter(x => x !== id); await fbDb.collection("nguoiDung").doc(tk.user.uid).update({ lopDay: ld }); tk.hoSo.lopDay = ld; }
     await taiQt(true); if (laQtvTk()) await dongBoLopDay(); veQuanTri();
   } catch (e) { alert(loiTk(e)); }
@@ -708,6 +724,7 @@ async function saoLuuToanBo() {
     const a = document.createElement("a"), d = new Date(Date.now() + 7 * 36e5).toISOString().slice(0, 10);
     a.href = URL.createObjectURL(blob); a.download = `sao-luu-hoa-phan-tich-${d}.json`; a.click();
     try { localStorage.setItem("sao-luu-luc", String(Date.now())); } catch {}
+    ghiNhatKy("sao-luu", `${tong} mục`);
     if (loi) loi.textContent = `Đã tải file sao lưu (${tong} mục). Hãy chép file vào Google Drive.`;
   } catch (e) { if (loi) loi.textContent = loiTk(e); }
 }
@@ -725,7 +742,43 @@ async function khoiPhucSaoLuu(input) {
         if (loi) loi.textContent = `Đang khôi phục… ${xong}`;
       }
     }
+    ghiNhatKy("khoi-phuc", `${xong} mục từ file ${nap.luc ? gioVN(nap.luc) : ""}`);
     if (loi) loi.textContent = `Đã khôi phục ${xong} mục.`; taiQt(true);
   } catch (e) { if (loi) loi.textContent = "Không khôi phục được: " + (e.message || loiTk(e)); }
   finally { input.value = ""; }
+}
+
+/* ---------- Trang nhật ký hoạt động (chỉ quản trị viên) ---------- */
+const nk = { ds: null, han: 200, hd: "", tu: "", het: false };
+async function taiNhatKy(them) {
+  if (them) nk.han += 200;
+  const snap = await fbDb.collection("nhatKy").orderBy("luc", "desc").limit(nk.han).get();
+  nk.ds = snap.docs.map(d => ({ id: d.id, ...d.data() })); nk.het = snap.size < nk.han;
+}
+async function veNhatKy(them) {
+  const vung = document.getElementById("vung-qt"); if (!vung) return;
+  try { if (!nk.ds || them === true || them === "moi") await taiNhatKy(them === true); } catch (e) { vung.innerHTML = `<div class="trong">${loiTk(e)}<br><small>Nếu báo thiếu quyền: dán lại luật mới vào Firestore → Rules → Publish.</small></div>`; return; }
+  const tu = boDau(nk.tu || "");
+  const ds = nk.ds.filter(x => (!nk.hd || x.hd === nk.hd) && (!tu || boDau(`${x.ten} ${x.ct || ""} ${x.doiTuong || ""}`).includes(tu)));
+  const co = [...new Set(nk.ds.map(x => x.hd))];
+  vung.innerHTML = `<p class="ghi-chu">Ghi lại ai làm gì, lúc nào (đăng nhập, giao bài, sửa điểm, mở khóa, khóa tài khoản, sao lưu…). Chỉ quản trị viên xem được. Đang tải ${nk.ds.length} dòng mới nhất.</p>
+    <div class="the-trang"><input type="search" id="nk-tim" placeholder="🔍 Tìm theo tên người, đối tượng, nội dung…" value="${hoa(nk.tu)}" oninput="nk.tu=this.value;clearTimeout(nk.t);nk.t=setTimeout(()=>{veNhatKy();document.getElementById('nk-tim')?.focus()},250)">
+      <div class="chip-hang" style="margin-top:8px"><button class="chip-nhanh ${nk.hd ? "" : "chon"}" onclick="nk.hd='';veNhatKy()">Tất cả</button>${co.map(h => `<button class="chip-nhanh ${nk.hd === h ? "chon" : ""}" onclick="nk.hd='${h}';veNhatKy()">${hoa(HANH_DONG[h] || h)}</button>`).join("")}</div></div>
+    <div class="the-trang ds-gon">${ds.map(x => `<div class="dong-nk"><b>${hoa(HANH_DONG[x.hd] || x.hd)}</b> <small class="nk-gio">${gioVN(x.luc)}</small>
+      <div>${hoa(x.ten || "?")} <span class="nhan-vt">${hoa(VAI_TRO[x.vaiTro] || x.vaiTro || "")}</span></div>
+      ${x.doiTuong ? `<small>Đối tượng: ${hoa(x.doiTuong)}</small>` : ""}${x.ct ? `<small>${hoa(x.ct)}</small>` : ""}</div>`).join("") || `<div class="trong">Chưa có dòng nào.</div>`}</div>
+    <div class="nut-hang">${nk.het ? "" : `<button class="btn phu" onclick="veNhatKy(true)">Tải thêm 200 dòng</button>`}
+      <button class="btn phu" onclick="veNhatKy('moi')">↻ Làm mới</button>
+      <button class="btn phu" onclick="xoaNhatKyCu()">🧹 Xóa dòng cũ hơn 90 ngày</button></div>`;
+}
+async function xoaNhatKyCu() {
+  if (!confirm("Xóa các dòng nhật ký cũ hơn 90 ngày? Không khôi phục được.")) return;
+  try {
+    const han = Date.now() - 90 * 864e5; let xoa = 0;
+    for (;;) {
+      const s = await fbDb.collection("nhatKy").where("luc", "<", han).limit(400).get(); if (s.empty) break;
+      const lo = fbDb.batch(); s.docs.forEach(d => lo.delete(d.ref)); await lo.commit(); xoa += s.size;
+    }
+    nk.ds = null; alert(`Đã xóa ${xoa} dòng.`); veNhatKy("moi");
+  } catch (e) { alert(loiTk(e)); }
 }

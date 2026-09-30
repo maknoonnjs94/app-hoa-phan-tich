@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v131";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v132";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -120,6 +120,7 @@ async function luuGiaoDe(idDe) {
       cau: Object.fromEntries(cau.map(c => [c.id, c.loiGiai || ""])) });
     await lo.commit();
     try { const dsL = dsDe(), i = dsL.findIndex(x => x.id === idDe); if (i >= 0) { (dsL[i].giao ||= []).push({ luc: Date.now(), lop: lopTen, loai: bt ? "bai-tap" : "kiem-tra" }); ghiDsDe(dsL); } } catch {}   // nhớ đề này đã giao cho lớp nào (hiện ở ngân hàng đề)
+    ghiNhatKy("giao-de", `${bt ? "bài tập" : "kiểm tra"}, ${cau.length} câu, mở ${gioVN(moLuc)} đóng ${gioVN(dongLuc)}`, `${document.getElementById("gd-ten")?.value.trim() || de.ten} · lớp ${lopTen}`);
     sessionStorage.removeItem("giao-cho-lop"); batCanhBaoGV();   // bài mới giao: bắt đầu nghe ngay
     alert(`Đã giao ${bt ? "bài tập" : "bài kiểm tra"} cho lớp ${lopTen}.`); location.hash = `#/lop?id=${lop}`;
   } catch (e) { loi.textContent = loiTk(e); }
@@ -234,7 +235,7 @@ async function datGioDong(id, ngay) {
   const lo = fbDb.batch();
   lo.update(fbDb.collection("deGiao").doc(id), { dongLuc: moi, ...(capDA ? { dapAnLuc: dapMoi } : {}) });
   lo.update(fbDb.collection("dapAnDe").doc(id), { dongLuc: moi, ...(capDA ? { dapAnLuc: dapMoi } : {}) });
-  try { await lo.commit(); hienManHinh(); } catch (e) { alert(loiTk(e)); }
+  try { await lo.commit(); ghiNhatKy("gia-han", `${gioVN(d.dongLuc)} → ${gioVN(moi)}${ngay ? " (đóng ngay)" : ""}`, `${d.ten} · lớp ${d.lopTen || ""}`); hienManHinh(); } catch (e) { alert(loiTk(e)); }
 }
 function datLaiDiemBang(id) {
   const d = bangDiemHienTai?.d, os = [...document.querySelectorAll(".bd-diem")]; if (!d || !os.length) return;
@@ -262,7 +263,7 @@ async function batLoiGiai(id, mo) {
 }
 async function xoaGiaoDe(id) {
   if (!confirm("Xóa bài giao này? Học sinh sẽ không thấy bài nữa (bài đã nộp vẫn còn trong máy chủ).")) return;
-  try { await fbDb.collection("deGiao").doc(id).delete(); await fbDb.collection("dapAnDe").doc(id).delete().catch(() => {}); await fbDb.collection("loiGiaiDe").doc(id).delete().catch(() => {}); location.hash = "#/da-giao"; } catch (e) { alert(loiTk(e)); }
+  try { ghiNhatKy("xoa-giao", "", (typeof bangDiemHienTai !== "undefined" && bangDiemHienTai?.d?.id === id ? bangDiemHienTai.d.ten : id)); await fbDb.collection("deGiao").doc(id).delete(); await fbDb.collection("dapAnDe").doc(id).delete().catch(() => {}); await fbDb.collection("loiGiaiDe").doc(id).delete().catch(() => {}); location.hash = "#/da-giao"; } catch (e) { alert(loiTk(e)); }
 }
 
 /* ================= HỌC SINH ================= */
@@ -556,13 +557,14 @@ async function moKhoaBai(idDe, uid) {
       batDau: lamLai ? bg : Math.max(0, bg - ((b.nopLuc || bg) - (b.batDau || bg))) };
     if (lamLai) cap.chon = (b.cau || []).map(() => null);
     await fbDb.collection("baiNop").doc(`${idDe}_${uid}`).update(cap);
+    ghiNhatKy("mo-khoa-bai", lamLai ? "làm lại từ đầu" : "làm tiếp", `${b.hoTen || uid} · ${d.ten}`);
     alert(`Đã mở khóa. ${b.hoTen || "Em"} vào mục Bài được giao để ${lamLai ? "làm lại" : "làm tiếp"}.`); if (location.hash.startsWith("#/bang-diem")) hienManHinh();
   } catch (e) { alert(loiTk(e)); }
 }
 const LY_DO_KHOA = { "roi-app": "bị khóa vì rời app đủ số lần", "gv-thu": "do giáo viên thu", "het-gio": "hết giờ" };
 async function thuBai(idDe, uid) {
   if (!confirm("Thu bài của học sinh này ngay? Bài được chấm theo những câu em đã làm.")) return;
-  try { await fbDb.collection("baiNop").doc(`${idDe}_${uid}`).update({ daNop: true, nopLuc: Date.now(), lyDo: "gv-thu" }); }
+  try { await fbDb.collection("baiNop").doc(`${idDe}_${uid}`).update({ daNop: true, nopLuc: Date.now(), lyDo: "gv-thu" }); ghiNhatKy("thu-bai", "", `${idDe}_${uid}`); }
   catch (e) { alert(loiTk(e)); }
 }
 
