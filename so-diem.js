@@ -120,11 +120,89 @@ function xuatSoDiem() {
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `So diem - ${lop}.csv`; a.click();
 }
 
+
+/* =========================================================
+   KẾT QUẢ HỌC TẬP THEO LỚP (giáo viên): tổng quan từng lớp học phần — điểm trung bình, tỉ lệ nộp, phân bố học lực,
+   từng bài, học sinh cần chú ý. Kết quả tính xong được nhớ 15 phút (localStorage) để trang chủ hiện tóm tắt.
+   ========================================================= */
+const KQ_CACHE = "kq-hoc-tap";
+const docKQ = () => { try { return JSON.parse(localStorage.getItem(KQ_CACHE) || "null"); } catch { return null; } };
+async function tinhKetQuaLop(l) {
+  const [hs, giao, nop] = await Promise.all([
+    fbDb.collection("nguoiDung").where("lopHoc", "array-contains", l.id).get(),
+    fbDb.collection("deGiao").where("lop", "==", l.id).get(),
+    fbDb.collection("baiNop").where("lop", "==", l.id).get()]);
+  const de = giao.docs.map(x => ({ id: x.id, ...x.data() })).sort((a, b) => b.moLuc - a.moLuc);
+  await Promise.all(de.map(d => taiDapAn(d, d.id).catch(() => {})));
+  const bai = {}; nop.docs.forEach(x => { const b = x.data(); bai[`${b.deGiaoId}_${b.uid}`] = b; });
+  const dsHS = hs.docs.map(x => ({ uid: x.id, ...x.data() })).filter(u => u.vaiTro === "hs" || !u.vaiTro), bg = Date.now();
+  const tbcong = a => a.length ? Math.round(a.reduce((t, x) => t + x, 0) / a.length * 100) / 100 : null;
+  const theoBai = de.map(d => {
+    const cs = []; let nopN = 0;
+    dsHS.forEach(u => { const b = bai[`${d.id}_${u.uid}`]; if (b && (b.daNop || bg > d.dongLuc)) { cs.push(diemCuoi(b)); if (b.daNop) nopN++; } });
+    return { id: d.id, ten: d.ten, loai: d.loai || "kiem-tra", dong: bg > d.dongLuc, nop: nopN, tong: dsHS.length, tb: tbcong(cs) };
+  });
+  const daDong = de.filter(d => bg > d.dongLuc);
+  const theoHS = dsHS.map(u => {
+    const diem = [], vp = []; let vang = 0;
+    de.forEach(d => { const b = bai[`${d.id}_${u.uid}`];
+      if (b && (b.daNop || bg > d.dongLuc)) { diem.push(diemCuoi(b)); if (b.roi?.length) vp.push(b.roi.length); } else if (!b && bg > d.dongLuc) vang++; });
+    return { hoTen: u.hoTen, maHS: u.maHS || "", tb: tbcong(diem), vang, vp: vp.reduce((t, x) => t + x, 0), n: diem.length };
+  });
+  const co = theoHS.filter(h => h.tb != null);
+  const phanBo = [co.filter(h => h.tb < 5).length, co.filter(h => h.tb >= 5 && h.tb < 6.5).length, co.filter(h => h.tb >= 6.5 && h.tb < 8).length, co.filter(h => h.tb >= 8).length];
+  const nopTong = daDong.length * dsHS.length;
+  return { id: l.id, ten: l.ten, siSo: dsHS.length, soBai: de.length, dangMo: de.filter(d => bg >= d.moLuc && bg <= d.dongLuc).length,
+    tb: tbcong(co.map(h => h.tb)), nopRate: nopTong ? Math.round(daDong.reduce((t, d) => t + theoBai.find(x => x.id === d.id).nop, 0) / nopTong * 100) : null,
+    coVP: theoHS.filter(h => h.vp).length, phanBo, bai: theoBai.slice(0, 6),
+    chuY: theoHS.filter(h => (h.tb != null && h.tb < 5) || h.vang >= 2).sort((a, b) => (a.tb ?? -1) - (b.tb ?? -1)).slice(0, 6) };
+}
+async function danhSachLopGV() {
+  return (await fbDb.collection("lop").get()).docs.map(x => ({ id: x.id, ...x.data() }))
+    .filter(l => tk.hoSo.vaiTro === "qtv" || (l.gv || []).includes(tk.user.uid)).sort((a, b) => a.ten.localeCompare(b.ten, "vi"));
+}
+let dangTinhKQ = null;
+function taiKetQuaTatCa(khiXong) {   // tính lần lượt từng lớp (nhẹ máy chủ), gọi khiXong sau mỗi lớp
+  if (dangTinhKQ) return dangTinhKQ;
+  dangTinhKQ = (async () => {
+    const ds = await danhSachLopGV(), kq = [];
+    for (const l of ds) { try { kq.push(await tinhKetQuaLop(l)); } catch (e) { console.warn("kết quả lớp", e); } khiXong?.(kq, ds.length); }
+    try { localStorage.setItem(KQ_CACHE, JSON.stringify({ luc: Date.now(), uid: tk.user.uid, ds: kq })); } catch {}
+    return kq;
+  })().finally(() => { dangTinhKQ = null; });
+  return dangTinhKQ;
+}
+const the_KQ = k => {
+  const pb = k.phanBo, tong = pb.reduce((a, b) => a + b, 0) || 1, mau = ["#dc2626", "#f59e0b", "#3b82f6", "#16a34a"], ten = ["dưới 5", "5–6,4", "6,5–7,9", "từ 8"];
+  return `<div class="the-trang kq-lop"><div class="kq-dau"><b>${hoa(k.ten)}</b><small class="ghi-chu">${k.siSo} học sinh · ${k.soBai} bài${k.dangMo ? ` · <b>${k.dangMo} đang mở</b>` : ""}</small></div>
+    <div class="kq-so"><div><small>Điểm TB lớp</small><b>${k.tb != null ? diemVN(k.tb) : "–"}</b></div><div><small>Tỉ lệ nộp</small><b>${k.nopRate != null ? k.nopRate + "%" : "–"}</b></div><div><small>Có vi phạm</small><b>${k.coVP}</b></div></div>
+    <div class="kq-thanh" title="Phân bố học lực (theo điểm TB từng em)">${pb.map((n, i) => n ? `<i style="flex:${n};background:${mau[i]}">${n}</i>` : "").join("") || `<span class="ghi-chu">Chưa có điểm</span>`}</div>
+    <div class="kq-chu-thich">${ten.map((t, i) => `<span><i style="background:${mau[i]}"></i>${t}: ${pb[i]}</span>`).join("")}</div>
+    ${k.bai.length ? `<div class="kq-bai">${k.bai.map(b => `<a class="lien-ket" href="#/bang-diem?id=${b.id}"><span>${b.loai === "bai-tap" ? "📚" : "📝"} ${hoa(b.ten)}</span><small>nộp ${b.nop}/${b.tong}${b.tb != null ? " · TB " + diemVN(b.tb) : ""}${b.dong ? "" : " · đang mở"}</small></a>`).join("")}</div>` : ""}
+    ${k.chuY.length ? `<div class="kq-chu-y"><b>Cần chú ý</b>${k.chuY.map(h => `<small>${hoa(h.hoTen)} ${h.maHS ? "(" + hoa(h.maHS) + ")" : ""}: ${h.tb != null ? "TB " + diemVN(h.tb) : "chưa có điểm"}${h.vang >= 2 ? " · vắng " + h.vang + " bài" : ""}${h.vp ? " · rời app " + h.vp + " lần" : ""}</small>`).join("")}</div>` : ""}
+    <div class="nut-hang"><a class="btn phu" href="#/so-diem?lop=${k.id}">📒 Sổ điểm</a><a class="btn phu" href="#/lop?id=${k.id}">👥 Trang lớp</a></div></div>`;
+};
+MAN_HINH["/ket-qua-hoc-tap"] = {
+  tieuDe: "Kết quả học tập",
+  manHinhCon: true,
+  ve: () => laGVtk() ? `<p class="ghi-chu">Tổng quan từng lớp học phần: điểm, tỉ lệ nộp, phân bố học lực, học sinh cần chú ý.</p><div class="nut-hang"><button class="btn phu" onclick="localStorage.removeItem('${KQ_CACHE}');hienManHinh()">↻ Tính lại</button></div><div id="vung-kq"></div>` : `<div class="trong">Chỉ giáo viên mới xem được mục này.</div>`,
+  sauKhiVe: async () => {
+    const v = document.getElementById("vung-kq"); if (!v || !laGVtk()) return;
+    const cu = docKQ();
+    if (cu && cu.uid === tk.user.uid && Date.now() - cu.luc < 900000) { v.innerHTML = cu.ds.map(the_KQ).join("") || `<div class="trong">Chưa có lớp học phần.</div>`; return; }
+    v.innerHTML = `<div class="trong">Đang tính kết quả các lớp…</div>`;
+    try {
+      const kq = await taiKetQuaTatCa((xong, tong) => { if (document.getElementById("vung-kq")) v.innerHTML = xong.map(the_KQ).join("") + (xong.length < tong ? `<div class="trong">Đang tính… ${xong.length}/${tong} lớp</div>` : ""); });
+      if (document.getElementById("vung-kq")) v.innerHTML = kq.map(the_KQ).join("") || `<div class="trong">Chưa có lớp học phần. Tạo lớp ở Tài khoản → Lớp học phần.</div>`;
+    } catch (e) { v.innerHTML = `<div class="trong">${loiTk(e)}</div>`; }
+  },
+};
+
 /* ---------- Lối vào sổ điểm ---------- */
 const veTkSoDiem = MAN_HINH["/tai-khoan"].ve;
 MAN_HINH["/tai-khoan"].ve = () => {
   const h = veTkSoDiem();
-  return laGVtk() ? h.replace(`<a class="the-luyen" href="#/da-giao">`, `<a class="the-luyen" href="#/so-diem"><span class="o-icon">📒</span><span class="text"><b>Sổ điểm lớp</b><small>Điểm mọi bài theo lớp, điểm trung bình, tải Excel</small></span><span class="chevron">›</span></a><a class="the-luyen" href="#/da-giao">`) : h;
+  return laGVtk() ? h.replace(`<a class="the-luyen" href="#/da-giao">`, `<a class="the-luyen" href="#/ket-qua-hoc-tap"><span class="o-icon">📊</span><span class="text"><b>Kết quả học tập</b><small>Tổng quan từng lớp: điểm, tỉ lệ nộp, học sinh cần chú ý</small></span><span class="chevron">›</span></a><a class="the-luyen" href="#/so-diem"><span class="o-icon">📒</span><span class="text"><b>Sổ điểm lớp</b><small>Điểm mọi bài theo lớp, điểm trung bình, tải Excel</small></span><span class="chevron">›</span></a><a class="the-luyen" href="#/da-giao">`) : h;
 };
 const veDaGiaoGoc = MAN_HINH["/da-giao"].ve;
 MAN_HINH["/da-giao"].ve = () => laGVtk() ? `<a class="the-luyen" href="#/so-diem"><span class="o-icon">📒</span><span class="text"><b>Sổ điểm lớp</b><small>Tổng hợp điểm mọi bài theo lớp</small></span><span class="chevron">›</span></a>` + veDaGiaoGoc() : veDaGiaoGoc();

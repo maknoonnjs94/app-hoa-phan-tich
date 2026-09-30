@@ -229,6 +229,15 @@ MAN_HINH["/tao-de"] = {
 
 /* ---------- Bước 2: chọn câu, xem nguyên đề ---------- */
 const locChon = { tab: "de", chuong: "", loai: "", muc: 0, dang: "", tu: "", anDaChon: true, dapAn: false, so: 15, thay: "", addCh: "", addDang: "", addLoai: "", addN: 1 };
+// Đề xuất điểm từng câu (tổng 10): câu khó nhiều điểm hơn, trọng số theo mức NB/TH/VD/VDC = 1 : 1,5 : 2 : 3; làm tròn 0,05 rồi bù để tổng đúng 10
+const TRONG_SO_MUC = { 1: 1, 2: 1.5, 3: 2, 4: 3 };
+function deXuatDiem(ids) {
+  const w = ids.map(id => TRONG_SO_MUC[CAU_THEO_ID[id]?.mucDo] || 2), tong = w.reduce((a, b) => a + b, 0) || 1;
+  const tho = w.map(x => 10 * x / tong / 0.05), buoc = tho.map(Math.floor);
+  let con = 200 - buoc.reduce((a, b) => a + b, 0);
+  tho.map((x, i) => i).sort((i, j) => (tho[j] - buoc[j]) - (tho[i] - buoc[i])).forEach(i => { if (con > 0) { buoc[i]++; con--; } });
+  return buoc.map(b => Math.round(b * 5) / 100);
+}
 const soCauDang = (chuong, dang, muc = 0, loai = "") => KHO_DE_CAU.filter(q => q.chuong === chuong && q.dang === dang && !q.chum && (!muc || q.mucDo === muc) && (!loai || q.loai === loai) && (cauHinhDe.choDuyet || !q.choDuyet)).length;
 const dangCuaChuong = chuong => [...new Set(cauNguon().filter(c => c.chuong === chuong && !c.chum).map(c => c.dang))]
   .sort((a, b) => (tenDang(a) || "").localeCompare(tenDang(b) || "", "vi"));
