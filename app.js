@@ -113,6 +113,21 @@ const theDocTiep = () => {
   </a>`;
 };
 
+// Nhân vật ở đầu trang chủ: mỗi người tự chọn (lưu trên máy, localStorage "nhan-vat"); chưa chọn thì GV → cô giáo, còn lại → linh vật
+const NHAN_VAT = [["hero", "Linh vật bình nón"], ["sv-nu", "Sinh viên nữ"], ["sv-nam", "Sinh viên nam"], ["co-giao", "Cô giáo"], ["", "Không hiện nhân vật"]];
+function nhanVatCuaToi() {
+  let v = null; try { v = localStorage.getItem("nhan-vat"); } catch {}
+  if (v !== null && NHAN_VAT.some(([k]) => k === v)) return v;
+  return typeof tk !== "undefined" && ["gv", "qtv"].includes(tk.hoSo?.vaiTro) ? "co-giao" : "hero";
+}
+function chonNhanVat(v) { try { localStorage.setItem("nhan-vat", v); } catch {} document.getElementById("hop-nhan-vat")?.close(); hienManHinh(); }
+const luoiNhanVat = () => `<div class="luoi-nv">${NHAN_VAT.map(([k, t]) => `<button class="${nhanVatCuaToi() === k ? "chon" : ""}" onclick="chonNhanVat('${k}')">${k ? `<img src="anh/3d/${k}.webp" alt="">` : `<span>🚫</span>`}<small>${t}</small></button>`).join("")}</div>`;
+function moChonNhanVat() {
+  let hop = document.getElementById("hop-nhan-vat");
+  if (!hop) { hop = document.createElement("dialog"); hop.id = "hop-nhan-vat"; hop.className = "hop-nv"; document.body.append(hop); }
+  hop.innerHTML = `<b>Chọn nhân vật của bạn</b><p class="ghi-chu">Hiện ở đầu trang chủ, chỉ trên máy này.</p>${luoiNhanVat()}<button class="btn full phu" onclick="this.closest('dialog').close()">Đóng</button>`;
+  hop.showModal();
+}
 // Ô chức năng trang chủ: [đường dẫn, ảnh 3D (anh/3d/*.webp), tên, mô tả ngắn]; giao-bai.js đổi theo vai trò
 function oTrangChu() {
   return [["#/ly-thuyet", "ly-thuyet", "Lí thuyết", "15 chương"], ["#/tra-cuu", "tra-cuu", "Tra cứu", "Bảng hằng số"],
@@ -234,7 +249,7 @@ const MAN_HINH = {
       <section class="tc3">
         <div class="tc3-hero">
           <div class="tc3-chao"><small>${chao}${ten ? "," : ""}</small><b>${ten ? coDau(ten) + " 👋" : "Bạn ơi 👋"}</b><span>${hs?.loiChao ? coDau(hs.loiChao) : "Mỗi ngày một chút Hóa phân tích"}</span></div>
-          <img src="anh/3d/hero.webp" alt="" class="tc3-hero-anh">
+          ${(nv => nv ? `<button class="tc3-nv nv-${nv}" onclick="moChonNhanVat()" aria-label="Đổi nhân vật"><img src="anh/3d/${nv}.webp" alt=""></button>` : `<button class="tc3-nv-trong" onclick="moChonNhanVat()">＋ Chọn nhân vật</button>`)(nhanVatCuaToi())}
           <div class="tc-canh"></div>
         </div>
         ${typeof theDauTrangChu === "function" ? theDauTrangChu() : ""}

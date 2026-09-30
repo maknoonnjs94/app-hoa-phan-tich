@@ -132,7 +132,8 @@ MAN_HINH["/tai-khoan"] = {
         <div><b>${hoa(h.hoTen)}</b><small>${hoa(h.email)}</small>
           <small>${VAI_TRO[h.vaiTro] || ""}${h.maHS ? " · Mã HS " + hoa(h.maHS) : ""}${h.lop ? " · Lớp " + hoa(h.lop) : ""}</small></div>
       </div>
-      <details class="the-trang form-tk loi-chao-tk"><summary><b>👋 Lời chào trên trang chủ</b><small>${hoa(tenChao(h) ? "Đang gọi: " + tenChao(h) : "Chưa đặt tên gọi")} · không bắt buộc</small></summary>
+      <details class="the-trang form-tk loi-chao-tk"><summary><b>👋 Trang chủ của tôi</b><small>${hoa(tenChao(h) ? "Đang gọi: " + tenChao(h) : "Chưa đặt tên gọi")} · không bắt buộc</small></summary>
+        <p class="nhan-o">Nhân vật ở đầu trang chủ</p>${luoiNhanVat()}
         <label>Tên muốn app gọi bạn<input id="tk-ten-goi" maxlength="30" value="${hoa(h.tenGoi || "")}" placeholder="VD: cô Lan, thầy Hùng, Minh Anh"></label>
         <label>Câu nhắn dưới lời chào<input id="tk-loi-chao" maxlength="80" value="${hoa(h.loiChao || "")}" placeholder="Mỗi ngày một chút Hóa phân tích"></label>
         <p class="ghi-chu">Để trống thì app tự gọi theo tên trong hồ sơ.</p><p class="loi-tk" id="tk-loi-cg"></p>
