@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v130";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v131";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -342,7 +342,7 @@ async function batDauBaiGiao(id) {
       chon: lamLai ? cau.map(() => null) : cu?.chon || cau.map(() => null), batDau, capNhat: Date.now(), phien, roi, daNop: false, lanNop: cu?.lanNop || 0,
       ...(phienBan ? { maDe: phienBan.ma } : {}),
       ...(lamLai ? { lichSu: [...(cu.lichSu || []), { lan: cu.lanNop || 1, nopLuc: cu.nopLuc || 0, soCau: cu.cau?.length || 0 }] } : {}) };
-    await refBai(id).set(bai);
+    await refBai(id).set(bai, lamLai || !cu ? undefined : { merge: true });
     baiLam = { cau, chon: bai.chon, cheDo: "thi", viTri: 0, batDau, ketThuc: null,
       hanGio: Math.max(1000, Math.min(d.phut ? d.phut * 60000 : Infinity, d.dongLuc - batDau)),
       giao: { id, ten: d.ten, soLanRoi: d.soLanRoi, dongLuc: d.dongLuc, noiDung: d.noiDung, phien, roi, daGui: false,
@@ -701,7 +701,7 @@ MAN_HINH["/gop-y"] = {
     <div class="the-trang form-tk">
       <div class="chon-loi gop-y-kieu">${KIEU_GOP_Y.map(([v, t], k) => `<label><input type="radio" name="gy-kieu" value="${v}" ${k ? "" : "checked"}><span>${t}</span></label>`).join("")}</div>
       <label>Nội dung góp ý<textarea id="gy-nd" rows="6" maxlength="1500" placeholder="Ví dụ: Em muốn có thêm… / Phần … khó dùng vì… / Khi bấm … thì bị lỗi…"></textarea></label>
-      <label>Tên hoặc cách liên hệ (không bắt buộc)<input id="gy-ten" value="${hoa(tk.hoSo?.hoTen || "")}" autocomplete="off"></label>
+      <label>Tên hoặc cách liên hệ (không bắt buộc)<input id="gy-ten" maxlength="100" value="${hoa(tk.hoSo?.hoTen || "")}" autocomplete="off"></label>
       <p class="loi-tk" id="gy-loi"></p>
       <button class="btn full" onclick="guiGopY()">📨 Gửi góp ý</button>
       <p class="ghi-chu">${tk.user ? "Góp ý được gửi thẳng cho người phát triển." : "Bạn chưa đăng nhập nên góp ý sẽ được gửi qua Zalo, Messenger hoặc email bằng menu chia sẻ."} Hoặc liên hệ trực tiếp <a href="tel:0912995778">0912 995 778</a>.</p></div>
@@ -742,6 +742,7 @@ MAN_HINH["/tai-khoan"].ve = () => {
     + (KHO_KHOA.mo ? the("#/kho", "📚", "Ngân hàng câu hỏi", `${NGAN_HANG.length} câu theo 15 chương · xem đề, đáp án, lời giải`) + the("#/ngan-hang-de", "🗂️", "Ngân hàng đề thi", "Đề đã soạn theo chủ đề, dùng lại cho các lần sau")
       : the("#/kho-cau-hoi", "🔐", "Mở kho câu hỏi", "Nhập mật khẩu kho để xem ngân hàng câu hỏi, tạo đề, bài tập"))
     + `<a class="the-luyen the-kho" href="#/doi-mat-khau">`);
+  if (laQtvTk() && Date.now() - luuLanSaoLuu() > 7 * 864e5) h = `<a class="the-trang canh-bao-cu" href="#/quan-tri" style="display:block;text-decoration:none;color:inherit">💾 ${luuLanSaoLuu() ? "Đã hơn 7 ngày chưa sao lưu dữ liệu." : "Bạn chưa sao lưu dữ liệu lần nào."} Bấm để vào Quản trị → Cài đặt → Sao lưu.</a>` + h;
   h += the("#/gop-y", "💡", "Góp ý cho app", "Ý tưởng, chỗ khó dùng, lỗi gặp phải — để app ngày càng hoàn thiện");
   return h + `<p class="ghi-chu" style="text-align:center">Phiên bản app: ${BAN_APP}${tk.hoSo ? ` · vai trò: ${VAI_TRO[tk.hoSo.vaiTro] || "?"}` : ""}${laGVtk() ? ` · kho: ${KHO_KHOA.mo ? "đã mở" : "khóa"}` : ""}</p>`
     + `<p class="pr-nha-phat-trien">✨ Ứng dụng do <b>Phạm Ngọc</b> (cựu sinh viên K63) xây dựng.<br>Bạn có ý tưởng hay? <a href="#/gop-y">💡 Gửi góp ý</a> hoặc gọi <a href="tel:0912995778">0912 995 778</a></p>`;

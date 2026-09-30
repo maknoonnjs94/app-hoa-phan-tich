@@ -332,6 +332,11 @@ async function veQuanTri() {
       <label>Mật khẩu khởi tạo (từ 6 kí tự; sinh viên phải đổi ở lần đăng nhập đầu)<input id="cd-mk" value="${hoa(qt.cfg.matKhauDau)}"></label>
       <p class="loi-tk" id="tk-loi"></p>
       <button class="btn full" onclick="luuCaiDat()">Lưu cài đặt</button></div>` : ""}
+    ${laQtvTk() ? `<div class="the-trang form-tk"><b>💾 Sao lưu dữ liệu</b>
+      <p class="ghi-chu">Gói miễn phí của Firebase không tự sao lưu. Bấm nút dưới để tải một file gồm tài khoản, lớp, đề giao, bài nộp, đáp án. Lưu file vào Google Drive của bạn. ${htSaoLuu()}</p>
+      <button class="btn full" onclick="saoLuuToanBo()">⬇ Sao lưu toàn bộ ngay</button>
+      <label class="btn full phu">⬆ Khôi phục từ file sao lưu<input type="file" accept="application/json" hidden onchange="khoiPhucSaoLuu(this)"></label>
+      <p class="loi-tk" id="sl-loi"></p></div>` : ""}
     <div class="the-trang form-tk"><b>🔒 Khóa tài khoản chưa đổi mật khẩu</b>
       <p class="ghi-chu">Mật khẩu khởi tạo giống nhau nên dễ bị người khác đăng nhập thay. Sau buổi hướng dẫn đầu tiên, khóa các tài khoản chưa đổi mật khẩu; em nào cần thì mở khóa lại.</p>
       <label>Lớp học phần${chonLop("cd-lop", laQtvTk() ? "Mọi lớp" : "Mọi lớp của tôi").replace("<select", `<select onchange="qt.locLop=this.value;veQuanTri()"`)}</label>
@@ -684,3 +689,43 @@ async function qtGanGv(lopId, uid) {
 
 // Nếu người dùng mở thẳng link tới màn tài khoản thì vẽ lại khi script này đã nạp
 if (["/tai-khoan", "/doi-mat-khau", "/quan-tri", "/nhap-lop"].includes(location.hash.slice(1).split("?")[0])) hienManHinh();
+
+/* ---------- Sao lưu / khôi phục toàn bộ dữ liệu Firestore (chỉ quản trị viên) ---------- */
+const BANG_SAO_LUU = ["nguoiDung", "lop", "deGiao", "dapAnDe", "loiGiaiDe", "baiNop", "baoLoi", "cauHinh"];
+const luuLanSaoLuu = () => { try { return +localStorage.getItem("sao-luu-luc") || 0; } catch { return 0; } };
+function htSaoLuu() {
+  const t = luuLanSaoLuu();
+  return t ? `Lần sao lưu gần nhất trên máy này: <b>${gioVN(t)}</b>${Date.now() - t > 7 * 864e5 ? ` — <b style="color:#dc2626">đã quá 7 ngày, nên sao lưu lại</b>` : ""}.` : `<b style="color:#dc2626">Máy này chưa từng sao lưu.</b>`;
+}
+async function saoLuuToanBo() {
+  const loi = document.getElementById("sl-loi"); if (loi) loi.textContent = "Đang đọc dữ liệu…";
+  try {
+    const du = {}; let tong = 0;
+    for (const b of BANG_SAO_LUU) {
+      du[b] = {}; (await fbDb.collection(b).get()).forEach(d => { du[b][d.id] = d.data(); tong++; });
+    }
+    const blob = new Blob([JSON.stringify({ ver: 1, luc: Date.now(), du })], { type: "application/json" });
+    const a = document.createElement("a"), d = new Date(Date.now() + 7 * 36e5).toISOString().slice(0, 10);
+    a.href = URL.createObjectURL(blob); a.download = `sao-luu-hoa-phan-tich-${d}.json`; a.click();
+    try { localStorage.setItem("sao-luu-luc", String(Date.now())); } catch {}
+    if (loi) loi.textContent = `Đã tải file sao lưu (${tong} mục). Hãy chép file vào Google Drive.`;
+  } catch (e) { if (loi) loi.textContent = loiTk(e); }
+}
+async function khoiPhucSaoLuu(input) {
+  const f = input.files[0]; if (!f) return; const loi = document.getElementById("sl-loi");
+  try {
+    const nap = JSON.parse(await f.text()); if (!nap?.du) throw new Error("File không đúng định dạng sao lưu.");
+    const dem = BANG_SAO_LUU.map(b => `${b}: ${Object.keys(nap.du[b] || {}).length}`).join("\n");
+    if (!confirm(`Khôi phục từ file sao lưu ngày ${gioVN(nap.luc)}?\n\n${dem}\n\nCác mục cùng mã sẽ bị GHI ĐÈ bằng bản trong file; mục không có trong file được giữ nguyên. (Không tạo lại tài khoản đăng nhập đã bị xóa.)`)) return;
+    let xong = 0;
+    for (const b of BANG_SAO_LUU) {
+      const ids = Object.keys(nap.du[b] || {});
+      for (let i = 0; i < ids.length; i += 400) {
+        const lo = fbDb.batch(); ids.slice(i, i + 400).forEach(id => lo.set(fbDb.collection(b).doc(id), nap.du[b][id])); await lo.commit(); xong += Math.min(400, ids.length - i);
+        if (loi) loi.textContent = `Đang khôi phục… ${xong}`;
+      }
+    }
+    if (loi) loi.textContent = `Đã khôi phục ${xong} mục.`; taiQt(true);
+  } catch (e) { if (loi) loi.textContent = "Không khôi phục được: " + (e.message || loiTk(e)); }
+  finally { input.value = ""; }
+}

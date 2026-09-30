@@ -10,6 +10,13 @@ service cloud.firestore {
     function bayGio() { return request.time.toMillis(); }
     function lopHocToi() { return toi().get('lopHoc', []); }   // lớp học phần của SV
     function lopDayToi() { return toi().get('lopDay', []); }   // lớp học phần GV dạy
+    // Bài làm: SV chỉ ghi các trường của mình; điểm và dấu vết mở khóa chỉ GV ghi (SV chỉ được để nguyên hoặc xóa khi làm lại)
+    function truongHS() { return ['deGiaoId','uid','hoTen','maHS','lop','cau','chon','batDau','capNhat','phien','roi','daNop','lanNop','maDe','lichSu','nopLuc','lyDo','dangRoi']; }
+    function truongGV() { return ['diemChot','dung','diemSua','ghiChuDiem','roiCu','moKhoa']; }
+    function giuGV(k) { return !(k in request.resource.data) || (k in resource.data && request.resource.data[k] == resource.data[k]); }
+    function hsKhongDungDiem() { return request.resource.data.diff(resource.data).affectedKeys().hasOnly(truongHS().concat(truongGV()))
+        && giuGV('diemChot') && giuGV('dung') && giuGV('diemSua') && giuGV('ghiChuDiem') && giuGV('roiCu') && giuGV('moKhoa'); }
+    function chu(k, n) { return !(k in request.resource.data) || (request.resource.data[k] is string && request.resource.data[k].size() <= n); }
     function deGiao(id) { return get(/databases/$(database)/documents/deGiao/$(id)).data; }
 
     // Hồ sơ người dùng. SV: lopHoc = [id lớp học phần], nganh = lớp hành chính. GV: lopDay = [id lớp dạy].
@@ -84,12 +91,14 @@ service cloud.firestore {
     // Bài làm: mã = <mã đề giao>_<uid>; chỉ làm trong giờ mở đề, nộp rồi không sửa; GV thu bài, chốt / sửa điểm
     match /baiNop/{id} {
       allow read: if laGV() || (dn() && (resource == null || resource.data.uid == request.auth.uid));
-      allow create: if laHS() && request.resource.data.uid == request.auth.uid
+      allow create: if laQTV() || (laHS() && request.resource.data.uid == request.auth.uid
+        && request.resource.data.keys().hasOnly(truongHS())
         && id == request.resource.data.deGiaoId + '_' + request.auth.uid
         && deGiao(request.resource.data.deGiaoId).lop in lopHocToi()
         && bayGio() >= deGiao(request.resource.data.deGiaoId).moLuc
-        && bayGio() <= deGiao(request.resource.data.deGiaoId).dongLuc;
+        && bayGio() <= deGiao(request.resource.data.deGiaoId).dongLuc);
       allow update: if laGV() || (laHS() && resource.data.uid == request.auth.uid
+        && hsKhongDungDiem()
         // chưa nộp; hoặc bài tập còn lượt làm lại
         && (resource.data.daNop != true
             || (deGiao(resource.data.deGiaoId).get('loai', 'kiem-tra') == 'bai-tap'
@@ -102,7 +111,10 @@ service cloud.firestore {
 
     // Báo lỗi nội dung
     match /baoLoi/{id} {
-      allow create: if dn();
+      allow create: if dn() && request.resource.data.keys().hasOnly(['loai','kieu','noiDung','ten','uid','vaiTro','banApp','luc','ma','loaiMuc','ghiChu','tieuDe'])
+        && request.resource.data.get('uid', request.auth.uid) == request.auth.uid
+        && chu('noiDung', 2000) && chu('ten', 100) && chu('kieu', 30) && chu('loai', 30) && chu('vaiTro', 10) && chu('banApp', 20)
+        && chu('ma', 120) && chu('loaiMuc', 30) && chu('ghiChu', 500) && chu('tieuDe', 200);
       allow read, update, delete: if laGV();
     }
   }
