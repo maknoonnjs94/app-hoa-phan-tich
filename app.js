@@ -969,7 +969,7 @@ function hienManHinh() {
   document.body.classList.toggle("trang-chu", mh === MAN_HINH["/"]);
   document.querySelectorAll(".tabbar a").forEach(a =>
     a.classList.toggle("active", a.dataset.tab === duong ||
-      (a.dataset.tab !== "/" && duong.startsWith(a.dataset.tab + "/"))));
+      (a.dataset.tab !== "/" && duong.startsWith(a.dataset.tab + "/")) || (a.dataset.nhom || "").split(" ").includes(duong)));
   if (duong === "/tra-cuu" && tuTra) traCuu(tuTra);
   if (mh.sauKhiVe) mh.sauKhiVe();
   if (mh.khoChuong) { if (locKho.chuong !== mh.khoChuong) { Object.assign(locKho, { dang: "", tu: "", chuong: mh.khoChuong }); document.getElementById("tim-kho").value = ""; } veKho(); }

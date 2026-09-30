@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v126";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v128";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -672,10 +672,17 @@ MAN_HINH["/kho-cau-hoi"] = { tieuDe: "Kho câu hỏi", manHinhCon: true, ve: () 
   <a class="the-luyen the-kho" href="#/ngan-hang-de"><span class="o-icon">🗂️</span><span class="text"><b>Ngân hàng đề thi</b><small>Đề đã soạn theo chủ đề, dùng lại cho các lần sau</small></span><span class="chevron">›</span></a>
   <a class="the-luyen the-kho" href="#/bai-tap"><span class="o-icon">✏️</span><span class="text"><b>Bài tập và luyện tập</b><small>Bài tự luận theo chương, luyện trắc nghiệm</small></span><span class="chevron">›</span></a>
   <button class="btn full phu" onclick="khoaKhoTrenMay()">🔒 Khóa kho trên máy này (khi dùng máy chung)</button>` };
+// Thẻ "Lớp học" to, nằm giữa trang chủ của giáo viên (số liệu lấy từ bản tính gần nhất, nếu có)
+function theLopHocTrangChu() {
+  const kq = typeof docKQ === "function" ? docKQ() : null, ds = kq && kq.uid === tk.user?.uid ? kq.ds : null;
+  const sv = ds ? ds.reduce((t, k) => t + k.siSo, 0) : 0, tb = ds ? ds.filter(k => k.tb != null) : [];
+  const dong = ds ? `${ds.length} lớp · ${sv} sinh viên${tb.length ? " · TB " + diemVN(Math.round(tb.reduce((t, k) => t + k.tb, 0) / tb.length * 100) / 100) : ""}` : "Thêm sinh viên · giao bài · xem kết quả từng lớp";
+  return `<a href="#/lop-hoc" class="tc-lop"><span class="bieu-tuong">🏫</span><span class="text"><small>Quản lý</small><b>Lớp học</b><em>${dong}</em></span><span class="mui">›</span></a>`;
+}
 // Trang chủ: học sinh / khách thấy ô Tra cứu và Bài được giao thay cho Tạo đề, Luyện tập
 const veTrangChuGoc = MAN_HINH["/"].ve;
 MAN_HINH["/"].ve = () => laGVtk() ? veTrangChuGoc().replace(/<a href="#\/luyen-tap" class="o-3">[\s\S]*?<\/a>/,
-    `<a href="${KHO_KHOA.mo ? "#/kho" : "#/kho-cau-hoi"}" class="o-3"><img src="anh/giao-dien/o-luyen-tap.webp" alt=""><b>Ngân hàng</b></a>`) : veTrangChuGoc()
+    `<a href="${KHO_KHOA.mo ? "#/kho" : "#/kho-cau-hoi"}" class="o-3"><img src="anh/giao-dien/o-luyen-tap.webp" alt=""><b>Ngân hàng</b></a>`).replace('<div class="tc-o">', theLopHocTrangChu() + '<div class="tc-o">') : veTrangChuGoc()
   .replace(/<a href="#\/tao-de" class="o-2">[\s\S]*?<\/a>/, `<a href="#/tra-cuu" class="o-2"><img src="anh/giao-dien/o-doc-tiep.webp" alt=""><b>Tra cứu</b></a>`)
   .replace(/<a href="#\/luyen-tap" class="o-3">[\s\S]*?<\/a>/, `<a href="${tk.user ? "#/bai-duoc-giao" : "#/tai-khoan"}" class="o-3"><img src="anh/giao-dien/o-tao-de.webp" alt=""><b>${tk.user ? "Bài được giao" : "Đăng nhập"}</b></a>`);
 const capNhatQuyen = () => document.body.classList.toggle("la-gv", laGVtk());
@@ -707,7 +714,7 @@ async function ganHuyHieuTrangChu() {
   } else if (laGVtk()) {
     const kq = typeof docKQ === "function" ? docKQ() : null, ok = kq && kq.uid === tk.user.uid;
     const tomTat = ok ? kq.ds.filter(k => k.tb != null).slice(0, 2).map(k => `${hoa(k.ten)}: TB ${diemVN(k.tb)}${k.nopRate != null ? " · nộp " + k.nopRate + "%" : ""}`).join(" | ") : "";
-    html = `<a class="huy-hieu-tc lop-hoc" href="#/lop-hoc">🏫 Lớp học${ok ? ` · ${kq.ds.length} lớp` : ""}</a><a class="huy-hieu-tc" href="#/da-giao">📤 Bài đã giao</a>${tomTat ? `<small class="tom-tat-kq">${tomTat}</small>` : ""}`;
+    html = `<a class="huy-hieu-tc" href="#/da-giao">📤 Bài đã giao</a>`;
     if ((!ok || Date.now() - kq.luc > 900000) && typeof taiKetQuaTatCa === "function" && !ganHuyHieuTrangChu.dangTai) {   // làm mới ngầm rồi vẽ lại
       ganHuyHieuTrangChu.dangTai = true;
       taiKetQuaTatCa().then(() => ganHuyHieuTrangChu()).catch(() => {}).finally(() => { setTimeout(() => (ganHuyHieuTrangChu.dangTai = false), 60000); });
