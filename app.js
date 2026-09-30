@@ -739,7 +739,7 @@ function veCau() {
   document.getElementById("so-cau").textContent = `Câu ${i + 1}/${n}`;
   khung.innerHTML = lamToan(`
     <div class="the-trang cau-hoi">
-      <div class="nhan-cau"><span>${tenChuong(goc.chuong)}</span><span>${MUC_DO[goc.mucDo]}</span></div>
+      ${baiLam.giao || (typeof laHStk === "function" && laHStk()) ? "" : `<div class="nhan-cau"><span>${tenChuong(goc.chuong)}</span><span>${MUC_DO[goc.mucDo]}</span></div>`}
       ${goc.dan ? `<div class="de-dan">${goc.dan}</div>` : ""}<div class="de-cau">${goc.de}</div>${bangTin(goc)}
       <div class="phuong-an">
         ${cau.thuTu.map((k, j) => {
