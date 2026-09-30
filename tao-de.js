@@ -401,14 +401,18 @@ function veChonCau() {
   const nguon = cauNguon().filter(c => (!locChon.chuong || c.chuong === locChon.chuong) && (!locChon.muc || c.mucDo === locChon.muc) && (!locChon.loai || c.loai === locChon.loai)
     && (!locChon.dang || c.dang === locChon.dang) && (!locChon.anDaChon || !soan.chon.includes(c.id))
     && (!tu.length || tu.every(t => khoaTimCau(c).includes(t))));
-  const dsDang = [...new Set(cauNguon().filter(c => !locChon.chuong || c.chuong === locChon.chuong).map(c => c.dang))];
+  // số câu từng dạng (theo chương / mức / loại đang lọc) và số đã chọn trong đề, hiện ngay trong ô chọn dạng
+  const demDangKho = {}, daChonDang = {};
+  cauNguon().forEach(c => { if ((!locChon.chuong || c.chuong === locChon.chuong) && (!locChon.muc || c.mucDo === locChon.muc) && (!locChon.loai || c.loai === locChon.loai)) demDangKho[c.dang] = (demDangKho[c.dang] || 0) + 1; });
+  soan.chon.forEach(id => { const c = CAU_THEO_ID[id]; if (c && (!locChon.chuong || c.chuong === locChon.chuong)) daChonDang[c.dang] = (daChonDang[c.dang] || 0) + 1; });
+  const dsDang = [...new Set(cauNguon().filter(c => !locChon.chuong || c.chuong === locChon.chuong).map(c => c.dang))].filter(d => demDangKho[d] || d === locChon.dang);
   v.innerHTML = banner + `<div class="loc-chon">
       <input type="search" placeholder="🔍 Tìm chất, từ khóa, mã câu…" value="${coDau(locChon.tu)}" oninput="clearTimeout(locChon.h);locChon.h=setTimeout(()=>datLocChon('tu',this.value),300)">
       <div class="hang-loc-3">
         <select onchange="locChon.dang='';datLocChon('chuong',this.value)" aria-label="Chương"><option value="">Mọi chương</option>${CHUONG.filter(c => cauNguon().some(q => q.chuong === c.id)).map(c => `<option value="${c.id}" ${locChon.chuong === c.id ? "selected" : ""}>${TEN_NGAN[c.id] || c.ten}</option>`).join("")}</select>
         <select onchange="datLocChon('muc',Number(this.value))" aria-label="Mức độ">${[0, 1, 2, 3, 4].map(m => `<option value="${m}" ${locChon.muc === m ? "selected" : ""}>${m ? MUC_DO[m] : "Mọi mức"}</option>`).join("")}</select>
         <select onchange="datLocChon('loai',this.value)" aria-label="Loại câu"><option value="">Mọi loại</option><option value="lt" ${locChon.loai === "lt" ? "selected" : ""}>Lí thuyết</option><option value="tt" ${locChon.loai === "tt" ? "selected" : ""}>Tính toán</option></select>
-        <select onchange="datLocChon('dang',this.value)" aria-label="Dạng"><option value="">Mọi dạng</option>${dsDang.map(d => `<option value="${coDau(d)}" ${locChon.dang === d ? "selected" : ""}>${coDau(tenDang(d))}</option>`).join("")}</select>
+        <select onchange="datLocChon('dang',this.value)" aria-label="Dạng"><option value="">Mọi dạng</option>${dsDang.map(d => `<option value="${coDau(d)}" ${locChon.dang === d ? "selected" : ""}>${coDau(tenDang(d))} (${demDangKho[d] || 0} câu${daChonDang[d] ? ` · đã chọn ${daChonDang[d]}` : ""})</option>`).join("")}</select>
       </div>
       <div class="nhom-chip">
         <label class="chip-chon"><input type="checkbox" ${locChon.anDaChon ? "checked" : ""} onchange="datLocChon('anDaChon',this.checked)"><span>Ẩn câu đã chọn</span></label>
