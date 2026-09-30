@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v117";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v118";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -120,7 +120,7 @@ async function luuGiaoDe(idDe) {
       cau: Object.fromEntries(cau.map(c => [c.id, c.loiGiai || ""])) });
     await lo.commit();
     try { const dsL = dsDe(), i = dsL.findIndex(x => x.id === idDe); if (i >= 0) { (dsL[i].giao ||= []).push({ luc: Date.now(), lop: lopTen, loai: bt ? "bai-tap" : "kiem-tra" }); ghiDsDe(dsL); } } catch {}   // nhớ đề này đã giao cho lớp nào (hiện ở ngân hàng đề)
-    sessionStorage.removeItem("giao-cho-lop");
+    sessionStorage.removeItem("giao-cho-lop"); batCanhBaoGV();   // bài mới giao: bắt đầu nghe ngay
     alert(`Đã giao ${bt ? "bài tập" : "bài kiểm tra"} cho lớp ${lopTen}.`); location.hash = `#/lop?id=${lop}`;
   } catch (e) { loi.textContent = loiTk(e); }
 }
@@ -426,34 +426,40 @@ MAN_HINH["/xem-dap-an"] = {
 /* ---------- Theo dõi trực tiếp (GV / QTV): cập nhật ngay khi HS vi phạm, có tiếng báo ---------- */
 let huyTheoDoi = null, amThanh = null;
 const daThay = {};   // uid → số vi phạm đã thấy
+function moAmThanh() {   // tạo / đánh thức bộ phát âm thanh (gọi sớm nhất có thể để tiếng kêu không bị trễ)
+  amThanh = amThanh || new (window.AudioContext || window.webkitAudioContext)();
+  if (amThanh.state === "suspended") amThanh.resume?.();
+  return amThanh;
+}
 function tiengBao() {
   try {
-    amThanh = amThanh || new (window.AudioContext || window.webkitAudioContext)(); amThanh.resume?.();
-    [0, .24].forEach(t => { const o = amThanh.createOscillator(), g = amThanh.createGain(), T = amThanh.currentTime + t; o.type = "sine"; o.frequency.value = 1320;
+    moAmThanh();
+    [0, .2].forEach(t => { const o = amThanh.createOscillator(), g = amThanh.createGain(), T = amThanh.currentTime + t; o.type = "sine"; o.frequency.value = 1320;
       g.gain.setValueAtTime(.0001, T); g.gain.exponentialRampToValueAtTime(.5, T + .012); g.gain.exponentialRampToValueAtTime(.0001, T + .4);
       o.connect(g); g.connect(amThanh.destination); o.start(T); o.stop(T + .45); });
     navigator.vibrate?.([200, 100, 200]);
   } catch {}
 }
 // Mở khóa âm thanh của trình duyệt bằng lần chạm đầu tiên của giáo viên
-["pointerdown", "keydown"].forEach(ev => document.addEventListener(ev, () => { if (laGVtk()) { try { amThanh = amThanh || new (window.AudioContext || window.webkitAudioContext)(); amThanh.resume?.(); } catch {} } }, { passive: true }));
+["pointerdown", "keydown", "touchstart"].forEach(ev => document.addEventListener(ev, () => { if (laGVtk()) { try { moAmThanh(); } catch {} } }, { passive: true }));
 
 /* ---------- Cảnh báo thời gian thực cho giáo viên: học sinh rời app trong lúc kiểm tra ----------
    Nghe baiNop của các bài đang mở (mọi màn hình). Có em vừa rời app (dangRoi) hoặc thêm một lần vi phạm (roi):
    kêu "ting ting" và hiện tên em ngay trên đầu màn hình. */
 let huyCanhBaoGV = [], hienDeGV = [], nhoCanhBao = {};
 function hienCanhBaoGV(u, b, de, kieu) {
+  tiengBao();   // kêu ngay lập tức, rồi mới dựng khung cảnh báo
   let kho = document.getElementById("canh-bao-gv");
   if (!kho) { kho = document.createElement("div"); kho.id = "canh-bao-gv"; document.body.append(kho); }
   const n = b.roi?.length || 0, phai = de.soLanRoi ?? 3;
+  const tre = b.dangRoi?.luc ? Math.max(0, Math.round((Date.now() - b.dangRoi.luc) / 1000)) : 0;
   const tt = kieu === "tu-nop" ? `bị tự nộp vì rời app quá ${phai} lần` : kieu === "dang" ? `vừa rời app (đang ở ngoài)` : `vừa quay lại · vi phạm lần ${n}/${phai}`;
   const o = document.createElement("div"); o.className = "cb-gv";
-  o.innerHTML = `<div><b>⚠️ ${hoa(b.hoTen || "Học sinh")}</b> <small>${hoa(b.maHS || "")}</small><br><span>${tt} · ${hoa(de.ten)} · ${gioVN(Date.now()).split(" ")[0]}</span></div>
+  o.innerHTML = `<div><b>⚠️ ${hoa(b.hoTen || "Học sinh")}</b> <small>${hoa(b.maHS || "")}</small><br><span>${tt} · ${hoa(de.ten)} · ${gioVN(Date.now()).split(" ")[0]}${kieu === "dang" && tre > 3 ? ` · tin đến trễ ${tre} giây` : ""}</span></div>
     <a class="btn nho" href="#/theo-doi?id=${b.deGiaoId}">Xem</a><button class="btn nho phu" aria-label="Đóng">✕</button>`;
   o.querySelector("button").onclick = () => o.remove();
   kho.prepend(o); while (kho.children.length > 5) kho.lastChild.remove();
   setTimeout(() => o.remove(), 25000);
-  tiengBao();
 }
 function xuLyThayDoiBai(de, snap, lanDau) {
   snap.docChanges().forEach(ch => {
@@ -470,13 +476,16 @@ function xuLyThayDoiBai(de, snap, lanDau) {
     Object.assign(cu, { n, dang });
   });
 }
+let idCanhBao = "";
 async function batCanhBaoGV() {
-  huyCanhBaoGV.forEach(f => f()); huyCanhBaoGV = []; nhoCanhBao = {};
-  if (!fbDb || !tk.user || !laGVtk()) return;
+  if (!fbDb || !tk.user || !laGVtk()) { huyCanhBaoGV.forEach(f => f()); huyCanhBaoGV = []; nhoCanhBao = {}; idCanhBao = ""; return; }
   try {
     let q = fbDb.collection("deGiao"); if (tk.hoSo.vaiTro !== "qtv") q = q.where("gvUid", "==", tk.user.uid);
     const bg = Date.now(), ds = (await q.get()).docs.map(d => ({ id: d.id, ...d.data() }))
       .filter(d => d.loai !== "bai-tap" && d.chongGianLan !== false && bg >= d.moLuc - 60000 && bg <= d.dongLuc + 600000);
+    const khoa = tk.user.uid + ":" + ds.map(d => d.id).sort().join(",");
+    if (khoa === idCanhBao) return;   // vẫn đúng các bài đang mở → giữ nguyên đăng ký, không bỏ sót sự kiện
+    huyCanhBaoGV.forEach(f => f()); huyCanhBaoGV = []; nhoCanhBao = {}; idCanhBao = khoa;
     ds.forEach(de => huyCanhBaoGV.push(fbDb.collection("baiNop").where("deGiaoId", "==", de.id).onSnapshot(snap => xuLyThayDoiBai(de, snap), () => {})));
   } catch (e) { console.warn("cảnh báo GV", e); }
 }
@@ -500,7 +509,7 @@ MAN_HINH["/theo-doi"] = {
         const bai = Object.fromEntries(snap.docs.map(x => [x.data().uid, x.data()])), bg = Date.now();
         let moi = false;
         hs.forEach(u => { const n = bai[u.uid]?.roi?.length || 0; if (!lanDau && n > (daThay[u.uid] || 0)) { moi = true; u.moi = bg; } daThay[u.uid] = n; });
-        if (moi) tiengBao();
+        if (moi && !huyCanhBaoGV.length) tiengBao();   // cảnh báo toàn cục đã kêu rồi thì màn này chỉ tô đỏ
         lanDau = false;
         const dem = { lam: 0, nop: 0, vp: 0 };
         const dong = hs.map(u => {
