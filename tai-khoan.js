@@ -109,7 +109,9 @@ MAN_HINH["/tai-khoan"] = {
     if (!fbAuth) return `<div class="trong">Không kết nối được máy chủ tài khoản. Kiểm tra mạng rồi mở lại app.</div>`;
     if (!tk.san) return `<div class="trong">Đang kiểm tra đăng nhập…</div>`;
     if (!tk.user) return `
-      <div class="the-trang form-tk">
+      <div class="dn-nhom"><img src="anh/3d/sv-nu.webp" alt="" class="dn-a"><img src="anh/3d/co-giao.webp" alt="" class="dn-b"><img src="anh/3d/sv-nam.webp" alt="" class="dn-c">
+        <div class="dn-chu"><b>Chào mừng vào phòng lab!</b><span>Đăng nhập để làm bài được giao, xem điểm và lớp học</span></div></div>
+      <div class="the-trang form-tk dn-form">
         <h3>Đăng nhập</h3>
         <p class="ghi-chu">Sinh viên: gõ <b>mã sinh viên</b> (hoặc email đầy đủ). Mật khẩu lần đầu do thầy cô thông báo; đăng nhập xong app sẽ yêu cầu đổi mật khẩu.</p>
         <label>Mã sinh viên hoặc email<input id="tk-email" autocomplete="username" autocapitalize="off" spellcheck="false"></label>
@@ -130,6 +132,11 @@ MAN_HINH["/tai-khoan"] = {
         <div><b>${hoa(h.hoTen)}</b><small>${hoa(h.email)}</small>
           <small>${VAI_TRO[h.vaiTro] || ""}${h.maHS ? " · Mã HS " + hoa(h.maHS) : ""}${h.lop ? " · Lớp " + hoa(h.lop) : ""}</small></div>
       </div>
+      <details class="the-trang form-tk loi-chao-tk"><summary><b>👋 Lời chào trên trang chủ</b><small>${hoa(tenChao(h) ? "Đang gọi: " + tenChao(h) : "Chưa đặt tên gọi")} · không bắt buộc</small></summary>
+        <label>Tên muốn app gọi bạn<input id="tk-ten-goi" maxlength="30" value="${hoa(h.tenGoi || "")}" placeholder="VD: cô Lan, thầy Hùng, Minh Anh"></label>
+        <label>Câu nhắn dưới lời chào<input id="tk-loi-chao" maxlength="80" value="${hoa(h.loiChao || "")}" placeholder="Mỗi ngày một chút Hóa phân tích"></label>
+        <p class="ghi-chu">Để trống thì app tự gọi theo tên trong hồ sơ.</p><p class="loi-tk" id="tk-loi-cg"></p>
+        <button class="btn full" onclick="luuLoiChao()">Lưu lời chào</button></details>
       ${h.vaiTro === "gv" ? `<a class="the-luyen" href="#/quan-tri"><span class="o-icon">👥</span><span class="text"><b>Lớp học phần của tôi</b><small>Tạo lớp, nhập danh sách SV (link Google Sheets / Excel), quản lí tài khoản</small></span><span class="chevron">›</span></a>` : ""}
       ${h.vaiTro === "qtv" ? `<a class="the-luyen" href="#/quan-tri"><span class="o-icon">🛠️</span><span class="text"><b>Quản trị</b><small>Lớp học phần, tài khoản giáo viên / sinh viên, cài đặt</small></span><span class="chevron">›</span></a>` : ""}
       <a class="the-luyen the-kho" href="#/doi-mat-khau"><span class="o-icon">🔑</span><span class="text"><b>Đổi mật khẩu</b><small>Nên đổi định kì</small></span><span class="chevron">›</span></a>
@@ -781,4 +788,24 @@ async function xoaNhatKyCu() {
     }
     nk.ds = null; alert(`Đã xóa ${xoa} dòng.`); veNhatKy("moi");
   } catch (e) { alert(loiTk(e)); }
+}
+
+/* ---------- Lời chào trang chủ: tên gọi (tenGoi) và câu nhắn (loiChao) do chính người dùng đặt, không bắt buộc ---------- */
+function tenChao(h) {
+  if (!h) return "";
+  if (h.tenGoi) return h.tenGoi;
+  const ten = String(h.hoTen || "").trim();
+  if (!ten || /quản trị|giáo viên|admin|tài khoản/i.test(ten)) return h.vaiTro === "hs" ? "" : "Thầy cô";
+  return ten.split(/\s+/).pop();
+}
+async function luuLoiChao() {
+  const tenGoi = document.getElementById("tk-ten-goi").value.trim().slice(0, 30), loiChao = document.getElementById("tk-loi-chao").value.trim().slice(0, 80), loi = document.getElementById("tk-loi-cg");
+  loi.textContent = "Đang lưu…";
+  try {
+    const xoa = firebase.firestore.FieldValue.delete();
+    await fbDb.collection("nguoiDung").doc(tk.user.uid).update({ tenGoi: tenGoi || xoa, loiChao: loiChao || xoa });
+    if (tenGoi) tk.hoSo.tenGoi = tenGoi; else delete tk.hoSo.tenGoi;
+    if (loiChao) tk.hoSo.loiChao = loiChao; else delete tk.hoSo.loiChao;
+    loi.textContent = "Đã lưu. Về trang chủ để xem lời chào mới.";
+  } catch (e) { loi.textContent = loiTk(e) + " (Nếu báo thiếu quyền: quản trị viên dán lại luật Firestore mới.)"; }
 }

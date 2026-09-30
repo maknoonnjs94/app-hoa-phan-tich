@@ -42,11 +42,12 @@ service cloud.firestore {
             && request.resource.data.lopDay.toSet().difference(resource.data.get('lopDay', []).toSet()).hasOnly([request.resource.data.get('lopVuaDoi', '')])
             && (request.resource.data.lopDay.toSet().difference(resource.data.get('lopDay', []).toSet()).size() == 0
                 || get(/databases/$(database)/documents/lop/$(request.resource.data.lopVuaDoi)).data.gv.hasAny([request.auth.uid])))
-        // Tự sửa: đánh dấu đã đổi mật khẩu lần đầu, ảnh đại diện (≤ 60 KB)
+        // Tự sửa: đánh dấu đã đổi mật khẩu lần đầu, ảnh đại diện (≤ 60 KB), tên gọi và lời chào ở trang chủ
         || (dn() && request.auth.uid == uid
-            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['doiMatKhau', 'anhDaiDien'])
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['doiMatKhau', 'anhDaiDien', 'tenGoi', 'loiChao'])
             && request.resource.data.get('doiMatKhau', false) == false
-            && request.resource.data.get('anhDaiDien', '').size() < 60000);
+            && request.resource.data.get('anhDaiDien', '').size() < 60000
+            && request.resource.data.get('tenGoi', '').size() <= 30 && request.resource.data.get('loiChao', '').size() <= 80);
       allow delete: if laQTV();
     }
 

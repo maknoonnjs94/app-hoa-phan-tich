@@ -229,11 +229,11 @@ const MAN_HINH = {
     ve: () => {
       const daDoc = CHUONG.filter(c => tienDo(c.id) >= 90).length, gio = new Date().getHours();
       const chao = gio < 11 ? "Chào buổi sáng" : gio < 14 ? "Chào buổi trưa" : gio < 18 ? "Chào buổi chiều" : "Chào buổi tối";
-      const ten = (typeof tk !== "undefined" && tk.hoSo?.hoTen) ? tk.hoSo.hoTen.trim().split(/\s+/).pop() : "";
+      const hs = typeof tk !== "undefined" ? tk.hoSo : null, ten = hs && typeof tenChao === "function" ? tenChao(hs) : "";
       return `
       <section class="tc3">
         <div class="tc3-hero">
-          <div class="tc3-chao"><small>${chao}${ten ? "," : ""}</small><b>${ten ? coDau(ten) + " 👋" : "Bạn ơi 👋"}</b><span>Mỗi ngày một chút Hóa phân tích</span></div>
+          <div class="tc3-chao"><small>${chao}${ten ? "," : ""}</small><b>${ten ? coDau(ten) + " 👋" : "Bạn ơi 👋"}</b><span>${hs?.loiChao ? coDau(hs.loiChao) : "Mỗi ngày một chút Hóa phân tích"}</span></div>
           <img src="anh/3d/hero.webp" alt="" class="tc3-hero-anh">
           <div class="tc-canh"></div>
         </div>

@@ -1270,3 +1270,16 @@ body.trang-chu .topbar { color: var(--chu); }
 .o-icon.co-3d { background: linear-gradient(135deg, #ece8ff, #ffe6f0); }
 .o-icon.co-3d img { width: 84%; height: 84%; object-fit: contain; filter: drop-shadow(0 3px 4px rgba(80,60,180,.2)); }
 @media (prefers-color-scheme: dark) { .the-luyen .o-icon, .o-icon.co-3d, .tc3 .tc-doc-icon { background: linear-gradient(135deg, #2e2a66, #4a2a55) !important; } }
+
+/* Màn đăng nhập: nhóm nhân vật 3D */
+.dn-nhom { position: relative; height: 250px; margin: 4px 0 -34px; border-radius: 28px; overflow: hidden;
+  background: linear-gradient(160deg, #ece7ff 0%, #ffe3ef 60%, #dff7f1 100%); }
+.dn-nhom img { position: absolute; bottom: 30px; height: 170px; filter: drop-shadow(0 8px 10px rgba(60,40,140,.25)); }
+.dn-nhom .dn-a { left: 8%; } .dn-nhom .dn-b { left: 50%; transform: translateX(-50%); height: 182px; z-index: 1; } .dn-nhom .dn-c { right: 8%; }
+.dn-chu { position: absolute; top: 12px; left: 0; right: 0; text-align: center; color: var(--chu); }
+.dn-chu b { display: block; font-size: 17px; color: #4c3fd6; } .dn-chu span { font-size: 12.5px; color: #6b6a8f; }
+.dn-form { position: relative; z-index: 2; }
+.loi-chao-tk summary { cursor: pointer; list-style: none; } .loi-chao-tk summary::-webkit-details-marker { display: none; }
+.loi-chao-tk summary small { display: block; color: var(--chu-phu); font-weight: 400; }
+@media (prefers-color-scheme: dark) { .dn-nhom { background: linear-gradient(160deg, #2a2560, #43264f 60%, #173f45); } .dn-chu b { color: #cfc8ff; } .dn-chu span { color: #bdb8e6; } }
+.dn-nhom{height:280px}
