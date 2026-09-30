@@ -305,7 +305,7 @@ function theCauChon(c, trongDe, stt) {
   const daDangC = (daTheoDangMap()[c.chuong + "|" + c.dang] || 0), nDang = soCauDang(c.chuong, c.dang), thay = locChon.thay && !da;
   const canhBao = trongDe && !c.chum && nDang < (cauHinhDe.soMa || 1) ? `<small class="loi-tk">⚠️ Dạng này chỉ có ${nDang} câu — chỉ đủ ${nDang} mã khác nhau, các mã sau sẽ phải dùng lại câu.</small>` : "";
   return `<div class="the-trang cau-chon ${da ? "da-chon" : ""}">
-    <div class="nhan-cau">${stt ? `<span class="stt-cau">Câu ${stt}</span>` : ""}<span>${c.id}</span><span class="muc-${c.mucDo}">${MUC_DO[c.mucDo]}</span><span class="loai-${c.loai}">${TEN_LOAI[c.loai]}</span><span>${tenChuong(c.chuong)}</span>${cum ? `<span>Chùm ${cum.length} câu</span>` : ""}</div>
+    <div class="nhan-cau">${stt ? `<span class="stt-cau">Câu ${stt}</span>` : ""}<span>${c.id}</span><span class="muc-${c.mucDo}">${MUC_DO[c.mucDo]}</span>${!trongDe && (soan.muc[c.mucDo] || 0) > demChon()[c.mucDo] ? `<span class="dang-thieu">★ đang thiếu mức này</span>` : ""}<span class="loai-${c.loai}">${TEN_LOAI[c.loai]}</span><span>${tenChuong(c.chuong)}</span>${cum ? `<span>Chùm ${cum.length} câu</span>` : ""}</div>
     <div class="ten-dang">${tenDang(c.dang)}${trongDe && !c.chum ? ` <small>· kho có ${nDang} câu dạng này</small>` : ""}${daDangC ? ` <b class="da-pick">· đã chọn ${daDangC} câu dạng này trong đề</b>` : ""}</div>${canhBao}
     ${c.dan ? `<div class="de-dan">${c.dan}</div>` : ""}<div class="de-cau">${c.de}</div>${bangTin(c)}
     <ol class="pa-de" type="A">${c.phuongAn.map((p, j) => `<li class="${locChon.dapAn && CHU[j] === c.dapAn ? "dung" : ""}"><span class="chu">${CHU[j]}.</span> ${p}</li>`).join("")}</ol>
@@ -360,10 +360,19 @@ function themTheoDang() {
   if (them.length < addN) alert(`Dạng này chỉ còn ${them.length} câu, đã thêm ${them.length}.`);
 }
 function datLocChon(k, v) { locChon[k] = v; locChon.so = 15; veChonCau(); }
+const TEN_MUC_DAY_DU = { 1: "Nhận biết", 2: "Thông hiểu", 3: "Vận dụng", 4: "Vận dụng cao" };
 function thanhTienDoChon() {
-  const d = demChon();
-  return `<div class="thanh-chon"><b>Đã chọn ${soan.chon.length}/${tongMuc()}</b>
-    ${[1, 2, 3, 4].map(m => { const n = d[m], t = soan.muc[m] || 0; return `<button class="chip-muc ${n === t ? "du" : n > t ? "thua" : "thieu"}" onclick="locChon.tab='kho';datLocChon('muc',${m})">${TAT_MUC[m]} ${n}/${t}</button>`; }).join("")}</div>
+  const d = demChon(), dl = demLoai(), tl = tongLoai(), tong = tongMuc();
+  const coLoai = { lt: 0, tt: 0 }; [1, 2, 3, 4].forEach(m => { coLoai.lt += dl[m].lt; coLoai.tt += dl[m].tt; });
+  const thieu = [1, 2, 3, 4].filter(m => (soan.muc[m] || 0) > d[m]);
+  const goiY = !tong ? "" : thieu.length
+    ? `<div class="goi-y-muc">💡 Còn thiếu: ${thieu.map(m => `<button onclick="locChon.tab='kho';datLocChon('muc',${m})"><b>${soan.muc[m] - d[m]}</b> câu ${TEN_MUC_DAY_DU[m]}</button>`).join(" ")}<small>bấm để lọc kho theo mức đang thiếu</small></div>`
+    : `<div class="goi-y-muc du">✅ Đã đủ khung mức độ${soan.chon.length > tong ? ` (thừa ${soan.chon.length - tong} câu)` : ""}.</div>`;
+  return `<div class="khung-muc"><div class="khung-muc-dau"><b>Đã chọn ${soan.chon.length}/${tong}</b>
+      <span class="chip-muc ${coLoai.lt === tl.lt ? "du" : coLoai.lt > tl.lt ? "thua" : "thieu"}">Lí thuyết ${coLoai.lt}/${tl.lt}</span>
+      <span class="chip-muc ${coLoai.tt === tl.tt ? "du" : coLoai.tt > tl.tt ? "thua" : "thieu"}">Tính toán ${coLoai.tt}/${tl.tt}</span></div>
+    <div class="luoi-4-muc">${[1, 2, 3, 4].map(m => { const n = d[m], t = soan.muc[m] || 0, ph = t ? Math.min(100, Math.round(n / t * 100)) : (n ? 100 : 0), tt = n === t ? "du" : n > t ? "thua" : "thieu";
+      return `<button class="o-muc ${tt}" onclick="locChon.tab='kho';datLocChon('muc',${m})"><span class="o-muc-ten">${TEN_MUC_DAY_DU[m]}</span><b>${n}/${t}</b><span class="vach"><i style="width:${ph}%"></i></span><small>${n === t ? "đủ" : n > t ? `thừa ${n - t}` : `thiếu ${t - n}`}</small></button>`; }).join("")}</div>${goiY}</div>
     <div class="nhom-chip"><button class="chip-nhanh ${locChon.tab === "de" ? "chon" : ""}" onclick="locChon.tab='de';locChon.thay='';veChonCau()">Đề mẫu (${soan.chon.length} câu)</button>
       <button class="chip-nhanh ${locChon.tab === "kho" ? "chon" : ""}" onclick="locChon.tab='kho';veChonCau()">Kho câu (chọn tay)</button></div>`;
 }
