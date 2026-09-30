@@ -57,3 +57,4 @@ PWA tĩnh (HTML/CSS/JS), chạy trên GitHub Pages từ nhánh `main`: https://m
 - Luồng “Lớp học” (giao diện chính GV: tab “Lớp học” ngay cạnh Trang chủ ở thanh tab dưới, thẻ lớn “Lớp học” giữa trang chủ, thẻ đầu Tài khoản): `#/lop-hoc` (so-diem.js) liệt kê lớp, mỗi lớp có 👥 Sinh viên (`#/lop?id=`), ＋ Thêm SV (`#/nhap-lop?id=`), 📊 Kết quả (luồng con `#/ket-qua-lop?id=`: điểm TB, tỉ lệ nộp, phân bố học lực, từng sinh viên), 📤 Giao bài; nút ＋ Tạo lớp gọi `taoLopMoi()` (xong mở trang lớp để thêm SV). `#/ket-qua-hoc-tap` là tổng quan mọi lớp.
 - Trang chủ có dòng giới thiệu nhà phát triển (Phạm Ngọc – cựu SV K63, 0912 995 778) ở dưới cùng (`.tc-pr`), Tài khoản có khung tương tự.
 
+- Góp ý cho app: `#/gop-y` (giao-bai.js, `guiGopY`) — link ở dòng giới thiệu trang chủ và thẻ “💡 Góp ý cho app” trong Tài khoản; đã đăng nhập thì ghi `baoLoi` với `loai:"gop-y"` (GV/QTV xem danh sách ngay trên màn); khách thì dùng Chia sẻ/sao chép. Không cần sửa luật Firestore.

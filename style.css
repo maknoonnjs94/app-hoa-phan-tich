@@ -1148,3 +1148,9 @@ h2 .lien-ket.nho { font-size: 13px; font-weight: 600; margin-left: 8px; }
 .tc-lop .mui { font-size: 30px; opacity: .8; } .tc-lop:active { transform: scale(.97); }
 .pr-nha-phat-trien { text-align: center; font-size: 13px; line-height: 1.5; margin: 14px 0 6px; padding: 10px 12px; border-radius: 12px; background: color-mix(in srgb, var(--mau-chinh) 8%, transparent); }
 .pr-nha-phat-trien a { font-weight: 700; color: var(--mau-chinh); text-decoration: none; }
+.gop-y-kieu { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.gop-y-kieu label { cursor: pointer; } .gop-y-kieu input { position: absolute; opacity: 0; pointer-events: none; }
+.gop-y-kieu span { display: inline-block; padding: 8px 14px; border-radius: 99px; border: 1.5px solid var(--vien, #cbd5e1); font-size: 14px; font-weight: 600; }
+.gop-y-kieu input:checked + span { background: var(--mau-chinh); border-color: var(--mau-chinh); color: #fff; }
+#hop-gy textarea, .form-tk textarea { width: 100%; }
+.gop-y-the p { margin: 6px 0 0; white-space: pre-wrap; }

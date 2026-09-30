@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v129";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v130";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -689,6 +689,49 @@ const capNhatQuyen = () => document.body.classList.toggle("la-gv", laGVtk());
 if (fbAuth) { fbAuth.onAuthStateChanged(() => { capNhatQuyen(); hienManHinh(); }); window.addEventListener("tk-san", () => { capNhatQuyen(); hienManHinh(); }); }   // tk-san: hồ sơ đã tải xong → vẽ lại đúng theo vai trò
 capNhatQuyen();
 
+
+/* ---------- Góp ý cho app: mọi người dùng gửi ý tưởng để hoàn thiện app ----------
+   Gửi lên Firestore (collection baoLoi, loai "gop-y": người đã đăng nhập tạo được, GV / QTV đọc được);
+   khách hoặc khi lỗi mạng thì chia sẻ qua Zalo / Messenger / email. */
+const KIEU_GOP_Y = [["y-tuong", "💡 Ý tưởng mới"], ["loi", "🐞 Gặp lỗi"], ["giao-dien", "🎨 Giao diện khó dùng"], ["khac", "💬 Khác"]];
+MAN_HINH["/gop-y"] = {
+  tieuDe: "Góp ý cho app",
+  manHinhCon: true,
+  ve: () => `<p class="ghi-chu">Bạn thấy app cần thêm gì, sửa gì cho dễ dùng hơn? Mọi ý kiến đều được đọc và cân nhắc để hoàn thiện app.</p>
+    <div class="the-trang form-tk">
+      <div class="chon-loi gop-y-kieu">${KIEU_GOP_Y.map(([v, t], k) => `<label><input type="radio" name="gy-kieu" value="${v}" ${k ? "" : "checked"}><span>${t}</span></label>`).join("")}</div>
+      <label>Nội dung góp ý<textarea id="gy-nd" rows="6" maxlength="1500" placeholder="Ví dụ: Em muốn có thêm… / Phần … khó dùng vì… / Khi bấm … thì bị lỗi…"></textarea></label>
+      <label>Tên hoặc cách liên hệ (không bắt buộc)<input id="gy-ten" value="${hoa(tk.hoSo?.hoTen || "")}" autocomplete="off"></label>
+      <p class="loi-tk" id="gy-loi"></p>
+      <button class="btn full" onclick="guiGopY()">📨 Gửi góp ý</button>
+      <p class="ghi-chu">${tk.user ? "Góp ý được gửi thẳng cho người phát triển." : "Bạn chưa đăng nhập nên góp ý sẽ được gửi qua Zalo, Messenger hoặc email bằng menu chia sẻ."} Hoặc liên hệ trực tiếp <a href="tel:0912995778">0912 995 778</a>.</p></div>
+    <div id="vung-gy"></div>`,
+  sauKhiVe: async () => {
+    const v = document.getElementById("vung-gy"); if (!v || !laGVtk()) return;
+    try {
+      const ds = (await fbDb.collection("baoLoi").where("loai", "==", "gop-y").get()).docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => b.luc - a.luc).slice(0, 60);
+      v.innerHTML = `<h2>Góp ý đã nhận (${ds.length})</h2>` + (ds.map(g => `<div class="the-trang gop-y-the"><small class="ghi-chu">${(KIEU_GOP_Y.find(k => k[0] === g.kieu) || KIEU_GOP_Y[3])[1]} · ${hoa(g.ten || "ẩn danh")}${g.vaiTro ? " (" + hoa(g.vaiTro) + ")" : ""} · ${gioVN(g.luc)}</small><p>${hoa(g.noiDung)}</p></div>`).join("") || `<div class="trong">Chưa có góp ý nào.</div>`);
+    } catch (e) { v.innerHTML = ""; }
+  },
+};
+async function guiGopY() {
+  const nd = (document.getElementById("gy-nd")?.value || "").trim(), ten = (document.getElementById("gy-ten")?.value || "").trim(), loi = document.getElementById("gy-loi");
+  const kieu = document.querySelector('input[name="gy-kieu"]:checked')?.value || "khac";
+  if (nd.length < 10) { loi.textContent = "Hãy viết rõ hơn một chút (ít nhất 10 kí tự)."; return; }
+  loi.textContent = "Đang gửi…";
+  if (tk.user && fbDb) {
+    try {
+      await fbDb.collection("baoLoi").add({ loai: "gop-y", kieu, noiDung: nd, ten, uid: tk.user.uid, vaiTro: tk.hoSo?.vaiTro || "", banApp: BAN_APP, luc: Date.now() });
+      document.getElementById("gy-nd").value = ""; loi.textContent = ""; return alert("Cảm ơn bạn! Góp ý đã được gửi tới người phát triển.");
+    } catch (e) { console.warn("góp ý", e); }
+  }
+  const text = `GÓP Ý APP HÓA PHÂN TÍCH (${BAN_APP})\n${(KIEU_GOP_Y.find(k => k[0] === kieu) || [])[1] || ""}\n\n${nd}${ten ? "\n\nTừ: " + ten : ""}`;
+  loi.textContent = "";
+  try { if (navigator.share) return await navigator.share({ title: "Góp ý Hóa phân tích", text }); } catch (e) { if (e.name === "AbortError") return; }
+  try { await navigator.clipboard.writeText(text); alert("Đã chép nội dung góp ý. Dán vào Zalo/Messenger rồi gửi cho Phạm Ngọc (0912 995 778)."); }
+  catch { prompt("Chép nội dung dưới đây để gửi:", text); }
+}
+
 /* ---------- Lối vào: thẻ trong Tài khoản, huy hiệu ở trang chủ ---------- */
 const veTkGoc = MAN_HINH["/tai-khoan"].ve;
 MAN_HINH["/tai-khoan"].ve = () => {
@@ -699,8 +742,9 @@ MAN_HINH["/tai-khoan"].ve = () => {
     + (KHO_KHOA.mo ? the("#/kho", "📚", "Ngân hàng câu hỏi", `${NGAN_HANG.length} câu theo 15 chương · xem đề, đáp án, lời giải`) + the("#/ngan-hang-de", "🗂️", "Ngân hàng đề thi", "Đề đã soạn theo chủ đề, dùng lại cho các lần sau")
       : the("#/kho-cau-hoi", "🔐", "Mở kho câu hỏi", "Nhập mật khẩu kho để xem ngân hàng câu hỏi, tạo đề, bài tập"))
     + `<a class="the-luyen the-kho" href="#/doi-mat-khau">`);
+  h += the("#/gop-y", "💡", "Góp ý cho app", "Ý tưởng, chỗ khó dùng, lỗi gặp phải — để app ngày càng hoàn thiện");
   return h + `<p class="ghi-chu" style="text-align:center">Phiên bản app: ${BAN_APP}${tk.hoSo ? ` · vai trò: ${VAI_TRO[tk.hoSo.vaiTro] || "?"}` : ""}${laGVtk() ? ` · kho: ${KHO_KHOA.mo ? "đã mở" : "khóa"}` : ""}</p>`
-    + `<p class="pr-nha-phat-trien">💡 App do <b>Phạm Ngọc</b> – cựu sinh viên K63 phát triển.<br>Góp ý, hợp tác: <a href="tel:0912995778">0912 995 778</a></p>`;
+    + `<p class="pr-nha-phat-trien">✨ Ứng dụng do <b>Phạm Ngọc</b> (cựu sinh viên K63) xây dựng.<br>Bạn có ý tưởng hay? <a href="#/gop-y">💡 Gửi góp ý</a> hoặc gọi <a href="tel:0912995778">0912 995 778</a></p>`;
 };
 async function ganHuyHieuTrangChu() {
   const canh = document.querySelector(".tc-canh"); if (!canh || !tk.user) return;
