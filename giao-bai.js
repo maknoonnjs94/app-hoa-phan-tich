@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v106";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v107";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -88,7 +88,7 @@ async function luuGiaoDe(idDe) {
     const maDe = de.ma.length > 1 ? de.ma.map(m => ({ ma: m.ma, cau: [...cauCuaMa(de, m)] })) : null;
     const cau = moiCauDe(de).map(id => CAU_THEO_ID[id]).filter(Boolean);   // mọi câu của mọi mã
     const cauMau = (maDe ? maDe[0].cau : de.cau);
-    const noiDung = cau.map(c => ({ id: c.id, chuong: c.chuong, dang: c.dang || "", mucDo: c.mucDo, de: c.de, phuongAn: c.phuongAn, ...(c.chum ? { chum: c.chum, dan: c.dan || "" } : {}) }));
+    const noiDung = cau.map(c => ({ id: c.id, chuong: c.chuong, dang: c.dang || "", mucDo: c.mucDo, de: c.de, phuongAn: c.phuongAn, ...(c.chum ? { chum: c.chum, dan: c.dan || "" } : {}), ...(c.bang ? { bang: c.bang } : {}) }));
     const ref = fbDb.collection("deGiao").doc(), lo = fbDb.batch();
     const lopTen = document.getElementById("gd-lop").selectedOptions[0]?.textContent || "";
     const hienDapAn = g("gd-hienda"), dapAnLuc = hienDapAn === "hen-gio" ? new Date(g("gd-da-luc")).getTime() : dongLuc, hienLoiGiai = g("gd-lg");
@@ -374,7 +374,7 @@ MAN_HINH["/xem-dap-an"] = {
           const goc = CAU_THEO_ID[c.id]; if (!goc) return "";
           const chon = b.chon[i], dungVT = dapAnHienThi(c), tt = chon === null ? "bo" : chon === dungVT ? "dung" : "sai";
           return `<div class="the-trang xem-lai ${tt}"><b>Câu ${i + 1}: ${chon === null ? "bỏ trống" : "chọn " + CHU[chon]} · đáp án ${CHU[dungVT]} ${tt === "dung" ? "✓" : tt === "sai" ? "✗" : ""}</b>
-            ${goc.dan ? `<div class="de-dan">${goc.dan}</div>` : ""}<div class="de-cau">${goc.de}</div>
+            ${goc.dan ? `<div class="de-dan">${goc.dan}</div>` : ""}<div class="de-cau">${goc.de}</div>${bangTin(goc)}
             <div class="phuong-an">${c.thuTu.map((k, j) => `<button disabled class="${j === dungVT ? "dung" : j === chon ? "sai" : "mo"}"><span class="chu">${CHU[j]}</span><span class="nd">${goc.phuongAn[k]}</span></button>`).join("")}</div>
             ${(goc.loiGiaiGiao ?? (laGVtk() ? goc.loiGiai : "")) ? `<div class="loi-giai"><b>Lời giải</b><div>${goc.loiGiaiGiao ?? goc.loiGiai}</div></div>` : ""}</div>`;
         }).join("")}`);

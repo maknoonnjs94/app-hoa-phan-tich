@@ -281,7 +281,7 @@ function theCauChon(c, trongDe) {
   return `<div class="the-trang cau-chon ${da ? "da-chon" : ""}">
     <div class="nhan-cau"><span>${c.id}</span><span class="muc-${c.mucDo}">${MUC_DO[c.mucDo]}</span><span class="loai-${c.loai}">${TEN_LOAI[c.loai]}</span><span>${tenChuong(c.chuong)}</span>${cum ? `<span>Chùm ${cum.length} câu</span>` : ""}</div>
     <div class="ten-dang">${tenDang(c.dang)}${trongDe && !c.chum ? ` <small>· kho có ${nDang} câu dạng này</small>` : ""}</div>${canhBao}
-    ${c.dan ? `<div class="de-dan">${c.dan}</div>` : ""}<div class="de-cau">${c.de}</div>
+    ${c.dan ? `<div class="de-dan">${c.dan}</div>` : ""}<div class="de-cau">${c.de}</div>${bangTin(c)}
     <ol class="pa-de" type="A">${c.phuongAn.map((p, j) => `<li class="${locChon.dapAn && CHU[j] === c.dapAn ? "dung" : ""}"><span class="chu">${CHU[j]}.</span> ${p}</li>`).join("")}</ol>
     ${trongDe ? `<div class="nut-hang">
         ${c.chum ? "" : `<button class="btn phu" onclick="doiCauSoan('${c.id}')">🎲 Câu khác cùng dạng</button>
@@ -550,7 +550,7 @@ function veCauDe(x, so, coDapAn, coNhan = true, truoc = null) {
   const dung = chuDapAn(x);
   return `${dauCum ? `<div class="de-dan">${g.dan}</div>` : ""}<div class="cau-de">
     <div class="dau-cau-de"><b>Câu ${so}.</b>${coNhan ? ` <span class="nhan-nho">${tenChuong(g.chuong)} · ${MUC_DO[g.mucDo]} · ${coDau(tenDang(g.dang))}${g.choDuyet ? ' · <i class="cho">chờ duyệt</i>' : ""}</span>` : ""}</div>
-    <div class="de-cau">${g.de}</div>
+    <div class="de-cau">${g.de}</div>${bangTin(g)}
     <ol class="pa-de" type="A">${x.pa.map((k, j) => `<li class="${coDapAn && CHU[j] === dung ? "dung" : ""}"><span class="chu">${CHU[j]}.</span> ${g.phuongAn[k]}</li>`).join("")}</ol>
     ${coNhan && !g.chum ? `<button class="nut-doi" onclick="doiCau('${x.id}')">🎲 Đổi câu khác cùng dạng</button>` : ""}
   </div>`;

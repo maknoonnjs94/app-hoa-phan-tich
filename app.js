@@ -419,7 +419,7 @@ const MAN_HINH = {
         <details class="the-trang xem-lai ${trangThai}">
           <summary><span class="dau">${trangThai === "dung" ? "✓" : trangThai === "sai" ? "✗" : "–"}</span>
             <span>Câu ${i + 1}: ${chon === null ? "bỏ trống" : "chọn " + CHU[chon]} · đáp án ${CHU[dung]}</span></summary>
-          ${goc.dan ? `<div class="de-dan">${goc.dan}</div>` : ""}<div class="de-cau">${goc.de}</div>
+          ${goc.dan ? `<div class="de-dan">${goc.dan}</div>` : ""}<div class="de-cau">${goc.de}</div>${bangTin(goc)}
           <div class="phuong-an">${cau.thuTu.map((k, j) =>
             `<button disabled class="${j === dung ? "dung" : j === chon ? "sai" : "mo"}"><span class="chu">${CHU[j]}</span><span class="nd">${goc.phuongAn[k]}</span></button>`).join("")}</div>
           <div class="loi-giai"><b>Lời giải</b><div>${goc.loiGiai || ""}</div></div>
@@ -630,7 +630,7 @@ function veThemKho() {
         ${maDang(c.dang) ? `<span class="ma-dang">${maDang(c.dang)}</span>` : ""}
         ${c.choDuyet ? '<span class="cho-duyet">Chờ duyệt</span>' : ""}</div>
       <div class="ten-dang">${tenDang(c.dang)}</div>
-      ${c.dan ? `<div class="de-dan">${c.dan}</div>` : ""}<div class="de-cau">${c.de}</div>
+      ${c.dan ? `<div class="de-dan">${c.dan}</div>` : ""}<div class="de-cau">${c.de}</div>${bangTin(c)}
       <div class="phuong-an">${c.phuongAn.map((p, j) =>
         `<button disabled class="${locKho.hienDapAn && CHU[j] === c.dapAn ? "dung" : ""}"><span class="chu">${CHU[j]}</span><span class="nd">${p}</span></button>`).join("")}</div>
       <details ${locKho.hienDapAn ? "open" : ""}><summary><span class="khi-dong">Xem đáp án và lời giải</span><span class="khi-mo">Ẩn lời giải</span></summary>
@@ -740,7 +740,7 @@ function veCau() {
   khung.innerHTML = lamToan(`
     <div class="the-trang cau-hoi">
       <div class="nhan-cau"><span>${tenChuong(goc.chuong)}</span><span>${MUC_DO[goc.mucDo]}</span></div>
-      ${goc.dan ? `<div class="de-dan">${goc.dan}</div>` : ""}<div class="de-cau">${goc.de}</div>
+      ${goc.dan ? `<div class="de-dan">${goc.dan}</div>` : ""}<div class="de-cau">${goc.de}</div>${bangTin(goc)}
       <div class="phuong-an">
         ${cau.thuTu.map((k, j) => {
           let lop = "";

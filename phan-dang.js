@@ -1,6 +1,8 @@
 /* Phân dạng câu hỏi theo từng chương (bản gộp đã duyệt).
    Mỗi chương: danh sách dạng mới; mỗi dạng liệt kê các mã dạng cũ (Dxx của ngân hàng) được gộp vào.
    Khi nạp, trường "dang" của câu hỏi được đổi sang "Dxx · tên dạng mới"; mã cũ giữ trong "dangCu". */
+// Bảng thông tin đi kèm câu (trường bang: HTML): bấm nút để hiện / ẩn; khi in thì luôn hiện
+const bangTin = c => c && c.bang ? `<button type="button" class="bang-tin-nut" onclick="this.nextElementSibling.classList.toggle('mo');this.setAttribute('aria-expanded',this.nextElementSibling.classList.contains('mo'))" aria-expanded="false">📋 Bảng thông tin</button><div class="bang-tin">${c.bang}</div>` : "";
 const TEN_LOAI = { lt: "Lí thuyết", tt: "Tính toán" };
 const PHAN_DANG = {
   "mo-dau": [

@@ -50,7 +50,7 @@ MAN_HINH["/bai-lam"] = {
           const chon = b.chon[i], dungVT = dapAnHienThi(c), tt = chon === null ? "bo" : chon === dungVT ? "dung" : "sai";
           return `<details class="the-trang xem-lai ${tt}"><summary><span class="dau">${tt === "dung" ? "✓" : tt === "sai" ? "✗" : "–"}</span>
               <span>Câu ${i + 1}: ${chon === null ? "bỏ trống" : "chọn " + CHU[chon]} · đáp án ${CHU[dungVT]}</span></summary>
-            ${goc.dan ? `<div class="de-dan">${goc.dan}</div>` : ""}<div class="de-cau">${goc.de}</div>
+            ${goc.dan ? `<div class="de-dan">${goc.dan}</div>` : ""}<div class="de-cau">${goc.de}</div>${bangTin(goc)}
             <div class="phuong-an">${c.thuTu.map((k, j) => `<button disabled class="${j === dungVT ? "dung" : j === chon ? "sai" : "mo"}"><span class="chu">${CHU[j]}</span><span class="nd">${goc.phuongAn[k]}</span></button>`).join("")}</div>
             <div class="loi-giai"><b>Lời giải</b><div>${goc.loiGiai || ""}</div></div></details>`;
         }).join("")}`);
