@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v103";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v104";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -59,7 +59,7 @@ MAN_HINH["/giao-de"] = {
         <label>Lời giải chi tiết<select id="gd-lg"><option value="khong" selected>Chưa hiện (chỉ đáp số)</option><option value="cung">Hiện cùng đáp án</option></select></label>
         <p class="ghi-chu">Sau này mở / ẩn lời giải, mở đáp án sớm hơn: vào Bảng điểm của bài.</p></div>
       ${bt ? `<label>Số lần được làm<select id="gd-solan"><option value="1">1 lần</option><option value="2">2 lần</option><option value="3" selected>3 lần</option><option value="0">Không giới hạn</option></select></label>
-        <label class="dong-bat"><input type="checkbox" id="gd-cgl"><span>Bật chống gian lận (toàn màn hình, cảnh báo rời app)</span></label>
+        <label class="dong-bat"><input type="checkbox" id="gd-cgl" checked><span>Khóa khi làm bài: sinh viên chỉ thao tác ở màn làm bài (không mở được lí thuyết, tra cứu, kho câu hỏi), toàn màn hình, cảnh báo rời app</span></label>
         <p class="ghi-chu">Điểm tính theo lần làm cuối. Mỗi lần làm lại, câu và phương án được xáo lại.</p>`
       : `<label>Số lần rời app tối đa (quá số này bài tự nộp)<input type="number" id="gd-roi" min="0" max="20" value="3"></label>
         <p class="ghi-chu">Mỗi sinh viên nhận thứ tự câu và phương án khác nhau.</p>`}

@@ -1099,3 +1099,4 @@ a.dong-lop { color: inherit; text-decoration: none; }
 .khung-loai { margin: 10px 0 4px; }
 .khung-loai .chip-loai { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
 .khung-loai .chip-loai i { font-style: normal; opacity: .7; font-size: 11px; }
+body.dang-thi .bao-loi-dong { display: none !important; }
