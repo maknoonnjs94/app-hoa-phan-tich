@@ -1131,3 +1131,11 @@ body.dang-thi .bao-loi-dong { display: none !important; }
 .nh-de .nh-thong-tin { display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 12px; opacity: .8; margin-bottom: 6px; }
 .nh-de .nh-nut { gap: 6px; flex-wrap: wrap; } .nh-de .nh-nut .btn { padding: 8px 12px; font-size: 13px; }
 h2 .lien-ket.nho { font-size: 13px; font-weight: 600; margin-left: 8px; }
+.tc-pr { margin: 8px 12px 0; text-align: center; font-size: 11px; line-height: 1.45; color: rgba(255,255,255,.85); text-shadow: 0 1px 3px rgba(0,0,0,.65); }
+.tc-pr a { color: #fde68a; font-weight: 700; text-decoration: none; }
+.huy-hieu-tc.lop-hoc { font-weight: 800; }
+.kq-hs { display: flex; flex-direction: column; margin-top: 6px; }
+.kq-hs-dong { display: grid; grid-template-columns: 1fr auto; gap: 0 10px; align-items: center; padding: 7px 8px; border-top: 1px solid color-mix(in srgb, var(--chu, #334155) 12%, transparent); font-size: 13px; }
+.kq-hs-dong span small { display: block; opacity: .7; font-size: 11px; } .kq-hs-dong > small { grid-column: 1 / -1; opacity: .75; }
+.kq-hs-dong.yeu b { color: #dc2626; } .kq-hs-dong.gioi b { color: #16a34a; }
+.tom-tat-kq { padding: 0 12px; }

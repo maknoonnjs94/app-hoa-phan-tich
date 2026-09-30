@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v124";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v125";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -707,7 +707,7 @@ async function ganHuyHieuTrangChu() {
   } else if (laGVtk()) {
     const kq = typeof docKQ === "function" ? docKQ() : null, ok = kq && kq.uid === tk.user.uid;
     const tomTat = ok ? kq.ds.filter(k => k.tb != null).slice(0, 2).map(k => `${hoa(k.ten)}: TB ${diemVN(k.tb)}${k.nopRate != null ? " · nộp " + k.nopRate + "%" : ""}`).join(" | ") : "";
-    html = `<a class="huy-hieu-tc" href="#/da-giao">📤 Bài đã giao</a><a class="huy-hieu-tc" href="#/ket-qua-hoc-tap">📊 Kết quả học tập</a>${tomTat ? `<small class="tom-tat-kq">${tomTat}</small>` : ""}`;
+    html = `<a class="huy-hieu-tc lop-hoc" href="#/lop-hoc">🏫 Lớp học${ok ? ` · ${kq.ds.length} lớp` : ""}</a><a class="huy-hieu-tc" href="#/da-giao">📤 Bài đã giao</a>${tomTat ? `<small class="tom-tat-kq">${tomTat}</small>` : ""}`;
     if ((!ok || Date.now() - kq.luc > 900000) && typeof taiKetQuaTatCa === "function" && !ganHuyHieuTrangChu.dangTai) {   // làm mới ngầm rồi vẽ lại
       ganHuyHieuTrangChu.dangTai = true;
       taiKetQuaTatCa().then(() => ganHuyHieuTrangChu()).catch(() => {}).finally(() => { setTimeout(() => (ganHuyHieuTrangChu.dangTai = false), 60000); });

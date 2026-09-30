@@ -155,6 +155,7 @@ async function tinhKetQuaLop(l) {
   return { id: l.id, ten: l.ten, siSo: dsHS.length, soBai: de.length, dangMo: de.filter(d => bg >= d.moLuc && bg <= d.dongLuc).length,
     tb: tbcong(co.map(h => h.tb)), nopRate: nopTong ? Math.round(daDong.reduce((t, d) => t + theoBai.find(x => x.id === d.id).nop, 0) / nopTong * 100) : null,
     coVP: theoHS.filter(h => h.vp).length, phanBo, bai: theoBai.slice(0, 6),
+    hs: theoHS.map(h => ({ hoTen: h.hoTen, maHS: h.maHS, tb: h.tb, vang: h.vang, vp: h.vp })).sort((a, b) => (a.tb ?? 99) - (b.tb ?? 99) || a.hoTen.localeCompare(b.hoTen, "vi")),
     chuY: theoHS.filter(h => (h.tb != null && h.tb < 5) || h.vang >= 2).sort((a, b) => (a.tb ?? -1) - (b.tb ?? -1)).slice(0, 6) };
 }
 async function danhSachLopGV() {
@@ -182,6 +183,52 @@ const the_KQ = k => {
     ${k.chuY.length ? `<div class="kq-chu-y"><b>Cần chú ý</b>${k.chuY.map(h => `<small>${hoa(h.hoTen)} ${h.maHS ? "(" + hoa(h.maHS) + ")" : ""}: ${h.tb != null ? "TB " + diemVN(h.tb) : "chưa có điểm"}${h.vang >= 2 ? " · vắng " + h.vang + " bài" : ""}${h.vp ? " · rời app " + h.vp + " lần" : ""}</small>`).join("")}</div>` : ""}
     <div class="nut-hang"><a class="btn phu" href="#/so-diem?lop=${k.id}">📒 Sổ điểm</a><a class="btn phu" href="#/lop?id=${k.id}">👥 Trang lớp</a></div></div>`;
 };
+
+/* =========================================================
+   LỚP HỌC (giao diện chính của GV): danh sách lớp → mỗi lớp có Sinh viên (xem, thêm), Giao bài và
+   Kết quả lớp (luồng con: điểm TB, tỉ lệ nộp, phân bố học lực, từng sinh viên).
+   ========================================================= */
+async function taoLopMoi() { await taiQt(); try { localStorage.removeItem(KQ_CACHE); } catch {} await qtThemLop(); }   // tạo xong tự mở trang lớp để thêm sinh viên
+const mauTB = tb => tb == null ? "" : tb < 5 ? "yeu" : tb >= 8 ? "gioi" : "";
+MAN_HINH["/lop-hoc"] = {
+  tieuDe: "Lớp học",
+  manHinhCon: true,
+  ve: () => laGVtk() ? `<p class="ghi-chu">Mỗi lớp học phần là một luồng: thêm và xem sinh viên, giao bài, xem kết quả học tập của lớp.</p>
+    <div class="nut-hang trai"><button class="btn" onclick="taoLopMoi()">＋ Tạo lớp học phần</button><a class="btn phu" href="#/ket-qua-hoc-tap">📊 Tổng quan mọi lớp</a></div><div id="vung-lh"><div class="trong">Đang tải các lớp…</div></div>`
+    : `<div class="trong">Chỉ giáo viên mới xem được mục này.</div>`,
+  sauKhiVe: async () => {
+    const v = document.getElementById("vung-lh"); if (!v || !laGVtk()) return;
+    try {
+      const ds = await danhSachLopGV(), cu = docKQ(), kq = cu && cu.uid === tk.user.uid ? Object.fromEntries(cu.ds.map(k => [k.id, k])) : {};
+      if (!ds.length) { v.innerHTML = `<div class="trong">Chưa có lớp học phần.<br>Bấm “＋ Tạo lớp học phần”, đặt tên như “Hóa phân tích khoa ngoài – Kì 1 2026-2027”, rồi thêm sinh viên bằng link Google Sheets hoặc file Excel.</div>`; return; }
+      v.innerHTML = ds.map(l => { const k = kq[l.id];
+        return `<div class="the-trang lh-lop"><div class="kq-dau"><b>${hoa(l.ten)}</b>
+          <small class="ghi-chu">${k ? `${k.siSo} sinh viên · ${k.soBai} bài${k.dangMo ? ` · <b>${k.dangMo} đang mở</b>` : ""}${k.tb != null ? ` · TB ${diemVN(k.tb)}` : ""}${k.nopRate != null ? ` · nộp ${k.nopRate}%` : ""}` : "đang tính số liệu…"}</small></div>
+          <div class="nut-hang"><a class="btn" href="#/lop?id=${l.id}">👥 Sinh viên</a><a class="btn phu" href="#/nhap-lop?id=${l.id}">＋ Thêm SV</a><a class="btn phu" href="#/ket-qua-lop?id=${l.id}">📊 Kết quả</a><a class="btn phu" href="#/giao-de?lop=${l.id}">📤 Giao bài</a></div></div>`; }).join("");
+      if (!ds.every(l => kq[l.id]) && !dangTinhKQ) taiKetQuaTatCa().then(() => { if (document.getElementById("vung-lh")) MAN_HINH["/lop-hoc"].sauKhiVe(); }).catch(() => {});   // số liệu chưa có: tính ngầm rồi vẽ lại
+    } catch (e) { v.innerHTML = `<div class="trong">${loiTk(e)}</div>`; }
+  },
+};
+MAN_HINH["/ket-qua-lop"] = {
+  tieuDe: "Kết quả lớp",
+  manHinhCon: true,
+  ve: () => laGVtk() ? `<div id="vung-kql"><div class="trong">Đang tính kết quả lớp…</div></div>` : `<div class="trong">Chỉ giáo viên mới xem được mục này.</div>`,
+  sauKhiVe: async () => {
+    const v = document.getElementById("vung-kql"); if (!v || !laGVtk()) return;
+    const id = thamSoHash().get("id") || "";
+    try {
+      const l = (await danhSachLopGV()).find(x => x.id === id);
+      if (!l) { v.innerHTML = `<div class="trong">Không tìm thấy lớp, hoặc lớp không do thầy/cô phụ trách.<br><br><a class="btn" href="#/lop-hoc">← Lớp học</a></div>`; return; }
+      const k = await tinhKetQuaLop(l);
+      try { const cu = docKQ(), ds = (cu && cu.uid === tk.user.uid ? cu.ds : []).filter(x => x.id !== id).concat(k); localStorage.setItem(KQ_CACHE, JSON.stringify({ luc: cu?.luc || Date.now(), uid: tk.user.uid, ds })); } catch {}
+      if (!document.getElementById("vung-kql")) return;
+      v.innerHTML = `<div class="nut-hang trai"><a class="btn phu" href="#/lop-hoc">← Lớp học</a><a class="btn phu" href="#/lop?id=${id}">👥 Sinh viên</a><a class="btn phu" href="#/giao-de?lop=${id}">📤 Giao bài</a></div>${the_KQ(k)}
+        <div class="the-trang"><b>Từng sinh viên</b> <small class="ghi-chu">(điểm trung bình các bài đã đóng, thấp lên trước)</small>
+          <div class="kq-hs">${k.hs.map(h => `<div class="kq-hs-dong ${mauTB(h.tb)}"><span>${hoa(h.hoTen)}<small>${hoa(h.maHS)}</small></span><b>${h.tb != null ? diemVN(h.tb) : "–"}</b><small>${h.vang ? "vắng " + h.vang : ""}${h.vp ? (h.vang ? " · " : "") + "rời app " + h.vp : ""}</small></div>`).join("") || `<p class="ghi-chu">Lớp chưa có sinh viên.</p>`}</div></div>`;
+    } catch (e) { v.innerHTML = `<div class="trong">${loiTk(e)}</div>`; }
+  },
+};
+
 MAN_HINH["/ket-qua-hoc-tap"] = {
   tieuDe: "Kết quả học tập",
   manHinhCon: true,
@@ -202,7 +249,7 @@ MAN_HINH["/ket-qua-hoc-tap"] = {
 const veTkSoDiem = MAN_HINH["/tai-khoan"].ve;
 MAN_HINH["/tai-khoan"].ve = () => {
   const h = veTkSoDiem();
-  return laGVtk() ? h.replace(`<a class="the-luyen" href="#/da-giao">`, `<a class="the-luyen" href="#/ket-qua-hoc-tap"><span class="o-icon">📊</span><span class="text"><b>Kết quả học tập</b><small>Tổng quan từng lớp: điểm, tỉ lệ nộp, học sinh cần chú ý</small></span><span class="chevron">›</span></a><a class="the-luyen" href="#/so-diem"><span class="o-icon">📒</span><span class="text"><b>Sổ điểm lớp</b><small>Điểm mọi bài theo lớp, điểm trung bình, tải Excel</small></span><span class="chevron">›</span></a><a class="the-luyen" href="#/da-giao">`) : h;
+  return laGVtk() ? h.replace(`<a class="the-luyen" href="#/da-giao">`, `<a class="the-luyen" href="#/lop-hoc"><span class="o-icon">🏫</span><span class="text"><b>Lớp học</b><small>Thêm và xem sinh viên, giao bài, kết quả từng lớp</small></span><span class="chevron">›</span></a><a class="the-luyen" href="#/ket-qua-hoc-tap"><span class="o-icon">📊</span><span class="text"><b>Kết quả học tập</b><small>Tổng quan từng lớp: điểm, tỉ lệ nộp, học sinh cần chú ý</small></span><span class="chevron">›</span></a><a class="the-luyen" href="#/so-diem"><span class="o-icon">📒</span><span class="text"><b>Sổ điểm lớp</b><small>Điểm mọi bài theo lớp, điểm trung bình, tải Excel</small></span><span class="chevron">›</span></a><a class="the-luyen" href="#/da-giao">`) : h;
 };
 const veDaGiaoGoc = MAN_HINH["/da-giao"].ve;
 MAN_HINH["/da-giao"].ve = () => laGVtk() ? `<a class="the-luyen" href="#/so-diem"><span class="o-icon">📒</span><span class="text"><b>Sổ điểm lớp</b><small>Tổng hợp điểm mọi bài theo lớp</small></span><span class="chevron">›</span></a>` + veDaGiaoGoc() : veDaGiaoGoc();
@@ -249,7 +296,7 @@ MAN_HINH["/lop"] = {
             Tài khoản: ${ds.length - dem.khoa - dem.chua} đang dùng · ⏳ ${dem.chua} chưa đổi MK · 🔒 ${dem.khoa} đã khóa</p>
           <div class="nut-hang trai"><a class="btn" href="#/giao-de?lop=${id}">📤 Giao bài</a><a class="btn" href="#/nhap-lop?id=${id}">＋ Thêm SV (link sheet / Excel)</a>
             <button class="btn phu" onclick="themTheoMa('${id}')">＋ 1 SV theo mã</button>
-            <a class="btn phu" href="#/so-diem?lop=${id}">📒 Sổ điểm</a>
+            <a class="btn phu" href="#/ket-qua-lop?id=${id}">📊 Kết quả lớp</a><a class="btn phu" href="#/so-diem?lop=${id}">📒 Sổ điểm</a>
             <button class="btn phu" onclick="xuatDsLop()">⬇ Excel</button>
             ${dem.chua ? `<button class="btn phu" onclick="khoaChuaDoi('${id}')">🔒 Khóa ${dem.chua} TK chưa đổi MK</button>` : ""}</div></div>
         <details class="the-trang nhom-tk" ${de.length ? "open" : ""}><summary><b>Bài đã giao cho lớp</b><span class="dem">${de.length}</span></summary>

@@ -237,6 +237,7 @@ const MAN_HINH = {
           <img src="anh/giao-dien/moc-tinh-the.webp" alt="">
           <small>Đã đọc ${daDoc}/${CHUONG.length} chương</small>
         </a>
+        <p class="tc-pr">✨ Ứng dụng do <b>Phạm Ngọc</b> – cựu sinh viên K63 – thiết kế và phát triển.<br>Rất mong nhận được góp ý: <a href="tel:0912995778">📞 0912 995 778</a></p>
       </section>`;
     },
   },
