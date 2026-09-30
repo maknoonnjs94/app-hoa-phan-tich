@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v162";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v163";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -752,7 +752,7 @@ MAN_HINH["/tai-khoan"].ve = () => {
   if (laQtvTk() && Date.now() - luuLanSaoLuu() > 7 * 864e5) h = `<a class="the-trang canh-bao-cu" href="#/quan-tri" style="display:block;text-decoration:none;color:inherit">💾 ${luuLanSaoLuu() ? "Đã hơn 7 ngày chưa sao lưu dữ liệu." : "Bạn chưa sao lưu dữ liệu lần nào."} Bấm để vào Quản trị → Cài đặt → Sao lưu.</a>` + h;
   h += the("#/gop-y", "💡", "Góp ý cho app", "Ý tưởng, chỗ khó dùng, lỗi gặp phải — để app ngày càng hoàn thiện");
   return h + `<p class="ghi-chu" style="text-align:center">Phiên bản app: ${BAN_APP}${tk.hoSo ? ` · vai trò: ${VAI_TRO[tk.hoSo.vaiTro] || "?"}` : ""}${laGVtk() ? ` · kho: ${KHO_KHOA.mo ? "đã mở" : "khóa"}` : ""}</p>`
-    + `<p class="pr-nha-phat-trien">✨ Ứng dụng do <b>Phạm Ngọc</b> (cựu sinh viên K63) xây dựng.<br>Bạn có ý tưởng hay? <a href="#/gop-y">💡 Gửi góp ý</a> hoặc gọi <a href="tel:0912995778">0912 995 778</a></p>`;
+    + khungNhaPhatTrien();
 };
 async function ganHuyHieuTrangChu() {
   const canh = document.querySelector(".tc-canh"); if (!canh || !tk.user) return;

@@ -258,7 +258,7 @@ const MAN_HINH = {
         <div class="tc3-o">${oTrangChu().map(([href, icon, ten, mo]) => `<a href="${href}"><img src="anh/3d/${icon}.webp" alt=""><b>${ten}</b>${mo ? `<small>${mo}</small>` : ""}</a>`).join("")}</div>
         <a class="tc3-ht" href="#/ly-thuyet"><img src="anh/3d/chuoi-ngay.webp" alt="">
           <span class="text"><b>Hành trình ${daDoc}/${CHUONG.length} chương</b><span class="duong">${CHUONG.map(c => `<i class="${tienDo(c.id) >= 90 ? "xong" : tienDo(c.id) > 0 ? "dang" : ""}"></i>`).join("")}</span></span></a>
-        <p class="tc-pr">✨ Ứng dụng do <b>Phạm Ngọc</b> (cựu sinh viên K63) xây dựng.<br>Bạn có ý tưởng hay? <a href="#/gop-y">💡 Gửi góp ý</a> hoặc gọi <a href="tel:0912995778">0912 995 778</a></p>
+        ${khungNhaPhatTrien()}
       </section>`;
     },
   },
@@ -783,6 +783,10 @@ function veCau() {
       ${i < n - 1 ? `<button class="btn" onclick="denCau(${i + 1})">Sau ›</button>`
                   : `<button class="btn" onclick="nopBai()">Nộp bài</button>`}
     </div>`);
+}
+function khungNhaPhatTrien() {
+  return `<div class="pr-nha-phat-trien"><p>✨ Ứng dụng phát triển bởi <b>Phạm Ngọc</b><br><span>(K63 Sư phạm Hóa học)</span></p>`
+    + `<p class="pr-lien-he"><a href="#/gop-y">💡 Gửi góp ý</a><span>·</span><a href="tel:0912995778">📞 0912 995 778</a></p></div>`;
 }
 function chonPhuongAn(j) {
   baiLam.chon[baiLam.viTri] = j; luuBaiLam(); veCau();
