@@ -51,4 +51,5 @@ PWA tĩnh (HTML/CSS/JS), chạy trên GitHub Pages từ nhánh `main`: https://m
 - Cảnh báo thời gian thực cho GV: HS rời app ghi ngay `baiNop.dangRoi` (và `roi[]` khi quay lại); `batCanhBaoGV()` (giao-bai.js) nghe baiNop của các bài kiểm tra đang mở ở mọi màn hình, kêu “ting ting” + hiện tên HS (`#canh-bao-gv`). GV cần chạm màn hình một lần để trình duyệt cho phát âm thanh.
 - Kết quả học tập theo lớp: `#/ket-qua-hoc-tap` (so-diem.js: `tinhKetQuaLop`), tóm tắt lưu localStorage `kq-hoc-tap` 15 phút và hiện ở trang chủ GV.
 - Vẽ theo vai trò phải chờ hồ sơ: `tk.dangTai`; tai-khoan.js phát sự kiện `tk-san` khi tải xong hồ sơ, giao-bai.js vẽ lại (sửa lỗi lẫn giao diện GV/HS).
+- Ngân hàng đề thi: `#/ngan-hang-de` (tao-de.js) — đề đã tạo lưu localStorage `de-da-luu` (chỉ lưu mã câu); thẻ hiện tên, chủ đề (GV đặt `de.chuDe` hoặc tự đề xuất theo chương), số câu, mức, LT/TT, mã đề, lịch sử giao (`de.giao`); ♻️ dùng lại (nạp vào bước soạn giữ đúng câu các mã), 🎲 làm mới câu (thay câu cùng dạng/loại/mức), sao lưu / nạp file JSON. Đề chưa đặt tên tự lấy tên theo chương (`goiYTenDe`).
 

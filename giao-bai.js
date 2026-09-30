@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v115";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v116";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -119,6 +119,7 @@ async function luuGiaoDe(idDe) {
     lo.set(fbDb.collection("loiGiaiDe").doc(ref.id), { lop, mo: hienLoiGiai === "cung", gvUid: tk.user.uid,
       cau: Object.fromEntries(cau.map(c => [c.id, c.loiGiai || ""])) });
     await lo.commit();
+    try { const dsL = dsDe(), i = dsL.findIndex(x => x.id === idDe); if (i >= 0) { (dsL[i].giao ||= []).push({ luc: Date.now(), lop: lopTen, loai: bt ? "bai-tap" : "kiem-tra" }); ghiDsDe(dsL); } } catch {}   // nhớ đề này đã giao cho lớp nào (hiện ở ngân hàng đề)
     sessionStorage.removeItem("giao-cho-lop");
     alert(`Đã giao ${bt ? "bài tập" : "bài kiểm tra"} cho lớp ${lopTen}.`); location.hash = `#/lop?id=${lop}`;
   } catch (e) { loi.textContent = loiTk(e); }
@@ -599,9 +600,9 @@ if (giamSat()) { roiLuc = Date.now() - 1000; roiLoai = "mo-lai"; }
 
 /* ---------- Phân quyền xem: học sinh và khách chỉ xem lí thuyết (+ tra cứu bảng) và bài được giao ----------
    Ngân hàng câu hỏi, bài tập, luyện tập, tạo đề chỉ dành cho giáo viên / QTV. */
-const LA_MUC_GV = d => /^\/(bai-tap|luyen-tap|kho|tao-de|chon-cau|chon-dang|de|giao-de|da-giao|bang-diem|theo-doi|nhap-lop)(\/|$)/.test(d) || ((d === "/lam-bai" || d === "/ket-qua") && !baiLam?.giao);
+const LA_MUC_GV = d => /^\/(bai-tap|luyen-tap|kho|tao-de|chon-cau|chon-dang|ngan-hang-de|de|giao-de|da-giao|bang-diem|theo-doi|nhap-lop)(\/|$)/.test(d) || ((d === "/lam-bai" || d === "/ket-qua") && !baiLam?.giao);
 // Các mục cần kho câu hỏi đã mở khóa trên máy này
-const CAN_KHO = d => /^\/(bai-tap|luyen-tap|kho|tao-de|chon-cau|chon-dang|de|giao-de)(\/|$)/.test(d) || ((d === "/lam-bai" || d === "/ket-qua") && !baiLam?.giao);
+const CAN_KHO = d => /^\/(bai-tap|luyen-tap|kho|tao-de|chon-cau|chon-dang|ngan-hang-de|de|giao-de)(\/|$)/.test(d) || ((d === "/lam-bai" || d === "/ket-qua") && !baiLam?.giao);
 const duocVao = d => (!LA_MUC_GV(d) || laGVtk()) && (!CAN_KHO(d) || KHO_KHOA.mo);
 Object.keys(MAN_HINH).forEach(d => {
   if (!LA_MUC_GV(d) && d !== "/lam-bai" && d !== "/ket-qua") return;
@@ -616,6 +617,7 @@ MAN_HINH["/kho-cau-hoi"] = { tieuDe: "Kho câu hỏi", manHinhCon: true, ve: () 
   <div class="the-trang"><b>🔓 Kho đã mở trên máy này</b><p class="ghi-chu">${NGAN_HANG.length} câu trắc nghiệm · ${CHUONG.reduce((t, c) => t + c.baiTap.length, 0)} bài tự luận</p></div>
   <a class="the-luyen" href="#/kho"><span class="o-icon">📚</span><span class="text"><b>Ngân hàng câu hỏi</b><small>Xem theo chương, lọc mức độ, dạng; xem đáp án và lời giải</small></span><span class="chevron">›</span></a>
   <a class="the-luyen the-kho" href="#/tao-de"><span class="o-icon">📝</span><span class="text"><b>Tạo đề kiểm tra</b><small>Chọn câu, tạo mã đề, in, giao cho lớp</small></span><span class="chevron">›</span></a>
+  <a class="the-luyen the-kho" href="#/ngan-hang-de"><span class="o-icon">🗂️</span><span class="text"><b>Ngân hàng đề thi</b><small>Đề đã soạn theo chủ đề, dùng lại cho các lần sau</small></span><span class="chevron">›</span></a>
   <a class="the-luyen the-kho" href="#/bai-tap"><span class="o-icon">✏️</span><span class="text"><b>Bài tập và luyện tập</b><small>Bài tự luận theo chương, luyện trắc nghiệm</small></span><span class="chevron">›</span></a>
   <button class="btn full phu" onclick="khoaKhoTrenMay()">🔒 Khóa kho trên máy này (khi dùng máy chung)</button>` };
 // Trang chủ: học sinh / khách thấy ô Tra cứu và Bài được giao thay cho Tạo đề, Luyện tập
@@ -635,7 +637,7 @@ MAN_HINH["/tai-khoan"].ve = () => {
   const the = (href, icon, ten, mo) => `<a class="the-luyen" href="${href}"><span class="o-icon">${icon}</span><span class="text"><b>${ten}</b><small>${mo}</small></span><span class="chevron">›</span></a>`;
   if (laHStk()) h = h.replace(`<a class="the-luyen the-kho" href="#/doi-mat-khau">`, the("#/bai-duoc-giao", "📝", "Bài được giao", "Bài kiểm tra giáo viên giao cho lớp") + `<a class="the-luyen the-kho" href="#/doi-mat-khau">`);
   if (laGVtk()) h = h.replace(`<a class="the-luyen the-kho" href="#/doi-mat-khau">`, the("#/da-giao", "📤", "Bài đã giao và bảng điểm", "Theo dõi học sinh làm bài, tải bảng điểm")
-    + (KHO_KHOA.mo ? the("#/kho", "📚", "Ngân hàng câu hỏi", `${NGAN_HANG.length} câu theo 15 chương · xem đề, đáp án, lời giải`)
+    + (KHO_KHOA.mo ? the("#/kho", "📚", "Ngân hàng câu hỏi", `${NGAN_HANG.length} câu theo 15 chương · xem đề, đáp án, lời giải`) + the("#/ngan-hang-de", "🗂️", "Ngân hàng đề thi", "Đề đã soạn theo chủ đề, dùng lại cho các lần sau")
       : the("#/kho-cau-hoi", "🔐", "Mở kho câu hỏi", "Nhập mật khẩu kho để xem ngân hàng câu hỏi, tạo đề, bài tập"))
     + `<a class="the-luyen the-kho" href="#/doi-mat-khau">`);
   return h + `<p class="ghi-chu" style="text-align:center">Phiên bản app: ${BAN_APP}${tk.hoSo ? ` · vai trò: ${VAI_TRO[tk.hoSo.vaiTro] || "?"}` : ""}${laGVtk() ? ` · kho: ${KHO_KHOA.mo ? "đã mở" : "khóa"}` : ""}</p>`;

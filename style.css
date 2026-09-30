@@ -1126,3 +1126,8 @@ body.dang-thi .bao-loi-dong { display: none !important; }
 .kq-bai a { display: flex; justify-content: space-between; gap: 8px; padding: 6px 0; border-top: 1px solid color-mix(in srgb, var(--chu, #334155) 12%, transparent); font-size: 13px; }
 .kq-chu-y { display: flex; flex-direction: column; gap: 3px; margin: 8px 0; padding: 8px 10px; border-radius: 10px; background: color-mix(in srgb, #dc2626 9%, transparent); }
 .tom-tat-kq { display: block; max-width: 100%; margin-top: 4px; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.6); font-size: 12px; }
+.nh-de .nh-dau { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.nh-de .nh-chu-de { font-size: 13px; opacity: .85; margin: 2px 0 6px; }
+.nh-de .nh-thong-tin { display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 12px; opacity: .8; margin-bottom: 6px; }
+.nh-de .nh-nut { gap: 6px; flex-wrap: wrap; } .nh-de .nh-nut .btn { padding: 8px 12px; font-size: 13px; }
+h2 .lien-ket.nho { font-size: 13px; font-weight: 600; margin-left: 8px; }

@@ -169,6 +169,11 @@ function datCauHinh(khoa, v) {
   if (khoa === "soMa" && document.getElementById("vung-chon")) veChonCau();
   else if (khoa === "choDuyet") hienManHinh();
 }
+function datTenGoiY() {
+  const cs = soan.chuong.length ? soan.chuong : [], ten = cs.length ? cs.slice(0, 3).map(id => TEN_NGAN[id] || id).join(" + ") + (cs.length > 3 ? " +…" : "") : "Tổng hợp";
+  cauHinhDe.ten = `${ten} — ${soan.tong} câu ${KIEU_DE[soan.kieu].ten.toLowerCase()}`; luuCauHinh();
+  const o = document.getElementById("ten-de"); if (o) o.value = cauHinhDe.ten;
+}
 function doiTong(d) { datTong(soan.tong + d); }
 function doiPhut(d) { cauHinhDe.phut = Math.max(5, Math.min(180, cauHinhDe.phut + d)); luuCauHinh(); hienManHinh(); }
 function batNhom(nhom) {
@@ -186,7 +191,7 @@ MAN_HINH["/tao-de"] = {
     return `
     <div class="buoc-soan"><span class="dang">1 · Khung đề</span><span>2 · Chọn câu</span><span>3 · Mã đề, in, giao</span></div>
     <div class="the-trang tao-de gon">
-      <input class="o-ten-de" id="ten-de" value="${coDau(cauHinhDe.ten)}" onchange="datCauHinh('ten', this.value)" aria-label="Tên đề" placeholder="Tên đề">
+      <input class="o-ten-de" id="ten-de" value="${coDau(cauHinhDe.ten)}" onchange="datCauHinh('ten', this.value)" aria-label="Tên đề" placeholder="Tên đề"><button type="button" class="goi-y" onclick="datTenGoiY()">✨ Gợi ý tên theo chủ đề</button>
       <div class="hang-2">
         <div class="o-dem"><small>Số câu</small><span class="buoc"><button onclick="doiTong(-5)">−</button>
           <input inputmode="numeric" value="${soan.tong}" onchange="datTong(this.value)" aria-label="Số câu"><button onclick="doiTong(5)">+</button></span></div>
@@ -222,7 +227,7 @@ MAN_HINH["/tao-de"] = {
     <div class="nut-hang hai-nut day-chon">
       <button class="btn phu" onclick="batDauChon('dang')">☑ Chọn nhiều dạng</button>
       <button class="btn" onclick="batDauChon(true)">✨ Gợi ý sẵn ${tongMuc()} câu</button></div>
-    ${luu.length ? `<h2>Đề đã lưu</h2><div class="list">${luu.map(d =>
+    ${luu.length ? `<h2>Đề đã lưu <a class="lien-ket nho" href="#/ngan-hang-de">📚 Ngân hàng đề (${luu.length})</a></h2><div class="list">${luu.slice(0, 3).map(d =>
       dongDanhSach(`#/de?id=${d.id}`, "📄", coDau(d.ten), `${d.cau.length} câu · ${d.phut} phút · ${d.ma.length} mã · ${new Date(d.ngay).toLocaleDateString("vi-VN")}`)).join("")}</div>` : ""}`;
   },
 };
@@ -526,8 +531,10 @@ function xongChonCau() {
   if (lech.length && !confirm(`Số câu chưa khớp khung (${lech.map(m => `${TAT_MUC[m]} ${d[m]}/${soan.muc[m] || 0}`).join(", ")}). Vẫn tạo đề?`)) return;
   capNhatBienThe();
   const hat = Math.floor(Math.random() * 2 ** 31);
-  const de = { id: "d" + Date.now().toString(36), ten: cauHinhDe.ten, phut: cauHinhDe.phut, ngay: Date.now(),
+  const ten0 = (cauHinhDe.ten || "").trim(), macDinh = !ten0 || /^Đề kiểm tra$/i.test(ten0);
+  const de = { id: "d" + Date.now().toString(36), ten: ten0, phut: cauHinhDe.phut, ngay: Date.now(),
     cau: xepCauDe(soan.chon), daoCau: cauHinhDe.daoCau, daoPA: cauHinhDe.daoPA, hat, khac: true };
+  if (macDinh) de.ten = goiYTenDe(de);   // chưa đặt tên: hệ thống đề xuất theo chương
   de.ma = taoMaDe(de.cau, cauHinhDe.soMa, de.daoCau, de.daoPA, hat, false);
   // mã 2 trở đi: đúng những câu anh/chị đã thấy và chỉnh ở bước đề mẫu
   de.ma.forEach((m, k) => {
@@ -573,6 +580,88 @@ function veCauDe(x, so, coDapAn, coNhan = true, truoc = null) {
     ${coNhan && !g.chum ? `<button class="nut-doi" onclick="doiCau('${x.id}')">🎲 Đổi câu khác cùng dạng</button>` : ""}
   </div>`;
 }
+
+
+/* =========================================================
+   NGÂN HÀNG ĐỀ THI: xem lại mọi đề đã soạn theo chủ đề, dùng lại cho các lần sau.
+   - Chủ đề: GV tự đặt (đổi tên) hoặc hệ thống đề xuất theo chương / dạng của các câu trong đề.
+   - ♻️ Dùng lại: nạp đề vào bước soạn để chỉnh; 🎲 Làm mới câu: giữ khung (cùng dạng, mức, loại) nhưng thay bằng câu khác.
+   - Sao lưu / nạp từ file để chuyển đề sang máy khác (đề chỉ lưu mã câu, không lưu nội dung câu).
+   ========================================================= */
+function thongTinDe(de) {
+  const theoCh = {}, muc = [0, 0, 0, 0]; let lt = 0, tt = 0;
+  de.cau.forEach(id => { const c = CAU_THEO_ID[id]; if (!c) return; theoCh[c.chuong] = (theoCh[c.chuong] || 0) + 1; muc[c.mucDo - 1]++; c.loai === "tt" ? tt++ : lt++; });
+  return { n: de.cau.length, chuong: Object.entries(theoCh).sort((a, b) => b[1] - a[1]), muc, lt, tt };
+}
+function kieuTheoMuc(t) { const p = t.n ? (t.muc[2] + t.muc[3]) / t.n : 0; return p < 0.35 ? "cơ bản" : p < 0.6 ? "chuẩn" : "nâng cao"; }
+function goiYTenDe(de) {
+  const t = thongTinDe(de), ten = t.chuong.slice(0, 3).map(([id]) => TEN_NGAN[id] || id);
+  return `${ten.join(" + ")}${t.chuong.length > 3 ? " +…" : ""} — ${t.n} câu ${kieuTheoMuc(t)}`;
+}
+const chuDeCuaDe = de => de.chuDe || thongTinDe(de).chuong.map(([id, n]) => `${TEN_NGAN[id] || id} (${n})`).join(" · ");
+const locNH = { tu: "", chuong: "" };
+function veNganHangDe() {
+  const v = document.getElementById("vung-nh"); if (!v) return;
+  const tu = boDau(locNH.tu.trim()), tatCa = dsDe().map(d => ({ d, t: thongTinDe(d) }));
+  const chCo = [...new Set(tatCa.flatMap(x => x.t.chuong.map(([id]) => id)))];
+  const ds = tatCa.filter(({ d, t }) => (!locNH.chuong || t.chuong.some(([id]) => id === locNH.chuong)) && (!tu || boDau(`${d.ten} ${chuDeCuaDe(d)}`).includes(tu))).sort((a, b) => b.d.ngay - a.d.ngay);
+  const chip = document.getElementById("nh-chip");
+  if (chip) chip.innerHTML = chCo.length > 1 ? [["", "Mọi chủ đề"], ...chCo.map(id => [id, TEN_NGAN[id] || id])].map(([id, ten]) => `<button class="chip-nhanh ${locNH.chuong === id ? "chon" : ""}" onclick="locNH.chuong='${id}';veNganHangDe()">${ten}</button>`).join("") : "";
+  v.innerHTML = ds.map(({ d, t }) => {
+    const giao = d.giao || [], cuoi = giao[giao.length - 1];
+    return `<div class="the-trang nh-de"><div class="nh-dau"><b>${coDau(d.ten)}</b><button class="nut-tron nho" onclick="doiTenDe('${d.id}')" aria-label="Đổi tên và chủ đề" title="Đổi tên / chủ đề">✏️</button></div>
+      <div class="nh-chu-de">${coDau(chuDeCuaDe(d))}</div>
+      <div class="nh-thong-tin"><span>${t.n} câu</span><span>NB ${t.muc[0]} · TH ${t.muc[1]} · VD ${t.muc[2]} · VDC ${t.muc[3]}</span><span>LT ${t.lt} · TT ${t.tt}</span><span>${d.phut} phút</span><span>${d.ma.length} mã</span><span>${new Date(d.ngay).toLocaleDateString("vi-VN")}</span></div>
+      ${giao.length ? `<div class="ghi-chu">📤 Đã giao ${giao.length} lần · gần nhất: ${coDau(cuoi.lop || "")} (${new Date(cuoi.luc).toLocaleDateString("vi-VN")})</div>` : ""}
+      <div class="nut-hang nh-nut"><a class="btn phu" href="#/de?id=${d.id}">👁 Xem</a><button class="btn" onclick="dungLaiDe('${d.id}',false)">♻️ Dùng lại</button><button class="btn phu" onclick="dungLaiDe('${d.id}',true)">🎲 Làm mới câu</button><a class="btn phu" href="#/giao-de?id=${d.id}">📤 Giao</a><button class="btn phu" onclick="xoaDeBank('${d.id}')" aria-label="Xóa">🗑</button></div></div>`;
+  }).join("") || `<div class="trong">${tatCa.length ? "Không có đề nào khớp." : "Chưa có đề nào được lưu. Soạn đề ở mục Tạo đề, đề tạo xong sẽ nằm ở đây để dùng lại."}<br><br><a class="btn" href="#/tao-de">＋ Tạo đề mới</a></div>`;
+}
+function doiTenDe(id) {
+  const ds = dsDe(), d = ds.find(x => x.id === id); if (!d) return;
+  const ten = prompt("Tên đề:", d.ten); if (ten === null) return;
+  const cd = prompt("Chủ đề (để trống = hệ thống tự đề xuất theo chương):", d.chuDe || ""); if (cd === null) return;
+  d.ten = ten.trim() || d.ten; d.chuDe = cd.trim(); ghiDsDe(ds); veNganHangDe();
+}
+function xoaDeBank(id) {
+  const d = timDe(id); if (!d || !confirm(`Xóa đề “${d.ten}” khỏi máy này?`)) return;
+  ghiDsDe(dsDe().filter(x => x.id !== id)); veNganHangDe();
+}
+function dungLaiDe(id, lamMoi) {
+  const de = timDe(id); if (!de) return;
+  if (soan.chon.length && !confirm("Đang có bản soạn dở. Thay bằng đề này?")) return;
+  let ids = [...de.cau];
+  const thieu = ids.filter(x => !CAU_THEO_ID[x]).length;
+  if (thieu) return alert(`Đề này có ${thieu} câu không còn trong kho (đã bị sửa hoặc xóa) nên chưa dùng lại được.`);
+  if (lamMoi) { const dung = new Set(ids); ids = ids.map(x => { const g = CAU_THEO_ID[x]; if (g.chum) return x; const r = chonThayThe(x, dung, Math.random); return r.loai === "lap" ? x : r.id; }); }
+  const muc = { 1: 0, 2: 0, 3: 0, 4: 0 }; let lt = 0; ids.forEach(x => { muc[CAU_THEO_ID[x].mucDo]++; if (CAU_THEO_ID[x].loai !== "tt") lt++; });
+  soan.chon = ids; soan.tong = ids.length; soan.muc = muc; soan.lt = Math.round(lt / ids.length * 20) * 5; capNhatLoai();
+  soan.chuong = []; soan.bt = {};
+  if (!lamMoi) ids.forEach((x, i) => { soan.bt[x] = de.ma.slice(1).map(m => (m.cau || de.cau)[i]).filter(v => CAU_THEO_ID[v]); });   // giữ đúng câu của các mã khác
+  Object.assign(cauHinhDe, { ten: `${de.ten} (${lamMoi ? "làm mới" : "dùng lại"})`, phut: de.phut, soMa: de.ma.length, daoCau: !!de.daoCau, daoPA: !!de.daoPA });
+  luuCauHinh(); capNhatBienThe(); luuSoan(); locChon.tab = "de"; locChon.thay = "";
+  location.hash = "#/chon-cau";
+}
+function saoLuuNganHangDe() {
+  const blob = new Blob([JSON.stringify({ ver: 1, luc: Date.now(), de: dsDe() })], { type: "application/json" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "ngan-hang-de.json"; a.click();
+}
+function napNganHangDe(input) {
+  const f = input.files[0]; if (!f) return;
+  f.text().then(t => {
+    const nap = JSON.parse(t).de || [], co = new Set(dsDe().map(d => d.id)), moi = nap.filter(d => d?.id && Array.isArray(d.cau) && Array.isArray(d.ma) && !co.has(d.id));
+    ghiDsDe([...moi, ...dsDe()]); alert(`Đã nạp ${moi.length} đề mới (bỏ qua ${nap.length - moi.length} đề đã có).`); veNganHangDe();
+  }).catch(() => alert("File không đúng định dạng ngân hàng đề.")).finally(() => (input.value = ""));
+}
+MAN_HINH["/ngan-hang-de"] = {
+  tieuDe: "Ngân hàng đề thi",
+  manHinhCon: true,
+  ve: () => `<p class="ghi-chu">Mọi đề đã soạn trên máy này. Đặt tên / chủ đề để dễ tìm; bấm ♻️ để dùng lại cho lần sau.</p>
+    <div class="the-trang"><input type="search" id="nh-tim" placeholder="🔍 Tìm theo tên hoặc chủ đề…" value="${coDau(locNH.tu)}" oninput="locNH.tu=this.value;veNganHangDe()"><div class="hang-chip" id="nh-chip"></div></div>
+    <div id="vung-nh"></div>
+    <div class="nut-hang"><button class="btn phu" onclick="saoLuuNganHangDe()">⬇ Sao lưu ngân hàng đề</button><label class="btn phu">⬆ Nạp từ file<input type="file" accept="application/json,.json" hidden onchange="napNganHangDe(this)"></label></div>
+    <p class="ghi-chu">Đề lưu ngay trên máy này. Đổi máy hoặc sợ mất thì bấm Sao lưu rồi Nạp từ file ở máy mới.</p>`,
+  sauKhiVe: () => veNganHangDe(),
+};
 
 MAN_HINH["/de"] = {
   tieuDe: "Đề kiểm tra",
