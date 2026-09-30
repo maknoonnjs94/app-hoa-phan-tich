@@ -130,6 +130,7 @@ function chonMoiChuong(tat) { soan.chuong = tat ? [] : CHUONG.filter(c => KHO_DE
 function tuDien() {
   const da = new Set(soan.chon), dem = demLoai(), dung = {}, dangDung = {};
   soan.chon.forEach(id => { const c = CAU_THEO_ID[id]; if (!c) return; dung[c.chuong] = (dung[c.chuong] || 0) + 1; const k = c.chuong + "|" + c.dang; dangDung[k] = (dangDung[k] || 0) + 1; });
+  const n0 = soan.chon.length;
   let them = 0, thieu = 0, doiLoai = 0;
   const themMot = (m, loai) => {
     const theoCh = {}; cauNguon().filter(c => c.mucDo === m && !c.chum && !da.has(c.id) && (!loai || c.loai === loai)).forEach(c => (theoCh[c.chuong] ||= []).push(c));
@@ -149,6 +150,8 @@ function tuDien() {
   }));
   // thiếu câu đúng loại → lấy loại còn lại cùng mức để đủ khung mức độ
   conThieu.forEach(m => { if (themMot(m, null)) doiLoai++; else thieu++; });
+  const moiTd = soan.chon.splice(n0).sort((a, b) => CAU_THEO_ID[a].mucDo - CAU_THEO_ID[b].mucDo);   // phần tự điền xếp từ dễ đến khó, đặt lên trên
+  soan.chon.unshift(...moiTd);
   luuSoan(); hienManHinh();
   if (thieu || doiLoai) alert(`Đã thêm ${them} câu.${doiLoai ? ` ${doiLoai} câu phải lấy khác loại lí thuyết/tính toán đã định vì các chương đã chọn không đủ câu loại đó.` : ""}${thieu ? ` Còn thiếu ${thieu} câu vì các chương đã chọn không đủ câu ở mức độ đó — chọn thêm chương hoặc giảm số câu mức độ đó.` : ""}`);
 }
@@ -297,12 +300,12 @@ function khoiBienThe(c) {
         <button class="nut-xs" onclick="event.stopPropagation();doiBienThe('${c.id}',${k})" aria-label="Đổi câu mã ${MA_DE[k + 1]}">🎲</button></div>
         <div class="bt-xem">${lo === "lap" ? "" : q.de.replace(/<[^>]+>/g, " ").slice(0, 140)}</div><div class="bt-day">${xemTruocCau(q)}</div></div>`; }).join("")}</div>`;
 }
-function theCauChon(c, trongDe) {
+function theCauChon(c, trongDe, stt) {
   const da = soan.chon.includes(c.id), cum = c.chum ? KHO_DE_CAU.filter(x => x.chum === c.chum) : null;
   const nDang = soCauDang(c.chuong, c.dang), thay = locChon.thay && !da;
   const canhBao = trongDe && !c.chum && nDang < (cauHinhDe.soMa || 1) ? `<small class="loi-tk">⚠️ Dạng này chỉ có ${nDang} câu — chỉ đủ ${nDang} mã khác nhau, các mã sau sẽ phải dùng lại câu.</small>` : "";
   return `<div class="the-trang cau-chon ${da ? "da-chon" : ""}">
-    <div class="nhan-cau"><span>${c.id}</span><span class="muc-${c.mucDo}">${MUC_DO[c.mucDo]}</span><span class="loai-${c.loai}">${TEN_LOAI[c.loai]}</span><span>${tenChuong(c.chuong)}</span>${cum ? `<span>Chùm ${cum.length} câu</span>` : ""}</div>
+    <div class="nhan-cau">${stt ? `<span class="stt-cau">Câu ${stt}</span>` : ""}<span>${c.id}</span><span class="muc-${c.mucDo}">${MUC_DO[c.mucDo]}</span><span class="loai-${c.loai}">${TEN_LOAI[c.loai]}</span><span>${tenChuong(c.chuong)}</span>${cum ? `<span>Chùm ${cum.length} câu</span>` : ""}</div>
     <div class="ten-dang">${tenDang(c.dang)}${trongDe && !c.chum ? ` <small>· kho có ${nDang} câu dạng này</small>` : ""}</div>${canhBao}
     ${c.dan ? `<div class="de-dan">${c.dan}</div>` : ""}<div class="de-cau">${c.de}</div>${bangTin(c)}
     <ol class="pa-de" type="A">${c.phuongAn.map((p, j) => `<li class="${locChon.dapAn && CHU[j] === c.dapAn ? "dung" : ""}"><span class="chu">${CHU[j]}.</span> ${p}</li>`).join("")}</ol>
@@ -317,7 +320,7 @@ function theCauChon(c, trongDe) {
 function batChonCau(id) {
   const c = CAU_THEO_ID[id], nhom = c.chum ? KHO_DE_CAU.filter(x => x.chum === c.chum).map(x => x.id) : [id];
   if (soan.chon.includes(id)) soan.chon = soan.chon.filter(x => !nhom.includes(x));
-  else soan.chon.push(...nhom.filter(x => !soan.chon.includes(x)));
+  else soan.chon = [...nhom.filter(x => !soan.chon.includes(x)), ...soan.chon];   // câu mới thêm tay hiện trên cùng
   luuSoan(); veChonCau();
 }
 // 🎲 Bốc câu khác CÙNG DẠNG (ưu tiên cùng mức độ), chưa có trong đề mẫu
@@ -353,7 +356,7 @@ function themTheoDang() {
   const da = new Set(soan.chon), pool = tronMang(cauNguon().filter(c => !da.has(c.id) && !c.chum && c.chuong === addCh && c.dang === addDang && (!locChon.addLoai || c.loai === locChon.addLoai)));
   if (!pool.length) return alert("Dạng này không còn câu chưa dùng.");
   const them = pool.slice(0, Math.max(1, addN));
-  soan.chon.push(...them.map(c => c.id)); luuSoan(); veChonCau();
+  soan.chon = [...them.map(c => c.id), ...soan.chon]; luuSoan(); veChonCau();   // câu mới hiện trên cùng
   if (them.length < addN) alert(`Dạng này chỉ còn ${them.length} câu, đã thêm ${them.length}.`);
 }
 function datLocChon(k, v) { locChon[k] = v; locChon.so = 15; veChonCau(); }
@@ -369,7 +372,7 @@ function veChonCau() {
   const tt = document.getElementById("tien-do-chon"); if (tt) tt.innerHTML = thanhTienDoChon();
   if (locChon.tab === "de") {
     capNhatBienThe();
-    const ds = soan.chon.map(id => CAU_THEO_ID[id]).filter(Boolean).sort((a, b) => a.mucDo - b.mucDo);
+    const ds = soan.chon.map(id => CAU_THEO_ID[id]).filter(Boolean);   // giữ đúng thứ tự trong đề mẫu (câu thêm tay ở trên cùng)
     const cs = locChon.addCh || soan.chuong[0] || CHUONG.find(c => KHO_DE_CAU.some(q => q.chuong === c.id))?.id || "", dsD = dangCuaChuong(cs).filter(d => soCauDang(cs, d, 0, locChon.addLoai) > 0);
     if (locChon.addCh !== cs || !dsD.includes(locChon.addDang)) { locChon.addCh = cs; locChon.addDang = dsD[0] || ""; }
     v.innerHTML = `<a class="btn full" href="#/chon-dang">☑ Chọn nhiều dạng cùng lúc</a>
@@ -380,7 +383,7 @@ function veChonCau() {
         <div class="nut-hang"><span class="buoc"><button onclick="locChon.addN=Math.max(1,locChon.addN-1);veChonCau()">−</button><b>${locChon.addN}</b><button onclick="locChon.addN++;veChonCau()">+</button></span> câu
           <button class="btn" onclick="themTheoDang()">＋ Thêm ngẫu nhiên</button></div></details>
       <p class="ghi-chu">Đề mẫu (mã ${MA_DE[0]}): mỗi câu là một <b>dạng</b>. Dưới mỗi câu là <b>câu của các mã khác</b> (cùng dạng, khác câu): bấm dòng để xem đầy đủ, bấm 🎲 để đổi. Thứ tự câu mỗi mã sẽ xáo riêng khi sinh mã đề.</p>
-      ${lamToan(ds.length ? ds.map(c => theCauChon(c, true)).join("") : `<div class="trong">Chưa có câu nào. Bấm “✨ Gợi ý sẵn” ở bước 1 hoặc thêm theo dạng ở trên.</div>`)}`;
+      ${lamToan(ds.length ? ds.map((c, i) => theCauChon(c, true, i + 1)).join("") : `<div class="trong">Chưa có câu nào. Bấm “✨ Gợi ý sẵn” ở bước 1 hoặc thêm theo dạng ở trên.</div>`)}`;
     return;
   }
   const tu = boDau(locChon.tu).split(/\s+/).filter(Boolean);
@@ -487,7 +490,7 @@ function deXuatTheoKhung() {
 // Thêm vào đề mẫu: mỗi dạng bốc n câu ngẫu nhiên; theo mức độ đã đề xuất, còn lại ưu tiên mức độ đang thiếu so với khung
 function themCacDang() {
   const chon = Object.entries(chonDang).filter(([, n]) => n > 0); if (!chon.length) return;
-  const da = new Set(soan.chon); let them = 0, thieu = [];
+  const da = new Set(soan.chon), n0 = soan.chon.length; let them = 0, thieu = [];
   chon.forEach(([i, n]) => {
     const { ch, d } = dsDangHien[i];
     for (let k = 0; k < n; k++) {
@@ -499,6 +502,7 @@ function themCacDang() {
       da.add(pool[0].id); soan.chon.push(pool[0].id); them++;
     }
   });
+  soan.chon.unshift(...soan.chon.splice(n0));   // câu mới thêm hiện trên cùng
   boTichHetKhongVe(); luuSoan();
   if (thieu.length) alert(`Đã thêm ${them} câu. Dạng hết câu chưa dùng: ${[...new Set(thieu)].join("; ")}.`);
   locChon.tab = "de"; location.hash = "#/chon-cau";
