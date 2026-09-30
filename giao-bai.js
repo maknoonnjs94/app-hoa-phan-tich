@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v112";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v113";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -512,7 +512,7 @@ const duocVao = d => (!LA_MUC_GV(d) || laGVtk()) && (!CAN_KHO(d) || KHO_KHOA.mo)
 Object.keys(MAN_HINH).forEach(d => {
   if (!LA_MUC_GV(d) && d !== "/lam-bai" && d !== "/ket-qua") return;
   const m = MAN_HINH[d], veGoc = m.ve, sauGoc = m.sauKhiVe;
-  m.ve = () => duocVao(d) ? veGoc() : LA_MUC_GV(d) && !laGVtk() ? `<div class="trong">🔒 Mục này dành cho giáo viên.<br>Học sinh xem Lí thuyết và làm bài được giao.<br><br>
+  m.ve = () => (tk.dangTai || (fbAuth && !tk.san)) ? `<div class="trong">Đang kiểm tra đăng nhập…</div>` : duocVao(d) ? veGoc() : LA_MUC_GV(d) && !laGVtk() ? `<div class="trong">🔒 Mục này dành cho giáo viên.<br>Học sinh xem Lí thuyết và làm bài được giao.<br><br>
     <a class="btn" href="#/ly-thuyet">Xem lí thuyết</a> ${tk.user ? "" : `<a class="btn phu" href="#/tai-khoan">Đăng nhập</a>`}</div>` : oMoKho();
   if (sauGoc) m.sauKhiVe = () => { if (duocVao(d)) return sauGoc(); };
   if (m.lamBai) Object.defineProperty(m, "lamBai", { get: () => duocVao(d) });
@@ -531,7 +531,7 @@ MAN_HINH["/"].ve = () => laGVtk() ? veTrangChuGoc().replace(/<a href="#\/luyen-t
   .replace(/<a href="#\/tao-de" class="o-2">[\s\S]*?<\/a>/, `<a href="#/tra-cuu" class="o-2"><img src="anh/giao-dien/o-doc-tiep.webp" alt=""><b>Tra cứu</b></a>`)
   .replace(/<a href="#\/luyen-tap" class="o-3">[\s\S]*?<\/a>/, `<a href="${tk.user ? "#/bai-duoc-giao" : "#/tai-khoan"}" class="o-3"><img src="anh/giao-dien/o-tao-de.webp" alt=""><b>${tk.user ? "Bài được giao" : "Đăng nhập"}</b></a>`);
 const capNhatQuyen = () => document.body.classList.toggle("la-gv", laGVtk());
-if (fbAuth) fbAuth.onAuthStateChanged(() => { capNhatQuyen(); hienManHinh(); });
+if (fbAuth) { fbAuth.onAuthStateChanged(() => { capNhatQuyen(); hienManHinh(); }); window.addEventListener("tk-san", () => { capNhatQuyen(); hienManHinh(); }); }   // tk-san: hồ sơ đã tải xong → vẽ lại đúng theo vai trò
 capNhatQuyen();
 
 /* ---------- Lối vào: thẻ trong Tài khoản, huy hiệu ở trang chủ ---------- */
@@ -559,9 +559,6 @@ async function ganHuyHieuTrangChu() {
   canh.innerHTML = html;
 }
 window.addEventListener("hashchange", () => { if ((location.hash || "#/") === "#/" || location.hash === "") ganHuyHieuTrangChu(); });
-if (fbAuth) fbAuth.onAuthStateChanged(() => setTimeout(() => {
-  ganHuyHieuTrangChu(); kiemTraGiao();
-  if (["/giao-de", "/da-giao", "/bang-diem", "/bai-duoc-giao"].includes(location.hash.slice(1).split("?")[0])) hienManHinh();
-}, 800));
+if (fbAuth) window.addEventListener("tk-san", () => { ganHuyHieuTrangChu(); kiemTraGiao(); });
 kiemTraGiao();
 if (["/giao-de", "/da-giao", "/bang-diem", "/bai-duoc-giao"].includes(location.hash.slice(1).split("?")[0])) hienManHinh();

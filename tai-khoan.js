@@ -64,10 +64,11 @@ async function taiHoSo(user) {
   return snap.data();
 }
 if (fbAuth) fbAuth.onAuthStateChanged(async user => {
-  tk.user = user; tk.hoSo = null; tk.loi = "";
+  tk.user = user; tk.hoSo = null; tk.loi = ""; tk.dangTai = !!user;   // dangTai: đã đăng nhập nhưng hồ sơ (vai trò) chưa tải xong → các màn theo vai trò phải chờ, không được coi là học sinh
   if (user) { try { tk.hoSo = await taiHoSo(user); } catch (e) { console.warn(e); tk.loi = `${e.code || ""} ${e.message || ""}`.trim(); } }
-  tk.san = true;
+  tk.san = true; tk.dangTai = false;
   capNhatNutTk();
+  window.dispatchEvent(new Event("tk-san"));   // báo cho các màn phụ thuộc vai trò vẽ lại
   if (tk.hoSo?.khoa) { alert("Tài khoản đã bị khóa. Liên hệ quản trị viên."); fbAuth.signOut(); return; }
   if (canDoiMk()) location.hash = "#/doi-mat-khau";
   else if (["/tai-khoan", "/quan-tri"].includes(location.hash.slice(1).split("?")[0]) || location.hash === "#/doi-mat-khau") hienManHinh();
@@ -153,7 +154,7 @@ async function quenMk() {
 async function thuLaiHoSo() {
   tk.loi = "";
   try { tk.hoSo = await taiHoSo(tk.user); } catch (e) { tk.loi = `${e.code || ""} ${e.message || ""}`.trim(); }
-  capNhatNutTk(); if (canDoiMk()) location.hash = "#/doi-mat-khau"; else hienManHinh();
+  capNhatNutTk(); window.dispatchEvent(new Event("tk-san")); if (canDoiMk()) location.hash = "#/doi-mat-khau"; else hienManHinh();
 }
 function dangXuat() { fbAuth.signOut(); location.hash = "#/tai-khoan"; }
 
