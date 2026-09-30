@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v119";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v121";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -200,7 +200,7 @@ MAN_HINH["/bang-diem"] = {
           <td>${b ? `<a class="ten-anh lien-ket" href="#/bai-lam?de=${id}&uid=${u.uid}">` : `<span class="ten-anh">`}${anhDaiDien(u, 28)}<span>${hoa(u.hoTen)}<small>${hoa(u.maHS || "")}${u.nganh ? " · " + hoa(u.nganh) : ""}${b?.maDe ? " · mã " + hoa(b.maDe) : ""}</small></span>${b ? "</a>" : "</span>"}</td>
           <td>${b?.daNop || (b && quaHan) ? `<b>${diemVN(diem)}</b><small>${dung}/${b.cau.length}${b.diemSua != null ? " · đã sửa" : ""}</small>` : "–"}</td>
           <td>${b ? `${b.roi?.length || 0} lần<small>${b.roi?.length ? b.roi.reduce((t, r) => t + r.giay, 0) + " giây" : ""}</small>` : "–"}</td>
-          <td>${!b ? "Chưa làm" : b.daNop ? `Nộp ${gioVN(b.nopLuc)}${LY_DO[b.lyDo] ? `<small>${LY_DO[b.lyDo]}</small>` : ""}` : quaHan ? "Hết hạn, chưa bấm nộp<small>chấm theo bài đã làm</small>" : "Đang làm"}</td></tr>
+          <td>${!b ? "Chưa làm" : b.daNop ? `Nộp ${gioVN(b.nopLuc)}${LY_DO[b.lyDo] ? `<small>${LY_DO[b.lyDo]}</small>` : ""}${!quaHan && d.loai !== "bai-tap" && (b.lyDo === "roi-app" || b.lyDo === "gv-thu") ? `<button class="btn nho phu" onclick="moKhoaBai('${id}','${u.uid}')">🔓 Mở khóa</button>` : ""}` : quaHan ? "Hết hạn, chưa bấm nộp<small>chấm theo bài đã làm</small>" : "Đang làm"}</td></tr>
           ${b?.roi?.length ? `<tr class="nhat-ki-roi"><td colspan="4">${b.roi.map(moTaRoi).join("<br>")}</td></tr>` : ""}`).join("")}
         </tbody></table></div>`;
     } catch (e) { v.innerHTML = `<div class="trong">${loiTk(e)}</div>`; }
@@ -431,14 +431,17 @@ function moAmThanh() {   // tạo / đánh thức bộ phát âm thanh (gọi s�
   if (amThanh.state === "suspended") amThanh.resume?.();
   return amThanh;
 }
-function tiengBao() {
+let dangKeu = false;
+function tiengBao() {   // đúng 3 tiếng "ting" rồi ngắt; đang kêu thì bỏ qua lệnh kêu mới (không chồng, không kêu mãi)
+  if (dangKeu) return;
   try {
-    moAmThanh();
-    [0, .17, .34].forEach(t => { const o = amThanh.createOscillator(), g = amThanh.createGain(), T = amThanh.currentTime + t; o.type = "sine"; o.frequency.value = 1320;   // 3 tiếng "ting" ngắn
+    const A = moAmThanh(); dangKeu = true; setTimeout(() => (dangKeu = false), 1200);
+    const phat = () => [0, .17, .34].forEach(t => { const o = A.createOscillator(), g = A.createGain(), T = A.currentTime + t; o.type = "sine"; o.frequency.value = 1320;
       g.gain.setValueAtTime(.0001, T); g.gain.exponentialRampToValueAtTime(.5, T + .008); g.gain.exponentialRampToValueAtTime(.0001, T + .15);
-      o.connect(g); g.connect(amThanh.destination); o.start(T); o.stop(T + .18); });
+      o.connect(g); g.connect(A.destination); o.start(T); o.stop(T + .18); });
+    if (A.state === "running") phat(); else A.resume().then(phat).catch(() => {});   // chưa mở khóa thì đợi mở xong mới phát, không dồn nhiều lượt
     navigator.vibrate?.([120, 60, 120, 60, 120]);
-  } catch {}
+  } catch { dangKeu = false; }
 }
 // Mở khóa âm thanh của trình duyệt bằng lần chạm đầu tiên của giáo viên
 ["pointerdown", "keydown", "touchstart"].forEach(ev => document.addEventListener(ev, () => { if (laGVtk()) { try { moAmThanh(); } catch {} } }, { passive: true }));
@@ -447,7 +450,11 @@ function tiengBao() {
    Nghe baiNop của các bài đang mở (mọi màn hình). Có em vừa rời app (dangRoi) hoặc thêm một lần vi phạm (roi):
    kêu "ting ting" và hiện tên em ngay trên đầu màn hình. */
 let huyCanhBaoGV = [], hienDeGV = [], nhoCanhBao = {};
+const lucBaoCuoi = {};
 function hienCanhBaoGV(u, b, de, kieu) {
+  const kh = b.deGiaoId + "_" + b.uid;
+  if (kieu !== "tu-nop" && Date.now() - (lucBaoCuoi[kh] || 0) < 10000) return;   // một em: tối đa một cảnh báo mỗi 10 giây
+  lucBaoCuoi[kh] = Date.now();
   tiengBao();   // kêu ngay lập tức, rồi mới dựng khung cảnh báo
   let kho = document.getElementById("canh-bao-gv");
   if (!kho) { kho = document.createElement("div"); kho.id = "canh-bao-gv"; document.body.append(kho); }
@@ -456,8 +463,9 @@ function hienCanhBaoGV(u, b, de, kieu) {
   const tt = kieu === "tu-nop" ? `bị tự nộp vì rời app quá ${phai} lần` : kieu === "dang" ? `vừa rời app (đang ở ngoài)` : `vừa quay lại · vi phạm lần ${n}/${phai}`;
   const o = document.createElement("div"); o.className = "cb-gv";
   o.innerHTML = `<div><b>⚠️ ${hoa(b.hoTen || "Học sinh")}</b> <small>${hoa(b.maHS || "")}</small><br><span>${tt} · ${hoa(de.ten)} · ${gioVN(Date.now()).split(" ")[0]}${kieu === "dang" && tre > 3 ? ` · tin đến trễ ${tre} giây` : ""}</span></div>
-    <a class="btn nho" href="#/theo-doi?id=${b.deGiaoId}">Xem</a><button class="btn nho phu" aria-label="Đóng">✕</button>`;
-  o.querySelector("button").onclick = () => o.remove();
+    <a class="btn nho" href="#/theo-doi?id=${b.deGiaoId}">Xem</a>${kieu === "tu-nop" ? `<button class="btn nho phu" data-mk="1">🔓 Mở khóa</button>` : ""}<button class="btn nho phu" data-dong="1" aria-label="Đóng">✕</button>`;
+  o.querySelector("[data-dong]").onclick = () => o.remove();
+  const mk = o.querySelector("[data-mk]"); if (mk) mk.onclick = () => { moKhoaBai(b.deGiaoId, b.uid); o.remove(); };
   kho.prepend(o); while (kho.children.length > 5) kho.lastChild.remove();
   setTimeout(() => o.remove(), 25000);
 }
@@ -521,7 +529,7 @@ MAN_HINH["/theo-doi"] = {
               <small>${!b ? "Chưa vào bài" : b.daNop ? `✅ Đã nộp · ${diemVN(chamBai(b).diem)} điểm` : `✍️ Đang làm ${b.chon.filter(x => x !== null).length}/${b.cau.length} câu ${ketNoi}`}</small>
               ${b && !b.daNop && b.dangRoi ? `<small class="vp">🚨 Đang ở ngoài app từ ${gioVN(b.dangRoi.luc).split(" ")[0]}</small>` : ""}
               ${n ? `<small class="vp">⚠️ ${n} lần vi phạm · gần nhất: ${moTaRoi(cuoi)}</small>` : ""}</div>
-            ${b && !b.daNop ? `<button class="btn phu" onclick="thuBai('${id}','${u.uid}')">Thu bài</button>` : ""}</div>`;
+            ${b && !b.daNop ? `<button class="btn phu" onclick="thuBai('${id}','${u.uid}')">Thu bài</button>` : b?.daNop && (b.lyDo === "roi-app" || b.lyDo === "gv-thu") ? `<button class="btn phu" onclick="moKhoaBai('${id}','${u.uid}')">🔓 Mở khóa</button>` : ""}</div>`;
         }).join("");
         vung.innerHTML = `<div class="the-trang"><b>${hoa(d.ten)}</b> · Lớp ${hoa(d.lopTen || d.lop)}
           <p class="ghi-chu">Đóng đề: ${gioVN(d.dongLuc)} · Đang làm ${dem.lam} · Đã nộp ${dem.nop}/${hs.length} · Có vi phạm ${dem.vp}</p>
@@ -532,6 +540,26 @@ MAN_HINH["/theo-doi"] = {
   },
 };
 window.addEventListener("hashchange", () => { if (!location.hash.startsWith("#/theo-doi")) { huyTheoDoi?.(); huyTheoDoi = null; } });
+// Bài bị khóa (tự nộp vì rời app) hoặc đã thu: GV cân nhắc mức độ vi phạm, nếu chưa nghiêm trọng thì mở khóa cho em làm tiếp / làm lại
+async function moKhoaBai(idDe, uid) {
+  try {
+    const [sd, sb] = await Promise.all([fbDb.collection("deGiao").doc(idDe).get(), fbDb.collection("baiNop").doc(`${idDe}_${uid}`).get()]);
+    const d = sd.data(), b = sb.data(); if (!d || !b) return alert("Không tìm thấy bài.");
+    if (!b.daNop) return alert("Bài này chưa bị khóa.");
+    if (Date.now() > d.dongLuc) return alert("Đề đã quá giờ đóng. Gia hạn giờ đóng trước (Bảng điểm → Giờ đóng bài) rồi mở khóa.");
+    const vp = b.roi?.length || 0, nam = LY_DO_KHOA[b.lyDo] || "đã nộp";
+    const k = prompt(`Mở khóa cho ${b.hoTen || "học sinh"}?\n(Bài ${nam}; em đã rời app ${vp} lần)\n\n1 = Làm tiếp: giữ các câu đã chọn, tính tiếp thời gian còn lại\n2 = Làm lại từ đầu: xóa bài đã làm, tính giờ mới\n\nSố lần rời app được tính lại từ 0; lịch sử vi phạm vẫn được lưu.`, "1");
+    if (k !== "1" && k !== "2") return;
+    const xoa = firebase.firestore.FieldValue.delete(), lamLai = k === "2", bg = Date.now();
+    const cap = { daNop: false, lyDo: xoa, nopLuc: xoa, diemChot: xoa, dung: xoa, dangRoi: null, roi: [], roiCu: [...(b.roiCu || []), ...(b.roi || [])], phien: xoa, capNhat: 0,
+      lanNop: Math.max(0, (b.lanNop || 1) - 1), moKhoa: [...(b.moKhoa || []), { luc: bg, kieu: lamLai ? "lam-lai" : "lam-tiep", boi: tk.user.uid }],
+      batDau: lamLai ? bg : Math.max(0, bg - ((b.nopLuc || bg) - (b.batDau || bg))) };
+    if (lamLai) cap.chon = (b.cau || []).map(() => null);
+    await fbDb.collection("baiNop").doc(`${idDe}_${uid}`).update(cap);
+    alert(`Đã mở khóa. ${b.hoTen || "Em"} vào mục Bài được giao để ${lamLai ? "làm lại" : "làm tiếp"}.`); if (location.hash.startsWith("#/bang-diem")) hienManHinh();
+  } catch (e) { alert(loiTk(e)); }
+}
+const LY_DO_KHOA = { "roi-app": "bị tự nộp vì rời app quá số lần", "gv-thu": "do giáo viên thu", "het-gio": "hết giờ" };
 async function thuBai(idDe, uid) {
   if (!confirm("Thu bài của học sinh này ngay? Bài được chấm theo những câu em đã làm.")) return;
   try { await fbDb.collection("baiNop").doc(`${idDe}_${uid}`).update({ daNop: true, nopLuc: Date.now(), lyDo: "gv-thu" }); }
@@ -557,15 +585,18 @@ let roiLuc = 0, roiLoai = "";
 const LOAI_ROI = { "roi-app": "Rời app / về màn hình chính / khóa máy", "mat-tieu-diem": "Bấm ra ngoài (chia màn hình, thông báo, bong bóng chat)",
   "toan-man-hinh": "Thoát toàn màn hình", "mo-lai": "Tắt app rồi mở lại" };
 const moTaRoi = r => `${gioVN(r.luc).split(" ")[0]} · ${LOAI_ROI[r.loai] || "Rời bài làm"} · ${r.giay} giây`;
+let hen_roi = 0;
 function batDauRoi(loai = "mat-tieu-diem") {
   if (!giamSat()) return;
   if (!roiLuc) {
     roiLuc = Date.now(); roiLoai = loai;
     // báo ngay lên máy chủ để giáo viên thấy tức thời (không đợi em quay lại)
-    try { if (fbDb && tk.user && baiLam?.giao?.id) refBai(baiLam.giao.id).update({ dangRoi: { luc: roiLuc, loai } }).catch(() => {}); } catch {}
+    clearTimeout(hen_roi);
+    hen_roi = setTimeout(() => { try { if (roiLuc && fbDb && tk.user && baiLam?.giao?.id) refBai(baiLam.giao.id).update({ dangRoi: { luc: roiLuc, loai: roiLoai } }).catch(() => {}); } catch {} }, 1200);
   } else if (loai === "roi-app" && roiLoai === "mat-tieu-diem") roiLoai = loai;
 }
 function ketThucRoi() {
+  clearTimeout(hen_roi);
   if (!roiLuc || !giamSat()) { roiLuc = 0; return; }
   const giay = Math.round((Date.now() - roiLuc) / 1000); roiLuc = 0;
   if (giay < 1) return;
