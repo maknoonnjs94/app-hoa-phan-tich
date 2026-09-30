@@ -1146,3 +1146,5 @@ h2 .lien-ket.nho { font-size: 13px; font-weight: 600; margin-left: 8px; }
 .tc-lop .text { flex: 1; min-width: 0; } .tc-lop small { display: block; font-size: 11px; opacity: .8; text-transform: uppercase; letter-spacing: .08em; }
 .tc-lop b { display: block; font-size: 22px; line-height: 1.2; } .tc-lop em { display: block; font-style: normal; font-size: 12.5px; opacity: .9; margin-top: 2px; }
 .tc-lop .mui { font-size: 30px; opacity: .8; } .tc-lop:active { transform: scale(.97); }
+.pr-nha-phat-trien { text-align: center; font-size: 13px; line-height: 1.5; margin: 14px 0 6px; padding: 10px 12px; border-radius: 12px; background: color-mix(in srgb, var(--mau-chinh) 8%, transparent); }
+.pr-nha-phat-trien a { font-weight: 700; color: var(--mau-chinh); text-decoration: none; }
