@@ -1,11 +1,17 @@
-# Đặt ảnh ChatGPT vẽ – Bản 2 (anime "trendy", đồng bộ, hết vẻ giả trân)
+# Đặt ảnh ChatGPT vẽ – Bản 2 (3D chibi kiểu đồ chơi, có chiều sâu, đồng bộ)
 
 ## 0. Vì sao ảnh cũ nhìn giả và lệch nhau
 - Mỗi ảnh vẽ ở một lần chat khác nhau, nên mỗi ảnh một phong cách (chỗ 3D bóng, chỗ ảnh chụp, chỗ tranh vẽ).
 - Ảnh có quá nhiều chi tiết, bóng đổ, hiệu ứng phát sáng → thấy "AI".
 - Icon (emoji) trộn với ảnh minh họa nên không ăn nhập.
 
-**Cách sửa:** chọn MỘT phong cách phẳng (kiểu anime nhãn dán / "cel-shading"), khóa bảng màu, luôn đính kèm ảnh chuẩn khi đặt ảnh mới, và vẽ theo **bảng nhiều hình trong 1 ảnh** (ChatGPT giữ đồng bộ tốt hơn). Phần nút, thẻ, chữ, thanh menu do app tự dựng bằng mã, ChatGPT chỉ vẽ **minh họa và icon**.
+**Cách sửa:** chọn MỘT phong cách **3D cách điệu kiểu đồ chơi đất sét/nhựa mờ** (không phải 3D chân thực; 3D chân thực mới bị "giả trân"), khóa bảng màu, luôn đính kèm ảnh chuẩn khi đặt ảnh mới, và vẽ theo **bảng nhiều hình trong 1 ảnh** (ChatGPT giữ đồng bộ tốt hơn). Phần nút, thẻ, chữ, thanh menu do app tự dựng bằng mã, ChatGPT chỉ vẽ **minh họa và icon**.
+
+---
+
+## 0b. Phẳng hay 3D?
+- **3D đồ chơi (bản này):** bắt mắt, có chiều sâu, hợp Gen Z; rủi ro là ChatGPT dễ trượt sang 3D bóng bẩy chân thực. Đã khóa bằng câu "nhựa mờ, không bóng gương" và luôn đính kèm ảnh chuẩn.
+- **Phẳng anime:** đồng bộ dễ hơn, nhẹ hơn, nhưng ít chiều sâu. Nếu 3D vẽ lệch nhiều lần, hãy quay lại phẳng.
 
 ---
 
@@ -27,19 +33,20 @@
 Bạn là họa sĩ minh họa cho một ứng dụng học Hóa phân tích trên điện thoại, dành cho sinh viên đại học (18–22 tuổi). Tôi muốn giao diện thời thượng, trẻ trung, vui, không gò bó.
 
 PHONG CÁCH DUY NHẤT (áp dụng mọi ảnh):
-- Anime phẳng dạng "nhãn dán" (sticker / cel-shading): nét viền đồng đều dày vừa, màu tô phẳng, chỉ có 2 tầng bóng (một tầng bóng tối, một điểm sáng). KHÔNG 3D, KHÔNG ảnh chụp, KHÔNG vật liệu bóng kính, KHÔNG hiệu ứng phát sáng (glow), KHÔNG chuyển màu phức tạp, KHÔNG texture.
-- Nhân vật chibi dễ thương, đầu to, tỉ lệ khoảng 3 đầu, mắt to kiểu anime, bàn tay đơn giản (ngón tay gộp, tối đa 4 ngón), không chi tiết da.
-- Đồ vật (buret, bình nón, pipet, cân, điện cực…) vẽ ĐÚNG hình dạng thật nhưng đơn giản hóa như tranh vẽ tay, cùng độ dày nét với nhân vật.
+- 3D cách điệu kiểu đồ chơi "blind box" / hoạt hình 3D dễ thương: chất liệu nhựa mờ hoặc đất sét mềm (matte), bề mặt mịn, bo tròn mọi cạnh, KHÔNG bóng gương, KHÔNG kim loại thật, KHÔNG da người thật, KHÔNG ảnh chụp.
+- Ánh sáng mềm, một nguồn sáng chính từ trên-trái, bóng đổ nhẹ mịn dưới chân, viền sáng nhẹ (rim light) tạo chiều sâu. Độ sâu trường ảnh nhẹ ở nền (mờ nhẹ xa). Không hiệu ứng glow quá đà, không lens flare, không hạt nhiễu.
+- Nhân vật chibi đầu to (khoảng 3 đầu), mắt to kiểu anime, má hồng, bàn tay đơn giản như đồ chơi, tóc thành mảng khối lớn (không sợi tóc chi tiết).
+- Đồ vật (buret, bình nón, pipet, cân, điện cực…) đúng hình dạng thật nhưng dày dặn, bo tròn, như mô hình đồ chơi; chất lỏng dạng thạch trong mờ, đơn giản.
 - Bảng màu cố định (chỉ dùng các màu này và dạng nhạt/đậm của chúng):
   • Tím chàm #6D5EF6 (màu chủ đạo)   • Hồng đào #FF6FA8 (nhấn)
   • Xanh ngọc #22D3B6 (dung dịch, thành công)   • Vàng kem #FFD65A (điểm sáng, sao)
   • Xanh navy #1B1A47 (nền tối, nét viền)   • Trắng kem #FFF8F0 (nền sáng)
   • Cam san hô #FF8A5B (cảnh báo nhẹ)
-- Nét viền màu navy #1B1A47 (không dùng viền đen tuyền).
+- Không dùng nét viền đen; đường biên do khối và bóng tạo ra. Các màu chỉ ở dạng nhạt/đậm của bảng màu, không thêm màu lạ.
 - Không có chữ, số, logo thương hiệu, watermark trong ảnh (app tự chèn chữ).
 - Đúng an toàn phòng thí nghiệm: áo blouse, kính bảo hộ.
 
-Bước 1: vẽ MỘT "bảng phong cách" (ảnh ngang 1536×1024, nền trắng kem) gồm: (a) mascot, (b) 3 đồ dụng cụ (buret, bình nón, pipet), (c) 4 icon nhỏ (sách, bút chì, máy tính, ngôi nhà), (d) bảng 7 ô màu đúng mã trên.
+Bước 1: vẽ MỘT "bảng phong cách" (ảnh ngang 1536×1024, nền trắng kem) gồm: (a) mascot, (b) 3 đồ dụng cụ (buret, bình nón, pipet), (c) 4 icon nhỏ (sách, bút chì, máy tính, ngôi nhà), (d) bảng 7 ô màu đúng mã trên. Tất cả cùng chất liệu và cùng kiểu ánh sáng.
 
 Mascot "Chuẩn": robot nhỏ tròn trịa hình bình nón, bụng trong suốt chứa dung dịch hồng đào (như phenolphtalein), nắp đầu tím chàm, 2 mắt LED to xanh ngọc, má hồng, tay chân ngắn, có ăng-ten nhỏ hình giọt nước.
 ```
@@ -62,9 +69,9 @@ Từ giờ mọi ảnh có người phải giữ ĐÚNG ngoại hình các nhân
 ```
 Quy định xuất ảnh:
 - Vẽ dạng BẢNG LƯỚI: các hình đặt đều trong lưới (nêu ở từng đợt), mỗi hình nằm gọn trong ô, cách nhau ít nhất 8% bề rộng ô, KHÔNG chạm nhau, KHÔNG chồng nhau.
-- Nền của bảng là MỘT MÀU PHẲNG #FF00FF (hồng magenta), không bóng đổ trên nền, không viền trắng quanh hình. (Tôi sẽ tách nền tự động, không cần PNG trong suốt.)
+- Nền của bảng là MỘT MÀU PHẲNG #FF00FF (hồng magenta), không có bóng đổ lên nền (bóng chỉ nằm sát dưới chân từng hình, màu tối trong suốt nhẹ), không viền trắng quanh hình. (Tôi sẽ tách nền tự động, không cần PNG trong suốt.)
 - Riêng ảnh nền/phong cảnh (không phải bảng): nền đầy đủ, không trong suốt, kích thước như đã nêu; chừa 22% phía trên và 20% phía dưới bằng trời/mặt đất đơn giản vì app đặt thanh tiêu đề và menu lên đó.
-- Icon: hình gọn, nhìn rõ khi thu còn 48 px: ít chi tiết, nét viền dày, 1 vật chủ đạo mỗi icon.
+- Icon: khối 3D bo tròn, nhìn rõ khi thu còn 48 px: ít chi tiết, 1 vật chủ đạo mỗi icon, cùng góc nhìn (nghiêng nhẹ từ trên xuống).
 - Không chữ, số, watermark.
 - Ghi số thứ tự ô 1,2,3… trong LỜI trả lời của bạn (không vẽ số lên ảnh) kèm tên file tôi đặt.
 ```
@@ -95,7 +102,7 @@ File: `nhan-vat-6.png`.
 Thêm 1 ảnh ngang 1536×1024 `nhom-chao.png`: 2 SV + 1 GV + mascot đứng cạnh nhau, vẫy tay, nền magenta phẳng (màn đăng nhập/chào mừng).
 
 ### Đợt D – 5 "thế giới" bìa nhóm chương (ảnh phong cảnh, KHÔNG dùng bảng)
-Mỗi thế giới là một đảo nổi trên mây, cùng bảng màu, kiểu tranh anime phẳng. Mỗi cái 1 ảnh dọc 1024×1536 (chừa 22% trên, 20% dưới) và 1 ảnh ngang 1536×1024:
+Mỗi thế giới là một đảo nổi trên mây, cùng bảng màu, kiểu diorama 3D đồ chơi có chiều sâu. Mỗi cái 1 ảnh dọc 1024×1536 (chừa 22% trên, 20% dưới) và 1 ảnh ngang 1536×1024:
 | File | Nhóm chương | Cảnh |
 |---|---|---|
 | `the-gioi-dai-cuong` | Mở đầu, Đo lường, Thống kê | Cân phân tích khổng lồ, bình định mức, đồi hình đường cong chuông |
@@ -118,7 +125,7 @@ Mỗi thế giới là một đảo nổi trên mây, cùng bảng màu, kiểu 
 Sau khi có bảng phong cách, gửi thêm câu này để Claude biết bố cục bạn thích:
 
 ```
-Vẽ 3 mockup màn hình điện thoại (mỗi màn 1080×2340, xếp cạnh nhau thành 1 ảnh ngang) cho app học Hóa phân tích, đúng phong cách và bảng màu ảnh chuẩn, giao diện thời thượng cho Gen Z:
+Vẽ 3 mockup màn hình điện thoại (mỗi màn 1080×2340, xếp cạnh nhau thành 1 ảnh ngang) cho app học Hóa phân tích, đúng phong cách 3D đồ chơi và bảng màu ảnh chuẩn, giao diện thời thượng cho Gen Z:
 (1) Trang chủ: lời chào + mascot, thẻ "Tiếp tục học", lưới 6 thẻ chức năng bo góc lớn, thanh menu dưới 5 mục.
 (2) Màn danh sách 15 chương: mỗi chương là một thẻ có icon riêng, thanh tiến độ.
 (3) Màn làm bài trắc nghiệm: câu hỏi, 4 phương án dạng nút bo tròn, thanh tiến độ, đồng hồ, mascot nhỏ ở góc.
@@ -129,7 +136,7 @@ Dùng chữ tiếng Việt giả lập để thấy bố cục (được phép c
 ---
 
 ## 6. Gợi ý từ phía Claude (sau khi có ảnh)
-- Đổi màu chủ đạo app sang tím chàm + hồng đào + xanh ngọc, bo góc lớn hơn, thẻ có nét viền mềm giống nhãn dán.
+- Đổi màu chủ đạo app sang tím chàm + hồng đào + xanh ngọc, bo góc lớn hơn, thẻ nổi nhẹ (đổ bóng mềm) cho ăn với ảnh 3D.
 - Thay emoji bằng icon vẽ; thêm mascot ở màn trống, kết quả, làm bài.
 - Chế độ tối (navy) và sáng (kem) dùng cùng bộ ảnh.
 - Giữ app nhẹ: ảnh nén WebP, tổng thêm khoảng 1–1,5 MB, chạy được khi mất mạng.
