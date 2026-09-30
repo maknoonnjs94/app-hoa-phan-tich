@@ -45,3 +45,5 @@ PWA tĩnh (HTML/CSS/JS), chạy trên GitHub Pages từ nhánh `main`: https://m
 ## Quy tắc mới khi soạn/sửa câu (SV bị khóa, không tra cứu)
 - Mọi hằng số/M/E°/pKa/Ksp/lg K dùng để giải phải ghi trong đề. Thông tin chỉ thị (khoảng đổi màu, màu hai dạng, E° chỉ thị…) đặt trong trường `bang` (HTML `<table>`, số liệu theo `TRA_CUU`); app hiện nút “📋 Bảng thông tin” bấm mới mở, luôn hiện khi in.
 - Câu tính pH/pM/thế theo thể tích đã thêm: KHÔNG ghi giai đoạn (trước/tại/sau điểm tương đương); chỉ nêu thể tích.
+- Bảng thông tin (`bang`) chỉ dùng cho bài CHỌN chỉ thị: axit–bazơ (chọn theo pH tương đương / bước nhảy, bảng có khoảng đổi màu), chỉ thị kim loại EDTA, và oxi hóa – khử (chọn 1 chỉ thị trong bảng có E° chỉ thị phù hợp với E<sub>tđ</sub>). Câu chỉ hỏi màu / hiện tượng của tự chỉ thị (KMnO₄, tinh bột…) thì HS phải nhớ, không kèm bảng.
+- Phương pháp Mohr, Volhard, Fajans: HS phải nhớ (ít nội dung), KHÔNG kèm bảng ở bất kì câu nào.
