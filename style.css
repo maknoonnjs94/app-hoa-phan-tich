@@ -1159,3 +1159,5 @@ h2 .lien-ket.nho { font-size: 13px; font-weight: 600; margin-left: 8px; }
 .dong-nk b{font-size:.92rem}.dong-nk small{display:block;color:var(--chu-phu);line-height:1.35}.dong-nk .nk-gio{display:inline;margin-left:6px}
 
 .nhan-cau .stt-cau{background:var(--mau-chinh);color:#fff;font-weight:700}
+
+.ten-dang .da-pick{color:var(--mau-chinh);font-size:.78rem;font-weight:600}

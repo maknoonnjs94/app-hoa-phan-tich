@@ -302,11 +302,11 @@ function khoiBienThe(c) {
 }
 function theCauChon(c, trongDe, stt) {
   const da = soan.chon.includes(c.id), cum = c.chum ? KHO_DE_CAU.filter(x => x.chum === c.chum) : null;
-  const nDang = soCauDang(c.chuong, c.dang), thay = locChon.thay && !da;
+  const daDangC = (daTheoDangMap()[c.chuong + "|" + c.dang] || 0), nDang = soCauDang(c.chuong, c.dang), thay = locChon.thay && !da;
   const canhBao = trongDe && !c.chum && nDang < (cauHinhDe.soMa || 1) ? `<small class="loi-tk">⚠️ Dạng này chỉ có ${nDang} câu — chỉ đủ ${nDang} mã khác nhau, các mã sau sẽ phải dùng lại câu.</small>` : "";
   return `<div class="the-trang cau-chon ${da ? "da-chon" : ""}">
     <div class="nhan-cau">${stt ? `<span class="stt-cau">Câu ${stt}</span>` : ""}<span>${c.id}</span><span class="muc-${c.mucDo}">${MUC_DO[c.mucDo]}</span><span class="loai-${c.loai}">${TEN_LOAI[c.loai]}</span><span>${tenChuong(c.chuong)}</span>${cum ? `<span>Chùm ${cum.length} câu</span>` : ""}</div>
-    <div class="ten-dang">${tenDang(c.dang)}${trongDe && !c.chum ? ` <small>· kho có ${nDang} câu dạng này</small>` : ""}</div>${canhBao}
+    <div class="ten-dang">${tenDang(c.dang)}${trongDe && !c.chum ? ` <small>· kho có ${nDang} câu dạng này</small>` : ""}${daDangC ? ` <b class="da-pick">· đã chọn ${daDangC} câu dạng này trong đề</b>` : ""}</div>${canhBao}
     ${c.dan ? `<div class="de-dan">${c.dan}</div>` : ""}<div class="de-cau">${c.de}</div>${bangTin(c)}
     <ol class="pa-de" type="A">${c.phuongAn.map((p, j) => `<li class="${locChon.dapAn && CHU[j] === c.dapAn ? "dung" : ""}"><span class="chu">${CHU[j]}.</span> ${p}</li>`).join("")}</ol>
     ${trongDe ? `<div class="nut-hang">
@@ -373,13 +373,14 @@ function veChonCau() {
   if (locChon.tab === "de") {
     capNhatBienThe();
     const ds = soan.chon.map(id => CAU_THEO_ID[id]).filter(Boolean);   // giữ đúng thứ tự trong đề mẫu (câu thêm tay ở trên cùng)
+    const daDangTd = daTheoDangMap();
     const cs = locChon.addCh || soan.chuong[0] || CHUONG.find(c => KHO_DE_CAU.some(q => q.chuong === c.id))?.id || "", dsD = dangCuaChuong(cs).filter(d => soCauDang(cs, d, 0, locChon.addLoai) > 0);
     if (locChon.addCh !== cs || !dsD.includes(locChon.addDang)) { locChon.addCh = cs; locChon.addDang = dsD[0] || ""; }
     v.innerHTML = `<a class="btn full" href="#/chon-dang">☑ Chọn nhiều dạng cùng lúc</a>
       <details class="the-trang them-dang" ${ds.length && !locChon.moThem ? "" : "open"} ontoggle="if(this.open!==!!locChon.moThem)locChon.moThem=this.open"><summary><b>＋ Thêm câu theo dạng</b> <small>(app tự bốc ngẫu nhiên trong dạng)</small></summary>
         <div class="hang-loc-3 hai-cot"><select onchange="locChon.addCh=this.value;locChon.addDang='';veChonCau()" aria-label="Chương">${CHUONG.filter(c => cauNguon().some(q => q.chuong === c.id)).map(c => `<option value="${c.id}" ${cs === c.id ? "selected" : ""}>${TEN_NGAN[c.id] || c.ten}</option>`).join("")}</select>
           <select onchange="locChon.addLoai=this.value;locChon.addDang='';veChonCau()" aria-label="Loại câu"><option value="">Mọi loại</option><option value="lt" ${locChon.addLoai === "lt" ? "selected" : ""}>Lí thuyết</option><option value="tt" ${locChon.addLoai === "tt" ? "selected" : ""}>Tính toán</option></select>
-          <select onchange="locChon.addDang=this.value" aria-label="Dạng">${dsD.map(d => `<option value="${coDau(d)}" ${locChon.addDang === d ? "selected" : ""}>${coDau(tenDang(d))} (${soCauDang(cs, d, 0, locChon.addLoai)})</option>`).join("")}</select></div>
+          <select onchange="locChon.addDang=this.value" aria-label="Dạng">${dsD.map(d => `<option value="${coDau(d)}" ${locChon.addDang === d ? "selected" : ""}>${coDau(tenDang(d))} (kho ${soCauDang(cs, d, 0, locChon.addLoai)}${daDangTd[cs + "|" + d] ? ` · đã chọn ${daDangTd[cs + "|" + d]}` : ""})</option>`).join("")}</select></div>
         <div class="nut-hang"><span class="buoc"><button onclick="locChon.addN=Math.max(1,locChon.addN-1);veChonCau()">−</button><b>${locChon.addN}</b><button onclick="locChon.addN++;veChonCau()">+</button></span> câu
           <button class="btn" onclick="themTheoDang()">＋ Thêm ngẫu nhiên</button></div></details>
       <p class="ghi-chu">Đề mẫu (mã ${MA_DE[0]}): mỗi câu là một <b>dạng</b>. Dưới mỗi câu là <b>câu của các mã khác</b> (cùng dạng, khác câu): bấm dòng để xem đầy đủ, bấm 🎲 để đổi. Thứ tự câu mỗi mã sẽ xáo riêng khi sinh mã đề.</p>
