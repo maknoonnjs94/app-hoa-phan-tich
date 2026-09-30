@@ -113,6 +113,12 @@ const theDocTiep = () => {
   </a>`;
 };
 
+// Ô chức năng trang chủ: [đường dẫn, ảnh 3D (anh/3d/*.webp), tên, mô tả ngắn]; giao-bai.js đổi theo vai trò
+function oTrangChu() {
+  return [["#/ly-thuyet", "ly-thuyet", "Lí thuyết", "15 chương"], ["#/tra-cuu", "tra-cuu", "Tra cứu", "Bảng hằng số"],
+    ["#/cong-cu", "may-tinh", "Máy tính", "Tính nhanh"], ["#/tai-khoan", "tai-khoan", "Đăng nhập", "Tài khoản"],
+    ["#/gop-y", "gop-y", "Góp ý", "Ý tưởng mới"], ["#/bao-loi", "bao-loi", "Báo lỗi", "Đã ghi"]];
+}
 // Thẻ "Đọc tiếp" lớn ở trang chủ (chưa đọc gì thì mời bắt đầu chương 1)
 const theDocTiepTrangChu = () => {
   const g = docGanNhat();
@@ -120,7 +126,7 @@ const theDocTiepTrangChu = () => {
   const link = g && g.id === c.id ? `#/ly-thuyet/${c.id}?muc=${g.muc}` : `#/ly-thuyet/${c.id}`;
   return `
   <a class="tc-doc" href="${link}">
-    <img src="anh/giao-dien/o-doc-tiep.webp" alt="">
+    <span class="tc-doc-icon">${c.icon}</span>
     <span class="text"><small>${g ? "Đọc tiếp" : "Bắt đầu học"}</small><b>${c.ten}</b>
       <span class="thanh"><i style="width:${tienDo(c.id)}%"></i></span></span>
     <span class="nut">›</span>
@@ -221,22 +227,22 @@ const MAN_HINH = {
   "/": {
     tieuDe: "Hóa phân tích",
     ve: () => {
-      const daDoc = CHUONG.filter(c => tienDo(c.id) >= 90).length;
+      const daDoc = CHUONG.filter(c => tienDo(c.id) >= 90).length, gio = new Date().getHours();
+      const chao = gio < 11 ? "Chào buổi sáng" : gio < 14 ? "Chào buổi trưa" : gio < 18 ? "Chào buổi chiều" : "Chào buổi tối";
+      const ten = (typeof tk !== "undefined" && tk.hoSo?.hoTen) ? tk.hoSo.hoTen.trim().split(/\s+/).pop() : "";
       return `
-      <section class="tc">
-        <div class="tc-canh"></div>
-        ${theDocTiepTrangChu()}
-        <div class="tc-o">
-          <a href="#/ly-thuyet" class="o-1"><img src="anh/giao-dien/o-ly-thuyet.webp" alt=""><b>Lý thuyết</b></a>
-          <a href="#/tao-de" class="o-2"><img src="anh/giao-dien/o-tao-de.webp" alt=""><b>Tạo đề</b></a>
-          <a href="#/luyen-tap" class="o-3"><img src="anh/giao-dien/o-luyen-tap.webp" alt=""><b>Luyện tập</b></a>
+      <section class="tc3">
+        <div class="tc3-hero">
+          <div class="tc3-chao"><small>${chao}${ten ? "," : ""}</small><b>${ten ? coDau(ten) + " 👋" : "Bạn ơi 👋"}</b><span>Mỗi ngày một chút Hóa phân tích</span></div>
+          <img src="anh/3d/hero.webp" alt="" class="tc3-hero-anh">
+          <div class="tc-canh"></div>
         </div>
-        <a class="tc-hanh-trinh" href="#/ly-thuyet">
-          <img src="anh/giao-dien/moc-mam.webp" alt="">
-          <span class="duong">${CHUONG.map(c => `<i class="${tienDo(c.id) >= 90 ? "xong" : ""}"></i>`).join("")}</span>
-          <img src="anh/giao-dien/moc-tinh-the.webp" alt="">
-          <small>Đã đọc ${daDoc}/${CHUONG.length} chương</small>
-        </a>
+        ${typeof theDauTrangChu === "function" ? theDauTrangChu() : ""}
+        ${theDocTiepTrangChu()}
+        <h2 class="tc3-tieu">Khám phá</h2>
+        <div class="tc3-o">${oTrangChu().map(([href, icon, ten, mo]) => `<a href="${href}"><img src="anh/3d/${icon}.webp" alt=""><b>${ten}</b>${mo ? `<small>${mo}</small>` : ""}</a>`).join("")}</div>
+        <a class="tc3-ht" href="#/ly-thuyet"><img src="anh/3d/chuoi-ngay.webp" alt="">
+          <span class="text"><b>Hành trình ${daDoc}/${CHUONG.length} chương</b><span class="duong">${CHUONG.map(c => `<i class="${tienDo(c.id) >= 90 ? "xong" : tienDo(c.id) > 0 ? "dang" : ""}"></i>`).join("")}</span></span></a>
         <p class="tc-pr">✨ Ứng dụng do <b>Phạm Ngọc</b> (cựu sinh viên K63) xây dựng.<br>Bạn có ý tưởng hay? <a href="#/gop-y">💡 Gửi góp ý</a> hoặc gọi <a href="tel:0912995778">0912 995 778</a></p>
       </section>`;
     },
@@ -955,12 +961,19 @@ const nutQuayLai = document.getElementById("nut-quay-lai");
 const thanhTienDo = document.getElementById("tien-do-doc");
 let chuongDangDoc = null;   // chương đang mở (để theo dõi tiến độ đọc)
 
+// Đổi emoji trong ô biểu tượng (.o-icon) sang ảnh 3D cùng bộ (anh/3d/); emoji chưa có ảnh thì giữ nguyên
+const ICON_3D = { "👥": "lop-hoc", "🏫": "lop-hoc", "📝": "tao-de", "🎯": "luyen-tap", "✏️": "luyen-tap", "📚": "luu", "🗂️": "luu", "⚑": "bao-loi",
+  "💡": "gop-y", "📤": "chia-se", "🔐": "tai-khoan", "🔑": "tai-khoan", "🔍": "tra-cuu", "🧮": "may-tinh", "⏱️": "dong-ho", "⏱": "dong-ho", "🖨️": "in", "🖨": "in", "🔥": "chuoi-ngay", "🏠": "trang-chu" };
+function doiIcon3D(goc) {
+  goc.querySelectorAll(".o-icon").forEach(o => { const t = o.textContent.trim(), f = ICON_3D[t]; if (f) { o.innerHTML = `<img src="anh/3d/${f}.webp" alt="">`; o.classList.add("co-3d"); } });
+}
 function hienManHinh() {
   const [duong, thamSo] = (location.hash.replace(/^#/, "") || "/").split("?");
   const mh = MAN_HINH[duong] || MAN_HINH["/"];
   tieuDe.textContent = mh.tieuDe;
   document.title = duong === "/" ? "Hóa phân tích" : mh.tieuDe + " · Hóa phân tích";
   noiDung.innerHTML = lamToan(lamDepNoiDung(mh.ve()));
+  doiIcon3D(noiDung);
   noiDung.querySelectorAll(".gian-do").forEach(veGianDo);
   khoiTaoMoPhong(noiDung);
   ganNhanBang(noiDung);

@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v143";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v144";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -679,14 +679,18 @@ function theLopHocTrangChu() {
   const kq = typeof docKQ === "function" ? docKQ() : null, ds = kq && kq.uid === tk.user?.uid ? kq.ds : null;
   const sv = ds ? ds.reduce((t, k) => t + k.siSo, 0) : 0, tb = ds ? ds.filter(k => k.tb != null) : [];
   const dong = ds ? `${ds.length} lớp · ${sv} sinh viên${tb.length ? " · TB " + diemVN(Math.round(tb.reduce((t, k) => t + k.tb, 0) / tb.length * 100) / 100) : ""}` : "Thêm sinh viên · giao bài · xem kết quả từng lớp";
-  return `<a href="#/lop-hoc" class="tc-lop"><span class="bieu-tuong">🏫</span><span class="text"><small>Quản lý</small><b>Lớp học</b><em>${dong}</em></span><span class="mui">›</span></a>`;
+  return `<a href="#/lop-hoc" class="tc-lop"><img class="bieu-tuong" src="anh/3d/lop-hoc.webp" alt=""><span class="text"><small>Quản lý</small><b>Lớp học</b><em>${dong}</em></span><span class="mui">›</span></a>`;
 }
-// Trang chủ: học sinh / khách thấy ô Tra cứu và Bài được giao thay cho Tạo đề, Luyện tập
-const veTrangChuGoc = MAN_HINH["/"].ve;
-MAN_HINH["/"].ve = () => laGVtk() ? veTrangChuGoc().replace(/<a href="#\/luyen-tap" class="o-3">[\s\S]*?<\/a>/,
-    `<a href="${KHO_KHOA.mo ? "#/kho" : "#/kho-cau-hoi"}" class="o-3"><img src="anh/giao-dien/o-luyen-tap.webp" alt=""><b>Ngân hàng</b></a>`).replace('<div class="tc-o">', theLopHocTrangChu() + '<div class="tc-o">') : veTrangChuGoc()
-  .replace(/<a href="#\/tao-de" class="o-2">[\s\S]*?<\/a>/, `<a href="#/tra-cuu" class="o-2"><img src="anh/giao-dien/o-doc-tiep.webp" alt=""><b>Tra cứu</b></a>`)
-  .replace(/<a href="#\/luyen-tap" class="o-3">[\s\S]*?<\/a>/, `<a href="${tk.user ? "#/bai-duoc-giao" : "#/tai-khoan"}" class="o-3"><img src="anh/giao-dien/o-tao-de.webp" alt=""><b>${tk.user ? "Bài được giao" : "Đăng nhập"}</b></a>`);
+// Trang chủ theo vai trò: GV có thẻ Lớp học ở đầu và các ô soạn đề; HS có Bài được giao
+function theDauTrangChu() { return laGVtk() ? theLopHocTrangChu() : ""; }
+const oTrangChuKhach = oTrangChu;
+oTrangChu = () => laGVtk() ? [["#/tao-de", "tao-de", "Tạo đề", "Soạn & in đề"], [KHO_KHOA.mo ? "#/kho" : "#/kho-cau-hoi", "luu", "Ngân hàng", "Câu hỏi"],
+    ["#/ngan-hang-de", "luyen-tap", "Đề đã soạn", "Dùng lại"], ["#/ly-thuyet", "ly-thuyet", "Lí thuyết", "15 chương"],
+    ["#/tra-cuu", "tra-cuu", "Tra cứu", "Bảng hằng số"], ["#/cong-cu", "may-tinh", "Máy tính", "Tính nhanh"]]
+  : tk.user ? [["#/bai-duoc-giao", "luyen-tap", "Bài được giao", "Làm bài"], ["#/ly-thuyet", "ly-thuyet", "Lí thuyết", "15 chương"],
+    ["#/tra-cuu", "tra-cuu", "Tra cứu", "Bảng hằng số"], ["#/cong-cu", "may-tinh", "Máy tính", "Tính nhanh"],
+    ["#/gop-y", "gop-y", "Góp ý", "Ý tưởng mới"], ["#/tai-khoan", "tai-khoan", "Tài khoản", "Hồ sơ"]]
+  : oTrangChuKhach();
 const capNhatQuyen = () => document.body.classList.toggle("la-gv", laGVtk());
 if (fbAuth) { fbAuth.onAuthStateChanged(() => { capNhatQuyen(); hienManHinh(); }); window.addEventListener("tk-san", () => { capNhatQuyen(); hienManHinh(); }); }   // tk-san: hồ sơ đã tải xong → vẽ lại đúng theo vai trò
 capNhatQuyen();

@@ -1,12 +1,31 @@
 /* Service worker: lưu sẵn các file giao diện để app mở được khi mất mạng.
    MỖI LẦN SỬA CODE: tăng số phiên bản bên dưới (v1 → v2 → v3...)
    để điện thoại đã cài app nhận bản mới. */
-const PHIEN_BAN = "app-dien-thoai-v143";
+const PHIEN_BAN = "app-dien-thoai-v144";
 
 const FILE_GIAO_DIEN = [
   "./",
   "index.html",
   "style.css",
+  "anh/3d/bao-loi.webp",
+  "anh/3d/chia-se.webp",
+  "anh/3d/chuoi-ngay.webp",
+  "anh/3d/co-giao.webp",
+  "anh/3d/dong-ho.webp",
+  "anh/3d/gop-y.webp",
+  "anh/3d/hero.webp",
+  "anh/3d/in.webp",
+  "anh/3d/lop-hoc.webp",
+  "anh/3d/luu.webp",
+  "anh/3d/luyen-tap.webp",
+  "anh/3d/ly-thuyet.webp",
+  "anh/3d/may-tinh.webp",
+  "anh/3d/sv-nam.webp",
+  "anh/3d/sv-nu.webp",
+  "anh/3d/tai-khoan.webp",
+  "anh/3d/tao-de.webp",
+  "anh/3d/tra-cuu.webp",
+  "anh/3d/trang-chu.webp",
   "noi-dung.js",
   "mo-phong.js",
   "kho-khoa.js",
