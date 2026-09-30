@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v121";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v122";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -574,7 +574,7 @@ function thoatDangThi() {
 }
 function batDangThi() {
   if (document.body.classList.contains("dang-thi")) return;
-  document.body.classList.add("dang-thi");
+  document.body.classList.add("dang-thi"); setTimeout(ghiNenVP, 1500);   // mốc kích thước để nhận ra chia màn hình
   const chu = `${tk.hoSo?.hoTen || ""} · ${tk.hoSo?.maHS || tk.user?.email || ""}`;
   const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='260' height='150'><text x='10' y='90' transform='rotate(-25 130 75)' font-family='sans-serif' font-size='15' fill='rgba(120,120,140,0.16)'>${hoa(chu)}</text></svg>`;
   const mo = document.createElement("div"); mo.id = "hinh-mo";
@@ -582,14 +582,14 @@ function batDangThi() {
   document.body.append(mo);
 }
 let roiLuc = 0, roiLoai = "";
-const LOAI_ROI = { "roi-app": "Rời app / về màn hình chính / khóa máy", "mat-tieu-diem": "Bấm ra ngoài (chia màn hình, thông báo, bong bóng chat)",
+const LOAI_ROI = { "chia-man-hinh": "Chia màn hình / dùng nhiều ứng dụng cùng lúc", "roi-app": "Rời app / về màn hình chính / khóa máy", "mat-tieu-diem": "Bấm ra ngoài (chia màn hình, thông báo, bong bóng chat)",
   "toan-man-hinh": "Thoát toàn màn hình", "mo-lai": "Tắt app rồi mở lại" };
 const moTaRoi = r => `${gioVN(r.luc).split(" ")[0]} · ${LOAI_ROI[r.loai] || "Rời bài làm"} · ${r.giay} giây`;
 let hen_roi = 0;
-function batDauRoi(loai = "mat-tieu-diem") {
+function batDauRoi(loai = "mat-tieu-diem", luc = Date.now()) {
   if (!giamSat()) return;
   if (!roiLuc) {
-    roiLuc = Date.now(); roiLoai = loai;
+    roiLuc = luc; roiLoai = loai;
     // báo ngay lên máy chủ để giáo viên thấy tức thời (không đợi em quay lại)
     clearTimeout(hen_roi);
     hen_roi = setTimeout(() => { try { if (roiLuc && fbDb && tk.user && baiLam?.giao?.id) refBai(baiLam.giao.id).update({ dangRoi: { luc: roiLuc, loai: roiLoai } }).catch(() => {}); } catch {} }, 1200);
@@ -616,8 +616,20 @@ function canhBaoRoi(lan, toiDa, giay) {
   document.body.append(o);
 }
 document.addEventListener("visibilitychange", () => document.hidden ? batDauRoi("roi-app") : ketThucRoi());
-window.addEventListener("blur", () => batDauRoi("mat-tieu-diem"));
-window.addEventListener("focus", () => { if (!document.hidden) ketThucRoi(); });
+/* Chỉ tính vi phạm khi THẬT SỰ rời bài: thoát app (ẩn trang), chia màn hình / nhiều cửa sổ, hoặc mất tiêu điểm kéo dài.
+   Cuộc gọi đến, thông báo, kéo thanh trạng thái, bàn phím… làm app mất tiêu điểm chốc lát nhưng em vẫn ở trong bài → KHÔNG báo. */
+const NGUONG_MAT_TIEU_DIEM = 20000;   // ms: mất tiêu điểm liên tục quá ngưỡng này (khi app vẫn hiện) mới coi là đang dùng cửa sổ khác
+let henBlur = 0, nenVP = null;
+window.addEventListener("blur", () => { clearTimeout(henBlur); const luc = Date.now(); henBlur = setTimeout(() => { if (!document.hidden && !document.hasFocus()) batDauRoi("mat-tieu-diem", luc); }, NGUONG_MAT_TIEU_DIEM); });
+window.addEventListener("focus", () => { clearTimeout(henBlur); if (!document.hidden) ketThucRoi(); });
+const ghiNenVP = () => { nenVP = { w: innerWidth, h: innerHeight }; };
+window.addEventListener("orientationchange", () => setTimeout(ghiNenVP, 600));
+window.addEventListener("resize", () => {   // chia màn hình: vùng hiển thị của app co lại (không có ô nhập liệu nào đang mở bàn phím)
+  if (!giamSat()) return;
+  if (!nenVP || (innerWidth > innerHeight) !== (nenVP.w > nenVP.h)) return ghiNenVP();   // xoay ngang / dọc: lấy lại mốc
+  const nho = innerHeight < nenVP.h * 0.72 || innerWidth < nenVP.w * 0.72, nhap = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName || "");
+  if (nho && !nhap) batDauRoi("chia-man-hinh"); else if (!nho && roiLoai === "chia-man-hinh" && roiLuc) ketThucRoi();
+});
 document.addEventListener("fullscreenchange", () => { if (!document.fullscreenElement && giamSat() && location.hash.startsWith("#/lam-bai")) { batDauRoi("toan-man-hinh"); setTimeout(ketThucRoi, 300); } });
 ["copy", "cut", "contextmenu", "selectstart"].forEach(ev => document.addEventListener(ev, e => { if (document.body.classList.contains("dang-thi")) e.preventDefault(); }));
 
