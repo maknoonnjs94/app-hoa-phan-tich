@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v114";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v115";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -54,7 +54,7 @@ MAN_HINH["/giao-de"] = {
       <p class="ghi-chu" id="gd-goi-y-gio"></p>
       ${(() => { const ids = de.ma.length > 1 ? [...cauCuaMa(de, de.ma[0])] : de.cau, dx = deXuatDiem(ids);
         return `<details class="tuy-chon" ontoggle="capNhatTongDiem()"><summary>🎯 Chia điểm từng câu (tổng <b id="gd-diem-tong">10</b>)</summary>
-          <p class="ghi-chu">Máy đề xuất: câu khó nhiều điểm hơn (nhận biết : thông hiểu : vận dụng : vận dụng cao = 1 : 1,5 : 2 : 3). Thầy cô sửa số ở từng câu nếu muốn; điểm bài luôn quy về thang 10 theo tỉ lệ điểm các câu. Đề nhiều mã: điểm theo vị trí câu, các mã dùng chung.</p>
+          <p class="ghi-chu">Máy đề xuất: nhận biết : thông hiểu : vận dụng = 1 : 1,5 : 2; câu vận dụng cao chỉ chiếm đoạn cuối thang điểm (khoảng 8,5–10) — đề dễ ít điểm hơn (≈ 0,8), đề khó nhiều hơn (tối đa 1,5). Thầy cô sửa số ở từng câu nếu muốn; điểm bài luôn quy về thang 10 theo tỉ lệ điểm các câu. Đề nhiều mã: điểm theo vị trí câu, các mã dùng chung.</p>
           <div class="nut-hang trai"><button class="btn nho phu" type="button" onclick="datLaiDiem('xuat')">Đề xuất theo mức độ</button><button class="btn nho phu" type="button" onclick="datLaiDiem('deu')">Chia đều</button></div>
           <div class="luoi-diem">${ids.map((id, i) => `<label><span>Câu ${i + 1} · ${TAT_MUC[CAU_THEO_ID[id]?.mucDo] || ""}</span><input type="number" step="0.05" min="0" class="gd-diem" value="${String(dx[i]).replace(",", ".")}" oninput="capNhatTongDiem()"></label>`).join("")}</div></details>`; })()}
       <div class="the-con"><b>Đáp án cho sinh viên</b>

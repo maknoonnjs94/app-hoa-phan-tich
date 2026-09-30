@@ -229,14 +229,23 @@ MAN_HINH["/tao-de"] = {
 
 /* ---------- Bước 2: chọn câu, xem nguyên đề ---------- */
 const locChon = { tab: "de", chuong: "", loai: "", muc: 0, dang: "", tu: "", anDaChon: true, dapAn: false, so: 15, thay: "", addCh: "", addDang: "", addLoai: "", addN: 1 };
-// Đề xuất điểm từng câu (tổng 10): câu khó nhiều điểm hơn, trọng số theo mức NB/TH/VD/VDC = 1 : 1,5 : 2 : 3; làm tròn 0,05 rồi bù để tổng đúng 10
-const TRONG_SO_MUC = { 1: 1, 2: 1.5, 3: 2, 4: 3 };
-function deXuatDiem(ids) {
-  const w = ids.map(id => TRONG_SO_MUC[CAU_THEO_ID[id]?.mucDo] || 2), tong = w.reduce((a, b) => a + b, 0) || 1;
-  const tho = w.map(x => 10 * x / tong / 0.05), buoc = tho.map(Math.floor);
-  let con = 200 - buoc.reduce((a, b) => a + b, 0);
+// Đề xuất điểm từng câu (tổng 10). Vận dụng cao chỉ chiếm đoạn cuối của thang điểm (khoảng 8,5–10 để học sinh còn "kiếm" điểm):
+// tổng điểm nhóm VDC tăng theo tỉ lệ câu VDC trong đề — đề dễ (ít VDC) ≈ 0,8 điểm, đề khó tối đa 1,5 điểm.
+// Phần còn lại chia cho nhận biết : thông hiểu : vận dụng = 1 : 1,5 : 2. Làm tròn 0,05, bù để tổng đúng 10.
+const TRONG_SO_MUC = { 1: 1, 2: 1.5, 3: 2 };
+function chiaNguyen05(tong, w) {   // chia `tong` điểm theo trọng số w, bước 0,05, tổng đúng bằng `tong`
+  const T = w.reduce((a, b) => a + b, 0) || 1, tho = w.map(x => tong * x / T / 0.05), buoc = tho.map(Math.floor);
+  let con = Math.round(tong / 0.05) - buoc.reduce((a, b) => a + b, 0);
   tho.map((x, i) => i).sort((i, j) => (tho[j] - buoc[j]) - (tho[i] - buoc[i])).forEach(i => { if (con > 0) { buoc[i]++; con--; } });
   return buoc.map(b => Math.round(b * 5) / 100);
+}
+function deXuatDiem(ids) {
+  const muc = ids.map(id => CAU_THEO_ID[id]?.mucDo || 3), n = ids.length, i4 = muc.map((m, i) => m === 4 ? i : -1).filter(i => i >= 0), kho = muc.map((m, i) => m === 4 ? -1 : i).filter(i => i >= 0);
+  if (!n) return [];
+  const V4 = !i4.length ? 0 : !kho.length ? 10 : Math.min(1.5, Math.max(0.5, 0.5 + 6 * i4.length / n)), kq = new Array(n).fill(0);
+  if (i4.length) chiaNguyen05(V4, i4.map(() => 1)).forEach((x, k) => (kq[i4[k]] = x));
+  if (kho.length) chiaNguyen05(10 - V4, kho.map(i => TRONG_SO_MUC[muc[i]] || 2)).forEach((x, k) => (kq[kho[k]] = x));
+  return kq;
 }
 const soCauDang = (chuong, dang, muc = 0, loai = "") => KHO_DE_CAU.filter(q => q.chuong === chuong && q.dang === dang && !q.chum && (!muc || q.mucDo === muc) && (!loai || q.loai === loai) && (cauHinhDe.choDuyet || !q.choDuyet)).length;
 const dangCuaChuong = chuong => [...new Set(cauNguon().filter(c => c.chuong === chuong && !c.chum).map(c => c.dang))]
