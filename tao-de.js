@@ -228,7 +228,7 @@ MAN_HINH["/tao-de"] = {
 };
 
 /* ---------- Bước 2: chọn câu, xem nguyên đề ---------- */
-const locChon = { tab: "de", chuong: "", loai: "", muc: 0, dang: "", tu: "", anDaChon: true, dapAn: false, so: 15, thay: "", addCh: "", addDang: "", addN: 1 };
+const locChon = { tab: "de", chuong: "", loai: "", muc: 0, dang: "", tu: "", anDaChon: true, dapAn: false, so: 15, thay: "", addCh: "", addDang: "", addLoai: "", addN: 1 };
 const soCauDang = (chuong, dang, muc = 0, loai = "") => KHO_DE_CAU.filter(q => q.chuong === chuong && q.dang === dang && !q.chum && (!muc || q.mucDo === muc) && (!loai || q.loai === loai) && (cauHinhDe.choDuyet || !q.choDuyet)).length;
 const dangCuaChuong = chuong => [...new Set(cauNguon().filter(c => c.chuong === chuong && !c.chum).map(c => c.dang))]
   .sort((a, b) => (tenDang(a) || "").localeCompare(tenDang(b) || "", "vi"));
@@ -327,7 +327,7 @@ function thayViTri(moi) {
 function themTheoDang() {
   const { addCh, addDang, addN } = locChon;
   if (!addCh || !addDang) return alert("Chọn chương và dạng trước.");
-  const da = new Set(soan.chon), pool = tronMang(cauNguon().filter(c => !da.has(c.id) && !c.chum && c.chuong === addCh && c.dang === addDang));
+  const da = new Set(soan.chon), pool = tronMang(cauNguon().filter(c => !da.has(c.id) && !c.chum && c.chuong === addCh && c.dang === addDang && (!locChon.addLoai || c.loai === locChon.addLoai)));
   if (!pool.length) return alert("Dạng này không còn câu chưa dùng.");
   const them = pool.slice(0, Math.max(1, addN));
   soan.chon.push(...them.map(c => c.id)); luuSoan(); veChonCau();
@@ -347,12 +347,13 @@ function veChonCau() {
   if (locChon.tab === "de") {
     capNhatBienThe();
     const ds = soan.chon.map(id => CAU_THEO_ID[id]).filter(Boolean).sort((a, b) => a.mucDo - b.mucDo);
-    const cs = locChon.addCh || soan.chuong[0] || CHUONG.find(c => KHO_DE_CAU.some(q => q.chuong === c.id))?.id || "", dsD = dangCuaChuong(cs);
-    if (locChon.addCh !== cs) { locChon.addCh = cs; locChon.addDang = dsD[0] || ""; }
+    const cs = locChon.addCh || soan.chuong[0] || CHUONG.find(c => KHO_DE_CAU.some(q => q.chuong === c.id))?.id || "", dsD = dangCuaChuong(cs).filter(d => soCauDang(cs, d, 0, locChon.addLoai) > 0);
+    if (locChon.addCh !== cs || !dsD.includes(locChon.addDang)) { locChon.addCh = cs; locChon.addDang = dsD[0] || ""; }
     v.innerHTML = `<a class="btn full" href="#/chon-dang">☑ Chọn nhiều dạng cùng lúc</a>
-      <details class="the-trang them-dang" ${ds.length ? "" : "open"}><summary><b>＋ Thêm câu theo dạng</b> <small>(app tự bốc ngẫu nhiên trong dạng)</small></summary>
+      <details class="the-trang them-dang" ${ds.length && !locChon.moThem ? "" : "open"} ontoggle="if(this.open!==!!locChon.moThem)locChon.moThem=this.open"><summary><b>＋ Thêm câu theo dạng</b> <small>(app tự bốc ngẫu nhiên trong dạng)</small></summary>
         <div class="hang-loc-3 hai-cot"><select onchange="locChon.addCh=this.value;locChon.addDang='';veChonCau()" aria-label="Chương">${CHUONG.filter(c => cauNguon().some(q => q.chuong === c.id)).map(c => `<option value="${c.id}" ${cs === c.id ? "selected" : ""}>${TEN_NGAN[c.id] || c.ten}</option>`).join("")}</select>
-          <select onchange="locChon.addDang=this.value" aria-label="Dạng">${dsD.map(d => `<option value="${coDau(d)}" ${locChon.addDang === d ? "selected" : ""}>${coDau(tenDang(d))} (${soCauDang(cs, d)})</option>`).join("")}</select></div>
+          <select onchange="locChon.addLoai=this.value;locChon.addDang='';veChonCau()" aria-label="Loại câu"><option value="">Mọi loại</option><option value="lt" ${locChon.addLoai === "lt" ? "selected" : ""}>Lí thuyết</option><option value="tt" ${locChon.addLoai === "tt" ? "selected" : ""}>Tính toán</option></select>
+          <select onchange="locChon.addDang=this.value" aria-label="Dạng">${dsD.map(d => `<option value="${coDau(d)}" ${locChon.addDang === d ? "selected" : ""}>${coDau(tenDang(d))} (${soCauDang(cs, d, 0, locChon.addLoai)})</option>`).join("")}</select></div>
         <div class="nut-hang"><span class="buoc"><button onclick="locChon.addN=Math.max(1,locChon.addN-1);veChonCau()">−</button><b>${locChon.addN}</b><button onclick="locChon.addN++;veChonCau()">+</button></span> câu
           <button class="btn" onclick="themTheoDang()">＋ Thêm ngẫu nhiên</button></div></details>
       <p class="ghi-chu">Đề mẫu (mã ${MA_DE[0]}): mỗi câu là một <b>dạng</b>. Dưới mỗi câu là <b>câu của các mã khác</b> (cùng dạng, khác câu): bấm dòng để xem đầy đủ, bấm 🎲 để đổi. Thứ tự câu mỗi mã sẽ xáo riêng khi sinh mã đề.</p>
