@@ -1311,3 +1311,5 @@ body.trang-chu .topbar { color: var(--chu); }
   backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); text-shadow: none; }
 .tc3-hero .huy-hieu-tc img { width: 22px; height: 22px; object-fit: contain; }
 .tc3-hero .huy-hieu-tc b { background: #fff; color: var(--mau-chinh); border-radius: 99px; padding: 0 7px; font-size: 12px; }
+/* v164: trang chủ mới chừa chỗ cho thanh tab để khung cuối không bị che */
+body.trang-chu .content:has(.tc3) { padding-bottom: calc(var(--cao-thanh-tab) + env(safe-area-inset-bottom) + 28px); }
