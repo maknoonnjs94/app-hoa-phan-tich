@@ -285,7 +285,7 @@ function doiHangBienThe(idMau) {
   soan.bt[idMau] = soan.bt[idMau].map(v => { const r = chonThayThe(idMau, seen, Math.random); if (r.id === idMau) return v; doi++; return r.id; });
   luuSoan(); veChonCau(); if (!doi) alert("Dạng này không còn câu nào khác chưa dùng trong đề.");
 }
-const xemTruocCau = q => `<div class="de-cau">${q.de}</div><ol class="pa-de" type="A">${q.phuongAn.map((p, j) => `<li><span class="chu">${CHU[j]}.</span> ${p}</li>`).join("")}</ol>`;
+const xemTruocCau = q => `<div class="de-cau">${q.de}</div>${bangTin(q)}<ol class="pa-de" type="A">${q.phuongAn.map((p, j) => `<li><span class="chu">${CHU[j]}.</span> ${p}</li>`).join("")}</ol>`;
 function khoiBienThe(c) {
   if (soMaKhac() < 1) return "";
   if (c.chum) return `<div class="bien-the"><small>Câu chùm: giữ nguyên ở mọi mã đề.</small></div>`;
