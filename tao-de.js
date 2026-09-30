@@ -286,7 +286,7 @@ function theCauChon(c, trongDe) {
     ${trongDe ? `<div class="nut-hang">
         ${c.chum ? "" : `<button class="btn phu" onclick="doiCauSoan('${c.id}')">🎲 Câu khác cùng dạng</button>
           <select class="doi-dang" onchange="doiDangViTri('${c.id}', this.value)" aria-label="Đổi dạng"><option value="">🔁 Đổi dạng…</option>
-            ${dangCuaChuong(c.chuong).filter(d => d !== c.dang).map(d => `<option value="${coDau(d)}">${coDau(tenDang(d))} (${soCauDang(c.chuong, d)})</option>`).join("")}</select>
+            ${dangCuaChuong(c.chuong).filter(d => d !== c.dang && soCauDang(c.chuong, d, 0, c.loai) > 0).map(d => `<option value="${coDau(d)}">${coDau(tenDang(d))} (${soCauDang(c.chuong, d, 0, c.loai)} câu ${c.loai === "tt" ? "tính toán" : "lí thuyết"})</option>`).join("")}</select>
           <button class="btn phu" onclick="chonTayViTri('${c.id}')">✋ Chọn tay</button>`}
         <button class="btn phu" onclick="batChonCau('${c.id}')">🗑 Bỏ</button></div>${khoiBienThe(c)}`
     : `<div class="nut-hang"><button class="btn ${da ? "phu" : ""}" onclick="${thay ? `thayViTri('${c.id}')` : `batChonCau('${c.id}')`}">${da ? "✓ Đã chọn · Bỏ" : thay ? "⇄ Dùng câu này thay" : "＋ Thêm vào đề"}</button></div>`}</div>`;
@@ -309,7 +309,7 @@ function doiCauSoan(id) {
 function doiDangViTri(id, dangMoi) {
   if (!dangMoi) return;
   const g = CAU_THEO_ID[id], da = new Set(soan.chon);
-  const pool = cauNguon().filter(c => !da.has(c.id) && !c.chum && c.chuong === g.chuong && c.dang === dangMoi);
+  const pool = cauNguon().filter(c => !da.has(c.id) && !c.chum && c.chuong === g.chuong && c.dang === dangMoi && c.loai === g.loai);
   const chon = uuTienCungLoai(pool, g);
   if (!chon) return alert("Dạng đó không còn câu nào chưa dùng.");
   soan.chon[soan.chon.indexOf(id)] = chon[Math.floor(Math.random() * chon.length)].id; luuSoan(); veChonCau();
