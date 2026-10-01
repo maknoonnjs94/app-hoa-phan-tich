@@ -78,6 +78,19 @@ service cloud.firestore {
       allow delete: if laQTV() || (laGV() && resource.data.lop in lopDayToi());
     }
 
+    // Kho ảnh đề thi cuối kì các năm: chỉ giáo viên đọc / thêm; người thêm (hoặc QTV) sửa, xóa. Mỗi trang ảnh (dataURL ≤ ~1 MB) nằm ở khoAnhDe/{id}/trang/{n}
+    match /khoAnhDe/{id} {
+      allow read: if laGV();
+      allow create: if laGV() && request.resource.data.taoBoi == request.auth.uid;
+      allow update, delete: if laQTV() || (laGV() && resource.data.taoBoi == request.auth.uid);
+      match /trang/{t} {
+        allow read: if laGV();
+        allow create, update: if laGV() && request.resource.data.anh.size() < 1000000
+          && (laQTV() || get(/databases/$(database)/documents/khoAnhDe/$(id)).data.taoBoi == request.auth.uid);
+        allow delete: if laQTV() || (laGV() && get(/databases/$(database)/documents/khoAnhDe/$(id)).data.taoBoi == request.auth.uid);
+      }
+    }
+
     // Đề giao cho lớp học phần (lop = id lớp)
     match /deGiao/{id} {
       allow read: if laGV() || (laHS() && resource.data.lop in lopHocToi());
