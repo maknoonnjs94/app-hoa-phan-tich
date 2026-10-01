@@ -8,11 +8,13 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v180";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v181";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
 const diemVN = x => String(x).replace(".", ",");
+// Mã đề của một sinh viên: bài đã mở thì đọc từ bài làm; chưa mở thì tính trước (SV nhận mã theo hash(uid + id đề), nên GV biết sẵn)
+const maDeSV = (d, id, uid, b) => b?.maDe || (d.maDe?.length > 1 ? d.maDe[hatTu(uid + id) % d.maDe.length].ma : "");
 const hatTu = s => [...s].reduce((h, c) => (Math.imul(h, 31) + c.charCodeAt(0)) | 0, 7) >>> 0;
 const dangGiao = () => baiLam && baiLam.giao && !baiLam.ketThuc;
 const giamSat = () => dangGiao() && baiLam.giao.chongGianLan !== false;   // chỉ bài có bật chống gian lận
@@ -175,6 +177,7 @@ MAN_HINH["/bang-diem"] = {
       const dong = hs.docs.map(x => ({ uid: x.id, ...x.data() })).sort((a, b) => a.hoTen.split(" ").pop().localeCompare(b.hoTen.split(" ").pop(), "vi"))
         .map(u => { const b = theoUid[u.uid]; return { u, b, ...(b ? { ...chamBai(b), diem: diemCuoi(b) } : {}) }; });
       bangDiemHienTai = { d, dong, id };
+      const nhieuMa = d.maDe?.length > 1;
       const daNop = dong.filter(x => x.b?.daNop).length;
       const LY_DO = { "roi-app": "bị khóa: rời app đủ số lần", "het-gio": "hết giờ", "gv-thu": "giáo viên thu bài" };
       const quaHan = Date.now() > d.dongLuc;
@@ -196,21 +199,24 @@ MAN_HINH["/bang-diem"] = {
         <p class="ghi-chu">Bấm tên sinh viên để xem bài làm, sửa điểm.</p>
         <div class="nut-hang">${quaHan ? "" : `<a class="btn" href="#/theo-doi?id=${id}">👁 Theo dõi trực tiếp</a>`}<button class="btn" onclick="chotDiem('${id}')">🔒 ${d.daChot ? "Chốt lại điểm" : "Chốt điểm"}</button><button class="btn phu" onclick="xuatBangDiem()">⬇ Tải Excel</button><a class="btn phu" href="#/so-diem?lop=${encodeURIComponent(d.lop)}">📒 Sổ điểm lớp</a>
           <button class="btn phu" onclick="xoaGiaoDe('${id}')">🗑 Xóa bài giao</button></div></div>
-        <div class="the-trang bang-cuon"><table class="bang"><thead><tr><th>Học sinh</th><th>Điểm</th><th>Rời app</th><th>Trạng thái</th></tr></thead><tbody>
+        ${nhieuMa ? (() => { const nhom = {}; dong.forEach(({ u, b }) => (nhom[maDeSV(d, id, u.uid, b)] ||= []).push(u)); return `<details class="the-trang"><summary><b>Phân mã đề</b> <small class="ghi-chu">${d.maDe.map(m => `${hoa(m.ma)}: ${(nhom[m.ma] || []).length}`).join(" · ")}</small></summary>
+          ${d.maDe.map(m => `<p class="ghi-chu"><b>Mã ${hoa(m.ma)}</b> (${(nhom[m.ma] || []).length} SV): ${(nhom[m.ma] || []).map(u => hoa(u.hoTen)).join(", ") || "—"}</p>`).join("")}</details>`; })() : ""}
+        <div class="the-trang bang-cuon"><table class="bang"><thead><tr><th>Học sinh</th>${nhieuMa ? "<th>Mã đề</th>" : ""}<th>Điểm</th><th>Rời app</th><th>Trạng thái</th></tr></thead><tbody>
         ${dong.map(({ u, b, dung, diem }) => `<tr class="${b?.roi?.length ? "co-roi" : ""}">
-          <td>${b ? `<a class="ten-anh lien-ket" href="#/bai-lam?de=${id}&uid=${u.uid}">` : `<span class="ten-anh">`}${anhDaiDien(u, 28)}<span>${hoa(u.hoTen)}<small>${hoa(u.maHS || "")}${u.nganh ? " · " + hoa(u.nganh) : ""}${b?.maDe ? " · mã " + hoa(b.maDe) : ""}</small></span>${b ? "</a>" : "</span>"}</td>
+          <td>${b ? `<a class="ten-anh lien-ket" href="#/bai-lam?de=${id}&uid=${u.uid}">` : `<span class="ten-anh">`}${anhDaiDien(u, 28)}<span>${hoa(u.hoTen)}<small>${hoa(u.maHS || "")}${u.nganh ? " · " + hoa(u.nganh) : ""}</small></span>${b ? "</a>" : "</span>"}</td>
+          ${nhieuMa ? `<td><b class="nhan-ma">${hoa(maDeSV(d, id, u.uid, b))}</b></td>` : ""}
           <td>${b?.daNop || (b && quaHan) ? `<b>${diemVN(diem)}</b><small>${dung}/${b.cau.length}${b.diemSua != null ? " · đã sửa" : ""}</small>` : "–"}</td>
           <td>${b ? `${b.roi?.length || 0} lần<small>${b.roi?.length ? b.roi.reduce((t, r) => t + r.giay, 0) + " giây" : ""}</small>` : "–"}</td>
           <td>${!b ? "Chưa làm" : b.daNop ? `Nộp ${gioVN(b.nopLuc)}${LY_DO[b.lyDo] ? `<small>${LY_DO[b.lyDo]}</small>` : ""}${!quaHan && d.loai !== "bai-tap" && (b.lyDo === "roi-app" || b.lyDo === "gv-thu") ? `<button class="btn nho phu" onclick="moKhoaBai('${id}','${u.uid}')">🔓 Mở khóa</button>` : ""}` : quaHan ? "Hết hạn, chưa bấm nộp<small>chấm theo bài đã làm</small>" : "Đang làm"}</td></tr>
-          ${b?.roi?.length ? `<tr class="nhat-ki-roi"><td colspan="4">${b.roi.map(moTaRoi).join("<br>")}</td></tr>` : ""}`).join("")}
+          ${b?.roi?.length ? `<tr class="nhat-ki-roi"><td colspan="${nhieuMa ? 5 : 4}">${b.roi.map(moTaRoi).join("<br>")}</td></tr>` : ""}`).join("")}
         </tbody></table></div>`;
     } catch (e) { v.innerHTML = `<div class="trong">${loiTk(e)}</div>`; }
   },
 };
 function xuatBangDiem() {
-  const { d, dong } = bangDiemHienTai, o = s => `"${String(s ?? "").replace(/"/g, '""')}"`;
-  const hang = [["STT", "Họ tên", "Mã HS", "Email", "Số câu đúng", "Tổng số câu", "Điểm", "Số lần rời app", "Tổng giây rời app", "Nộp lúc", "Ghi chú", "Chi tiết vi phạm", "Ghi chú điểm của GV"],
-    ...dong.map(({ u, b, dung, diem }, i) => [i + 1, u.hoTen, u.maHS, u.email, b?.daNop || (b && Date.now() > d.dongLuc) ? dung : "", b?.cau?.length || "", b?.daNop || (b && Date.now() > d.dongLuc) ? diemVN(diem) : "",
+  const { d, dong, id } = bangDiemHienTai, nhieuMa = d.maDe?.length > 1, o = s => `"${String(s ?? "").replace(/"/g, '""')}"`;
+  const hang = [["STT", "Họ tên", "Mã HS", ...(nhieuMa ? ["Mã đề"] : []), "Email", "Số câu đúng", "Tổng số câu", "Điểm", "Số lần rời app", "Tổng giây rời app", "Nộp lúc", "Ghi chú", "Chi tiết vi phạm", "Ghi chú điểm của GV"],
+    ...dong.map(({ u, b, dung, diem }, i) => [i + 1, u.hoTen, u.maHS, ...(nhieuMa ? [maDeSV(d, id, u.uid, b)] : []), u.email, b?.daNop || (b && Date.now() > d.dongLuc) ? dung : "", b?.cau?.length || "", b?.daNop || (b && Date.now() > d.dongLuc) ? diemVN(diem) : "",
       b ? b.roi?.length || 0 : "", b ? (b.roi || []).reduce((t, r) => t + r.giay, 0) : "", b?.nopLuc ? new Date(b.nopLuc).toLocaleString("vi-VN") : "",
       !b ? "Chưa làm" : !b.daNop ? "Chưa nộp" : b.lyDo === "roi-app" ? "Tự nộp do rời app" : b.lyDo === "het-gio" ? "Hết giờ" : b.lyDo === "gv-thu" ? "GV thu bài" : "",
       (b?.roi || []).map(moTaRoi).join(" | "), b?.ghiChuDiem || ""])];
@@ -501,7 +507,7 @@ async function batCanhBaoGV() {
 window.addEventListener("tk-san", batCanhBaoGV);
 setInterval(() => { if (laGVtk() && !document.hidden) batCanhBaoGV(); }, 300000);   // làm mới danh sách bài đang mở mỗi 5 phút
 /* ---------- Theo dõi trực tiếp (GV): trạng thái từng em rõ ràng, lọc theo trạng thái, tìm tên / mã, ưu tiên em cần chú ý ---------- */
-const TD = { loc: "", tu: "", sap: "uu-tien", bai: {}, hs: [], d: null, id: "", stt: {}, timer: null };
+const TD = { ma: "", loc: "", tu: "", sap: "uu-tien", bai: {}, hs: [], d: null, id: "", stt: {}, timer: null };
 const TD_TT = { ngoai: ["🚨", "Ở ngoài app", "do"], khoa: ["🔒", "Bị khóa", "do"], mat: ["⚪", "Mất kết nối", "xam"], lam: ["✍️", "Đang làm", "xanh-d"], chua: ["⬜", "Chưa vào bài", "xam"], nop: ["✅", "Đã nộp", "xanh"], thu: ["📥", "GV đã thu", "xanh"] };
 const tdTruoc = ms => { const g = Math.max(0, Math.round((Date.now() - ms) / 1000)); return g < 60 ? g + " giây trước" : g < 3600 ? Math.round(g / 60) + " phút trước" : Math.round(g / 3600) + " giờ trước"; };
 const tdGio = ms => new Date(ms).toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
@@ -527,11 +533,11 @@ MAN_HINH["/theo-doi"] = {
       const hs = hsS.docs.map(x => ({ uid: x.id, ...x.data() })).filter(u => u.vaiTro === "hs" || !u.vaiTro)
         .sort((a, b) => (stt[a.uid]?.s ?? 1e6) - (stt[b.uid]?.s ?? 1e6) || a.hoTen.split(" ").pop().localeCompare(b.hoTen.split(" ").pop(), "vi") || a.hoTen.localeCompare(b.hoTen, "vi"))
         .map((u, i) => ({ ...u, stt: stt[u.uid]?.s ?? i + 1 }));
-      Object.assign(TD, { loc: "", tu: "", sap: "uu-tien", bai: {}, hs, d, id, stt });
+      Object.assign(TD, { ma: "", loc: "", tu: "", sap: "uu-tien", bai: {}, hs, d, id, stt });
       v.innerHTML = `<div class="the-trang td-dau"><b>${hoa(d.ten)}</b> · Lớp ${hoa(d.lopTen || d.lop)}
           <p class="ghi-chu">Đóng đề: ${gioVN(d.dongLuc)} · Mở màn này trong giờ kiểm tra: em nào ra ngoài app hoặc vi phạm thì dòng đó đỏ lên và có tiếng “ting”.</p>
           <div id="td-tong"></div></div>
-        <div class="hang-loc td-loc"><input type="search" placeholder="🔍 Tìm tên, mã SV, số thứ tự…" oninput="TD.tu=this.value;tdVe()"><select onchange="TD.sap=this.value;tdVe()" aria-label="Sắp xếp"><option value="uu-tien">Cần chú ý trước</option><option value="stt">Theo số thứ tự</option><option value="ten">Theo tên</option></select></div>
+        <div class="hang-loc td-loc"><input type="search" placeholder="🔍 Tìm tên, mã SV, số thứ tự…" oninput="TD.tu=this.value;tdVe()"><select onchange="TD.sap=this.value;tdVe()" aria-label="Sắp xếp"><option value="uu-tien">Cần chú ý trước</option><option value="stt">Theo số thứ tự</option><option value="ten">Theo tên</option></select>${d.maDe?.length > 1 ? `<select onchange="TD.ma=this.value;tdVe()" aria-label="Mã đề"><option value="">Mọi mã đề</option>${d.maDe.map(m => `<option value="${hoa(m.ma)}">Mã ${hoa(m.ma)}</option>`).join("")}</select>` : ""}</div>
         <div id="td-chip" class="chip-hang td-chip"></div><p class="ghi-chu" id="td-dem"></p><div id="td-ds"></div>
         <div class="nut-hang"><button class="btn phu" onclick="tiengBao()">🔔 Thử / bật âm thanh</button></div>`;
       let lanDau = true;
@@ -556,7 +562,7 @@ function tdVe() {
     <div class="td-thanh" title="Đã nộp ${pct}%"><i style="width:${pct}%"></i></div><small class="ghi-chu">Đã nộp ${dem.nop}/${hs.length} (${pct}%)${dem.ngoai ? ` · <b class="chu-do">🚨 ${dem.ngoai} em đang ở ngoài app</b>` : ""}${dem.mat ? ` · ⚪ ${dem.mat} em mất kết nối` : ""}</small>`;
   const chip = document.getElementById("td-chip"); if (chip) chip.innerHTML = ve.map(([k, t]) => `<button class="chip-nhanh ${TD.loc === k ? "chon" : ""}" onclick="TD.loc='${k}';tdVe()">${t}</button>`).join("");
   const tu = boDau(TD.tu.trim()), khop = { "": () => true, chua: u => tt[u.uid] === "chua", lam: u => ["lam", "ngoai", "mat"].includes(tt[u.uid]), nop: u => ["nop", "thu", "khoa"].includes(tt[u.uid]), ngoai: u => tt[u.uid] === "ngoai", mat: u => tt[u.uid] === "mat", vp: u => bai[u.uid]?.roi?.length > 0 };
-  let ds = hs.filter(u => khop[TD.loc](u) && (!tu || boDau(`${u.hoTen} ${u.maHS || ""} ${u.stt}`).includes(tu)));
+  let ds = hs.filter(u => khop[TD.loc](u) && (!TD.ma || maDeSV(d, id, u.uid, bai[u.uid]) === TD.ma) && (!tu || boDau(`${u.hoTen} ${u.maHS || ""} ${u.stt}`).includes(tu)));
   if (TD.sap === "uu-tien") ds = [...ds].sort((a, b) => TD_UU_TIEN[tt[a.uid]] - TD_UU_TIEN[tt[b.uid]] || (bai[b.uid]?.roi?.length || 0) - (bai[a.uid]?.roi?.length || 0) || a.stt - b.stt);
   else if (TD.sap === "ten") ds = [...ds].sort((a, b) => a.hoTen.split(" ").pop().localeCompare(b.hoTen.split(" ").pop(), "vi") || a.hoTen.localeCompare(b.hoTen, "vi"));
   const dm = document.getElementById("td-dem"); if (dm) dm.textContent = tu || TD.loc ? `Đang hiện ${ds.length}/${hs.length} sinh viên` : "";
@@ -571,7 +577,7 @@ function tdVe() {
     else chiTiet = `Đã làm ${xong}/${tl} câu · hoạt động ${tdTruoc(b.capNhat)}`;
     const thanh = tl && (k === "lam" || k === "ngoai" || k === "mat") ? `<div class="td-tien"><i style="width:${Math.round(xong / tl * 100)}%"></i></div>` : "";
     return `<div class="the-trang dong-td td-${t[2]} ${n ? "co-vp" : ""} ${u.moi && bg - u.moi < 15000 ? "vp-moi" : ""}"><span class="stt-sv">${u.stt}</span>${anhDaiDien(u, 38)}
-      <div class="giua"><b>${hoa(u.hoTen)}</b> <small class="ghi-chu">${hoa(u.maHS || "")}</small>
+      <div class="giua"><b>${hoa(u.hoTen)}</b> <small class="ghi-chu">${hoa(u.maHS || "")}</small>${d.maDe?.length > 1 ? ` <b class="nhan-ma">Mã ${hoa(maDeSV(d, id, u.uid, b))}</b>` : ""}
         <span class="td-nhan td-${t[2]}">${t[0]} ${t[1]}</span><small>${chiTiet}</small>${thanh}
         ${n ? `<small class="vp">⚠️ ${n} lần vi phạm · gần nhất: ${moTaRoi(cuoi)}</small>` : ""}</div>
       ${b && !b.daNop ? `<button class="btn phu" onclick="thuBai('${id}','${u.uid}')">Thu bài</button>` : b?.daNop && (b.lyDo === "roi-app" || b.lyDo === "gv-thu") ? `<button class="btn phu" onclick="moKhoaBai('${id}','${u.uid}')">🔓 Mở khóa</button>` : ""}</div>`;

@@ -1399,3 +1399,4 @@ i.tk-xanh { background: #22c55e; } i.tk-vang { background: #f59e0b; } i.tk-do { 
 .dong-td .stt-sv { margin-right: 0; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .td-so .lam { background: #1e3a8a; color: #bfdbfe; } :root:not([data-theme="light"]) .td-so .nop { background: #064e3b; color: #a7f3d0; } :root:not([data-theme="light"]) .td-so .vp { background: #5b1a1a; color: #fecaca; }
   :root:not([data-theme="light"]) .td-nhan.td-xanh { background: #064e3b; color: #a7f3d0; } :root:not([data-theme="light"]) .td-nhan.td-xanh-d { background: #1e3a8a; color: #bfdbfe; } :root:not([data-theme="light"]) .td-nhan.td-do { background: #5b1a1a; color: #fecaca; } }
+.nhan-ma { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 8px; background: color-mix(in srgb, var(--mau-chinh) 14%, transparent); color: var(--mau-chinh); font-weight: 700; }
