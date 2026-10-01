@@ -248,7 +248,7 @@ const HANH_DONG = {
   "dang-nhap": "Đăng nhập", "doi-mat-khau": "Đổi mật khẩu", "giao-de": "Giao bài", "gia-han": "Đổi giờ đóng bài", "xoa-giao": "Xóa bài giao",
   "mo-khoa-bai": "Mở khóa bài", "thu-bai": "Thu bài", "chot-diem": "Chốt điểm", "sua-diem": "Sửa điểm", "khoa-tk": "Khóa / mở khóa tài khoản",
   "khoa-hang-loat": "Khóa hàng loạt", "dat-lai-mk": "Gửi thư đặt lại MK", "sua-nguoi": "Sửa thông tin người dùng", "tao-lop": "Tạo lớp", "xoa-lop": "Xóa lớp",
-  "cai-dat": "Đổi cài đặt", "canh-bao-hoc": "Báo động học tập", "sao-luu": "Sao lưu", "khoi-phuc": "Khôi phục dữ liệu",
+  "cai-dat": "Đổi cài đặt", "gan-gv": "Gán giáo viên cho lớp", "canh-bao-hoc": "Báo động học tập", "sao-luu": "Sao lưu", "khoi-phuc": "Khôi phục dữ liệu",
 };
 function ghiNhatKy(hd, ct = "", doiTuong = "") {
   try {
@@ -321,9 +321,10 @@ async function veQuanTri() {
       <div class="the-trang ds-gon">${ds.map(l => { const n = qt.tatCa.filter(u => u.vaiTro === "hs" && (u.lopHoc || []).includes(l.id)), ng = dsNganh(n);
         return `<div class="dong-lop"><a class="lien-ket ten" href="#/lop?id=${l.id}"><b>${hoa(l.ten)}</b>
           <small>${n.length} SV${ng.length ? ` · ${ng.length} ngành` : ""} · GV: ${(l.gv || []).map(id => hoa(qt.tatCa.find(u => u.uid === id)?.hoTen?.split(" ").slice(-2).join(" ") || "?")).join(", ") || "chưa có"}</small></a>
-          ${laQtvTk() ? `<select class="gan-gv" onchange="qtGanGv('${l.id}', this.value); this.value=''" aria-label="Gán giáo viên"><option value="">👤＋</option>
-            ${gvDs.map(u => `<option value="${u.uid}">${(l.gv || []).includes(u.uid) ? "✓ " : ""}${hoa(u.hoTen)}</option>`).join("")}</select>` : ""}
-          ${laQtvTk() || l.taoBoi === tk.user.uid ? `<button class="nut-ba-cham" onclick="qtXoaLop('${l.id}')" aria-label="Xóa lớp">🗑</button>` : ""}</div>`; }).join("")
+          ${laQtvTk() ? `<button class="chip-nhanh" onclick="qt.moGv=qt.moGv==='${l.id}'?'':'${l.id}';veQuanTri()" aria-label="Giáo viên của lớp">👥 GV (${(l.gv || []).length})</button>` : ""}
+          ${laQtvTk() || l.taoBoi === tk.user.uid ? `<button class="nut-ba-cham" onclick="qtXoaLop('${l.id}')" aria-label="Xóa lớp">🗑</button>` : ""}</div>
+        ${laQtvTk() && qt.moGv === l.id ? `<div class="the-trang gan-gv-ds"><b>Giáo viên phụ trách lớp</b> <small class="ghi-chu">(tick để thêm, bỏ tick để gỡ; một lớp có thể có nhiều giáo viên, ai cũng giao bài, điểm danh, xem điểm được)</small>
+          ${gvDs.map(u => `<label class="tk-chk"><input type="checkbox" ${(l.gv || []).includes(u.uid) ? "checked" : ""} onchange="qtGanGv('${l.id}','${u.uid}')"> ${hoa(u.hoTen)} <small class="ghi-chu">${u.vaiTro === "qtv" ? "quản trị viên · " : ""}${hoa(u.email)}</small></label>`).join("") || `<p class="ghi-chu">Chưa có tài khoản giáo viên. Tạo ở tab “Người dùng”.</p>`}</div>` : ""}`; }).join("")
         || `<p class="ghi-chu" style="padding:12px">Chưa có lớp học phần nào. Bấm ＋ Tạo lớp, đặt tên như "Hóa phân tích khoa ngoài - Kì 1 2026-2027".</p>`}</div>`;
   } else if (qt.tab === "nguoi") {
     const hs = qt.ds.filter(u => u.vaiTro === "hs");
@@ -738,7 +739,8 @@ async function qtGanGv(lopId, uid) {
   if (!uid) return;
   const l = qt.lop.find(x => x.id === lopId), gv = new Set(l.gv || []);
   gv.has(uid) ? gv.delete(uid) : gv.add(uid);
-  try { await fbDb.collection("lop").doc(lopId).update({ gv: [...gv] }); l.gv = [...gv]; await dongBoLopDay(); veQuanTri(); }
+  if (!gv.size && !confirm("Lớp sẽ không còn giáo viên nào phụ trách. Vẫn gỡ?")) return veQuanTri();
+  try { await fbDb.collection("lop").doc(lopId).update({ gv: [...gv] }); l.gv = [...gv]; await dongBoLopDay(); ghiNhatKy("gan-gv", `Lớp ${l.ten}`, qt.tatCa.find(u => u.uid === uid)?.hoTen || ""); veQuanTri(); }
   catch (e) { alert(loiTk(e)); }
 }
 
