@@ -1435,5 +1435,17 @@ i.tk-xanh { background: #22c55e; } i.tk-vang { background: #f59e0b; } i.tk-do { 
 .ket-qua-hero .hero-nho, .ket-qua-hero h3, .ket-qua-hero p { max-width: 62%; }
 .mascot-giua { display: block; margin: 0 auto 6px; height: 170px; object-fit: contain; filter: drop-shadow(0 8px 10px rgba(40, 30, 120, .25)); }
 .hero h3 .hero-ic .ic3d { width: 44px; height: 44px; display: inline-block; vertical-align: middle; margin: -6px 4px -4px 0; }
-.dn-nhom .dn-chung { left: 50%; right: auto; transform: translateX(-50%); height: 200px; bottom: 36px; }
+.dn-nhom .dn-chung { left: 50%; right: auto; transform: translateX(-50%); height: 196px; bottom: 44px; }
 .mascot-trong { height: 120px; object-fit: contain; margin-bottom: 6px; }
+
+/* ---------- Thẻ tổng tiến độ (nền bản đồ quần đảo) và nền đăng nhập ---------- */
+.tien-do-chung { position: relative; border-radius: 20px; overflow: hidden; margin: 0 0 12px; min-height: 120px; display: flex; align-items: flex-end;
+  background: linear-gradient(0deg, rgba(255,255,255,.88) 38%, rgba(255,255,255,0) 100%), url(anh/giao-dien/ban-do-ngay.webp) center 30% / cover; box-shadow: var(--bong); }
+.tien-do-chung .nd { width: 100%; padding: 56px 16px 12px; font-size: 14px; } .tien-do-chung b { font-size: 20px; }
+.tien-do-chung .thanh { height: 8px; border-radius: 99px; background: rgba(109, 94, 246, .18); overflow: hidden; margin: 6px 0 2px; } .tien-do-chung .thanh i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #22c7ab, #6d5ef6); }
+.tien-do-chung small { color: var(--chu-phu); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tien-do-chung { background: linear-gradient(0deg, rgba(14,14,36,.9) 38%, rgba(14,14,36,0) 100%), url(anh/giao-dien/ban-do-dem.webp) center 30% / cover; } }
+.dn-nhom { background: linear-gradient(180deg, rgba(255,248,240,0) 55%, rgba(255,248,240,.9)), url(anh/giao-dien/nen-dang-nhap.webp) center 8% / cover !important; }
+.dn-nhom .dn-chu { background: rgba(255, 255, 255, .86); backdrop-filter: blur(4px); border-radius: 16px; padding: 7px 12px; margin: 10px 14px 0; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .dn-nhom .dn-chu { background: rgba(24, 22, 56, .82); } }
+.dn-nhom { height: 340px !important; }

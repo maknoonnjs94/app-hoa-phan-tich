@@ -103,6 +103,11 @@ const theChuong = (c, so) => {
   </a>`;
 };
 
+// Thẻ tổng tiến độ đầu màn Lý thuyết: nền bản đồ quần đảo (ngày / đêm theo giao diện)
+const theTienDoChung = () => {
+  const xong = CHUONG.filter(c => tienDo(c.id) >= 95).length, tb = Math.round(CHUONG.reduce((t, c) => t + tienDo(c.id), 0) / CHUONG.length);
+  return `<div class="tien-do-chung"><div class="nd"><b>${xong}/${CHUONG.length}</b> chương đã đọc xong<div class="thanh"><i style="width:${tb}%"></i></div><small>${tb}% toàn bộ lí thuyết</small></div></div>`;
+};
 const theDocTiep = () => {
   const g = docGanNhat();
   const c = g && CHUONG.find(x => x.id === g.id);
@@ -275,6 +280,7 @@ const MAN_HINH = {
       </label>
       <div id="kq-tim" hidden></div>
       <div id="ds-chuong">
+        ${theTienDoChung()}
         ${theDocTiep()}
         ${theoNhom(ds => `<div class="list list-chuong">${ds.map((c, i) => theChuong(c, CHUONG.indexOf(c) + 1)).join("")}</div>`)}
       </div>
