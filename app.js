@@ -87,19 +87,21 @@ const dongDanhSach = (link, icon, ten, phu) => `
   </a>`;
 
 const theChuong = (c, so) => {
-  const pt = tienDo(c.id);
+  const pt = tienDo(c.id), xong = pt >= 95, dang = !xong && docGanNhat()?.id === c.id;
   return `
-  <a class="the-chuong co-bia" href="#/ly-thuyet/${c.id}" style="--bia:url(anh/giao-dien/bia-${BIA_CHUONG[c.id] || "buret"}.webp)">
+  <a class="the-chuong ch-dong ${dang ? "dang-hoc" : ""} ${xong ? "da-xong" : ""}" href="#/ly-thuyet/${c.id}">
     <span class="icon">${icChuong(c)}</span>
+    <span class="so-tron">${so}</span>
     <span class="text">
-      <span class="ten">${so}. ${c.ten}</span>
+      <span class="ten">${c.ten}</span>
       <small>${c.moTa}</small>
       <span class="dong-duoi">
-        <span class="nhan-chuong ${c.dayDu ? "day-du" : ""}">${c.dayDu ? "Đầy đủ" : "Tóm tắt"}</span>
+        <span class="thanh-nho"><i style="width:${pt}%"></i></span><span class="pt">${pt}%</span>
         ${c.choDuyet ? '<span class="nhan-chuong cho-duyet">Chờ duyệt</span>' : ""}
-        ${pt ? `<span class="thanh-nho"><i style="width:${pt}%"></i></span><span class="pt">${pt}%</span>` : ""}
       </span>
     </span>
+    ${xong ? '<span class="tick-xong">✓</span>' : dang ? '<span class="nhan-dang-hoc">Đang học</span>' : ""}
+    <span class="mui">›</span>
   </a>`;
 };
 
@@ -161,8 +163,9 @@ const BIA_CHUONG = { "mo-dau": "can", "do-luong": "can", "thong-ke": "can", "hie
   "quang-nguyen-tu": "quang-pho", "dien-hoa": "ph", "sac-ki": "sac-ki", "gc-hplc": "sac-ki" };
 
 // Chia các chương theo nhóm (Phân tích hóa học / Phân tích công cụ)
-const theoNhom = veNhom => [...new Set(CHUONG.map(c => c.nhom))]
-  .map(nhom => `<h2>${nhom}</h2>${veNhom(CHUONG.filter(c => c.nhom === nhom))}`).join("");
+const BIA_NHOM = { "Cơ sở": "can", "Cân bằng và chuẩn độ": "buret", "Phân tích công cụ": "quang-pho" };
+const theoNhom = (veNhom, banner = false) => [...new Set(CHUONG.map(c => c.nhom))]
+  .map(nhom => banner && BIA_NHOM[nhom] ? `<div class="nhom-dau" style="--bia:url(anh/giao-dien/bia-${BIA_NHOM[nhom]}.webp)"><b>${nhom}</b><small>${CHUONG.filter(c => c.nhom === nhom).length} chương</small></div>${veNhom(CHUONG.filter(c => c.nhom === nhom))}` : `<h2>${nhom}</h2>${veNhom(CHUONG.filter(c => c.nhom === nhom))}`).join("");
 
 /* ---------- Tìm kiếm trong lý thuyết (không phân biệt dấu) ---------- */
 const boDau = s => s.normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D").toLowerCase();
@@ -282,7 +285,7 @@ const MAN_HINH = {
       <div id="ds-chuong">
         ${theTienDoChung()}
         ${theDocTiep()}
-        ${theoNhom(ds => `<div class="list list-chuong">${ds.map((c, i) => theChuong(c, CHUONG.indexOf(c) + 1)).join("")}</div>`)}
+        ${theoNhom(ds => `<div class="list list-chuong">${ds.map((c, i) => theChuong(c, CHUONG.indexOf(c) + 1)).join("")}</div>`, true)}
       </div>
     `,
   },
@@ -411,13 +414,15 @@ const MAN_HINH = {
     lamBai: true,
     ve: () => {
       if (!baiLam || baiLam.ketThuc) return `<div class="trong">Chưa có bài đang làm.<br><br><a class="btn" href="#/luyen-tap">Chọn bài luyện</a></div>`;
+      const chuong = [...new Set(baiLam.cau.map(c => CAU_THEO_ID[c.id]?.chuong).filter(Boolean))];
+      const phu = !baiLam.giao && chuong.length === 1 ? `Chương ${CHUONG.findIndex(c => c.id === chuong[0]) + 1} · ${tenChuong(chuong[0])}` : baiLam.giao ? hoaAnToan(baiLam.giao.ten) : baiLam.cheDo === "thi" ? "Thi thử" : "Luyện tập";
       return `
-      <div class="thanh-lam-bai">
-        <span id="so-cau"></span>
-        <span class="dong-ho">⏱ <span id="dong-ho">00:00</span></span>
+      <div class="lam-phu">${phu}</div>
+      <div class="lam-tien-do">
+        <div class="lt-trai"><span id="so-cau"></span><div class="thanh-lam"><i id="tien-do-lam"></i></div></div>
+        <div class="lt-gio"><img src="anh/3d/dong-ho.webp" alt=""><span class="dong-ho" id="dong-ho">00:00</span></div>
         <button class="nut-phu" onclick="nopBai()">Nộp bài</button>
       </div>
-      <div class="thanh-lam"><i id="tien-do-lam"></i></div>
       <div id="khung-cau"></div>`;
     },
   },
@@ -760,6 +765,7 @@ function demCauLuyen() {
 }
 
 // Vẽ câu hỏi hiện tại (chỉ vẽ lại phần khung câu, không vẽ cả trang)
+const hoaAnToan = t => String(t ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 function veCau() {
   const khung = document.getElementById("khung-cau");
   if (!khung || !baiLam) return;
@@ -788,10 +794,12 @@ function veCau() {
         <div>${goc.loiGiai || ""}</div></div>` : ""}
       <div class="bao-loi-dong">${nutBaoLoi("cau-hoi", goc.id, `${tenChuong(goc.chuong)} · ${tenDang(goc.dang)}`, `#/kho/${goc.chuong}`)}</div>
     </div>
+    ${baiLam.cheDo === "luyen" && !baiLam.giao ? (() => { const t = hienDapAn ? (daChon === dung ? ["dung", "Chính xác! Giỏi lắm!"] : ["sai", "Chưa đúng, đọc lời giải nhé!"]) : ["chao", "Hãy đọc kĩ câu hỏi nhé!"];
+      return `<div class="mascot-nhac"><span class="bong">${t[1]}</span><img src="anh/3d/mascot-${t[0]}.webp" alt=""></div>`; })() : ""}
     <div class="dieu-huong">
-      <button class="btn phu" ${i === 0 ? "disabled" : ""} onclick="denCau(${i - 1})">‹ Trước</button>
+      <button class="btn phu" ${i === 0 ? "disabled" : ""} onclick="denCau(${i - 1})">‹ Câu trước</button>
       <button class="btn phu" onclick="moBangCau()">${daLam}/${n} đã làm</button>
-      ${i < n - 1 ? `<button class="btn" onclick="denCau(${i + 1})">Sau ›</button>`
+      ${i < n - 1 ? `<button class="btn" onclick="denCau(${i + 1})">Câu sau ›</button>`
                   : `<button class="btn" onclick="nopBai()">Nộp bài</button>`}
     </div>`);
 }
