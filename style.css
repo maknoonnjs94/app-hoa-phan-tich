@@ -1424,3 +1424,14 @@ i.tk-xanh { background: #22c55e; } i.tk-vang { background: #f59e0b; } i.tk-do { 
 }
 /* máy tính bảng (rộng 700–1023px): khung rộng hơn điện thoại, vẫn dùng thanh tab dưới đáy */
 @media (min-width: 700px) and (max-width: 1023px) { .app, .tabbar { max-width: 760px; } .bang-muc-luc { max-width: 760px; } .nut-muc-luc { right: max(16px, calc(50% - 380px + 16px)); } .install-banner { max-width: 736px; } }
+
+/* ---------- Ảnh 3D mới: icon chương, mascot ở màn kết quả ---------- */
+.icon .ic3d, .tc-doc-icon .ic3d { width: 100%; height: 100%; object-fit: contain; display: block; filter: drop-shadow(0 3px 4px rgba(60, 40, 140, .22)); }
+.icon:has(.ic3d) { width: 52px; height: 52px; background: none; border-radius: 0; padding: 0; }
+.the-chuong .icon:has(.ic3d), .doc-tiep .icon:has(.ic3d) { width: 56px; height: 56px; }
+.tc3 .tc-doc-icon:has(.ic3d) { width: 56px; height: 56px; background: none !important; }
+.ket-qua-hero { position: relative; overflow: hidden; }
+.ket-qua-mascot { position: absolute; right: 6px; bottom: 0; height: 118%; max-height: 190px; object-fit: contain; pointer-events: none; filter: drop-shadow(0 6px 8px rgba(30, 20, 90, .3)); }
+.ket-qua-hero .hero-nho, .ket-qua-hero h3, .ket-qua-hero p { max-width: 62%; }
+.mascot-giua { display: block; margin: 0 auto 6px; height: 170px; object-fit: contain; filter: drop-shadow(0 8px 10px rgba(40, 30, 120, .25)); }
+.hero h3 .hero-ic .ic3d { width: 44px; height: 44px; display: inline-block; vertical-align: middle; margin: -6px 4px -4px 0; }

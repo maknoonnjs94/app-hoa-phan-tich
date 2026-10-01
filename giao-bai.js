@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v183";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v184";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -393,6 +393,7 @@ MAN_HINH["/ket-qua"].ve = () => {
   if (!baiLam?.giao || !baiLam.ketThuc) return veKetQuaGoc();
   const g = baiLam.giao;
   return `<div class="the-trang form-tk" style="text-align:center">
+    <img class="mascot-giua" src="anh/3d/mascot-${g.lyDo === "roi-app" || g.lyDo === "gv-thu" ? "sai" : "dung"}.webp" alt="">
     <h3>${hoa(g.ten)}</h3>
     <p>${g.daGui ? "✅ Đã nộp bài lên máy chủ." : "⏳ Đang gửi bài… Giữ kết nối mạng, đừng đóng app."}</p>
     ${g.lyDo === "roi-app" ? `<p class="loi-tk">Bài bị khóa và tự nộp vì rời app đủ ${g.soLanRoi} lần.</p>` : g.lyDo === "gv-thu" ? `<p class="loi-tk">Giáo viên đã thu bài.</p>` : ""}

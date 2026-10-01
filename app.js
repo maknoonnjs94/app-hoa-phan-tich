@@ -76,6 +76,9 @@ const thongKe = c => {
 };
 
 /* ---------- Mảnh giao diện dùng lại ---------- */
+// Icon 3D của chương (anh/3d/ch/<id>.webp); chương chưa có ảnh thì dùng emoji cũ
+const CHUONG_CO_ANH = new Set(["mo-dau", "do-luong", "thong-ke", "can-bang", "axit-bazo", "chuan-do-axit-bazo", "edta", "ket-tua", "oxi-hoa-khu", "dien-hoa", "uv-vis", "quang-nguyen-tu", "sac-ki", "gc-hplc"]);
+const icChuong = c => CHUONG_CO_ANH.has(c.id) ? `<img class="ic3d" src="anh/3d/ch/${c.id}.webp" alt="" loading="lazy">` : c.icon;
 const dongDanhSach = (link, icon, ten, phu) => `
   <a href="${link}">
     <span class="icon">${icon}</span>
@@ -87,7 +90,7 @@ const theChuong = (c, so) => {
   const pt = tienDo(c.id);
   return `
   <a class="the-chuong co-bia" href="#/ly-thuyet/${c.id}" style="--bia:url(anh/giao-dien/bia-${BIA_CHUONG[c.id] || "buret"}.webp)">
-    <span class="icon">${c.icon}</span>
+    <span class="icon">${icChuong(c)}</span>
     <span class="text">
       <span class="ten">${so}. ${c.ten}</span>
       <small>${c.moTa}</small>
@@ -107,7 +110,7 @@ const theDocTiep = () => {
   const muc = CHUONG_MUC[c.id].muc[g.muc];
   return `
   <a class="doc-tiep" href="#/ly-thuyet/${c.id}?muc=${g.muc}">
-    <span class="icon">${c.icon}</span>
+    <span class="icon">${icChuong(c)}</span>
     <span class="text"><small>Đọc tiếp</small>${c.ten}<small>${muc ? `Mục ${g.muc + 1} · ${muc.tieuDe}` : ""}</small></span>
     <span class="nut-tron">▶</span>
   </a>`;
@@ -141,7 +144,7 @@ const theDocTiepTrangChu = () => {
   const link = g && g.id === c.id ? `#/ly-thuyet/${c.id}?muc=${g.muc}` : `#/ly-thuyet/${c.id}`;
   return `
   <a class="tc-doc" href="${link}">
-    <span class="tc-doc-icon">${c.icon}</span>
+    <span class="tc-doc-icon">${icChuong(c)}</span>
     <span class="text"><small>${g ? "Đọc tiếp" : "Bắt đầu học"}</small><b>${c.ten}</b>
       <span class="thanh"><i style="width:${tienDo(c.id)}%"></i></span></span>
     <span class="nut">›</span>
@@ -171,7 +174,7 @@ function timKiem(q) {
   kq.innerHTML = trung.length ? `<div class="list">${trung.map(x => {
     const vt = boDau(x.chu).indexOf(tu[0]);
     const trich = vt < 0 ? x.chu.slice(0, 90) : (vt > 30 ? "…" : "") + x.chu.slice(Math.max(0, vt - 30), vt + 70);
-    return dongDanhSach(`#/ly-thuyet/${x.c.id}?muc=${x.k}`, x.c.icon, x.tieuDe, `${x.c.ten} · ${trich}…`);
+    return dongDanhSach(`#/ly-thuyet/${x.c.id}?muc=${x.k}`, icChuong(x.c), x.tieuDe, `${x.c.ten} · ${trich}…`);
   }).join("")}</div>` : `<div class="trong">Không tìm thấy mục nào khớp “${q}”.</div>`;
 }
 
@@ -219,7 +222,7 @@ function traCuu(q) {
   const phanLT = muc.slice(0, 20).map(x => {
     const vt = boDau(x.chu).indexOf(tu[0]);
     const trich = vt < 0 ? x.chu.slice(0, 90) : (vt > 30 ? "…" : "") + x.chu.slice(Math.max(0, vt - 30), vt + 90);
-    return dongDanhSach(`#/ly-thuyet/${x.c.id}?muc=${x.k}`, x.c.icon, x.tieuDe, `${x.c.ten} · ${danhDau(trich, tuGoc)}…`);
+    return dongDanhSach(`#/ly-thuyet/${x.c.id}?muc=${x.k}`, icChuong(x.c), x.tieuDe, `${x.c.ten} · ${danhDau(trich, tuGoc)}…`);
   }).join("");
   // 3) Ảnh thiết bị, dụng cụ
   const anh = typeof ANH_THAT === "undefined" ? [] : Object.keys(ANH_THAT).filter(k => khop(boDau(`${ANH_THAT[k].ten} ${k}`)));
@@ -227,7 +230,7 @@ function traCuu(q) {
   const cau = typeof laGVtk === "function" && laGVtk() ? demTheo(KHO.filter(c => khop(khoaTimCau(c))), c => c.chuong) : {};   // chỉ GV thấy câu hỏi
   const phanCau = CHUONG.filter(c => cau[c.id]).map(c =>
     `<a href="#/kho/${c.id}" onclick="Object.assign(locKho,{chuong:'${c.id}',dang:'',tu:${JSON.stringify(q.trim()).replace(/"/g, "&quot;")}})">
-      <span class="icon">${c.icon}</span><span class="text">${c.ten}<small>${cau[c.id]} câu hỏi có “${q.trim().replace(/</g, "&lt;")}”</small></span><span class="chevron">›</span></a>`).join("");
+      <span class="icon">${icChuong(c)}</span><span class="text">${c.ten}<small>${cau[c.id]} câu hỏi có “${q.trim().replace(/</g, "&lt;")}”</small></span><span class="chevron">›</span></a>`).join("");
   const nhom = (t, n, html) => n ? `<h2>${t} <small class="dem-tra">${n}</small></h2>${html}` : "";
   const tong = theoBang.size + muc.length + anh.length + Object.keys(cau).length;
   kq.innerHTML = tong ? [
@@ -304,7 +307,7 @@ const MAN_HINH = {
       <h2>Bài tập tự luận theo chương</h2>
       ${theoNhom(ds => `
         <div class="list">
-          ${ds.map(c => dongDanhSach(`#/bai-tap/${c.id}`, c.icon, c.ten, c.baiTap.length ? `${c.baiTap.length} bài` : "Đang soạn")).join("")}
+          ${ds.map(c => dongDanhSach(`#/bai-tap/${c.id}`, icChuong(c), c.ten, c.baiTap.length ? `${c.baiTap.length} bài` : "Đang soạn")).join("")}
         </div>`)}
     `,
   },
@@ -361,7 +364,7 @@ const MAN_HINH = {
       <p class="ghi-chu">Câu <b>chờ duyệt</b> chỉ hiển thị ở đây để người quản trị xem xét, chưa dùng trong luyện tập hay kiểm tra.</p>
       ${theoNhom(ds => `<div class="list">${ds.map(c => {
         const da = NGAN_HANG.filter(q => q.chuong === c.id).length, cho = NGAN_HANG_CHO_DUYET.filter(q => q.chuong === c.id).length;
-        return dongDanhSach(`#/kho/${c.id}`, c.icon, c.ten, da + cho ? `${da} đã duyệt${cho ? ` · ${cho} chờ duyệt` : ""}` : "Chưa có câu hỏi");
+        return dongDanhSach(`#/kho/${c.id}`, icChuong(c), c.ten, da + cho ? `${da} đã duyệt${cho ? ` · ${cho} chờ duyệt` : ""}` : "Chưa có câu hỏi");
       }).join("")}</div>`)}
     `,
   },
@@ -420,8 +423,10 @@ const MAN_HINH = {
       if (!baiLam || !baiLam.ketThuc) return `<div class="trong">Chưa có bài đã nộp.</div>`;
       const n = baiLam.cau.length, d = soCauDung(), diem = Math.round(d / n * 100) / 10;
       const sai = n - d;
+      const tuDiem = diem >= 8 ? "an-mung" : diem >= 5 ? "dung" : "sai";
       return `
       <div class="hero ket-qua-hero">
+        <img class="ket-qua-mascot" src="anh/3d/mascot-${tuDiem}.webp" alt="">
         <div class="vong-diem" style="--pt:${d / n * 100}%"><b>${String(diem).replace(".", ",")}</b><small>điểm</small></div>
         <div>
           <div class="hero-nho">${baiLam.maDe && !baiLam.giao ? "Mã đề " + baiLam.maDe : baiLam.giao ? (baiLam.giao.loai === "bai-tap" ? "Bài tập" : "Bài kiểm tra") : baiLam.cheDo === "thi" ? "Thi thử" : "Luyện tập"}</div>
@@ -508,7 +513,7 @@ CHUONG.forEach((c, i) => {
       return `
       <div class="hero hero-chuong">
         <div class="hero-nho">Chương ${soTrongNhom} · ${c.nhom}</div>
-        <h3><span>${c.icon}</span> ${c.ten}</h3>
+        <h3><span class="hero-ic">${icChuong(c)}</span> ${c.ten}</h3>
         <div class="chip-dong">
           <span class="chip">${tk.soMuc} mục</span>
           ${tk.soViDu ? `<span class="chip">${tk.soViDu} ví dụ</span>` : ""}
