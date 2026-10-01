@@ -293,14 +293,17 @@ MAN_HINH["/lop"] = {
       lopHienTai = { id, ten: l.ten, ds, de };
       const theoNganh = {}; ds.forEach(x => theoNganh[x.u.nganh || "Chưa ghi ngành"] = (theoNganh[x.u.nganh || "Chưa ghi ngành"] || 0) + 1);
       const dem = { khoa: ds.filter(x => x.u.khoa).length, chua: ds.filter(x => !x.u.khoa && x.u.doiMatKhau).length };
-      v.innerHTML = `<div class="the-trang"><b style="font-size:17px">${hoa(l.ten)}</b>
-          <p class="ghi-chu">${ds.length} sinh viên · ${Object.keys(theoNganh).length} ngành · GV: ${gvLop.map(hoa).join(", ") || "chưa có"} · ${de.length} bài đã giao<br>
-            Tài khoản: ${ds.length - dem.khoa - dem.chua} đang dùng · ⏳ ${dem.chua} chưa đổi MK · 🔒 ${dem.khoa} đã khóa</p>
-          <div class="nut-hang trai"><a class="btn" href="#/giao-de?lop=${id}">📤 Giao bài</a><a class="btn" href="#/nhap-lop?id=${id}">＋ Thêm SV (link sheet / Excel)</a>
-            <button class="btn phu" onclick="themTheoMa('${id}')">＋ 1 SV theo mã</button>
-            <a class="btn phu" href="#/ket-qua-lop?id=${id}">📊 Kết quả lớp</a><a class="btn phu" href="#/so-diem?lop=${id}">📒 Sổ điểm</a><a class="btn" href="#/diem-danh?lop=${id}">🗓 Điểm danh</a>${laQtvTk() ? `<button class="btn phu" onclick="qt.moGv=qt.moGv==='${id}'?'':'${id}';hienManHinh()">👥 Giáo viên của lớp</button>` : ""}
-            <button class="btn phu" onclick="xuatDsLop()">⬇ Excel</button>
-            ${dem.chua ? `<button class="btn phu" onclick="khoaChuaDoi('${id}')">🔒 Khóa ${dem.chua} TK chưa đổi MK</button>` : ""}</div></div>
+      v.innerHTML = `<div class="the-trang lop-dau"><h2>${hoa(l.ten)}</h2>
+          <p class="ghi-chu">${ds.length} sinh viên · ${Object.keys(theoNganh).length} ngành · ${de.length} bài đã giao</p>
+          <p class="ghi-chu">👤 ${gvLop.map(hoa).join(", ") || "Chưa có giáo viên"}</p>
+          <div class="lop-chip"><span class="ok">✓ ${ds.length - dem.khoa - dem.chua} đang dùng</span>${dem.chua ? `<span class="cho">⏳ ${dem.chua} chưa đổi MK</span>` : ""}${dem.khoa ? `<span class="khoa">🔒 ${dem.khoa} đã khóa</span>` : ""}</div>
+          <div class="lop-luoi">
+            <a href="#/giao-de?lop=${id}"><i>📤</i>Giao bài</a><a href="#/diem-danh?lop=${id}"><i>🗓</i>Điểm danh</a><a href="#/ket-qua-lop?id=${id}"><i>📊</i>Kết quả</a>
+            <a href="#/so-diem?lop=${id}"><i>📒</i>Sổ điểm</a><a href="#/nhap-lop?id=${id}"><i>➕</i>Thêm SV</a><button onclick="document.getElementById('lop-khac').toggleAttribute('hidden')"><i>⋯</i>Khác</button></div>
+          <div class="lop-khac" id="lop-khac" hidden>
+            <button onclick="themTheoMa('${id}')">＋ Thêm 1 SV theo mã</button><button onclick="xuatDsLop()">⬇ Tải danh sách Excel</button>
+            ${laQtvTk() ? `<button onclick="qt.moGv=qt.moGv==='${id}'?'':'${id}';hienManHinh()">👥 Giáo viên của lớp</button>` : ""}
+            ${dem.chua ? `<button onclick="khoaChuaDoi('${id}')">🔒 Khóa ${dem.chua} TK chưa đổi mật khẩu</button>` : ""}</div></div>
         ${laQtvTk() && qt.moGv === id ? khungGanGv(l) : ""}
         <details class="the-trang nhom-tk" ${de.length ? "open" : ""}><summary><b>Bài đã giao cho lớp</b><span class="dem">${de.length}</span></summary>
           <div class="ds-gon">${[...de].reverse().map(d => { const nop = ds.filter(x => bai[`${d.id}_${x.u.uid}`]?.daNop).length, bt = d.loai === "bai-tap";
