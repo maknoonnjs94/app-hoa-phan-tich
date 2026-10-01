@@ -46,10 +46,11 @@ function kdMoThem() {
       <label>Tên / mã đề (tùy chọn)<input id="kd-ten" placeholder="VD: Đề 1, Đề chính thức" maxlength="60"></label>
       <label>Ghi chú (tùy chọn)<input id="kd-gc" maxlength="200"></label>
       <label class="btn full phu">📷 Chọn ảnh đề (chụp hoặc từ thư viện, chọn được nhiều trang)<input type="file" accept="image/*" multiple hidden onchange="kdChonAnh(this.files);this.value=''"></label>
+      <button class="btn full phu" onclick="kdDocTin(true)">🔎 Đọc năm học, kì, đề số từ ảnh</button>
       <details><summary>Tùy chọn làm đẹp ảnh</summary><div class="kd-tuy">${[["ban", "Bỏ nền bàn / ngoài tờ giấy"], ["nen", "Xóa bóng, làm đều nền"], ["thang", "Làm thẳng chữ"], ["cat", "Cắt viền thừa"], ["to", "Phóng to ảnh nhỏ"], ["muot", "Làm mượt nhiễu"], ["net", "Làm nét chữ"], ["mau", "Giữ màu (mặc định: đen trắng)"]]
         .map(([k, t]) => `<label class="tk-chk"><input type="checkbox" ${KD.them.opt[k] ? "checked" : ""} onchange="KD.them.opt.${k}=this.checked"> ${t}</label>`).join("")}
         <button class="btn phu" onclick="kdXuLyLai()">↻ Xử lý lại tất cả với tùy chọn này</button></div></details>
-      <div id="kd-trang"></div><p class="loi-tk" id="kd-loi"></p>
+      <div id="kd-trang"></div><p class="ghi-chu" id="kd-dt"></p><p class="loi-tk" id="kd-loi"></p>
       <div class="nut-hang"><button class="btn phu" onclick="KD.them=null;document.getElementById('kd-them').innerHTML=''">Hủy</button><button class="btn" id="kd-luu" onclick="kdLuu()" disabled>💾 Lưu vào kho</button></div></div>`;
   o.scrollIntoView({ behavior: "smooth", block: "start" });
 }
@@ -67,6 +68,22 @@ async function kdChay(ds) {
     if (!KD.them) return;
   }
   T.xuLy = false; kdVeTrang();
+  if (!T.daDoc && T.trang.some(p => p.ra)) kdDocTin(false);   // ảnh đầu tiên xong → tự đọc thông tin đề
+}
+/* tự đọc phần đầu trang (OCR) để điền năm học, kì, đề số, ghi chú; chỉ điền ô còn trống (ép = true thì ghi đè) */
+async function kdDocTin(ep) {
+  const T = KD.them, p = T?.trang.find(x => x.ra), tt = document.getElementById("kd-dt"); if (!T || !p || !tt || T.dangDoc) return;
+  T.dangDoc = true; T.daDoc = true;
+  try {
+    const r = await DOC.doc(p.ra.blob, s => { tt.textContent = "🔎 " + s; });
+    const g = id => document.getElementById(id), dien = (id, v) => { const e = g(id); if (e && v && (ep || !e.value.trim())) { e.value = v; return true; } return false; }, da = [];
+    if (dien("kd-nam", r.nam)) da.push("năm học " + r.nam);
+    if (r.ki && g("kd-ki") && (ep || g("kd-ki").selectedIndex === 0)) { g("kd-ki").value = r.ki; da.push(r.ki); }
+    if (dien("kd-ten", r.ten)) da.push(r.ten);
+    if (dien("kd-gc", r.ghiChu)) da.push("ghi chú");
+    tt.textContent = da.length ? "✨ Đã tự điền: " + da.join(", ") + ". Bạn kiểm tra lại cho chắc." : (r.nam || r.ki || r.ten ? "Các ô đã có thông tin nên giữ nguyên." : "Không đọc được thông tin trên ảnh này, bạn nhập tay nhé.");
+  } catch (e) { tt.textContent = "Không đọc được chữ trên ảnh (" + (e.message || e) + "). Bạn nhập tay nhé."; }
+  T.dangDoc = false;
 }
 function kdXuLyLai() { if (KD.them?.trang.length) kdChay(KD.them.trang); }
 function kdVeTrang() {
