@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v169";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v170";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -683,7 +683,15 @@ function theLopHocTrangChu() {
   return `<a href="#/lop-hoc" class="tc-lop"><img class="bieu-tuong" src="anh/3d/lop-hoc.webp" alt=""><span class="text"><small>Quản lý</small><b>Lớp học</b><em>${dong}</em></span><span class="mui">›</span></a>`;
 }
 // Trang chủ theo vai trò: GV có thẻ Lớp học ở đầu và các ô soạn đề; HS có Bài được giao
-function theDauTrangChu() { return laGVtk() ? theLopHocTrangChu() : ""; }
+function theCanhBaoHoc() {   // SV: nhắc nhở do GV bấm “Báo động” (thống kê dạng bài); đóng bằng “Đã hiểu” (nhớ theo máy)
+  const c = tk.hoSo?.canhBaoHoc; if (!c || laGVtk()) return "";
+  try { if (localStorage.getItem("cb-hoc-xem") === String(c.luc)) return ""; } catch {}
+  return `<div class="the-trang tk-canh-bao"><b>🚨 Thầy/cô nhắc: cần ôn thêm</b>
+    <p>${hoa(c.boi || "Giáo viên")} thấy kết quả gần đây${c.lop ? " (" + hoa(c.lop) + ")" : ""}${c.tl >= 0 ? " chỉ đạt khoảng " + c.tl + "% câu đúng" : " chưa tốt"}.${c.dang?.length ? " Các phần cần ôn:" : ""}</p>
+    ${c.dang?.length ? `<ul>${c.dang.map(d => `<li>${hoa(d)}</li>`).join("")}</ul>` : ""}${c.ghiChu ? `<p class="tk-loi-nhan">“${hoa(c.ghiChu)}”</p>` : ""}
+    <div class="nut-hang"><a class="btn" href="#/luyen-tap">Luyện tập ngay</a><button class="btn phu" onclick="try{localStorage.setItem('cb-hoc-xem','${c.luc}')}catch{};hienManHinh()">Đã hiểu</button></div></div>`;
+}
+function theDauTrangChu() { return laGVtk() ? theLopHocTrangChu() : theCanhBaoHoc(); }
 const oTrangChuKhach = oTrangChu;
 oTrangChu = () => laGVtk() ? [["#/tao-de", "tao-de", "Tạo đề", "Soạn & in đề"], [KHO_KHOA.mo ? "#/kho" : "#/kho-cau-hoi", "luu", "Ngân hàng", "Câu hỏi"],
     ["#/ngan-hang-de", "luyen-tap", "Đề đã soạn", "Dùng lại"], ["#/ly-thuyet", "ly-thuyet", "Lí thuyết", "15 chương"],

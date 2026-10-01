@@ -25,7 +25,7 @@ async function tkTaiLop(l) {
   const dsHS = hs.docs.map(x => ({ uid: x.id, ...x.data() })).filter(u => u.vaiTro === "hs" || !u.vaiTro)
     .sort((a, b) => (a.hoTen || "").split(" ").pop().localeCompare((b.hoTen || "").split(" ").pop(), "vi") || (a.hoTen || "").localeCompare(b.hoTen || "", "vi"));
   const diem = dsHS.map(u => de.map(d => { const b = bai[`${d.id}_${u.uid}`]; return b && (b.daNop || bg > d.dongLuc) ? diemCuoi(b) : null; }));
-  return { l, de, hs: dsHS, diem, chon: new Set(de.map((_, i) => i)), vang0: false, xem: "", xep: "ten" };
+  return { l, de, hs: dsHS, diem, bai, tab: "diem", nhom: "dang", xanh: 70, do: 40, daBao: new Set(), chon: new Set(de.map((_, i) => i)), vang0: false, xem: "", xep: "ten" };
 }
 /* điểm của sinh viên i trên các bài đang chọn: trung bình (vắng: bỏ qua hoặc tính 0) */
 function tkDiemHS(i) {
@@ -75,6 +75,7 @@ function tkNhanXet(m) {
 }
 function tkVe() {
   const v = document.getElementById("tk-noi-dung"); if (!v || !TK) return;
+  if (TK.tab === "dang") return tkVeDang(v);
   const ds = [...TK.chon].sort((a, b) => a - b);
   const xem = TK.xem === "" ? -1 : TK.hs.findIndex(u => u.uid === TK.xem);
   const diemHS = TK.hs.map((_, i) => tkDiemHS(i)), mau = diemHS.filter(x => x != null), m = tkThongKe(mau);
@@ -101,6 +102,70 @@ function tkVe() {
         return `<tr class="${h.u.uid === TK.xem ? "tk-dang-xem" : ""}"><td><a class="lien-ket" onclick="tkDoi('xem','${h.u.uid}');document.querySelector('.tk-svg')?.scrollIntoView({behavior:'smooth',block:'center'})">${hoa(h.u.hoTen)}</a><small>${hoa(h.u.maHS || "")}</small></td>
           ${h.v.map(x => `<td class="${x == null ? "" : x < 5 ? "yeu" : x >= 8 ? "gioi" : ""}">${x == null ? "–" : sk(x, 1)}</td>`).join("")}<td><b>${sk(h.tb)}</b></td>${ds.length > 1 ? `<td>${sk(sd(h))}</td><td>${xh == null ? "–" : xh > .5 ? "▲ " + sk(xh, 1) : xh < -.5 ? "▼ " + sk(Math.abs(xh), 1) : "＝"}</td>` : ""}</tr>`; }).join("")}</tbody></table></div></div>`;
 }
+
+/* ---------- Theo dạng bài + đề xuất báo động ---------- */
+const tkKhoaNhom = c => TK.nhom === "chuong" ? tenChuong(c.chuong) : TK.nhom === "loai" ? (c.loai === "tt" ? "Câu tính toán" : "Câu lí thuyết") : `${tenChuong(c.chuong)} · ${tenDang(c.dang || "(chưa có dạng)")}`;
+const tkMau = (d, t) => t < 2 ? "tk-xam" : d / t * 100 >= TK.xanh ? "tk-xanh" : d / t * 100 < TK.do ? "tk-do" : "tk-vang";
+const ptram = (d, t) => t ? Math.round(d / t * 100) : null;
+function tkPhanTich() {
+  const ds = [...TK.chon].sort((a, b) => a - b), lop = {}, hs = TK.hs.map(() => ({ t: 0, d: 0, nhom: {}, vang: 0, lam: 0 }));
+  TK.hs.forEach((u, i) => ds.forEach(j => {
+    const b = TK.bai[`${TK.de[j].id}_${u.uid}`]; if (!b) { hs[i].vang++; return; }
+    hs[i].lam++;
+    (b.cau || []).forEach((c, k) => { const q = CAU_THEO_ID[c.id]; if (!q) return; const dung = b.chon?.[k] === dapAnHienThi(c), key = tkKhoaNhom(q);
+      const x = hs[i].nhom[key] ||= { t: 0, d: 0 }, y = lop[key] ||= { t: 0, d: 0, yeu: 0 }; x.t++; y.t++; hs[i].t++; if (dung) { x.d++; y.d++; hs[i].d++; } });
+  }));
+  hs.forEach(h => Object.entries(h.nhom).forEach(([k, x]) => { if (x.t >= 2 && x.d / x.t * 100 < TK.do) lop[k].yeu++; }));
+  const dexuat = [];
+  hs.forEach((h, i) => { const ly = [], tl = ptram(h.d, h.t), do_ = Object.entries(h.nhom).filter(([, x]) => x.t >= 2 && x.d / x.t * 100 < TK.do).sort((a, b) => a[1].d / a[1].t - b[1].d / b[1].t);
+    if (h.t >= 5 && tl < TK.do) ly.push(`làm đúng chỉ ${tl}%`);
+    if (do_.length >= 3) ly.push(`${do_.length} dạng sai nhiều`);
+    if (ds.length >= 2 && h.vang >= 2) ly.push(`vắng ${h.vang} bài`);
+    if (ly.length) dexuat.push({ i, tl, ly, yeu: do_.slice(0, 5).map(([k]) => k) }); });
+  dexuat.sort((a, b) => (a.tl ?? -1) - (b.tl ?? -1));
+  return { ds, lop, hs, dexuat };
+}
+async function tkBaoDong(uid, hoi = true) {
+  const i = TK.hs.findIndex(u => u.uid === uid), u = TK.hs[i], P = tkPhanTich(), dx = P.dexuat.find(x => x.i === i);
+  const yeu = dx?.yeu.length ? dx.yeu : Object.entries(P.hs[i].nhom).filter(([, x]) => x.t >= 2).sort((a, b) => a[1].d / a[1].t - b[1].d / b[1].t).slice(0, 5).map(([k]) => k);
+  let ghi = "";
+  if (hoi) { ghi = prompt(`Báo động cho ${u.hoTen}.\\nSinh viên sẽ thấy nhắc nhở ở trang chủ. Thêm lời nhắn (có thể để trống):`, ""); if (ghi === null) return; }
+  try {
+    await fbDb.collection("nguoiDung").doc(uid).update({ canhBaoHoc: { luc: Date.now(), boi: String(tk.hoSo?.hoTen || "Giáo viên").slice(0, 60), lop: String(TK.l.ten).slice(0, 80), tl: ptram(P.hs[i].d, P.hs[i].t) ?? -1, dang: yeu.map(k => k.slice(0, 90)), ghiChu: String(ghi).trim().slice(0, 200) } });
+    TK.daBao.add(uid); if (typeof ghiNhatKy === "function") ghiNhatKy("canh-bao-hoc", `Lớp ${TK.l.ten}`, u.hoTen);
+    if (hoi) tkVe();
+  } catch (e) { alert(loiTk(e)); }
+}
+async function tkBaoDongTatCa() {
+  const P = tkPhanTich(), ds = P.dexuat.map(x => TK.hs[x.i].uid).filter(u => !TK.daBao.has(u));
+  if (!ds.length) return; if (!confirm(`Báo động ${ds.length} sinh viên đang được đề xuất? Các em sẽ thấy nhắc nhở ở trang chủ.`)) return;
+  for (const u of ds) await tkBaoDong(u, false); tkVe();
+}
+function tkVeDang(v) {
+  const ds = [...TK.chon].sort((a, b) => a - b);
+  if (!ds.length) { v.innerHTML = `<div class="trong">Hãy chọn ít nhất một bài.</div>`; return; }
+  if (!Object.keys(CAU_THEO_ID).length) { v.innerHTML = `<div class="trong">Máy này chưa mở khóa kho câu hỏi nên chưa biết câu thuộc dạng nào. Hãy mở khóa kho rồi quay lại.</div>`; return; }
+  const P = tkPhanTich(), keys = Object.keys(P.lop).sort((a, b) => P.lop[a].d / P.lop[a].t - P.lop[b].d / P.lop[b].t);
+  const ct = `<div class="kq-chu-thich"><span><i class="tk-o tk-xanh"></i>Làm được nhiều (từ ${TK.xanh}%)</span><span><i class="tk-o tk-vang"></i>Sai ít</span><span><i class="tk-o tk-do"></i>Sai nhiều (dưới ${TK.do}%)</span><span><i class="tk-o tk-xam"></i>Chưa đủ số câu</span></div>`;
+  const o = (d, t) => `<td class="tk-o ${tkMau(d, t)}" title="${d}/${t} câu đúng">${t ? ptram(d, t) + "%" : "–"}</td>`;
+  v.innerHTML = `
+    <div class="the-trang"><b>Cách nhóm &amp; ngưỡng màu</b>
+      <div class="chip-hang" style="margin:8px 0">${[["dang", "Theo dạng bài"], ["chuong", "Theo chương"], ["loai", "Lí thuyết / Tính"]].map(([k, t]) => `<button class="chip-nhanh ${TK.nhom === k ? "chon" : ""}" onclick="tkDoi('nhom','${k}')">${t}</button>`).join("")}</div>
+      <div class="tk-nguong"><label>Xanh từ <input type="number" min="1" max="100" value="${TK.xanh}" onchange="tkDoi('xanh',this.value)">%</label><label>Đỏ dưới <input type="number" min="0" max="99" value="${TK.do}" onchange="tkDoi('do',this.value)">%</label></div>${ct}</div>
+    <div class="the-trang"><b>🚨 Đề xuất báo động</b> <small class="ghi-chu">(làm đúng dưới ${TK.do}%, hoặc có từ 3 dạng sai nhiều, hoặc vắng từ 2 bài)</small>
+      ${P.dexuat.length ? `<div class="kq-hs">${P.dexuat.map(x => { const u = TK.hs[x.i], da = TK.daBao.has(u.uid) || (u.canhBaoHoc && Date.now() - u.canhBaoHoc.luc < 7 * 864e5);
+        return `<div class="tk-bd"><div><b>${hoa(u.hoTen)}</b><small>${hoa(u.maHS || "")}</small><span class="tk-ly">${x.ly.join(" · ")}</span>${x.yeu.length ? `<small>Yếu: ${x.yeu.map(k => hoa(k)).join("; ")}</small>` : ""}</div>
+          <button class="btn ${da ? "phu" : ""}" onclick="tkBaoDong('${u.uid}')">${da ? "✓ Đã báo · báo lại" : "🚨 Báo động"}</button></div>`; }).join("")}</div>
+        <div class="nut-hang"><button class="btn" onclick="tkBaoDongTatCa()">🚨 Báo động tất cả đề xuất</button></div>`
+        : `<p class="ghi-chu">Chưa có sinh viên nào cần báo động với các bài đang chọn. 🎉</p>`}
+      <p class="ghi-chu">Bấm “Báo động” để gửi nhắc nhở: sinh viên thấy khung cảnh báo ở trang chủ kèm các dạng cần ôn. Thầy/cô cũng có thể báo động bất kì sinh viên nào ở bảng bên dưới.</p></div>
+    <div class="the-trang"><b>Lớp làm được bao nhiêu % theo từng nhóm</b> <small class="ghi-chu">(yếu nhất lên đầu)</small>
+      <div class="bang-cuon"><table class="bang tk-bang"><thead><tr><th>Nhóm</th><th>% đúng</th><th>Số câu</th><th>SV sai nhiều</th></tr></thead><tbody>
+      ${keys.map(k => { const x = P.lop[k]; return `<tr><td>${hoa(k)}</td>${o(x.d, x.t)}<td>${x.t}</td><td>${x.yeu}</td></tr>`; }).join("")}</tbody></table></div></div>
+    <div class="the-trang"><b>Từng sinh viên theo nhóm</b> <small class="ghi-chu">(cuộn ngang; bấm 🚨 để báo động)</small>
+      <div class="bang-cuon"><table class="bang tk-bang"><thead><tr><th>Sinh viên</th><th>Chung</th>${keys.map(k => `<th title="${hoa(k)}">${hoa(k.length > 22 ? k.slice(0, 21) + "…" : k)}</th>`).join("")}<th></th></tr></thead><tbody>
+      ${TK.hs.map((u, i) => { const h = P.hs[i]; return `<tr><td>${hoa(u.hoTen)}<small>${hoa(u.maHS || "")}</small></td>${o(h.d, h.t)}${keys.map(k => { const x = h.nhom[k]; return x ? o(x.d, x.t) : `<td>–</td>`; }).join("")}<td><button class="chip-nhanh" onclick="tkBaoDong('${u.uid}')">🚨</button></td></tr>`; }).join("")}</tbody></table></div></div>`;
+}
 function tkXuat() {   // CSV mở bằng Excel (cùng kiểu với sổ điểm): tổng hợp, từng bài, từng sinh viên
   const ds = [...TK.chon].sort((a, b) => a - b); if (!ds.length) return;
   const o = x => `"${String(x ?? "").replace(/"/g, '""')}"`, n = (x, d = 2) => x == null || !isFinite(x) ? "" : x.toFixed(d).replace(".", ",");
@@ -119,6 +184,9 @@ function tkXuat() {   // CSV mở bằng Excel (cùng kiểu với sổ điểm)
 function tkDoi(kieu, val) {
   if (!TK) return;
   if (kieu === "xem") TK.xem = val; else if (kieu === "xep") TK.xep = val;
+  else if (kieu === "tab" || kieu === "nhom") TK[kieu] = val;
+  else if (kieu === "xanh") TK.xanh = Math.max(1, Math.min(100, +val || 70));
+  else if (kieu === "do") TK.do = Math.max(0, Math.min(99, +val || 40));
   else if (kieu === "vang0") TK.vang0 = !!val;
   else if (kieu === "bai") { const j = +val; TK.chon.has(j) ? TK.chon.delete(j) : TK.chon.add(j); }
   else if (kieu === "tat") TK.chon = new Set(TK.de.map((_, i) => i));
@@ -127,6 +195,7 @@ function tkDoi(kieu, val) {
   if (["bai", "tat", "cuoi", "bo"].includes(kieu)) tkVeChon();
   tkVe();
 }
+function tkTab(t) { TK.tab = t; ["diem", "dang"].forEach(k => document.getElementById("tk-t-" + k)?.classList.toggle("chon", k === t)); tkVe(); }
 function tkVeChon() {
   const o = document.getElementById("tk-chon"); if (!o || !TK) return;
   o.innerHTML = TK.de.map((d, j) => `<label class="tk-the-bai ${TK.chon.has(j) ? "bat" : ""}" title="${hoa(d.ten)}"><input type="checkbox" ${TK.chon.has(j) ? "checked" : ""} onchange="tkDoi('bai',${j})"><span>B${j + 1}</span><small>${new Date(d.moLuc).toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit" })}</small></label>`).join("");
@@ -150,6 +219,7 @@ MAN_HINH["/thong-ke-lop"] = {
           <div id="tk-chon" class="tk-chon"></div>
           <div class="nut-hang trai"><button class="btn phu" onclick="tkDoi('tat')">Tất cả bài</button><button class="btn phu" onclick="tkDoi('cuoi')">Chỉ bài gần nhất</button><button class="btn" onclick="tkXuat()">⬇ Tải Excel</button></div>
           <label class="tk-chk"><input type="checkbox" onchange="tkDoi('vang0',this.checked)"> Sinh viên vắng tính 0 điểm (mặc định: bỏ qua bài vắng)</label></div>
+        <div class="chip-hang tk-tab"><button class="chip-nhanh chon" id="tk-t-diem" onclick="tkTab('diem')">📈 Điểm số</button><button class="chip-nhanh" id="tk-t-dang" onclick="tkTab('dang')">🧩 Dạng bài &amp; báo động</button></div>
         <div id="tk-noi-dung"></div>`;
       tkVeChon(); tkVe();
     } catch (e) { v.innerHTML = `<div class="trong">${loiTk(e)}</div>`; }

@@ -1337,3 +1337,12 @@ body.trang-chu .content:has(.tc3) { padding-bottom: calc(var(--cao-thanh-tab) + 
 .tk-bang td, .tk-bang th { text-align: center; white-space: nowrap; } .tk-bang td:first-child, .tk-bang th:first-child { text-align: left; }
 .tk-bang td small { display: block; font-size: 11px; color: var(--chu-phu); }
 .tk-bang td.yeu { color: #dc2626; } .tk-bang td.gioi { color: #16a34a; } .tk-bang .tk-dang-xem td { background: color-mix(in srgb, #ff6fa8 14%, transparent); }
+.tk-tab { margin: 0 0 10px; }
+.tk-o { text-align: center; font-weight: 600; } i.tk-o { display: inline-block; width: 12px; height: 12px; border-radius: 4px; margin-right: 4px; vertical-align: middle; }
+.tk-xanh { background: #d1fae5; color: #065f46; } .tk-vang { background: #fef3c7; color: #92400e; } .tk-do { background: #fee2e2; color: #991b1b; } .tk-xam { background: var(--nen); color: var(--chu-phu); font-weight: 400; }
+i.tk-xanh { background: #22c55e; } i.tk-vang { background: #f59e0b; } i.tk-do { background: #ef4444; } i.tk-xam { background: #cbd5e1; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tk-xanh:not(i) { background: #064e3b; color: #a7f3d0; } :root:not([data-theme="light"]) .tk-vang:not(i) { background: #5a3d05; color: #fde68a; } :root:not([data-theme="light"]) .tk-do:not(i) { background: #5b1a1a; color: #fecaca; } }
+.tk-nguong { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; } .tk-nguong input { width: 56px; margin: 0 4px; padding: 4px 6px; }
+.tk-bd { display: flex; justify-content: space-between; gap: 10px; align-items: center; padding: 8px 0; border-top: 1px solid var(--vien); } .tk-bd > div { display: flex; flex-direction: column; gap: 2px; font-size: 13px; min-width: 0; }
+.tk-bd small { color: var(--chu-phu); font-size: 11.5px; } .tk-ly { color: #dc2626; font-size: 12px; }
+.tk-canh-bao { border: 2px solid #ef4444; background: color-mix(in srgb, #ef4444 8%, var(--the)); margin: 10px 14px; } .tk-canh-bao p { margin: 6px 0; font-size: 14px; } .tk-canh-bao ul { margin: 4px 0 8px 18px; padding: 0; font-size: 13.5px; } .tk-loi-nhan { font-style: italic; }

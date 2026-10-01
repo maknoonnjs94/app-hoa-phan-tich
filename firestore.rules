@@ -36,6 +36,11 @@ service cloud.firestore {
         // GV sửa / khóa SV đang học lớp mình
         || (laGV() && resource.data.vaiTro == 'hs' && resource.data.get('lopHoc', []).hasAny(lopDayToi())
             && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['hoTen', 'maHS', 'nganh', 'khoa']))
+        // GV gửi nhắc nhở học tập (báo động) cho SV đang học lớp mình
+        || (laGV() && resource.data.vaiTro == 'hs' && resource.data.get('lopHoc', []).hasAny(lopDayToi())
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['canhBaoHoc'])
+            && request.resource.data.canhBaoHoc.keys().hasOnly(['luc', 'boi', 'lop', 'tl', 'dang', 'ghiChu'])
+            && request.resource.data.canhBaoHoc.ghiChu.size() <= 200 && request.resource.data.canhBaoHoc.dang.size() <= 5)
         // GV ghi lớp mới tạo vào danh sách lớp dạy của mình (chỉ lớp có tên mình trong gv); bỏ lớp thì tự do
         || (laGV() && request.auth.uid == uid
             && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['lopDay', 'lopVuaDoi'])

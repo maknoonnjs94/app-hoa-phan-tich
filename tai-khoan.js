@@ -248,7 +248,7 @@ const HANH_DONG = {
   "dang-nhap": "Đăng nhập", "doi-mat-khau": "Đổi mật khẩu", "giao-de": "Giao bài", "gia-han": "Đổi giờ đóng bài", "xoa-giao": "Xóa bài giao",
   "mo-khoa-bai": "Mở khóa bài", "thu-bai": "Thu bài", "chot-diem": "Chốt điểm", "sua-diem": "Sửa điểm", "khoa-tk": "Khóa / mở khóa tài khoản",
   "khoa-hang-loat": "Khóa hàng loạt", "dat-lai-mk": "Gửi thư đặt lại MK", "sua-nguoi": "Sửa thông tin người dùng", "tao-lop": "Tạo lớp", "xoa-lop": "Xóa lớp",
-  "cai-dat": "Đổi cài đặt", "sao-luu": "Sao lưu", "khoi-phuc": "Khôi phục dữ liệu",
+  "cai-dat": "Đổi cài đặt", "canh-bao-hoc": "Báo động học tập", "sao-luu": "Sao lưu", "khoi-phuc": "Khôi phục dữ liệu",
 };
 function ghiNhatKy(hd, ct = "", doiTuong = "") {
   try {
