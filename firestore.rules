@@ -66,8 +66,16 @@ service cloud.firestore {
     match /lop/{id} {
       allow read: if laHS();
       allow create: if laQTV() || (laGV() && request.resource.data.gv == [request.auth.uid] && request.resource.data.taoBoi == request.auth.uid);
-      allow update: if laQTV() || (laGV() && resource.data.gv.hasAny([request.auth.uid]) && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['ten']));
+      allow update: if laQTV() || (laGV() && resource.data.gv.hasAny([request.auth.uid]) && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['ten', 'danhSach', 'lich']));
       allow delete: if laQTV() || (laGV() && resource.data.get('taoBoi', '') == request.auth.uid);
+    }
+
+    // Điểm danh buổi học: mã = <id lớp>_<yyyymmdd>_<số thứ tự buổi>; chỉ giáo viên dạy lớp đó đọc / ghi
+    match /diemDanh/{id} {
+      allow read: if laGV();
+      allow create, update: if laQTV() || (laGV() && request.resource.data.lop in lopDayToi() && id.matches(request.resource.data.lop + '_.*')
+        && request.resource.data.keys().hasOnly(['lop', 'ngay', 'slot', 'dd', 'kq', 'luc', 'boi']));
+      allow delete: if laQTV() || (laGV() && resource.data.lop in lopDayToi());
     }
 
     // Đề giao cho lớp học phần (lop = id lớp)

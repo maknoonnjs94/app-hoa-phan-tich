@@ -455,18 +455,31 @@ async function qtThemMot() {
 /* ---------- Thêm SV vào lớp học phần: nhập file Excel/CSV, link Google Sheets, dán, hoặc theo mã SV ----------
    SV chưa có tài khoản → tạo mới (mã@tên miền, mật khẩu khởi tạo) và xếp vào lớp; đã có → chỉ thêm vào lớp. */
 const nhap = { dong: null, cot: {}, tenTep: "", lopId: "" };
-const COT_NHAP = { hoTen: "Họ và tên", ho: "Họ đệm", ten: "Tên", maHS: "Mã SV / MSSV", nganh: "Lớp HC / ngành", email: "Email" };
+const COT_NHAP = { stt: "STT", hoTen: "Họ và tên", ho: "Họ đệm", ten: "Tên", maHS: "Mã SV / MSSV", ngaySinh: "Ngày sinh", nganh: "Lớp HC / ngành", email: "Email" };
 function napThuVienXlsx() {
   if (window.XLSX) return Promise.resolve();
   return new Promise((ok, loi) => { const s = document.createElement("script"); s.src = "vendor/xlsx/xlsx.core.min.js"; s.onload = ok; s.onerror = () => loi(new Error("Không tải được thư viện đọc Excel")); document.head.append(s); });
+}
+// Ngày sinh về dạng dd/mm/yyyy (Excel có thể trả m/d/yyyy, yyyy-mm-dd, số ngày của Excel); không nhận ra thì giữ nguyên
+function chuanNgaySinh(t) {
+  t = String(t ?? "").trim(); if (!t) return "";
+  const hai = n => String(n).padStart(2, "0"); let m;
+  if ((m = t.match(/^(\d{4})[\/\-.](\d{1,2})[\/\-.](\d{1,2})/))) return `${hai(m[3])}/${hai(m[2])}/${m[1]}`;
+  if ((m = t.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{2}|\d{4})$/))) {
+    let [, a, b, y] = m; a = +a; b = +b; if (y.length === 2) y = (+y <= 30 ? "20" : "19") + y;
+    if (b > 12 && a <= 12) [a, b] = [b, a];   // m/d/yyyy → d/m/yyyy
+    return `${hai(a)}/${hai(b)}/${y}`;
+  }
+  if (/^\d{5}$/.test(t)) { const d = new Date(Math.round((+t - 25569) * 864e5)); return `${hai(d.getUTCDate())}/${hai(d.getUTCMonth() + 1)}/${d.getUTCFullYear()}`; }
+  return t;
 }
 async function docTepDs(tep) {
   if (!tep) return;
   try {
     await napThuVienXlsx();
-    const wb = XLSX.read(await tep.arrayBuffer(), { type: "array" });
+    const wb = XLSX.read(await tep.arrayBuffer(), { type: "array", cellDates: true });
     const ws = wb.Sheets[wb.SheetNames[0]];
-    nhan(XLSX.utils.sheet_to_json(ws, { header: 1, raw: false, defval: "" }), tep.name + (wb.SheetNames.length > 1 ? ` (trang "${wb.SheetNames[0]}")` : ""));
+    nhan(XLSX.utils.sheet_to_json(ws, { header: 1, raw: false, defval: "", dateNF: "dd/mm/yyyy" }), tep.name + (wb.SheetNames.length > 1 ? ` (trang "${wb.SheetNames[0]}")` : ""));
   } catch (e) { alert("Không đọc được file: " + (e.message || e)); }
 }
 function docDanDs() {
@@ -482,6 +495,8 @@ function nhan(bang, ten) {
     if (/e ?mail/.test(x)) return "email";
     if (/^(mssv|msv|mshs|ma ?sv|ma sinh vien|ma hs|ma hoc sinh|ma so( sinh vien| hoc sinh)?|student id|id)$/.test(x) || /^ma (sv|hs|so)/.test(x)) return "maHS";
     if (/^(ho (va |&)?ten|hoten|full ?name|ten sinh vien|ten hoc sinh|sinh vien|hoc sinh)$/.test(x)) return "hoTen";
+    if (/^(stt|tt|so tt|so thu tu|no)$/.test(x)) return "stt";
+    if (/^(ngay sinh|ngaysinh|ngay thang nam sinh|ns|dob|date of birth|birthday|sinh ngay)$/.test(x)) return "ngaySinh";
     if (/^(ho|ho dem|ho lot|ho va ten dem)$/.test(x)) return "ho";
     if (/^(ten|first ?name)$/.test(x)) return "ten";
     if (/^(lop|ma lop|lop hoc|class|lop sinh hoat|lop hanh chinh|nganh|nganh hoc|khoa|chuong trinh|he dao tao|lop hc)$/.test(x)) return "nganh";
@@ -533,7 +548,8 @@ function hangNhap() {
     else if ((co = theoEmail[email]) && co.vaiTro !== "hs") loi = "email này là tài khoản giáo viên";
     if (email && trongTep[email] === undefined) trongTep[email] = i;
     const daTrong = co && (co.lopHoc || []).includes(nhap.lopId);
-    return { hoTen, email, maHS, nganh, loi, co: loi ? null : co, trangThai: loi ? "loi" : daTrong ? "daTrong" : co ? "them" : "moi" };
+    const sttN = /^\d{1,4}$/.test(g(r, "stt")) ? +g(r, "stt") : null, ns = chuanNgaySinh(g(r, "ngaySinh"));
+    return { idx: i, stt: sttN, ns, hoTen, email, maHS, nganh, loi, co: loi ? null : co, trangThai: loi ? "loi" : daTrong ? "daTrong" : co ? "them" : "moi" };
   });
 }
 function veNhapDs() {
@@ -560,15 +576,16 @@ function veNhapDs() {
       <p class="ghi-chu">＋ ${dem("moi")} tạo mới · ↪ ${dem("them")} đã có tài khoản · ✓ ${dem("daTrong")} đã trong lớp${dem("loi") ? ` · <span class="loi-tk">✗ ${dem("loi")} lỗi</span>` : ""}</p>
       <details ${nhap.cot.maHS === undefined || (nhap.cot.hoTen === undefined && nhap.cot.ten === undefined) ? "open" : ""}><summary>Cột đã nhận (bấm để sửa nếu sai)</summary>
         <div class="luoi-cot">${Object.keys(COT_NHAP).map(cotChon).join("")}</div></details>
-      <div class="bang-cuon"><table class="bang bang-nhap"><thead><tr><th>#</th><th></th><th>Họ tên</th><th>Mã SV</th><th>Ngành</th></tr></thead><tbody>
-        ${ds.map((x, i) => `<tr class="${x.loi ? "loi" : ""}"><td>${i + 1}</td><td>${x.loi ? "✗ " + x.loi : NHAN[x.trangThai]}</td><td>${hoa(x.hoTen)}</td><td>${hoa(x.maHS)}</td><td>${hoa(x.nganh)}</td></tr>`).join("")}
+      <div class="bang-cuon"><table class="bang bang-nhap"><thead><tr><th>STT</th><th></th><th>Họ tên</th><th>Mã SV</th><th>Ngày sinh</th><th>Ngành</th></tr></thead><tbody>
+        ${ds.map((x, i) => `<tr class="${x.loi ? "loi" : ""}"><td>${x.stt ?? i + 1}</td><td>${x.loi ? "✗ " + x.loi : NHAN[x.trangThai]}</td><td>${hoa(x.hoTen)}</td><td>${hoa(x.maHS)}</td><td>${hoa(x.ns)}</td><td>${hoa(x.nganh)}</td></tr>`).join("")}
       </tbody></table></div>
       <div class="nut-hang"><button class="btn phu" onclick="nhap.dong=null;veNhapDs()">Chọn danh sách khác</button>
         <button class="btn" onclick="taoTuDs()" ${lam.length ? "" : "disabled"}>Thêm ${lam.length} SV vào lớp</button></div>
       <pre class="nhat-ki" id="nhat-ki" hidden></pre></div>`;
 }
 async function taoTuDs() {
-  const ds = hangNhap().filter(x => x.trangThai === "moi" || x.trangThai === "them"), ki = document.getElementById("nhat-ki");
+  const tatCa = hangNhap(), ds = tatCa.filter(x => x.trangThai === "moi" || x.trangThai === "them"), ki = document.getElementById("nhat-ki"), thuTu = [];
+  tatCa.filter(x => x.trangThai === "daTrong").forEach(x => thuTu.push({ uid: x.co.uid, idx: x.idx, stt: x.stt, ns: x.ns }));   // đã trong lớp: chỉ cập nhật STT / ngày sinh
   const cfg = await layCauHinhTk(), moi = ds.filter(x => x.trangThai === "moi").length;
   if (!confirm(`Thêm ${ds.length} sinh viên vào lớp "${tenLop(nhap.lopId)}"?\n• Tạo mới ${moi} tài khoản (mật khẩu đầu ${cfg.matKhauDau})\n• ${ds.length - moi} em đã có tài khoản chỉ được thêm vào lớp`)) return;
   ki.hidden = false; ki.textContent = "";
@@ -576,15 +593,28 @@ async function taoTuDs() {
   let ok = 0;
   for (const x of ds) {
     try {
-      if (x.trangThai === "moi") await taoTaiKhoan({ hoTen: x.hoTen, email: x.email, vaiTro: "hs", maHS: x.maHS, nganh: x.nganh, lopHoc: [nhap.lopId], mk: cfg.matKhauDau });
-      else { await ghiLopHoc(x.co, [...new Set([...(x.co.lopHoc || []), nhap.lopId])]); }
+      let uid;
+      if (x.trangThai === "moi") uid = (await taoTaiKhoan({ hoTen: x.hoTen, email: x.email, vaiTro: "hs", maHS: x.maHS, nganh: x.nganh, lopHoc: [nhap.lopId], mk: cfg.matKhauDau })).uid;
+      else { await ghiLopHoc(x.co, [...new Set([...(x.co.lopHoc || []), nhap.lopId])]); uid = x.co.uid; }
+      thuTu.push({ uid, idx: x.idx, stt: x.stt, ns: x.ns });
       ok++; ghi(`✓ ${x.hoTen}${x.trangThai === "them" ? " (đã có TK, thêm vào lớp)" : ""}`);
     } catch (e) {
       ghi(`✗ ${x.hoTen}: ${loiTk(e)}`);
       if (e.code === "auth/too-many-requests") { ghi("\n⏸ Firebase tạm chặn vì tạo quá nhiều tài khoản trong thời gian ngắn. Khoảng 1 giờ sau đọc lại danh sách và bấm tiếp — các em đã có sẽ tự được bỏ qua."); break; }
     }
   }
+  try { await ghiThuTuLop(nhap.lopId, thuTu); } catch (e) { ghi("⚠ Chưa ghi được số thứ tự / ngày sinh: " + loiTk(e)); }
   ghi(`\nXong: ${ok}/${ds.length} sinh viên đã vào lớp.`);
+}
+// Số thứ tự + ngày sinh của SV trong lớp: lop/{id}.danhSach = { uid: { s: STT, ns: "dd/mm/yyyy" } }.
+// STT: lấy theo cột STT của file; không có thì giữ STT cũ; lớp còn trống thì theo thứ tự dòng trong file; lớp đã có người thì nối tiếp.
+async function ghiThuTuLop(lopId, muc) {
+  if (!muc.length) return;
+  const cu = (await fbDb.collection("lop").doc(lopId).get()).data()?.danhSach || {}, rong = !Object.keys(cu).length;
+  let max = Math.max(0, ...Object.values(cu).map(v => v.s || 0)); const cap = {};
+  muc.sort((a, b) => a.idx - b.idx).forEach(m => { const c = cu[m.uid]; cap[`danhSach.${m.uid}`] = { s: m.stt ?? c?.s ?? (rong ? m.idx + 1 : ++max), ns: m.ns || c?.ns || "" }; });
+  await fbDb.collection("lop").doc(lopId).update(cap);
+  const l = qt.lop?.find(x => x.id === lopId); if (l) { l.danhSach = { ...(l.danhSach || {}) }; Object.entries(cap).forEach(([k, v]) => l.danhSach[k.slice(9)] = v); }
 }
 // Ghi danh sách lớp học phần của 1 SV (luật: GV chỉ thêm / bớt lớp mình dạy)
 async function ghiLopHoc(u, lopHoc) {
@@ -595,7 +625,7 @@ async function ghiLopHoc(u, lopHoc) {
 async function boKhoiLop(uid, lopId) {
   const u = qt.tatCa.find(x => x.uid === uid);
   if (!confirm(`Bỏ ${u.hoTen} khỏi lớp "${tenLop(lopId)}"? Tài khoản và bài đã làm vẫn giữ.`)) return;
-  try { await ghiLopHoc(u, (u.lopHoc || []).filter(id => id !== lopId)); hienManHinh(); } catch (e) { alert(loiTk(e)); }
+  try { await ghiLopHoc(u, (u.lopHoc || []).filter(id => id !== lopId)); try { await fbDb.collection("lop").doc(lopId).update({ [`danhSach.${uid}`]: firebase.firestore.FieldValue.delete() }); } catch {} hienManHinh(); } catch (e) { alert(loiTk(e)); }
 }
 // Thêm 1 SV vào lớp theo mã SV (có tài khoản thì thêm vào lớp, chưa có thì tạo)
 async function themTheoMa(lopId) {
@@ -607,11 +637,12 @@ async function themTheoMa(lopId) {
     if (co) {
       if (co.vaiTro !== "hs") return alert("Email này là tài khoản giáo viên.");
       if ((co.lopHoc || []).includes(lopId)) return alert(`${co.hoTen} đã ở trong lớp.`);
-      await ghiLopHoc(co, [...(co.lopHoc || []), lopId]); alert(`Đã thêm ${co.hoTen} (đã có tài khoản) vào lớp.`);
+      await ghiLopHoc(co, [...(co.lopHoc || []), lopId]); await ghiThuTuLop(lopId, [{ uid: co.uid, idx: 0 }]).catch(() => {}); alert(`Đã thêm ${co.hoTen} (đã có tài khoản) vào lớp.`);
     } else {
       const hoTen = (prompt(`Chưa có tài khoản ${email}. Họ và tên sinh viên:`) || "").trim(); if (!hoTen) return;
       const nganh = (prompt("Ngành / lớp hành chính (có thể bỏ trống):") || "").trim();
-      await taoTaiKhoan({ hoTen, email, vaiTro: "hs", maHS: ma.includes("@") ? "" : ma, nganh, lopHoc: [lopId], mk: cfg.matKhauDau });
+      const moi = await taoTaiKhoan({ hoTen, email, vaiTro: "hs", maHS: ma.includes("@") ? "" : ma, nganh, lopHoc: [lopId], mk: cfg.matKhauDau });
+      await ghiThuTuLop(lopId, [{ uid: moi.uid, idx: 0 }]).catch(() => {});
       alert(`Đã tạo tài khoản ${email} (mật khẩu đầu ${cfg.matKhauDau}) và thêm vào lớp.`);
     }
     hienManHinh();

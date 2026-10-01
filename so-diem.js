@@ -205,7 +205,7 @@ MAN_HINH["/lop-hoc"] = {
       v.innerHTML = ds.map(l => { const k = kq[l.id];
         return `<div class="the-trang lh-lop"><div class="kq-dau"><b>${hoa(l.ten)}</b>
           <small class="ghi-chu">${k ? `${k.siSo} sinh viên · ${k.soBai} bài${k.dangMo ? ` · <b>${k.dangMo} đang mở</b>` : ""}${k.tb != null ? ` · TB ${diemVN(k.tb)}` : ""}${k.nopRate != null ? ` · nộp ${k.nopRate}%` : ""}` : "đang tính số liệu…"}</small></div>
-          <div class="nut-hang"><a class="btn" href="#/lop?id=${l.id}">👥 Sinh viên</a><a class="btn phu" href="#/nhap-lop?id=${l.id}">＋ Thêm SV</a><a class="btn phu" href="#/ket-qua-lop?id=${l.id}">📊 Kết quả</a><a class="btn phu" href="#/giao-de?lop=${l.id}">📤 Giao bài</a></div></div>`; }).join("");
+          <div class="nut-hang"><a class="btn" href="#/lop?id=${l.id}">👥 Sinh viên</a><a class="btn phu" href="#/nhap-lop?id=${l.id}">＋ Thêm SV</a><a class="btn phu" href="#/ket-qua-lop?id=${l.id}">📊 Kết quả</a><a class="btn phu" href="#/diem-danh?lop=${l.id}">🗓 Điểm danh</a><a class="btn phu" href="#/giao-de?lop=${l.id}">📤 Giao bài</a></div></div>`; }).join("");
       if (!ds.every(l => kq[l.id]) && !dangTinhKQ) taiKetQuaTatCa().then(() => { if (document.getElementById("vung-lh")) MAN_HINH["/lop-hoc"].sauKhiVe(); }).catch(() => {});   // số liệu chưa có: tính ngầm rồi vẽ lại
     } catch (e) { v.innerHTML = `<div class="trong">${loiTk(e)}</div>`; }
   },
@@ -283,11 +283,12 @@ MAN_HINH["/lop"] = {
       const dsHS = hs.docs.map(x => { const u = { uid: x.id, ...x.data() }, cu = qt.tatCa.find(y => y.uid === u.uid); return cu ? Object.assign(cu, u) : (qt.tatCa.push(u), u); });
       const gvLop = (l.gv || []).map(g => qt.tatCa.find(u => u.uid === g)?.hoTen).filter(Boolean);
       const bg = Date.now();
-      const ds = dsHS.sort((a, b) => a.hoTen.split(" ").pop().localeCompare(b.hoTen.split(" ").pop(), "vi") || a.hoTen.localeCompare(b.hoTen, "vi"))
-        .map(u => {
+      const tt = l.danhSach || {};   // STT + ngày sinh theo danh sách đầu vào (lop.danhSach); chưa có thì đánh số theo thứ tự tên
+      const ds = dsHS.sort((a, b) => (tt[a.uid]?.s ?? 1e6) - (tt[b.uid]?.s ?? 1e6) || a.hoTen.split(" ").pop().localeCompare(b.hoTen.split(" ").pop(), "vi") || a.hoTen.localeCompare(b.hoTen, "vi"))
+        .map((u, i) => {
           const kq = de.map(d => { const b = bai[`${d.id}_${u.uid}`]; return { d, b, diem: b && (b.daNop || bg > d.dongLuc) ? diemCuoi(b) : null }; });
           const co = kq.filter(x => x.diem != null);
-          return { u, kq, lam: kq.filter(x => x.b).length, tb: co.length ? Math.round(co.reduce((t, x) => t + x.diem, 0) / co.length * 100) / 100 : null, vp: kq.reduce((t, x) => t + (x.b?.roi?.length || 0), 0) };
+          return { u, stt: tt[u.uid]?.s ?? i + 1, ns: tt[u.uid]?.ns || "", kq, lam: kq.filter(x => x.b).length, tb: co.length ? Math.round(co.reduce((t, x) => t + x.diem, 0) / co.length * 100) / 100 : null, vp: kq.reduce((t, x) => t + (x.b?.roi?.length || 0), 0) };
         });
       lopHienTai = { id, ten: l.ten, ds, de };
       const theoNganh = {}; ds.forEach(x => theoNganh[x.u.nganh || "Chưa ghi ngành"] = (theoNganh[x.u.nganh || "Chưa ghi ngành"] || 0) + 1);
@@ -297,7 +298,7 @@ MAN_HINH["/lop"] = {
             Tài khoản: ${ds.length - dem.khoa - dem.chua} đang dùng · ⏳ ${dem.chua} chưa đổi MK · 🔒 ${dem.khoa} đã khóa</p>
           <div class="nut-hang trai"><a class="btn" href="#/giao-de?lop=${id}">📤 Giao bài</a><a class="btn" href="#/nhap-lop?id=${id}">＋ Thêm SV (link sheet / Excel)</a>
             <button class="btn phu" onclick="themTheoMa('${id}')">＋ 1 SV theo mã</button>
-            <a class="btn phu" href="#/ket-qua-lop?id=${id}">📊 Kết quả lớp</a><a class="btn phu" href="#/so-diem?lop=${id}">📒 Sổ điểm</a>
+            <a class="btn phu" href="#/ket-qua-lop?id=${id}">📊 Kết quả lớp</a><a class="btn phu" href="#/so-diem?lop=${id}">📒 Sổ điểm</a><a class="btn" href="#/diem-danh?lop=${id}">🗓 Điểm danh</a>
             <button class="btn phu" onclick="xuatDsLop()">⬇ Excel</button>
             ${dem.chua ? `<button class="btn phu" onclick="khoaChuaDoi('${id}')">🔒 Khóa ${dem.chua} TK chưa đổi MK</button>` : ""}</div></div>
         <details class="the-trang nhom-tk" ${de.length ? "open" : ""}><summary><b>Bài đã giao cho lớp</b><span class="dem">${de.length}</span></summary>
@@ -309,9 +310,9 @@ MAN_HINH["/lop"] = {
           <select id="chon-nganh" onchange="locLopHP.nganh=this.value;locLop()" aria-label="Ngành"><option value="">Mọi ngành (${ds.length})</option>
             ${Object.entries(theoNganh).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "vi")).map(([n, k]) => `<option value="${hoa(n)}" ${locLopHP.nganh === n ? "selected" : ""}>${hoa(n)} (${k})</option>`).join("")}</select></div>
           <p class="ghi-chu" id="dem-loc"></p>` : ""}
-        <div class="the-trang ds-gon" id="ds-lop">${ds.map(({ u, kq, lam, tb, vp }) => `<div class="dong-gon dong-sv" data-tim="${hoa(boDau(`${u.hoTen} ${u.maHS || ""} ${u.email}`))}" data-nganh="${hoa(u.nganh || "Chưa ghi ngành")}">
-            ${anhDaiDien(u, 30)}
-            <div class="giua"><b>${hoa(u.hoTen)}</b><small>${hoa(u.maHS || u.email)}${u.nganh ? " · " + hoa(u.nganh) : ""}</small></div>
+        <div class="the-trang ds-gon" id="ds-lop">${ds.map(({ u, stt, ns, kq, lam, tb, vp }) => `<div class="dong-gon dong-sv" data-tim="${hoa(boDau(`${u.hoTen} ${u.maHS || ""} ${u.email}`))}" data-nganh="${hoa(u.nganh || "Chưa ghi ngành")}">
+            <span class="stt-sv">${stt}</span>${anhDaiDien(u, 30)}
+            <div class="giua"><b>${hoa(u.hoTen)}</b><small>${hoa(u.maHS || u.email)}${ns ? " · 🎂 " + hoa(ns) : ""}${u.nganh ? " · " + hoa(u.nganh) : ""}</small></div>
             <span class="tt">${u.khoa ? "🔒" : u.doiMatKhau ? "⏳" : ""}${tb != null ? ` <b class="${tb < 5 ? "chu-yeu" : tb >= 8 ? "chu-gioi" : ""}">${diemVN(tb)}</b>` : ""}</span>
             <button class="nut-ba-cham" onclick="this.parentNode.classList.toggle('mo')" aria-label="Chi tiết">⋯</button>
             <div class="thao-tac">
@@ -334,8 +335,8 @@ function locLop() {
 }
 function xuatDsLop() {
   const { ten, ds, de } = lopHienTai, o = s => `"${String(s ?? "").replace(/"/g, '""')}"`;
-  const dong = [["STT", "Họ tên", "Mã SV", "Ngành / lớp HC", "Email đăng nhập", "Trạng thái tài khoản", "Số bài đã làm", "Số bài được giao", "Điểm TB", "Số lần vi phạm"],
-    ...ds.map((x, i) => [i + 1, x.u.hoTen, x.u.maHS, x.u.nganh, x.u.email, x.u.khoa ? "Đã khóa" : x.u.doiMatKhau ? "Chưa đổi mật khẩu" : "Đang dùng", x.lam, de.length, x.tb != null ? diemVN(x.tb) : "", x.vp])];
+  const dong = [["STT", "Họ tên", "Mã SV", "Ngày sinh", "Ngành / lớp HC", "Email đăng nhập", "Trạng thái tài khoản", "Số bài đã làm", "Số bài được giao", "Điểm TB", "Số lần vi phạm"],
+    ...ds.map((x, i) => [x.stt, x.u.hoTen, x.u.maHS, x.ns, x.u.nganh, x.u.email, x.u.khoa ? "Đã khóa" : x.u.doiMatKhau ? "Chưa đổi mật khẩu" : "Đang dùng", x.lam, de.length, x.tb != null ? diemVN(x.tb) : "", x.vp])];
   const blob = new Blob(["﻿" + dong.map(r => r.map(o).join(";")).join("\r\n")], { type: "text/csv;charset=utf-8" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `Danh sach - ${ten}.csv`; a.click();
 }
