@@ -310,7 +310,7 @@ MAN_HINH["/lop"] = {
           <select id="chon-nganh" onchange="locLopHP.nganh=this.value;locLop()" aria-label="Ngành"><option value="">Mọi ngành (${ds.length})</option>
             ${Object.entries(theoNganh).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "vi")).map(([n, k]) => `<option value="${hoa(n)}" ${locLopHP.nganh === n ? "selected" : ""}>${hoa(n)} (${k})</option>`).join("")}</select></div>
           <p class="ghi-chu" id="dem-loc"></p>` : ""}
-        <div class="the-trang ds-gon" id="ds-lop">${ds.map(({ u, stt, ns, kq, lam, tb, vp }) => `<div class="dong-gon dong-sv" data-tim="${hoa(boDau(`${u.hoTen} ${u.maHS || ""} ${u.email}`))}" data-nganh="${hoa(u.nganh || "Chưa ghi ngành")}">
+        <div class="the-trang ds-gon" id="ds-lop">${ds.map(({ u, stt, ns, kq, lam, tb, vp }) => `<div class="dong-gon dong-sv co-stt" data-tim="${hoa(boDau(`${u.hoTen} ${u.maHS || ""} ${u.email}`))}" data-nganh="${hoa(u.nganh || "Chưa ghi ngành")}">
             <span class="stt-sv">${stt}</span>${anhDaiDien(u, 30)}
             <div class="giua"><b>${hoa(u.hoTen)}</b><small>${hoa(u.maHS || u.email)}${ns ? " · 🎂 " + hoa(ns) : ""}${u.nganh ? " · " + hoa(u.nganh) : ""}</small></div>
             <span class="tt">${u.khoa ? "🔒" : u.doiMatKhau ? "⏳" : ""}${tb != null ? ` <b class="${tb < 5 ? "chu-yeu" : tb >= 8 ? "chu-gioi" : ""}">${diemVN(tb)}</b>` : ""}</span>
