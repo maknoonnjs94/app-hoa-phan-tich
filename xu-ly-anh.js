@@ -45,6 +45,10 @@ const XLA = (() => {
     if (lon < 0 || dtLon < tong * 0.25 || dtLon > tong * 0.97) return null;   // không thấy bàn (ảnh scan kín trang) → bỏ qua
     const x0 = new Int32Array(sh).fill(sw), x1 = new Int32Array(sh).fill(-1), y0 = new Int32Array(sw).fill(sh), y1 = new Int32Array(sw).fill(-1);
     for (let y = 0; y < sh; y++) for (let x = 0; x < sw; x++) if (nhan[y * sw + x] === lon) { if (x < x0[y]) x0[y] = x; if (x > x1[y]) x1[y] = x; if (y < y0[x]) y0[x] = y; if (y > y1[x]) y1[x] = y; }
+    /* an toàn: nếu phần bị loại còn có CHỮ (giấy bị tối do bóng đổ) thì không dùng mặt nạ — thà giữ viền còn hơn mất nội dung */
+    const trongTai = (x, y) => x >= x0[y] && x <= x1[y] && y >= y0[x] && y <= y1[x], moN = moHop(L, sw, sh, 3); let ngoai = 0, chiTiet = 0;
+    for (let y = 6; y < sh - 6; y++) for (let x = 6; x < sw - 6; x++) { if (trongTai(x, y) || trongTai(x + 6, y) || trongTai(x - 6, y) || trongTai(x, y + 6) || trongTai(x, y - 6)) continue; ngoai++; if (Math.abs(L[y * sw + x] - moN[y * sw + x]) > 9) chiTiet++; }
+    if (ngoai && chiTiet / ngoai > 0.035) return null;
     const mk = tao(sw, sh), gm = ctx2d(mk), im = gm.createImageData(sw, sh);
     for (let y = 0; y < sh; y++) for (let x = 0; x < sw; x++) { const trong = x >= x0[y] + 3 && x <= x1[y] - 3 && y >= y0[x] + 3 && y <= y1[x] - 3; const v = trong ? 255 : 0, o = (y * sw + x) * 4; im.data[o] = im.data[o + 1] = im.data[o + 2] = v; im.data[o + 3] = 255; }
     gm.putImageData(im, 0, 0);
