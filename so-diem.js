@@ -298,9 +298,10 @@ MAN_HINH["/lop"] = {
             Tài khoản: ${ds.length - dem.khoa - dem.chua} đang dùng · ⏳ ${dem.chua} chưa đổi MK · 🔒 ${dem.khoa} đã khóa</p>
           <div class="nut-hang trai"><a class="btn" href="#/giao-de?lop=${id}">📤 Giao bài</a><a class="btn" href="#/nhap-lop?id=${id}">＋ Thêm SV (link sheet / Excel)</a>
             <button class="btn phu" onclick="themTheoMa('${id}')">＋ 1 SV theo mã</button>
-            <a class="btn phu" href="#/ket-qua-lop?id=${id}">📊 Kết quả lớp</a><a class="btn phu" href="#/so-diem?lop=${id}">📒 Sổ điểm</a><a class="btn" href="#/diem-danh?lop=${id}">🗓 Điểm danh</a>
+            <a class="btn phu" href="#/ket-qua-lop?id=${id}">📊 Kết quả lớp</a><a class="btn phu" href="#/so-diem?lop=${id}">📒 Sổ điểm</a><a class="btn" href="#/diem-danh?lop=${id}">🗓 Điểm danh</a>${laQtvTk() ? `<button class="btn phu" onclick="qt.moGv=qt.moGv==='${id}'?'':'${id}';hienManHinh()">👥 Giáo viên của lớp</button>` : ""}
             <button class="btn phu" onclick="xuatDsLop()">⬇ Excel</button>
             ${dem.chua ? `<button class="btn phu" onclick="khoaChuaDoi('${id}')">🔒 Khóa ${dem.chua} TK chưa đổi MK</button>` : ""}</div></div>
+        ${laQtvTk() && qt.moGv === id ? khungGanGv(l) : ""}
         <details class="the-trang nhom-tk" ${de.length ? "open" : ""}><summary><b>Bài đã giao cho lớp</b><span class="dem">${de.length}</span></summary>
           <div class="ds-gon">${[...de].reverse().map(d => { const nop = ds.filter(x => bai[`${d.id}_${x.u.uid}`]?.daNop).length, bt = d.loai === "bai-tap";
             return `<a class="dong-lop lien-ket" href="#/bang-diem?id=${d.id}"><span class="ten"><b>${bt ? "📚" : "📝"} ${hoa(d.ten)}</b>
