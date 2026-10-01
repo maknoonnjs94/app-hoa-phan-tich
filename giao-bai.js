@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v184";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v185";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -306,7 +306,7 @@ MAN_HINH["/bai-duoc-giao"] = {
         return `<div class="the-trang dong-tk"><div><span class="nhan-loai ${bt ? "bt" : "kt"}">${bt ? "📚 Bài tập" : "📝 Kiểm tra"}</span> <b>${hoa(d.ten)}</b>
           <small>${hoa(d.lopTen || "")} · ${d.cau.length} câu${d.phut ? ` · ${d.phut} phút` : ""} · GV ${hoa(d.gvTen)}</small>
           <small>Hạn: ${gioVN(d.dongLuc)}${bt ? ` · ${d.soLanLam ? `được làm ${d.soLanLam} lần` : "làm lại không giới hạn"}` : mo && !b?.daNop ? ` · rời app ${d.soLanRoi} lần thì bị khóa` : ""}</small></div><div class="nut-hang">${tt}</div></div>`;
-      }).join("") || `<div class="trong">Chưa có bài nào được giao.</div>`;
+      }).join("") || `<div class="trong"><img class="mascot-trong" src="anh/3d/mascot-ngu.webp" alt=""><br>Chưa có bài nào được giao.</div>`;
     } catch (e) { v.innerHTML = `<div class="trong">${loiTk(e)}</div>`; }
   },
 };
@@ -393,7 +393,7 @@ MAN_HINH["/ket-qua"].ve = () => {
   if (!baiLam?.giao || !baiLam.ketThuc) return veKetQuaGoc();
   const g = baiLam.giao;
   return `<div class="the-trang form-tk" style="text-align:center">
-    <img class="mascot-giua" src="anh/3d/mascot-${g.lyDo === "roi-app" || g.lyDo === "gv-thu" ? "sai" : "dung"}.webp" alt="">
+    <img class="mascot-giua" src="anh/3d/mascot-${!g.daGui ? "cho" : g.lyDo === "roi-app" || g.lyDo === "gv-thu" ? "sai" : "dung"}.webp" alt="">
     <h3>${hoa(g.ten)}</h3>
     <p>${g.daGui ? "✅ Đã nộp bài lên máy chủ." : "⏳ Đang gửi bài… Giữ kết nối mạng, đừng đóng app."}</p>
     ${g.lyDo === "roi-app" ? `<p class="loi-tk">Bài bị khóa và tự nộp vì rời app đủ ${g.soLanRoi} lần.</p>` : g.lyDo === "gv-thu" ? `<p class="loi-tk">Giáo viên đã thu bài.</p>` : ""}

@@ -109,7 +109,7 @@ MAN_HINH["/tai-khoan"] = {
     if (!fbAuth) return `<div class="trong">Không kết nối được máy chủ tài khoản. Kiểm tra mạng rồi mở lại app.</div>`;
     if (!tk.san) return `<div class="trong">Đang kiểm tra đăng nhập…</div>`;
     if (!tk.user) return `
-      <div class="dn-nhom"><img src="anh/3d/sv-nu.webp" alt="" class="dn-a"><img src="anh/3d/co-giao.webp" alt="" class="dn-b"><img src="anh/3d/sv-nam.webp" alt="" class="dn-c">
+      <div class="dn-nhom"><img src="anh/3d/nhom-chao.webp" alt="" class="dn-chung">
         <div class="dn-chu"><b>Chào mừng vào phòng lab!</b><span>Đăng nhập để làm bài được giao, xem điểm và lớp học</span></div></div>
       <div class="the-trang form-tk dn-form">
         <h3>Đăng nhập</h3>

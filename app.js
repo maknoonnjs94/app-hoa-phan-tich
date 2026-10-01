@@ -117,7 +117,7 @@ const theDocTiep = () => {
 };
 
 // Nhân vật ở đầu trang chủ: mỗi người tự chọn (lưu trên máy, localStorage "nhan-vat"); chưa chọn thì GV → cô giáo, còn lại → linh vật
-const NHAN_VAT = [["hero", "Linh vật bình nón"], ["sv-nu", "Sinh viên nữ"], ["sv-nam", "Sinh viên nam"], ["co-giao", "Cô giáo"], ["", "Không hiện nhân vật"]];
+const NHAN_VAT = [["hero", "Linh vật bình nón"], ["sv-nu", "Sinh viên nữ"], ["sv-nam", "Sinh viên nam"], ["co-giao", "Cô giáo"], ["thay-giao", "Thầy giáo"], ["sv-nu-lam", "Sinh viên nữ làm bài"], ["sv-nam-lam", "Sinh viên nam chuẩn độ"], ["", "Không hiện nhân vật"]];
 function nhanVatCuaToi() {
   let v = null; try { v = localStorage.getItem("nhan-vat"); } catch {}
   if (v !== null && NHAN_VAT.some(([k]) => k === v)) return v;
