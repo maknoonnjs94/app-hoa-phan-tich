@@ -101,6 +101,21 @@ function tkVe() {
         return `<tr class="${h.u.uid === TK.xem ? "tk-dang-xem" : ""}"><td><a class="lien-ket" onclick="tkDoi('xem','${h.u.uid}');document.querySelector('.tk-svg')?.scrollIntoView({behavior:'smooth',block:'center'})">${hoa(h.u.hoTen)}</a><small>${hoa(h.u.maHS || "")}</small></td>
           ${h.v.map(x => `<td class="${x == null ? "" : x < 5 ? "yeu" : x >= 8 ? "gioi" : ""}">${x == null ? "–" : sk(x, 1)}</td>`).join("")}<td><b>${sk(h.tb)}</b></td>${ds.length > 1 ? `<td>${sk(sd(h))}</td><td>${xh == null ? "–" : xh > .5 ? "▲ " + sk(xh, 1) : xh < -.5 ? "▼ " + sk(Math.abs(xh), 1) : "＝"}</td>` : ""}</tr>`; }).join("")}</tbody></table></div></div>`;
 }
+function tkXuat() {   // CSV mở bằng Excel (cùng kiểu với sổ điểm): tổng hợp, từng bài, từng sinh viên
+  const ds = [...TK.chon].sort((a, b) => a - b); if (!ds.length) return;
+  const o = x => `"${String(x ?? "").replace(/"/g, '""')}"`, n = (x, d = 2) => x == null || !isFinite(x) ? "" : x.toFixed(d).replace(".", ",");
+  const diemHS = TK.hs.map((_, i) => tkDiemHS(i)), m = tkThongKe(diemHS.filter(x => x != null));
+  const r = [[`Thống kê lớp: ${TK.l.ten}`], [`Các bài gộp: ${ds.map(j => j + 1).join(", ")}`, TK.vang0 ? "vắng tính 0 điểm" : "bài vắng bỏ qua"], [],
+    ["TỔNG HỢP"], ["Số sinh viên", "Trung bình", "Trung vị", "Độ lệch chuẩn", "Phương sai (mẫu)", "Thấp nhất", "Cao nhất", "Q1", "Q3", "Độ lệch", "% từ 5", "% từ 8"],
+    m.n ? [m.n, n(m.tb), n(m.tv), n(m.sd), n(m.pv), n(m.min, 1), n(m.max, 1), n(m.q1), n(m.q3), n(m.lech), n(m.d5, 0), n(m.d8, 0)] : [], [],
+    ["TỪNG BÀI"], ["Bài", "Tên bài", "Ngày mở", "n", "Trung bình", "Trung vị", "Độ lệch chuẩn", "Phương sai (mẫu)", "Thấp nhất", "Cao nhất"],
+    ...ds.map(j => { const t = tkThongKe(tkCot(j)); return [`Bài ${j + 1}`, TK.de[j].ten, new Date(TK.de[j].moLuc).toLocaleDateString("vi-VN"), t.n, n(t.tb), n(t.tv), n(t.sd), n(t.pv), n(t.min, 1), n(t.max, 1)]; }), [],
+    ["TỪNG SINH VIÊN"], ["STT", "Họ tên", "Mã SV", ...ds.map(j => `Bài ${j + 1}`), "Điểm TB", "Độ lệch chuẩn", "Thay đổi (cuối − đầu)"],
+    ...TK.hs.map((u, i) => { const v = ds.map(j => TK.diem[i][j] ?? (TK.vang0 ? 0 : null)), co = v.filter(x => x != null);
+      return [i + 1, u.hoTen, u.maHS || "", ...v.map(x => n(x, 1)), n(diemHS[i]), co.length > 1 ? n(tkThongKe(co).sd) : "", co.length > 1 ? n(co[co.length - 1] - co[0], 1) : ""]; })];
+  const blob = new Blob(["\ufeff" + r.map(x => x.map(o).join(";")).join("\r\n")], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `Thong ke - ${TK.l.ten}.csv`; a.click();
+}
 function tkDoi(kieu, val) {
   if (!TK) return;
   if (kieu === "xem") TK.xem = val; else if (kieu === "xep") TK.xep = val;
@@ -133,7 +148,7 @@ MAN_HINH["/thong-ke-lop"] = {
         <div class="the-trang"><b>${hoa(l.ten)}</b> <small class="ghi-chu">${TK.hs.length} sinh viên · ${TK.de.length} bài đã đóng</small>
           <p class="ghi-chu">Chọn các bài muốn thống kê: chọn nhiều bài là <b>gộp</b> (mỗi em lấy điểm trung bình các bài chọn), chọn một bài là xem riêng bài đó.</p>
           <div id="tk-chon" class="tk-chon"></div>
-          <div class="nut-hang trai"><button class="btn phu" onclick="tkDoi('tat')">Tất cả bài</button><button class="btn phu" onclick="tkDoi('cuoi')">Chỉ bài gần nhất</button></div>
+          <div class="nut-hang trai"><button class="btn phu" onclick="tkDoi('tat')">Tất cả bài</button><button class="btn phu" onclick="tkDoi('cuoi')">Chỉ bài gần nhất</button><button class="btn" onclick="tkXuat()">⬇ Tải Excel</button></div>
           <label class="tk-chk"><input type="checkbox" onchange="tkDoi('vang0',this.checked)"> Sinh viên vắng tính 0 điểm (mặc định: bỏ qua bài vắng)</label></div>
         <div id="tk-noi-dung"></div>`;
       tkVeChon(); tkVe();
