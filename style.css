@@ -1313,3 +1313,27 @@ body.trang-chu .topbar { color: var(--chu); }
 .tc3-hero .huy-hieu-tc b { background: #fff; color: var(--mau-chinh); border-radius: 99px; padding: 0 7px; font-size: 12px; }
 /* v164: trang chủ mới chừa chỗ cho thanh tab để khung cuối không bị che */
 body.trang-chu .content:has(.tc3) { padding-bottom: calc(var(--cao-thanh-tab) + env(safe-area-inset-bottom) + 28px); }
+
+/* ---------- Thống kê chi tiết lớp (thong-ke.js) ---------- */
+.tk-the { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 8px; margin: 10px 0; }
+.tk-the > div { background: var(--nen); border-radius: 12px; padding: 8px 10px; display: flex; flex-direction: column; }
+.tk-the small { font-size: 11px; color: var(--chu-phu); } .tk-the b { font-size: 18px; } .tk-the em { font-style: normal; font-size: 10.5px; color: var(--chu-phu); }
+.tk-svg { width: 100%; height: auto; display: block; margin: 8px 0 4px; font-family: inherit; }
+.tk-svg .tk-cot { fill: #6d5ef6; opacity: .85; } .tk-svg .tk-cot.yeu { fill: #dc2626; } .tk-svg .tk-cot.gioi { fill: #16a34a; }
+.tk-svg .tk-gauss { fill: none; stroke: #f59e0b; stroke-width: 2.4; } .tk-svg .tk-tb { stroke: var(--chu); stroke-width: 1.2; stroke-dasharray: 4 3; }
+.tk-svg .tk-truc, .tk-svg .tk-luoi { stroke: var(--vien); stroke-width: 1; }
+.tk-svg text { fill: var(--chu-phu); font-size: 10px; text-anchor: middle; } .tk-svg .tk-so { fill: var(--chu); font-size: 10px; } .tk-svg .nho { font-size: 8.5px; }
+.tk-svg .tk-dai { fill: #6d5ef6; opacity: .13; }
+.tk-svg .tk-tbl { fill: none; stroke: #6d5ef6; stroke-width: 2.4; } .tk-svg .tk-tb-d { fill: #6d5ef6; }
+.tk-svg .tk-tv { fill: none; stroke: #22c7ab; stroke-width: 2; stroke-dasharray: 5 3; } .tk-svg .tk-tv-d { fill: #22c7ab; }
+.tk-svg .tk-hs { fill: none; stroke: #ff6fa8; stroke-width: 2.4; } .tk-svg .tk-hs-d { fill: #ff6fa8; stroke: var(--the); stroke-width: 1.5; }
+.tk-ct { display: inline-block; width: 14px; height: 4px; border-radius: 2px; margin-right: 4px; vertical-align: middle; }
+.tk-ct.tbl { background: #6d5ef6; } .tk-ct.tv { background: #22c7ab; } .tk-ct.dai { background: #6d5ef633; height: 10px; } .tk-ct.hs { background: #ff6fa8; }
+.tk-chon-hs, .tk-xep { display: flex; flex-direction: column; gap: 4px; font-size: 13px; margin-top: 8px; } .tk-xep { display: inline-flex; flex-direction: row; align-items: center; gap: 6px; }
+.tk-chon { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.tk-the-bai { display: flex; flex-direction: column; align-items: center; border: 1.5px solid var(--vien); border-radius: 12px; padding: 4px 10px; font-size: 13px; cursor: pointer; }
+.tk-the-bai input { display: none; } .tk-the-bai small { font-size: 10px; color: var(--chu-phu); } .tk-the-bai.bat { border-color: var(--mau-chinh); background: color-mix(in srgb, var(--mau-chinh) 12%, transparent); font-weight: 600; }
+.tk-chk { display: flex; gap: 8px; align-items: center; font-size: 13px; margin-top: 8px; }
+.tk-bang td, .tk-bang th { text-align: center; white-space: nowrap; } .tk-bang td:first-child, .tk-bang th:first-child { text-align: left; }
+.tk-bang td small { display: block; font-size: 11px; color: var(--chu-phu); }
+.tk-bang td.yeu { color: #dc2626; } .tk-bang td.gioi { color: #16a34a; } .tk-bang .tk-dang-xem td { background: color-mix(in srgb, #ff6fa8 14%, transparent); }

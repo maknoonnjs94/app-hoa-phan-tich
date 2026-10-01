@@ -1,0 +1,142 @@
+/* =========================================================
+   THỐNG KÊ CHI TIẾT KẾT QUẢ LỚP  (#/thong-ke-lop?id=)
+   Trung bình, trung vị, phương sai, độ lệch chuẩn, tứ phân vị, phân bố điểm + đường chuẩn (Gauss),
+   biến động qua các lần kiểm tra, xem từng sinh viên so với lớp. Chọn gộp nhiều bài hoặc xem từng bài.
+   ========================================================= */
+const sk = (x, d = 2) => x == null || !isFinite(x) ? "–" : x.toFixed(d).replace(".", ",");
+function tkThongKe(a) {
+  const n = a.length; if (!n) return { n: 0 };
+  const s = [...a].sort((x, y) => x - y), tb = s.reduce((t, x) => t + x, 0) / n;
+  const pt = p => { const k = (n - 1) * p, f = Math.floor(k); return s[f] + (s[Math.min(f + 1, n - 1)] - s[f]) * (k - f); };
+  const ss = s.reduce((t, x) => t + (x - tb) ** 2, 0), pv = n > 1 ? ss / (n - 1) : 0, sd = Math.sqrt(pv);
+  const lech = n > 2 && sd > 0 ? s.reduce((t, x) => t + ((x - tb) / Math.sqrt(ss / n)) ** 3, 0) / n : 0;   // độ lệch (skewness) của mẫu
+  return { n, tb, tv: pt(.5), q1: pt(.25), q3: pt(.75), pv, sd, min: s[0], max: s[n - 1], lech, d5: a.filter(x => x >= 5).length / n * 100, d8: a.filter(x => x >= 8).length / n * 100 };
+}
+let TK = null;
+async function tkTaiLop(l) {
+  const [hs, giao, nop] = await Promise.all([
+    fbDb.collection("nguoiDung").where("lopHoc", "array-contains", l.id).get(),
+    fbDb.collection("deGiao").where("lop", "==", l.id).get(),
+    fbDb.collection("baiNop").where("lop", "==", l.id).get()]);
+  const bg = Date.now();
+  const de = giao.docs.map(x => ({ id: x.id, ...x.data() })).filter(d => bg > d.dongLuc).sort((a, b) => a.moLuc - b.moLuc);
+  await Promise.all(de.map(d => taiDapAn(d, d.id).catch(() => {})));
+  const bai = {}; nop.docs.forEach(x => { const b = x.data(); bai[`${b.deGiaoId}_${b.uid}`] = b; });
+  const dsHS = hs.docs.map(x => ({ uid: x.id, ...x.data() })).filter(u => u.vaiTro === "hs" || !u.vaiTro)
+    .sort((a, b) => (a.hoTen || "").split(" ").pop().localeCompare((b.hoTen || "").split(" ").pop(), "vi") || (a.hoTen || "").localeCompare(b.hoTen || "", "vi"));
+  const diem = dsHS.map(u => de.map(d => { const b = bai[`${d.id}_${u.uid}`]; return b && (b.daNop || bg > d.dongLuc) ? diemCuoi(b) : null; }));
+  return { l, de, hs: dsHS, diem, chon: new Set(de.map((_, i) => i)), vang0: false, xem: "", xep: "ten" };
+}
+/* điểm của sinh viên i trên các bài đang chọn: trung bình (vắng: bỏ qua hoặc tính 0) */
+function tkDiemHS(i) {
+  const v = [...TK.chon].map(j => TK.diem[i][j] ?? (TK.vang0 ? 0 : null)).filter(x => x != null);
+  return v.length ? v.reduce((t, x) => t + x, 0) / v.length : null;
+}
+const tkCot = j => TK.diem.map((r, i) => r[j] ?? (TK.vang0 ? 0 : null)).filter(x => x != null);
+
+function tkBieuDoPhanBo(m, mau) {
+  const W = 340, H = 200, L = 28, R = 8, T = 10, B = 26, pw = W - L - R, ph = H - T - B;
+  const dem = Array(10).fill(0); mau.forEach(x => dem[Math.min(9, Math.max(0, Math.floor(x)))]++);
+  const dc = m.n >= 3 && m.sd > 0, pdf = x => Math.exp(-((x - m.tb) ** 2) / (2 * m.pv)) / (m.sd * Math.sqrt(2 * Math.PI)) * m.n;
+  let ymax = Math.max(...dem, dc ? pdf(m.tb) : 0, 1); ymax = Math.ceil(ymax * 1.1);
+  const X = x => L + x / 10 * pw, Y = y => T + ph - y / ymax * ph;
+  const cot = dem.map((c, i) => `<rect class="tk-cot ${i < 5 ? "yeu" : i >= 8 ? "gioi" : ""}" x="${X(i) + 1}" y="${Y(c)}" width="${pw / 10 - 2}" height="${T + ph - Y(c)}"><title>${i}–${i + 1} điểm: ${c} sinh viên</title></rect>${c ? `<text class="tk-so" x="${X(i + .5)}" y="${Y(c) - 3}">${c}</text>` : ""}`).join("");
+  let duong = ""; if (dc) { const pts = []; for (let x = 0; x <= 10.001; x += .1) pts.push(`${X(x).toFixed(1)},${Y(Math.min(pdf(x), ymax)).toFixed(1)}`); duong = `<polyline class="tk-gauss" points="${pts.join(" ")}"/>`; }
+  const nhanX = Array.from({ length: 11 }, (_, i) => `<text class="tk-nhan" x="${X(i)}" y="${H - 8}">${i}</text>`).join("");
+  const tbLine = m.n ? `<line class="tk-tb" x1="${X(m.tb)}" x2="${X(m.tb)}" y1="${T}" y2="${T + ph}"/>` : "";
+  return `<svg viewBox="0 0 ${W} ${H}" class="tk-svg" role="img" aria-label="Phân bố điểm">
+    <line class="tk-truc" x1="${L}" x2="${W - R}" y1="${T + ph}" y2="${T + ph}"/><text class="tk-nhan" x="${L - 4}" y="${T + 8}" text-anchor="end">${ymax}</text><text class="tk-nhan" x="${L - 4}" y="${T + ph}" text-anchor="end">0</text>
+    ${cot}${duong}${tbLine}${nhanX}</svg>`;
+}
+function tkBieuDoBai(xem) {
+  const ds = [...TK.chon].sort((a, b) => a - b); if (!ds.length) return "";
+  const W = 340, H = 210, L = 26, R = 12, T = 12, B = 34, pw = W - L - R, ph = H - T - B;
+  const X = k => L + (ds.length === 1 ? pw / 2 : k / (ds.length - 1) * pw), Y = v => T + ph - v / 10 * ph;
+  const th = ds.map(j => tkThongKe(tkCot(j)));
+  const ok = th.map((t, k) => t.n ? k : -1).filter(k => k >= 0);
+  const duong = (f, cls) => { const p = ok.map(k => { const v = f(th[k]); return v == null ? null : `${X(k).toFixed(1)},${Y(Math.max(0, Math.min(10, v))).toFixed(1)}`; }).filter(Boolean); return p.length > 1 ? `<polyline class="${cls}" points="${p.join(" ")}"/>` : ""; };
+  const dai = ok.length > 1 ? `<polygon class="tk-dai" points="${ok.map(k => `${X(k).toFixed(1)},${Y(Math.min(10, th[k].tb + th[k].sd)).toFixed(1)}`).join(" ")} ${[...ok].reverse().map(k => `${X(k).toFixed(1)},${Y(Math.max(0, th[k].tb - th[k].sd)).toFixed(1)}`).join(" ")}"/>` : "";
+  const dot = (f, cls) => ok.map(k => `<circle class="${cls}" cx="${X(k)}" cy="${Y(f(th[k]))}" r="3.5"><title>Bài ${ds[k] + 1}: ${sk(f(th[k]))}</title></circle>`).join("");
+  let hsLine = "", hsDot = "";
+  if (xem >= 0) { const v = ds.map(j => TK.diem[xem][j] ?? (TK.vang0 ? 0 : null)); const p = v.map((x, k) => x == null ? null : `${X(k).toFixed(1)},${Y(x).toFixed(1)}`).filter(Boolean);
+    hsLine = p.length > 1 ? `<polyline class="tk-hs" points="${p.join(" ")}"/>` : ""; hsDot = v.map((x, k) => x == null ? "" : `<circle class="tk-hs-d" cx="${X(k)}" cy="${Y(x)}" r="4"><title>${hoa(TK.hs[xem].hoTen)} – bài ${ds[k] + 1}: ${sk(x)}</title></circle>`).join(""); }
+  const luoi = [0, 5, 10].map(v => `<line class="tk-luoi" x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}"/><text class="tk-nhan" x="${L - 4}" y="${Y(v) + 3}" text-anchor="end">${v}</text>`).join("");
+  const nhan = ds.map((j, k) => `<text class="tk-nhan" x="${X(k)}" y="${H - 18}">B${j + 1}</text><text class="tk-nhan nho" x="${X(k)}" y="${H - 6}">${new Date(TK.de[j].moLuc).toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit" })}</text>`).join("");
+  return `<svg viewBox="0 0 ${W} ${H}" class="tk-svg" role="img" aria-label="Điểm qua các bài">${luoi}${dai}${duong(t => t.tv, "tk-tv")}${duong(t => t.tb, "tk-tbl")}${dot(t => t.tv, "tk-tv-d")}${dot(t => t.tb, "tk-tb-d")}${hsLine}${hsDot}${nhan}</svg>
+    <div class="kq-chu-thich"><span><i class="tk-ct tbl"></i>Trung bình</span><span><i class="tk-ct tv"></i>Trung vị</span><span><i class="tk-ct dai"></i>TB ± độ lệch chuẩn</span>${xem >= 0 ? `<span><i class="tk-ct hs"></i>${hoa(TK.hs[xem].hoTen)}</span>` : ""}</div>`;
+}
+function tkNhanXet(m) {
+  if (m.n < 3) return "Cần ít nhất 3 sinh viên có điểm để nhận xét phân bố.";
+  const t = [];
+  t.push(Math.abs(m.lech) < .5 ? "Phân bố khá cân đối, gần dạng chuông (Gauss)." : m.lech < 0 ? "Phân bố lệch về phía điểm cao (đa số điểm cao, một số ít điểm thấp kéo đuôi trái)." : "Phân bố lệch về phía điểm thấp (đa số điểm thấp, một số ít điểm cao kéo đuôi phải).");
+  t.push(m.sd < 1.2 ? "Điểm tập trung (độ lệch chuẩn nhỏ): trình độ khá đồng đều." : m.sd > 2 ? "Điểm phân tán nhiều (độ lệch chuẩn lớn): lớp phân hóa rõ." : "Mức phân tán trung bình.");
+  if (Math.abs(m.tb - m.tv) >= .5) t.push(m.tb < m.tv ? "Trung bình thấp hơn trung vị: có một số em điểm rất thấp kéo trung bình xuống." : "Trung bình cao hơn trung vị: có một số em điểm rất cao kéo trung bình lên.");
+  return t.join(" ");
+}
+function tkVe() {
+  const v = document.getElementById("tk-noi-dung"); if (!v || !TK) return;
+  const ds = [...TK.chon].sort((a, b) => a - b);
+  const xem = TK.xem === "" ? -1 : TK.hs.findIndex(u => u.uid === TK.xem);
+  const diemHS = TK.hs.map((_, i) => tkDiemHS(i)), mau = diemHS.filter(x => x != null), m = tkThongKe(mau);
+  const nhom = ds.length === 1 ? `bài ${ds[0] + 1}` : `${ds.length} bài gộp (điểm trung bình mỗi em)`;
+  const the = (n, t, g) => `<div><small>${n}</small><b>${t}</b>${g ? `<em>${g}</em>` : ""}</div>`;
+  const hang = TK.hs.map((u, i) => ({ u, i, tb: diemHS[i], v: ds.map(j => TK.diem[i][j]) }));
+  const sd = h => { const a = h.v.filter(x => x != null); return a.length > 1 ? tkThongKe(a).sd : null; };
+  if (TK.xep === "cao") hang.sort((a, b) => (b.tb ?? -1) - (a.tb ?? -1)); else if (TK.xep === "thap") hang.sort((a, b) => (a.tb ?? 99) - (b.tb ?? 99));
+  const tong = ds.map(j => tkThongKe(tkCot(j)));
+  v.innerHTML = !ds.length ? `<div class="trong">Hãy chọn ít nhất một bài.</div>` : `
+    <div class="the-trang"><b>1. Tổng hợp: ${nhom}</b>${m.n ? `
+      <div class="tk-the">${the("Số sinh viên", m.n)}${the("Trung bình", sk(m.tb))}${the("Trung vị", sk(m.tv), "điểm ở giữa")}${the("Độ lệch chuẩn", sk(m.sd), "mức phân tán")}${the("Phương sai", sk(m.pv), "= độ lệch chuẩn²")}${the("Thấp nhất", sk(m.min, 1))}${the("Cao nhất", sk(m.max, 1))}${the("Tứ phân vị", sk(m.q1, 1) + " – " + sk(m.q3, 1), "Q1 – Q3 (50% ở giữa)")}${the("Độ lệch", sk(m.lech), m.lech < -.5 ? "lệch trái" : m.lech > .5 ? "lệch phải" : "cân đối")}${the("Từ 5 trở lên", sk(m.d5, 0) + "%")}${the("Từ 8 trở lên", sk(m.d8, 0) + "%")}</div>
+      <p class="ghi-chu">${tkNhanXet(m)}</p>` : `<p class="ghi-chu">Chưa có điểm.</p>`}</div>
+    <div class="the-trang"><b>2. Phân bố điểm và đường chuẩn (Gauss)</b>${m.n ? tkBieuDoPhanBo(m, mau) : ""}
+      <p class="ghi-chu">Cột: số sinh viên theo khoảng 1 điểm (đỏ: dưới 5, xanh: từ 8). Đường cong: phân bố chuẩn lí thuyết có cùng trung bình và độ lệch chuẩn. Nét đứng: trung bình. Cột càng bám sát đường cong thì điểm càng “chuẩn”.</p></div>
+    <div class="the-trang"><b>3. Biến động qua các bài</b>${tkBieuDoBai(xem)}
+      <label class="tk-chon-hs">So sánh một sinh viên với lớp<select onchange="tkDoi('xem',this.value)"><option value="">— không chọn —</option>${TK.hs.map(u => `<option value="${u.uid}" ${u.uid === TK.xem ? "selected" : ""}>${hoa(u.hoTen)}${u.maHS ? " (" + hoa(u.maHS) + ")" : ""}</option>`).join("")}</select></label></div>
+    <div class="the-trang"><b>4. Thống kê từng bài</b><div class="bang-cuon"><table class="bang tk-bang"><thead><tr><th>Bài</th><th>n</th><th>TB</th><th>Trung vị</th><th>Độ lệch chuẩn</th><th>Phương sai</th><th>Min</th><th>Max</th></tr></thead><tbody>
+      ${ds.map((j, k) => { const t = tong[k]; return `<tr><td><a class="lien-ket" href="#/bang-diem?id=${TK.de[j].id}" title="${hoa(TK.de[j].ten)}">Bài ${j + 1}</a></td><td>${t.n}</td><td><b>${sk(t.tb)}</b></td><td>${sk(t.tv)}</td><td>${sk(t.sd)}</td><td>${sk(t.pv)}</td><td>${sk(t.min, 1)}</td><td>${sk(t.max, 1)}</td></tr>`; }).join("")}</tbody></table></div></div>
+    <div class="the-trang"><b>5. Từng sinh viên</b> <label class="tk-xep">Sắp xếp <select onchange="tkDoi('xep',this.value)"><option value="ten" ${TK.xep === "ten" ? "selected" : ""}>Theo tên</option><option value="cao" ${TK.xep === "cao" ? "selected" : ""}>Điểm TB cao → thấp</option><option value="thap" ${TK.xep === "thap" ? "selected" : ""}>Điểm TB thấp → cao</option></select></label>
+      <p class="ghi-chu">Bấm vào tên để vẽ đường điểm của em đó ở mục 3. Độ lệch chuẩn nhỏ = điểm ổn định giữa các bài.</p>
+      <div class="bang-cuon"><table class="bang tk-bang"><thead><tr><th>Sinh viên</th>${ds.map(j => `<th>B${j + 1}</th>`).join("")}<th>TB</th>${ds.length > 1 ? "<th>Độ lệch chuẩn</th><th>Xu hướng</th>" : ""}</tr></thead><tbody>
+      ${hang.map(h => { const co = h.v.filter(x => x != null), xh = co.length > 1 ? co[co.length - 1] - co[0] : null;
+        return `<tr class="${h.u.uid === TK.xem ? "tk-dang-xem" : ""}"><td><a class="lien-ket" onclick="tkDoi('xem','${h.u.uid}');document.querySelector('.tk-svg')?.scrollIntoView({behavior:'smooth',block:'center'})">${hoa(h.u.hoTen)}</a><small>${hoa(h.u.maHS || "")}</small></td>
+          ${h.v.map(x => `<td class="${x == null ? "" : x < 5 ? "yeu" : x >= 8 ? "gioi" : ""}">${x == null ? "–" : sk(x, 1)}</td>`).join("")}<td><b>${sk(h.tb)}</b></td>${ds.length > 1 ? `<td>${sk(sd(h))}</td><td>${xh == null ? "–" : xh > .5 ? "▲ " + sk(xh, 1) : xh < -.5 ? "▼ " + sk(Math.abs(xh), 1) : "＝"}</td>` : ""}</tr>`; }).join("")}</tbody></table></div></div>`;
+}
+function tkDoi(kieu, val) {
+  if (!TK) return;
+  if (kieu === "xem") TK.xem = val; else if (kieu === "xep") TK.xep = val;
+  else if (kieu === "vang0") TK.vang0 = !!val;
+  else if (kieu === "bai") { const j = +val; TK.chon.has(j) ? TK.chon.delete(j) : TK.chon.add(j); }
+  else if (kieu === "tat") TK.chon = new Set(TK.de.map((_, i) => i));
+  else if (kieu === "cuoi") TK.chon = new Set(TK.de.length ? [TK.de.length - 1] : []);
+  else if (kieu === "bo") TK.chon = new Set();
+  if (["bai", "tat", "cuoi", "bo"].includes(kieu)) tkVeChon();
+  tkVe();
+}
+function tkVeChon() {
+  const o = document.getElementById("tk-chon"); if (!o || !TK) return;
+  o.innerHTML = TK.de.map((d, j) => `<label class="tk-the-bai ${TK.chon.has(j) ? "bat" : ""}" title="${hoa(d.ten)}"><input type="checkbox" ${TK.chon.has(j) ? "checked" : ""} onchange="tkDoi('bai',${j})"><span>B${j + 1}</span><small>${new Date(d.moLuc).toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit" })}</small></label>`).join("");
+}
+MAN_HINH["/thong-ke-lop"] = {
+  tieuDe: "Thống kê chi tiết",
+  manHinhCon: true,
+  ve: () => laGVtk() ? `<div id="vung-tk"><div class="trong">Đang tải số liệu…</div></div>` : `<div class="trong">Chỉ giáo viên mới xem được mục này.</div>`,
+  sauKhiVe: async () => {
+    const v = document.getElementById("vung-tk"); if (!v || !laGVtk()) return;
+    const id = thamSoHash().get("id") || "";
+    try {
+      const l = (await danhSachLopGV()).find(x => x.id === id);
+      if (!l) { v.innerHTML = `<div class="trong">Không tìm thấy lớp, hoặc lớp không do thầy/cô phụ trách.<br><br><a class="btn" href="#/lop-hoc">← Lớp học</a></div>`; return; }
+      TK = await tkTaiLop(l);
+      if (!document.getElementById("vung-tk")) return;
+      if (!TK.de.length) { v.innerHTML = `<div class="nut-hang trai"><a class="btn phu" href="#/ket-qua-lop?id=${id}">← Kết quả lớp</a></div><div class="trong">Lớp ${hoa(l.ten)} chưa có bài nào đã đóng để thống kê.</div>`; return; }
+      v.innerHTML = `<div class="nut-hang trai"><a class="btn phu" href="#/ket-qua-lop?id=${id}">← Kết quả lớp</a><a class="btn phu" href="#/so-diem?lop=${id}">📒 Sổ điểm</a></div>
+        <div class="the-trang"><b>${hoa(l.ten)}</b> <small class="ghi-chu">${TK.hs.length} sinh viên · ${TK.de.length} bài đã đóng</small>
+          <p class="ghi-chu">Chọn các bài muốn thống kê: chọn nhiều bài là <b>gộp</b> (mỗi em lấy điểm trung bình các bài chọn), chọn một bài là xem riêng bài đó.</p>
+          <div id="tk-chon" class="tk-chon"></div>
+          <div class="nut-hang trai"><button class="btn phu" onclick="tkDoi('tat')">Tất cả bài</button><button class="btn phu" onclick="tkDoi('cuoi')">Chỉ bài gần nhất</button></div>
+          <label class="tk-chk"><input type="checkbox" onchange="tkDoi('vang0',this.checked)"> Sinh viên vắng tính 0 điểm (mặc định: bỏ qua bài vắng)</label></div>
+        <div id="tk-noi-dung"></div>`;
+      tkVeChon(); tkVe();
+    } catch (e) { v.innerHTML = `<div class="trong">${loiTk(e)}</div>`; }
+  },
+};

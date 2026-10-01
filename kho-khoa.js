@@ -68,7 +68,7 @@ const oMoKho = () => `<div class="the-trang form-tk">
   await moKhoDaLuu();
   ["phan-dang.js", "anh/nguon.js", "mo-phong.js", "app.js", "tao-de.js",
    "vendor/firebase/firebase-app-compat.js", "vendor/firebase/firebase-auth-compat.js", "vendor/firebase/firebase-firestore-compat.js",
-   "tai-khoan.js", "giao-bai.js", "so-diem.js"].forEach(src => {
+   "tai-khoan.js", "giao-bai.js", "so-diem.js", "thong-ke.js"].forEach(src => {
     const s = document.createElement("script"); s.src = src; s.async = false; document.body.append(s);
   });
 })();
