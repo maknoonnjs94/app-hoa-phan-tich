@@ -44,6 +44,9 @@ MAN_HINH["/bai-lam"] = {
           <label>Ghi chú cho học sinh<input id="ghi-diem" value="${hoa(b.ghiChuDiem || "")}" placeholder="VD: −1 điểm do rời app 3 lần"></label>
           <p class="loi-tk" id="tk-loi"></p>
           <button class="btn full" onclick="luuSuaDiem('${id}','${uid}')">Lưu điểm</button></div>
+        <div class="the-trang"><b>🕒 Dấu vết nộp bài</b><p class="ghi-chu">Bắt đầu: ${b.batDau ? gioVN(b.batDau) : "?"} · cập nhật cuối: ${b.capNhat ? gioVN(b.capNhat) : "?"}<br>
+          ${b.daNop ? `Nộp lúc ${gioVN(b.nopLuc)} · cách nộp: ${LY_DO_KHOA[b.lyDo] || "em tự bấm nộp"}` : "Chưa nộp"}${b.thuLuc ? `<br><b>GV thu bài lúc ${gioVN(b.thuLuc)}</b> khi máy chủ mới ghi ${b.soCauLucThu}/${b.cau.length} câu` : ""}<br>
+          Đã chọn ${b.chon.filter(x => x !== null).length}/${b.cau.length} câu${b.lichSu?.length ? ` · làm lại ${b.lichSu.length} lần` : ""}${b.moKhoa?.length ? ` · GV mở khóa ${b.moKhoa.length} lần` : ""}</p></div>
         ${b.roi?.length ? `<div class="the-trang"><b>⚠️ ${b.roi.length} lần vi phạm</b><p class="ghi-chu vp-ds">${b.roi.map(moTaRoi).join("<br>")}</p></div>` : ""}
         ${b.cau.map((c, i) => {
           const goc = CAU_THEO_ID[c.id]; if (!goc) return "";

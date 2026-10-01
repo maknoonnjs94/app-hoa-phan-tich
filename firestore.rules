@@ -12,10 +12,10 @@ service cloud.firestore {
     function lopDayToi() { return toi().get('lopDay', []); }   // lớp học phần GV dạy
     // Bài làm: SV chỉ ghi các trường của mình; điểm và dấu vết mở khóa chỉ GV ghi (SV chỉ được để nguyên hoặc xóa khi làm lại)
     function truongHS() { return ['deGiaoId','uid','hoTen','maHS','lop','cau','chon','batDau','capNhat','phien','roi','daNop','lanNop','maDe','lichSu','nopLuc','lyDo','dangRoi']; }
-    function truongGV() { return ['diemChot','dung','diemSua','ghiChuDiem','roiCu','moKhoa']; }
+    function truongGV() { return ['diemChot','dung','diemSua','ghiChuDiem','roiCu','moKhoa','thuLuc','soCauLucThu']; }
     function giuGV(k) { return !(k in request.resource.data) || (k in resource.data && request.resource.data[k] == resource.data[k]); }
     function hsKhongDungDiem() { return request.resource.data.diff(resource.data).affectedKeys().hasOnly(truongHS().concat(truongGV()))
-        && giuGV('diemChot') && giuGV('dung') && giuGV('diemSua') && giuGV('ghiChuDiem') && giuGV('roiCu') && giuGV('moKhoa'); }
+        && giuGV('diemChot') && giuGV('dung') && giuGV('diemSua') && giuGV('ghiChuDiem') && giuGV('roiCu') && giuGV('moKhoa') && giuGV('thuLuc') && giuGV('soCauLucThu'); }
     function chu(k, n) { return !(k in request.resource.data) || (request.resource.data[k] is string && request.resource.data[k].size() <= n); }
     function deGiao(id) { return get(/databases/$(database)/documents/deGiao/$(id)).data; }
 
@@ -126,6 +126,8 @@ service cloud.firestore {
         && bayGio() <= deGiao(request.resource.data.deGiaoId).dongLuc);
       allow update: if laGV() || (laHS() && resource.data.uid == request.auth.uid
         && hsKhongDungDiem()
+        // bài đã bị GV thu hoặc bị khóa vì rời app: SV không ghi lại được nữa (chỉ GV mở khóa)
+        && !(resource.data.get('lyDo', '') in ['gv-thu', 'roi-app'])
         // chưa nộp; hoặc bài tập còn lượt làm lại
         && (resource.data.daNop != true
             || (deGiao(resource.data.deGiaoId).get('loai', 'kiem-tra') == 'bai-tap'

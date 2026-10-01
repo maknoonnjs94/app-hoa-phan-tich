@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v182";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v183";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -595,7 +595,7 @@ async function moKhoaBai(idDe, uid) {
     const k = prompt(`Mở khóa cho ${b.hoTen || "học sinh"}?\n(Bài ${nam}; em đã rời app ${vp} lần)\n\n1 = Làm tiếp: giữ các câu đã chọn, tính tiếp thời gian còn lại\n2 = Làm lại từ đầu: xóa bài đã làm, tính giờ mới\n\nSố lần rời app được tính lại từ 0; lịch sử vi phạm vẫn được lưu.`, "1");
     if (k !== "1" && k !== "2") return;
     const xoa = firebase.firestore.FieldValue.delete(), lamLai = k === "2", bg = Date.now();
-    const cap = { daNop: false, lyDo: xoa, nopLuc: xoa, diemChot: xoa, dung: xoa, dangRoi: null, roi: [], roiCu: [...(b.roiCu || []), ...(b.roi || [])], phien: xoa, capNhat: 0,
+    const cap = { daNop: false, lyDo: xoa, thuLuc: xoa, soCauLucThu: xoa, nopLuc: xoa, diemChot: xoa, dung: xoa, dangRoi: null, roi: [], roiCu: [...(b.roiCu || []), ...(b.roi || [])], phien: xoa, capNhat: 0,
       lanNop: Math.max(0, (b.lanNop || 1) - 1), moKhoa: [...(b.moKhoa || []), { luc: bg, kieu: lamLai ? "lam-lai" : "lam-tiep", boi: tk.user.uid }],
       batDau: lamLai ? bg : Math.max(0, bg - ((b.nopLuc || bg) - (b.batDau || bg))) };
     if (lamLai) cap.chon = (b.cau || []).map(() => null);
@@ -606,9 +606,19 @@ async function moKhoaBai(idDe, uid) {
 }
 const LY_DO_KHOA = { "roi-app": "bị khóa vì rời app đủ số lần", "gv-thu": "do giáo viên thu", "het-gio": "hết giờ" };
 async function thuBai(idDe, uid) {
-  if (!confirm("Thu bài của học sinh này ngay? Bài được chấm theo những câu em đã làm.")) return;
-  try { await fbDb.collection("baiNop").doc(`${idDe}_${uid}`).update({ daNop: true, nopLuc: Date.now(), lyDo: "gv-thu" }); ghiNhatKy("thu-bai", "", `${idDe}_${uid}`); }
-  catch (e) { alert(loiTk(e)); }
+  try {
+    const ref = fbDb.collection("baiNop").doc(`${idDe}_${uid}`), b0 = (await ref.get()).data();
+    if (!b0) return alert("Không tìm thấy bài của em này.");
+    if (b0.daNop) return alert(`Em này đã nộp bài lúc ${gioVN(b0.nopLuc)} (${LY_DO_KHOA[b0.lyDo] || "tự bấm nộp"}), không cần thu. Hãy tải lại màn hình để xem số liệu mới nhất.`);
+    const xong0 = b0.chon.filter(x => x !== null).length;
+    if (!confirm(`Thu bài của ${b0.hoTen || "học sinh này"} ngay?\n\nMáy chủ đang ghi ${xong0}/${b0.cau.length} câu (cập nhật ${tdTruoc(b0.capNhat || 0)}). Bài được chấm theo những câu đã ghi này.`)) return;
+    await fbDb.runTransaction(async tx => {   // đọc lại ngay lúc ghi: nếu em vừa nộp xong thì không đè lên
+      const b = (await tx.get(ref)).data();
+      if (b.daNop) throw new Error(`Em này vừa tự nộp bài lúc ${gioVN(b.nopLuc)}. Không thu nữa.`);
+      tx.update(ref, { daNop: true, nopLuc: Date.now(), lyDo: "gv-thu", thuLuc: Date.now(), soCauLucThu: b.chon.filter(x => x !== null).length });
+    });
+    ghiNhatKy("thu-bai", `${xong0}/${b0.cau.length} câu`, `${idDe}_${uid}`);
+  } catch (e) { alert(loiTk(e)); }
 }
 
 /* ---------- Chống gian lận khi đang làm bài được giao ---------- */
