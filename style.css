@@ -1400,3 +1400,27 @@ i.tk-xanh { background: #22c55e; } i.tk-vang { background: #f59e0b; } i.tk-do { 
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .td-so .lam { background: #1e3a8a; color: #bfdbfe; } :root:not([data-theme="light"]) .td-so .nop { background: #064e3b; color: #a7f3d0; } :root:not([data-theme="light"]) .td-so .vp { background: #5b1a1a; color: #fecaca; }
   :root:not([data-theme="light"]) .td-nhan.td-xanh { background: #064e3b; color: #a7f3d0; } :root:not([data-theme="light"]) .td-nhan.td-xanh-d { background: #1e3a8a; color: #bfdbfe; } :root:not([data-theme="light"]) .td-nhan.td-do { background: #5b1a1a; color: #fecaca; } }
 .nhan-ma { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 8px; background: color-mix(in srgb, var(--mau-chinh) 14%, transparent); color: var(--mau-chinh); font-weight: 700; }
+
+/* =========================================================
+   GIAO DIỆN MÁY TÍNH (màn rộng từ 1024px): thanh bên trái thay thanh tab dưới đáy, nội dung rộng, chữ to hơn.
+   Điện thoại giữ nguyên (không bị ảnh hưởng).
+   ========================================================= */
+@media (min-width: 1024px) {
+  html { zoom: 1.12; }
+  .app { max-width: 1220px; display: grid; grid-template-columns: 236px minmax(0, 1fr); grid-template-rows: auto 1fr; box-shadow: none; background: transparent; }
+  .topbar { grid-column: 2; grid-row: 1; padding: 14px 28px 12px; }
+  .topbar h1 { font-size: 24px; } .man-con .topbar h1 { font-size: 20px; }
+  .content { grid-column: 2; grid-row: 2; padding-left: 28px; padding-right: 28px; padding-bottom: 40px; min-width: 0; }
+  .tabbar { position: sticky; top: 0; grid-column: 1; grid-row: 1 / span 2; align-self: start; height: calc(100vh / 1.12); max-width: none; margin: 0; width: auto;
+    flex-direction: column; justify-content: flex-start; gap: 4px; padding: 22px 12px; border-top: 0; border-right: 1px solid var(--vien); background: color-mix(in srgb, var(--the) 88%, transparent); }
+  .tabbar a { flex: none; flex-direction: row; justify-content: flex-start; gap: 12px; padding: 9px 14px; border-radius: 14px; font-size: 15px; }
+  .tabbar a img { width: 34px; height: 34px; } .tabbar a:hover { background: color-mix(in srgb, var(--mau-chinh) 8%, transparent); }
+  .tabbar a.active { background: color-mix(in srgb, var(--mau-chinh) 13%, transparent); }
+  body.trang-chu .tabbar { background: var(--the); } body.trang-chu .tabbar a { color: var(--chu-phu); } body.trang-chu .tabbar a.active { color: var(--mau-chinh); }
+  body.trang-chu .app, body.trang-chu { background: var(--nen); } body.trang-chu .topbar { background: color-mix(in srgb, var(--nen) 82%, transparent); color: inherit; }
+  .bang-muc-luc { max-width: 640px; } .install-banner { max-width: 560px; }
+  .tc3-o, .tc-o { grid-template-columns: repeat(4, 1fr); }
+  .nut-muc-luc { right: 28px; bottom: 28px; }
+}
+/* máy tính bảng (rộng 700–1023px): khung rộng hơn điện thoại, vẫn dùng thanh tab dưới đáy */
+@media (min-width: 700px) and (max-width: 1023px) { .app, .tabbar { max-width: 760px; } .bang-muc-luc { max-width: 760px; } .nut-muc-luc { right: max(16px, calc(50% - 380px + 16px)); } .install-banner { max-width: 736px; } }
