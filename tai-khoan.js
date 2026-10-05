@@ -659,7 +659,7 @@ MAN_HINH["/nhap-lop"] = {
     if (!qt.lop.some(l => l.id === id)) { document.getElementById("vung-nhap").innerHTML = `<div class="trong">Không tìm thấy lớp, hoặc lớp không do thầy/cô phụ trách.</div>`; return; }
     if (nhap.lopId !== id) Object.assign(nhap, { lopId: id, dong: null });
     document.getElementById("dau-nhap").innerHTML = `<div class="the-trang"><b>${hoa(tenLop(id))}</b>
-      <div class="nut-hang"><a class="btn phu" href="#/lop?id=${id}">← Về trang lớp</a><button class="btn phu" onclick="themTheoMa('${id}')">＋ Thêm 1 SV theo mã</button></div></div>`;
+      <div class="nut-hang"><a class="btn phu" href="#/lop?id=${id}">← Về trang lớp</a><button class="btn phu" onclick="themTheoMa('${id}')">＋ 1 SV theo mã</button></div></div>`;
     veNhapDs();
   },
 };

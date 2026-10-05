@@ -1523,3 +1523,20 @@ i.tk-xanh { background: #22c55e; } i.tk-vang { background: #f59e0b; } i.tk-do { 
 .tk-dau .kq-chu-thich { gap: 4px 10px; font-size: 11.5px; } .tk-dau .kq-chu-thich i.tk-o { width: 10px; height: 10px; }
 .tk-bd { padding: 7px 0; gap: 8px; } .tk-bd > div { font-size: 13px; gap: 1px; } .tk-bd b small { font-weight: 400; margin-left: 4px; } .tk-ly { font-size: 12px; } .tk-bd .chip-nhanh { flex: none; }
 .tk-the { grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 6px; } .tk-the > div { padding: 6px 8px; } .tk-the b { font-size: 16px; }
+
+/* ---------- Chống xuống dòng thừa (v189): hàng nút chia đều một hàng, tiêu đề một dòng ---------- */
+@media (max-width: 700px) {
+  .nut-hang:not(.hai-nut):not(.day-chon):not(.nh-tuy) { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 6px; justify-content: stretch; }
+  .nut-hang:not(.hai-nut):not(.day-chon):not(.nh-tuy):has(> :nth-child(4)) { grid-template-columns: 1fr 1fr; }
+  .nut-hang:not(.hai-nut):not(.day-chon):not(.nh-tuy):has(> :nth-child(4)) > :nth-child(odd):last-child { grid-column: 1 / -1; }
+  .nut-hang:not(.hai-nut):not(.day-chon):not(.nh-tuy) > .btn { padding: 6px 6px; line-height: 1.2; text-align: center; white-space: normal; min-width: 0; }
+  .nut-hang > small, .nut-hang > span.ghi-chu { align-self: center; }
+}
+.tk-tieu-de { flex-direction: row !important; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 6px !important; }
+.tk-tieu-de b { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .tk-tieu-de small { flex: none; }
+.tk-hang-chon { display: flex; align-items: center; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; } .tk-hang-chon::-webkit-scrollbar { display: none; }
+.tk-hang-chon .tk-chon { display: contents; } .tk-hang-chon .tk-the-bai { flex: none; flex-direction: row; align-items: baseline; gap: 4px; margin: 0; padding: 4px 10px; white-space: nowrap; border-radius: 99px; }
+.tk-hang-chon .tk-the-bai small { font-size: 11px; } .tk-ngan { flex: none; width: 1px; height: 20px; background: var(--vien); margin: 0 2px; }
+.tk-dau > .ghi-chu { margin: 6px 0 0; }
+.kq-lop .kq-dau b, .lh-ten { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.lop-dau h2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }

@@ -213,11 +213,10 @@ MAN_HINH["/thong-ke-lop"] = {
       if (!document.getElementById("vung-tk")) return;
       if (!TK.de.length) { v.innerHTML = `<div class="nut-hang trai"><a class="btn phu" href="#/ket-qua-lop?id=${id}">← Kết quả lớp</a></div><div class="trong">Lớp ${hoa(l.ten)} chưa có bài nào đã đóng để thống kê.</div>`; return; }
       v.innerHTML = `<div class="chip-hang"><a class="chip-nhanh" href="#/ket-qua-lop?id=${id}">← Kết quả lớp</a><a class="chip-nhanh" href="#/so-diem?lop=${id}">📒 Sổ điểm</a></div>
-        <div class="the-trang tk-dau"><div class="tk-tieu-de"><b>${hoa(l.ten)}</b><small>${TK.hs.length} SV · ${TK.de.length} bài đã đóng</small></div>
-          <p class="ghi-chu">Chạm vào bài để chọn / bỏ chọn. Nhiều bài = gộp (mỗi em lấy điểm TB).</p>
-          <div id="tk-chon" class="tk-chon"></div>
-          <div class="chip-hang"><button class="chip-nhanh" onclick="tkDoi('tat')">Tất cả</button><button class="chip-nhanh" onclick="tkDoi('cuoi')">Bài gần nhất</button><button class="chip-nhanh" onclick="tkXuat()">⬇ Excel</button></div>
-          <label class="tk-chk"><input type="checkbox" onchange="tkDoi('vang0',this.checked)"> Vắng tính 0 điểm</label></div>
+        <div class="the-trang tk-dau"><div class="tk-tieu-de"><b>${hoa(l.ten)}</b><small>${TK.hs.length} SV · ${TK.de.length} bài</small></div>
+          <div class="tk-hang-chon"><div id="tk-chon" class="tk-chon"></div><span class="tk-ngan"></span>
+            <button class="chip-nhanh" onclick="tkDoi('tat')">Tất cả</button><button class="chip-nhanh" onclick="tkDoi('cuoi')">Gần nhất</button><button class="chip-nhanh" onclick="tkDoi('vang0',!TK.vang0);this.classList.toggle('chon',TK.vang0)" title="Sinh viên vắng tính 0 điểm">Vắng=0</button><button class="chip-nhanh" onclick="tkXuat()">⬇ Excel</button></div>
+          <p class="ghi-chu">Chạm bài để chọn · nhiều bài = gộp (TB mỗi em) · Vắng=0: tính 0 cho bài vắng</p></div>
         <div class="chip-hang tk-tab"><button class="chip-nhanh chon" id="tk-t-diem" onclick="tkTab('diem')">📈 Điểm số</button><button class="chip-nhanh" id="tk-t-dang" onclick="tkTab('dang')">🧩 Dạng bài &amp; báo động</button></div>
         <div id="tk-noi-dung"></div>`;
       tkVeChon(); tkVe();

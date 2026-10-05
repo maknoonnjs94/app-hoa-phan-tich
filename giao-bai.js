@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v188";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v189";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -197,8 +197,8 @@ MAN_HINH["/bang-diem"] = {
           <div class="luoi-diem">${ids.map((cid, i) => `<label><span>Câu ${i + 1} · ${TAT_MUC[CAU_THEO_ID[cid]?.mucDo] || ""}</span><input type="number" step="0.05" min="0" class="bd-diem" value="${cu ? cu[cid] ?? 1 : 1}"></label>`).join("")}</div>
           <button class="btn full" onclick="luuDiemCau('${id}')">💾 Lưu điểm các câu</button></details>`; })()}
         <p class="ghi-chu">Bấm tên sinh viên để xem bài làm, sửa điểm.</p>
-        <div class="nut-hang">${quaHan ? "" : `<a class="btn" href="#/theo-doi?id=${id}">👁 Theo dõi trực tiếp</a>`}<button class="btn" onclick="chotDiem('${id}')">🔒 ${d.daChot ? "Chốt lại điểm" : "Chốt điểm"}</button><button class="btn phu" onclick="xuatBangDiem()">⬇ Tải Excel</button><a class="btn phu" href="#/so-diem?lop=${encodeURIComponent(d.lop)}">📒 Sổ điểm lớp</a>
-          <button class="btn phu" onclick="xoaGiaoDe('${id}')">🗑 Xóa bài giao</button></div></div>
+        <div class="nut-hang">${quaHan ? "" : `<a class="btn" href="#/theo-doi?id=${id}">👁 Theo dõi</a>`}<button class="btn" onclick="chotDiem('${id}')">🔒 ${d.daChot ? "Chốt lại điểm" : "Chốt điểm"}</button><button class="btn phu" onclick="xuatBangDiem()">⬇ Excel</button><a class="btn phu" href="#/so-diem?lop=${encodeURIComponent(d.lop)}">📒 Sổ điểm</a>
+          <button class="btn phu" onclick="xoaGiaoDe('${id}')">🗑 Xóa bài</button></div></div>
         ${nhieuMa ? (() => { const nhom = {}; dong.forEach(({ u, b }) => (nhom[maDeSV(d, id, u.uid, b)] ||= []).push(u)); return `<details class="the-trang"><summary><b>Phân mã đề</b> <small class="ghi-chu">${d.maDe.map(m => `${hoa(m.ma)}: ${(nhom[m.ma] || []).length}`).join(" · ")}</small></summary>
           ${d.maDe.map(m => `<p class="ghi-chu"><b>Mã ${hoa(m.ma)}</b> (${(nhom[m.ma] || []).length} SV): ${(nhom[m.ma] || []).map(u => hoa(u.hoTen)).join(", ") || "—"}</p>`).join("")}</details>`; })() : ""}
         <div class="the-trang bang-cuon"><table class="bang"><thead><tr><th>Học sinh</th>${nhieuMa ? "<th>Mã đề</th>" : ""}<th>Điểm</th><th>Rời app</th><th>Trạng thái</th></tr></thead><tbody>

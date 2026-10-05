@@ -185,7 +185,7 @@ const the_KQ = k => {
     <div class="kq-chu-thich">${ten.map((t, i) => `<span><i style="background:${mau[i]}"></i>${t}: ${pb[i]}</span>`).join("")}</div>
     ${k.bai.length ? `<div class="kq-bai">${k.bai.map(b => `<a class="lien-ket" href="#/bang-diem?id=${b.id}"><span>${b.loai === "bai-tap" ? "📚" : "📝"} ${hoa(b.ten)}</span><small>nộp ${b.nop}/${b.tong}${b.tb != null ? " · TB " + diemVN(b.tb) : ""}${b.dong ? "" : " · đang mở"}</small></a>`).join("")}</div>` : ""}
     ${k.chuY.length ? `<div class="kq-chu-y"><b>Cần chú ý</b>${k.chuY.map(h => `<small>${hoa(h.hoTen)} ${h.maHS ? "(" + hoa(h.maHS) + ")" : ""}: ${h.tb != null ? "TB " + diemVN(h.tb) : "chưa có điểm"}${h.vang >= 2 ? " · vắng " + h.vang + " bài" : ""}${h.vp ? " · rời app " + h.vp + " lần" : ""}</small>`).join("")}</div>` : ""}
-    <div class="nut-hang"><a class="btn" href="#/thong-ke-lop?id=${k.id}">📈 Thống kê chi tiết</a><a class="btn phu" href="#/so-diem?lop=${k.id}">📒 Sổ điểm</a><a class="btn phu" href="#/lop?id=${k.id}">👥 Trang lớp</a></div></div>`;
+    <div class="nut-hang"><a class="btn" href="#/thong-ke-lop?id=${k.id}">📈 Thống kê</a><a class="btn phu" href="#/so-diem?lop=${k.id}">📒 Sổ điểm</a><a class="btn phu" href="#/lop?id=${k.id}">👥 Lớp</a></div></div>`;
 };
 
 /* =========================================================

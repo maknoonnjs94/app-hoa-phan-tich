@@ -77,7 +77,7 @@ async function ddTuDien() {
 function ddVe() {
   const v = document.getElementById("vung-dd"); if (!v || !DD) return;
   const l = DD.l, id = l.id;
-  v.innerHTML = `<div class="nut-hang trai"><a class="btn phu" href="#/lop?id=${id}">← Danh sách lớp</a><button class="btn phu" onclick="ddDoiSua()">⚙ Lịch học hằng tuần</button><button class="btn phu" onclick="ddXuat()">⬇ Excel</button></div>
+  v.innerHTML = `<div class="nut-hang trai"><a class="btn phu" href="#/lop?id=${id}">← Lớp</a><button class="btn phu" onclick="ddDoiSua()">⚙ Lịch học</button><button class="btn phu" onclick="ddXuat()">⬇ Excel</button></div>
     <div class="the-trang"><b>${hoa(l.ten)}</b> <small class="ghi-chu">${DD.hs.length} sinh viên · ${DD.buoi.length} buổi theo lịch</small></div>
     ${DD.sua ? ddVeLich() : ""}<div id="dd-buoi"></div><div id="dd-tong"></div>`;
   ddVeBuoi(); ddVeTong();
