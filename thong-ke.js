@@ -24,7 +24,7 @@ async function tkTaiLop(l) {
   const bai = {}; nop.docs.forEach(x => { const b = x.data(); bai[`${b.deGiaoId}_${b.uid}`] = b; });
   const dsHS = hs.docs.map(x => ({ uid: x.id, ...x.data() })).filter(u => u.vaiTro === "hs" || !u.vaiTro)
     .sort((a, b) => (a.hoTen || "").split(" ").pop().localeCompare((b.hoTen || "").split(" ").pop(), "vi") || (a.hoTen || "").localeCompare(b.hoTen || "", "vi"));
-  const diem = dsHS.map(u => de.map(d => { const b = bai[`${d.id}_${u.uid}`]; return b && (b.daNop || bg > d.dongLuc) ? diemCuoi(b) : null; }));
+  const diem = dsHS.map(u => de.map(d => { const b = bai[`${d.id}_${u.uid}`]; return b && thamGiaBai(b) && (b.daNop || bg > d.dongLuc) ? diemCuoi(b) : null; }));
   return { l, de, hs: dsHS, diem, bai, tab: "diem", nhom: "dang", xanh: 70, do: 40, daBao: new Set(), chon: new Set(de.map((_, i) => i)), vang0: false, xem: "", xep: "ten" };
 }
 /* điểm của sinh viên i trên các bài đang chọn: trung bình (vắng: bỏ qua hoặc tính 0) */
@@ -87,10 +87,10 @@ function tkVe() {
   const tong = ds.map(j => tkThongKe(tkCot(j)));
   v.innerHTML = !ds.length ? `<div class="trong">Hãy chọn ít nhất một bài.</div>` : `
     <div class="the-trang"><b>1. Tổng hợp: ${nhom}</b>${m.n ? `
-      <div class="tk-the">${the("Số sinh viên", m.n)}${the("Trung bình", sk(m.tb))}${the("Trung vị", sk(m.tv), "điểm ở giữa")}${the("Độ lệch chuẩn", sk(m.sd), "mức phân tán")}${the("Phương sai", sk(m.pv), "= độ lệch chuẩn²")}${the("Thấp nhất", sk(m.min, 1))}${the("Cao nhất", sk(m.max, 1))}${the("Tứ phân vị", sk(m.q1, 1) + " – " + sk(m.q3, 1), "Q1 – Q3 (50% ở giữa)")}${the("Độ lệch", sk(m.lech), m.lech < -.5 ? "lệch trái" : m.lech > .5 ? "lệch phải" : "cân đối")}${the("Từ 5 trở lên", sk(m.d5, 0) + "%")}${the("Từ 8 trở lên", sk(m.d8, 0) + "%")}</div>
+      <div class="tk-the">${the("Tham gia", m.n, "trên " + TK.hs.length + " SV")}${the("Trung bình", sk(m.tb))}${the("Trung vị", sk(m.tv), "điểm ở giữa")}${the("Độ lệch chuẩn", sk(m.sd), "mức phân tán")}${the("Phương sai", sk(m.pv), "= độ lệch chuẩn²")}${the("Thấp nhất", sk(m.min, 1))}${the("Cao nhất", sk(m.max, 1))}${the("Tứ phân vị", sk(m.q1, 1) + " – " + sk(m.q3, 1), "Q1 – Q3 (50% ở giữa)")}${the("Độ lệch", sk(m.lech), m.lech < -.5 ? "lệch trái" : m.lech > .5 ? "lệch phải" : "cân đối")}${the("Từ 5 trở lên", sk(m.d5, 0) + "%")}${the("Từ 8 trở lên", sk(m.d8, 0) + "%")}</div>
       <p class="ghi-chu">${tkNhanXet(m)}</p>` : `<p class="ghi-chu">Chưa có điểm.</p>`}</div>
     <div class="the-trang"><b>2. Phân bố điểm và đường chuẩn (Gauss)</b>${m.n ? tkBieuDoPhanBo(m, mau) : ""}
-      <p class="ghi-chu">Cột: số sinh viên theo khoảng 1 điểm (đỏ: dưới 5, xanh: từ 8). Đường cong: phân bố chuẩn lí thuyết có cùng trung bình và độ lệch chuẩn. Nét đứng: trung bình. Cột càng bám sát đường cong thì điểm càng “chuẩn”.</p></div>
+      <p class="ghi-chu">Chỉ tính sinh viên <b>có tham gia làm bài</b> (loại em vắng hoặc mở bài mà chưa làm câu nào) nên điểm 0 do không tham gia không làm lệch phân bố. Cột: số sinh viên theo khoảng 1 điểm (đỏ: dưới 5, xanh: từ 8). Đường cong: phân bố chuẩn lí thuyết có cùng trung bình và độ lệch chuẩn. Nét đứng: trung bình. Cột càng bám sát đường cong thì điểm càng “chuẩn”.</p></div>
     <div class="the-trang"><b>3. Biến động qua các bài</b>${tkBieuDoBai(xem)}
       <label class="tk-chon-hs">So sánh một sinh viên với lớp<select onchange="tkDoi('xem',this.value)"><option value="">— không chọn —</option>${TK.hs.map(u => `<option value="${u.uid}" ${u.uid === TK.xem ? "selected" : ""}>${hoa(u.hoTen)}${u.maHS ? " (" + hoa(u.maHS) + ")" : ""}</option>`).join("")}</select></label></div>
     <div class="the-trang"><b>4. Thống kê từng bài</b><div class="bang-cuon"><table class="bang tk-bang"><thead><tr><th>Bài</th><th>n</th><th>TB</th><th>Trung vị</th><th>Độ lệch chuẩn</th><th>Phương sai</th><th>Min</th><th>Max</th></tr></thead><tbody>
@@ -110,7 +110,7 @@ const ptram = (d, t) => t ? Math.round(d / t * 100) : null;
 function tkPhanTich() {
   const ds = [...TK.chon].sort((a, b) => a - b), lop = {}, hs = TK.hs.map(() => ({ t: 0, d: 0, nhom: {}, vang: 0, lam: 0 }));
   TK.hs.forEach((u, i) => ds.forEach(j => {
-    const b = TK.bai[`${TK.de[j].id}_${u.uid}`]; if (!b) { hs[i].vang++; return; }
+    const b = TK.bai[`${TK.de[j].id}_${u.uid}`]; if (!thamGiaBai(b)) { hs[i].vang++; return; }
     hs[i].lam++;
     (b.cau || []).forEach((c, k) => { const q = CAU_THEO_ID[c.id]; if (!q) return; const dung = b.chon?.[k] === dapAnHienThi(c), key = tkKhoaNhom(q);
       const x = hs[i].nhom[key] ||= { t: 0, d: 0 }, y = lop[key] ||= { t: 0, d: 0, yeu: 0 }; x.t++; y.t++; hs[i].t++; if (dung) { x.d++; y.d++; hs[i].d++; } });
@@ -216,7 +216,7 @@ MAN_HINH["/thong-ke-lop"] = {
         <div class="the-trang tk-dau"><div class="tk-tieu-de"><b>${hoa(l.ten)}</b><small>${TK.hs.length} SV · ${TK.de.length} bài</small></div>
           <div class="tk-hang-chon"><div id="tk-chon" class="tk-chon"></div><span class="tk-ngan"></span>
             <button class="chip-nhanh" onclick="tkDoi('tat')">Tất cả</button><button class="chip-nhanh" onclick="tkDoi('cuoi')">Gần nhất</button><button class="chip-nhanh" onclick="tkDoi('vang0',!TK.vang0);this.classList.toggle('chon',TK.vang0)" title="Sinh viên vắng tính 0 điểm">Vắng=0</button><button class="chip-nhanh" onclick="tkXuat()">⬇ Excel</button></div>
-          <p class="ghi-chu">Chạm bài để chọn · nhiều bài = gộp (TB mỗi em) · Vắng=0: tính 0 cho bài vắng</p></div>
+          <p class="ghi-chu">Chạm bài để chọn · nhiều bài = gộp (TB mỗi em). “Vắng=0” bật khi muốn tính 0 cho em không tham gia.</p></div>
         <div class="chip-hang tk-tab"><button class="chip-nhanh chon" id="tk-t-diem" onclick="tkTab('diem')">📈 Điểm số</button><button class="chip-nhanh" id="tk-t-dang" onclick="tkTab('dang')">🧩 Dạng bài &amp; báo động</button></div>
         <div id="tk-noi-dung"></div>`;
       tkVeChon(); tkVe();

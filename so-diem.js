@@ -98,7 +98,7 @@ MAN_HINH["/so-diem"] = {
       const bai = {}; nop.docs.forEach(x => { const b = x.data(); bai[`${b.deGiaoId}_${b.uid}`] = b; });
       const dsHS = hs.docs.map(x => ({ uid: x.id, ...x.data() })).sort((a, b) => a.hoTen.split(" ").pop().localeCompare(b.hoTen.split(" ").pop(), "vi") || a.hoTen.localeCompare(b.hoTen, "vi"));
       const bg = Date.now();
-      const o1 = (d, u) => { const b = bai[`${d.id}_${u.uid}`]; if (!b) return bg > d.dongLuc ? { chu: "vắng", lop: "vang" } : { chu: "–" };
+      const o1 = (d, u) => { const b = bai[`${d.id}_${u.uid}`]; if (!b || (!thamGiaBai(b) && bg > d.dongLuc)) return bg > d.dongLuc ? { chu: "vắng", lop: "vang" } : { chu: "–" };
         if (!b.daNop && bg <= d.dongLuc) return { chu: "đang làm" };
         const s = diemCuoi(b); return { so: s, chu: diemVN(s), lop: s < 5 ? "yeu" : s >= 8 ? "gioi" : "", link: `#/bai-lam?de=${d.id}&uid=${u.uid}`, sua: b.diemSua != null, vp: b.roi?.length }; };
       const hang = dsHS.map(u => { const o = de.map(d => o1(d, u)), co = o.filter(x => x.so != null);
@@ -143,14 +143,14 @@ async function tinhKetQuaLop(l) {
   const tbcong = a => a.length ? Math.round(a.reduce((t, x) => t + x, 0) / a.length * 100) / 100 : null;
   const theoBai = de.map(d => {
     const cs = []; let nopN = 0;
-    dsHS.forEach(u => { const b = bai[`${d.id}_${u.uid}`]; if (b && (b.daNop || bg > d.dongLuc)) { cs.push(diemCuoi(b)); if (b.daNop) nopN++; } });
+    dsHS.forEach(u => { const b = bai[`${d.id}_${u.uid}`]; if (b && (b.daNop || bg > d.dongLuc)) { if (thamGiaBai(b)) cs.push(diemCuoi(b)); if (b.daNop) nopN++; } });
     return { id: d.id, ten: d.ten, loai: d.loai || "kiem-tra", dong: bg > d.dongLuc, nop: nopN, tong: dsHS.length, tb: tbcong(cs) };
   });
   const daDong = de.filter(d => bg > d.dongLuc);
   const theoHS = dsHS.map(u => {
     const diem = [], vp = []; let vang = 0;
     de.forEach(d => { const b = bai[`${d.id}_${u.uid}`];
-      if (b && (b.daNop || bg > d.dongLuc)) { diem.push(diemCuoi(b)); if (b.roi?.length) vp.push(b.roi.length); } else if (!b && bg > d.dongLuc) vang++; });
+      if (b && thamGiaBai(b) && (b.daNop || bg > d.dongLuc)) { diem.push(diemCuoi(b)); if (b.roi?.length) vp.push(b.roi.length); } else if (!thamGiaBai(b) && bg > d.dongLuc) vang++; });
     return { hoTen: u.hoTen, maHS: u.maHS || "", tb: tbcong(diem), vang, vp: vp.reduce((t, x) => t + x, 0), n: diem.length };
   });
   const co = theoHS.filter(h => h.tb != null);
@@ -289,7 +289,7 @@ MAN_HINH["/lop"] = {
       const tt = l.danhSach || {};   // STT + ngày sinh theo danh sách đầu vào (lop.danhSach); chưa có thì đánh số theo thứ tự tên
       const ds = dsHS.sort((a, b) => (tt[a.uid]?.s ?? 1e6) - (tt[b.uid]?.s ?? 1e6) || a.hoTen.split(" ").pop().localeCompare(b.hoTen.split(" ").pop(), "vi") || a.hoTen.localeCompare(b.hoTen, "vi"))
         .map((u, i) => {
-          const kq = de.map(d => { const b = bai[`${d.id}_${u.uid}`]; return { d, b, diem: b && (b.daNop || bg > d.dongLuc) ? diemCuoi(b) : null }; });
+          const kq = de.map(d => { const b = bai[`${d.id}_${u.uid}`]; return { d, b, diem: b && thamGiaBai(b) && (b.daNop || bg > d.dongLuc) ? diemCuoi(b) : null }; });
           const co = kq.filter(x => x.diem != null);
           return { u, stt: tt[u.uid]?.s ?? i + 1, ns: tt[u.uid]?.ns || "", kq, lam: kq.filter(x => x.b).length, tb: co.length ? Math.round(co.reduce((t, x) => t + x.diem, 0) / co.length * 100) / 100 : null, vp: kq.reduce((t, x) => t + (x.b?.roi?.length || 0), 0) };
         });
