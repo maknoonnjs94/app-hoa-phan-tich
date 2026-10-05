@@ -1487,3 +1487,39 @@ i.tk-xanh { background: #22c55e; } i.tk-vang { background: #f59e0b; } i.tk-do { 
 .dn-nhom .dn-chu { background: rgba(255, 255, 255, .86); backdrop-filter: blur(4px); border-radius: 16px; padding: 7px 12px; margin: 10px 14px 0; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .dn-nhom .dn-chu { background: rgba(24, 22, 56, .82); } }
 .dn-nhom { height: 340px !important; }
+
+/* =========================================================
+   GỌN CHO ĐIỆN THOẠI (≤700px): nút, thẻ, chữ nhỏ hơn; các màn giáo viên bớt cồng kềnh
+   ========================================================= */
+@media (max-width: 700px) {
+  body { font-size: 15px; }
+  .the-trang, .card { padding: 14px 14px; margin-bottom: 10px; }
+  .btn { min-height: 42px; padding: 8px 14px; font-size: 14.5px; }
+  .btn.nho { min-height: 36px; padding: 6px 12px; font-size: 13.5px; }
+  .nut-hang { gap: 6px; margin-top: 6px; }
+  .nut-hang .btn, .nut-hang.trai .btn { min-height: 36px; padding: 6px 12px; font-size: 13px; border-radius: 12px; }
+  .chip-nhanh { padding: 5px 11px; font-size: 12.5px; }
+  .chip-hang { gap: 6px; padding-bottom: 2px; margin-bottom: 8px; scrollbar-width: none; } .chip-hang::-webkit-scrollbar { display: none; }
+  .ghi-chu { font-size: 12.5px; line-height: 1.45; }
+  .form-tk label { font-size: 13.5px; }
+  .hang-loc input, .hang-loc select { min-height: 40px; font-size: 14px; }
+  .bang th, .bang td { padding: 7px 8px; font-size: 13px; }
+}
+/* danh sách lớp học */
+.lh-dau-trang { display: flex; gap: 6px; margin: 2px 0 10px; }
+.lh-lop { padding: 12px 12px 10px !important; }
+.lh-ten { font-weight: 700; font-size: 15.5px; line-height: 1.3; margin-bottom: 4px; }
+.lh-so { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12.5px; color: var(--chu-phu); margin-bottom: 10px; } .lh-so b { color: var(--mau-chinh); }
+.lh-nut { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.lh-nut a { display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 7px 2px 6px; border-radius: 12px; font-size: 11.5px; font-weight: 600; text-decoration: none; color: var(--chu); background: color-mix(in srgb, var(--mau-chinh) 9%, var(--the)); white-space: nowrap; }
+.lh-nut a:first-child { background: color-mix(in srgb, var(--mau-chinh) 18%, var(--the)); color: var(--mau-chinh); }
+.lh-nut i { font-style: normal; font-size: 19px; line-height: 1.2; }
+/* thống kê chi tiết */
+.tk-dau { padding: 12px 12px 10px !important; }
+.tk-tieu-de { display: flex; flex-direction: column; margin-bottom: 4px; } .tk-tieu-de b { font-size: 15px; line-height: 1.3; } .tk-tieu-de small { color: var(--chu-phu); font-size: 12px; }
+.tk-chon { gap: 5px; margin: 6px 0; } .tk-the-bai { padding: 3px 9px; border-radius: 10px; font-size: 12.5px; }
+.tk-chk { font-size: 12.5px; margin-top: 4px; }
+.tk-nguong { gap: 10px; font-size: 12.5px; margin: 2px 0 6px; } .tk-nguong input { width: 48px; padding: 3px 4px; font-size: 13px; min-height: 0; text-align: center; }
+.tk-dau .kq-chu-thich { gap: 4px 10px; font-size: 11.5px; } .tk-dau .kq-chu-thich i.tk-o { width: 10px; height: 10px; }
+.tk-bd { padding: 7px 0; gap: 8px; } .tk-bd > div { font-size: 13px; gap: 1px; } .tk-bd b small { font-weight: 400; margin-left: 4px; } .tk-ly { font-size: 12px; } .tk-bd .chip-nhanh { flex: none; }
+.tk-the { grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 6px; } .tk-the > div { padding: 6px 8px; } .tk-the b { font-size: 16px; }

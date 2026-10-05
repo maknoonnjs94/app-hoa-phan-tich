@@ -149,16 +149,15 @@ function tkVeDang(v) {
   const ct = `<div class="kq-chu-thich"><span><i class="tk-o tk-xanh"></i>Làm được nhiều (từ ${TK.xanh}%)</span><span><i class="tk-o tk-vang"></i>Sai ít</span><span><i class="tk-o tk-do"></i>Sai nhiều (dưới ${TK.do}%)</span><span><i class="tk-o tk-xam"></i>Chưa đủ số câu</span></div>`;
   const o = (d, t) => `<td class="tk-o ${tkMau(d, t)}" title="${d}/${t} câu đúng">${t ? ptram(d, t) + "%" : "–"}</td>`;
   v.innerHTML = `
-    <div class="the-trang"><b>Cách nhóm &amp; ngưỡng màu</b>
-      <div class="chip-hang" style="margin:8px 0">${[["dang", "Theo dạng bài"], ["chuong", "Theo chương"], ["loai", "Lí thuyết / Tính"]].map(([k, t]) => `<button class="chip-nhanh ${TK.nhom === k ? "chon" : ""}" onclick="tkDoi('nhom','${k}')">${t}</button>`).join("")}</div>
+    <div class="the-trang tk-dau"><div class="chip-hang" style="margin:0 0 8px">${[["dang", "Theo dạng bài"], ["chuong", "Theo chương"], ["loai", "Lí thuyết / Tính"]].map(([k, t]) => `<button class="chip-nhanh ${TK.nhom === k ? "chon" : ""}" onclick="tkDoi('nhom','${k}')">${t}</button>`).join("")}</div>
       <div class="tk-nguong"><label>Xanh từ <input type="number" min="1" max="100" value="${TK.xanh}" onchange="tkDoi('xanh',this.value)">%</label><label>Đỏ dưới <input type="number" min="0" max="99" value="${TK.do}" onchange="tkDoi('do',this.value)">%</label></div>${ct}</div>
-    <div class="the-trang"><b>🚨 Đề xuất báo động</b> <small class="ghi-chu">(làm đúng dưới ${TK.do}%, hoặc có từ 3 dạng sai nhiều, hoặc vắng từ 2 bài)</small>
+    <div class="the-trang"><b>🚨 Đề xuất báo động</b><small class="ghi-chu"> đúng &lt;${TK.do}% · ≥3 dạng sai nhiều · vắng ≥2 bài</small>
       ${P.dexuat.length ? `<div class="kq-hs">${P.dexuat.map(x => { const u = TK.hs[x.i], da = TK.daBao.has(u.uid) || (u.canhBaoHoc && Date.now() - u.canhBaoHoc.luc < 7 * 864e5);
-        return `<div class="tk-bd"><div><b>${hoa(u.hoTen)}</b><small>${hoa(u.maHS || "")}</small><span class="tk-ly">${x.ly.join(" · ")}</span>${x.yeu.length ? `<small>Yếu: ${x.yeu.map(k => hoa(k)).join("; ")}</small>` : ""}</div>
-          <button class="btn ${da ? "phu" : ""}" onclick="tkBaoDong('${u.uid}')">${da ? "✓ Đã báo · báo lại" : "🚨 Báo động"}</button></div>`; }).join("")}</div>
-        <div class="nut-hang"><button class="btn" onclick="tkBaoDongTatCa()">🚨 Báo động tất cả đề xuất</button></div>`
+        return `<div class="tk-bd"><div><b>${hoa(u.hoTen)} <small>${hoa(u.maHS || "")}</small></b><span class="tk-ly">${x.ly.join(" · ")}</span>${x.yeu.length ? `<small>Yếu: ${x.yeu.map(k => hoa(k)).join("; ")}</small>` : ""}</div>
+          <button class="chip-nhanh ${da ? "" : "bat"}" onclick="tkBaoDong('${u.uid}')">${da ? "✓ Đã báo" : "🚨 Báo"}</button></div>`; }).join("")}</div>
+        <div class="nut-hang trai"><button class="chip-nhanh bat" onclick="tkBaoDongTatCa()">🚨 Báo tất cả đề xuất</button></div>`
         : `<p class="ghi-chu">Chưa có sinh viên nào cần báo động với các bài đang chọn. 🎉</p>`}
-      <p class="ghi-chu">Bấm “Báo động” để gửi nhắc nhở: sinh viên thấy khung cảnh báo ở trang chủ kèm các dạng cần ôn. Thầy/cô cũng có thể báo động bất kì sinh viên nào ở bảng bên dưới.</p></div>
+      <p class="ghi-chu">“Báo” gửi nhắc nhở lên trang chủ của em kèm các dạng cần ôn. Có thể báo bất kì em nào ở bảng bên dưới.</p></div>
     <div class="the-trang"><b>Lớp làm được bao nhiêu % theo từng nhóm</b> <small class="ghi-chu">(yếu nhất lên đầu)</small>
       <div class="bang-cuon"><table class="bang tk-bang"><thead><tr><th>Nhóm</th><th>% đúng</th><th>Số câu</th><th>SV sai nhiều</th></tr></thead><tbody>
       ${keys.map(k => { const x = P.lop[k]; return `<tr><td>${hoa(k)}</td>${o(x.d, x.t)}<td>${x.t}</td><td>${x.yeu}</td></tr>`; }).join("")}</tbody></table></div></div>
@@ -213,12 +212,12 @@ MAN_HINH["/thong-ke-lop"] = {
       TK = await tkTaiLop(l);
       if (!document.getElementById("vung-tk")) return;
       if (!TK.de.length) { v.innerHTML = `<div class="nut-hang trai"><a class="btn phu" href="#/ket-qua-lop?id=${id}">← Kết quả lớp</a></div><div class="trong">Lớp ${hoa(l.ten)} chưa có bài nào đã đóng để thống kê.</div>`; return; }
-      v.innerHTML = `<div class="nut-hang trai"><a class="btn phu" href="#/ket-qua-lop?id=${id}">← Kết quả lớp</a><a class="btn phu" href="#/so-diem?lop=${id}">📒 Sổ điểm</a></div>
-        <div class="the-trang"><b>${hoa(l.ten)}</b> <small class="ghi-chu">${TK.hs.length} sinh viên · ${TK.de.length} bài đã đóng</small>
-          <p class="ghi-chu">Chọn các bài muốn thống kê: chọn nhiều bài là <b>gộp</b> (mỗi em lấy điểm trung bình các bài chọn), chọn một bài là xem riêng bài đó.</p>
+      v.innerHTML = `<div class="chip-hang"><a class="chip-nhanh" href="#/ket-qua-lop?id=${id}">← Kết quả lớp</a><a class="chip-nhanh" href="#/so-diem?lop=${id}">📒 Sổ điểm</a></div>
+        <div class="the-trang tk-dau"><div class="tk-tieu-de"><b>${hoa(l.ten)}</b><small>${TK.hs.length} SV · ${TK.de.length} bài đã đóng</small></div>
+          <p class="ghi-chu">Chạm vào bài để chọn / bỏ chọn. Nhiều bài = gộp (mỗi em lấy điểm TB).</p>
           <div id="tk-chon" class="tk-chon"></div>
-          <div class="nut-hang trai"><button class="btn phu" onclick="tkDoi('tat')">Tất cả bài</button><button class="btn phu" onclick="tkDoi('cuoi')">Chỉ bài gần nhất</button><button class="btn" onclick="tkXuat()">⬇ Tải Excel</button></div>
-          <label class="tk-chk"><input type="checkbox" onchange="tkDoi('vang0',this.checked)"> Sinh viên vắng tính 0 điểm (mặc định: bỏ qua bài vắng)</label></div>
+          <div class="chip-hang"><button class="chip-nhanh" onclick="tkDoi('tat')">Tất cả</button><button class="chip-nhanh" onclick="tkDoi('cuoi')">Bài gần nhất</button><button class="chip-nhanh" onclick="tkXuat()">⬇ Excel</button></div>
+          <label class="tk-chk"><input type="checkbox" onchange="tkDoi('vang0',this.checked)"> Vắng tính 0 điểm</label></div>
         <div class="chip-hang tk-tab"><button class="chip-nhanh chon" id="tk-t-diem" onclick="tkTab('diem')">📈 Điểm số</button><button class="chip-nhanh" id="tk-t-dang" onclick="tkTab('dang')">🧩 Dạng bài &amp; báo động</button></div>
         <div id="tk-noi-dung"></div>`;
       tkVeChon(); tkVe();
