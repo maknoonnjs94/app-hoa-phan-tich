@@ -1540,3 +1540,9 @@ i.tk-xanh { background: #22c55e; } i.tk-vang { background: #f59e0b; } i.tk-do { 
 .tk-dau > .ghi-chu { margin: 6px 0 0; }
 .kq-lop .kq-dau b, .lh-ten { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .lop-dau h2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+#canh-bao-gv .cb-gv.cb-nop { background: #15803d; }
+#canh-bao-gv .cb-gv.cb-nop .btn { color: #15803d; }
+.dieu-huong.dh-tuan { grid-template-columns: 1fr 1.4fr; }
+.dieu-huong.dh-tuan > :only-child { grid-column: 1 / -1; }
+.dieu-huong.dh-tuan .btn:nth-child(2):not(:last-child) { grid-column: auto; grid-row: auto; }

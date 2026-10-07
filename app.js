@@ -766,16 +766,36 @@ function demCauLuyen() {
 
 // Vẽ câu hỏi hiện tại (chỉ vẽ lại phần khung câu, không vẽ cả trang)
 const hoaAnToan = t => String(t ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+// Bài kiểm tra được giao: làm tuần tự — không quay lại, không nhảy câu; câu bỏ qua được hiện lại một lần ở cuối
+const kieuTuan = () => !!baiLam?.giao && baiLam.giao.loai !== "bai-tap";
+function khoiTaoLuot() {
+  if (baiLam.luot) return;
+  const con = baiLam.cau.map((c, k) => k).filter(k => baiLam.chon[k] === null);
+  baiLam.luot = con.length ? con : baiLam.cau.map((c, k) => k); baiLam.vong = 1;
+  baiLam.buoc = 0; baiLam.viTri = baiLam.luot[0]; luuBaiLam();
+}
+function laCauCuoi() {
+  if (baiLam.buoc < baiLam.luot.length - 1) return false;
+  return baiLam.vong === 2 || baiLam.luot.every(k => baiLam.chon[k] !== null);
+}
+function tienCau(boQua) {
+  if (!boQua && baiLam.chon[baiLam.viTri] === null) return;
+  if (laCauCuoi()) return nopBai();
+  let b = baiLam.buoc + 1;
+  if (b >= baiLam.luot.length) { baiLam.luot = baiLam.luot.filter(k => baiLam.chon[k] === null); baiLam.vong = 2; b = 0; }
+  baiLam.buoc = b; baiLam.viTri = baiLam.luot[b]; luuBaiLam(); veCau(); window.scrollTo(0, 0);
+}
 function veCau() {
   const khung = document.getElementById("khung-cau");
   if (!khung || !baiLam) return;
+  const tuan = kieuTuan(); if (tuan) khoiTaoLuot();
   const i = baiLam.viTri, cau = baiLam.cau[i], goc = CAU_THEO_ID[cau.id];
   const daChon = baiLam.chon[i];
   const hienDapAn = baiLam.cheDo === "luyen" && daChon !== null;   // chế độ luyện: chọn xong hiện đáp án
   const dung = dapAnHienThi(cau);
   const n = baiLam.cau.length, daLam = baiLam.chon.filter(x => x !== null).length;
   document.getElementById("tien-do-lam").style.width = (daLam / n * 100) + "%";
-  document.getElementById("so-cau").textContent = `Câu ${i + 1}/${n}`;
+  document.getElementById("so-cau").textContent = tuan && baiLam.vong === 2 ? `Làm lại câu bỏ qua ${baiLam.buoc + 1}/${baiLam.luot.length}` : `Câu ${i + 1}/${n}`;
   khung.innerHTML = lamToan(`
     <div class="the-trang cau-hoi">
       ${baiLam.giao || (typeof laHStk === "function" && laHStk()) ? "" : `<div class="nhan-cau"><span>${tenChuong(goc.chuong)}</span><span>${MUC_DO[goc.mucDo]}</span></div>`}
@@ -796,12 +816,18 @@ function veCau() {
     </div>
     ${baiLam.cheDo === "luyen" && !baiLam.giao ? (() => { const t = hienDapAn ? (daChon === dung ? ["dung", "Chính xác! Giỏi lắm!"] : ["sai", "Chưa đúng, đọc lời giải nhé!"]) : ["chao", "Hãy đọc kĩ câu hỏi nhé!"];
       return `<div class="mascot-nhac"><span class="bong">${t[1]}</span><img src="anh/3d/mascot-${t[0]}.webp" alt=""></div>`; })() : ""}
+    ${tuan ? `${baiLam.vong === 2 ? `<p class="ghi-chu" style="text-align:center">🔁 Các câu em đã bỏ qua — làm lại một lần cuối.</p>` : ""}
+    <div class="dieu-huong dh-tuan">
+      ${daChon === null ? `<button class="btn phu" onclick="tienCau(true)">${baiLam.vong === 1 ? "Bỏ qua ⏭" : "Để trống ⏭"}</button>` : ""}
+      <button class="btn" ${daChon === null ? "disabled" : ""} onclick="tienCau(false)">${laCauCuoi() ? "Nộp bài" : "Câu sau ›"}</button>
+    </div>
+    <p class="ghi-chu" style="text-align:center">${daLam}/${n} câu đã làm · chọn đáp án rồi bấm Câu sau (không quay lại được)${baiLam.vong === 1 ? ". Chưa nghĩ ra thì bấm Bỏ qua, cuối bài sẽ hiện lại một lần." : ""}</p>` : `
     <div class="dieu-huong">
       <button class="btn phu" ${i === 0 ? "disabled" : ""} onclick="denCau(${i - 1})">‹ Câu trước</button>
       <button class="btn phu" onclick="moBangCau()">${daLam}/${n} đã làm</button>
       ${i < n - 1 ? `<button class="btn" onclick="denCau(${i + 1})">Câu sau ›</button>`
                   : `<button class="btn" onclick="nopBai()">Nộp bài</button>`}
-    </div>`);
+    </div>`}`);
 }
 function khungNhaPhatTrien() {
   return `<div class="pr-nha-phat-trien"><p>✨ Ứng dụng phát triển bởi <b>Phạm Ngọc</b><br><span>(K63 Sư phạm Hóa học)</span></p>`
@@ -811,8 +837,9 @@ function chonPhuongAn(j) {
   baiLam.chon[baiLam.viTri] = j; luuBaiLam(); veCau();
   // Không tự sang câu sau: SV có thể xem lại / đổi đáp án rồi bấm "Sau ›"
 }
-function denCau(i) { dongMucLuc(); baiLam.viTri = i; luuBaiLam(); veCau(); window.scrollTo(0, 0); }
+function denCau(i) { if (kieuTuan()) return; dongMucLuc(); baiLam.viTri = i; luuBaiLam(); veCau(); window.scrollTo(0, 0); }
 function moBangCau() {
+  if (kieuTuan()) return;
   bangMucLuc.innerHTML = `
     <div class="dau-sticky"><div class="tay-cam"></div>
     <div class="dau-bang"><b>Danh sách câu hỏi</b><button class="nut-phu" onclick="nopBai()">Nộp bài</button></div></div>
