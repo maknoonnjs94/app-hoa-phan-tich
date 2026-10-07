@@ -1867,7 +1867,6 @@ const CHUONG = [
     ten: "Cân bằng tạo phức",
     moTa: "Hằng số bền β, α của EDTA theo pH, hằng số bền điều kiện β', chất tạo phức phụ",
     dayDu: true,
-    choDuyet: true,
     lyThuyet: String.raw`
       <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
         <ul>
