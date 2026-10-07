@@ -752,7 +752,7 @@ function theCanhBaoHoc() {   // SV: nhắc nhở do GV bấm “Báo động” 
     ${c.dang?.length ? `<ul>${c.dang.map(d => `<li>${hoa(d)}</li>`).join("")}</ul>` : ""}${c.ghiChu ? `<p class="tk-loi-nhan">“${hoa(c.ghiChu)}”</p>` : ""}
     <div class="nut-hang"><a class="btn" href="#/luyen-tap">Luyện tập ngay</a><button class="btn phu" onclick="try{localStorage.setItem('cb-hoc-xem','${c.luc}')}catch{};hienManHinh()">Đã hiểu</button></div></div>`;
 }
-function theDauTrangChu() { return laGVtk() ? theLopHocTrangChu() : theCanhBaoHoc(); }
+function theDauTrangChu() { return theGyPhanHoi() + (laGVtk() ? theLopHocTrangChu() : theCanhBaoHoc()); }
 const oTrangChuKhach = oTrangChu;
 oTrangChu = () => laGVtk() ? [["#/tao-de", "tao-de", "Tạo đề", "Soạn & in đề"], [KHO_KHOA.mo ? "#/kho" : "#/kho-cau-hoi", "luu", "Ngân hàng", "Câu hỏi"],
     ["#/ngan-hang-de", "luyen-tap", "Đề đã soạn", "Dùng lại"], ["#/ly-thuyet", "ly-thuyet", "Lí thuyết", "15 chương"],
@@ -782,12 +782,13 @@ MAN_HINH["/gop-y"] = {
       <p class="loi-tk" id="gy-loi"></p>
       <button class="btn full" onclick="guiGopY()">📨 Gửi góp ý</button>
       <p class="ghi-chu">${tk.user ? "Góp ý được gửi thẳng cho người phát triển." : "Bạn chưa đăng nhập nên góp ý sẽ được gửi qua Zalo, Messenger hoặc email bằng menu chia sẻ."} Hoặc liên hệ trực tiếp <a href="tel:0912995778">0912 995 778</a>.</p></div>
-    <div id="vung-gy"></div>`,
+    <div id="gy-cua-toi"></div><div id="vung-gy"></div>`,
   sauKhiVe: async () => {
+    gyVeCuaToi(true);   // góp ý của chính mình + phản hồi (mở màn này = đã đọc)
     const v = document.getElementById("vung-gy"); if (!v || !laGVtk()) return;
     try {
       const ds = (await fbDb.collection("baoLoi").where("loai", "==", "gop-y").get()).docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => b.luc - a.luc).slice(0, 60);
-      v.innerHTML = `<h2>Góp ý đã nhận (${ds.length})</h2>` + (ds.map(g => `<div class="the-trang gop-y-the"><small class="ghi-chu">${(KIEU_GOP_Y.find(k => k[0] === g.kieu) || KIEU_GOP_Y[3])[1]} · ${hoa(g.ten || "ẩn danh")}${g.vaiTro ? " (" + hoa(g.vaiTro) + ")" : ""} · ${gioVN(g.luc)}</small><p>${hoa(g.noiDung)}</p></div>`).join("") || `<div class="trong">Chưa có góp ý nào.</div>`);
+      GYL.ds = ds; gyVeHop(); return;
     } catch (e) { v.innerHTML = ""; }
   },
 };
@@ -807,6 +808,69 @@ async function guiGopY() {
   try { if (navigator.share) return await navigator.share({ title: "Góp ý Hóa phân tích", text }); } catch (e) { if (e.name === "AbortError") return; }
   try { await navigator.clipboard.writeText(text); alert("Đã chép nội dung góp ý. Dán vào Zalo/Messenger rồi gửi cho Phạm Ngọc (0912 995 778)."); }
   catch { prompt("Chép nội dung dưới đây để gửi:", text); }
+}
+
+
+/* ---------- Trả lời góp ý: GV trả lời ngay trong màn Góp ý, câu trả lời hiện ở app người hỏi ----------
+   baoLoi/{id}.traLoi (≤1000), traLuc, traBoi. SV đọc được góp ý của chính mình (luật baoLoi); nghe realtime để báo
+   “có phản hồi mới” (toast + thẻ đầu trang chủ + chấm đỏ ở tab Tài khoản). Đã đọc nhớ theo máy: localStorage gy-da-doc {id: traLuc}. */
+const GY = { ds: [], huy: null }, GYL = { ds: [], loc: "chua" };
+const gyDaDoc = () => { try { return JSON.parse(localStorage.getItem("gy-da-doc") || "{}"); } catch { return {}; } };
+const gyMoi = () => { const d = gyDaDoc(); return GY.ds.filter(g => g.traLoi && d[g.id] !== g.traLuc); };
+const gyDanhDauDaDoc = () => { try { const d = gyDaDoc(); GY.ds.forEach(g => { if (g.traLoi) d[g.id] = g.traLuc; }); localStorage.setItem("gy-da-doc", JSON.stringify(d)); } catch {} document.body.classList.remove("co-phan-hoi"); };
+const gyCat = (t, n) => { t = String(t || ""); return t.length > n ? t.slice(0, n).trim() + "…" : t; };
+function gyTheoDoi() {
+  GY.huy?.(); GY.huy = null; GY.ds = []; document.body.classList.remove("co-phan-hoi");
+  if (!tk.user || !fbDb) return;
+  let dau = true;
+  GY.huy = fbDb.collection("baoLoi").where("uid", "==", tk.user.uid).where("loai", "==", "gop-y").onSnapshot(snap => {
+    const truoc = new Set(gyMoi().map(g => g.id + g.traLuc));
+    GY.ds = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => b.luc - a.luc);
+    const moi = gyMoi(), tren = location.hash === "#/gop-y";
+    document.body.classList.toggle("co-phan-hoi", moi.length > 0 && !tren);
+    if (!dau && !tren) { const them = moi.filter(g => !truoc.has(g.id + g.traLuc)); if (them.length) gyToast(them[0]); }
+    dau = false;
+    if (tren) gyVeCuaToi(true); else if ((location.hash || "#/") === "#/") hienManHinh();
+  }, e => console.warn("phản hồi góp ý", e));
+}
+function gyToast(g) {
+  document.getElementById("gy-toast")?.remove();
+  const o = document.createElement("a"); o.id = "gy-toast"; o.className = "gy-toast"; o.href = "#/gop-y";
+  o.innerHTML = `<b>💬 Có phản hồi cho góp ý của bạn</b><span>${hoa(gyCat(g.traLoi, 90))}</span>`; o.onclick = () => o.remove();
+  document.body.append(o); setTimeout(() => o.remove(), 9000);
+}
+function theGyPhanHoi() {
+  const moi = gyMoi(); if (!moi.length) return "";
+  return moi.slice(0, 2).map(g => `<div class="the-trang gy-phan-hoi"><b>💬 Phản hồi góp ý của bạn</b>
+    <small>Bạn hỏi: “${hoa(gyCat(g.noiDung, 70))}”</small><div class="gy-bong">${hoa(gyCat(g.traLoi, 220))}<small>— ${hoa(g.traBoi || "Người phát triển")}</small></div>
+    <div class="nut-hang"><a class="btn" href="#/gop-y">Xem đầy đủ</a><button class="btn phu" onclick="gyDocXong()">Đã đọc</button></div></div>`).join("");
+}
+function gyDocXong() { gyDanhDauDaDoc(); hienManHinh(); }
+function gyVeCuaToi(danhDau) {
+  const o = document.getElementById("gy-cua-toi"); if (!o) return;
+  if (!tk.user || !GY.ds.length) { o.innerHTML = ""; return; }
+  const moi = new Set(gyMoi().map(g => g.id));
+  o.innerHTML = `<h2>Góp ý của bạn (${GY.ds.length})</h2>` + GY.ds.map(g => `<div class="the-trang gop-y-the"><small class="ghi-chu">${(KIEU_GOP_Y.find(k => k[0] === g.kieu) || KIEU_GOP_Y[3])[1]} · ${gioVN(g.luc)}</small><p>${hoa(g.noiDung)}</p>
+    ${g.traLoi ? `<div class="gy-bong ${moi.has(g.id) ? "moi" : ""}">${moi.has(g.id) ? '<em class="gy-nhan-moi">Mới</em>' : ""}${hoa(g.traLoi)}<small>— ${hoa(g.traBoi || "Người phát triển")} · ${gioVN(g.traLuc)}</small></div>` : `<span class="gy-cho">⏳ Chưa có phản hồi</span>`}</div>`).join("");
+  if (danhDau) gyDanhDauDaDoc();
+}
+/* hộp thư của GV: lọc chưa / đã trả lời, trả lời ngay dưới từng góp ý */
+function gyVeHop() {
+  const v = document.getElementById("vung-gy"); if (!v) return;
+  const chua = GYL.ds.filter(g => !g.traLoi).length, ds = GYL.ds.filter(g => GYL.loc === "tat" || (GYL.loc === "chua" ? !g.traLoi : g.traLoi));
+  v.innerHTML = `<h2>Hộp thư góp ý (${GYL.ds.length})</h2><div class="chip-hang">${[["chua", `⏳ Chưa trả lời ${chua}`], ["da", `✅ Đã trả lời ${GYL.ds.length - chua}`], ["tat", "Tất cả"]].map(([k, t]) => `<button class="chip-nhanh ${GYL.loc === k ? "chon" : ""}" onclick="GYL.loc='${k}';gyVeHop()">${t}</button>`).join("")}</div>`
+    + (ds.map(g => `<div class="the-trang gop-y-the"><small class="ghi-chu">${(KIEU_GOP_Y.find(k => k[0] === g.kieu) || KIEU_GOP_Y[3])[1]} · ${hoa(g.ten || "ẩn danh")}${g.vaiTro ? " (" + hoa(g.vaiTro) + ")" : ""} · ${gioVN(g.luc)}</small><p>${hoa(g.noiDung)}</p>
+      ${g.traLoi ? `<div class="gy-bong">${hoa(g.traLoi)}<small>— ${hoa(g.traBoi || "")} · ${gioVN(g.traLuc)} · <a class="lien-ket" onclick="document.getElementById('gy-sua-${g.id}').hidden=false;this.parentNode.parentNode.hidden=true">sửa</a></small></div>` : ""}
+      <div class="gy-soan" id="gy-sua-${g.id}" ${g.traLoi ? "hidden" : ""}>${g.uid ? `<textarea id="gy-tl-${g.id}" rows="3" maxlength="1000" placeholder="Viết câu trả lời — người hỏi sẽ thấy ngay trên app của họ">${hoa(g.traLoi || "")}</textarea><button class="btn nho" onclick="gyTraLoi('${g.id}')">📨 Gửi trả lời</button>` : `<small class="ghi-chu">Góp ý ẩn danh/khách (gửi qua Zalo…) nên không trả lời trong app được.</small>`}</div></div>`).join("") || `<div class="trong">Không có góp ý nào ở mục này.</div>`);
+}
+async function gyTraLoi(id) {
+  const nd = (document.getElementById("gy-tl-" + id)?.value || "").trim(); if (nd.length < 2) return alert("Hãy viết câu trả lời.");
+  try {
+    const cap = { traLoi: nd.slice(0, 1000), traLuc: Date.now(), traBoi: String(tk.hoSo?.hoTen || "Giáo viên").slice(0, 60) };
+    await fbDb.collection("baoLoi").doc(id).update(cap);
+    Object.assign(GYL.ds.find(g => g.id === id) || {}, cap); if (typeof ghiNhatKy === "function") ghiNhatKy("tra-loi-gop-y", gyCat(nd, 80), id);
+    gyVeHop();
+  } catch (e) { alert(loiTk(e)); }
 }
 
 /* ---------- Lối vào: thẻ trong Tài khoản, huy hiệu ở trang chủ ---------- */
@@ -845,6 +909,6 @@ async function ganHuyHieuTrangChu() {
   canh.innerHTML = html;
 }
 window.addEventListener("hashchange", () => { if ((location.hash || "#/") === "#/" || location.hash === "") ganHuyHieuTrangChu(); });
-if (fbAuth) window.addEventListener("tk-san", () => { ganHuyHieuTrangChu(); kiemTraGiao(); });
+if (fbAuth) window.addEventListener("tk-san", () => { ganHuyHieuTrangChu(); kiemTraGiao(); gyTheoDoi(); });
 kiemTraGiao();
 if (["/giao-de", "/da-giao", "/bang-diem", "/bai-duoc-giao"].includes(location.hash.slice(1).split("?")[0])) hienManHinh();

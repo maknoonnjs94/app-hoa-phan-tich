@@ -155,7 +155,9 @@ service cloud.firestore {
         && request.resource.data.get('uid', request.auth.uid) == request.auth.uid
         && chu('noiDung', 2000) && chu('ten', 100) && chu('kieu', 30) && chu('loai', 30) && chu('vaiTro', 10) && chu('banApp', 20)
         && chu('ma', 120) && chu('loaiMuc', 30) && chu('ghiChu', 500) && chu('tieuDe', 200);
-      allow read, update, delete: if laGV();
+      // người gửi đọc lại được góp ý của chính mình (kèm câu trả lời của GV); chỉ GV sửa / xóa / trả lời
+      allow read: if laGV() || (dn() && resource.data.get('uid', '') == request.auth.uid && resource.data.get('loai', '') == 'gop-y');
+      allow update, delete: if laGV();
     }
   }
 }
