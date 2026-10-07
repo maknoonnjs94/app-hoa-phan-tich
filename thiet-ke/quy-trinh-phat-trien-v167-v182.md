@@ -33,18 +33,24 @@ Phiên "Giao diện & tính năng". Không đụng `kho.bin`, `noi-dung.js`, `ph
 - Giao diện máy tính dùng `zoom` (Chrome/Edge/Safari/Firefox ≥126); thanh bên là `position: sticky` trong lưới, không dùng `fixed` để khỏi lệch khi zoom.
 
 ## Tên miền riêng (đã làm, ngoài repo)
-Website chính của GV là một Cloudflare Worker; app được nhúng vào đường dẫn `/hoaphantich/` bằng cách thêm vào đầu hàm `fetch` của Worker (trước nhánh `/api/`):
+Website chính của GV là một Cloudflare Worker; app (vẫn nằm trên GitHub Pages) được nhúng vào đường dẫn `/hoaphantich/` bằng cách thêm vào đầu hàm `fetch` của Worker, ngay sau `const url = new URL(request.url);` và trước nhánh `/api/`. Bản đầu chép nguyên header của GitHub nên một lần Chrome báo `ERR_INVALID_RESPONSE`; bản hiện dùng (chỉ chép `content-type`, `etag`, `last-modified`, đặt `Cache-Control: no-cache`, bỏ body khi 204/304):
 ```js
 if (url.pathname === "/hoaphantich") return Response.redirect(url.origin + "/hoaphantich/", 301);
 if (url.pathname.startsWith("/hoaphantich/")) {
   const goc = "https://maknoonnjs94.github.io/app-hoa-phan-tich/";
   const r = await fetch(goc + url.pathname.slice("/hoaphantich/".length) + url.search, { headers: { Accept: request.headers.get("Accept") || "*/*" } });
-  return new Response(r.body, r);
+  const h = new Headers();
+  for (const k of ["content-type", "etag", "last-modified"]) if (r.headers.get(k)) h.set(k, r.headers.get(k));
+  h.set("Cache-Control", "no-cache");
+  return new Response(r.status === 304 || r.status === 204 ? null : r.body, { status: r.status, headers: h });
 }
 ```
-Firebase → Authentication → Authorized domains đã thêm tên miền riêng. SV phải đăng nhập lại ở link mới (localStorage theo từng origin). Mã nguồn Worker và khóa Supabase **không** được đưa vào repo.
+Nếu `/hoaphantich/` lỗi mà `maknoonnjs94.github.io/app-hoa-phan-tich/` vẫn chạy → lỗi nằm ở Worker (kiểm tra còn đoạn trên không, có bị dán đè không). Phương án dự phòng không cần Worker: CNAME tên miền phụ → `maknoonnjs94.github.io` (DNS only) + file `CNAME` trong repo + Custom domain ở GitHub Pages + thêm tên miền vào Firebase Authorized domains. Firebase đã thêm tên miền riêng; SV phải đăng nhập lại ở mỗi địa chỉ mới (localStorage theo origin). Mã nguồn Worker và khóa Supabase **không** được đưa vào repo.
 
 ## Việc người dùng còn phải làm / có thể làm tiếp
 - Dán `firestore.rules` mới nhất vào Firebase (nếu chưa) — thiếu thì Điểm danh, Kho đề thi, STT/ngày sinh, báo động báo "không có quyền".
 - Lớp cũ: nạp lại file Excel (＋ Thêm SV) để có STT + ngày sinh.
 - Ý tưởng chưa làm: GV tự thêm đồng nghiệp vào lớp (cần sửa luật); báo động tự động theo ngưỡng; nới điều kiện giờ cho điểm danh tự động; so sánh hai lớp; chỉnh các màn GV cho màn rộng (bảng điểm, danh sách lớp 2 cột); đọc thêm thông tin từ ảnh đề.
+- v187: Theo mẫu mockup: thanh tab nổi 5 mục (Trang chủ, Học tập, Luyện tập [GV `#/bai-tap`, SV `#/bai-duoc-giao` qua `.tab-gv`/`.tab-hs`], Lớp học [GV], Tài khoản; Tạo đề và Tra cứu chỉ còn ở ô trang chủ); danh sách 15 chương gọn (`theChuong`: icon, số tròn, thanh tiến độ, ✓ khi ≥95%, nhãn "Đang học" theo `docGanNhat()`), banner đảo theo nhóm (`BIA_NHOM`, `theoNhom(..., true)`); màn làm bài mới (thẻ `.lam-tien-do`, đồng hồ 3D, linh vật nhắc/mừng theo kết quả, ẩn thanh tab khi `body.dang-lam`).
+- v188–v189: Làm gọn cho điện thoại (≤700 px): `.btn`, thẻ, chữ nhỏ hơn; danh sách lớp học `.lh-lop` (5 nút một hàng `.lh-nut`); thống kê chi tiết gọn (hàng chọn bài ngang `.tk-hang-chon`, nhãn Vắng=0); `.nut-hang` thành lưới chia đều một hàng (≥4 nút → 2 cột; loại trừ `.hai-nut`, `.day-chon`, `.nh-tuy`); nhãn nút rút ngắn; tiêu đề một/hai dòng. Nguyên tắc: tránh xuống dòng thừa, ưu tiên hàng cuộn ngang và lưới đều.
+- v190: `thamGiaBai(b)` (giao-bai.js): chỉ tính SV đã trả lời ≥1 câu hoặc GV đã chấm tay vào TB / phân bố / Gauss / dạng bài / báo động; mở bài mà chưa làm câu nào = không tham gia (hiện "vắng"). Nhãn **Vắng=0** để tính 0 cho người không tham gia.
