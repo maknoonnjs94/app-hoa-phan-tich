@@ -1557,3 +1557,7 @@ i.tk-xanh { background: #22c55e; } i.tk-vang { background: #f59e0b; } i.tk-do { 
 .gy-toast { position: fixed; z-index: 1200; top: calc(env(safe-area-inset-top) + 10px); left: 12px; right: 12px; max-width: 460px; margin: 0 auto; display: flex; flex-direction: column; gap: 2px; padding: 11px 14px; border-radius: 16px; text-decoration: none;
   background: #151a28; color: #fff; box-shadow: 0 10px 30px rgba(0,0,0,.35); animation: cb-vao .3s ease-out; } .gy-toast span { font-size: 13px; opacity: .85; }
 body.co-phan-hoi .tabbar a[data-tab="/tai-khoan"] { position: relative; } body.co-phan-hoi .tabbar a[data-tab="/tai-khoan"]::after { content: ""; position: absolute; top: 4px; right: calc(50% - 22px); width: 10px; height: 10px; border-radius: 50%; background: #ef4444; border: 2px solid var(--the); }
+
+.dd-n.dd-bang { font-size: 14px; } .dd-n.dd-bang.bat { background: #fde68a; border-color: #f59e0b; color: #78350f; }
+.dd-muc { display: flex; align-items: center; gap: 6px; font-size: 12.5px; margin: 6px 0; } .dd-muc input { width: 58px; padding: 3px 6px; text-align: center; min-height: 0; }
+@media (max-width: 700px) { .dd-n { width: 34px; } .dd-nut { gap: 3px; } }

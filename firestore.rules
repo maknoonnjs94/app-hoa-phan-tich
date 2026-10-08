@@ -74,7 +74,7 @@ service cloud.firestore {
     match /diemDanh/{id} {
       allow read: if laGV();
       allow create, update: if laQTV() || (laGV() && request.resource.data.lop in lopDayToi() && id.matches(request.resource.data.lop + '_.*')
-        && request.resource.data.keys().hasOnly(['lop', 'ngay', 'slot', 'dd', 'kq', 'luc', 'boi']));
+        && request.resource.data.keys().hasOnly(['lop', 'ngay', 'slot', 'dd', 'kq', 'bang', 'luc', 'boi']));
       allow delete: if laQTV() || (laGV() && resource.data.lop in lopDayToi());
     }
 

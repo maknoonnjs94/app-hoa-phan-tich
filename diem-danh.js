@@ -71,7 +71,7 @@ async function ddTuDien() {
   });
   if (!luu.length) return;
   const lo = fbDb.batch();
-  luu.forEach(b => { const r = DD.rec[b.id], bg2 = { lop: DD.l.id, ngay: b.ngay, slot: b.slot, kq: r.kq, luc: Date.now(), boi: "Tự động (bài kiểm tra)" }; if (r.dd !== undefined) bg2.dd = r.dd; lo.set(fbDb.collection("diemDanh").doc(b.id), bg2); });
+  luu.forEach(b => { const r = DD.rec[b.id], bg2 = { lop: DD.l.id, ngay: b.ngay, slot: b.slot, kq: r.kq, luc: Date.now(), boi: "Tự động (bài kiểm tra)" }; if (r.dd !== undefined) bg2.dd = r.dd; bg2.bang = r.bang || {}; lo.set(fbDb.collection("diemDanh").doc(b.id), bg2); });
   await lo.commit(); DD.tuDien = luu.length;
 }
 function ddVe() {
@@ -110,12 +110,23 @@ function ddVeBuoi() {
       <button class="chip-nhanh" onclick="ddChon(${DD.cur + 1})" ${DD.cur < DD.buoi.length - 1 ? "" : "disabled"}>▶</button></div>
     <p class="ghi-chu">${DD_THU[b.s.thu]}, ${ddNgayVN(b.ngay)}${b.s.bd ? " · " + b.s.bd + (b.s.kt ? "–" + b.s.kt : "") : ""}${b.ngay === hom ? " · <b>hôm nay</b>" : ""}</p>
     <label class="tk-chk"><input type="checkbox" ${co ? "checked" : ""} onchange="ddBat(this.checked)"> Buổi này có điểm danh</label>
-    ${co ? `<div class="kq-chu-thich">${Object.entries(DD_TT).filter(([k]) => k !== "a" || n.a).map(([k, t]) => `<span><i class="tk-o tk-${t[2] === "cam" ? "vang" : t[2]}"></i>${t[0]} ${t[1]}: <b>${n[k]}</b></span>`).join("")}<span>Chưa điểm danh: <b>${DD.hs.length - n.tong}</b></span></div>
+    ${co ? `<div class="kq-chu-thich">${Object.entries(DD_TT).filter(([k]) => k !== "a" || n.a).map(([k, t]) => `<span><i class="tk-o tk-${t[2] === "cam" ? "vang" : t[2]}"></i>${t[0]} ${t[1]}: <b>${n[k]}</b></span>`).join("")}<span>Chưa điểm danh: <b>${DD.hs.length - n.tong}</b></span><span>🖍 Lên bảng: <b>${Object.keys(DD.rec[b.id]?.bang || {}).length}</b></span></div>
       <div class="nut-hang trai"><button class="btn" onclick="ddTatCa('c')">✔ Tất cả có mặt</button><button class="btn phu" onclick="ddTatCa('')">Xóa hết</button><small class="ghi-chu" id="dd-luu">${DD.luu}</small></div>
       <div class="dd-ds">${DD.hs.map(u => { const k = ddKq(b, u.uid);
         return `<div class="dd-dong ${k ? "co-" + k : ""}"><span class="stt-sv">${u.stt}</span><div class="giua"><b>${hoa(u.hoTen)}</b><small>${hoa(u.maHS || "")}${u.ns ? " · " + hoa(u.ns) : ""}${k === "a" ? " · ⚙ tự động: đã nộp bài test" : ""}</small></div>
-          <div class="dd-nut">${Object.entries(DD_TT).filter(([t]) => t !== "a").map(([t, x]) => `<button class="dd-n ${k === t || (t === "c" && k === "a") ? "bat " + x[2] : ""}" title="${x[1]}" onclick="ddDat('${u.uid}','${t}')">${x[0]}</button>`).join("")}</div></div>`; }).join("") || `<p class="ghi-chu">Lớp chưa có sinh viên.</p>`}</div>`
+          <div class="dd-nut">${Object.entries(DD_TT).filter(([t]) => t !== "a").map(([t, x]) => `<button class="dd-n ${k === t || (t === "c" && k === "a") ? "bat " + x[2] : ""}" title="${x[1]}" onclick="ddDat('${u.uid}','${t}')">${x[0]}</button>`).join("")}<button class="dd-n dd-bang ${DD.rec[b.id]?.bang?.[u.uid] ? "bat" : ""}" title="Lên bảng (cộng điểm)" onclick="ddBang('${u.uid}')">🖍</button></div></div>`; }).join("") || `<p class="ghi-chu">Lớp chưa có sinh viên.</p>`}</div>`
       : `<p class="ghi-chu">Buổi này không điểm danh (không tính vào chuyên cần).</p>`}</div>`;
+}
+function ddBang(uid) {   // tích “lên bảng” cho buổi đang chọn (để cộng điểm)
+  const b = DD.buoi[DD.cur], r = DD.rec[b.id] ||= {}; r.bang ||= {};
+  if (r.bang[uid]) delete r.bang[uid]; else r.bang[uid] = true;
+  ddVeBuoi(); ddLuuSau();
+}
+const ddMucBang = () => DD.l.lich?.diemBang ?? 0.25;
+const ddSoBang = uid => DD.buoi.reduce((t, b) => t + (DD.rec[b.id]?.bang?.[uid] ? 1 : 0), 0);
+async function ddDoiMuc(v) {
+  const x = Math.max(0, Math.min(10, parseFloat(String(v).replace(",", ".")) || 0));
+  try { const L = { ...DD.l.lich, diemBang: x }; await fbDb.collection("lop").doc(DD.l.id).update({ lich: L }); DD.l.lich = L; ddVeTong(); } catch (e) { alert(loiTk(e)); }
 }
 function ddChon(i) { if (i < 0 || i >= DD.buoi.length) return; DD.cur = i; DD.luu = ""; ddVeBuoi(); }
 function ddLuuSau() {
@@ -126,6 +137,7 @@ async function ddLuu() {
   const b = DD.buoi[DD.cur], r = DD.rec[b.id] ||= {};
   const bg = { lop: DD.l.id, ngay: b.ngay, slot: b.slot, kq: r.kq || {}, luc: Date.now(), boi: String(tk.hoSo?.hoTen || "").slice(0, 60) };
   if (r.dd !== undefined) bg.dd = r.dd;
+  bg.bang = r.bang || {};
   try { await fbDb.collection("diemDanh").doc(b.id).set(bg); DD.luu = "✓ đã lưu"; } catch (e) { DD.luu = "⚠ chưa lưu được: " + loiTk(e); }
   const el = document.getElementById("dd-luu"); if (el) el.textContent = DD.luu; ddVeTong();
 }
@@ -152,17 +164,18 @@ function ddTongHop() {
 }
 function ddVeTong() {
   const o = document.getElementById("dd-tong"); if (!o || !DD.buoi.length) return;
-  const { bs, hang } = ddTongHop();
-  if (!bs.length) { o.innerHTML = ""; return; }
+  const { bs, hang } = ddTongHop(), tongBang = DD.hs.reduce((t, u) => t + ddSoBang(u.uid), 0), muc = ddMucBang();
+  if (!bs.length && !tongBang) { o.innerHTML = ""; return; }
   const mau = h => h.vang >= 20 ? "tk-do" : h.vang >= 10 ? "tk-vang" : "tk-xanh";
   o.innerHTML = `<div class="the-trang"><b>Tổng hợp chuyên cần</b> <small class="ghi-chu">(${bs.length} buổi đã điểm danh · % vắng = vắng + chưa điểm danh; đỏ từ 20%, vàng từ 10%)</small>
-    <div class="bang-cuon"><table class="bang tk-bang"><thead><tr><th>STT</th><th>Sinh viên</th>${bs.map(b => `<th title="${ddNhan(b)}">${ddNgayVN(b.ngay).slice(0, 5)}</th>`).join("")}<th>Có mặt</th><th>Vắng</th><th>% vắng</th></tr></thead><tbody>
-    ${hang.map(h => `<tr><td>${h.u.stt}</td><td>${hoa(h.u.hoTen)}<small>${hoa(h.u.maHS || "")}${h.u.ns ? " · " + hoa(h.u.ns) : ""}</small></td>${h.k.map(x => `<td class="${x === "v" || x === "" ? "dd-v" : ""}">${x ? DD_TT[x][0] : "–"}</td>`).join("")}<td>${h.c + h.m}</td><td>${h.v}</td><td class="tk-o ${mau(h)}">${h.vang}%</td></tr>`).join("")}</tbody></table></div></div>`;
+    <label class="dd-muc">🖍 Điểm cộng mỗi lần lên bảng <input type="number" step="0.05" min="0" max="10" value="${String(muc).replace(".", ",")}" onchange="ddDoiMuc(this.value)"></label>
+    <div class="bang-cuon"><table class="bang tk-bang"><thead><tr><th>STT</th><th>Sinh viên</th>${bs.map(b => `<th title="${ddNhan(b)}">${ddNgayVN(b.ngay).slice(0, 5)}</th>`).join("")}<th>Có mặt</th><th>Vắng</th><th>% vắng</th>${tongBang ? "<th>🖍</th><th>+Điểm</th>" : ""}</tr></thead><tbody>
+    ${hang.map(h => `<tr><td>${h.u.stt}</td><td>${hoa(h.u.hoTen)}<small>${hoa(h.u.maHS || "")}${h.u.ns ? " · " + hoa(h.u.ns) : ""}</small></td>${h.k.map(x => `<td class="${x === "v" || x === "" ? "dd-v" : ""}">${x ? DD_TT[x][0] : "–"}</td>`).join("")}<td>${h.c + h.m}</td><td>${h.v}</td><td class="tk-o ${mau(h)}">${h.vang}%</td>${tongBang ? `<td>${ddSoBang(h.u.uid) || "–"}</td><td><b>${ddSoBang(h.u.uid) ? "+" + String(Math.round(ddSoBang(h.u.uid) * muc * 100) / 100).replace(".", ",") : "–"}</b></td>` : ""}</tr>`).join("")}</tbody></table></div></div>`;
 }
 function ddXuat() {
   const { bs, hang } = ddTongHop(), o = s => `"${String(s ?? "").replace(/"/g, '""')}"`;
-  const dong = [["STT", "Họ tên", "Mã SV", "Ngày sinh", ...bs.map(b => `${ddNgayVN(b.ngay)} ${b.s.bd || ""}`.trim()), "Có mặt", "Muộn", "Có phép", "Vắng", "% vắng (gồm chưa điểm danh)"],
-    ...hang.map(h => [h.u.stt, h.u.hoTen, h.u.maHS, h.u.ns, ...h.k.map(x => x ? DD_TT[x][1] : ""), h.c, h.m, h.p, h.v, h.vang])];
+  const dong = [["STT", "Họ tên", "Mã SV", "Ngày sinh", ...bs.map(b => `${ddNgayVN(b.ngay)} ${b.s.bd || ""}`.trim()), "Có mặt", "Muộn", "Có phép", "Vắng", "% vắng (gồm chưa điểm danh)", "Số lần lên bảng", "Điểm cộng"],
+    ...hang.map(h => [h.u.stt, h.u.hoTen, h.u.maHS, h.u.ns, ...h.k.map(x => x ? DD_TT[x][1] : ""), h.c, h.m, h.p, h.v, h.vang, ddSoBang(h.u.uid), String(Math.round(ddSoBang(h.u.uid) * ddMucBang() * 100) / 100).replace(".", ",")])];
   const blob = new Blob(["﻿" + dong.map(r => r.map(o).join(";")).join("\r\n")], { type: "text/csv;charset=utf-8" });
   const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `Diem danh - ${DD.l.ten}.csv`; a.click();
 }
