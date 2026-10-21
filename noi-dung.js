@@ -925,7 +925,7 @@ const CHUONG = [
       <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
         <ul>
           <li>Viết được biểu thức hằng số cân bằng và biến đổi K khi đảo, nhân hệ số hoặc cộng các phản ứng.</li>
-          <li>Dùng K<sub>a</sub>, K<sub>b</sub>, K<sub>w</sub>, K<sub>f</sub> (β), K<sub>sp</sub> để dự đoán chiều phản ứng, tính độ tan và xét điều kiện kết tủa.</li>
+          <li>Dùng K<sub>a</sub>, K<sub>b</sub>, K<sub>w</sub>, β, K<sub>sp</sub> để dự đoán chiều phản ứng, tính độ tan và xét điều kiện kết tủa.</li>
           <li>Tính lực ion, hệ số hoạt độ; viết phương trình bảo toàn điện tích và bảo toàn khối lượng.</li>
         </ul>
       </div>
@@ -1014,7 +1014,7 @@ const CHUONG = [
         </details></div>
 
       <h3>5. Cân bằng tạo phức</h3>
-      <p>Ion kim loại M kết hợp với phối tử L tạo phức. Hằng số tạo thành K<sub>f</sub> (còn gọi là <b>hằng số bền</b>) càng lớn thì phức càng bền.</p>
+      <p>Ion kim loại M kết hợp với phối tử L tạo phức. Hằng số tạo thành β (còn gọi là <b>hằng số bền</b>) càng lớn thì phức càng bền.</p>
       <div class="cong-thuc"><div class="nhan">Hằng số bền từng nấc K<sub>i</sub> (điện tích lược bỏ cho gọn)</div>\[ \begin{aligned} \mathrm{M} + \mathrm{L} &\rightleftharpoons \mathrm{ML} && K_1 = \frac{[\mathrm{ML}]}{[\mathrm{M}][\mathrm{L}]} \\ \mathrm{ML} + \mathrm{L} &\rightleftharpoons \mathrm{ML_2} && K_2 = \frac{[\mathrm{ML_2}]}{[\mathrm{ML}][\mathrm{L}]} \end{aligned} \]</div>
       <div class="cong-thuc"><div class="nhan">Hằng số bền tổng β<sub>n</sub></div>\[ \begin{gathered} \mathrm{M} + n\mathrm{L} \rightleftharpoons \mathrm{ML}_n \\ \beta_n = \frac{[\mathrm{ML}_n]}{[\mathrm{M}][\mathrm{L}]^n} = K_1K_2\cdots K_n \end{gathered} \]</div>
       <p>Viết theo logarit cho gọn: lg β<sub>n</sub> = lg K<sub>1</sub> + lg K<sub>2</sub> + … + lg K<sub>n</sub>. Hằng số không bền là nghịch đảo của hằng số bền.</p>
@@ -1937,7 +1937,7 @@ const CHUONG = [
       <div class="muc-tieu"><b>Sau chương này bạn cần:</b>
         <ul>
           <li>Hiểu vì sao EDTA là thuốc thử chuẩn độ tạo phức quan trọng nhất và vai trò của pH.</li>
-          <li>Tính α<sub>Y⁴⁻</sub>, hằng số bền điều kiện K<sub>f</sub>' (và K<sub>f</sub>'' khi có chất tạo phức phụ), pM trên đường chuẩn độ.</li>
+          <li>Tính α<sub>Y⁴⁻</sub>, hằng số bền điều kiện β' (và β'' khi có chất tạo phức phụ), pM trên đường chuẩn độ.</li>
           <li>Chọn chỉ thị kim loại, kĩ thuật chuẩn độ (trực tiếp, ngược, thay thế, gián tiếp) và tính kết quả.</li>
         </ul>
       </div>
@@ -1953,11 +1953,11 @@ const CHUONG = [
       <div class="cong-thuc">\[ \begin{gathered} \mathrm{H_6Y^{2+}} \rightleftharpoons \mathrm{H_5Y^+} \rightleftharpoons \mathrm{H_4Y} \rightleftharpoons \mathrm{H_3Y^-} \\ \rightleftharpoons \mathrm{H_2Y^{2-}} \rightleftharpoons \mathrm{HY^{3-}} \rightleftharpoons \mathrm{Y^{4-}} \end{gathered} \]</div>
       <p>Dạng trung hòa H<sub>4</sub>Y là acid 4 nấc. Thuốc thử thường dùng là muối Na<sub>2</sub>H<sub>2</sub>Y·2H<sub>2</sub>O.</p>
       <p>EDTA tạo phức <b>1 : 1</b> với hầu hết ion kim loại, không phụ thuộc điện tích ion:</p>
-      <div class="cong-thuc">\[ \begin{gathered} \mathrm{M^{n+}} + \mathrm{Y^{4-}} \rightleftharpoons \mathrm{MY^{n-4}} \\ K_\mathrm{f} = \frac{[\mathrm{MY^{n-4}}]}{[\mathrm{M^{n+}}][\mathrm{Y^{4-}}]} \end{gathered} \]</div>
+      <div class="cong-thuc">\[ \begin{gathered} \mathrm{M^{n+}} + \mathrm{Y^{4-}} \rightleftharpoons \mathrm{MY^{n-4}} \\ \beta = \frac{[\mathrm{MY^{n-4}}]}{[\mathrm{M^{n+}}][\mathrm{Y^{4-}}]} \end{gathered} \]</div>
       <div class="mo-phong" data-loai="edta-3d"></div>
       <div class="bang-cuon">
         <table class="bang bang-hep">
-          <thead><tr><th>Ion</th><th>lg K<sub>f</sub></th><th>Ion</th><th>lg K<sub>f</sub></th></tr></thead>
+          <thead><tr><th>Ion</th><th>lg β</th><th>Ion</th><th>lg β</th></tr></thead>
           <tbody>
             <tr><td>Mg<sup>2+</sup></td><td>8,79</td><td>Zn<sup>2+</sup></td><td>16,50</td></tr>
             <tr><td>Ca<sup>2+</sup></td><td>10,70</td><td>Pb<sup>2+</sup></td><td>18,04</td></tr>
@@ -1979,32 +1979,32 @@ const CHUONG = [
         </table>
       </div>
       <p class="luu-y">Tài liệu khác nhau có thể cho α<sub>Y⁴⁻</sub> hơi khác (ví dụ 3,5·10<sup>−7</sup> ở pH 5) do dùng bộ hằng số khác. Khi đề bài cho sẵn α<sub>Y⁴⁻</sub>, dùng số của đề.</p>
-      <div class="cong-thuc"><div class="nhan">Hằng số bền điều kiện (ở một pH cố định)</div>\[ K_\mathrm{f}' = \alpha_\mathrm{Y^{4-}}K_\mathrm{f} = \frac{[\mathrm{MY^{n-4}}]}{[\mathrm{M^{n+}}][\mathrm{EDTA}]} \]</div>
-      <p>Để chuẩn độ đạt yêu cầu, phản ứng tạo phức phải gần như hoàn toàn tại điểm tương đương. Quy ước thường dùng: <b>K<sub>f</sub>' ≳ 10<sup>8</sup></b> (với C ≈ 0,01 M, lúc đó khoảng 99,9% ion kim loại đã tạo phức; dạng tổng quát lg(C·K<sub>f</sub>') ≥ 6). Vì vậy mỗi ion có một <b>pH tối thiểu</b> để chuẩn độ: ion tạo phức càng bền (K<sub>f</sub> lớn như Fe<sup>3+</sup>) thì chuẩn độ được ở pH càng thấp. Dựa vào đó có thể <b>chuẩn độ chọn lọc</b> bằng cách chỉnh pH (mục 10). Đề thi thường viết β, β' thay cho K<sub>f</sub>, K<sub>f</sub>' và α<sub>Y(H)</sub> = 1/α<sub>Y⁴⁻</sub>; bảng đối chiếu ở mục 9.</p>
-      <div class="vi-du"><b>Ví dụ 1.</b> Có chuẩn độ được Mg<sup>2+</sup> bằng EDTA ở pH 5 không? Ở pH 10 thì sao? (lg K<sub>f</sub>(MgY<sup>2−</sup>) = 8,79; α<sub>Y⁴⁻</sub> = 3,5·10<sup>−7</sup> ở pH 5 và 0,30 ở pH 10.)
+      <div class="cong-thuc"><div class="nhan">Hằng số bền điều kiện (ở một pH cố định)</div>\[ \beta' = \alpha_\mathrm{Y^{4-}}\beta = \frac{[\mathrm{MY^{n-4}}]}{[\mathrm{M^{n+}}][\mathrm{EDTA}]} \]</div>
+      <p>Để chuẩn độ đạt yêu cầu, phản ứng tạo phức phải gần như hoàn toàn tại điểm tương đương. Quy ước thường dùng: <b>β' ≳ 10<sup>8</sup></b> (với C ≈ 0,01 M, lúc đó khoảng 99,9% ion kim loại đã tạo phức; dạng tổng quát lg(C·β') ≥ 6). Vì vậy mỗi ion có một <b>pH tối thiểu</b> để chuẩn độ: ion tạo phức càng bền (β lớn như Fe<sup>3+</sup>) thì chuẩn độ được ở pH càng thấp. Dựa vào đó có thể <b>chuẩn độ chọn lọc</b> bằng cách chỉnh pH (mục 10). App dùng β, β' (một số tài liệu viết K<sub>f</sub>, K<sub>f</sub>') và α<sub>Y(H)</sub> = 1/α<sub>Y⁴⁻</sub>; bảng đối chiếu ở mục 9.</p>
+      <div class="vi-du"><b>Ví dụ 1.</b> Có chuẩn độ được Mg<sup>2+</sup> bằng EDTA ở pH 5 không? Ở pH 10 thì sao? (lg β(MgY<sup>2−</sup>) = 8,79; α<sub>Y⁴⁻</sub> = 3,5·10<sup>−7</sup> ở pH 5 và 0,30 ở pH 10.)
         <details><summary>Xem lời giải</summary>
-          Ở pH 5: \[ K_\mathrm{f}' = 3,5\cdot10^{-7}\cdot10^{8,79} = 2,2\cdot10^{2} \]
-          Ở pH 10: \[ K_\mathrm{f}' = 0,30\cdot10^{8,79} = 1,8\cdot10^{8} \]
-          Ở pH 5, K<sub>f</sub>' ≪ 10<sup>8</sup>: <b>không chuẩn độ được</b>. Ở pH 10, K<sub>f</sub>' ≈ 10<sup>8</sup>: <b>chuẩn độ được</b>. Vì vậy Mg<sup>2+</sup> luôn được chuẩn độ trong đệm NH<sub>3</sub>/NH<sub>4</sub><sup>+</sup> pH 10.
+          Ở pH 5: \[ \beta' = 3,5\cdot10^{-7}\cdot10^{8,79} = 2,2\cdot10^{2} \]
+          Ở pH 10: \[ \beta' = 0,30\cdot10^{8,79} = 1,8\cdot10^{8} \]
+          Ở pH 5, β' ≪ 10<sup>8</sup>: <b>không chuẩn độ được</b>. Ở pH 10, β' ≈ 10<sup>8</sup>: <b>chuẩn độ được</b>. Vì vậy Mg<sup>2+</sup> luôn được chuẩn độ trong đệm NH<sub>3</sub>/NH<sub>4</sub><sup>+</sup> pH 10.
         </details></div>
 
       <h3>4. Đường chuẩn độ EDTA</h3>
-      <p>Đồ thị pM = −lg[M<sup>n+</sup>] theo thể tích EDTA. Tính pM theo 3 vùng (dùng K<sub>f</sub>'):</p>
+      <p>Đồ thị pM = −lg[M<sup>n+</sup>] theo thể tích EDTA. Tính pM theo 3 vùng (dùng β'):</p>
       <div class="bang-cuon">
         <table class="bang bang-the">
           <thead><tr><th>Vùng</th><th>Cách tính [M<sup>n+</sup>]</th></tr></thead>
           <tbody>
             <tr><td>Trước điểm tương đương</td><td>[M] = lượng M dư / tổng thể tích</td></tr>
-            <tr><td>Tại điểm tương đương</td><td>M chỉ do MY phân li: \( [\mathrm{M}]^2 = \dfrac{[\mathrm{MY}]}{K_\mathrm{f}'} \)</td></tr>
-            <tr><td>Sau điểm tương đương</td><td>\( [\mathrm{M}] = \dfrac{[\mathrm{MY}]}{K_\mathrm{f}'\,[\mathrm{EDTA}]_\text{dư}} \)</td></tr>
+            <tr><td>Tại điểm tương đương</td><td>M chỉ do MY phân li: \( [\mathrm{M}]^2 = \dfrac{[\mathrm{MY}]}{\beta'} \)</td></tr>
+            <tr><td>Sau điểm tương đương</td><td>\( [\mathrm{M}] = \dfrac{[\mathrm{MY}]}{\beta'\,[\mathrm{EDTA}]_\text{dư}} \)</td></tr>
           </tbody>
         </table>
       </div>
-      <p>Bước nhảy pM càng lớn khi K<sub>f</sub>' càng lớn (K<sub>f</sub> lớn, pH cao) và nồng độ càng lớn.</p>
+      <p>Bước nhảy pM càng lớn khi β' càng lớn (β lớn, pH cao) và nồng độ càng lớn.</p>
       <div class="mo-phong" data-loai="chuan-do-edta"></div>
-      <div class="vi-du"><b>Ví dụ 2.</b> Chuẩn độ 50,0 mL Ca<sup>2+</sup> 0,0400 M (đệm pH 10) bằng EDTA 0,0800 M. Tính pCa tại các điểm đặc trưng (lg K<sub>f</sub> = 10,70; α<sub>Y⁴⁻</sub> = 0,30).
+      <div class="vi-du"><b>Ví dụ 2.</b> Chuẩn độ 50,0 mL Ca<sup>2+</sup> 0,0400 M (đệm pH 10) bằng EDTA 0,0800 M. Tính pCa tại các điểm đặc trưng (lg β = 10,70; α<sub>Y⁴⁻</sub> = 0,30).
         <details><summary>Xem lời giải</summary>
-          \[ \begin{aligned} K_\mathrm{f}' &= 0,30\cdot10^{10,70} = 1,50\cdot10^{10} \\ V_e &= \frac{50,0\cdot0,0400}{0,0800} = 25,0\ \mathrm{mL} \end{aligned} \]
+          \[ \begin{aligned} \beta' &= 0,30\cdot10^{10,70} = 1,50\cdot10^{10} \\ V_e &= \frac{50,0\cdot0,0400}{0,0800} = 25,0\ \mathrm{mL} \end{aligned} \]
           <b>V = 20,0 mL</b>: Ca<sup>2+</sup> dư = 2,000 − 1,600 = 0,400 mmol trong 70,0 mL → [Ca<sup>2+</sup>] = 5,71·10<sup>−3</sup> M → pCa = 2,24.<br>
           <b>V = 25,0 mL</b>: [CaY<sup>2−</sup>] = 2,000/75,0 = 0,02667 M:
           \[ \begin{aligned} [\mathrm{Ca^{2+}}] &= \sqrt{\frac{0,02667}{1,50\cdot10^{10}}} = 1,33\cdot10^{-6}\ \mathrm{M} \\ \mathrm{pCa} &= \mathbf{5,88} \end{aligned} \]
@@ -2019,12 +2019,12 @@ const CHUONG = [
       <h3>5. Chất tạo phức phụ</h3>
       <p>Ở pH cao, nhiều ion kim loại bị thủy phân tạo kết tủa hydroxide. Người ta thêm <b>chất tạo phức phụ</b> (thường là NH<sub>3</sub>, tartrate, citrate) để giữ ion kim loại trong dung dịch. Phức phụ phải <b>kém bền hơn</b> phức với EDTA để EDTA vẫn lấy được ion kim loại.</p>
       <div class="cong-thuc"><div class="nhan">Phần ion kim loại tự do (L: chất tạo phức phụ)</div>\[ \begin{aligned} \frac{1}{\alpha_\mathrm{M}} = {} &1 + \beta_1[\mathrm{L}] + \beta_2[\mathrm{L}]^2 \\ &+ \beta_3[\mathrm{L}]^3 + \beta_4[\mathrm{L}]^4 \end{aligned} \]</div>
-      <div class="cong-thuc"><div class="nhan">Hằng số bền điều kiện khi có chất tạo phức phụ</div>\[ K_\mathrm{f}'' = \alpha_\mathrm{M}\,\alpha_\mathrm{Y^{4-}}\,K_\mathrm{f} \]</div>
-      <div class="vi-du"><b>Ví dụ 3.</b> Chuẩn độ Zn<sup>2+</sup> bằng EDTA ở pH 10 trong NH<sub>3</sub> tự do 0,10 M. Phức Zn – NH<sub>3</sub> có lg β<sub>1</sub> = 2,18; lg β<sub>2</sub> = 4,43; lg β<sub>3</sub> = 6,74; lg β<sub>4</sub> = 8,70. Tính K<sub>f</sub>'' (lg K<sub>f</sub>(ZnY<sup>2−</sup>) = 16,50; α<sub>Y⁴⁻</sub> = 0,30).
+      <div class="cong-thuc"><div class="nhan">Hằng số bền điều kiện khi có chất tạo phức phụ</div>\[ \beta'' = \alpha_\mathrm{M}\,\alpha_\mathrm{Y^{4-}}\,\beta \]</div>
+      <div class="vi-du"><b>Ví dụ 3.</b> Chuẩn độ Zn<sup>2+</sup> bằng EDTA ở pH 10 trong NH<sub>3</sub> tự do 0,10 M. Phức Zn – NH<sub>3</sub> có lg β<sub>1</sub> = 2,18; lg β<sub>2</sub> = 4,43; lg β<sub>3</sub> = 6,74; lg β<sub>4</sub> = 8,70. Tính β'' (lg β(ZnY<sup>2−</sup>) = 16,50; α<sub>Y⁴⁻</sub> = 0,30).
         <details><summary>Xem lời giải</summary>
           \[ \begin{aligned} \frac{1}{\alpha_\mathrm{Zn}} = {} &1 + 10^{2,18}(0,10) \\ &+ 10^{4,43}(0,10)^2 + 10^{6,74}(0,10)^3 \\ &+ 10^{8,70}(0,10)^4 \\ = {} &1 + 15 + 269 + 5\,495 + 50\,119 \\ = {} &5,59\cdot10^{4} \end{aligned} \]
-          \[ \begin{aligned} \alpha_\mathrm{Zn} &= 1,79\cdot10^{-5} \\ K_\mathrm{f}'' &= 1,79\cdot10^{-5}\cdot0,30\cdot10^{16,50} \\ &= \mathbf{1,7\cdot10^{11}} \end{aligned} \]
-          Dù phần lớn Zn<sup>2+</sup> nằm trong phức amin, K<sub>f</sub>'' vẫn ≫ 10<sup>8</sup> nên chuẩn độ tốt.
+          \[ \begin{aligned} \alpha_\mathrm{Zn} &= 1,79\cdot10^{-5} \\ \beta'' &= 1,79\cdot10^{-5}\cdot0,30\cdot10^{16,50} \\ &= \mathbf{1,7\cdot10^{11}} \end{aligned} \]
+          Dù phần lớn Zn<sup>2+</sup> nằm trong phức amin, β'' vẫn ≫ 10<sup>8</sup> nên chuẩn độ tốt.
         </details></div>
 
       <h3>6. Chỉ thị kim loại</h3>
@@ -2051,7 +2051,7 @@ const CHUONG = [
       </ul>
       <div class="vi-du"><b>Ví dụ 4.</b> 50,00 mL dung dịch chứa Fe<sup>3+</sup> và Al<sup>3+</sup>. Ở pH 2, chuẩn độ hết 29,61 mL EDTA 0,04016 M (chỉ Fe<sup>3+</sup> phản ứng). Thêm tiếp 50,00 mL EDTA 0,04016 M, đun sôi, chỉnh pH 5, chuẩn EDTA dư bằng Pb<sup>2+</sup> 0,03228 M hết 19,03 mL. Tính nồng độ Fe<sup>3+</sup> và Al<sup>3+</sup>.
         <details><summary>Xem lời giải</summary>
-          Ở pH 2 chỉ Fe<sup>3+</sup> (K<sub>f</sub> rất lớn) phản ứng:
+          Ở pH 2 chỉ Fe<sup>3+</sup> (β rất lớn) phản ứng:
           \[ [\mathrm{Fe^{3+}}] = \frac{0,04016\cdot29,61}{50,00} = \mathbf{0,02378\ M} \]
           Al<sup>3+</sup> phản ứng chậm nên dùng chuẩn độ ngược:
           \[ \begin{aligned} n_\mathrm{EDTA} &= 0,04016\cdot50,00 = 2,008\ \mathrm{mmol} \\ n_\mathrm{Pb} &= 0,03228\cdot19,03 = 0,6143\ \mathrm{mmol} \\ n_\mathrm{Al} &= 2,008 - 0,6143 = 1,394\ \mathrm{mmol} \\ [\mathrm{Al^{3+}}] &= \frac{1,394}{50,00} = \mathbf{0,02787\ M} \end{aligned} \]
@@ -2075,8 +2075,8 @@ const CHUONG = [
         <table class="bang bang-the">
           <thead><tr><th>Trong app</th><th>Thường ghi trong đề</th><th>Ý nghĩa</th></tr></thead>
           <tbody>
-            <tr><td>K<sub>f</sub></td><td>β (β<sub>MY</sub>)</td><td>Hằng số bền của phức MY (Y<sup>4−</sup> tự do)</td></tr>
-            <tr><td>K<sub>f</sub>'</td><td>β'</td><td>Hằng số bền điều kiện tại một pH cố định</td></tr>
+            <tr><td>β</td><td>β (β<sub>MY</sub>)</td><td>Hằng số bền của phức MY (Y<sup>4−</sup> tự do)</td></tr>
+            <tr><td>β'</td><td>β'</td><td>Hằng số bền điều kiện tại một pH cố định</td></tr>
             <tr><td>α<sub>Y⁴⁻</sub></td><td>1/α<sub>Y(H)</sub></td><td>Phân số EDTA ở dạng Y<sup>4−</sup> (≤ 1)</td></tr>
             <tr><td>1/α<sub>Y⁴⁻</sub></td><td>α<sub>Y(H)</sub></td><td>Hệ số phản ứng phụ của EDTA với H<sup>+</sup> (≥ 1)</td></tr>
           </tbody>
@@ -2161,7 +2161,7 @@ const CHUONG = [
 <text x="160" y="226" text-anchor="middle" font-size="10" fill="var(--chu)">Đường cong nằm trên vạch 8: chuẩn độ được</text>
 <text x="160" y="240" text-anchor="middle" font-size="10" fill="var(--chu)">Nằm dưới vạch: không chuẩn độ được (sai số lớn)</text>
 </svg>
-        <p class="chu-thich">lg K<sub>f</sub>' = lg K<sub>f</sub> + lg α<sub>Y⁴⁻</sub> tăng theo pH. Ion nào có đường cong nằm trên vạch lg K<sub>f</sub>' = 8 (tức K<sub>f</sub>' = 10<sup>8</sup>) thì chuẩn độ được. Ba chấm đen: Bi<sup>3+</sup> và Pb<sup>2+</sup> ở pH 2, Pb<sup>2+</sup> ở pH 5 (Ví dụ 8).</p>
+        <p class="chu-thich">lg β' = lg β + lg α<sub>Y⁴⁻</sub> tăng theo pH. Ion nào có đường cong nằm trên vạch lg β' = 8 (tức β' = 10<sup>8</sup>) thì chuẩn độ được. Ba chấm đen: Bi<sup>3+</sup> và Pb<sup>2+</sup> ở pH 2, Pb<sup>2+</sup> ở pH 5 (Ví dụ 8).</p>
       </div>
       <p><b>Điều kiện chuẩn độ chọn lọc</b> ion M<sub>1</sub> khi có ion M<sub>2</sub>: tại pH chọn, β'<sub>1</sub> ≥ 10<sup>8</sup> và β'<sub>2</sub> &lt; 10<sup>8</sup> (M<sub>2</sub> không phản ứng). Thường hai ion cần có lg β cách nhau khoảng 5 đơn vị trở lên. Bi<sup>3+</sup>/Pb<sup>2+</sup> (cách 9,8) và Fe<sup>3+</sup>/Al<sup>3+</sup> (cách 8,7) làm được; Zn<sup>2+</sup>/Pb<sup>2+</sup> (cách 1,5) và Ca<sup>2+</sup>/Mg<sup>2+</sup> (cách 1,9) thì không làm được bằng cách chỉnh pH thông thường.</p>
       <div class="vi-du"><b>Ví dụ 8.</b> Chứng minh có thể chuẩn độ riêng Bi<sup>3+</sup> (lg β = 27,8) ở pH 2 khi có Pb<sup>2+</sup> (lg β = 18,04), rồi chuẩn độ Pb<sup>2+</sup> ở pH 5. Dùng lg α<sub>Y(H)</sub> = 13,53 ở pH 2 và 6,53 ở pH 5 (tính từ pK<sub>a</sub> như Ví dụ 7).
@@ -2224,7 +2224,7 @@ const CHUONG = [
       <ul>
         <li><b>Nhầm chiều giữa α<sub>Y(H)</sub> và α<sub>Y⁴⁻</sub></b>: β' = β·α<sub>Y⁴⁻</sub> = β/α<sub>Y(H)</sub>. Nhân β với α<sub>Y(H)</sub> (≥ 1) làm β' lớn hơn β, vô lí.</li>
         <li><b>Quên dấu trừ khi đổi lg</b>: lg α<sub>Y(H)</sub> = 13,53 thì α<sub>Y⁴⁻</sub> = 10<sup>−13,53</sup>, không phải 10<sup>13,53</sup>.</li>
-        <li><b>Dùng K<sub>f</sub> thay cho K<sub>f</sub>'</b> để kết luận chuẩn độ được: K<sub>f</sub> của Pb<sup>2+</sup> = 10<sup>18,04</sup> nhưng ở pH 2 chỉ còn 10<sup>4,51</sup>.</li>
+        <li><b>Dùng β thay cho β'</b> để kết luận chuẩn độ được: β của Pb<sup>2+</sup> = 10<sup>18,04</sup> nhưng ở pH 2 chỉ còn 10<sup>4,51</sup>.</li>
         <li><b>Chỉ kiểm tra ion cần chuẩn độ</b>, quên kiểm tra ion cản có β' &lt; 10<sup>8</sup> ở <b>cùng pH</b> hay không (Ví dụ 8).</li>
         <li><b>Quên tổng thể tích</b> khi tính [MY] tại điểm tương đương và [M] tự do (Ví dụ 9: 25,00 + 12,35 mL).</li>
         <li><b>Chuẩn độ hai nấc</b>: dùng tổng thể tích EDTA của cả hai nấc để tính nồng độ ion thứ hai. Nấc 2 chỉ dùng phần thể tích <b>thêm</b>.</li>
@@ -6336,10 +6336,10 @@ const TRA_CUU = [
   {
     "id": "edta-kf",
     "icon": "🔗",
-    "ten": "Hằng số bền phức EDTA (lg Kf)",
+    "ten": "Hằng số bền phức EDTA (lg β)",
     "cot": [
       "Ion",
-      "lg K<sub>f</sub>",
+      "lg β",
       "pH tối thiểu (≈)",
       "Nguồn"
     ],
@@ -6543,7 +6543,7 @@ const TRA_CUU = [
         "H"
       ]
     ],
-    "ghiChu": "M<sup>n+</sup> + Y<sup>4−</sup> ⇌ MY<sup>n−4</sup>; 25 °C, μ = 0,1 M (Skoog: 20 °C). Ca<sup>2+</sup> dùng quy ước 10,70 (Harris 10,65). Cột pH tối thiểu: pH thấp nhất để K<sub>f</sub>' = α<sub>Y⁴⁻</sub>K<sub>f</sub> ≥ 10<sup>8</sup> (tính từ α<sub>Y⁴⁻</sub>, chưa xét kết tủa hydroxide hay chất tạo phức phụ). Al<sup>3+</sup>, Cr<sup>3+</sup>, Co<sup>3+</sup> phản ứng với EDTA rất chậm nên phải dùng chuẩn độ ngược. Đề bài có thể viết β, β' thay cho K<sub>f</sub>, K<sub>f</sub>'; α<sub>Y(H)</sub> = 1/α<sub>Y⁴⁻</sub>. Không liệt kê các nguyên tố đất hiếm (lg K<sub>f</sub> ≈ 15,5 – 19,8). Nguồn: H = Harris, <i>Quantitative Chemical Analysis</i> (8th/9th ed.), bảng hằng số tạo phức kim loại – EDTA (dẫn từ Martell &amp; Smith, NIST Critical Stability Constants); S = Skoog, bảng hằng số tạo phức EDTA."
+    "ghiChu": "M<sup>n+</sup> + Y<sup>4−</sup> ⇌ MY<sup>n−4</sup>; 25 °C, μ = 0,1 M (Skoog: 20 °C). Ca<sup>2+</sup> dùng quy ước 10,70 (Harris 10,65). Cột pH tối thiểu: pH thấp nhất để β' = α<sub>Y⁴⁻</sub>β ≥ 10<sup>8</sup> (tính từ α<sub>Y⁴⁻</sub>, chưa xét kết tủa hydroxide hay chất tạo phức phụ). Al<sup>3+</sup>, Cr<sup>3+</sup>, Co<sup>3+</sup> phản ứng với EDTA rất chậm nên phải dùng chuẩn độ ngược. Kí hiệu trong app: β (hằng số bền), β' (hằng số bền điều kiện); một số tài liệu viết K<sub>f</sub>, K<sub>f</sub>'; α<sub>Y(H)</sub> = 1/α<sub>Y⁴⁻</sub>. Không liệt kê các nguyên tố đất hiếm (lg β ≈ 15,5 – 19,8). Nguồn: H = Harris, <i>Quantitative Chemical Analysis</i> (8th/9th ed.), bảng hằng số tạo phức kim loại – EDTA (dẫn từ Martell &amp; Smith, NIST Critical Stability Constants); S = Skoog, bảng hằng số tạo phức EDTA."
   },
   {
     "id": "alpha-y",
