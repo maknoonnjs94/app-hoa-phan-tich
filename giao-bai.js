@@ -8,13 +8,28 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v205";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v206";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
 const diemVN = x => String(x).replace(".", ",");
 // Mã đề của một sinh viên: bài đã mở thì đọc từ bài làm; chưa mở thì tính trước (SV nhận mã theo hash(uid + id đề), nên GV biết sẵn)
-const maDeSV = (d, id, uid, b) => b?.maDe || (d.maDe?.length > 1 ? d.maDe[hatTu(uid + id) % d.maDe.length].ma : "");
+const maDeCua = (d, id, uid) => { if (!(d.maDe?.length > 1)) return null; const m = d.maSV?.[uid] && d.maDe.find(x => x.ma === d.maSV[uid]); return m || d.maDe[hatTu(uid + id) % d.maDe.length]; };   // mã GV đã xếp (cân bằng) hoặc hash như cũ
+const maDeSV = (d, id, uid, b) => b?.maDe || maDeCua(d, id, uid)?.ma || "";
+// Xếp mã đề CÂN BẰNG: số SV mỗi mã chênh nhau tối đa 1. daCo = {uid: mã} những em đã có mã (đã bắt đầu làm) giữ nguyên
+function canBangMa(uids, dsMa, daCo = {}) {
+  const dem = Object.fromEntries(dsMa.map(m => [m, 0])); Object.values(daCo).forEach(m => { if (m in dem) dem[m]++; });
+  const kq = {}, chua = uids.filter(u => !daCo[u]).map(u => [Math.random(), u]).sort((a, b) => a[0] - b[0]).map(x => x[1]);
+  chua.forEach(u => { const min = Math.min(...dsMa.map(m => dem[m])), ung = dsMa.filter(m => dem[m] === min), m = ung[Math.floor(Math.random() * ung.length)]; kq[u] = m; dem[m]++; });
+  return { ...daCo, ...kq };
+}
+async function canBangMaDe(id) {
+  const { d, dong } = bangDiemHienTai; if (!(d.maDe?.length > 1)) return;
+  const daCo = {}; dong.forEach(({ u, b }) => { if (b?.maDe) daCo[u.uid] = b.maDe; });
+  const moi = canBangMa(dong.map(x => x.u.uid), d.maDe.map(m => m.ma), daCo), con = dong.filter(x => !x.b).length;
+  if (!confirm(`Xếp lại mã đề cho cân bằng?\n• ${Object.keys(daCo).length} em đã bắt đầu làm: giữ nguyên mã.\n• ${con} em chưa vào bài: được xếp lại để số lượng các mã chênh nhau tối đa 1.`)) return;
+  try { await fbDb.collection("deGiao").doc(id).update({ maSV: moi }); ghiNhatKy("can-bang-ma", `${con} em`, d.ten); hienManHinh(); } catch (e) { alert(loiTk(e)); }
+}
 const hatTu = s => [...s].reduce((h, c) => (Math.imul(h, 31) + c.charCodeAt(0)) | 0, 7) >>> 0;
 const dangGiao = () => baiLam && baiLam.giao && !baiLam.ketThuc;
 const giamSat = () => dangGiao() && baiLam.giao.chongGianLan !== false;   // chỉ bài có bật chống gian lận
@@ -165,10 +180,11 @@ async function luuGiaoDe(idDe) {
       : { loai: "kiem-tra", soLanLam: 1, chongGianLan: true, soLanRoi: Math.max(0, Number(g("gd-roi")) || 0) }) };
     const diemCau = {}; (maDe ? maDe.map(m => m.cau) : [de.cau]).forEach(cs => cs.forEach((cid, i) => { if (diemForm[i] != null) diemCau[cid] = diemForm[i]; }));
     const tenGoc = g("gd-ten").trim() || de.ten, nhom = Date.now();
+    let dsLop = null; if (maDe && !chiaCa) { try { dsLop = (await fbDb.collection("nguoiDung").where("lopHoc", "array-contains", lop).get()).docs.filter(x => (x.data().vaiTro || "hs") === "hs").map(x => x.id); } catch {} }
     for (const c of dsCa) {
       const ref = fbDb.collection("deGiao").doc();
       lo.set(ref, { ten: c.k ? `${tenGoc} – Ca ${c.k}` : tenGoc, lop, lopTen, gvUid: tk.user.uid, gvTen: tk.hoSo.hoTen,
-        cau: cauMau, ...(maDe ? { maDe } : {}), noiDung, phut, moLuc: c.moLuc, dongLuc: c.dongLuc, ...kieu, ...(c.sv ? { sv: c.sv, ca: c.k, nhomCa: nhom } : {}), taoLuc: Date.now() });
+        cau: cauMau, ...(maDe ? { maDe } : {}), noiDung, phut, moLuc: c.moLuc, dongLuc: c.dongLuc, ...kieu, ...(c.sv ? { sv: c.sv, ca: c.k, nhomCa: nhom } : {}), ...(maDe && (c.sv || dsLop?.length) ? { maSV: canBangMa(c.sv || dsLop, maDe.map(m => m.ma)) } : {}), taoLuc: Date.now() });
       // Đáp số để riêng (SV đọc sau dapAnLuc, hoặc ngay sau khi nộp nếu "sau-nop"); lời giải để riêng nữa, GV bật / tắt; điểm theo vị trí câu, các mã đề dùng chung
       lo.set(fbDb.collection("dapAnDe").doc(ref.id), { lop, dongLuc: c.dongLuc, dapAnLuc, hienDapAn, gvUid: tk.user.uid, diemCau,
         cau: Object.fromEntries(cau.map(c2 => [c2.id, { dapAn: c2.dapAn }])) });
@@ -259,7 +275,7 @@ MAN_HINH["/bang-diem"] = {
         <div class="nut-hang">${quaHan ? "" : `<a class="btn" href="#/theo-doi?id=${id}">👁 Theo dõi</a>`}<button class="btn" onclick="chotDiem('${id}')">🔒 ${d.daChot ? "Chốt lại điểm" : "Chốt điểm"}</button><button class="btn phu" onclick="xuatBangDiem()">⬇ Excel</button><a class="btn phu" href="#/so-diem?lop=${encodeURIComponent(d.lop)}">📒 Sổ điểm</a>
           <button class="btn phu" onclick="xoaGiaoDe('${id}')">🗑 Xóa bài</button></div></div>
         ${nhieuMa ? (() => { const nhom = {}; dong.forEach(({ u, b }) => (nhom[maDeSV(d, id, u.uid, b)] ||= []).push(u)); return `<details class="the-trang"><summary><b>Phân mã đề</b> <small class="ghi-chu">${d.maDe.map(m => `${hoa(m.ma)}: ${(nhom[m.ma] || []).length}`).join(" · ")}</small></summary>
-          ${d.maDe.map(m => `<p class="ghi-chu"><b>Mã ${hoa(m.ma)}</b> (${(nhom[m.ma] || []).length} SV): ${(nhom[m.ma] || []).map(u => hoa(u.hoTen)).join(", ") || "—"}</p>`).join("")}</details>`; })() : ""}
+          ${d.maDe.map(m => `<p class="ghi-chu"><b>Mã ${hoa(m.ma)}</b> (${(nhom[m.ma] || []).length} SV): ${(nhom[m.ma] || []).map(u => hoa(u.hoTen)).join(", ") || "—"}</p>`).join("")}<div class="nut-hang trai"><button class="chip-nhanh bat" onclick="canBangMaDe('${id}')">⚖️ Cân bằng số lượng các mã</button></div></details>`; })() : ""}
         <div class="the-trang bang-cuon"><table class="bang"><thead><tr><th>Học sinh</th>${nhieuMa ? "<th>Mã đề</th>" : ""}<th>Điểm</th><th>Rời app</th><th>Trạng thái</th></tr></thead><tbody>
         ${dong.map(({ u, b, dung, diem }) => `<tr class="${b?.roi?.length ? "co-roi" : ""}">
           <td>${b ? `<a class="ten-anh lien-ket" href="#/bai-lam?de=${id}&uid=${u.uid}">` : `<span class="ten-anh">`}${anhDaiDien(u, 28)}<span>${hoa(u.hoTen)}<small>${hoa(u.maHS || "")}${u.nganh ? " · " + hoa(u.nganh) : ""}</small></span>${b ? "</a>" : "</span>"}</td>
@@ -400,7 +416,7 @@ async function batDauBaiGiao(id) {
     if (!d.noiDung && !d.cau.every(x => CAU_THEO_ID[x])) return alert("Đề này được giao theo cách cũ. Nhờ giáo viên giao lại.");
     napNoiDung(d.noiDung);
     // Đề nhiều mã: mỗi SV cố định một mã (theo mã hóa uid + id bài), rồi xáo thứ tự câu / phương án riêng của em
-    const phienBan = d.maDe?.length > 1 ? d.maDe[hatTu(tk.user.uid + id) % d.maDe.length] : null, dsGoc = phienBan ? phienBan.cau : d.cau;
+    const phienBan = maDeCua(d, id, tk.user.uid), dsGoc = phienBan ? phienBan.cau : d.cau;
     let cau = lamLai ? null : cu?.cau;
     if (!cau) { const m = taoMaDe(dsGoc, 1, true, true, hatTu(tk.user.uid + id + (cu?.lanNop || 0)))[0]; cau = m.thuTu.map(i => ({ id: dsGoc[i], thuTu: m.pa[i] })); }
     const batDau = lamLai ? Date.now() : cu?.batDau || Date.now(), roi = lamLai ? [] : cu?.roi || [];
