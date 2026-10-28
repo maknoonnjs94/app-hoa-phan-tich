@@ -1561,3 +1561,8 @@ body.co-phan-hoi .tabbar a[data-tab="/tai-khoan"] { position: relative; } body.c
 .dd-n.dd-bang { font-size: 14px; } .dd-n.dd-bang.bat { background: #fde68a; border-color: #f59e0b; color: #78350f; }
 .dd-muc { display: flex; align-items: center; gap: 6px; font-size: 12.5px; margin: 6px 0; } .dd-muc input { width: 58px; padding: 3px 6px; text-align: center; min-height: 0; }
 @media (max-width: 700px) { .dd-n { width: 34px; } .dd-nut { gap: 3px; } }
+
+/* ---------- Chia ca thi ---------- */
+.ca-chia { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; font-size: 13.5px; } .ca-chia input { width: 56px; text-align: center; padding: 3px 4px; min-height: 0; }
+.ca-dong { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-top: 1px solid var(--vien); } .ca-dong .giua { flex: 1; min-width: 0; display: flex; flex-direction: column; font-size: 13.5px; line-height: 1.25; } .ca-dong small { color: var(--chu-phu); font-size: 11.5px; }
+.ca-chia label { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }

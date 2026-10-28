@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v203";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v204";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -49,11 +49,14 @@ MAN_HINH["/giao-de"] = {
       <div class="phan-doan hai">${[["kiem-tra", "📝 Bài kiểm tra", "bấm giờ · 1 lần"], ["bai-tap", "📚 Bài tập về nhà", "làm lại · xem đáp án"]].map(([k, t, m]) =>
         `<button class="${giaoTam.loai === k ? "chon" : ""}" onclick="giaoTam.loai='${k}';hienManHinh()"><b>${t}</b><small>${m}</small></button>`).join("")}</div>
       <label>Tên bài giao<input id="gd-ten" value="${coDau((bt ? "Bài tập: " : "") + de.ten)}"></label>
-      <label>Lớp học phần<select id="gd-lop" data-chon="${lopChon}"><option>Đang tải…</option></select></label>
+      <label>Lớp học phần<select id="gd-lop" data-chon="${lopChon}" onchange="taiDsCa(this.value)"><option>Đang tải…</option></select></label>
       <label>Mở lúc<input type="datetime-local" id="gd-mo" value="${dinhDangGio(bayGio)}"></label>
       <label>${bt ? "Hạn nộp" : "Hệ thống tự đóng bài lúc"}<input type="datetime-local" id="gd-dong" value="${dinhDangGio(bayGio + (bt ? 7 * 24 : 24) * 3600000)}" oninput="goiYGioGiao()"></label>
       <label>Thời gian mỗi lần làm (phút${bt ? ", 0 = không bấm giờ" : ""})<input type="number" id="gd-phut" min="0" max="240" value="${bt ? 0 : de.phut}" oninput="goiYGioGiao()"></label>
       <p class="ghi-chu" id="gd-goi-y-gio"></p>
+      ${bt ? "" : `<details class="tuy-chon" id="gd-ca-box" ${GCA.bat ? "open" : ""}><summary>👥 Chia ca thi ${GCA.bat ? "(đang bật)" : "(tùy chọn)"}</summary>
+        <label class="dong-bat"><input type="checkbox" id="gd-ca-bat" ${GCA.bat ? "checked" : ""} onchange="GCA.bat=this.checked;if(this.checked)GCA.khoiTao();veChiaCa();document.querySelector('#gd-ca-box summary').textContent='👥 Chia ca thi '+(this.checked?'(đang bật)':'(tùy chọn)')"><span>Chia lớp thành 2 ca thi: mỗi ca mở bài cho một nhóm sinh viên, giờ mở / đóng riêng</span></label>
+        <div id="gd-ca"></div></details>`}
       ${(() => { const ids = de.ma.length > 1 ? [...cauCuaMa(de, de.ma[0])] : de.cau, dx = deXuatDiem(ids);
         return `<details class="tuy-chon" ontoggle="capNhatTongDiem()"><summary>🎯 Chia điểm từng câu (tổng <b id="gd-diem-tong">10</b>)</summary>
           <p class="ghi-chu">Máy đề xuất: nhận biết : thông hiểu : vận dụng = 1 : 1,5 : 2; câu vận dụng cao chỉ chiếm đoạn cuối thang điểm (khoảng 8,5–10) — đề dễ ít điểm hơn (≈ 0,8), đề khó nhiều hơn (tối đa 1,5). Thầy cô sửa số ở từng câu nếu muốn; điểm bài luôn quy về thang 10 theo tỉ lệ điểm các câu. Đề nhiều mã: điểm theo vị trí câu, các mã dùng chung.</p>
@@ -80,9 +83,43 @@ MAN_HINH["/giao-de"] = {
       const ds = (await fbDb.collection("lop").get()).docs.map(d => ({ id: d.id, ...d.data() }))
         .filter(l => tk.hoSo.vaiTro === "qtv" || (l.gv || []).includes(tk.user.uid)).sort((a, b) => a.ten.localeCompare(b.ten, "vi"));
       o.innerHTML = ds.length ? ds.map(l => `<option value="${l.id}" ${o.dataset.chon === l.id ? "selected" : ""}>${hoa(l.ten)}</option>`).join("") : `<option value="">Chưa có lớp học phần (tạo ở Tài khoản → Lớp học phần)</option>`;
+      if (o.value) taiDsCa(o.value);
     } catch (e) { o.innerHTML = `<option value="">${loiTk(e)}</option>`; }
   },
 };
+
+/* ---------- Chia ca thi: mỗi ca là MỘT bài giao riêng (cùng đề), deGiao.sv = SV thuộc ca, giờ mở / đóng riêng ---------- */
+const khoaAZ = u => [(u.hoTen || "").trim().split(/\s+/).pop(), u.hoTen || ""];
+const sapAZ = (a, b) => (a.stt ?? 1e6) - (b.stt ?? 1e6) || khoaAZ(a)[0].localeCompare(khoaAZ(b)[0], "vi") || khoaAZ(a)[1].localeCompare(khoaAZ(b)[1], "vi");
+const GCA = { bat: false, lop: "", ds: [], n1: 0, khoiTao() {
+  const mo = new Date(document.getElementById("gd-mo")?.value).getTime(), dong = new Date(document.getElementById("gd-dong")?.value).getTime();
+  this.mo2 = this.mo2 || dinhDangGio((mo || Date.now()) + 3 * 3600000); this.dong2 = this.dong2 || dinhDangGio((dong || Date.now() + 86400000) + 3 * 3600000);
+  if (!this.n1) this.n1 = Math.ceil(this.ds.length / 2);
+  this.chiaTheoStt(this.n1);
+}, chiaTheoStt(n) { this.n1 = Math.max(0, Math.min(this.ds.length, n)); [...this.ds].sort(sapAZ).forEach((u, i) => (u.ca = i < this.n1 ? 1 : 2)); } };
+async function taiDsCa(lopId) {
+  if (!lopId || GCA.lop === lopId) return; GCA.lop = lopId; GCA.ds = [];
+  try {
+    const [hs, lo] = await Promise.all([fbDb.collection("nguoiDung").where("lopHoc", "array-contains", lopId).get(), fbDb.collection("lop").doc(lopId).get()]);
+    const tt = lo.data()?.danhSach || {};
+    GCA.ds = hs.docs.map(x => ({ uid: x.id, ...x.data() })).filter(u => u.vaiTro === "hs" || !u.vaiTro).map(u => ({ uid: u.uid, hoTen: u.hoTen || "", maHS: u.maHS || "", stt: tt[u.uid]?.s, ca: 1 }));
+    GCA.n1 = Math.ceil(GCA.ds.length / 2); GCA.chiaTheoStt(GCA.n1);
+    veChiaCa();
+  } catch (e) { const o = document.getElementById("gd-ca"); if (o) o.innerHTML = `<p class="loi-tk">${loiTk(e)}</p>`; }
+}
+function veChiaCa() {
+  const o = document.getElementById("gd-ca"); if (!o) return;
+  if (!GCA.bat) { o.innerHTML = `<p class="ghi-chu">Bật để chia ${GCA.ds.length || "các"} sinh viên của lớp thành 2 ca thi.</p>`; return; }
+  const ds = [...GCA.ds].sort(sapAZ), c1 = ds.filter(u => u.ca === 1), c2 = ds.filter(u => u.ca === 2);
+  const dong = (u, k) => `<div class="ca-dong"><span class="stt-sv">${u.stt ?? "·"}</span><div class="giua"><b>${hoa(u.hoTen)}</b><small>${hoa(u.maHS)}</small></div><button type="button" class="chip-nhanh" onclick="doiCa('${u.uid}')">→ Ca ${k === 1 ? 2 : 1}</button></div>`;
+  o.innerHTML = `<div class="ca-chia"><label>Ca 1 gồm <input type="number" min="0" max="${GCA.ds.length}" value="${GCA.n1}" id="gd-ca-n1" onchange="GCA.chiaTheoStt(+this.value);veChiaCa()"> sinh viên đầu theo STT</label>
+      <button type="button" class="chip-nhanh bat" onclick="GCA.chiaTheoStt(+document.getElementById('gd-ca-n1').value);veChiaCa()">↻ Chia lại theo STT</button></div>
+    <div class="the-con"><b>Ca 2</b><label>Mở lúc<input type="datetime-local" id="gd-mo2" value="${GCA.mo2}" onchange="GCA.mo2=this.value"></label><label>Đóng lúc<input type="datetime-local" id="gd-dong2" value="${GCA.dong2}" onchange="GCA.dong2=this.value"></label>
+      <p class="ghi-chu">Ca 1 dùng giờ mở / đóng ở trên. Đáp án chỉ mở sau khi <b>cả hai ca</b> đã đóng (tránh lộ đề).</p></div>
+    <details open><summary><b>Ca 1</b> · ${c1.length} sinh viên (A→Z)</summary>${c1.map(u => dong(u, 1)).join("") || '<p class="ghi-chu">Trống</p>'}</details>
+    <details open><summary><b>Ca 2</b> · ${c2.length} sinh viên (A→Z)</summary>${c2.map(u => dong(u, 2)).join("") || '<p class="ghi-chu">Trống</p>'}</details>`;
+}
+function doiCa(uid) { const u = GCA.ds.find(x => x.uid === uid); if (u) { u.ca = u.ca === 1 ? 2 : 1; GCA.n1 = GCA.ds.filter(x => x.ca === 1).length; } veChiaCa(); }
 const layDiemForm = () => [...document.querySelectorAll(".gd-diem")].map(o => Math.max(0, Number(o.value) || 0));
 function capNhatTongDiem() { const o = document.getElementById("gd-diem-tong"); if (o) o.textContent = diemVN(Math.round(layDiemForm().reduce((a, b) => a + b, 0) * 100) / 100); }
 function datLaiDiem(kieu) {
@@ -105,26 +142,39 @@ async function luuGiaoDe(idDe) {
     const cau = moiCauDe(de).map(id => CAU_THEO_ID[id]).filter(Boolean);   // mọi câu của mọi mã
     const cauMau = (maDe ? maDe[0].cau : de.cau);
     const noiDung = cau.map(c => ({ id: c.id, chuong: c.chuong, dang: c.dang || "", mucDo: c.mucDo, de: c.de, phuongAn: c.phuongAn, ...(c.chum ? { chum: c.chum, dan: c.dan || "" } : {}), ...(c.bang ? { bang: c.bang } : {}) }));
-    const ref = fbDb.collection("deGiao").doc(), lo = fbDb.batch();
+    const lo = fbDb.batch();
     const lopTen = document.getElementById("gd-lop").selectedOptions[0]?.textContent || "";
-    const hienDapAn = g("gd-hienda"), dapAnLuc = hienDapAn === "hen-gio" ? new Date(g("gd-da-luc")).getTime() : dongLuc, hienLoiGiai = g("gd-lg");
-    if (hienDapAn === "hen-gio" && !(dapAnLuc > moLuc)) { loi.textContent = "Giờ mở đáp án phải sau giờ mở bài."; return; }
+    const chiaCa = !bt && GCA.bat && GCA.lop === lop;
+    let dsCa = [{ k: 0, moLuc, dongLuc, sv: null }];
+    if (chiaCa) {
+      const mo2 = new Date(g("gd-mo2")).getTime(), dong2 = new Date(g("gd-dong2")).getTime(), c1 = GCA.ds.filter(u => u.ca === 1).map(u => u.uid), c2 = GCA.ds.filter(u => u.ca === 2).map(u => u.uid);
+      if (!c1.length || !c2.length) { loi.textContent = "Mỗi ca cần ít nhất 1 sinh viên."; return; }
+      if (!(dong2 > mo2)) { loi.textContent = "Ca 2: giờ đóng phải sau giờ mở."; return; }
+      dsCa = [{ k: 1, moLuc, dongLuc, sv: c1 }, { k: 2, moLuc: mo2, dongLuc: dong2, sv: c2 }];
+    }
+    const hienDapAn = g("gd-hienda"), hienLoiGiai = g("gd-lg"), dongCuoi = Math.max(...dsCa.map(c => c.dongLuc));
+    const dapAnLuc = hienDapAn === "hen-gio" ? new Date(g("gd-da-luc")).getTime() : dongCuoi;
+    if (hienDapAn === "hen-gio" && !(dapAnLuc > Math.min(...dsCa.map(c => c.moLuc)))) { loi.textContent = "Giờ mở đáp án phải sau giờ mở bài."; return; }
+    if (chiaCa && hienDapAn === "hen-gio" && dapAnLuc < dongCuoi && !confirm("Đáp án mở trước khi ca cuối đóng bài: sinh viên ca đầu có thể chia sẻ đáp án cho ca sau. Vẫn giao?")) return;
     const kieu = { hienDapAn, dapAnLuc, hienLoiGiai, ...(bt ? { loai: "bai-tap", soLanLam: Number(g("gd-solan")), chongGianLan: document.getElementById("gd-cgl").checked, soLanRoi: 3 }
       : { loai: "kiem-tra", soLanLam: 1, chongGianLan: true, soLanRoi: Math.max(0, Number(g("gd-roi")) || 0) }) };
-    lo.set(ref, { ten: g("gd-ten").trim() || de.ten, lop, lopTen, gvUid: tk.user.uid, gvTen: tk.hoSo.hoTen,
-      cau: cauMau, ...(maDe ? { maDe } : {}), noiDung, phut, moLuc, dongLuc, ...kieu, taoLuc: Date.now() });
-    // Đáp số để riêng (SV đọc sau dapAnLuc, hoặc ngay sau khi nộp nếu "sau-nop"); lời giải để riêng nữa, GV bật / tắt
-    // điểm theo vị trí câu; các mã đề dùng chung
     const diemCau = {}; (maDe ? maDe.map(m => m.cau) : [de.cau]).forEach(cs => cs.forEach((cid, i) => { if (diemForm[i] != null) diemCau[cid] = diemForm[i]; }));
-    lo.set(fbDb.collection("dapAnDe").doc(ref.id), { lop, dongLuc, dapAnLuc, hienDapAn, gvUid: tk.user.uid, diemCau,
-      cau: Object.fromEntries(cau.map(c => [c.id, { dapAn: c.dapAn }])) });
-    lo.set(fbDb.collection("loiGiaiDe").doc(ref.id), { lop, mo: hienLoiGiai === "cung", gvUid: tk.user.uid,
-      cau: Object.fromEntries(cau.map(c => [c.id, c.loiGiai || ""])) });
+    const tenGoc = g("gd-ten").trim() || de.ten, nhom = Date.now();
+    for (const c of dsCa) {
+      const ref = fbDb.collection("deGiao").doc();
+      lo.set(ref, { ten: c.k ? `${tenGoc} – Ca ${c.k}` : tenGoc, lop, lopTen, gvUid: tk.user.uid, gvTen: tk.hoSo.hoTen,
+        cau: cauMau, ...(maDe ? { maDe } : {}), noiDung, phut, moLuc: c.moLuc, dongLuc: c.dongLuc, ...kieu, ...(c.sv ? { sv: c.sv, ca: c.k, nhomCa: nhom } : {}), taoLuc: Date.now() });
+      // Đáp số để riêng (SV đọc sau dapAnLuc, hoặc ngay sau khi nộp nếu "sau-nop"); lời giải để riêng nữa, GV bật / tắt; điểm theo vị trí câu, các mã đề dùng chung
+      lo.set(fbDb.collection("dapAnDe").doc(ref.id), { lop, dongLuc: c.dongLuc, dapAnLuc, hienDapAn, gvUid: tk.user.uid, diemCau,
+        cau: Object.fromEntries(cau.map(c2 => [c2.id, { dapAn: c2.dapAn }])) });
+      lo.set(fbDb.collection("loiGiaiDe").doc(ref.id), { lop, mo: hienLoiGiai === "cung", gvUid: tk.user.uid,
+        cau: Object.fromEntries(cau.map(c2 => [c2.id, c2.loiGiai || ""])) });
+    }
     await lo.commit();
     try { const dsL = dsDe(), i = dsL.findIndex(x => x.id === idDe); if (i >= 0) { (dsL[i].giao ||= []).push({ luc: Date.now(), lop: lopTen, loai: bt ? "bai-tap" : "kiem-tra" }); ghiDsDe(dsL); } } catch {}   // nhớ đề này đã giao cho lớp nào (hiện ở ngân hàng đề)
     ghiNhatKy("giao-de", `${bt ? "bài tập" : "kiểm tra"}, ${cau.length} câu, mở ${gioVN(moLuc)} đóng ${gioVN(dongLuc)}`, `${document.getElementById("gd-ten")?.value.trim() || de.ten} · lớp ${lopTen}`);
-    sessionStorage.removeItem("giao-cho-lop"); batCanhBaoGV();   // bài mới giao: bắt đầu nghe ngay
-    alert(`Đã giao ${bt ? "bài tập" : "bài kiểm tra"} cho lớp ${lopTen}.`); location.hash = `#/lop?id=${lop}`;
+    sessionStorage.removeItem("giao-cho-lop"); GCA.bat = false; GCA.lop = ""; batCanhBaoGV();   // bài mới giao: bắt đầu nghe ngay
+    alert(chiaCa ? `Đã giao bài kiểm tra cho lớp ${lopTen}, chia 2 ca: Ca 1 (${dsCa[0].sv.length} SV), Ca 2 (${dsCa[1].sv.length} SV).` : `Đã giao ${bt ? "bài tập" : "bài kiểm tra"} cho lớp ${lopTen}.`); location.hash = `#/lop?id=${lop}`;
   } catch (e) { loi.textContent = loiTk(e); }
 }
 
@@ -160,6 +210,8 @@ const chamBai = b => {
 // Điểm cuối cùng: điểm GV sửa > điểm đã chốt > điểm tính từ bài làm
 const diemCuoi = b => b.diemSua ?? b.diemChot ?? chamBai(b).diem;
 // “Có tham gia làm bài”: đã trả lời ít nhất 1 câu (hoặc GV đã chấm tay). Mở bài rồi không làm câu nào = coi như không tham gia, không tính vào TB / phân bố.
+// Bài chia ca thi: deGiao.sv = [uid] những SV thuộc ca đó (không có sv = cả lớp)
+const trongBai = (d, u) => !d.sv || d.sv.includes(u?.uid ?? u);
 const thamGiaBai = b => !!b && (b.diemSua != null || (b.chon || []).some(x => x !== null));
 let bangDiemHienTai = null;
 MAN_HINH["/bang-diem"] = {
@@ -176,7 +228,7 @@ MAN_HINH["/bang-diem"] = {
         fbDb.collection("nguoiDung").where("lopHoc", "array-contains", d.lop).get(),
         fbDb.collection("baiNop").where("deGiaoId", "==", id).get()]);
       const theoUid = Object.fromEntries(nop.docs.map(x => [x.data().uid, x.data()]));
-      const dong = hs.docs.map(x => ({ uid: x.id, ...x.data() })).sort((a, b) => a.hoTen.split(" ").pop().localeCompare(b.hoTen.split(" ").pop(), "vi"))
+      const dong = hs.docs.map(x => ({ uid: x.id, ...x.data() })).sort((a, b) => a.hoTen.split(" ").pop().localeCompare(b.hoTen.split(" ").pop(), "vi")).filter(u => trongBai(d, u))
         .map(u => { const b = theoUid[u.uid]; return { u, b, ...(b ? { ...chamBai(b), diem: diemCuoi(b) } : {}) }; });
       bangDiemHienTai = { d, dong, id };
       const nhieuMa = d.maDe?.length > 1;
@@ -282,7 +334,7 @@ async function taiBaiGiaoHS() {
     Promise.all((tk.hoSo.lopHoc || []).map(id => fbDb.collection("deGiao").where("lop", "==", id).get().then(s => s.docs).catch(() => []))).then(x => x.flat()),
     fbDb.collection("baiNop").where("uid", "==", tk.user.uid).get()]);
   const theoDe = Object.fromEntries(nop.docs.map(x => [x.data().deGiaoId, x.data()]));
-  dsGiaoHS = giao.map(x => ({ id: x.id, ...x.data(), bai: theoDe[x.id] })).sort((a, b) => b.moLuc - a.moLuc);
+  dsGiaoHS = giao.filter(x => trongBai(x.data(), tk.user.uid)).map(x => ({ id: x.id, ...x.data(), bai: theoDe[x.id] })).sort((a, b) => b.moLuc - a.moLuc);
   return dsGiaoHS;
 }
 MAN_HINH["/bai-duoc-giao"] = {
@@ -538,7 +590,7 @@ MAN_HINH["/theo-doi"] = {
       await taiDapAn(d, id);
       const [hsS, lopS] = await Promise.all([fbDb.collection("nguoiDung").where("lopHoc", "array-contains", d.lop).get(), fbDb.collection("lop").doc(d.lop).get().catch(() => null)]);
       const stt = lopS?.data?.()?.danhSach || {};
-      const hs = hsS.docs.map(x => ({ uid: x.id, ...x.data() })).filter(u => u.vaiTro === "hs" || !u.vaiTro)
+      const hs = hsS.docs.map(x => ({ uid: x.id, ...x.data() })).filter(u => (u.vaiTro === "hs" || !u.vaiTro) && trongBai(d, u))
         .sort((a, b) => (stt[a.uid]?.s ?? 1e6) - (stt[b.uid]?.s ?? 1e6) || a.hoTen.split(" ").pop().localeCompare(b.hoTen.split(" ").pop(), "vi") || a.hoTen.localeCompare(b.hoTen, "vi"))
         .map((u, i) => ({ ...u, stt: stt[u.uid]?.s ?? i + 1 }));
       Object.assign(TD, { ma: "", loc: "", tu: "", sap: "uu-tien", bai: {}, hs, d, id, stt });

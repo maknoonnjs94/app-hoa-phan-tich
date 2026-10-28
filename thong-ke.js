@@ -24,7 +24,7 @@ async function tkTaiLop(l) {
   const bai = {}; nop.docs.forEach(x => { const b = x.data(); bai[`${b.deGiaoId}_${b.uid}`] = b; });
   const dsHS = hs.docs.map(x => ({ uid: x.id, ...x.data() })).filter(u => u.vaiTro === "hs" || !u.vaiTro)
     .sort((a, b) => (a.hoTen || "").split(" ").pop().localeCompare((b.hoTen || "").split(" ").pop(), "vi") || (a.hoTen || "").localeCompare(b.hoTen || "", "vi"));
-  const diem = dsHS.map(u => de.map(d => { const b = bai[`${d.id}_${u.uid}`]; return b && thamGiaBai(b) && (b.daNop || bg > d.dongLuc) ? diemCuoi(b) : null; }));
+  const diem = dsHS.map(u => de.map(d => { const b = bai[`${d.id}_${u.uid}`]; return trongBai(d, u) && b && thamGiaBai(b) && (b.daNop || bg > d.dongLuc) ? diemCuoi(b) : null; }));
   return { l, de, hs: dsHS, diem, bai, tab: "diem", nhom: "dang", xanh: 70, do: 40, daBao: new Set(), chon: new Set(de.map((_, i) => i)), vang0: false, xem: "", xep: "ten" };
 }
 /* điểm của sinh viên i trên các bài đang chọn: trung bình (vắng: bỏ qua hoặc tính 0) */
@@ -110,7 +110,7 @@ const ptram = (d, t) => t ? Math.round(d / t * 100) : null;
 function tkPhanTich() {
   const ds = [...TK.chon].sort((a, b) => a - b), lop = {}, hs = TK.hs.map(() => ({ t: 0, d: 0, nhom: {}, vang: 0, lam: 0 }));
   TK.hs.forEach((u, i) => ds.forEach(j => {
-    const b = TK.bai[`${TK.de[j].id}_${u.uid}`]; if (!thamGiaBai(b)) { hs[i].vang++; return; }
+    if (!trongBai(TK.de[j], u)) return; const b = TK.bai[`${TK.de[j].id}_${u.uid}`]; if (!thamGiaBai(b)) { hs[i].vang++; return; }
     hs[i].lam++;
     (b.cau || []).forEach((c, k) => { const q = CAU_THEO_ID[c.id]; if (!q) return; const dung = b.chon?.[k] === dapAnHienThi(c), key = tkKhoaNhom(q);
       const x = hs[i].nhom[key] ||= { t: 0, d: 0 }, y = lop[key] ||= { t: 0, d: 0, yeu: 0 }; x.t++; y.t++; hs[i].t++; if (dung) { x.d++; y.d++; hs[i].d++; } });

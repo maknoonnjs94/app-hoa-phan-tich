@@ -98,7 +98,7 @@ MAN_HINH["/so-diem"] = {
       const bai = {}; nop.docs.forEach(x => { const b = x.data(); bai[`${b.deGiaoId}_${b.uid}`] = b; });
       const dsHS = hs.docs.map(x => ({ uid: x.id, ...x.data() })).sort((a, b) => a.hoTen.split(" ").pop().localeCompare(b.hoTen.split(" ").pop(), "vi") || a.hoTen.localeCompare(b.hoTen, "vi"));
       const bg = Date.now();
-      const o1 = (d, u) => { const b = bai[`${d.id}_${u.uid}`]; if (!b || (!thamGiaBai(b) && bg > d.dongLuc)) return bg > d.dongLuc ? { chu: "vắng", lop: "vang" } : { chu: "–" };
+      const o1 = (d, u) => { const b = bai[`${d.id}_${u.uid}`]; if (!trongBai(d, u)) return { chu: "–" }; if (!b || (!thamGiaBai(b) && bg > d.dongLuc)) return bg > d.dongLuc ? { chu: "vắng", lop: "vang" } : { chu: "–" };
         if (!b.daNop && bg <= d.dongLuc) return { chu: "đang làm" };
         const s = diemCuoi(b); return { so: s, chu: diemVN(s), lop: s < 5 ? "yeu" : s >= 8 ? "gioi" : "", link: `#/bai-lam?de=${d.id}&uid=${u.uid}`, sua: b.diemSua != null, vp: b.roi?.length }; };
       const hang = dsHS.map(u => { const o = de.map(d => o1(d, u)), co = o.filter(x => x.so != null);
@@ -143,19 +143,20 @@ async function tinhKetQuaLop(l) {
   const tbcong = a => a.length ? Math.round(a.reduce((t, x) => t + x, 0) / a.length * 100) / 100 : null;
   const theoBai = de.map(d => {
     const cs = []; let nopN = 0;
-    dsHS.forEach(u => { const b = bai[`${d.id}_${u.uid}`]; if (b && (b.daNop || bg > d.dongLuc)) { if (thamGiaBai(b)) cs.push(diemCuoi(b)); if (b.daNop) nopN++; } });
-    return { id: d.id, ten: d.ten, loai: d.loai || "kiem-tra", dong: bg > d.dongLuc, nop: nopN, tong: dsHS.length, tb: tbcong(cs) };
+    const dsB = dsHS.filter(u => trongBai(d, u));   // bài chia ca: chỉ tính SV thuộc ca đó
+    dsB.forEach(u => { const b = bai[`${d.id}_${u.uid}`]; if (b && (b.daNop || bg > d.dongLuc)) { if (thamGiaBai(b)) cs.push(diemCuoi(b)); if (b.daNop) nopN++; } });
+    return { id: d.id, ten: d.ten, loai: d.loai || "kiem-tra", dong: bg > d.dongLuc, nop: nopN, tong: dsB.length, tb: tbcong(cs) };
   });
   const daDong = de.filter(d => bg > d.dongLuc);
   const theoHS = dsHS.map(u => {
     const diem = [], vp = []; let vang = 0;
-    de.forEach(d => { const b = bai[`${d.id}_${u.uid}`];
+    de.forEach(d => { if (!trongBai(d, u)) return; const b = bai[`${d.id}_${u.uid}`];
       if (b && thamGiaBai(b) && (b.daNop || bg > d.dongLuc)) { diem.push(diemCuoi(b)); if (b.roi?.length) vp.push(b.roi.length); } else if (!thamGiaBai(b) && bg > d.dongLuc) vang++; });
     return { hoTen: u.hoTen, maHS: u.maHS || "", tb: tbcong(diem), vang, vp: vp.reduce((t, x) => t + x, 0), n: diem.length };
   });
   const co = theoHS.filter(h => h.tb != null);
   const phanBo = [co.filter(h => h.tb < 5).length, co.filter(h => h.tb >= 5 && h.tb < 6.5).length, co.filter(h => h.tb >= 6.5 && h.tb < 8).length, co.filter(h => h.tb >= 8).length];
-  const nopTong = daDong.length * dsHS.length;
+  const nopTong = daDong.reduce((t, d) => t + dsHS.filter(u => trongBai(d, u)).length, 0);
   return { id: l.id, ten: l.ten, siSo: dsHS.length, soBai: de.length, dangMo: de.filter(d => bg >= d.moLuc && bg <= d.dongLuc).length,
     tb: tbcong(co.map(h => h.tb)), nopRate: nopTong ? Math.round(daDong.reduce((t, d) => t + theoBai.find(x => x.id === d.id).nop, 0) / nopTong * 100) : null,
     coVP: theoHS.filter(h => h.vp).length, phanBo, bai: theoBai.slice(0, 6),
@@ -325,7 +326,7 @@ MAN_HINH["/lop"] = {
             <div class="thao-tac">
               <small>${hoa(u.email)} · đã làm ${lam}/${de.length} bài${vp ? ` · ⚠ ${vp} vi phạm` : ""}</small>
               ${de.length ? `<table class="bang bang-sv"><tbody>${kq.map(({ d, b, diem }) => `<tr><td>${hoa(d.ten)}<small>${gioVN(d.moLuc)}</small></td>
-                <td>${diem != null ? `<a class="lien-ket" href="#/bai-lam?de=${d.id}&uid=${u.uid}"><b>${diemVN(diem)}</b> ›</a>` : b ? "đang làm" : bg > d.dongLuc ? "vắng" : "chưa làm"}</td></tr>`).join("")}</tbody></table>` : ""}
+                <td>${diem != null ? `<a class="lien-ket" href="#/bai-lam?de=${d.id}&uid=${u.uid}"><b>${diemVN(diem)}</b> ›</a>` : !trongBai(d, u) ? "—" : b ? "đang làm" : bg > d.dongLuc ? "vắng" : "chưa làm"}</td></tr>`).join("")}</tbody></table>` : ""}
               <button class="btn phu" onclick="qtDatLaiMk('${u.uid}')">📧 Đặt lại MK</button>
               <button class="btn phu" onclick="qtSuaNguoi('${u.uid}')">✎ Sửa</button>
               <button class="btn phu" onclick="qtKhoa('${u.uid}')">${u.khoa ? "🔓 Mở khóa" : "🔒 Khóa"}</button>

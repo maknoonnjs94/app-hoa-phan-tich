@@ -122,6 +122,7 @@ service cloud.firestore {
         && request.resource.data.keys().hasOnly(truongHS())
         && id == request.resource.data.deGiaoId + '_' + request.auth.uid
         && deGiao(request.resource.data.deGiaoId).lop in lopHocToi()
+        && (!('sv' in deGiao(request.resource.data.deGiaoId)) || request.auth.uid in deGiao(request.resource.data.deGiaoId).sv)   // bài chia ca: chỉ SV thuộc ca đó
         && bayGio() >= deGiao(request.resource.data.deGiaoId).moLuc
         && bayGio() <= deGiao(request.resource.data.deGiaoId).dongLuc);
       allow update: if laGV() || (laHS() && resource.data.uid == request.auth.uid
@@ -134,6 +135,7 @@ service cloud.firestore {
                 && (deGiao(resource.data.deGiaoId).get('soLanLam', 1) == 0 || resource.data.get('lanNop', 0) < deGiao(resource.data.deGiaoId).get('soLanLam', 1))))
         && request.resource.data.get('lanNop', 0) >= resource.data.get('lanNop', 0)
         && request.resource.data.uid == resource.data.uid && request.resource.data.deGiaoId == resource.data.deGiaoId
+        && (!('sv' in deGiao(resource.data.deGiaoId)) || request.auth.uid in deGiao(resource.data.deGiaoId).sv)
         && bayGio() <= deGiao(resource.data.deGiaoId).dongLuc + 300000);
       allow delete: if laGV();
     }
