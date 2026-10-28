@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v204";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v205";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -50,8 +50,8 @@ MAN_HINH["/giao-de"] = {
         `<button class="${giaoTam.loai === k ? "chon" : ""}" onclick="giaoTam.loai='${k}';hienManHinh()"><b>${t}</b><small>${m}</small></button>`).join("")}</div>
       <label>Tên bài giao<input id="gd-ten" value="${coDau((bt ? "Bài tập: " : "") + de.ten)}"></label>
       <label>Lớp học phần<select id="gd-lop" data-chon="${lopChon}" onchange="taiDsCa(this.value)"><option>Đang tải…</option></select></label>
-      <label>Mở lúc<input type="datetime-local" id="gd-mo" value="${dinhDangGio(bayGio)}"></label>
-      <label>${bt ? "Hạn nộp" : "Hệ thống tự đóng bài lúc"}<input type="datetime-local" id="gd-dong" value="${dinhDangGio(bayGio + (bt ? 7 * 24 : 24) * 3600000)}" oninput="goiYGioGiao()"></label>
+      <label><span id="gd-mo-nhan">Mở lúc</span><input type="datetime-local" id="gd-mo" value="${dinhDangGio(bayGio)}" oninput="if(GCA.bat)veChiaCa()"></label>
+      <label><span id="gd-dong-nhan">${bt ? "Hạn nộp" : "Hệ thống tự đóng bài lúc"}</span><input type="datetime-local" id="gd-dong" value="${dinhDangGio(bayGio + (bt ? 7 * 24 : 24) * 3600000)}" oninput="goiYGioGiao();if(GCA.bat)veChiaCa()"></label>
       <label>Thời gian mỗi lần làm (phút${bt ? ", 0 = không bấm giờ" : ""})<input type="number" id="gd-phut" min="0" max="240" value="${bt ? 0 : de.phut}" oninput="goiYGioGiao()"></label>
       <p class="ghi-chu" id="gd-goi-y-gio"></p>
       ${bt ? "" : `<details class="tuy-chon" id="gd-ca-box" ${GCA.bat ? "open" : ""}><summary>👥 Chia ca thi ${GCA.bat ? "(đang bật)" : "(tùy chọn)"}</summary>
@@ -83,7 +83,7 @@ MAN_HINH["/giao-de"] = {
       const ds = (await fbDb.collection("lop").get()).docs.map(d => ({ id: d.id, ...d.data() }))
         .filter(l => tk.hoSo.vaiTro === "qtv" || (l.gv || []).includes(tk.user.uid)).sort((a, b) => a.ten.localeCompare(b.ten, "vi"));
       o.innerHTML = ds.length ? ds.map(l => `<option value="${l.id}" ${o.dataset.chon === l.id ? "selected" : ""}>${hoa(l.ten)}</option>`).join("") : `<option value="">Chưa có lớp học phần (tạo ở Tài khoản → Lớp học phần)</option>`;
-      if (o.value) taiDsCa(o.value);
+      if (o.value) taiDsCa(o.value); veChiaCa();
     } catch (e) { o.innerHTML = `<option value="">${loiTk(e)}</option>`; }
   },
 };
@@ -109,13 +109,18 @@ async function taiDsCa(lopId) {
 }
 function veChiaCa() {
   const o = document.getElementById("gd-ca"); if (!o) return;
+  const nm = document.getElementById("gd-mo-nhan"), nd = document.getElementById("gd-dong-nhan");   // bật chia ca: hai ô giờ ở trên là giờ của Ca 1
+  if (nm) nm.textContent = GCA.bat ? "Ca 1 · Mở lúc" : "Mở lúc"; if (nd) nd.textContent = GCA.bat ? "Ca 1 · Hệ thống tự đóng bài lúc" : "Hệ thống tự đóng bài lúc";
   if (!GCA.bat) { o.innerHTML = `<p class="ghi-chu">Bật để chia ${GCA.ds.length || "các"} sinh viên của lớp thành 2 ca thi.</p>`; return; }
   const ds = [...GCA.ds].sort(sapAZ), c1 = ds.filter(u => u.ca === 1), c2 = ds.filter(u => u.ca === 2);
   const dong = (u, k) => `<div class="ca-dong"><span class="stt-sv">${u.stt ?? "·"}</span><div class="giua"><b>${hoa(u.hoTen)}</b><small>${hoa(u.maHS)}</small></div><button type="button" class="chip-nhanh" onclick="doiCa('${u.uid}')">→ Ca ${k === 1 ? 2 : 1}</button></div>`;
-  o.innerHTML = `<div class="ca-chia"><label>Ca 1 gồm <input type="number" min="0" max="${GCA.ds.length}" value="${GCA.n1}" id="gd-ca-n1" onchange="GCA.chiaTheoStt(+this.value);veChiaCa()"> sinh viên đầu theo STT</label>
+  const gio = id => { const t = new Date(document.getElementById(id)?.value).getTime(); return t ? gioVN(t) : "—"; };
+  const dongCuoi = Math.max(new Date(document.getElementById("gd-dong")?.value).getTime() || 0, new Date(GCA.dong2).getTime() || 0);
+  o.innerHTML = `<div class="ca-tom"><b>Tóm tắt giờ</b><span>Ca 1 (${GCA.ds.filter(u => u.ca === 1).length} SV): ${gio("gd-mo")} → ${gio("gd-dong")}</span><span>Ca 2 (${GCA.ds.filter(u => u.ca === 2).length} SV): ${gioVN(new Date(GCA.mo2).getTime())} → ${gioVN(new Date(GCA.dong2).getTime())}</span><span>Đáp án mở sau: ${dongCuoi ? gioVN(dongCuoi) : "—"} (khi cả hai ca đã đóng)</span></div>
+    <div class="ca-chia"><label>Ca 1 gồm <input type="number" min="0" max="${GCA.ds.length}" value="${GCA.n1}" id="gd-ca-n1" onchange="GCA.chiaTheoStt(+this.value);veChiaCa()"> sinh viên đầu theo STT</label>
       <button type="button" class="chip-nhanh bat" onclick="GCA.chiaTheoStt(+document.getElementById('gd-ca-n1').value);veChiaCa()">↻ Chia lại theo STT</button></div>
     <div class="the-con"><b>Ca 2</b><label>Mở lúc<input type="datetime-local" id="gd-mo2" value="${GCA.mo2}" onchange="GCA.mo2=this.value"></label><label>Đóng lúc<input type="datetime-local" id="gd-dong2" value="${GCA.dong2}" onchange="GCA.dong2=this.value"></label>
-      <p class="ghi-chu">Ca 1 dùng giờ mở / đóng ở trên. Đáp án chỉ mở sau khi <b>cả hai ca</b> đã đóng (tránh lộ đề).</p></div>
+      <p class="ghi-chu">Giờ của Ca 1 là hai ô “Ca 1 · Mở lúc / Đóng” ở phía trên. Thời gian làm bài (phút) dùng chung cho cả hai ca.</p></div>
     <details open><summary><b>Ca 1</b> · ${c1.length} sinh viên (A→Z)</summary>${c1.map(u => dong(u, 1)).join("") || '<p class="ghi-chu">Trống</p>'}</details>
     <details open><summary><b>Ca 2</b> · ${c2.length} sinh viên (A→Z)</summary>${c2.map(u => dong(u, 2)).join("") || '<p class="ghi-chu">Trống</p>'}</details>`;
 }
