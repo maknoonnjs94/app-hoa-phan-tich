@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v208";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v209";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -297,11 +297,11 @@ MAN_HINH["/bang-diem"] = {
         <p class="ghi-chu">Bấm tên sinh viên để xem bài làm, sửa điểm.</p>
         <div class="nut-hang">${quaHan ? "" : `<a class="btn" href="#/theo-doi?id=${id}">👁 Theo dõi</a>`}<button class="btn" onclick="chotDiem('${id}')">🔒 ${d.daChot ? "Chốt lại điểm" : "Chốt điểm"}</button><button class="btn phu" onclick="xuatBangDiem()">⬇ Excel</button><a class="btn phu" href="#/so-diem?lop=${encodeURIComponent(d.lop)}">📒 Sổ điểm</a>
           <button class="btn phu" onclick="xoaGiaoDe('${id}')">🗑 Xóa bài</button></div></div>
-        ${nhieuMa ? (() => { const nhom = {}; dong.forEach(({ u, b }) => (nhom[maDeSV(d, id, u.uid, b)] ||= []).push(u)); return `<details class="the-trang"><summary><b>Phân mã đề</b> <small class="ghi-chu">${d.maDe.map(m => `${hoa(m.ma)}: ${(nhom[m.ma] || []).length}`).join(" · ")}</small></summary>
-          ${d.maDe.map(m => `<p class="ghi-chu"><b>Mã ${hoa(m.ma)}</b> (${(nhom[m.ma] || []).length} SV): ${(nhom[m.ma] || []).map(u => hoa(u.hoTen)).join(", ") || "—"}</p>`).join("")}<div class="nut-hang trai"><button class="chip-nhanh bat" onclick="canBangMaDe('${id}')">⚖️ Cân bằng số lượng các mã</button></div></details>`; })() : ""}
         ${d.sv ? (() => { const ngoai = hsLop.filter(u => !d.sv.includes(u.uid)); return `<details class="the-trang"><summary><b>＋ Thêm sinh viên vào Ca ${d.ca || ""}</b> <small class="ghi-chu">${ngoai.length} em chưa thuộc ca này</small></summary>
           <p class="ghi-chu">Dùng khi có em mới thêm vào lớp, hoặc cần chuyển em từ ca khác sang. Em đã bắt đầu làm bài ở ca kia thì không chuyển được.</p>
           ${ngoai.map(u => { const ca = caKhac.find(c => c.sv?.includes(u.uid)); return `<div class="ca-dong"><div class="giua"><b>${hoa(u.hoTen)}</b><small>${hoa(u.maHS || "")}${ca ? " · đang ở Ca " + (ca.ca || "khác") : " · chưa thuộc ca nào"}</small></div><button type="button" class="chip-nhanh bat" onclick="themSvVaoCa('${id}','${u.uid}')">＋ Thêm</button></div>`; }).join("") || `<p class="ghi-chu">Cả lớp đã nằm trong ca này.</p>`}</details>`; })() : ""}
+        ${nhieuMa ? (() => { const nhom = {}; dong.forEach(({ u, b }) => (nhom[maDeSV(d, id, u.uid, b)] ||= []).push(u)); return `<details class="the-trang"><summary><b>Phân mã đề</b> <small class="ghi-chu">${d.maDe.map(m => `${hoa(m.ma)}: ${(nhom[m.ma] || []).length}`).join(" · ")}</small></summary>
+          ${d.maDe.map(m => `<p class="ghi-chu"><b>Mã ${hoa(m.ma)}</b> (${(nhom[m.ma] || []).length} SV): ${(nhom[m.ma] || []).map(u => hoa(u.hoTen)).join(", ") || "—"}</p>`).join("")}<div class="nut-hang trai"><button class="chip-nhanh bat" onclick="canBangMaDe('${id}')">⚖️ Cân bằng số lượng các mã</button></div></details>`; })() : ""}
         <div class="the-trang bang-cuon"><table class="bang"><thead><tr><th>Học sinh</th>${nhieuMa ? "<th>Mã đề</th>" : ""}<th>Điểm</th><th>Rời app</th><th>Trạng thái</th></tr></thead><tbody>
         ${dong.map(({ u, b, dung, diem }) => `<tr class="${b?.roi?.length ? "co-roi" : ""}">
           <td>${b ? `<a class="ten-anh lien-ket" href="#/bai-lam?de=${id}&uid=${u.uid}">` : `<span class="ten-anh">`}${anhDaiDien(u, 28)}<span>${hoa(u.hoTen)}<small>${hoa(u.maHS || "")}${u.nganh ? " · " + hoa(u.nganh) : ""}</small></span>${b ? "</a>" : "</span>"}</td>
