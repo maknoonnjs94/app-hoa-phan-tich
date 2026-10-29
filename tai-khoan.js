@@ -245,7 +245,7 @@ async function doiMk() {
    GV: nguoiDung.lopDay = [id lớp mình dạy] (luật Firestore dựa vào đây). QTV thấy và làm được mọi thứ. */
 /* ---------- Nhật ký hoạt động (collection nhatKy: mọi người đã đăng nhập ghi được, chỉ QTV đọc) ---------- */
 const HANH_DONG = {
-  "dang-nhap": "Đăng nhập", "xoa-tk": "Xóa tài khoản", "doi-mat-khau": "Đổi mật khẩu", "giao-de": "Giao bài", "gia-han": "Đổi giờ đóng bài", "xoa-giao": "Xóa bài giao",
+  "dang-nhap": "Đăng nhập", "xoa-tk": "Xóa tài khoản", "them-sv-ca": "Thêm SV vào ca thi", "doi-mat-khau": "Đổi mật khẩu", "giao-de": "Giao bài", "gia-han": "Đổi giờ đóng bài", "xoa-giao": "Xóa bài giao",
   "mo-khoa-bai": "Mở khóa bài", "thu-bai": "Thu bài", "chot-diem": "Chốt điểm", "sua-diem": "Sửa điểm", "khoa-tk": "Khóa / mở khóa tài khoản",
   "khoa-hang-loat": "Khóa hàng loạt", "dat-lai-mk": "Gửi thư đặt lại MK", "sua-nguoi": "Sửa thông tin người dùng", "tao-lop": "Tạo lớp", "xoa-lop": "Xóa lớp",
   "cai-dat": "Đổi cài đặt", "can-bang-ma": "Cân bằng mã đề", "tra-loi-gop-y": "Trả lời góp ý", "gan-gv": "Gán giáo viên cho lớp", "kho-de-thi": "Kho đề thi", "canh-bao-hoc": "Báo động học tập", "sao-luu": "Sao lưu", "khoi-phuc": "Khôi phục dữ liệu",

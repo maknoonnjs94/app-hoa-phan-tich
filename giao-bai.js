@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v207";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v208";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -22,6 +22,27 @@ function canBangMa(uids, dsMa, daCo = {}) {
   const kq = {}, chua = uids.filter(u => !daCo[u]).map(u => [Math.random(), u]).sort((a, b) => a[0] - b[0]).map(x => x[1]);
   chua.forEach(u => { const min = Math.min(...dsMa.map(m => dem[m])), ung = dsMa.filter(m => dem[m] === min), m = ung[Math.floor(Math.random() * ung.length)]; kq[u] = m; dem[m]++; });
   return { ...daCo, ...kq };
+}
+// Thêm (hoặc chuyển) một sinh viên vào ca của bài đã giao; xếp luôn vào mã đề đang ít người nhất
+async function themSvVaoCa(id, uid) {
+  const { d, dong, hsLop, caKhac } = bangDiemHienTai; const u = hsLop.find(x => x.uid === uid); if (!u || !d.sv) return;
+  const ca = caKhac.find(c => c.sv?.includes(uid));
+  try {
+    if (ca) {
+      const da = await fbDb.collection("baiNop").doc(`${ca.id}_${uid}`).get();
+      if (da.exists && thamGiaBai(da.data())) return alert(`${u.hoTen} đã bắt đầu làm bài ở Ca ${ca.ca}, không chuyển được.`);
+      if (!confirm(`Chuyển ${u.hoTen} từ Ca ${ca.ca} sang Ca ${d.ca}?`)) return;
+      await fbDb.collection("deGiao").doc(ca.id).update({ sv: firebase.firestore.FieldValue.arrayRemove(uid), [`maSV.${uid}`]: firebase.firestore.FieldValue.delete() });
+    } else if (!confirm(`Thêm ${u.hoTen} vào Ca ${d.ca}?`)) return;
+    const moi = { sv: firebase.firestore.FieldValue.arrayUnion(uid) };
+    if (d.maDe?.length > 1) {
+      const dem = Object.fromEntries(d.maDe.map(m => [m.ma, 0])); dong.forEach(({ u: x, b }) => { const m = maDeSV(d, id, x.uid, b); if (m in dem) dem[m]++; });
+      const min = Math.min(...Object.values(dem)), ung = Object.keys(dem).filter(m => dem[m] === min);
+      moi[`maSV.${uid}`] = ung[Math.floor(Math.random() * ung.length)];
+    }
+    await fbDb.collection("deGiao").doc(id).update(moi);
+    ghiNhatKy("them-sv-ca", `${u.hoTen} → Ca ${d.ca}`, d.ten); hienManHinh();
+  } catch (e) { alert(loiTk(e)); }
 }
 async function canBangMaDe(id) {
   const { d, dong } = bangDiemHienTai; if (!(d.maDe?.length > 1)) return;
@@ -249,9 +270,11 @@ MAN_HINH["/bang-diem"] = {
         fbDb.collection("nguoiDung").where("lopHoc", "array-contains", d.lop).get(),
         fbDb.collection("baiNop").where("deGiaoId", "==", id).get()]);
       const theoUid = Object.fromEntries(nop.docs.map(x => [x.data().uid, x.data()]));
+      const hsLop = hs.docs.map(x => ({ uid: x.id, ...x.data() })).filter(u => (u.vaiTro || "hs") === "hs").sort((a, b) => a.hoTen.split(" ").pop().localeCompare(b.hoTen.split(" ").pop(), "vi"));
+      let caKhac = []; if (d.sv && d.nhomCa) { try { caKhac = (await fbDb.collection("deGiao").where("nhomCa", "==", d.nhomCa).get()).docs.filter(x => x.id !== id).map(x => ({ id: x.id, ...x.data() })); } catch {} }
       const dong = hs.docs.map(x => ({ uid: x.id, ...x.data() })).sort((a, b) => a.hoTen.split(" ").pop().localeCompare(b.hoTen.split(" ").pop(), "vi")).filter(u => trongBai(d, u))
         .map(u => { const b = theoUid[u.uid]; return { u, b, ...(b ? { ...chamBai(b), diem: diemCuoi(b) } : {}) }; });
-      bangDiemHienTai = { d, dong, id };
+      bangDiemHienTai = { d, dong, id, hsLop, caKhac };
       const nhieuMa = d.maDe?.length > 1;
       const daNop = dong.filter(x => x.b?.daNop).length;
       const LY_DO = { "roi-app": "bị khóa: rời app đủ số lần", "het-gio": "hết giờ", "gv-thu": "giáo viên thu bài" };
@@ -276,6 +299,9 @@ MAN_HINH["/bang-diem"] = {
           <button class="btn phu" onclick="xoaGiaoDe('${id}')">🗑 Xóa bài</button></div></div>
         ${nhieuMa ? (() => { const nhom = {}; dong.forEach(({ u, b }) => (nhom[maDeSV(d, id, u.uid, b)] ||= []).push(u)); return `<details class="the-trang"><summary><b>Phân mã đề</b> <small class="ghi-chu">${d.maDe.map(m => `${hoa(m.ma)}: ${(nhom[m.ma] || []).length}`).join(" · ")}</small></summary>
           ${d.maDe.map(m => `<p class="ghi-chu"><b>Mã ${hoa(m.ma)}</b> (${(nhom[m.ma] || []).length} SV): ${(nhom[m.ma] || []).map(u => hoa(u.hoTen)).join(", ") || "—"}</p>`).join("")}<div class="nut-hang trai"><button class="chip-nhanh bat" onclick="canBangMaDe('${id}')">⚖️ Cân bằng số lượng các mã</button></div></details>`; })() : ""}
+        ${d.sv ? (() => { const ngoai = hsLop.filter(u => !d.sv.includes(u.uid)); return `<details class="the-trang"><summary><b>＋ Thêm sinh viên vào Ca ${d.ca || ""}</b> <small class="ghi-chu">${ngoai.length} em chưa thuộc ca này</small></summary>
+          <p class="ghi-chu">Dùng khi có em mới thêm vào lớp, hoặc cần chuyển em từ ca khác sang. Em đã bắt đầu làm bài ở ca kia thì không chuyển được.</p>
+          ${ngoai.map(u => { const ca = caKhac.find(c => c.sv?.includes(u.uid)); return `<div class="ca-dong"><div class="giua"><b>${hoa(u.hoTen)}</b><small>${hoa(u.maHS || "")}${ca ? " · đang ở Ca " + (ca.ca || "khác") : " · chưa thuộc ca nào"}</small></div><button type="button" class="chip-nhanh bat" onclick="themSvVaoCa('${id}','${u.uid}')">＋ Thêm</button></div>`; }).join("") || `<p class="ghi-chu">Cả lớp đã nằm trong ca này.</p>`}</details>`; })() : ""}
         <div class="the-trang bang-cuon"><table class="bang"><thead><tr><th>Học sinh</th>${nhieuMa ? "<th>Mã đề</th>" : ""}<th>Điểm</th><th>Rời app</th><th>Trạng thái</th></tr></thead><tbody>
         ${dong.map(({ u, b, dung, diem }) => `<tr class="${b?.roi?.length ? "co-roi" : ""}">
           <td>${b ? `<a class="ten-anh lien-ket" href="#/bai-lam?de=${id}&uid=${u.uid}">` : `<span class="ten-anh">`}${anhDaiDien(u, 28)}<span>${hoa(u.hoTen)}<small>${hoa(u.maHS || "")}${u.nganh ? " · " + hoa(u.nganh) : ""}</small></span>${b ? "</a>" : "</span>"}</td>
