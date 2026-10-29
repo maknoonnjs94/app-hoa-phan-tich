@@ -245,7 +245,7 @@ async function doiMk() {
    GV: nguoiDung.lopDay = [id lớp mình dạy] (luật Firestore dựa vào đây). QTV thấy và làm được mọi thứ. */
 /* ---------- Nhật ký hoạt động (collection nhatKy: mọi người đã đăng nhập ghi được, chỉ QTV đọc) ---------- */
 const HANH_DONG = {
-  "dang-nhap": "Đăng nhập", "doi-mat-khau": "Đổi mật khẩu", "giao-de": "Giao bài", "gia-han": "Đổi giờ đóng bài", "xoa-giao": "Xóa bài giao",
+  "dang-nhap": "Đăng nhập", "xoa-tk": "Xóa tài khoản", "doi-mat-khau": "Đổi mật khẩu", "giao-de": "Giao bài", "gia-han": "Đổi giờ đóng bài", "xoa-giao": "Xóa bài giao",
   "mo-khoa-bai": "Mở khóa bài", "thu-bai": "Thu bài", "chot-diem": "Chốt điểm", "sua-diem": "Sửa điểm", "khoa-tk": "Khóa / mở khóa tài khoản",
   "khoa-hang-loat": "Khóa hàng loạt", "dat-lai-mk": "Gửi thư đặt lại MK", "sua-nguoi": "Sửa thông tin người dùng", "tao-lop": "Tạo lớp", "xoa-lop": "Xóa lớp",
   "cai-dat": "Đổi cài đặt", "can-bang-ma": "Cân bằng mã đề", "tra-loi-gop-y": "Trả lời góp ý", "gan-gv": "Gán giáo viên cho lớp", "kho-de-thi": "Kho đề thi", "canh-bao-hoc": "Báo động học tập", "sao-luu": "Sao lưu", "khoi-phuc": "Khôi phục dữ liệu",
@@ -338,7 +338,7 @@ async function veQuanTri() {
     vung.innerHTML = `<div class="the-trang form-tk">
       <p class="ghi-chu">Thêm sinh viên nên làm trong trang lớp học phần (nhập danh sách hoặc ＋ theo mã SV). Mục này chủ yếu để thêm giáo viên / quản trị viên.</p>
       <label>Vai trò<select id="them-vt" onchange="document.getElementById('o-ma').hidden=this.value!=='hs'">
-        <option value="gv">Giáo viên</option><option value="qtv">Quản trị viên</option><option value="hs">Sinh viên</option></select></label>
+        <option value="">— Chọn vai trò —</option><option value="hs">Sinh viên</option><option value="gv">Giáo viên</option><option value="qtv">Quản trị viên</option></select></label>
       <label>Họ và tên<input id="them-ten"></label>
       <label>Email<input type="email" id="them-email" inputmode="email"></label>
       <div id="o-ma" hidden><label>Mã sinh viên (email để trống sẽ là mã@${hoa(qt.cfg?.tenMien || "tên miền")})<input id="them-ma"></label>
@@ -399,6 +399,7 @@ function dongTkGon(u, lopId) {
       <button class="btn phu" onclick="qtDatLaiMk('${u.uid}')">📧 Đặt lại MK</button>
       <button class="btn phu" onclick="qtSuaNguoi('${u.uid}')">✎ Sửa</button>
       <button class="btn phu" onclick="qtKhoa('${u.uid}')">${u.khoa ? "🔓 Mở khóa" : "🔒 Khóa"}</button>
+      ${laQtvTk() ? `<button class="btn phu" onclick="qtXoaNguoi('${u.uid}')">🗑 Xóa</button>` : ""}
       ${lopId ? `<button class="btn phu" onclick="boKhoiLop('${u.uid}','${lopId}')">➖ Bỏ khỏi lớp</button>` : ""}</div></div>`;
 }
 function locTk(ds) {
@@ -444,6 +445,7 @@ async function qtThemMot() {
   const cfg = await layCauHinhTk(), vaiTro = g("them-vt"), hoTen = g("them-ten"), maHS = vaiTro === "hs" ? g("them-ma") : "";
   const email = g("them-email") ? g("them-email").toLowerCase() : maHS ? ghepEmail(maHS, cfg.tenMien) : "";
   const mk = g("them-mk") || cfg.matKhauDau;
+  if (!VAI_TRO[vaiTro]) { loi.textContent = "Chọn vai trò trước."; return; }
   if (!hoTen || !email.includes("@")) { loi.textContent = "Nhập họ tên và email (hoặc mã sinh viên)."; return; }
   if (mk.length < 6) { loi.textContent = "Mật khẩu đầu phải từ 6 kí tự."; return; }
   loi.textContent = "Đang tạo…";
@@ -690,6 +692,19 @@ async function qtDatLaiMk(uid) {
   if (!confirm(`Gửi email đặt lại mật khẩu tới ${u.email}?`)) return;
   try { await fbAuth.sendPasswordResetEmail(u.email); ghiNhatKy("dat-lai-mk", "", u.hoTen); alert("Đã gửi. Người dùng mở email và bấm vào đường dẫn để đặt mật khẩu mới."); }
   catch (e) { alert(loiTk(e)); }
+}
+// Xóa hồ sơ trong app (chỉ QTV). Tài khoản đăng nhập trong Firebase Authentication không xóa được từ app: hồ sơ mất thì tài khoản đó không vào được app nữa.
+async function qtXoaNguoi(uid) {
+  const u = timTk(uid); if (!u || !laQtvTk() || uid === tk.user.uid) return;
+  if (!confirm(`Xóa tài khoản ${u.hoTen} (${u.email}) khỏi app?\nEm sẽ không đăng nhập được nữa và mất khỏi mọi lớp. Bài đã làm vẫn còn trong hệ thống nhưng không gắn với ai.`)) return;
+  try {
+    for (const id of u.lopHoc || []) { try { await fbDb.collection("lop").doc(id).update({ [`danhSach.${uid}`]: firebase.firestore.FieldValue.delete() }); } catch {} }
+    await fbDb.collection("nguoiDung").doc(uid).delete();
+    ghiNhatKy("xoa-tk", u.email, u.hoTen);
+    qt.tatCa = qt.tatCa.filter(x => x.uid !== uid); if (qt.ds && qt.ds !== qt.tatCa) qt.ds = qt.ds.filter(x => x.uid !== uid);
+    document.getElementById("ds-tk") ? veDsTk() : hienManHinh();
+    alert(`Đã xóa ${u.hoTen}. Muốn tạo lại với đúng email ${u.email}, vào Firebase → Authentication → Users xóa dòng email đó trước.`);
+  } catch (e) { alert(loiTk(e)); }
 }
 async function qtKhoa(uid) {
   const u = timTk(uid);
