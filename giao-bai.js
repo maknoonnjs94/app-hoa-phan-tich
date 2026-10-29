@@ -8,7 +8,7 @@
    (3) mỗi HS một thứ tự câu và phương án; (4) chặn bôi đen, sao chép; (5) toàn màn hình;
    (6) một bài chỉ làm trên một máy tại một thời điểm.
    ========================================================= */
-const BAN_APP = "v209";   // tăng cùng PHIEN_BAN trong sw.js
+const BAN_APP = "v210";   // tăng cùng PHIEN_BAN trong sw.js
 const laGVtk = () => ["gv", "qtv"].includes(tk.hoSo?.vaiTro) && !tk.hoSo?.khoa;
 const laHStk = () => tk.hoSo?.vaiTro === "hs" && !tk.hoSo?.khoa;
 const gioVN = ms => new Date(ms).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -30,8 +30,9 @@ async function themSvVaoCa(id, uid) {
   try {
     if (ca) {
       const da = await fbDb.collection("baiNop").doc(`${ca.id}_${uid}`).get();
-      if (da.exists && thamGiaBai(da.data())) return alert(`${u.hoTen} đã bắt đầu làm bài ở Ca ${ca.ca}, không chuyển được.`);
-      if (!confirm(`Chuyển ${u.hoTen} từ Ca ${ca.ca} sang Ca ${d.ca}?`)) return;
+      const coBai = da.exists;
+      if (!confirm(`Chuyển ${u.hoTen} từ Ca ${ca.ca} sang Ca ${d.ca}?${coBai ? `\n\nEm đã có bài làm ở Ca ${ca.ca}${thamGiaBai(da.data()) ? " (đã trả lời " + (da.data().chon || []).filter(x => x !== null).length + " câu)" : ""}: bài đó sẽ bị XÓA hẳn, không khôi phục được.` : ""}`)) return;
+      if (coBai) await fbDb.collection("baiNop").doc(`${ca.id}_${uid}`).delete();
       await fbDb.collection("deGiao").doc(ca.id).update({ sv: firebase.firestore.FieldValue.arrayRemove(uid), [`maSV.${uid}`]: firebase.firestore.FieldValue.delete() });
     } else if (!confirm(`Thêm ${u.hoTen} vào Ca ${d.ca}?`)) return;
     const moi = { sv: firebase.firestore.FieldValue.arrayUnion(uid) };
@@ -298,7 +299,7 @@ MAN_HINH["/bang-diem"] = {
         <div class="nut-hang">${quaHan ? "" : `<a class="btn" href="#/theo-doi?id=${id}">👁 Theo dõi</a>`}<button class="btn" onclick="chotDiem('${id}')">🔒 ${d.daChot ? "Chốt lại điểm" : "Chốt điểm"}</button><button class="btn phu" onclick="xuatBangDiem()">⬇ Excel</button><a class="btn phu" href="#/so-diem?lop=${encodeURIComponent(d.lop)}">📒 Sổ điểm</a>
           <button class="btn phu" onclick="xoaGiaoDe('${id}')">🗑 Xóa bài</button></div></div>
         ${d.sv ? (() => { const ngoai = hsLop.filter(u => !d.sv.includes(u.uid)); return `<details class="the-trang"><summary><b>＋ Thêm sinh viên vào Ca ${d.ca || ""}</b> <small class="ghi-chu">${ngoai.length} em chưa thuộc ca này</small></summary>
-          <p class="ghi-chu">Dùng khi có em mới thêm vào lớp, hoặc cần chuyển em từ ca khác sang. Em đã bắt đầu làm bài ở ca kia thì không chuyển được.</p>
+          <p class="ghi-chu">Dùng khi có em mới thêm vào lớp, hoặc cần chuyển em từ ca khác sang. Nếu em đã có bài làm ở ca kia thì bài đó bị xóa khi chuyển.</p>
           ${ngoai.map(u => { const ca = caKhac.find(c => c.sv?.includes(u.uid)); return `<div class="ca-dong"><div class="giua"><b>${hoa(u.hoTen)}</b><small>${hoa(u.maHS || "")}${ca ? " · đang ở Ca " + (ca.ca || "khác") : " · chưa thuộc ca nào"}</small></div><button type="button" class="chip-nhanh bat" onclick="themSvVaoCa('${id}','${u.uid}')">＋ Thêm</button></div>`; }).join("") || `<p class="ghi-chu">Cả lớp đã nằm trong ca này.</p>`}</details>`; })() : ""}
         ${nhieuMa ? (() => { const nhom = {}; dong.forEach(({ u, b }) => (nhom[maDeSV(d, id, u.uid, b)] ||= []).push(u)); return `<details class="the-trang"><summary><b>Phân mã đề</b> <small class="ghi-chu">${d.maDe.map(m => `${hoa(m.ma)}: ${(nhom[m.ma] || []).length}`).join(" · ")}</small></summary>
           ${d.maDe.map(m => `<p class="ghi-chu"><b>Mã ${hoa(m.ma)}</b> (${(nhom[m.ma] || []).length} SV): ${(nhom[m.ma] || []).map(u => hoa(u.hoTen)).join(", ") || "—"}</p>`).join("")}<div class="nut-hang trai"><button class="chip-nhanh bat" onclick="canBangMaDe('${id}')">⚖️ Cân bằng số lượng các mã</button></div></details>`; })() : ""}
